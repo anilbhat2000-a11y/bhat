@@ -16,7 +16,9 @@ Courses run from basic to advanced. Three portals serve three audiences:
 - **Manager:** reviews the learning and certifications of their reporting line
 - **Employee (learner):** takes courses and assessments, and tracks their certifications
 
-Out of scope for this version: free-text (essay) questions, multi-tenancy, SSO, mobile apps, and payments.
+Learners are 3C IT Solutions employees only. External learners (clients, partners, resellers) are out of scope, so there is no multi-tenancy, no branded sub-portals, and no external accounts.
+
+Out of scope for this version: free-text (essay) questions, multi-tenancy, external learners, SSO, mobile apps, and payments.
 
 ## 2. Architecture
 
