@@ -121,6 +121,35 @@ Courses can mix four lesson formats, so one course can combine self-paced readin
 - **Hands-on lab (LAB):** a step-by-step exercise with setup instructions, the steps to complete, and a checklist the learner ticks off. Completing all checklist items completes the lesson. Labs run on tools the learner can access, and are guided exercises, not live sandboxes. Live sandbox environments need a separate infrastructure decision.
 - **Instructors:** each course shows its instructors, with their name, location, and expertise. Instructors may be located anywhere; the portal does not limit where they teach from.
 
+## 6B. Required additions
+
+These six items were approved after comparing the design with leading corporate LMS products.
+
+- **Reminders:**
+  - Notifications are sent by email, using the company SMTP settings from configuration.
+  - A learner gets a reminder 3 days before an assessment period is due, on the due date, and when the period becomes overdue.
+  - The manager gets a weekly list of team members who are overdue.
+  - Each notification is stored in a `notifications` table (id, user_id, type, sent_at), so reminders are not sent twice.
+- **Certificates:**
+  - When a certification is issued, a PDF certificate is generated with the learner's name, subject, level, issue date, and expiry date.
+  - Each certificate has a unique verification code (12 characters).
+  - The public route `/verify/[code]` shows whether a certificate is valid, with the name, subject, level, and dates only. It never shows scores.
+  - A learner can download their certificates from "My certifications".
+- **Audit log:**
+  - An append-only `audit_events` table (id, actor_id, action, entity_type, entity_id, before (JSON), after (JSON), at).
+  - Records changes to users, roles, courses, lessons, assessments, questions, assignments, and attempt scores.
+  - Admins can view and filter the log. No one can edit or delete it.
+- **Accessibility:**
+  - All portal pages meet WCAG 2.1 AA: keyboard navigation, visible focus, sufficient colour contrast, labelled form fields, and alt text on images.
+  - An uploaded VIDEO lesson needs a caption file (WebVTT, `.vtt`) before it can be published.
+- **Question pools:**
+  - An assessment can set `questions_per_attempt`. If it is empty, all questions are used.
+  - When it is set, each attempt draws that many questions at random from the pool, so attempts differ.
+  - The score is calculated against the questions the attempt actually received.
+- **Resume:**
+  - `course_progress` stores `last_lesson_id`, so the learner returns to the lesson where they stopped.
+  - A `lesson_progress` table (user_id, lesson_id, position_seconds) stores where a VIDEO lesson was left, so playback resumes from the same point.
+
 ## 7. Dashboards and reporting
 
 - **Admin, certifications by subject:** per subject, counts by level, active certifications, and expired certifications. Table and bar chart.
