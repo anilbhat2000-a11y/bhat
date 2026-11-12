@@ -43,7 +43,11 @@ Out of scope for this version: free-text (essay) questions, multi-tenancy, SSO, 
 - **users:** id, name, email (unique), password_hash, role (`ADMIN` | `MANAGER` | `EMPLOYEE`), department, manager_id (self-reference), active, created_at
 - **subjects:** id, name, slug, category (`BUSINESS` | `TECHNICAL`), certification_validity_months (default 12)
 - **courses:** id, subject_id, title, description, level (`BASIC` | `INTERMEDIATE` | `ADVANCED`), status (`DRAFT` | `PUBLISHED`), pass_mark_percent, created_at, updated_at
-- **lessons:** id, course_id, position, title, type (`TEXT` | `PDF` | `VIDEO` | `LINK`), body (for TEXT), file_key (for PDF, VIDEO, and images), url (for LINK)
+- **lessons:** id, course_id, position, title, type (`TEXT` | `PDF` | `VIDEO` | `LINK` | `LIVE_SESSION` | `LAB`), body (for TEXT and LAB), file_key (for PDF, VIDEO, and images), url (for LINK)
+- **instructors:** id, name, bio, location (country and city), expertise (list of subjects), photo_file_key (nullable), active
+- **lesson_instructors:** lesson_id, instructor_id (a lesson can have one or more instructors)
+- **live_sessions:** id, lesson_id (unique), starts_at, ends_at (UTC), meeting_url, capacity (nullable), recording_file_key (nullable, set after the session)
+- **live_session_registrations:** id, live_session_id, user_id, registered_at, attended (boolean, set by admin or manager). Unique on (live_session_id, user_id).
 - **assessments:** id, subject_id, course_id (nullable), title, cadence (`ONE_TIME` | `WEEKLY` | `MONTHLY` | `ANNUAL`), level, pass_mark_percent, time_limit_minutes (nullable), max_attempts_per_period (default 3), show_answers_after_submit (boolean), published (boolean)
 - **questions:** id, assessment_id, position, type (`SINGLE` | `MULTIPLE` | `TRUE_FALSE`), text, options (JSON list), correct_option_ids (JSON list), points
 - **assessment_assignments:** id, assessment_id, target_type (`ALL` | `DEPARTMENT` | `USER`), target_value (department name or user id)
@@ -100,6 +104,20 @@ Managers and admins can also use `/learn`.
 - **Serving:** files are served only through an authorized route that checks the user can access the course. Direct file paths are not public.
 - **Question import:** a spreadsheet template. Every row is validated before saving. Invalid rows are reported by row number with the reason. A file with any invalid row saves nothing.
 - **Uploads:** a failed upload leaves no partial record.
+
+## 6A. Delivery formats
+
+Courses can mix four lesson formats, so one course can combine self-paced reading, a live instructor session, and a hands-on lab.
+
+- **Self-paced (TEXT, PDF, VIDEO, LINK):** available anytime. Meets the "anytime access" requirement.
+- **Live session (LIVE_SESSION):**
+  - An admin schedules the session with a date, time, meeting link, and one or more instructors.
+  - Employees register for the session from the course page. A session with a capacity limit stops accepting registrations when full.
+  - The session is shown in the learner's home page and in the calendar of the manager's team.
+  - After the session, an admin or manager marks attendance. A learner who attended completes the lesson.
+  - A recording can be uploaded after the session as a VIDEO file.
+- **Hands-on lab (LAB):** a step-by-step exercise with setup instructions, the steps to complete, and a checklist the learner ticks off. Completing all checklist items completes the lesson. Labs run on tools the learner can access, and are guided exercises, not live sandboxes. Live sandbox environments need a separate infrastructure decision.
+- **Instructors:** each course shows its instructors, with their name, location, and expertise. Instructors may be located anywhere; the portal does not limit where they teach from.
 
 ## 7. Dashboards and reporting
 
