@@ -42,7 +42,7 @@ Out of scope for this version: free-text (essay) questions, multi-tenancy, exter
 
 ## 3. Data model
 
-- **users:** id, name, email (unique), password_hash, role (`ADMIN` | `MANAGER` | `EMPLOYEE`), department, manager_id (self-reference), active, created_at
+- **users:** id, name, email (unique), password_hash, role (`ADMIN` | `MANAGER` | `EMPLOYEE`), department, manager_id (self-reference), photo_file_key (nullable), active, created_at
 - **subjects:** id, name, slug, category (`BUSINESS` | `TECHNICAL`), certification_validity_months (default 12)
 - **courses:** id, subject_id, title, description, level (`BASIC` | `INTERMEDIATE` | `ADVANCED`), status (`DRAFT` | `PUBLISHED`), pass_mark_percent, created_at, updated_at
 - **lessons:** id, course_id, position, title, type (`TEXT` | `PDF` | `VIDEO` | `LINK` | `LIVE_SESSION` | `LAB`), body (for TEXT and LAB), file_key (for PDF, VIDEO, and images), url (for LINK)
@@ -62,6 +62,9 @@ Out of scope for this version: free-text (essay) questions, multi-tenancy, exter
 
 ### Admin (`/admin`)
 - **Users:** create, edit, and deactivate users. Set role, department, and manager. CSV import of users.
+  - **Profile picture:** when creating or editing a user, an admin can upload a picture (JPG or PNG, up to 5 MB) and crop it to a square. The picture can be replaced or removed at any time.
+  - The picture appears in the user list, on the user's profile, and in the manager's team view. A user with no picture shows their initials.
+  - Pictures are stored through the file storage interface, and are served only to signed-in users.
 - **Content:** create subjects. Create courses with level and pass mark. Add lessons (rich text, PDF, video, link). Upload files. Reorder lessons by drag and drop. Publish or unpublish courses. A course needs at least one lesson and a subject before it can be published.
 - **Assessments:** create assessments by subject and cadence. Add questions one at a time or import from a spreadsheet template. Assign to everyone, a department, or specific users.
 - **Dashboards:** certifications by subject, level, and department; completion and pass rates; overdue assessments. CSV export for every report.
