@@ -1,0 +1,48 @@
+{
+  "slug": "talent-acquisition-essentials",
+  "title": "Talent Acquisition Essentials",
+  "subject": "Human Resources",
+  "category": "BUSINESS",
+  "level": "BASIC",
+  "passMarkPercent": 70,
+  "description": "Define roles clearly, source candidates through the right channels, run structured interviews, and give every candidate a good experience.",
+  "lessons": [
+    {
+      "position": 1,
+      "title": "Defining the role before you hire",
+      "type": "TEXT",
+      "body": "Good hiring starts with a clear role. Before advertising, agree with the hiring manager on:\n\n- **Purpose:** why the role exists and what it must achieve in its first year.\n- **Key responsibilities:** five to seven outcomes, not a long list of tasks.\n- **Must-have skills and experience:** what the candidate needs on day one.\n- **Nice-to-have skills:** what can be learned after joining.\n\nA vague job description attracts the wrong applicants and wastes interview time. Write it once with the manager, and keep it as the reference for every interview."
+    },
+    {
+      "position": 2,
+      "title": "Sourcing candidates",
+      "type": "TEXT",
+      "body": "Use several sourcing channels, since each brings different candidates:\n\n- **Employee referrals:** often the best quality and retention, so reward them fairly.\n- **Job portals and professional networks:** wide reach, but more noise to filter.\n- **Direct sourcing:** searching for people with the right skills, then making contact.\n- **Campus and community programmes:** a pipeline for entry-level and technical roles.\n\nTrack the source of every hire. Over time, that data shows which channels bring the best results for each role type."
+    },
+    {
+      "position": 3,
+      "title": "Structured interviews",
+      "type": "TEXT",
+      "body": "Structured interviews ask every candidate the same core questions, scored against the same criteria. Research on hiring consistently finds that structured interviews predict job performance better than unstructured conversations.\n\nSteps:\n\n1. Choose four to six competencies from the role definition.\n2. Write two or three questions for each, asking for specific past examples.\n3. Score each answer against a shared scale, such as 1 to 4, with notes.\n4. Discuss scores with the panel before making a decision.\n\nAvoid questions about age, marital status, religion, or other protected characteristics, and avoid questions unrelated to the job."
+    },
+    {
+      "position": 4,
+      "title": "Candidate experience",
+      "type": "TEXT",
+      "body": "Every candidate is also a potential customer and a possible future employee. A poor experience spreads quickly.\n\nSimple practices that improve experience:\n\n- Acknowledge every application.\n- Give a realistic timeline and keep to it.\n- Tell candidates clearly what happens at each stage.\n- Give feedback to finalists, even when the answer is no.\n- Confirm offers in writing promptly.\n\nCandidates who feel well treated refer others and remain positive about the company even when they are not hired."
+    }
+  ],
+  "assessment": {
+    "title": "Talent Acquisition Essentials: completion check",
+    "cadence": "ONE_TIME",
+    "level": "BASIC",
+    "passMarkPercent": 70,
+    "questions": [
+      { "position": 1, "type": "SINGLE", "text": "What should a role definition focus on?", "options": ["A long list of every task", "Purpose, key outcomes, and must-have skills", "The lowest possible salary", "The hiring manager's preferences only"], "correct": ["Purpose, key outcomes, and must-have skills"], "points": 1 },
+      { "position": 2, "type": "SINGLE", "text": "Which sourcing channel often gives the best quality and retention?", "options": ["Employee referrals", "Mass email", "Newspaper classifieds only", "Random walk-ins"], "correct": ["Employee referrals"], "points": 1 },
+      { "position": 3, "type": "SINGLE", "text": "What makes an interview structured?", "options": ["It is held in a formal room", "Every candidate is asked the same core questions and scored on the same criteria", "The interviewer chooses questions on the day", "It has no time limit"], "correct": ["Every candidate is asked the same core questions and scored on the same criteria"], "points": 1 },
+      { "position": 4, "type": "MULTIPLE", "text": "Which practices improve candidate experience? (Select all that apply)", "options": ["Acknowledging every application", "Keeping to a stated timeline", "Ignoring finalists after the interview", "Giving feedback to finalists"], "correct": ["Acknowledging every application", "Keeping to a stated timeline", "Giving feedback to finalists"], "points": 2 },
+      { "position": 5, "type": "TRUE_FALSE", "text": "Interview questions about a candidate's religion are acceptable if they are asked to every candidate.", "options": ["True", "False"], "correct": ["False"], "points": 1 }
+    ]
+  }
+}

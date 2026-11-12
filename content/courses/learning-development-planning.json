@@ -1,0 +1,48 @@
+{
+  "slug": "learning-development-planning",
+  "title": "Learning and Development Planning",
+  "subject": "Human Resources",
+  "category": "BUSINESS",
+  "level": "INTERMEDIATE",
+  "passMarkPercent": 70,
+  "description": "Find real skill gaps, set measurable learning objectives, mix formal and on-the-job learning, and measure whether training changed behaviour and results.",
+  "lessons": [
+    {
+      "position": 1,
+      "title": "Training needs analysis",
+      "type": "TEXT",
+      "body": "Training should answer a real performance problem. A training needs analysis looks at three levels:\n\n- **Organisation:** what the business needs to achieve in the next year.\n- **Role:** what skills and knowledge each role requires.\n- **Individual:** where each person's current performance falls short.\n\nUse several sources: performance reviews, manager input, assessment results, customer feedback, and the team's own view. If a problem is caused by process, tools, or incentives rather than skill, training alone will not fix it."
+    },
+    {
+      "position": 2,
+      "title": "Writing learning objectives",
+      "type": "TEXT",
+      "body": "A learning objective states what the learner will be able to do afterwards, in observable terms. Compare:\n\n- Weak: 'Understand negotiation.'\n- Better: 'Prepare a negotiation plan with a target, an opening position, and a walk-away point, and use it in a practice role-play.'\n\nGood objectives make it clear what to teach, how to practise it, and how to check it. They also make it easier to choose the right format."
+    },
+    {
+      "position": 3,
+      "title": "Blended and experiential learning",
+      "type": "TEXT",
+      "body": "Adults learn most when they practise on the job, with feedback. A widely used planning guide, sometimes called 70-20-10, suggests that most learning comes from experience on the job, some from working with others such as coaching and peer feedback, and a smaller part from formal courses. The split is a rule of thumb, not a measured law, so use it as a starting point.\n\nA blended programme might combine:\n\n- A short instructor-led session to introduce the skill.\n- Hands-on practice, such as a lab, role-play, or live exercise.\n- Coaching from a manager over the following weeks.\n- A short assessment to check learning."
+    },
+    {
+      "position": 4,
+      "title": "Measuring impact",
+      "type": "TEXT",
+      "body": "The Kirkpatrick model describes four levels of evaluation:\n\n1. **Reaction:** did participants find the training relevant and well delivered?\n2. **Learning:** did they gain the knowledge or skill, as measured by an assessment?\n3. **Behaviour:** are they applying it at work, as observed by their manager?\n4. **Results:** did the business outcome improve, such as fewer errors, faster deals, or higher retention?\n\nMost programmes measure only the first level. Plan at least levels two and three from the start, by setting the assessment and the manager observation before the course runs."
+    }
+  ],
+  "assessment": {
+    "title": "Learning and Development Planning: completion check",
+    "cadence": "ONE_TIME",
+    "level": "INTERMEDIATE",
+    "passMarkPercent": 70,
+    "questions": [
+      { "position": 1, "type": "SINGLE", "text": "What is the first thing a training needs analysis should establish?", "options": ["The training budget", "The performance problem that training must solve", "The trainer's favourite topic", "The course length"], "correct": ["The performance problem that training must solve"], "points": 1 },
+      { "position": 2, "type": "SINGLE", "text": "Which learning objective is most observable and measurable?", "options": ["Understand negotiation", "Know the company values", "Prepare a negotiation plan with a walk-away point and use it in a role-play", "Be aware of the market"], "correct": ["Prepare a negotiation plan with a walk-away point and use it in a role-play"], "points": 1 },
+      { "position": 3, "type": "SINGLE", "text": "In the Kirkpatrick model, what does the Behaviour level measure?", "options": ["Whether participants enjoyed the course", "Whether participants gained knowledge in a test", "Whether participants apply the learning at work", "Whether the business results improved"], "correct": ["Whether participants apply the learning at work"], "points": 1 },
+      { "position": 4, "type": "MULTIPLE", "text": "Which sources are useful for a training needs analysis? (Select all that apply)", "options": ["Performance reviews", "Manager input", "Customer feedback", "The course room's furniture"], "correct": ["Performance reviews", "Manager input", "Customer feedback"], "points": 2 },
+      { "position": 5, "type": "TRUE_FALSE", "text": "If a performance problem is caused by an unclear process, training alone is likely to fix it.", "options": ["True", "False"], "correct": ["False"], "points": 1 }
+    ]
+  }
+}

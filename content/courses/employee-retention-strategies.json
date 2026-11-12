@@ -1,0 +1,48 @@
+{
+  "slug": "employee-retention-strategies",
+  "title": "Employee Retention Strategies",
+  "subject": "Human Resources",
+  "category": "BUSINESS",
+  "level": "INTERMEDIATE",
+  "passMarkPercent": 70,
+  "description": "Understand why people leave, use stay and exit interviews well, build visible career paths, and recognise good work in ways that matter.",
+  "lessons": [
+    {
+      "position": 1,
+      "title": "Why people leave",
+      "type": "TEXT",
+      "body": "People usually leave for a combination of reasons. Common ones include:\n\n- **Manager relationship:** the strongest single driver of whether people stay.\n- **Career growth:** no visible next step or chance to learn.\n- **Pay and benefits:** important, but rarely the only reason.\n- **Workload and burnout:** sustained overwork.\n- **Purpose and recognition:** not seeing how the work matters, or not being thanked for it.\n\nLook at attrition by team, manager, tenure, and role. Patterns usually point to a specific fixable cause."
+    },
+    {
+      "position": 2,
+      "title": "Stay interviews and exit interviews",
+      "type": "TEXT",
+      "body": "A stay interview is a conversation with a current employee, held before any resignation, to learn what keeps them and what could make them leave. Useful questions include: 'What keeps you here?' 'What would make you consider leaving?' 'What would you change about your role if you could?'\n\nAn exit interview is held when someone resigns. It is most useful when the person is candid, so hold it with someone outside their reporting line, and let them know their answers will be used to improve things, not to judge them. Record the reasons in a consistent format so patterns can be analysed."
+    },
+    {
+      "position": 3,
+      "title": "Career paths and development",
+      "type": "TEXT",
+      "body": "Employees stay when they can see where their career could go. A career path shows the roles a person can move to, the skills each role needs, and the steps to get there.\n\nPractical steps:\n\n- Agree on a development plan with each employee at least once a year.\n- Offer stretch assignments, mentoring, and access to learning.\n- Make internal moves visible, and prefer internal candidates for open roles where they are ready.\n\nDevelopment conversations are more useful when they are regular and specific, not only at review time."
+    },
+    {
+      "position": 4,
+      "title": "Recognition that works",
+      "type": "TEXT",
+      "body": "Recognition is most effective when it is specific, timely, and linked to behaviour. 'Thank you for the handover notes, they saved the team a day' means more than a general 'good job'.\n\nAvoid assuming that one reward suits everyone. Some people value public thanks, others value time off, learning, or a conversation with senior leaders. Ask what each person values, and check whether recognition is applied fairly across teams."
+    }
+  ],
+  "assessment": {
+    "title": "Employee Retention Strategies: completion check",
+    "cadence": "ONE_TIME",
+    "level": "INTERMEDIATE",
+    "passMarkPercent": 70,
+    "questions": [
+      { "position": 1, "type": "SINGLE", "text": "Which is often the strongest single driver of whether people stay?", "options": ["Office location", "Relationship with their manager", "The company logo", "Annual holiday count only"], "correct": ["Relationship with their manager"], "points": 1 },
+      { "position": 2, "type": "SINGLE", "text": "When is a stay interview held?", "options": ["After a resignation", "Before any resignation, with a current employee", "Only during the annual review", "At the company's party"], "correct": ["Before any resignation, with a current employee"], "points": 1 },
+      { "position": 3, "type": "SINGLE", "text": "Why is it useful to hold an exit interview outside the person's reporting line?", "options": ["So the interviewer can avoid work", "So the person can be more candid", "So the manager can hire faster", "So the salary can be lowered"], "correct": ["So the person can be more candid"], "points": 1 },
+      { "position": 4, "type": "MULTIPLE", "text": "Which practices support retention? (Select all that apply)", "options": ["Annual development plans", "Visible career paths", "Specific, timely recognition", "Ignoring patterns in exit reasons"], "correct": ["Annual development plans", "Visible career paths", "Specific, timely recognition"], "points": 2 },
+      { "position": 5, "type": "TRUE_FALSE", "text": "Recognition works best when it is linked to specific behaviour.", "options": ["True", "False"], "correct": ["True"], "points": 1 }
+    ]
+  }
+}
