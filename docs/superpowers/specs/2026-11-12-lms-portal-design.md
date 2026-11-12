@@ -153,6 +153,33 @@ These six items were approved after comparing the design with leading corporate 
   - `course_progress` stores `last_lesson_id`, so the learner returns to the lesson where they stopped.
   - A `lesson_progress` table (user_id, lesson_id, position_seconds) stores where a VIDEO lesson was left, so playback resumes from the same point.
 
+## 6C. Employee profile (manual entry)
+
+Each employee builds and maintains a detailed profile themselves. There is no import from CVs, HR records, or certificate files in this version.
+
+- **Personal details (employee edits):** phone number, location (city and country), short bio (up to 500 characters), and preferred language for the portal.
+- **Employment (admin sets, employee views):** department, role title, manager, and joining date. The employee cannot change these.
+- **Profile picture (admin sets):** as described in the user section.
+- **Skills (employee edits):** the employee picks skills from the subject list and rates their own proficiency from 1 (aware) to 5 (expert). Ratings are self-assessed and labelled as such.
+- **Education (employee edits):** a list of entries, each with institution, qualification, field of study, and start and end year.
+- **Work experience (employee edits):** a list of entries, each with company, job title, start and end month, and a description of up to 1000 characters.
+- **External certifications (employee edits):** certifications earned outside the LMS, each with name, issuing body, issue date, and an optional link to proof. These are kept separate from LMS certifications and are labelled "external".
+- **Languages (employee edits):** a list of languages, each with a proficiency level of basic, working, or fluent.
+
+**Who sees what:**
+- The employee can view and edit their own profile.
+- The manager can view the profile of anyone in their reporting line, and cannot edit it.
+- The admin can view and edit every profile, including admin-only fields.
+- Every change is recorded in the audit log.
+
+**Data model additions:**
+- **users:** add phone, location, bio, preferred_language, joined_on
+- **profile_skills:** user_id, subject_id, self_rating (1 to 5), unique on (user_id, subject_id)
+- **profile_education:** id, user_id, institution, qualification, field_of_study, start_year, end_year
+- **profile_experience:** id, user_id, company, job_title, start_month, end_month (nullable for current role), description
+- **profile_external_certifications:** id, user_id, name, issuing_body, issued_on, proof_url (nullable)
+- **profile_languages:** user_id, language, level (`BASIC` | `WORKING` | `FLUENT`), unique on (user_id, language)
+
 ## 7. Dashboards and reporting
 
 - **Admin, certifications by subject:** per subject, counts by level, active certifications, and expired certifications. Table and bar chart.
