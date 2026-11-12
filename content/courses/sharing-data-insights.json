@@ -1,0 +1,48 @@
+{
+  "slug": "sharing-data-insights",
+  "title": "Sharing Data Insights: Storytelling for Decisions",
+  "subject": "Data and Analytics",
+  "category": "BUSINESS",
+  "level": "ADVANCED",
+  "passMarkPercent": 70,
+  "description": "Turn analysis into a clear message: lead with the insight, structure the story around a decision, present uncertainty honestly, and drive follow-up action.",
+  "lessons": [
+    {
+      "position": 1,
+      "title": "Lead with the insight",
+      "type": "TEXT",
+      "body": "An insight is a finding that changes what someone should do. A chart shows data; an insight says what it means. Compare:\n\n- Weak: 'Here is the regional sales chart.'\n- Better: 'Sales in the north fell 18 percent after the price change, while the south held steady. We should review the north pricing before next quarter.'\n\nState the insight in the first sentence. Executives and busy colleagues often read only the headline, so make it complete."
+    },
+    {
+      "position": 2,
+      "title": "Structuring the story",
+      "type": "TEXT",
+      "body": "A simple structure works for most audiences:\n\n1. **Situation:** the context the audience already knows.\n2. **Complication:** what changed or what problem appeared.\n3. **Insight:** what the data shows about the complication.\n4. **Recommendation:** the decision or action proposed.\n5. **Next steps:** owners and dates.\n\nKeep each slide or section to one message. If a slide has two messages, split it."
+    },
+    {
+      "position": 3,
+      "title": "Showing uncertainty and limits",
+      "type": "TEXT",
+      "body": "Every analysis has limits. State them plainly: the sample size, the period covered, known data gaps, and the confidence in the result. Use ranges or confidence intervals where they help, and avoid precise figures that imply more accuracy than the data supports.\n\nSaying 'the trend is likely, but we need another quarter to confirm it' builds more trust than a confident claim that later fails. Trust is the main asset an analyst has."
+    },
+    {
+      "position": 4,
+      "title": "Driving follow-up action",
+      "type": "TEXT",
+      "body": "A presentation is successful when it changes what happens next. Close with the decision needed, the owner, and the date. Send a short written summary afterwards with the insight, the recommendation, the open questions, and the dashboard or file behind it.\n\nCheck back after the decision. If the action was taken, record the result. This builds a track record that shows the analysis was useful, and it gives you feedback for the next analysis."
+    }
+  ],
+  "assessment": {
+    "title": "Sharing Data Insights: completion check",
+    "cadence": "ONE_TIME",
+    "level": "ADVANCED",
+    "passMarkPercent": 70,
+    "questions": [
+      { "position": 1, "type": "SINGLE", "text": "What is an insight?", "options": ["Any chart with colour", "A finding that changes what someone should do", "A list of all data fields", "A raw data export"], "correct": ["A finding that changes what someone should do"], "points": 1 },
+      { "position": 2, "type": "SINGLE", "text": "In the story structure, what comes after the complication?", "options": ["Situation", "Insight", "Next steps only", "Appendix"], "correct": ["Insight"], "points": 1 },
+      { "position": 3, "type": "SINGLE", "text": "How should an analyst handle uncertainty?", "options": ["Hide it to look confident", "State the limits and confidence plainly", "Use the most precise figure possible", "Avoid mentioning data gaps"], "correct": ["State the limits and confidence plainly"], "points": 1 },
+      { "position": 4, "type": "MULTIPLE", "text": "Which belong in a good closing for an insight presentation? (Select all that apply)", "options": ["The decision needed", "The owner and date", "A list of every slide", "Open questions in the follow-up summary"], "correct": ["The decision needed", "The owner and date", "Open questions in the follow-up summary"], "points": 2 },
+      { "position": 5, "type": "TRUE_FALSE", "text": "Each slide or section should carry one main message.", "options": ["True", "False"], "correct": ["True"], "points": 1 }
+    ]
+  }
+}

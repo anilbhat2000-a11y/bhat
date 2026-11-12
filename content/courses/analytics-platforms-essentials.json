@@ -1,0 +1,48 @@
+{
+  "slug": "analytics-platforms-essentials",
+  "title": "Analytics Platforms Essentials",
+  "subject": "Data and Analytics",
+  "category": "TECHNICAL",
+  "level": "INTERMEDIATE",
+  "passMarkPercent": 70,
+  "description": "How business intelligence platforms connect to data, model it, and publish dashboards. A vendor-neutral guide that applies to tools such as Power BI, Tableau, Looker, and spreadsheets.",
+  "lessons": [
+    {
+      "position": 1,
+      "title": "What analytics platforms do",
+      "type": "TEXT",
+      "body": "Analytics platforms, often called business intelligence (BI) tools, perform four jobs:\n\n1. **Connect** to data sources such as databases, spreadsheets, CRM systems, and cloud services.\n2. **Model** the data, by defining relationships and calculations once so every report uses the same logic.\n3. **Visualise** the results in charts, tables, and dashboards.\n4. **Share** the results, with controls over who can see what.\n\nThe same four jobs apply whichever product is used. Learning them makes it easier to move between tools."
+    },
+    {
+      "position": 2,
+      "title": "Data sources and refresh",
+      "type": "TEXT",
+      "body": "A platform is only as current as its connection. Decide for each source:\n\n- **Connection type:** a direct query, or an imported copy of the data.\n- **Refresh schedule:** how often the data is updated, for example daily at 06:00.\n- **Ownership:** who maintains the source and fixes it when it breaks.\n\nImported copies are fast to report on but go stale. Direct queries stay current but can be slower and put load on the source system."
+    },
+    {
+      "position": 3,
+      "title": "Data models and shared definitions",
+      "type": "TEXT",
+      "body": "A data model defines how tables relate, such as orders linked to customers and products, and holds calculations like 'Revenue minus returns'. Define each KPI once in the model, not separately in each report, so two reports cannot show different revenue figures.\n\nUse a star-shaped design where possible: a central table of events, such as sales, linked to descriptive tables such as customers, products, and dates. This keeps reports fast and the logic easy to check."
+    },
+    {
+      "position": 4,
+      "title": "Publishing, access, and governance",
+      "type": "TEXT",
+      "body": "Publish dashboards to a shared workspace, not to personal files, so the team uses one version. Control access by role: managers may see their team's data, while finance sees the full ledger. Keep a named owner for each dashboard, and review dashboards that have not been used for several months.\n\nRecord who changed a metric definition and when. A changed definition without a record is one of the most common causes of disputes about numbers."
+    }
+  ],
+  "assessment": {
+    "title": "Analytics Platforms Essentials: completion check",
+    "cadence": "ONE_TIME",
+    "level": "INTERMEDIATE",
+    "passMarkPercent": 70,
+    "questions": [
+      { "position": 1, "type": "SINGLE", "text": "Which is one of the four main jobs of an analytics platform?", "options": ["Printing invoices", "Connecting to data sources", "Hiring staff", "Manufacturing products"], "correct": ["Connecting to data sources"], "points": 1 },
+      { "position": 2, "type": "SINGLE", "text": "What is the main risk of an imported data copy?", "options": ["It cannot be visualised", "It goes stale between refreshes", "It is always too expensive", "It cannot be shared"], "correct": ["It goes stale between refreshes"], "points": 1 },
+      { "position": 3, "type": "SINGLE", "text": "Why define each KPI once in the data model?", "options": ["So reports cannot show different figures for the same measure", "To make the file larger", "To hide the calculation", "To avoid refreshing data"], "correct": ["So reports cannot show different figures for the same measure"], "points": 1 },
+      { "position": 4, "type": "MULTIPLE", "text": "Which are good governance practices for dashboards? (Select all that apply)", "options": ["Publishing to a shared workspace", "Keeping a named owner", "Recording who changed a metric definition", "Sharing one personal file by email each week"], "correct": ["Publishing to a shared workspace", "Keeping a named owner", "Recording who changed a metric definition"], "points": 2 },
+      { "position": 5, "type": "TRUE_FALSE", "text": "Access to dashboards should be controlled by role.", "options": ["True", "False"], "correct": ["True"], "points": 1 }
+    ]
+  }
+}

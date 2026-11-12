@@ -1,0 +1,48 @@
+{
+  "slug": "data-driven-decision-making",
+  "title": "Data-Driven Decision Making",
+  "subject": "Data and Analytics",
+  "category": "BUSINESS",
+  "level": "BASIC",
+  "passMarkPercent": 70,
+  "description": "Frame business questions clearly, define the metrics that answer them, check data quality, and separate correlation from cause before acting.",
+  "lessons": [
+    {
+      "position": 1,
+      "title": "Start with the decision, not the data",
+      "type": "TEXT",
+      "body": "A useful analysis starts with a decision someone must make. Before pulling any data, write down:\n\n- **The decision:** what will be done differently depending on the answer.\n- **The question:** a specific, answerable question, such as 'Which two product lines have the highest return rate this quarter?'\n- **The owner:** who will act on the answer.\n\nAnalysis without a decision tends to produce reports that no one reads. Ask 'What would we do if the number were high, and what if it were low?' If the answer is the same either way, the analysis may not be worth doing."
+    },
+    {
+      "position": 2,
+      "title": "Defining metrics and KPIs",
+      "type": "TEXT",
+      "body": "A key performance indicator (KPI) is a measure tied to a goal. A good KPI has a clear definition, a named owner, a source, and a target. For example, 'Win rate: deals won divided by deals closed in the period, from the CRM, target 25 percent.'\n\nDistinguish between:\n\n- **Leading indicators:** early signals, such as meetings booked or trials started.\n- **Lagging indicators:** outcomes, such as revenue or customer retention.\n\nLeading indicators let you act sooner, but lagging indicators confirm whether the actions worked."
+    },
+    {
+      "position": 3,
+      "title": "Checking data quality",
+      "type": "TEXT",
+      "body": "Before trusting an analysis, check the data against four properties:\n\n- **Completeness:** are records missing, such as blank fields or missing months?\n- **Accuracy:** do the values match the source of truth?\n- **Consistency:** is the same thing recorded the same way, such as one spelling of a region name?\n- **Timeliness:** is the data current enough for the decision?\n\nA quick check is to compare totals with a trusted report. If they differ, find out why before presenting any conclusion."
+    },
+    {
+      "position": 4,
+      "title": "Correlation, cause, and testing",
+      "type": "TEXT",
+      "body": "Two measures that move together are correlated, but that does not mean one causes the other. Ice cream sales and drowning rates both rise in summer, for example, but neither causes the other.\n\nTo show that an action caused a result, compare against a control group that did not receive the action, or run an A/B test where people are randomly assigned to two versions. Be cautious about conclusions from a single period, a small sample, or a result that was hoped for."
+    }
+  ],
+  "assessment": {
+    "title": "Data-Driven Decision Making: completion check",
+    "cadence": "ONE_TIME",
+    "level": "BASIC",
+    "passMarkPercent": 70,
+    "questions": [
+      { "position": 1, "type": "SINGLE", "text": "What should an analysis start with?", "options": ["Pulling all available data", "The decision that must be made", "The chart style", "The software licence"], "correct": ["The decision that must be made"], "points": 1 },
+      { "position": 2, "type": "SINGLE", "text": "Which is a leading indicator?", "options": ["Annual revenue", "Customer retention rate", "Trials started this month", "Profit for the year"], "correct": ["Trials started this month"], "points": 1 },
+      { "position": 3, "type": "SINGLE", "text": "Which data quality property is about the same thing being recorded the same way?", "options": ["Completeness", "Accuracy", "Consistency", "Timeliness"], "correct": ["Consistency"], "points": 1 },
+      { "position": 4, "type": "MULTIPLE", "text": "Which are good ways to test whether an action caused a result? (Select all that apply)", "options": ["Comparing against a control group", "Running an A/B test with random assignment", "Assuming correlation proves cause", "Checking a single period and a small sample"], "correct": ["Comparing against a control group", "Running an A/B test with random assignment"], "points": 2 },
+      { "position": 5, "type": "TRUE_FALSE", "text": "Two measures that rise together always show that one causes the other.", "options": ["True", "False"], "correct": ["False"], "points": 1 }
+    ]
+  }
+}
