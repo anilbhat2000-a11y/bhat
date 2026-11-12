@@ -1,0 +1,48 @@
+{
+  "slug": "cyber-security-fundamentals",
+  "title": "Cyber Security Fundamentals",
+  "subject": "CYBER SECURITY",
+  "category": "TECHNICAL",
+  "level": "INTERMEDIATE",
+  "passMarkPercent": 70,
+  "description": "Core security principles, common threats, next-generation firewalls, and how to qualify and position security solutions for a business.",
+  "lessons": [
+    {
+      "position": 1,
+      "title": "Core principles: confidentiality, integrity, availability",
+      "type": "TEXT",
+      "body": "Security aims to protect three properties, often called the CIA triad:\n\n- **Confidentiality:** only authorised people see the data.\n- **Integrity:** data is accurate and not changed without permission.\n- **Availability:** systems and data are accessible when needed.\n\nEvery security product or service supports one or more of these. A useful sales question is which property the customer is most worried about: a data leak, a tampered record, or an outage."
+    },
+    {
+      "position": 2,
+      "title": "Common threats",
+      "type": "TEXT",
+      "body": "Threats that business customers face most often include:\n\n- **Phishing:** deceptive emails or messages that trick users into revealing credentials or opening malware.\n- **Ransomware:** malware that encrypts data and demands payment.\n- **Unpatched systems:** known vulnerabilities left open.\n- **Weak access control:** shared or default passwords and no multi-factor authentication.\n- **Insider mistakes:** accidental data sharing or misconfiguration.\n\nNo single control stops all of these. Plan layers."
+    },
+    {
+      "position": 3,
+      "title": "Defence in depth and next-generation firewalls",
+      "type": "TEXT",
+      "body": "Defence in depth means several overlapping controls, so one failure does not expose everything. Typical layers are the network perimeter, endpoints, email, identity, and backup.\n\nA next-generation firewall (NGFW) goes beyond blocking ports. Typical features include intrusion prevention (IPS), application control, web filtering, inspection of encrypted traffic, and VPN for remote access. Firewalls such as those in the company's Fortinet range are an example of this category.\n\nA firewall is only as good as its policy. Ask who maintains the rules, how often they are reviewed, and whether logs are monitored."
+    },
+    {
+      "position": 4,
+      "title": "Qualifying and positioning security",
+      "type": "TEXT",
+      "body": "Security purchases are often driven by risk, compliance, or a recent incident. Ask:\n\n- Has the business had a security incident or near miss in the past year?\n- Which regulations or customer contracts require specific controls?\n- Who owns security decisions, and what is the budget?\n- What is the current backup and recovery plan, and when was it last tested?\n\nAvoid fear-based selling with claims you cannot back up. Link each control to a risk the customer has named, and to a standard such as ISO 27001 where it applies."
+    }
+  ],
+  "assessment": {
+    "title": "Cyber Security Fundamentals: completion check",
+    "cadence": "ONE_TIME",
+    "level": "INTERMEDIATE",
+    "passMarkPercent": 70,
+    "questions": [
+      { "position": 1, "type": "SINGLE", "text": "Which CIA property is about data being accurate and unchanged without permission?", "options": ["Confidentiality", "Integrity", "Availability", "Redundancy"], "correct": ["Integrity"], "points": 1 },
+      { "position": 2, "type": "SINGLE", "text": "Which threat encrypts data and demands payment?", "options": ["Phishing", "Ransomware", "Unpatched systems", "Insider mistake"], "correct": ["Ransomware"], "points": 1 },
+      { "position": 3, "type": "SINGLE", "text": "What does defence in depth mean?", "options": ["One very strong control", "Several overlapping controls so one failure does not expose everything", "Buying the most expensive firewall", "Turning off logs"], "correct": ["Several overlapping controls so one failure does not expose everything"], "points": 1 },
+      { "position": 4, "type": "MULTIPLE", "text": "Which are typical features of a next-generation firewall? (Select all that apply)", "options": ["Intrusion prevention (IPS)", "Application control", "Paper printing", "VPN for remote access"], "correct": ["Intrusion prevention (IPS)", "Application control", "VPN for remote access"], "points": 2 },
+      { "position": 5, "type": "TRUE_FALSE", "text": "A single security control is enough to stop all common threats.", "options": ["True", "False"], "correct": ["False"], "points": 1 }
+    ]
+  }
+}

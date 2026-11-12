@@ -1,0 +1,48 @@
+{
+  "slug": "negotiation-skills",
+  "title": "Negotiation Skills",
+  "subject": "Sales",
+  "category": "BUSINESS",
+  "level": "ADVANCED",
+  "passMarkPercent": 70,
+  "description": "Prepare with a walk-away point, separate interests from positions, trade concessions, and protect margin on IT deals.",
+  "lessons": [
+    {
+      "position": 1,
+      "title": "Preparation: walk-away point and targets",
+      "type": "TEXT",
+      "body": "Negotiations are won in preparation. Before any meeting, define three numbers:\n\n- **Target:** the outcome you want.\n- **Opening position:** a credible starting point that leaves room to move.\n- **Walk-away point:** the least favourable outcome you will accept. Below this, you are better off with the alternative.\n\nThe alternative is your BATNA, the best alternative to a negotiated agreement. Knowing it tells you how much pressure you can apply, and how much the customer may be able to apply to you."
+    },
+    {
+      "position": 2,
+      "title": "Interests, not positions",
+      "type": "TEXT",
+      "body": "A position is what someone asks for. An interest is why they want it. A customer who says 'I need a 20 percent discount' has an interest in staying within budget, or in getting value for a fixed spend.\n\nWhen you understand interests, you can offer options that meet them without giving away the position. For example, a longer contract term may meet a budget interest at a lower discount. Ask 'Why is that important to you?' to find the interest behind a position."
+    },
+    {
+      "position": 3,
+      "title": "Trading concessions and anchoring",
+      "type": "TEXT",
+      "body": "Two principles guide concessions:\n\n1. **Trade, do not give.** Every concession should be linked to something you want: 'We can reduce the price if you extend to three years and sign this month.'\n2. **Concede slowly and smaller over time.** Large early concessions signal that more is available.\n\nAnchoring means the first number on the table influences the rest of the discussion. Make your opening offer with a clear rationale, such as the value of the solution, a fair market reference, or a bundled scope. Do not open with an arbitrary low number."
+    },
+    {
+      "position": 4,
+      "title": "Protecting margin and handling pressure",
+      "type": "TEXT",
+      "body": "In IT deals, margin can come from hardware, support contracts (AMC), installation, and managed services. Protect margin by:\n\n- Pricing support and services separately, so the customer can see their value.\n- Avoiding hidden discounts that reduce service quality.\n- Checking the margin impact of each concession before you agree to it.\n\nWhen a customer applies pressure, such as 'Your competitor is cheaper and we will go with them', pause, ask what would make the competitor's offer comparable, and restate your terms. Stay calm, and do not agree to terms you have not checked against your walk-away point."
+    }
+  ],
+  "assessment": {
+    "title": "Negotiation Skills: completion check",
+    "cadence": "ONE_TIME",
+    "level": "ADVANCED",
+    "passMarkPercent": 70,
+    "questions": [
+      { "position": 1, "type": "SINGLE", "text": "What is your walk-away point?", "options": ["Your opening offer", "The least favourable outcome you will accept", "The customer's budget", "Your target price"], "correct": ["The least favourable outcome you will accept"], "points": 1 },
+      { "position": 2, "type": "SINGLE", "text": "What does BATNA stand for?", "options": ["Best alternative to a negotiated agreement", "Basic terms and negotiated amount", "Budget approval target", "Business agreement tracking method"], "correct": ["Best alternative to a negotiated agreement"], "points": 1 },
+      { "position": 3, "type": "SINGLE", "text": "A customer asks for a 20 percent discount. Which question best finds the interest behind the position?", "options": ["Can you accept 15 percent?", "Why is that important to you?", "Do you want to cancel?", "Which competitor is cheaper?"], "correct": ["Why is that important to you?"], "points": 1 },
+      { "position": 4, "type": "MULTIPLE", "text": "Which practices protect margin in a negotiation? (Select all that apply)", "options": ["Checking the margin impact of each concession", "Hiding discounts inside support contracts", "Pricing support and services separately", "Agreeing to terms before checking the walk-away point"], "correct": ["Checking the margin impact of each concession", "Pricing support and services separately"], "points": 2 },
+      { "position": 5, "type": "TRUE_FALSE", "text": "Large early concessions signal that more is available, so concede slowly.", "options": ["True", "False"], "correct": ["True"], "points": 1 }
+    ]
+  }
+}

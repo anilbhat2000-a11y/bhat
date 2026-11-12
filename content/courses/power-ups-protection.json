@@ -1,0 +1,48 @@
+{
+  "slug": "power-ups-protection",
+  "title": "Power Solutions: UPS and Power Protection",
+  "subject": "POWER SOLUTIONS",
+  "category": "TECHNICAL",
+  "level": "BASIC",
+  "passMarkPercent": 70,
+  "description": "UPS types, sizing by load and runtime, battery choices, and the questions that lead to a correct power protection proposal.",
+  "lessons": [
+    {
+      "position": 1,
+      "title": "Why power protection matters",
+      "type": "TEXT",
+      "body": "Power problems damage equipment and stop work. Common issues are:\n\n- **Outage:** complete loss of mains power.\n- **Sag and brownout:** voltage drops below normal.\n- **Surge and spike:** sudden voltage rises, often from lightning or switching loads.\n- **Noise and frequency variation:** disturbances that affect sensitive electronics.\n\nAn uninterruptible power supply (UPS) bridges short outages, filters disturbances, and allows safe shutdown or generator start."
+    },
+    {
+      "position": 2,
+      "title": "UPS types",
+      "type": "TEXT",
+      "body": "The three main UPS types differ in how they protect the load:\n\n- **Offline (standby):** the load runs on mains and switches to battery when mains fails. Basic and low cost, with a short switchover time.\n- **Line-interactive:** regulates voltage without switching to battery for small dips. Common for small offices and branch sites.\n- **Online (double conversion):** the load always runs from the UPS, so it is fully isolated from mains disturbances. Used for critical servers and sensitive equipment.\n\nChoose the type by the sensitivity of the load and the importance of uninterrupted power."
+    },
+    {
+      "position": 3,
+      "title": "Sizing: VA, watts, and runtime",
+      "type": "TEXT",
+      "body": "UPS capacity is rated in volt-amperes (VA) and watts (W). The relationship depends on the power factor: watts = VA x power factor. Always check the power factor in the product specification.\n\nSizing steps:\n\n1. List every device to be protected and its power draw in watts.\n2. Add them up and add a margin for growth.\n3. Divide by the power factor to get the VA needed.\n4. Choose a runtime. Longer runtime needs more battery capacity.\n\nA UPS sized only for the current load will fail to meet expansion needs. Ask about planned additions."
+    },
+    {
+      "position": 4,
+      "title": "Batteries, maintenance, and discovery questions",
+      "type": "TEXT",
+      "body": "Batteries wear out and are usually the first component to need replacement. Sealed lead-acid (VRLA) batteries are common and cost less upfront. Lithium batteries last longer and are lighter, at a higher initial cost. Include battery replacement cycles in the total cost.\n\nDiscovery questions for a power proposal:\n\n- Which equipment must stay running, and for how long during an outage?\n- What is the total power draw of that equipment now, and what growth is expected?\n- Is there a generator, and how is it started?\n- When were the existing batteries last replaced and tested?\n- Who maintains the UPS, and under what contract?"
+    }
+  ],
+  "assessment": {
+    "title": "Power Solutions: UPS and Power Protection: completion check",
+    "cadence": "ONE_TIME",
+    "level": "BASIC",
+    "passMarkPercent": 70,
+    "questions": [
+      { "position": 1, "type": "SINGLE", "text": "Which UPS type always runs the load from the UPS itself?", "options": ["Offline", "Line-interactive", "Online (double conversion)", "Passive"], "correct": ["Online (double conversion)"], "points": 1 },
+      { "position": 2, "type": "SINGLE", "text": "Which formula gives watts from VA?", "options": ["watts = VA / power factor", "watts = VA x power factor", "watts = VA + power factor", "watts = VA squared"], "correct": ["watts = VA x power factor"], "points": 1 },
+      { "position": 3, "type": "SINGLE", "text": "What is the usual first component to need replacement in a UPS?", "options": ["The cabinet", "The battery", "The display panel", "The cable"], "correct": ["The battery"], "points": 1 },
+      { "position": 4, "type": "MULTIPLE", "text": "Which are power disturbances a UPS can help with? (Select all that apply)", "options": ["Outage", "Sag and brownout", "Surge and spike", "Good, steady voltage"], "correct": ["Outage", "Sag and brownout", "Surge and spike"], "points": 2 },
+      { "position": 5, "type": "TRUE_FALSE", "text": "A UPS sized only for today's load is sufficient even when the customer plans to add equipment.", "options": ["True", "False"], "correct": ["False"], "points": 1 }
+    ]
+  }
+}

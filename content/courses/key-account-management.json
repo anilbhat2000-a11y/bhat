@@ -1,0 +1,48 @@
+{
+  "slug": "key-account-management",
+  "title": "Key Account Management",
+  "subject": "Sales",
+  "category": "BUSINESS",
+  "level": "ADVANCED",
+  "passMarkPercent": 70,
+  "description": "Segment accounts, build account plans and coverage maps, manage account health and renewals, and grow share of wallet across infrastructure and services.",
+  "lessons": [
+    {
+      "position": 1,
+      "title": "Account segmentation and account plans",
+      "type": "TEXT",
+      "body": "Not every account deserves the same effort. Segment accounts by potential and current relationship:\n\n- **Strategic:** high value, long-term potential. Needs an account plan and executive sponsorship.\n- **Growth:** good potential, not yet fully developed. Needs a focused expansion plan.\n- **Maintain:** stable and profitable. Needs efficient service and renewal.\n\nEach strategic and growth account needs a written account plan covering the customer's goals, current spend, competitors, opportunities, risks, and the next three actions with owners and dates."
+    },
+    {
+      "position": 2,
+      "title": "Account mapping and coverage",
+      "type": "TEXT",
+      "body": "An account map lists the people who influence buying decisions and how you connect with them. For each person, record their role, their priorities, their relationship with you (strong, weak, or none), and who on your side owns that relationship.\n\nA coverage gap is a role with no relationship. A typical gap is finance, or a senior technical leader who influences the next purchase. Close gaps by asking for introductions from existing contacts, or by offering something useful, such as a briefing on a relevant change in technology or regulation."
+    },
+    {
+      "position": 3,
+      "title": "Account health, renewals, and share of wallet",
+      "type": "TEXT",
+      "body": "Track account health with a small set of indicators: usage or service volumes, support issues, executive engagement, and upcoming renewal dates. A falling indicator is an early warning, and should trigger a review before the renewal conversation.\n\nShare of wallet is the portion of the customer's total spend in your category that you win. Grow it by:\n\n- Mapping the customer's full technology needs, not only the current project.\n- Offering complementary services, such as support, monitoring, or a refresh plan.\n- Using a renewal date to review scope, not only to extend the existing contract."
+    },
+    {
+      "position": 4,
+      "title": "Governance and cross-selling",
+      "type": "TEXT",
+      "body": "For strategic accounts, set up a regular governance rhythm: a monthly operational review with the working team, and a quarterly business review with senior stakeholders. Use the quarterly review to agree on priorities, review service performance, and surface new opportunities.\n\nCross-selling works best when it solves a problem the customer has already admitted. Introduce a new offer during a review, using evidence from the account's own service history."
+    }
+  ],
+  "assessment": {
+    "title": "Key Account Management: completion check",
+    "cadence": "ONE_TIME",
+    "level": "ADVANCED",
+    "passMarkPercent": 70,
+    "questions": [
+      { "position": 1, "type": "SINGLE", "text": "Which segment needs an account plan and executive sponsorship?", "options": ["Maintain", "Strategic", "Growth only", "One-time"], "correct": ["Strategic"], "points": 1 },
+      { "position": 2, "type": "SINGLE", "text": "What is a coverage gap in an account map?", "options": ["A competitor with more contacts", "A key role with no relationship on your side", "A product not in the catalogue", "A missing invoice"], "correct": ["A key role with no relationship on your side"], "points": 1 },
+      { "position": 3, "type": "SINGLE", "text": "What is share of wallet?", "options": ["The customer's total bank balance", "The portion of the customer's category spend that you win", "Your discount level", "The number of contacts in an account"], "correct": ["The portion of the customer's category spend that you win"], "points": 1 },
+      { "position": 4, "type": "MULTIPLE", "text": "Which are sound account health indicators? (Select all that apply)", "options": ["Support issue trends", "Executive engagement", "Upcoming renewal dates", "The number of brochures sent"], "correct": ["Support issue trends", "Executive engagement", "Upcoming renewal dates"], "points": 2 },
+      { "position": 5, "type": "TRUE_FALSE", "text": "A renewal date is a good moment to review scope, not only to extend the existing contract.", "options": ["True", "False"], "correct": ["True"], "points": 1 }
+    ]
+  }
+}

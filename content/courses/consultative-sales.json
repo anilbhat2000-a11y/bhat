@@ -1,0 +1,48 @@
+{
+  "slug": "consultative-sales",
+  "title": "Consultative Sales",
+  "subject": "Sales",
+  "category": "BUSINESS",
+  "level": "INTERMEDIATE",
+  "passMarkPercent": 70,
+  "description": "Lead with the customer's business problem, ask questions that uncover impact, and present solutions as outcomes the customer values.",
+  "lessons": [
+    {
+      "position": 1,
+      "title": "The consultative mindset",
+      "type": "TEXT",
+      "body": "A product-first seller asks, 'What can I sell you?' A consultative seller asks, 'What outcome are you trying to achieve, and what is it costing you not to achieve it?'\n\nConsultative selling means:\n\n- Treating the customer's business goals as the starting point.\n- Being willing to recommend nothing, or a smaller solution, if that is right for the customer.\n- Building trust over several interactions, not one presentation.\n\nCustomers buy from advisers they trust. Trust comes from accuracy, follow-through, and admitting what you do not know."
+    },
+    {
+      "position": 2,
+      "title": "Discovery questions",
+      "type": "TEXT",
+      "body": "Good discovery uses a mix of question types:\n\n- **Open questions** invite explanation: 'How does your team handle branch network failures today?'\n- **Probing questions** dig deeper: 'What happened the last time that failed?'\n- **Impact questions** measure cost: 'How many hours of downtime did that cause, and what did it cost?'\n- **Solution questions** test ideas: 'If we could cut that downtime in half, what would it be worth to you?'\n\nAsk fewer, better questions. Let the customer talk for most of the meeting. Write down what they say, using their words."
+    },
+    {
+      "position": 3,
+      "title": "Listening and summarising",
+      "type": "TEXT",
+      "body": "Listening is an active skill. Three techniques help:\n\n1. **Pause before responding** so the customer can finish.\n2. **Summarise back:** 'So the main issue is slow approvals, and it is delaying three projects. Is that right?'\n3. **Ask for correction:** 'What did I miss?'\n\nSummarising proves you understood and gives the customer a chance to correct you before you propose anything. It also surfaces disagreement early, which is cheaper to handle than a surprise at proposal stage."
+    },
+    {
+      "position": 4,
+      "title": "Presenting solutions as business outcomes",
+      "type": "TEXT",
+      "body": "Map each feature to a business outcome the customer named in discovery. Use a simple structure:\n\n- **Their problem:** 'Your branch offices lose connectivity for about four hours a month.'\n- **What we propose:** 'A redundant internet link with automatic failover.'\n- **The outcome:** 'Reduced downtime, and fewer escalations for the operations team.'\n- **Proof:** a reference, a trial, or a measurable pilot.\n\nAvoid listing specifications the customer did not ask for. A solution that matches the stated need is easier to approve than a long catalogue."
+    }
+  ],
+  "assessment": {
+    "title": "Consultative Sales: completion check",
+    "cadence": "ONE_TIME",
+    "level": "INTERMEDIATE",
+    "passMarkPercent": 70,
+    "questions": [
+      { "position": 1, "type": "SINGLE", "text": "What does a consultative seller start with?", "options": ["The product catalogue", "The customer's business goals", "The lowest price", "The competitor's weaknesses"], "correct": ["The customer's business goals"], "points": 1 },
+      { "position": 2, "type": "SINGLE", "text": "Which question type measures the cost of a problem?", "options": ["Open question", "Probing question", "Impact question", "Solution question"], "correct": ["Impact question"], "points": 1 },
+      { "position": 3, "type": "SINGLE", "text": "Why summarise back what the customer said?", "options": ["To end the meeting faster", "To show you understood and let them correct you", "To avoid listening", "To shorten the proposal"], "correct": ["To show you understood and let them correct you"], "points": 1 },
+      { "position": 4, "type": "MULTIPLE", "text": "Which practices reflect consultative selling? (Select all that apply)", "options": ["Letting the customer talk most of the time", "Listing every feature in the first meeting", "Mapping features to stated outcomes", "Recommending a smaller solution when it fits"], "correct": ["Letting the customer talk most of the time", "Mapping features to stated outcomes", "Recommending a smaller solution when it fits"], "points": 2 },
+      { "position": 5, "type": "TRUE_FALSE", "text": "Consultative selling builds trust over several interactions rather than one presentation.", "options": ["True", "False"], "correct": ["True"], "points": 1 }
+    ]
+  }
+}

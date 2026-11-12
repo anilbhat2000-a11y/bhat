@@ -1,0 +1,48 @@
+{
+  "slug": "print-solutions",
+  "title": "Print Solutions",
+  "subject": "PRINT SOLUTIONS",
+  "category": "TECHNICAL",
+  "level": "BASIC",
+  "passMarkPercent": 70,
+  "description": "Printer and multifunction device types, cost per page, consumables, managed print services, and secure printing.",
+  "lessons": [
+    {
+      "position": 1,
+      "title": "Printer and multifunction device types",
+      "type": "TEXT",
+      "body": "Printers are chosen by volume, quality, and use:\n\n- **Laser:** fast, good for high-volume text, lower cost per page at scale.\n- **Inkjet:** lower upfront cost, suited to low to medium volume and colour work.\n- **Multifunction device (MFD):** combines print, copy, scan, and fax in one unit, common in offices.\n- **Large format:** plotters and wide-format printers for drawings and posters.\n\nA device chosen for the wrong volume will cost more to run and will need replacing sooner."
+    },
+    {
+      "position": 2,
+      "title": "Cost per page and consumables",
+      "type": "TEXT",
+      "body": "The true cost of printing is the cost per page, not the purchase price. Cost per page includes toner or ink, drums, paper, service, and power, divided by the number of pages printed.\n\nConsumables such as toner, drums, and fuser units are the main recurring cost. Compare yields (pages per cartridge) using the same standard, and include original versus refilled consumables in the comparison, with their warranty implications."
+    },
+    {
+      "position": 3,
+      "title": "Managed print services",
+      "type": "TEXT",
+      "body": "A managed print service (MPS) is a contract to manage the customer's printing fleet. The supplier assesses the current fleet, right-sizes devices, supplies consumables, and reports usage and cost.\n\nMPS suits customers with many devices, dispersed sites, or rising print costs. The sales conversation starts with an assessment of current devices, volumes, and costs, then proposes a fleet plan with a clear service level and a monthly report."
+    },
+    {
+      "position": 4,
+      "title": "Secure printing and discovery questions",
+      "type": "TEXT",
+      "body": "Printers store documents and can be a security weak point. Secure printing options include user authentication at the device (so jobs print only when the user is present), encrypted storage, and disabling unused network ports and services.\n\nDiscovery questions:\n\n- How many pages are printed each month, per device and per department?\n- What is the current cost per page, including consumables and service?\n- Which documents are confidential, and who collects printouts?\n- How are devices serviced today, and how quickly are faults resolved?"
+    }
+  ],
+  "assessment": {
+    "title": "Print Solutions: completion check",
+    "cadence": "ONE_TIME",
+    "level": "BASIC",
+    "passMarkPercent": 70,
+    "questions": [
+      { "position": 1, "type": "SINGLE", "text": "Which device combines print, copy, scan, and fax?", "options": ["Plotter", "Multifunction device", "Inkjet printer", "Label printer"], "correct": ["Multifunction device"], "points": 1 },
+      { "position": 2, "type": "SINGLE", "text": "What does cost per page include?", "options": ["Only the purchase price", "Consumables, service, paper, and power divided by pages printed", "Only paper", "Only the warranty length"], "correct": ["Consumables, service, paper, and power divided by pages printed"], "points": 1 },
+      { "position": 3, "type": "SINGLE", "text": "What is a managed print service?", "options": ["Free printing for staff", "A contract to manage the customer's printing fleet", "A type of paper", "A printer repair course"], "correct": ["A contract to manage the customer's printing fleet"], "points": 1 },
+      { "position": 4, "type": "MULTIPLE", "text": "Which are valid secure printing measures? (Select all that apply)", "options": ["User authentication at the device", "Leaving unused network ports open", "Encrypted storage", "Disabling unused services"], "correct": ["User authentication at the device", "Encrypted storage", "Disabling unused services"], "points": 2 },
+      { "position": 5, "type": "TRUE_FALSE", "text": "The purchase price of a printer is the best measure of its true cost.", "options": ["True", "False"], "correct": ["False"], "points": 1 }
+    ]
+  }
+}

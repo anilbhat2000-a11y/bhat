@@ -1,0 +1,48 @@
+{
+  "slug": "telecom-connectivity-solutions",
+  "title": "Telecom and Connectivity Solutions",
+  "subject": "NETWORKING",
+  "category": "TECHNICAL",
+  "level": "INTERMEDIATE",
+  "passMarkPercent": 70,
+  "description": "Leased lines, broadband, internet links, IP telephony and EPABX, service level metrics, and how to structure telecom contracts.",
+  "lessons": [
+    {
+      "position": 1,
+      "title": "Connectivity options for business",
+      "type": "TEXT",
+      "body": "Business connectivity options include:\n\n- **Broadband:** shared access at lower cost, with variable speed. Suits small offices and non-critical use.\n- **Leased line:** a dedicated link with committed bandwidth, symmetric speeds, and a service level. Suits head offices, data centres, and critical branches.\n- **Fibre and wireless links:** physical or radio links for specific site needs.\n\nThe choice depends on how much bandwidth is needed, whether speed must be guaranteed, and the cost of downtime."
+    },
+    {
+      "position": 2,
+      "title": "Service level metrics",
+      "type": "TEXT",
+      "body": "Telecom contracts are judged by measurable service levels:\n\n- **Uptime:** the percentage of time the service is available, for example 99.9 percent.\n- **Mean time to repair (MTTR):** the average time to restore service after a fault.\n- **Latency and packet loss:** important for voice and video.\n- **Committed bandwidth:** the speed guaranteed, as opposed to best effort.\n\nAn uptime figure must be read with its measurement period. A percentage over a month allows more downtime than the same percentage over a day, so compare like with like."
+    },
+    {
+      "position": 3,
+      "title": "IP telephony and EPABX",
+      "type": "TEXT",
+      "body": "An EPABX (private branch exchange) is an on-site telephone system. IP telephony carries voice over the data network, using the same switches and internet link as other traffic.\n\nWhen moving voice to IP, plan for:\n\n- Enough bandwidth per call, with quality of service (QoS) set to prioritise voice.\n- Power backup for phones and network equipment, so calls still work during an outage.\n- Number porting and emergency calling requirements, which must be confirmed with the service provider.\n- Handsets, extensions, and call routing for each site."
+    },
+    {
+      "position": 4,
+      "title": "Structuring telecom contracts and discovery",
+      "type": "TEXT",
+      "body": "Telecom contracts run for fixed terms, usually one to three years. Check the start date, early termination charges, price escalation clauses, service credits for missed service levels, and the process for raising faults.\n\nDiscovery questions:\n\n- Which sites need connectivity, and what bandwidth does each use at peak?\n- What does downtime cost per hour at each site?\n- What is the current contract term, cost, and renewal date?\n- Is voice on a traditional EPABX, and is it planned to move to IP?\n- Which service levels must the contract guarantee?"
+    }
+  ],
+  "assessment": {
+    "title": "Telecom and Connectivity Solutions: completion check",
+    "cadence": "ONE_TIME",
+    "level": "INTERMEDIATE",
+    "passMarkPercent": 70,
+    "questions": [
+      { "position": 1, "type": "SINGLE", "text": "Which link gives committed bandwidth and a service level?", "options": ["Shared broadband", "Leased line", "Dial-up", "Public Wi-Fi"], "correct": ["Leased line"], "points": 1 },
+      { "position": 2, "type": "SINGLE", "text": "What does MTTR measure?", "options": ["Monthly bandwidth use", "Average time to restore service after a fault", "Number of phone extensions", "Contract length"], "correct": ["Average time to restore service after a fault"], "points": 1 },
+      { "position": 3, "type": "SINGLE", "text": "Why must an uptime figure be read with its measurement period?", "options": ["Longer periods allow more downtime for the same percentage", "The period sets the price", "It has no effect", "Shorter periods are always worse"], "correct": ["Longer periods allow more downtime for the same percentage"], "points": 1 },
+      { "position": 4, "type": "MULTIPLE", "text": "Which should be planned when moving voice to IP telephony? (Select all that apply)", "options": ["Bandwidth per call with QoS for voice", "Power backup for phones and network equipment", "Printer toner levels", "Emergency calling requirements"], "correct": ["Bandwidth per call with QoS for voice", "Power backup for phones and network equipment", "Emergency calling requirements"], "points": 2 },
+      { "position": 5, "type": "TRUE_FALSE", "text": "Early termination charges and price escalation clauses are worth checking in a telecom contract.", "options": ["True", "False"], "correct": ["True"], "points": 1 }
+    ]
+  }
+}
