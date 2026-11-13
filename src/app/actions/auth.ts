@@ -1,6 +1,7 @@
 "use server";
 
-import { cookies } from "next/headers";
+import { cookies, headers } from "next/headers";
+import { clearLoginFailures, isLoginBlocked, loginKeys, recordLoginFailure } from "../../lib/auth/rate-limit";
 import { redirect } from "next/navigation";
 import { prisma } from "../../lib/db/client";
 import { verifyPassword } from "../../lib/auth/password";
@@ -16,9 +17,20 @@ export async function login(_prev: LoginState, formData: FormData): Promise<Logi
   const email = String(formData.get("email") ?? "").trim().toLowerCase();
   const password = String(formData.get("password") ?? "");
 
+  const h = await headers();
+  const ip = h.get("x-real-ip") ?? h.get("x-forwarded-for")?.split(",")[0]?.trim() ?? null;
+  const keys = loginKeys(email, ip);
+  if (await isLoginBlocked(keys)) {
+    return { error: "Too many failed sign-in attempts. Wait 15 minutes and try again, or ask an admin to reset your password." };
+  }
+
   const user = email ? await prisma.user.findUnique({ where: { email } }) : null;
   const ok = user !== null && user.active && (await verifyPassword(password, user.passwordHash));
-  if (!user || !ok) return { error: "Invalid email or password" };
+  if (!user || !ok) {
+    await recordLoginFailure(keys);
+    return { error: "Invalid email or password" };
+  }
+  await clearLoginFailures(email);
 
   const { token, expiresAt } = await createSession(user.id);
   (await cookies()).set(SESSION_COOKIE, token, {

@@ -36,8 +36,21 @@ describe("sessions", () => {
   it("returns null once the session has expired", async () => {
     const now = new Date("2026-11-13T00:00:00Z");
     const { token, expiresAt } = await createSession(userId, now);
-    expect(await readSession(token, new Date(expiresAt.getTime() - 1))).not.toBeNull();
-    expect(await readSession(token, new Date(expiresAt.getTime() + 1))).toBeNull();
+    const noIdle = Number.POSITIVE_INFINITY;
+    expect(await readSession(token, new Date(expiresAt.getTime() - 1), noIdle)).not.toBeNull();
+    expect(await readSession(token, new Date(expiresAt.getTime() + 1), noIdle)).toBeNull();
+  });
+
+  it("ends a session left idle longer than the idle timeout, and keeps an active one", async () => {
+    const start = new Date("2026-11-13T00:00:00Z");
+    const idle = 30 * 60 * 1000;
+    const { token } = await createSession(userId, start);
+    const at20 = new Date(start.getTime() + 20 * 60 * 1000);
+    expect(await readSession(token, at20, idle)).not.toBeNull(); // also marks it as seen
+    const at45 = new Date(start.getTime() + 45 * 60 * 1000);
+    expect(await readSession(token, at45, idle)).not.toBeNull(); // 25 minutes after last use
+    const at80 = new Date(start.getTime() + 80 * 60 * 1000);
+    expect(await readSession(token, at80, idle)).toBeNull(); // 35 minutes idle
   });
 
   it("returns null for a deactivated user even with a live session (Review Focus 2)", async () => {

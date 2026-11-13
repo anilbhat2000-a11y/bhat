@@ -123,8 +123,20 @@ model Session {
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   expiresAt DateTime @map("expires_at")
   createdAt DateTime @default(now()) @map("created_at")
+  // Updated as the user works; a session idle for longer than SESSION_IDLE_MINUTES ends.
+  lastSeenAt DateTime @default(now()) @map("last_seen_at")
 
   @@map("sessions")
+}
+
+// One row per failed sign-in, keyed by email and by IP address. Used to rate-limit sign-in.
+model LoginFailure {
+  id  String   @id @default(cuid())
+  key String
+  at  DateTime @default(now())
+
+  @@index([key, at])
+  @@map("login_failures")
 }
 
 model Subject {
