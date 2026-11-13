@@ -67,6 +67,13 @@ export async function updateUser(
       return { ok: false, error: "That manager reports to this user, which would create a loop" };
     }
   }
+  const before = await prisma.user.findUnique({ where: { id }, select: { name: true, role: true, department: true, managerId: true } });
+  const changed = {
+    name: patch.name?.trim(),
+    role: patch.role,
+    department: patch.department?.trim() || null,
+    managerId: patch.managerId || null,
+  };
   await prisma.user.update({
     where: { id },
     data: {
@@ -77,6 +84,7 @@ export async function updateUser(
       ...(patch.managerId !== undefined && { managerId: patch.managerId || null }),
     },
   });
+  await recordAudit(prisma, { actorId: actor.id, action: "user.update", entityType: "User", entityId: id, before: before ?? null, after: changed });
   return { ok: true, id };
 }
 
@@ -124,6 +132,7 @@ export async function createSubject(
       certificationValidityMonths: input.certificationValidityMonths,
     },
   });
+  await recordAudit(prisma, { actorId: actor.id, action: "subject.create", entityType: "Subject", entityId: subject.id, after: { name: subject.name, category: subject.category } });
   return { ok: true, id: subject.id };
 }
 
@@ -133,6 +142,7 @@ export async function updateSubject(
   patch: { name?: string; category?: Category; certificationValidityMonths?: number },
 ): Promise<Result> {
   asAdmin(actor);
+  await recordAudit(prisma, { actorId: actor.id, action: "subject.update", entityType: "Subject", entityId: id, after: { ...patch } });
   await prisma.subject.update({
     where: { id },
     data: {
@@ -190,6 +200,7 @@ export async function importUsers(
       const manager = await tx.user.findUnique({ where: { email: u.managerEmail as string } });
       await tx.user.update({ where: { email: u.email }, data: { managerId: manager?.id ?? null } });
     }
+    await recordAudit(tx, { actorId: actor.id, action: "user.import", entityType: "User", entityId: "bulk", after: { count: parsed.users.length } });
     return parsed.users.length;
   });
   return { ok: true, created };

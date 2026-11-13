@@ -2,6 +2,7 @@ import { prisma } from "../db/client";
 import { AuthError, canViewUser, requireRole } from "../auth/guards";
 import type { SessionUser } from "../auth/session";
 import { completeLessonForUser } from "./progress";
+import { recordAudit } from "../audit/record";
 
 export type Result = { ok: true; id?: string } | { ok: false; error: string };
 
@@ -26,6 +27,7 @@ export async function scheduleSession(
     capacity: input.capacity,
   };
   const session = await prisma.liveSession.upsert({ where: { lessonId }, update: data, create: { lessonId, ...data } });
+  await recordAudit(prisma, { actorId: actor.id, action: "session.schedule", entityType: "LiveSession", entityId: session.id, after: { ...data, instructors: input.instructorIds.length } });
   await prisma.$transaction([
     prisma.lessonInstructor.deleteMany({ where: { lessonId } }),
     prisma.lessonInstructor.createMany({
@@ -69,6 +71,7 @@ export async function markAttendance(sessionId: string, attendeeIds: string[], a
     where: { liveSessionId: sessionId, userId: { in: attendeeIds } },
     data: { attended: true },
   });
+  await recordAudit(prisma, { actorId: actor.id, action: "session.attendance", entityType: "LiveSession", entityId: sessionId, after: { attendeeIds } });
   for (const id of attendeeIds) {
     // An attendee who has not finished earlier lessons keeps the attendance; the lesson
     // completes once the order allows it.

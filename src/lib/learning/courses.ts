@@ -42,6 +42,7 @@ export async function updateCourse(
   patch: { title?: string; description?: string; level?: Level; passMarkPercent?: number },
 ): Promise<Result> {
   asAdmin(actor);
+  await recordAudit(prisma, { actorId: actor.id, action: "course.update", entityType: "Course", entityId: id, after: { ...patch } });
   await prisma.course.update({
     where: { id },
     data: {
@@ -209,6 +210,7 @@ export async function attachCaption(
     return { ok: false, error: "Could not save the caption file. Nothing was stored." };
   }
   if (lesson.captionFileKey) await storage.delete(lesson.captionFileKey);
+  await recordAudit(prisma, { actorId: actor.id, action: "caption.attach", entityType: "Lesson", entityId: lessonId, after: { captionFileKey: checked.key } });
   return { ok: true, id: lessonId };
 }
 
