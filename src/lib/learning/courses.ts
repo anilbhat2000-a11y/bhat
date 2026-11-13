@@ -6,6 +6,7 @@ import type { FileStorage } from "../storage/types";
 import { validateUpload } from "../storage/validate";
 import type { Level, LessonType } from "../../generated/prisma/client";
 import { recordAudit } from "../audit/record";
+import { canPublishLesson } from "./publish";
 
 export type Result = { ok: true; id?: string } | { ok: false; error: string };
 const HTTP_URL = /^https?:\/\/\S+$/i;
@@ -57,8 +58,12 @@ export async function updateCourse(
 export async function setCoursePublished(actor: SessionUser, id: string, published: boolean): Promise<Result> {
   asAdmin(actor);
   if (published) {
-    const lessons = await prisma.lesson.count({ where: { courseId: id } });
-    if (lessons === 0) return { ok: false, error: "Add at least one lesson before publishing" };
+    const lessons = await prisma.lesson.findMany({ where: { courseId: id }, select: { type: true, captionFileKey: true } });
+    if (lessons.length === 0) return { ok: false, error: "Add at least one lesson before publishing" };
+    for (const l of lessons) {
+      const check = canPublishLesson(l);
+      if (!check.ok) return { ok: false, error: check.reason };
+    }
   }
   const before = await prisma.course.findUnique({ where: { id }, select: { status: true } });
   await prisma.course.update({ where: { id }, data: { status: published ? "PUBLISHED" : "DRAFT" } });
@@ -171,3 +176,27 @@ export async function getLessonFile(
   return { bytes: await storage.get(lesson.fileKey), mime: mimeForKey(lesson.fileKey), title: lesson.title };
 }
 
+
+// Attaches a WebVTT caption file to a video lesson. Stored through the same storage and
+// validation as other uploads; a failed save removes the stored file.
+export async function attachCaption(
+  actor: SessionUser,
+  lessonId: string,
+  input: { filename: string; mime: string; sizeBytes: number; bytes: Buffer },
+  storage: FileStorage = defaultStorage(),
+): Promise<Result> {
+  asAdmin(actor);
+  const lesson = await prisma.lesson.findUnique({ where: { id: lessonId } });
+  if (!lesson || lesson.type !== "VIDEO") return { ok: false, error: "Captions can only be added to video lessons" };
+  const checked = validateUpload({ filename: input.filename, mime: input.mime, sizeBytes: input.sizeBytes }, "CAPTION");
+  if (!checked.ok) return { ok: false, error: checked.reason };
+  await storage.put(checked.key, input.bytes);
+  try {
+    await prisma.lesson.update({ where: { id: lessonId }, data: { captionFileKey: checked.key } });
+  } catch {
+    await storage.delete(checked.key);
+    return { ok: false, error: "Could not save the caption file. Nothing was stored." };
+  }
+  if (lesson.captionFileKey) await storage.delete(lesson.captionFileKey);
+  return { ok: true, id: lessonId };
+}

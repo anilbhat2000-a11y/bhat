@@ -17,9 +17,11 @@ describe("seed", () => {
     expect(SUBJECTS.filter((s) => s.category === "TECHNICAL").length).toBe(10);
     expect(await prisma.user.count({ where: { email: { in: ["admin@3c.example", "manager@3c.example", "employee@3c.example"] } } })).toBe(3);
 
-    const courses = await prisma.course.count();
+    // Count only the seeded subjects: other test files create courses in parallel.
+    const seededCourses = () => prisma.course.count({ where: { subject: { slug: { in: slugs } } } });
+    const before = await seededCourses();
     await runSeed(prisma, { seedPassword: "Demo-pass-1", contentDir: CONTENT });
-    expect(await prisma.course.count()).toBe(courses);
+    expect(await seededCourses()).toBe(before);
     expect(await prisma.course.count({ where: { status: "PUBLISHED" } })).toBeGreaterThanOrEqual(28);
   });
 

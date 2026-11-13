@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { prisma } from "../../../../lib/db/client";
 import { addLessonAction, moveLessonAction, setPublishedAction, uploadLessonAction } from "../../../actions/courses";
 import { markAttendanceAction, scheduleSessionAction } from "../../../actions/live";
+import { attachCaptionAction } from "../../../actions/courses";
 
 export default async function CoursePage({
   params,
@@ -40,7 +41,7 @@ export default async function CoursePage({
       <ol>
         {course.lessons.map((l) => (
           <li key={l.id}>
-            {l.title} <small>({l.type})</small>{" "}
+            {l.title} <small>({l.type}{l.type === "VIDEO" ? (l.captionFileKey ? ", captions added" : ", captions needed to publish") : ""})</small>{" "}
             <form action={moveLessonAction} style={{ display: "inline" }}>
               <input type="hidden" name="lessonId" value={l.id} />
               <button name="direction" value="up" type="submit">Up</button>
@@ -99,6 +100,14 @@ export default async function CoursePage({
             <button type="submit">Save session</button>
           </form>
         </section>
+      ))}
+
+      {course.lessons.filter((l) => l.type === "VIDEO").map((l) => (
+        <form key={`cap-${l.id}`} action={attachCaptionAction} encType="multipart/form-data">
+          <input type="hidden" name="lessonId" value={l.id} />
+          <label>Captions for {l.title} (.vtt) <input name="captions" type="file" accept=".vtt,text/vtt" required /></label>{" "}
+          <button type="submit">Upload captions</button>
+        </form>
       ))}
 
       <h2>Upload a file lesson</h2>

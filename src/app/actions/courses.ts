@@ -3,7 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { requireSession } from "../../lib/auth/current-user";
-import { createCourse, addLesson, uploadLessonFile, setCoursePublished, reorderLessons } from "../../lib/learning/courses";
+import { createCourse, addLesson, uploadLessonFile, setCoursePublished, reorderLessons, attachCaption } from "../../lib/learning/courses";
 import { prisma } from "../../lib/db/client";
 import type { Level } from "../../generated/prisma/client";
 
@@ -92,4 +92,22 @@ export async function moveLessonAction(formData: FormData): Promise<void> {
   if (!result.ok) back(to, result.error, "error");
   revalidatePath(to);
   back(to, "Order updated", "notice");
+}
+
+export async function attachCaptionAction(formData: FormData): Promise<void> {
+  const actor = await requireSession();
+  const lessonId = text(formData, "lessonId");
+  const lesson = await prisma.lesson.findUnique({ where: { id: lessonId }, select: { courseId: true } });
+  const to = `/admin/courses/${lesson?.courseId ?? ""}`;
+  const file = formData.get("captions");
+  if (!(file instanceof File) || file.size === 0) back(to, "Choose a .vtt caption file", "error");
+  const result = await attachCaption(actor, lessonId, {
+    filename: (file as File).name,
+    mime: (file as File).type || "text/vtt",
+    sizeBytes: (file as File).size,
+    bytes: Buffer.from(await (file as File).arrayBuffer()),
+  });
+  if (!result.ok) back(to, result.error, "error");
+  revalidatePath(to);
+  back(to, "Captions saved", "notice");
 }
