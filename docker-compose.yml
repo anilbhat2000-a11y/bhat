@@ -20,6 +20,11 @@ services:
 
   app:
     build: .
+    image: lms-app
+    # Node uses one CPU core per process, so several replicas share the load. Nginx spreads
+    # requests across them. 3 replicas suit an 8 vCPU server (see docs/ARCHITECTURE.md).
+    deploy:
+      replicas: ${APP_REPLICAS:-3}
     depends_on:
       db:
         condition: service_healthy

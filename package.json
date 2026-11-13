@@ -41,6 +41,7 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "@vitest/coverage-v8": "^5.1.0",
+    "autocannon": "^8.0.0",
     "jsqr": "^1.4.0",
     "typescript": "^5",
     "vitest": "^5.1.0"
