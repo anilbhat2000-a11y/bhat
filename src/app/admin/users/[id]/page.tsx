@@ -1,7 +1,7 @@
 import { connection } from "next/server";
 import { notFound } from "next/navigation";
 import { prisma } from "../../../../lib/db/client";
-import { setActiveAction, updateUserAction } from "../../../actions/users";
+import { setActiveAction, updateUserAction, uploadUserPhotoAction } from "../../../actions/users";
 
 export default async function UserPage({
   params,
@@ -42,6 +42,14 @@ export default async function UserPage({
           </select>
         </label><br />
         <button type="submit">Save</button>
+      </form>
+
+      <h2>Photo</h2>
+      {user.photoFileKey ? <img src={`/api/photos/${user.id}`} alt={`Photo of ${user.name}`} width={96} height={96} /> : <p>No photo yet.</p>}
+      <form action={uploadUserPhotoAction} encType="multipart/form-data">
+        <input type="hidden" name="id" value={user.id} />
+        <input type="file" name="photo" accept="image/png,image/jpeg" required />{" "}
+        <button type="submit">Upload photo</button>
       </form>
 
       <form action={setActiveAction}>

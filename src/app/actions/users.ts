@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { requireSession } from "../../lib/auth/current-user";
 import { createUser, importUsers, setActive, updateUser } from "../../lib/admin/users";
+import { setUserPhoto } from "../../lib/profile/service";
 import type { Role } from "../../generated/prisma/client";
 
 const text = (fd: FormData, key: string) => String(fd.get(key) ?? "");
@@ -61,4 +62,22 @@ export async function updateUserAction(formData: FormData): Promise<void> {
   if (!result.ok) back(result.error, "error", `/admin/users/${id}`);
   revalidatePath("/admin/users");
   back("Saved", "notice", `/admin/users/${id}`);
+}
+
+// Admins set a user's photo from the user's page (JPG or PNG, up to 5 MB).
+export async function uploadUserPhotoAction(formData: FormData): Promise<void> {
+  const actor = await requireSession();
+  const id = text(formData, "id");
+  const to = `/admin/users/${id}`;
+  const file = formData.get("photo");
+  if (!(file instanceof File) || file.size === 0) back("Choose a photo", "error", to);
+  const result = await setUserPhoto(actor, id, {
+    filename: (file as File).name,
+    mime: (file as File).type,
+    sizeBytes: (file as File).size,
+    bytes: Buffer.from(await (file as File).arrayBuffer()),
+  });
+  if (!result.ok) back(result.error, "error", to);
+  revalidatePath("/admin/users");
+  back("Photo saved", "notice", to);
 }
