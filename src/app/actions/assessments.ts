@@ -31,6 +31,7 @@ export async function createAssessmentAction(formData: FormData): Promise<void> 
     maxAttemptsPerPeriod: Number(text(formData, "maxAttemptsPerPeriod") || 3),
     questionsPerAttempt: optionalInt(formData, "questionsPerAttempt"),
     showAnswersAfterSubmit: text(formData, "showAnswersAfterSubmit") === "on",
+    courseId: text(formData, "courseId") || null,
   });
   if (!result.ok) back("/admin/assessments", result.error, "error");
   revalidatePath("/admin/assessments");

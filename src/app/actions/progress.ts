@@ -18,7 +18,7 @@ export async function completeLessonAction(formData: FormData): Promise<void> {
 }
 
 // Called from the video player every few seconds.
-export async function savePositionAction(lessonId: string, seconds: number): Promise<void> {
+export async function savePositionAction(lessonId: string, seconds: number, duration?: number): Promise<void> {
   const actor = await requireSession();
-  await saveLessonPosition(actor, lessonId, seconds);
+  await saveLessonPosition(actor, lessonId, seconds, duration);
 }

@@ -70,7 +70,16 @@ export default async function CoursePage({
             <option value="ADVANCED">Advanced</option>
           </select>
         </label>{" "}
-        <label>Pass mark <input aria-label="Pass mark percent" name="passMarkPercent" type="number" min={1} max={100} defaultValue={course.passMarkPercent} /></label>{" "}
+        <label>Pass mark <input aria-label="Pass mark percent" name="passMarkPercent" type="number" min={1} max={100} defaultValue={course.passMarkPercent} /></label>
+        <fieldset>
+          <legend>Completion rules</legend>
+          <label>Videos: minimum watched before they can be completed (%){" "}
+            <input name="minVideoWatchPercent" type="number" min={0} max={100} defaultValue={course.minVideoWatchPercent} aria-describedby="video-rule-help" />
+          </label>
+          <small id="video-rule-help"> 0 means no rule. Skipping ahead does not count as watched.</small>
+          <br />
+          <label><input name="requireAssessmentPass" type="checkbox" defaultChecked={course.requireAssessmentPass} /> The course is complete only after its assessment is passed</label>
+        </fieldset>
         <button type="submit">Save course</button>
       </form>
       {course.status === "DRAFT" ? (

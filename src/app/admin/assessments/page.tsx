@@ -7,9 +7,10 @@ export default async function AssessmentsPage({ searchParams }: { searchParams: 
   await connection();
   await guardPortal(["ADMIN"]);
   const { error } = await searchParams;
-  const [assessments, subjects] = await Promise.all([
+  const [assessments, subjects, courses] = await Promise.all([
     prisma.assessment.findMany({ orderBy: { title: "asc" }, include: { subject: true } }),
     prisma.subject.findMany({ orderBy: { name: "asc" } }),
+    prisma.course.findMany({ where: { status: { not: "ARCHIVED" } }, orderBy: [{ subject: { name: "asc" } }, { title: "asc" }], select: { id: true, title: true, subject: { select: { name: true } } } }),
   ]);
 
   return (
@@ -46,6 +47,12 @@ export default async function AssessmentsPage({ searchParams }: { searchParams: 
         <input aria-label="Questions per attempt (optional)" name="questionsPerAttempt" type="number" min={1} placeholder="Questions per attempt (optional)" />{" "}
         <label>Attempts per period <input aria-label="Max attempts per period" name="maxAttemptsPerPeriod" type="number" min={1} max={10} defaultValue={3} /></label>{" "}
         <label><input name="showAnswersAfterSubmit" type="checkbox" defaultChecked /> Show correct answers after submit</label>{" "}
+        <label>Checks the course (optional, same subject){" "}
+          <select name="courseId" defaultValue="">
+            <option value="">No linked course</option>
+            {courses.map((c) => <option key={c.id} value={c.id}>{c.subject.name}: {c.title}</option>)}
+          </select>
+        </label>{" "}
         <button type="submit">Create assessment</button>
       </form>
     </main>

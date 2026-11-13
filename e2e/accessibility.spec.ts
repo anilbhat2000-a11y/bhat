@@ -41,3 +41,17 @@ for (const path of ["/admin/users", "/admin/subjects", "/admin/courses", "/admin
     await expectNoSeriousViolations(page);
   });
 }
+
+for (const [email, path] of [
+  ["manager@example.test", "/manager/team"],
+  ["manager@example.test", "/manager/team/summary"],
+  ["employee@example.test", "/learn"],
+  ["employee@example.test", "/learn/assessments"],
+  ["employee@example.test", "/learn/search?q=e2e"],
+]) {
+  test(`${path} has no serious or critical WCAG 2.1 AA violations`, async ({ page }) => {
+    await signIn(page, email);
+    await page.goto(path);
+    await expectNoSeriousViolations(page);
+  });
+}

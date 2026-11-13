@@ -68,13 +68,9 @@ export async function remedialBlock(userId: string, assessmentId: string, now: D
   });
   if (!plan) return null;
   if (plan.courseId) {
-    const progress = await prisma.courseProgress.findUnique({
-      where: { userId_courseId: { userId, courseId: plan.courseId } },
-      include: { course: { select: { title: true, status: true } } },
-    });
-    const course = progress?.course ?? (await prisma.course.findUnique({ where: { id: plan.courseId }, select: { title: true, status: true } }));
+    const course = await prisma.course.findUnique({ where: { id: plan.courseId }, select: { title: true, status: true } });
     // A course retired after the plan was made no longer blocks the retake.
-    if (course?.status === "PUBLISHED" && !progress?.completedAt) {
+    if (course?.status === "PUBLISHED" && !(await lessonsDone(userId, plan.courseId))) {
       return `Before your retake, work through the course "${course.title}" again.`;
     }
   }
@@ -85,6 +81,17 @@ export async function remedialBlock(userId: string, assessmentId: string, now: D
   return null;
 }
 
+// Every lesson of the course is completed. (Course completion itself may also need a pass,
+// which is what the retake is for, so it cannot be the condition here.)
+async function lessonsDone(userId: string, courseId: string): Promise<boolean> {
+  const [lessons, progress] = await Promise.all([
+    prisma.lesson.findMany({ where: { courseId }, select: { id: true } }),
+    prisma.courseProgress.findUnique({ where: { userId_courseId: { userId, courseId } } }),
+  ]);
+  const done = new Set((progress?.completedLessonIds as string[] | null) ?? []);
+  return lessons.length > 0 && lessons.every((l) => done.has(l.id));
+}
+
 export async function openRemedialsFor(userId: string) {
   const plans = await prisma.remedialPlan.findMany({
     where: { userId, status: "OPEN" },
@@ -92,12 +99,10 @@ export async function openRemedialsFor(userId: string) {
     include: { assessment: { select: { title: true } } },
   });
   const courseIds = plans.map((p) => p.courseId).filter((x): x is string => x !== null);
-  const [courses, progress] = await Promise.all([
-    prisma.course.findMany({ where: { id: { in: courseIds } }, select: { id: true, title: true } }),
-    prisma.courseProgress.findMany({ where: { userId, courseId: { in: courseIds } }, select: { courseId: true, completedAt: true } }),
-  ]);
+  const courses = await prisma.course.findMany({ where: { id: { in: courseIds } }, select: { id: true, title: true } });
   const titles = new Map(courses.map((c) => [c.id, c.title]));
-  const done = new Set(progress.filter((p) => p.completedAt).map((p) => p.courseId));
+  const done = new Set<string>();
+  for (const id of courseIds) if (await lessonsDone(userId, id)) done.add(id);
   return plans.map((p) => ({
     id: p.id,
     assessment: p.assessment.title,

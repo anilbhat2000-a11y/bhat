@@ -46,6 +46,8 @@ export async function updateCourseAction(formData: FormData): Promise<void> {
     description: text(formData, "description"),
     level: text(formData, "level") as Level,
     passMarkPercent: Number(text(formData, "passMarkPercent") || 70),
+    minVideoWatchPercent: Number(text(formData, "minVideoWatchPercent") || 0),
+    requireAssessmentPass: text(formData, "requireAssessmentPass") === "on",
   });
   if (!result.ok) redirect(`/admin/courses/${id}?error=${encodeURIComponent(result.error)}`);
   revalidatePath(`/admin/courses/${id}`);

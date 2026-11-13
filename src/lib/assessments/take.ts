@@ -73,6 +73,7 @@ export async function applyResult(
     return;
   }
   await tx.assessmentPeriod.update({ where: { id: input.periodId }, data: { status: "PASSED" } });
+  if (input.assessment.courseId) await completeCourseOnPass(tx, input.userId, input.assessment.courseId, input.now);
   const cert = await tx.certification.create({
     data: {
       userId: input.userId,
@@ -85,6 +86,18 @@ export async function applyResult(
     },
   });
   await recordAudit(tx, { actorId: input.actorId, action: "certificate.issue", entityType: "Certification", entityId: cert.id, after: { userId: input.userId, subjectId: input.assessment.subjectId, level: input.assessment.level } });
+}
+
+// A course that needs its assessment passed completes now, if every lesson is already done.
+async function completeCourseOnPass(tx: Tx, userId: string, courseId: string, now: Date): Promise<void> {
+  const course = await tx.course.findUnique({ where: { id: courseId }, select: { requireAssessmentPass: true, lessons: { select: { id: true } } } });
+  if (!course?.requireAssessmentPass) return;
+  const progress = await tx.courseProgress.findUnique({ where: { userId_courseId: { userId, courseId } } });
+  if (!progress || progress.completedAt) return;
+  const done = new Set((progress.completedLessonIds as string[] | null) ?? []);
+  if (course.lessons.length > 0 && course.lessons.every((l) => done.has(l.id))) {
+    await tx.courseProgress.update({ where: { id: progress.id }, data: { completedAt: now } });
+  }
 }
 
 // A failed result starts the remedial path: lessons again, then a scheduled retake.

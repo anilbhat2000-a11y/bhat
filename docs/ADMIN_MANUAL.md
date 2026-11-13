@@ -29,10 +29,23 @@ For L&D and HR administrators. Sign in and open the **Admin portal** (`/admin`).
    - **PDF or video:** use **Upload a file lesson**, choose the module, then the file. Videos must be MP4 (up to 500 MB). PDFs up to 50 MB.
    - **Captions:** every video needs a WebVTT (`.vtt`) caption file before the course can be published, so deaf and hard-of-hearing staff can follow it.
 4. **Order:** drag lessons to reorder them. **Lesson modules** lets you move several lessons between modules at once; lessons are then grouped by module automatically. Learners complete lessons in order.
-5. **Publish** when the course has at least one lesson, every video has captions, and every live session is scheduled.
-6. **Unpublish** hides a course for editing. **Archive (retire)** removes it from the catalogue for good while keeping everyone's records; learners who started it can still review it. **Restore to draft** brings an archived course back.
+5. **Completion rules** (in the course settings):
+   - **Videos: minimum watched (%)**, for example 90. A video lesson can be marked complete only after that share of it has actually been played. Skipping ahead does not count.
+   - **The course is complete only after its assessment is passed.** Lessons alone are not enough; the course completes when the linked assessment is passed (in either order).
+6. **Publish** when the course has at least one lesson, every video has captions, and every live session is scheduled.
+7. **Unpublish** hides a course for editing. **Archive (retire)** removes it from the catalogue for good while keeping everyone's records; learners who started it can still review it. **Restore to draft** brings an archived course back.
 
 **Changing content safely:** learners' progress is stored per lesson. Adding lessons at the end, fixing text, or replacing captions does not disturb anyone. To make large changes, create a new version of the course, publish it, and archive the old one. Learners who started the old course keep access to it.
+
+**Assigning a course:** once a course is published, use **Assignments** on the course page to make it mandatory for:
+
+- a **department** (everyone in it, including people who join later),
+- a **job title**, for mandatory-by-role training (everyone with that job title, including later joiners), or
+- one **person**.
+
+Add an optional due date. Learners see assigned courses with a countdown on their home page and get emails 3 days before, on the due date, and when overdue. If someone is covered by more than one assignment for the same course, the earliest due date applies. Managers can also assign published courses to people in their team. Learners can also start any published course themselves from the catalogue (self-enrolment): opening it and completing a lesson records their progress.
+
+**Feedback and Q&A:** learners who finish a course answer a short survey (usefulness from 1 to 5, and a comment); the course page shows the average and recent comments. Each course has a Q&A thread. Answer questions from the course's learner page (**Open the course Q&A**); your answers are labelled "(L&D)". **Hide** removes a post from learners' view and records it in the audit log; **Show** restores it.
 
 **Live sessions:** after adding a live-session lesson, schedule it with a date, time, meeting link, capacity and instructors. After the session, tick who attended; attendance completes the lesson for them. **Instructors** are managed under **Admin portal → Instructors**.
 
@@ -94,15 +107,33 @@ A certificate is issued automatically when a learner passes. It shows the name, 
 
 ## 6. Dashboards and reports
 
-**Admin portal → Dashboard** shows certifications by subject and level, course completion, company health by department (attempts, pass rate, overdue), and the overdue list. Download any view as CSV from the links on the page; CSV files open in Excel.
+**Admin portal → Dashboard.** Filter by **level**, **department**, **location** and **period** (last 7 days, 30 days, 12 months, or all time), then **Apply filters**. The period applies to the date of each event (certificate issued, course completed, attempt submitted). Overdue work and the expiry forecast are always as of today. Only active users are counted.
+
+| Section | What it shows |
+| --- | --- |
+| Certifications by subject | People certified per subject and level (renewals count once), active and expired, with a chart. |
+| Course completion by subject / by course | People who started, finished, and the completion rate. |
+| Course completions per month | Six-month trend, with a chart. |
+| Assessment results by subject and type | Attempts, pass rate, average score, and how many periods took 1, 2, or 3+ attempts, per subject and cadence (weekly, monthly, annual). |
+| Overdue and not-started work by department | Overdue and not-yet-attempted assessments, and overdue and not-started assigned courses. |
+| Top performers | Highest average scores (at least 2 attempts). |
+| Learners who need support | Anyone with overdue work, 2 or more failed attempts, or an average below 50%. |
+| Certificates expiring soon | Active certificates expiring within 30, 60 and 90 days, for re-certification planning. |
+| Company health | Attempts, passes and overdue periods per department. |
+
+**Exports:** every section has **Download CSV (Excel)**, using the same filters. The files open directly in Excel. **Print or save as PDF** prints the whole dashboard; choose "Save as PDF" in the print dialog.
+
+**Announcements:** **Admin portal → Announcements** posts a message to everyone or one department. It appears on their home page. Tick **Also send by email** to email it through the company SMTP server as well.
+
+**Search:** **Search courses, lessons and questions** finds courses (including drafts), lesson text, and question-bank questions.
 
 ## 7. Audit log
 
-**Admin portal → Audit log** lists every change to users, courses, lessons, modules, assessments, questions, assignments, attempts, grades, certificates and remedial plans, with who made it and when. Filter by type (User, Course, Assessment and so on). The log cannot be edited or deleted.
+**Admin portal → Audit log** lists every change to users, courses, lessons, modules, assessments, questions, assignments (assessment and course), attempts, grades, certificates, remedial plans, announcements and hidden Q&A posts, with who made it and when. Filter by type (User, Course, Assessment and so on). The log cannot be edited or deleted.
 
 ## 8. Reminders
 
-The scheduler runs every hour. Learners get an email 3 days before an assessment period is due, on the due date, and when it becomes overdue. Managers get a weekly list of overdue team members. Each reminder is sent once.
+The scheduler runs every hour. Learners get an email 3 days before an assessment period or an assigned course is due, on the due date, and when it becomes overdue. Managers get a weekly list of overdue team members. Each reminder is sent once.
 
 ## 9. Before go-live checklist
 

@@ -176,6 +176,10 @@ model Course {
   level           Level
   status          CourseStatus @default(DRAFT)
   passMarkPercent Int          @map("pass_mark_percent")
+  // Completion rules: a video lesson completes only after this share of it was actually
+  // played (0 = no rule); and the course completes only after a linked assessment is passed.
+  minVideoWatchPercent  Int     @default(0) @map("min_video_watch_percent")
+  requireAssessmentPass Boolean @default(false) @map("require_assessment_pass")
   createdAt       DateTime     @default(now()) @map("created_at")
   updatedAt       DateTime     @updatedAt @map("updated_at")
 
@@ -301,6 +305,10 @@ model LessonProgress {
   user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   lesson          Lesson   @relation(fields: [lessonId], references: [id], onDelete: Cascade)
   positionSeconds Int      @default(0) @map("position_seconds")
+  // Seconds actually played (forward steps only, so skipping ahead does not count), and the
+  // video length reported by the player.
+  watchedSeconds  Int      @default(0) @map("watched_seconds")
+  durationSeconds Int?     @map("duration_seconds")
   completed       Boolean  @default(false)
   checkedItemIds  Json     @default("[]") @map("checked_item_ids")
   updatedAt       DateTime @updatedAt @map("updated_at")

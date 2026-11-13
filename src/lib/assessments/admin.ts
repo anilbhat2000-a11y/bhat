@@ -20,10 +20,13 @@ export async function createAssessment(
     maxAttemptsPerPeriod?: number;
     questionsPerAttempt?: number | null;
     showAnswersAfterSubmit?: boolean;
+    courseId?: string | null;
   },
 ): Promise<Result> {
   asAdmin(actor);
   if (!input.title.trim()) return { ok: false, error: "Title is required" };
+  const linked = await checkLinkedCourse(input.courseId ?? null, input.subjectId);
+  if (!linked.ok) return linked;
   if (!Number.isInteger(input.passMarkPercent) || input.passMarkPercent < 1 || input.passMarkPercent > 100) {
     return { ok: false, error: "Pass mark must be between 1 and 100" };
   }
@@ -42,11 +45,22 @@ export async function createAssessment(
           maxAttemptsPerPeriod: attempts,
           questionsPerAttempt: input.questionsPerAttempt ?? null,
           showAnswersAfterSubmit: input.showAnswersAfterSubmit ?? false,
+          courseId: input.courseId || null,
         },
       }),
     (a) => ({ actorId: actor.id, action: "assessment.create", entityType: "Assessment", entityId: a.id, after: { title: a.title, cadence: a.cadence } }),
   );
   return { ok: true, id: assessment.id };
+}
+
+// The course an assessment checks must be in the same subject. Linking drives the remedial
+// path and the course's "complete only after a pass" rule.
+async function checkLinkedCourse(courseId: string | null, subjectId: string): Promise<{ ok: true } | { ok: false; error: string }> {
+  if (!courseId) return { ok: true };
+  const course = await prisma.course.findUnique({ where: { id: courseId }, select: { subjectId: true } });
+  if (!course) return { ok: false, error: "Linked course not found" };
+  if (course.subjectId !== subjectId) return { ok: false, error: "The linked course must be in the same subject" };
+  return { ok: true };
 }
 
 async function nextPosition(assessmentId: string): Promise<number> {
@@ -163,7 +177,8 @@ export async function setAssignments(
     for (const p of open) {
       if (stillAssigned.has(p.userId)) continue;
       const attempts = await tx.assessmentAttempt.count({ where: { periodId: p.id } });
-      if (attempts === 0) await tx.assessmentPeriod.delete({ where: { id: p.id } });
+      // deleteMany, so a period removed meanwhile (for example with its user) is not an error.
+      if (attempts === 0) await tx.assessmentPeriod.deleteMany({ where: { id: p.id } });
     }
     await recordAudit(tx, { actorId: actor.id, action: "assessment.assign", entityType: "Assessment", entityId: assessmentId, after: { targets } });
   });
@@ -219,9 +234,16 @@ export async function updateAssessmentSettings(
     proctored?: boolean;
     proctorMaxViolations?: number;
     retakeDelayHours?: number;
+    courseId?: string | null;
   },
 ): Promise<Result> {
   asAdmin(actor);
+  if (input.courseId !== undefined) {
+    const current = await prisma.assessment.findUnique({ where: { id }, select: { subjectId: true } });
+    if (!current) return { ok: false, error: "Assessment not found" };
+    const linked = await checkLinkedCourse(input.courseId, current.subjectId);
+    if (!linked.ok) return linked;
+  }
   if (input.proctorMaxViolations !== undefined && (!Number.isInteger(input.proctorMaxViolations) || input.proctorMaxViolations < 1 || input.proctorMaxViolations > 20)) {
     return { ok: false, error: "Allowed proctoring violations must be 1 to 20" };
   }

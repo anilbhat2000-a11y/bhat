@@ -35,7 +35,8 @@ afterAll(async () => {
 
 const run = async (at: string) => {
   const subjects: string[] = [];
-  await sendReminders(new Date(at), { send: async (to, subject) => { if (to === learnerEmail) subjects.push(subject); } }, { skipDigest: true });
+  // Only course reminders: other test files may assign assessments to everyone meanwhile.
+  await sendReminders(new Date(at), { send: async (to, subject) => { if (to === learnerEmail && subject.startsWith("Course")) subjects.push(subject); } }, { skipDigest: true });
   return subjects;
 };
 

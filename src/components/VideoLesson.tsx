@@ -22,17 +22,19 @@ export function VideoLesson({
     const video = ref.current;
     if (!video) return;
     const save = () => {
-      if (video.currentTime > 0) void savePositionAction(lessonId, Math.floor(video.currentTime));
+      if (video.currentTime > 0) void savePositionAction(lessonId, Math.floor(video.currentTime), Number.isFinite(video.duration) ? video.duration : undefined);
     };
     const onLoaded = () => {
       if (startAt > 0 && startAt < video.duration) video.currentTime = startAt;
     };
     video.addEventListener("loadedmetadata", onLoaded);
     video.addEventListener("pause", save);
+    video.addEventListener("ended", save);
     const timer = setInterval(save, 5000);
     return () => {
       video.removeEventListener("loadedmetadata", onLoaded);
       video.removeEventListener("pause", save);
+      video.removeEventListener("ended", save);
       clearInterval(timer);
     };
   }, [lessonId, startAt]);

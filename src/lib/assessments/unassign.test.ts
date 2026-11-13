@@ -14,13 +14,14 @@ let subjectId: string;
 
 beforeAll(async () => {
   admin.id = (await prisma.user.create({ data: { name: "A", email: `${tag}-a@example.test`, passwordHash: "x", role: "ADMIN" } })).id;
-  keep = (await prisma.user.create({ data: { name: "K", email: `${tag}-k@example.test`, passwordHash: "x", role: "EMPLOYEE" } })).id;
-  drop = (await prisma.user.create({ data: { name: "D", email: `${tag}-d@example.test`, passwordHash: "x", role: "EMPLOYEE" } })).id;
+  // A department of their own, so the assignment does not reach users of tests running in parallel.
+  keep = (await prisma.user.create({ data: { name: "K", email: `${tag}-k@example.test`, passwordHash: "x", role: "EMPLOYEE", department: `${tag}-dept` } })).id;
+  drop = (await prisma.user.create({ data: { name: "D", email: `${tag}-d@example.test`, passwordHash: "x", role: "EMPLOYEE", department: `${tag}-dept` } })).id;
   subjectId = (await prisma.subject.create({ data: { name: `${tag} s`, slug: `${tag}-s`, category: "TECHNICAL" } })).id;
   assessmentId = (await prisma.assessment.create({
     data: { subjectId, title: tag, cadence: "MONTHLY", level: "BASIC", passMarkPercent: 70, published: true },
   })).id;
-  await setAssignments(admin, assessmentId, [{ targetType: "ALL", targetValue: null }]);
+  await setAssignments(admin, assessmentId, [{ targetType: "DEPARTMENT", targetValue: `${tag}-dept` }]);
   await openPeriodsFor(assessmentId, new Date());
 });
 

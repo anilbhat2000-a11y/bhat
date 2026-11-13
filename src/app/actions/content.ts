@@ -45,6 +45,7 @@ export async function updateSettingsAction(formData: FormData): Promise<void> {
     proctored: text(formData, "proctored") === "on",
     proctorMaxViolations: Number(text(formData, "proctorMaxViolations") || 3),
     retakeDelayHours: Number(text(formData, "retakeDelayHours") || 0),
+    courseId: text(formData, "courseId") || null,
   });
   if (!result.ok) redirect(`${to}?error=${encodeURIComponent(result.error)}`);
   revalidatePath(to);

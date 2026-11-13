@@ -68,5 +68,8 @@ describe("admin assessment authoring", () => {
     await setAssignments(admin, assessmentId, [{ targetType: "ALL", targetValue: null }]);
     const rows = await prisma.assessmentAssignment.findMany({ where: { assessmentId } });
     expect(rows.map((r) => r.targetType)).toEqual(["ALL"]);
+    // Remove it at once: a published assessment assigned to everyone would reach the users
+    // of other test files running in parallel.
+    await prisma.assessmentAssignment.deleteMany({ where: { assessmentId } });
   });
 });

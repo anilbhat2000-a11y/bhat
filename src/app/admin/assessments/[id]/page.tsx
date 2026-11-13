@@ -23,6 +23,11 @@ export default async function AssessmentPage({
     include: { questions: { orderBy: { position: "asc" } }, assignments: true },
   });
   if (!assessment) notFound();
+  const subjectCourses = await prisma.course.findMany({
+    where: { subjectId: assessment.subjectId, OR: [{ status: { not: "ARCHIVED" } }, { id: assessment.courseId ?? "" }] },
+    orderBy: { title: "asc" },
+    select: { id: true, title: true },
+  });
   const people = await prisma.user.findMany({ where: { active: true }, select: { id: true, name: true, department: true }, orderBy: { name: "asc" } });
   const departments = [...new Set(people.map((p) => p.department).filter((d): d is string => Boolean(d)))].sort();
   const periods = await prisma.assessmentPeriod.findMany({
@@ -66,6 +71,12 @@ export default async function AssessmentPage({
         <label>Time limit (minutes) <input name="timeLimitMinutes" type="number" min={1} defaultValue={assessment.timeLimitMinutes ?? ""} /></label>{" "}
         <label>Questions per attempt <input name="questionsPerAttempt" type="number" min={1} defaultValue={assessment.questionsPerAttempt ?? ""} /></label>{" "}
         <label><input name="showAnswersAfterSubmit" type="checkbox" defaultChecked={assessment.showAnswersAfterSubmit} /> Show correct answers after submit</label>{" "}
+        <label>Checks the course{" "}
+          <select name="courseId" defaultValue={assessment.courseId ?? ""}>
+            <option value="">No linked course</option>
+            {subjectCourses.map((c) => <option key={c.id} value={c.id}>{c.title}</option>)}
+          </select>
+        </label>{" "}
         <label>Retake delay after a fail (hours) <input name="retakeDelayHours" type="number" min={0} max={720} defaultValue={assessment.retakeDelayHours} /></label>
         <br />
         <label><input name="proctored" type="checkbox" defaultChecked={assessment.proctored} /> Proctored mode (full screen required; leaving it or switching tabs is recorded)</label>{" "}

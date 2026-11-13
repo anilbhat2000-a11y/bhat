@@ -9,7 +9,7 @@ This document describes how the LMS for 3C IT Solutions and Telecoms India Ltd i
         │  HTTPS (internal CA certificate)
         ▼
  ┌──────────────┐     ┌───────────────────────────────┐     ┌──────────────┐
- │ Nginx        │────▶│ Next.js app (Node.js 22)       │────▶│ PostgreSQL 16│
+ │ Nginx        │────▶│ Next.js app × 3 replicas       │────▶│ PostgreSQL 16│
  │ TLS, gzip,   │     │  • pages for /admin /manager   │     └──────────────┘
  │ upload limit │     │    /learn (React server        │            ▲
  └──────────────┘     │    components)                 │            │ pg_dump
@@ -79,12 +79,15 @@ All containers run from Docker Compose on one server. No container reaches the i
 
 ## 4. Data model (summary)
 
-- **Organisation:** `users` (role ADMIN / MANAGER / EMPLOYEE, department, location, manager_id). Departments and locations are values on the user, so an import can create them. Managers see their whole reporting line (direct and indirect).
+- **Organisation:** `users` (role ADMIN / MANAGER / EMPLOYEE, department, job title, location, manager_id). Departments, job titles and locations are values on the user, so an import can create them. Managers see their whole reporting line (direct and indirect).
 - **Catalogue:** `subjects` → `courses` (level BASIC / INTERMEDIATE / ADVANCED, status DRAFT / PUBLISHED / ARCHIVED) → `modules` → `lessons` (TEXT, PDF, VIDEO, LINK, LIVE_SESSION, LAB).
+- **Enrolment:** `course_assignments` (to a USER, DEPARTMENT or JOB_TITLE, with an optional due date; department and job title resolve when read, so later joiners are enrolled automatically). Learners can also start any published course themselves.
 - **Progress:** `course_progress` (completed lessons, last lesson) and `lesson_progress` (video position, lab checklist).
-- **Assessments:** `assessments` (cadence ONE_TIME / WEEKLY / MONTHLY / ANNUAL, pass mark, time limit, attempts, pool size, proctored flag) → `questions` (single, multiple, true/false, fill-in-the-blank, matching, short answer, with an optional scenario). `assessment_assignments` target everyone, a department, or a user. `assessment_periods` hold one row per user per period, and `assessment_attempts` hold each attempt with its answers, grading state, and proctoring events.
-- **Certification:** `certifications` with a 12-character verification code and an expiry date (default 12 months, set per subject).
-- **Operations:** `notifications` (sent once), `audit_events` (append-only), `sessions`.
+- **Assessments:** `assessments` (cadence ONE_TIME / WEEKLY / MONTHLY / ANNUAL, pass mark, time limit, attempts, pool size, retake delay, proctored mode) → `questions` (SINGLE, MULTIPLE, TRUE_FALSE, FILL_BLANK, MATCHING, SHORT_ANSWER, each with an optional scenario and explanation). `assessment_assignments` target everyone, a department, or a user. `assessment_periods` hold one row per user per period, and `assessment_attempts` hold each attempt with its answers, reviewer marks, and proctoring events. Attempts with short answers wait as AWAITING_GRADING.
+- **Remedial path:** `remedial_plans` (opened on a fail: the linked course is redone, and the retake opens after a delay; managers comment).
+- **Certification:** `certifications` with a 12-character verification code, a QR code on the PDF, and an expiry date (default 12 months, set per subject).
+- **Community:** `announcements`, `course_feedback` (end-of-course survey), `course_posts` (Q&A, moderated).
+- **Operations:** `notifications` (each reminder sent once), `audit_events` (append-only), `sessions`, `login_failures` (sign-in rate limit).
 
 ## 5. Security
 
@@ -97,20 +100,20 @@ All containers run from Docker Compose on one server. No container reaches the i
 - Backups are encrypted with AES-256 (GPG symmetric) before they are written.
 - The audit log has no update or delete path in the app.
 
-## 6. Sizing assumptions (300 concurrent users)
+## 6. Sizing (300 concurrent users)
 
 The target server is 8 vCPU, 16 GB RAM, and SSD storage.
 
-| Item | Assumption |
+| Item | Assumption or measurement |
 | --- | --- |
-| Concurrent users | 300 signed in, about 10% submitting or saving at the same moment |
-| App | One Node.js process handles about 150–250 page requests per second for these pages on 2 cores. Run 2 replicas behind Nginx if load tests show CPU saturation. |
-| Database | Postgres with `shared_buffers` 4 GB and `max_connections` 100. The Prisma pool is 10 per app process. |
-| Video | A 720p MP4 at about 2.5 Mbps. 40 simultaneous viewers need about 100 Mbps, so a 1 Gbps LAN link carries about 300 viewers. Nginx serves byte ranges, so seeking does not re-download. |
+| Concurrent users | 300 signed in. A busy user opens a page about every 10 seconds, so about 30 page requests per second. |
+| App | One Node.js process uses one core and handles about 70 page requests per second on the test machine (4 vCPU). Production runs 3 replicas (`APP_REPLICAS`) behind Nginx, leaving cores for PostgreSQL, Nginx and the OS. Measured on the 4 vCPU test machine through Nginx with 3 replicas: 300 connections at 90 requests per second (three times the expected load), no errors, median 203 ms, 99th percentile 870 ms. See `TESTING.md` section 4. |
+| Database | PostgreSQL with `shared_buffers` 4 GB, `effective_cache_size` 10 GB and `max_connections` 100. Each app process pools 10 connections. Typical page queries take 1–5 ms. |
+| Video | A 720p MP4 at about 2.5 Mbps. 40 simultaneous viewers need about 100 Mbps, so a 1 Gbps LAN link carries about 300 viewers. Video is served with byte ranges, so seeking does not re-download. |
 | Storage | About 200 MB per hour of 720p video. Budget 200 GB for content and 3× the database size for 14 days of backups. |
-| Page load | Under 2 seconds on the LAN. Pages are server-rendered, and the static shell is prerendered. |
+| Page load | Under 2 seconds on the LAN: pages are server-rendered, each takes 10–25 ms to render unloaded, and the static shell and scripts are cached. |
 
-These numbers are estimates. Phase 4 load testing must confirm them on the real server.
+Phase 4 must repeat the load test on the production server with real data.
 
 ## 7. Assumptions
 
@@ -132,10 +135,65 @@ These numbers are estimates. Phase 4 load testing must confirm them on the real 
 | 2 | Branding: logo, colours, and the exact legal name for certificates. | Text logo, "3C IT Solutions and Telecoms India Ltd". |
 | 3 | SMTP host, port, account, and sender address. | Set in `.env`. Reminders are not sent until it is set. |
 | 4 | Is proctored mode required for the annual exam, and how many violations end an attempt? | Off by default. 3 violations when on. |
-| 5 | Will third-party SCORM content be bought? SCORM needs a runtime player that is not built yet. | Not supported. Upload as MP4/PDF instead. |
+| 5 | Will third-party SCORM content be bought? SCORM needs a runtime player that is not built yet. | Not supported. Upload as MP4/PDF, or ask the vendor for those formats. |
 | 6 | Which weekday should weekly assessments open? | Monday. |
 | 7 | Data retention: how long to keep attempts, audit events, and deactivated users. | Keep everything. |
 | 8 | Backup target: a second disk, a NAS, or offsite media? | `./backups` on the same server. Move this to another disk. |
 | 9 | Server OS: Ubuntu Server or Windows Server? | Ubuntu Server 24.04 with Docker. |
 | 10 | Who are the subject-matter experts who will moderate course Q&A? | Admins only. |
 | 11 | Locations: the list of offices. | Free text on the user. |
+| 12 | Should questions be tagged by topic below subject level (for finer weak-topic analysis)? | Weak topics are reported per subject. |
+| 13 | Should managers also grade short answers for their team, or only L&D? | L&D admins only. |
+| 14 | Should course reminders also go to the manager? | Learner only; managers see overdue courses in the dashboards. |
+
+## 9. Brief coverage
+
+Status: **Done** (built and tested), **Partial** (part built; the rest is listed), **Open** (needs a company decision, see section 8).
+
+| Brief section | Requirement | Status | Where |
+| --- | --- | --- | --- |
+| 2 | Node.js + Next.js + PostgreSQL, local file storage | Done | This document |
+| 2 | bcrypt passwords; LDAP/AD later | Done / Open | `src/lib/auth`; question 1 |
+| 2 | HTML5 video with progress tracking | Done | `src/components/VideoLesson.tsx` |
+| 2 | SCORM 1.2 / 2004 | Open | Question 5 |
+| 2 | Docker Compose, Nginx, HTTPS, no internet at runtime | Done | `docker-compose.yml`, `deploy/nginx`, `e2e/offline.spec.ts` |
+| 2 | Daily automated backup with restore instructions | Done | `deploy/backup`, `INSTALL.md` §7 |
+| 3 | Admin: courses, modules, lessons, assessments; draft/publish/archive | Done | `/admin/courses`, `/admin/assessments` |
+| 3 | Admin: upload video, PDF, images, links | Done | PPTX/DOCX: convert to PDF (Partial) |
+| 3 | Admin: question banks with all question types | Done | `src/lib/import/questions.ts` |
+| 3 | Admin: users, CSV import, roles, departments, managers | Done | `/admin/users`. Excel: save as CSV (Partial) |
+| 3 | Admin: assign courses and assessments with due dates | Done | Course assignments, assessment assignments |
+| 3 | Admin: certificate rules, validity, re-certification | Done | Per-subject validity; renewal by passing again. Custom templates and revocation: not built (Partial) |
+| 3 | Admin: audit logs and report export | Done | `/admin/audit`, CSV exports |
+| 3 | Manager: team-only view, progress, scores, attempts, weak topics, certificates | Done | `/manager/team` |
+| 3 | Manager: approve or comment on remedial plans | Done | Member page |
+| 3 | Manager: assign mandatory courses within the catalogue | Done | Member page |
+| 3 | Manager: download team reports | Done | CSV and print to PDF |
+| 3 | Employee: dashboard, courses, resume, assessments, results, certificates, self-enrol | Done | `/learn` |
+| 4 | 17 subjects × 3 levels with objectives, modules, prerequisites, paths, content placeholders | Done | `CATALOGUE.md`, `content/catalogue.json` |
+| 5 | Weekly, monthly, annual assessments; pools; shuffling; attempts; time limits; pass marks | Done | `src/lib/assessments` |
+| 5 | Proctored mode (full screen, tab-switch detection) | Done | `src/components/ProctorGuard.tsx` |
+| 5 | Automatic grading; manual grading queue with reviewer notes | Done | `/admin/grading` |
+| 5 | Certificates with verification ID and QR code; validity | Done | `src/lib/certificates` |
+| 5 | Remedial path: lessons again, scheduled retake | Done | `src/lib/assessments/remedial.ts` |
+| 6 | Bulk and single upload; drag-and-drop ordering | Done | Lessons are added one by one or by streaming upload; bulk ZIP upload is not built (Partial) |
+| 6 | Content versioning so updates do not break learners | Partial | Progress is per lesson; large changes use a new course version and archive the old one (`ADMIN_MANUAL.md` §3) |
+| 6 | Completion rules (watch video, pass quiz) | Done | Per course: minimum share of each video actually played (skipping ahead does not count), and "complete only after the assessment is passed" |
+| 6 | Announcements: in-app and email | Done | `/admin/announcements` |
+| 7 | Admin dashboard with filters, all views, PDF and Excel export | Done | `/admin/dashboard`; Excel through CSV, PDF through print |
+| 7 | Manager heat map, drill-down, approval workflow | Done | `/manager/team/summary`, member page |
+| 7 | Employee progress bars, countdowns, certificates, recommendations | Done | `/learn` |
+| 8 | Discussion / Q&A per course, moderated | Done | Course page |
+| 8 | Feedback survey after each course | Done | Course page |
+| 8 | Notifications: due dates, schedules, certificates, manager alerts | Done | Email reminders for assessments and assigned courses; weekly manager digest; certificates show on the home page |
+| 8 | Search across courses, content and questions | Done | `/learn/search` |
+| 8 | Full audit trail | Done | `audit_events` |
+| 9 | 300 concurrent users | Done (measured on test hardware) | §6 and `TESTING.md` §4 |
+| 9 | WCAG 2.1 AA basics | Done | `e2e/accessibility.spec.ts` |
+| 9 | HTTPS, server-side RBAC, validation, SQLi/XSS/CSRF, rate-limited login, session timeout, encrypted backups | Done | §5 |
+| 9 | Data retention and export policies configurable by admin | Open | Question 7 |
+| 9 | Logs with rotation | Done | Docker log rotation (`docker-compose.yml`) |
+| 9 | Installation guide, admin manual, user guide | Done | `INSTALL.md`, `ADMIN_MANUAL.md`, `USER_GUIDE.md` |
+| 10 | Tests and demo checklist per phase | Done | `TESTING.md` |
+| 11 | Seed data: 3 departments, 6 users, 2 subjects with 20 questions each, labelled placeholder | Done | `src/lib/seed/run.ts`, `content/question-banks` |
+| 12 | Acceptance criteria | Done | `TESTING.md` §2 |

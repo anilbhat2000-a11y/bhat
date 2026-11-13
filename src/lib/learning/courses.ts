@@ -44,9 +44,12 @@ export async function createCourse(
 export async function updateCourse(
   actor: SessionUser,
   id: string,
-  patch: { title?: string; description?: string; level?: Level; passMarkPercent?: number },
+  patch: { title?: string; description?: string; level?: Level; passMarkPercent?: number; minVideoWatchPercent?: number; requireAssessmentPass?: boolean },
 ): Promise<Result> {
   asAdmin(actor);
+  if (patch.minVideoWatchPercent !== undefined && (!Number.isInteger(patch.minVideoWatchPercent) || patch.minVideoWatchPercent < 0 || patch.minVideoWatchPercent > 100)) {
+    return { ok: false, error: "Minimum video watched must be 0 to 100%" };
+  }
   await writeWithAudit((tx) => tx.course.update({
     where: { id },
     data: {
@@ -54,6 +57,8 @@ export async function updateCourse(
       ...(patch.description !== undefined && { description: patch.description.trim() || null }),
       ...(patch.level !== undefined && { level: patch.level }),
       ...(patch.passMarkPercent !== undefined && { passMarkPercent: patch.passMarkPercent }),
+      ...(patch.minVideoWatchPercent !== undefined && { minVideoWatchPercent: patch.minVideoWatchPercent }),
+      ...(patch.requireAssessmentPass !== undefined && { requireAssessmentPass: patch.requireAssessmentPass }),
     },
   }), () => ({ actorId: actor.id, action: "course.update", entityType: "Course", entityId: id, after: { ...patch } }));
   return { ok: true, id };
