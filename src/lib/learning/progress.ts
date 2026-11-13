@@ -13,6 +13,11 @@ type Done = { ok: true } | { ok: false; error: string };
 
 // Lessons must be completed in order. Completing an already completed lesson is accepted.
 export async function completeLesson(actor: SessionUser, lessonId: string): Promise<Done> {
+  const lesson = await prisma.lesson.findUnique({ where: { id: lessonId }, select: { type: true } });
+  // A live session completes when attendance is recorded, not when the learner presses a button.
+  if (lesson?.type === "LIVE_SESSION") {
+    return { ok: false, error: "This lesson is completed when your attendance is recorded" };
+  }
   return completeLessonForUser(actor.id, lessonId);
 }
 

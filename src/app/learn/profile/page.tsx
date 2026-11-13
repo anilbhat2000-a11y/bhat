@@ -3,6 +3,7 @@ import { requireSession } from "../../../lib/auth/current-user";
 import { prisma } from "../../../lib/db/client";
 import { initialsFor } from "../../../lib/profile/initials";
 import { saveProfileAction, uploadPhotoAction } from "../../actions/profile";
+import { changePasswordAction } from "../../actions/account";
 
 export default async function ProfilePage({ searchParams }: { searchParams: Promise<{ error?: string; notice?: string }> }) {
   await connection();
@@ -34,6 +35,15 @@ export default async function ProfilePage({ searchParams }: { searchParams: Prom
           <input type="hidden" name="userId" value={user.id} />
           <input type="file" name="photo" accept="image/png,image/jpeg" required />{" "}
           <button type="submit">Upload photo</button>
+        </form>
+      </section>
+
+      <section>
+        <h2>Change password</h2>
+        <form action={changePasswordAction}>
+          <label>Current password <input name="current" type="password" autoComplete="current-password" required /></label>{" "}
+          <label>New password (8+ characters) <input name="next" type="password" minLength={8} autoComplete="new-password" required /></label>{" "}
+          <button type="submit">Change password</button>
         </form>
       </section>
 

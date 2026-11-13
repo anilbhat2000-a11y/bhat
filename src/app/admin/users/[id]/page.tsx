@@ -3,6 +3,7 @@ import { guardPortal } from "../../../../lib/auth/portal";
 import { notFound } from "next/navigation";
 import { prisma } from "../../../../lib/db/client";
 import { setActiveAction, updateUserAction, uploadUserPhotoAction } from "../../../actions/users";
+import { setUserPasswordAction } from "../../../actions/account";
 
 export default async function UserPage({
   params,
@@ -52,6 +53,13 @@ export default async function UserPage({
         <input type="hidden" name="id" value={user.id} />
         <input type="file" name="photo" accept="image/png,image/jpeg" required />{" "}
         <button type="submit">Upload photo</button>
+      </form>
+
+      <h2>Reset password</h2>
+      <form action={setUserPasswordAction}>
+        <input type="hidden" name="id" value={user.id} />
+        <label>New password (8+ characters) <input name="next" type="password" minLength={8} autoComplete="new-password" required /></label>{" "}
+        <button type="submit">Set password</button>
       </form>
 
       <form action={setActiveAction}>

@@ -5,6 +5,7 @@ import { prisma } from "../../../../lib/db/client";
 import { addLessonAction, moveLessonAction, setPublishedAction, uploadLessonAction } from "../../../actions/courses";
 import { markAttendanceAction, scheduleSessionAction } from "../../../actions/live";
 import { attachCaptionAction } from "../../../actions/courses";
+import { deleteCourseAction, updateCourseAction } from "../../../actions/account";
 
 export default async function CoursePage({
   params,
@@ -32,6 +33,27 @@ export default async function CoursePage({
       <p>Status: {course.status === "PUBLISHED" ? "Published" : "Draft"}</p>
       {error ? <p role="alert">{error}</p> : null}
       {notice ? <p role="status">{notice}</p> : null}
+
+      <form action={updateCourseAction}>
+        <input type="hidden" name="id" value={course.id} />
+        <label>Title <input name="title" defaultValue={course.title} required /></label>{" "}
+        <label>Description <input name="description" defaultValue={course.description ?? ""} /></label>{" "}
+        <label>Level
+          <select name="level" defaultValue={course.level}>
+            <option value="BASIC">Basic</option>
+            <option value="INTERMEDIATE">Intermediate</option>
+            <option value="ADVANCED">Advanced</option>
+          </select>
+        </label>{" "}
+        <label>Pass mark <input name="passMarkPercent" type="number" min={1} max={100} defaultValue={course.passMarkPercent} /></label>{" "}
+        <button type="submit">Save course</button>
+      </form>
+      {course.status === "DRAFT" ? (
+        <form action={deleteCourseAction}>
+          <input type="hidden" name="id" value={course.id} />
+          <button type="submit">Delete this draft course</button>
+        </form>
+      ) : null}
 
       <form data-test="publish" action={setPublishedAction}>
         <input type="hidden" name="courseId" value={course.id} />

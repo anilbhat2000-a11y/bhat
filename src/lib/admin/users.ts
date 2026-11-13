@@ -1,6 +1,6 @@
 import { prisma } from "../db/client";
 import { requireRole } from "../auth/guards";
-import { hashPassword } from "../auth/password";
+import { hashPassword, verifyPassword } from "../auth/password";
 import { reportingLineIds } from "../auth/scope";
 import type { SessionUser } from "../auth/session";
 import { parseCsvRows } from "../import/csv";
@@ -195,3 +195,28 @@ export async function importUsers(
   return { ok: true, created };
 }
 
+
+// A learner changes their own password, after proving the current one.
+export async function changeOwnPassword(actor: SessionUser, current: string, next: string): Promise<Result> {
+  const user = await prisma.user.findUnique({ where: { id: actor.id } });
+  if (!user || !(await verifyPassword(current, user.passwordHash))) return { ok: false, error: "The current password is wrong" };
+  if (next.length < 8) return { ok: false, error: "The new password must be at least 8 characters" };
+  await prisma.$transaction(async (tx) => {
+    await tx.user.update({ where: { id: actor.id }, data: { passwordHash: await hashPassword(next) } });
+    await recordAudit(tx, { actorId: actor.id, action: "user.password.change", entityType: "User", entityId: actor.id });
+  });
+  return { ok: true, id: actor.id };
+}
+
+// An admin sets a new password for a user. Their sessions end, so they must sign in again.
+export async function setUserPassword(actor: SessionUser, id: string, next: string): Promise<Result> {
+  asAdmin(actor);
+  if (next.length < 8) return { ok: false, error: "The new password must be at least 8 characters" };
+  const hash = await hashPassword(next);
+  await prisma.$transaction(async (tx) => {
+    await tx.user.update({ where: { id }, data: { passwordHash: hash } });
+    await tx.session.deleteMany({ where: { userId: id } });
+    await recordAudit(tx, { actorId: actor.id, action: "user.password.reset", entityType: "User", entityId: id });
+  });
+  return { ok: true, id };
+}

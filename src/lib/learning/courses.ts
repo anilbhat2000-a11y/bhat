@@ -203,3 +203,16 @@ export async function attachCaption(
   if (lesson.captionFileKey) await storage.delete(lesson.captionFileKey);
   return { ok: true, id: lessonId };
 }
+
+// Only a draft can be deleted. Its lessons go with it; uploaded files are not removed here.
+export async function deleteCourse(actor: SessionUser, id: string): Promise<Result> {
+  asAdmin(actor);
+  const course = await prisma.course.findUnique({ where: { id }, select: { status: true, title: true } });
+  if (!course) return { ok: false, error: "Course not found" };
+  if (course.status !== "DRAFT") return { ok: false, error: "Unpublish the course before deleting it" };
+  await prisma.$transaction(async (tx) => {
+    await tx.course.delete({ where: { id } });
+    await recordAudit(tx, { actorId: actor.id, action: "course.delete", entityType: "Course", entityId: id, before: { title: course.title } });
+  });
+  return { ok: true, id };
+}
