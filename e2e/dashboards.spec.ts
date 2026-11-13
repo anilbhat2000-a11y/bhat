@@ -14,7 +14,7 @@ test("the admin dashboard shows every section of the brief, filters, and exports
   await page.goto("/admin/dashboard");
   for (const heading of [
     "Certifications by subject", "Course completion by subject", "Course completion by course", "Course completions per month",
-    "Assessment results by subject and type", "Overdue and not-started assessments by department", "Top performers",
+    "Assessment results by subject and type", "Overdue and not-started work by department", "Top performers",
     "Learners who need support", "Certificates expiring soon", "Company health",
   ]) {
     await expect(page.getByRole("heading", { name: heading, exact: true })).toBeVisible();

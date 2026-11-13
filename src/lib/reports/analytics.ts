@@ -3,6 +3,7 @@ import type { SessionUser } from "../auth/session";
 import type { Cadence, Level } from "../../generated/prisma/client";
 import { scopeFor } from "./queries";
 import { certsBySubject, latestPerPerson } from "./aggregate";
+import { resolveAssignments } from "../learning/assignments";
 
 // Dashboard analytics (brief section 7). The loader reads the rows a viewer may see once;
 // every view is then a pure function of those rows, so the numbers are easy to test against
@@ -50,7 +51,8 @@ export type AttemptRow = {
 };
 export type PeriodRow = { id: string; userId: string; subject: string; level: Level; status: "OPEN" | "PASSED" | "OVERDUE"; attemptCount: number; dueAt: Date };
 export type CertRow = { userId: string; subject: string; level: Level; issuedAt: Date; expiresAt: Date };
-export type Rows = { users: UserRow[]; courses: CourseRow[]; progress: ProgressRow[]; attempts: AttemptRow[]; periods: PeriodRow[]; certs: CertRow[] };
+export type AssignedRow = { userId: string; courseId: string; dueAt: Date | null };
+export type Rows = { users: UserRow[]; courses: CourseRow[]; progress: ProgressRow[]; attempts: AttemptRow[]; periods: PeriodRow[]; certs: CertRow[]; assigned: AssignedRow[] };
 
 // --- Filtering ----------------------------------------------------------------------------
 
@@ -69,6 +71,7 @@ export function applyFilters(rows: Rows, f: Filters): Rows {
     attempts: rows.attempts.filter((a) => ids.has(a.userId) && levelOk(a.level)),
     periods: rows.periods.filter((p) => ids.has(p.userId) && levelOk(p.level)),
     certs: rows.certs.filter((c) => ids.has(c.userId) && levelOk(c.level)),
+    assigned: rows.assigned.filter((a) => ids.has(a.userId) && courseIds.has(a.courseId)),
   };
 }
 
@@ -145,11 +148,13 @@ export function assessmentView(rows: Rows, period: Period, now: Date) {
   return bySubject;
 }
 
-// Current state, not windowed: overdue periods, and open periods with no attempt yet.
-export function departmentView(rows: Rows) {
+// Current state, not windowed: overdue assessment periods and open periods with no attempt
+// yet; and assigned courses that are past due, or not started.
+export function departmentView(rows: Rows, now: Date = new Date()) {
   const dept = new Map(rows.users.map((u) => [u.id, u.department || "(no department)"]));
-  const tally = new Map<string, { department: string; overdue: number; notStarted: number; people: number }>();
-  const row = (d: string) => tally.get(d) ?? { department: d, overdue: 0, notStarted: 0, people: 0 };
+  type Tally = { department: string; overdue: number; notStarted: number; people: number; coursesOverdue: number; coursesNotStarted: number };
+  const tally = new Map<string, Tally>();
+  const row = (d: string): Tally => tally.get(d) ?? { department: d, overdue: 0, notStarted: 0, people: 0, coursesOverdue: 0, coursesNotStarted: 0 };
   for (const u of rows.users) {
     const r = row(dept.get(u.id) ?? "");
     r.people++;
@@ -159,6 +164,15 @@ export function departmentView(rows: Rows) {
     const r = row(dept.get(p.userId) ?? "(no department)");
     if (p.status === "OVERDUE") r.overdue++;
     else if (p.status === "OPEN" && p.attemptCount === 0) r.notStarted++;
+    tally.set(r.department, r);
+  }
+  const progress = new Map(rows.progress.map((p) => [`${p.userId}|${p.courseId}`, p]));
+  for (const a of rows.assigned) {
+    const p = progress.get(`${a.userId}|${a.courseId}`);
+    if (p?.completedAt) continue;
+    const r = row(dept.get(a.userId) ?? "(no department)");
+    if (a.dueAt && a.dueAt.getTime() < now.getTime()) r.coursesOverdue++;
+    else if (!p || p.completedCount === 0) r.coursesNotStarted++;
     tally.set(r.department, r);
   }
   return [...tally.values()].sort((a, b) => a.department.localeCompare(b.department));
@@ -283,7 +297,7 @@ export async function loadRows(viewer: SessionUser, opts: { onlyUserId?: string 
   const userWhere = scope === null ? { active: true } : { id: { in: [...scope] }, active: true };
   const userIdIn = scope === null ? undefined : { in: [...scope] };
   const [users, courses, progress, attempts, periods, certs] = await Promise.all([
-    prisma.user.findMany({ where: userWhere, select: { id: true, name: true, department: true, location: true }, orderBy: { name: "asc" } }),
+    prisma.user.findMany({ where: userWhere, select: { id: true, name: true, department: true, location: true, jobTitle: true }, orderBy: { name: "asc" } }),
     prisma.course.findMany({ where: { status: "PUBLISHED" }, select: { id: true, title: true, level: true, subject: { select: { name: true } }, _count: { select: { lessons: true } } } }),
     prisma.courseProgress.findMany({ where: { userId: userIdIn }, select: { userId: true, courseId: true, completedLessonIds: true, completedAt: true } }),
     prisma.assessmentAttempt.findMany({
@@ -298,6 +312,7 @@ export async function loadRows(viewer: SessionUser, opts: { onlyUserId?: string 
     }),
     prisma.certification.findMany({ where: { userId: userIdIn }, select: { userId: true, level: true, issuedAt: true, expiresAt: true, subject: { select: { name: true } } } }),
   ]);
+  const assignments = await prisma.courseAssignment.findMany({ where: { course: { status: "PUBLISHED" } } });
   return {
     users: users.map((u) => ({ id: u.id, name: u.name, department: u.department ?? "", location: u.location ?? "" })),
     courses: courses.map((c) => ({ id: c.id, title: c.title, subject: c.subject.name, level: c.level, lessonCount: c._count.lessons })),
@@ -312,6 +327,7 @@ export async function loadRows(viewer: SessionUser, opts: { onlyUserId?: string 
       status: p.status, attemptCount: p._count.attempts, dueAt: p.dueAt,
     })),
     certs: certs.map((c) => ({ userId: c.userId, subject: c.subject.name, level: c.level, issuedAt: c.issuedAt, expiresAt: c.expiresAt })),
+    assigned: resolveAssignments(users, assignments),
   };
 }
 

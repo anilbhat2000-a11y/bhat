@@ -43,6 +43,11 @@ const rows: Rows = {
     { userId: "u3", subject: "NETWORKING", level: "BASIC", issuedAt: days(-60), expiresAt: days(45) },
     { userId: "u2", subject: "Sales", level: "INTERMEDIATE", issuedAt: days(-400), expiresAt: days(-35) },
   ],
+  assigned: [
+    { userId: "u1", courseId: "c1", dueAt: days(-1) }, // completed, so not counted
+    { userId: "u2", courseId: "c1", dueAt: days(-1) }, // overdue
+    { userId: "u3", courseId: "c1", dueAt: days(10) }, // not started
+  ],
 };
 
 describe("dashboard views", () => {
@@ -89,10 +94,10 @@ describe("dashboard views", () => {
     expect(view.some((v) => v.subject === "NETWORKING")).toBe(false);
   });
 
-  it("counts overdue and not-started work by department", () => {
-    expect(departmentView(rows)).toEqual([
-      { department: "Sales", overdue: 1, notStarted: 0, people: 2 },
-      { department: "Technical Services", overdue: 0, notStarted: 1, people: 1 },
+  it("counts overdue and not-started assessments and assigned courses by department", () => {
+    expect(departmentView(rows, NOW)).toEqual([
+      { department: "Sales", overdue: 1, notStarted: 0, people: 2, coursesOverdue: 1, coursesNotStarted: 0 },
+      { department: "Technical Services", overdue: 0, notStarted: 1, people: 1, coursesOverdue: 0, coursesNotStarted: 1 },
     ]);
   });
 

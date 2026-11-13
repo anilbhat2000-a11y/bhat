@@ -2,6 +2,7 @@ import { prisma } from "../db/client";
 import { periodKeyFor } from "../assessments/periods";
 import type { Mailer } from "./mailer";
 import { overdueByManager, remindersDue, type ReminderType } from "./reminders";
+import { resolveAssignments } from "../learning/assignments";
 
 const SUBJECT: Record<ReminderType, (title: string) => string> = {
   DUE_SOON: (t) => `Due in a few days: ${t}`,
@@ -60,6 +61,8 @@ export async function sendReminders(
     sent++;
   }
 
+  sent += await sendCourseReminders(now, mailer, sentKeys);
+
   if (!opts.skipDigest && now.getUTCDay() === 1) {
     const week = periodKeyFor("WEEKLY", now);
     const since = new Date(now.getTime() - 28 * 24 * 3600_000);
@@ -92,4 +95,41 @@ export async function sendReminders(
     }
   }
   return { sent };
+}
+
+const COURSE_SUBJECT: Record<ReminderType, (title: string) => string> = {
+  DUE_SOON: (t) => `Course due in a few days: ${t}`,
+  DUE_TODAY: (t) => `Course due today: ${t}`,
+  OVERDUE: (t) => `Course overdue: ${t}`,
+};
+
+// Assigned courses with a due date that the learner has not finished get the same three
+// reminders as assessments (3 days before, on the day, overdue), each sent once.
+async function sendCourseReminders(now: Date, mailer: Mailer, sentKeys: Set<string>): Promise<number> {
+  const assignments = await prisma.courseAssignment.findMany({ where: { dueAt: { not: null }, course: { status: "PUBLISHED" } }, include: { course: { select: { title: true } } } });
+  if (assignments.length === 0) return 0;
+  const users = await prisma.user.findMany({ where: { active: true }, select: { id: true, email: true, department: true, jobTitle: true } });
+  const assigned = resolveAssignments(users, assignments);
+  const done = new Set((await prisma.courseProgress.findMany({ where: { completedAt: { not: null } }, select: { userId: true, courseId: true } })).map((p) => `${p.userId}|${p.courseId}`));
+  const open = assigned.filter((a) => a.dueAt && !done.has(`${a.userId}|${a.courseId}`));
+  const due = remindersDue(open.map((a) => ({ id: `course:${a.userId}:${a.courseId}`, userId: a.userId, dueAt: a.dueAt as Date, status: "OPEN" as const })), now, sentKeys);
+  const email = new Map(users.map((u) => [u.id, u.email]));
+  const title = new Map(assignments.map((a) => [a.courseId, a.course.title]));
+  const dueAt = new Map(open.map((a) => [`course:${a.userId}:${a.courseId}`, a.dueAt as Date]));
+  let sent = 0;
+  for (const r of due) {
+    const courseId = r.periodId.split(":")[2];
+    const to = email.get(r.userId);
+    if (!to || !(await claim(r.key, r.userId, `COURSE_${r.type}`))) continue;
+    const name = title.get(courseId) ?? "your course";
+    try {
+      await mailer.send(to, COURSE_SUBJECT[r.type](name), `Please finish the course "${name}" by ${dueAt.get(r.periodId)?.toISOString().slice(0, 10)}.`);
+    } catch (e) {
+      await release(r.key);
+      console.error("course reminder send failed", r.key, (e as Error).message);
+      continue;
+    }
+    sent++;
+  }
+  return sent;
 }

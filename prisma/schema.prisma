@@ -124,6 +124,8 @@ model User {
   profileExternalCerts ProfileExternalCertification[]
   profileLanguages    ProfileLanguage[]
   remedials           RemedialPlan[]
+  courseFeedback      CourseFeedback[]
+  coursePosts         CoursePost[]
 
   @@map("users")
 }
@@ -181,6 +183,9 @@ model Course {
   modules     Module[]
   progress    CourseProgress[]
   assessments Assessment[]
+  assignments CourseAssignment[]
+  feedback    CourseFeedback[]
+  posts       CoursePost[]
 
   @@map("courses")
 }
@@ -529,4 +534,78 @@ model RemedialPlan {
 
   @@index([userId, status])
   @@map("remedial_plans")
+}
+
+// Who a course assignment is for. DEPARTMENT and JOB_TITLE resolve when read, so people
+// who join the department or take the job title later are enrolled automatically.
+enum AssignmentTarget {
+  USER
+  DEPARTMENT
+  JOB_TITLE
+}
+
+// A course an admin (anyone) or a manager (their reporting line) makes mandatory.
+model CourseAssignment {
+  id           String           @id @default(cuid())
+  courseId     String           @map("course_id")
+  course       Course           @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  targetType   AssignmentTarget @map("target_type")
+  targetValue  String           @map("target_value")
+  dueAt        DateTime?        @map("due_at")
+  assignedById String           @map("assigned_by_id")
+  createdAt    DateTime         @default(now()) @map("created_at")
+
+  @@unique([courseId, targetType, targetValue])
+  @@map("course_assignments")
+}
+
+enum AnnouncementAudience {
+  ALL
+  DEPARTMENT
+}
+
+model Announcement {
+  id          String               @id @default(cuid())
+  title       String
+  body        String               @db.Text
+  audience    AnnouncementAudience @default(ALL)
+  department  String?
+  createdById String               @map("created_by_id")
+  createdAt   DateTime             @default(now()) @map("created_at")
+  emailedAt   DateTime?            @map("emailed_at")
+
+  @@map("announcements")
+}
+
+// The end-of-course survey: one response per learner and course.
+model CourseFeedback {
+  id        String   @id @default(cuid())
+  courseId  String   @map("course_id")
+  course    Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  userId    String   @map("user_id")
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  rating    Int
+  comment   String?  @db.VarChar(2000)
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@unique([courseId, userId])
+  @@map("course_feedback")
+}
+
+// Course Q&A: a question (parentId null) or a reply. Admins can hide posts.
+model CoursePost {
+  id        String       @id @default(cuid())
+  courseId  String       @map("course_id")
+  course    Course       @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  userId    String       @map("user_id")
+  user      User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  parentId  String?      @map("parent_id")
+  parent    CoursePost?  @relation("Replies", fields: [parentId], references: [id], onDelete: Cascade)
+  replies   CoursePost[] @relation("Replies")
+  body      String       @db.VarChar(4000)
+  hidden    Boolean      @default(false)
+  createdAt DateTime     @default(now()) @map("created_at")
+
+  @@index([courseId, createdAt])
+  @@map("course_posts")
 }

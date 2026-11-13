@@ -49,9 +49,12 @@ export async function adminDashboard(viewer: SessionUser, filters: Filters, now:
       })),
     },
     "departments": {
-      title: "Overdue and not-started assessments by department",
-      columns: ["department", "people", "overdue", "not_started"],
-      rows: departmentView(rows).map((d) => ({ department: d.department, people: d.people, overdue: d.overdue, not_started: d.notStarted })),
+      title: "Overdue and not-started work by department",
+      columns: ["department", "people", "assessments_overdue", "assessments_not_started", "courses_overdue", "courses_not_started"],
+      rows: departmentView(rows, now).map((d) => ({
+        department: d.department, people: d.people, assessments_overdue: d.overdue, assessments_not_started: d.notStarted,
+        courses_overdue: d.coursesOverdue, courses_not_started: d.coursesNotStarted,
+      })),
     },
     "top-performers": {
       title: "Top performers",
