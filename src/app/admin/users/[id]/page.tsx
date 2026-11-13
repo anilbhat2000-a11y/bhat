@@ -28,18 +28,18 @@ export default async function UserPage({
 
       <form action={updateUserAction}>
         <input type="hidden" name="id" value={user.id} />
-        <label>Name <input name="name" defaultValue={user.name} required /></label><br />
+        <label>Name <input aria-label="Name" name="name" defaultValue={user.name} required /></label><br />
         <label>Role
-          <select name="role" defaultValue={user.role}>
+          <select aria-label="Role" name="role" defaultValue={user.role}>
             <option value="EMPLOYEE">Employee</option>
             <option value="MANAGER">Manager</option>
             <option value="ADMIN">Admin</option>
           </select>
         </label><br />
-        <label>Department <input name="department" defaultValue={user.department ?? ""} /></label><br />
-        <label>Job title <input name="jobTitle" defaultValue={user.jobTitle ?? ""} /></label><br />
+        <label>Department <input aria-label="Department" name="department" defaultValue={user.department ?? ""} /></label><br />
+        <label>Job title <input aria-label="Job title" name="jobTitle" defaultValue={user.jobTitle ?? ""} /></label><br />
         <label>Manager
-          <select name="managerId" defaultValue={user.managerId ?? ""}>
+          <select aria-label="Manager" name="managerId" defaultValue={user.managerId ?? ""}>
             <option value="">None</option>
             {managers.map((m) => <option key={m.id} value={m.id}>{m.name}</option>)}
           </select>
@@ -51,14 +51,14 @@ export default async function UserPage({
       {user.photoFileKey ? <img src={`/api/photos/${user.id}`} alt={`Photo of ${user.name}`} width={96} height={96} /> : <p>No photo yet.</p>}
       <form action={uploadUserPhotoAction} encType="multipart/form-data">
         <input type="hidden" name="id" value={user.id} />
-        <input type="file" name="photo" accept="image/png,image/jpeg" required />{" "}
+        <input aria-label="Photo" type="file" name="photo" accept="image/png,image/jpeg" required />{" "}
         <button type="submit">Upload photo</button>
       </form>
 
       <h2>Reset password</h2>
       <form action={setUserPasswordAction}>
         <input type="hidden" name="id" value={user.id} />
-        <label>New password (8+ characters) <input name="next" type="password" minLength={8} autoComplete="new-password" required /></label>{" "}
+        <label>New password (8+ characters) <input aria-label="Next" name="next" type="password" minLength={8} autoComplete="new-password" required /></label>{" "}
         <button type="submit">Set password</button>
       </form>
 

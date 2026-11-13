@@ -34,7 +34,7 @@ export default async function ManagerSessionsPage({ searchParams }: { searchPara
               <input type="hidden" name="sessionId" value={sessionId} />
               {regs.map((r) => (
                 <label key={r.id} style={{ display: "block" }}>
-                  <input type="checkbox" name="attendeeIds" value={r.userId} defaultChecked={r.attended} /> {r.user.name}
+                  <input aria-label="Attendee  s" type="checkbox" name="attendeeIds" value={r.userId} defaultChecked={r.attended} /> {r.user.name}
                 </label>
               ))}
               <button type="submit">Save attendance</button>

@@ -13,11 +13,11 @@ export default function LoginPage() {
       <form action={action}>
         <label>
           Email
-          <input name="email" type="email" autoComplete="username" required style={{ display: "block", width: "100%", marginBottom: 12 }} />
+          <input aria-label="Email" name="email" type="email" autoComplete="username" required style={{ display: "block", width: "100%", marginBottom: 12 }} />
         </label>
         <label>
           Password
-          <input name="password" type="password" autoComplete="current-password" required style={{ display: "block", width: "100%", marginBottom: 12 }} />
+          <input aria-label="Password" name="password" type="password" autoComplete="current-password" required style={{ display: "block", width: "100%", marginBottom: 12 }} />
         </label>
         {state.error ? <p role="alert">{state.error}</p> : null}
         <button type="submit" disabled={pending}>Sign in</button>

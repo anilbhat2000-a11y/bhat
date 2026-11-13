@@ -25,18 +25,18 @@ export default async function CoursesPage({ searchParams }: { searchParams: Prom
       </ul>
       <h2>New course</h2>
       <form data-test="create-course" action={createCourseAction}>
-        <input name="title" placeholder="Title" required />{" "}
-        <select name="subjectId" required defaultValue="">
+        <input aria-label="Title" name="title" placeholder="Title" required />{" "}
+        <select aria-label="Subject" name="subjectId" required defaultValue="">
           <option value="" disabled>Choose a subject</option>
           {subjects.map((s) => <option key={s.id} value={s.id}>{s.name}</option>)}
         </select>{" "}
-        <select name="level" defaultValue="BASIC">
+        <select aria-label="Level" name="level" defaultValue="BASIC">
           <option value="BASIC">Basic</option>
           <option value="INTERMEDIATE">Intermediate</option>
           <option value="ADVANCED">Advanced</option>
         </select>{" "}
-        <input name="passMarkPercent" type="number" min={1} max={100} defaultValue={70} />{" "}
-        <input name="description" placeholder="Short description" />{" "}
+        <input aria-label="Pass mark percent" name="passMarkPercent" type="number" min={1} max={100} defaultValue={70} />{" "}
+        <input aria-label="Short description" name="description" placeholder="Short description" />{" "}
         <button type="submit">Create course</button>
       </form>
     </main>

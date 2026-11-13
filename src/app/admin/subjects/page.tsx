@@ -28,12 +28,12 @@ export default async function SubjectsPage({ searchParams }: { searchParams: Pro
         </form>
       ))}
       <form data-test="create-subject" action={createSubjectAction}>
-        <input name="name" placeholder="Subject name" required />{" "}
-        <select name="category" defaultValue="BUSINESS">
+        <input aria-label="Subject name" name="name" placeholder="Subject name" required />{" "}
+        <select aria-label="Category" name="category" defaultValue="BUSINESS">
           <option value="BUSINESS">Business</option>
           <option value="TECHNICAL">Technical</option>
         </select>{" "}
-        <input name="certificationValidityMonths" type="number" min={1} defaultValue={12} />{" "}
+        <input aria-label="Certification validity months" name="certificationValidityMonths" type="number" min={1} defaultValue={12} />{" "}
         <button type="submit">Add subject</button>
       </form>
     </main>

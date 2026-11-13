@@ -33,7 +33,7 @@ export default async function ProfilePage({ searchParams }: { searchParams: Prom
         {user.photoFileKey ? <img src={`/api/photos/${user.id}`} alt={`Photo of ${user.name}`} width={96} height={96} /> : <div aria-label="No photo" style={{ width: 96, height: 96, lineHeight: "96px", textAlign: "center", background: "#ddd" }}>{initialsFor(user.name)}</div>}
         <form action={uploadPhotoAction} encType="multipart/form-data">
           <input type="hidden" name="userId" value={user.id} />
-          <input type="file" name="photo" accept="image/png,image/jpeg" required />{" "}
+          <input aria-label="Photo" type="file" name="photo" accept="image/png,image/jpeg" required />{" "}
           <button type="submit">Upload photo</button>
         </form>
       </section>
@@ -41,8 +41,8 @@ export default async function ProfilePage({ searchParams }: { searchParams: Prom
       <section>
         <h2>Change password</h2>
         <form action={changePasswordAction}>
-          <label>Current password <input name="current" type="password" autoComplete="current-password" required /></label>{" "}
-          <label>New password (8+ characters) <input name="next" type="password" minLength={8} autoComplete="new-password" required /></label>{" "}
+          <label>Current password <input aria-label="Current" name="current" type="password" autoComplete="current-password" required /></label>{" "}
+          <label>New password (8+ characters) <input aria-label="Next" name="next" type="password" minLength={8} autoComplete="new-password" required /></label>{" "}
           <button type="submit">Change password</button>
         </form>
       </section>
@@ -51,10 +51,10 @@ export default async function ProfilePage({ searchParams }: { searchParams: Prom
         <input type="hidden" name="userId" value={user.id} />
         <h2>Personal details</h2>
         <p>Employment: {user.department ?? "not set"} · {user.jobTitle ?? "no title"} (set by your administrator)</p>
-        <label>Phone <input name="phone" defaultValue={user.phone ?? ""} /></label><br />
-        <label>Location <input name="location" defaultValue={user.location ?? ""} /></label><br />
-        <label>Bio (500 characters) <textarea name="bio" maxLength={500} rows={3} cols={60} defaultValue={user.bio ?? ""} /></label><br />
-        <label>Preferred language <input name="preferredLanguage" defaultValue={user.preferredLanguage ?? ""} /></label>
+        <label>Phone <input aria-label="Phone" name="phone" defaultValue={user.phone ?? ""} /></label><br />
+        <label>Location <input aria-label="Location" name="location" defaultValue={user.location ?? ""} /></label><br />
+        <label>Bio (500 characters) <textarea aria-label="Bio" name="bio" maxLength={500} rows={3} cols={60} defaultValue={user.bio ?? ""} /></label><br />
+        <label>Preferred language <input aria-label="Preferred language" name="preferredLanguage" defaultValue={user.preferredLanguage ?? ""} /></label>
 
         <h2>Skills (self-rated, 1 to 5)</h2>
         {subjects.map((s) => (

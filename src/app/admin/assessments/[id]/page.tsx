@@ -44,14 +44,14 @@ export default async function AssessmentPage({
       <h2>Add a question</h2>
       <form data-test="add-question" action={addQuestionAction}>
         <input type="hidden" name="assessmentId" value={assessment.id} />
-        <select name="type" defaultValue="SINGLE">
+        <select aria-label="Type" name="type" defaultValue="SINGLE">
           <option value="SINGLE">Single choice</option>
           <option value="MULTIPLE">Multiple choice</option>
           <option value="TRUE_FALSE">True / false</option>
         </select>{" "}
-        <input name="text" placeholder="Question" required />{" "}
-        <input name="options" placeholder="Options, e.g. A|B|C" required />{" "}
-        <input name="correct" placeholder="Correct option number(s), e.g. 2" required />{" "}
+        <input aria-label="Question" name="text" placeholder="Question" required />{" "}
+        <input aria-label="Options, e.g. A|B|C" name="options" placeholder="Options, e.g. A|B|C" required />{" "}
+        <input aria-label="Correct option number(s), e.g. 2" name="correct" placeholder="Correct option number(s), e.g. 2" required />{" "}
         <input name="points" type="number" min={1} defaultValue={1} aria-label="Points" />{" "}
         <button type="submit">Add question</button>
       </form>
@@ -60,7 +60,7 @@ export default async function AssessmentPage({
       <p>Columns: type, text, options, correct, points. Options and correct numbers are separated by |.</p>
       <form data-test="import-questions" action={importQuestionsAction}>
         <input type="hidden" name="assessmentId" value={assessment.id} />
-        <textarea name="csv" rows={6} cols={80} required />
+        <textarea aria-label="Csv" name="csv" rows={6} cols={80} required />
         <br />
         <button type="submit">Import</button>
       </form>
@@ -69,12 +69,12 @@ export default async function AssessmentPage({
       <p>{assessment.assignments.map((a) => `${a.targetType}${a.targetValue ? `: ${a.targetValue}` : ""}`).join(", ") || "Nobody yet"}</p>
       <form action={setAssignmentAction}>
         <input type="hidden" name="assessmentId" value={assessment.id} />
-        <select name="targetType" defaultValue="ALL">
+        <select aria-label="Target type" name="targetType" defaultValue="ALL">
           <option value="ALL">Everyone</option>
           <option value="DEPARTMENT">A department</option>
           <option value="USER">One user (by id)</option>
         </select>{" "}
-        <input name="targetValue" placeholder="Department name or user id" />{" "}
+        <input aria-label="Department name or user id" name="targetValue" placeholder="Department name or user id" />{" "}
         <button type="submit">Save assignment</button>
       </form>
     </main>

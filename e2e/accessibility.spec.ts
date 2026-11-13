@@ -33,3 +33,11 @@ test("the learner catalogue has no serious or critical WCAG 2.1 AA violations", 
   await page.goto("/learn/catalogue");
   await expectNoSeriousViolations(page);
 });
+
+for (const path of ["/admin/users", "/admin/subjects", "/admin/courses", "/admin/assessments", "/admin/instructors"]) {
+  test(`${path} has no serious or critical WCAG 2.1 AA violations (labelled form fields)`, async ({ page }) => {
+    await signIn(page, "admin@example.test");
+    await page.goto(path);
+    await expectNoSeriousViolations(page);
+  });
+}

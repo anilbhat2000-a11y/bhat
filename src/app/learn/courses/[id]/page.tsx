@@ -75,7 +75,7 @@ export default async function LearnCoursePage({
                 <input type="hidden" name="lessonId" value={l.id} />
                 {parseLabChecklist(l.body ?? "").map((item) => (
                   <label key={item.id} style={{ display: "block" }}>
-                    <input type="checkbox" name="item" value={item.id} defaultChecked={(checkedByLesson.get(l.id) ?? []).includes(item.id)} /> {item.text}
+                    <input aria-label="Item" type="checkbox" name="item" value={item.id} defaultChecked={(checkedByLesson.get(l.id) ?? []).includes(item.id)} /> {item.text}
                   </label>
                 ))}
                 <button type="submit">Save lab progress</button>

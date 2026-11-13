@@ -25,27 +25,27 @@ export default async function AssessmentsPage({ searchParams }: { searchParams: 
       </ul>
       <h2>New assessment</h2>
       <form data-test="create-assessment" action={createAssessmentAction}>
-        <input name="title" placeholder="Title" required />{" "}
-        <select name="subjectId" required defaultValue="">
+        <input aria-label="Title" name="title" placeholder="Title" required />{" "}
+        <select aria-label="Subject" name="subjectId" required defaultValue="">
           <option value="" disabled>Choose a subject</option>
           {subjects.map((s) => <option key={s.id} value={s.id}>{s.name}</option>)}
         </select>{" "}
-        <select name="cadence" defaultValue="ONE_TIME">
+        <select aria-label="Cadence" name="cadence" defaultValue="ONE_TIME">
           <option value="ONE_TIME">One time</option>
           <option value="WEEKLY">Weekly</option>
           <option value="MONTHLY">Monthly</option>
           <option value="ANNUAL">Annual</option>
         </select>{" "}
-        <select name="level" defaultValue="BASIC">
+        <select aria-label="Level" name="level" defaultValue="BASIC">
           <option value="BASIC">Basic</option>
           <option value="INTERMEDIATE">Intermediate</option>
           <option value="ADVANCED">Advanced</option>
         </select>{" "}
         <input name="passMarkPercent" type="number" min={1} max={100} defaultValue={70} aria-label="Pass mark" />{" "}
-        <input name="timeLimitMinutes" type="number" min={1} placeholder="Time limit (min, optional)" />{" "}
-        <input name="questionsPerAttempt" type="number" min={1} placeholder="Questions per attempt (optional)" />{" "}
-        <label>Attempts per period <input name="maxAttemptsPerPeriod" type="number" min={1} max={10} defaultValue={3} /></label>{" "}
-        <label><input name="showAnswersAfterSubmit" type="checkbox" defaultChecked /> Show correct answers after submit</label>{" "}
+        <input aria-label="Time limit (min, optional)" name="timeLimitMinutes" type="number" min={1} placeholder="Time limit (min, optional)" />{" "}
+        <input aria-label="Questions per attempt (optional)" name="questionsPerAttempt" type="number" min={1} placeholder="Questions per attempt (optional)" />{" "}
+        <label>Attempts per period <input aria-label="Max attempts per period" name="maxAttemptsPerPeriod" type="number" min={1} max={10} defaultValue={3} /></label>{" "}
+        <label><input aria-label="Show answers after submit" name="showAnswersAfterSubmit" type="checkbox" defaultChecked /> Show correct answers after submit</label>{" "}
         <button type="submit">Create assessment</button>
       </form>
     </main>

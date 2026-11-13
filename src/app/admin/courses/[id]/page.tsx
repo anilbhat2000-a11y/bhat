@@ -36,16 +36,16 @@ export default async function CoursePage({
 
       <form action={updateCourseAction}>
         <input type="hidden" name="id" value={course.id} />
-        <label>Title <input name="title" defaultValue={course.title} required /></label>{" "}
-        <label>Description <input name="description" defaultValue={course.description ?? ""} /></label>{" "}
+        <label>Title <input aria-label="Title" name="title" defaultValue={course.title} required /></label>{" "}
+        <label>Description <input aria-label="Description" name="description" defaultValue={course.description ?? ""} /></label>{" "}
         <label>Level
-          <select name="level" defaultValue={course.level}>
+          <select aria-label="Level" name="level" defaultValue={course.level}>
             <option value="BASIC">Basic</option>
             <option value="INTERMEDIATE">Intermediate</option>
             <option value="ADVANCED">Advanced</option>
           </select>
         </label>{" "}
-        <label>Pass mark <input name="passMarkPercent" type="number" min={1} max={100} defaultValue={course.passMarkPercent} /></label>{" "}
+        <label>Pass mark <input aria-label="Pass mark percent" name="passMarkPercent" type="number" min={1} max={100} defaultValue={course.passMarkPercent} /></label>{" "}
         <button type="submit">Save course</button>
       </form>
       {course.status === "DRAFT" ? (
@@ -79,17 +79,17 @@ export default async function CoursePage({
       <p>For a lab, the text is the instructions, with one '- [ ] step' line per checklist item.</p>
       <form data-test="add-lesson" action={addLessonAction}>
         <input type="hidden" name="courseId" value={course.id} />
-        <input name="title" placeholder="Title" required />{" "}
-        <select name="type" defaultValue="TEXT">
+        <input aria-label="Title" name="title" placeholder="Title" required />{" "}
+        <select aria-label="Type" name="type" defaultValue="TEXT">
           <option value="TEXT">Text</option>
           <option value="LINK">Link</option>
           <option value="LAB">Hands-on lab (checklist)</option>
           <option value="LIVE_SESSION">Live session</option>
         </select>
         <br />
-        <textarea name="body" rows={4} cols={60} placeholder="Lesson text (for text lessons)" />
+        <textarea aria-label="Lesson text (for text lessons)" name="body" rows={4} cols={60} placeholder="Lesson text (for text lessons)" />
         <br />
-        <input name="url" type="url" placeholder="https://… (for link lessons)" />{" "}
+        <input aria-label="https://… (for link lessons)" name="url" type="url" placeholder="https://… (for link lessons)" />{" "}
         <button type="submit">Add lesson</button>
       </form>
 
@@ -103,7 +103,7 @@ export default async function CoursePage({
                 <input type="hidden" name="sessionId" value={l.liveSession.id} />
                 {l.liveSession.registrations.map((r) => (
                   <label key={r.id} style={{ display: "block" }}>
-                    <input type="checkbox" name="attendeeIds" value={r.userId} defaultChecked={r.attended} /> {r.user.name}
+                    <input aria-label="Attendee  s" type="checkbox" name="attendeeIds" value={r.userId} defaultChecked={r.attended} /> {r.user.name}
                   </label>
                 ))}
                 <button type="submit">Save attendance</button>
@@ -112,13 +112,13 @@ export default async function CoursePage({
           ) : <p>Not scheduled yet.</p>}
           <form action={scheduleSessionAction}>
             <input type="hidden" name="lessonId" value={l.id} />
-            <input name="startsAt" type="datetime-local" required /> to <input name="endsAt" type="datetime-local" required />{" "}
-            <input name="meetingUrl" type="url" placeholder="https://meeting link" required />{" "}
-            <input name="capacity" type="number" min={0} placeholder="Capacity (optional)" />
+            <input aria-label="Starts at" name="startsAt" type="datetime-local" required /> to <input name="endsAt" type="datetime-local" required />{" "}
+            <input aria-label="https://meeting link" name="meetingUrl" type="url" placeholder="https://meeting link" required />{" "}
+            <input aria-label="Capacity (optional)" name="capacity" type="number" min={0} placeholder="Capacity (optional)" />
             <fieldset>
               <legend>Instructors</legend>
               {instructors.map((i) => (
-                <label key={i.id}><input type="checkbox" name="instructorIds" value={i.id} /> {i.name} ({i.location ?? "location not set"})</label>
+                <label key={i.id}><input aria-label="Instructor  s" type="checkbox" name="instructorIds" value={i.id} /> {i.name} ({i.location ?? "location not set"})</label>
               ))}
             </fieldset>
             <button type="submit">Save session</button>
@@ -129,7 +129,7 @@ export default async function CoursePage({
       {course.lessons.filter((l) => l.type === "VIDEO").map((l) => (
         <form key={`cap-${l.id}`} action={attachCaptionAction} encType="multipart/form-data">
           <input type="hidden" name="lessonId" value={l.id} />
-          <label>Captions for {l.title} (.vtt) <input name="captions" type="file" accept=".vtt,text/vtt" required /></label>{" "}
+          <label>Captions for {l.title} (.vtt) <input aria-label="Captions" name="captions" type="file" accept=".vtt,text/vtt" required /></label>{" "}
           <button type="submit">Upload captions</button>
         </form>
       ))}
@@ -137,12 +137,12 @@ export default async function CoursePage({
       <h2>Upload a file lesson</h2>
       <form data-test="upload-lesson" action={uploadLessonAction} encType="multipart/form-data">
         <input type="hidden" name="courseId" value={course.id} />
-        <input name="title" placeholder="Title" required />{" "}
-        <select name="type" defaultValue="PDF">
+        <input aria-label="Title" name="title" placeholder="Title" required />{" "}
+        <select aria-label="Type" name="type" defaultValue="PDF">
           <option value="PDF">PDF document</option>
           <option value="VIDEO">Video (MP4)</option>
         </select>{" "}
-        <input name="file" type="file" accept="application/pdf,video/mp4" required />{" "}
+        <input aria-label="File" name="file" type="file" accept="application/pdf,video/mp4" required />{" "}
         <button type="submit">Upload</button>
       </form>
     </main>

@@ -13,7 +13,7 @@ export default async function AuditPage({ searchParams }: { searchParams: Promis
     <main style={{ padding: "16px", fontFamily: "system-ui, sans-serif" }}>
       <h1>Audit log</h1>
       <form>
-        <label>Entity type <input name="entityType" defaultValue={entityType ?? ""} placeholder="User, Course, Assessment" /></label>{" "}
+        <label>Entity type <input aria-label="User, Course, Assessment" name="entityType" defaultValue={entityType ?? ""} placeholder="User, Course, Assessment" /></label>{" "}
         <button type="submit">Filter</button>
       </form>
       <table>

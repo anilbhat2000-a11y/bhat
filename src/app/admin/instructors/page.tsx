@@ -20,10 +20,10 @@ export default async function InstructorsPage({ searchParams }: { searchParams: 
       </ul>
       <h2>Add an instructor</h2>
       <form data-test="create-instructor" action={createInstructorAction}>
-        <label>Name <input name="name" required /></label>{" "}
-        <label>Location <input name="location" placeholder="City, country" /></label>{" "}
-        <label>Expertise <input name="expertise" placeholder="Networking, Cloud" /></label>{" "}
-        <label>Bio <input name="bio" /></label>{" "}
+        <label>Name <input aria-label="Name" name="name" required /></label>{" "}
+        <label>Location <input aria-label="City, country" name="location" placeholder="City, country" /></label>{" "}
+        <label>Expertise <input aria-label="Networking, Cloud" name="expertise" placeholder="Networking, Cloud" /></label>{" "}
+        <label>Bio <input aria-label="Bio" name="bio" /></label>{" "}
         <button type="submit">Add instructor</button>
       </form>
     </main>

@@ -37,31 +37,31 @@ export default async function UsersPage({ searchParams }: { searchParams: Promis
 
       <h2>Add a user</h2>
       <form data-test="create-user" action={createUserAction}>
-        <label>Name <input name="name" required /></label>{" "}
-        <label>Email <input name="email" type="email" required /></label>{" "}
+        <label>Name <input aria-label="Name" name="name" required /></label>{" "}
+        <label>Email <input aria-label="Email" name="email" type="email" required /></label>{" "}
         <label>Role
-          <select name="role" defaultValue="EMPLOYEE">
+          <select aria-label="Role" name="role" defaultValue="EMPLOYEE">
             <option value="EMPLOYEE">Employee</option>
             <option value="MANAGER">Manager</option>
             <option value="ADMIN">Admin</option>
           </select>
         </label>{" "}
-        <label>Department <input name="department" /></label>{" "}
-        <label>Job title <input name="jobTitle" /></label>{" "}
+        <label>Department <input aria-label="Department" name="department" /></label>{" "}
+        <label>Job title <input aria-label="Job title" name="jobTitle" /></label>{" "}
         <label>Manager
-          <select name="managerId" defaultValue="">
+          <select aria-label="Manager" name="managerId" defaultValue="">
             <option value="">None</option>
             {managers.map((m) => <option key={m.id} value={m.id}>{m.name}</option>)}
           </select>
         </label>{" "}
-        <label>Initial password <input name="password" type="password" minLength={8} required /></label>{" "}
+        <label>Initial password <input aria-label="Password" name="password" type="password" minLength={8} required /></label>{" "}
         <button type="submit">Create user</button>
       </form>
 
       <h2>Import users from CSV</h2>
       <p>Columns: name, email, role, department, managerEmail, password. The first row is the header.</p>
       <form data-test="import-users" action={importUsersAction}>
-        <textarea name="csv" rows={6} cols={80} required />
+        <textarea aria-label="Csv" name="csv" rows={6} cols={80} required />
         <br />
         <button type="submit">Import</button>
       </form>
