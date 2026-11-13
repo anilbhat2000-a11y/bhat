@@ -22,6 +22,11 @@ async function main(): Promise<void> {
         create: { ...u, passwordHash },
       });
     }
+    await prisma.subject.upsert({
+      where: { slug: "e2e-subject" },
+      update: {},
+      create: { name: "E2E Subject", slug: "e2e-subject", category: "TECHNICAL" },
+    });
   } else if (command === "set-active") {
     const [email, value] = args;
     await prisma.user.update({ where: { email }, data: { active: value === "true" } });
