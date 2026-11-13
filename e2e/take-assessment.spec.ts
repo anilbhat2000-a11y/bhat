@@ -38,6 +38,6 @@ test("an employee takes a published monthly assessment and sees a pass", async (
   await employee.getByLabel("B").check();
   await employee.click("button:has-text('Submit answers')");
   await expect(employee.getByText("Score: 100%")).toBeVisible();
-  await expect(employee.getByText("Passed")).toBeVisible();
+  await expect(employee.getByText("Passed", { exact: true })).toBeVisible();
   await employeeContext.close();
 });
