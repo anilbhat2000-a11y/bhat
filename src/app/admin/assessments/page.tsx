@@ -1,0 +1,49 @@
+import { connection } from "next/server";
+import { prisma } from "../../../lib/db/client";
+import { createAssessmentAction } from "../../actions/assessments";
+
+export default async function AssessmentsPage({ searchParams }: { searchParams: Promise<{ error?: string }> }) {
+  await connection();
+  const { error } = await searchParams;
+  const [assessments, subjects] = await Promise.all([
+    prisma.assessment.findMany({ orderBy: { title: "asc" }, include: { subject: true } }),
+    prisma.subject.findMany({ orderBy: { name: "asc" } }),
+  ]);
+
+  return (
+    <main style={{ padding: "16px", fontFamily: "system-ui, sans-serif" }}>
+      <h1>Assessments</h1>
+      {error ? <p role="alert">{error}</p> : null}
+      <ul>
+        {assessments.map((a) => (
+          <li key={a.id}>
+            <a href={`/admin/assessments/${a.id}`}>{a.title}</a> — {a.subject.name}, {a.cadence}, {a.published ? "Published" : "Draft"}
+          </li>
+        ))}
+      </ul>
+      <h2>New assessment</h2>
+      <form data-test="create-assessment" action={createAssessmentAction}>
+        <input name="title" placeholder="Title" required />{" "}
+        <select name="subjectId" required defaultValue="">
+          <option value="" disabled>Choose a subject</option>
+          {subjects.map((s) => <option key={s.id} value={s.id}>{s.name}</option>)}
+        </select>{" "}
+        <select name="cadence" defaultValue="ONE_TIME">
+          <option value="ONE_TIME">One time</option>
+          <option value="WEEKLY">Weekly</option>
+          <option value="MONTHLY">Monthly</option>
+          <option value="ANNUAL">Annual</option>
+        </select>{" "}
+        <select name="level" defaultValue="BASIC">
+          <option value="BASIC">Basic</option>
+          <option value="INTERMEDIATE">Intermediate</option>
+          <option value="ADVANCED">Advanced</option>
+        </select>{" "}
+        <input name="passMarkPercent" type="number" min={1} max={100} defaultValue={70} aria-label="Pass mark" />{" "}
+        <input name="timeLimitMinutes" type="number" min={1} placeholder="Time limit (min, optional)" />{" "}
+        <input name="questionsPerAttempt" type="number" min={1} placeholder="Questions per attempt (optional)" />{" "}
+        <button type="submit">Create assessment</button>
+      </form>
+    </main>
+  );
+}
