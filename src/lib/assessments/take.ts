@@ -140,7 +140,7 @@ export async function submitAttempt(
     });
     if (scoring.passed) {
       await tx.assessmentPeriod.update({ where: { id: attempt.periodId }, data: { status: "PASSED" } });
-      await tx.certification.create({
+      const cert = await tx.certification.create({
         data: {
           userId: actor.id,
           subjectId: assessment.subjectId,
@@ -151,6 +151,7 @@ export async function submitAttempt(
           verificationCode: makeVerificationCode(),
         },
       });
+      await recordAudit(tx, { actorId: actor.id, action: "certificate.issue", entityType: "Certification", entityId: cert.id, after: { subjectId: assessment.subjectId, level: assessment.level } });
     }
   });
 
@@ -170,14 +171,23 @@ export async function attemptForUser(actor: SessionUser, attemptId: string) {
   if (!attempt) return null;
   if (attempt.userId !== actor.id) throw new AuthError(403);
   const presented = attempt.presentedQuestions as Presented[];
-  const questions =
-    attempt.status === "IN_PROGRESS"
-      ? toPublic(await prisma.question.findMany({ where: { id: { in: presented.map((p) => p.id) } } }), presented)
-      : [];
+  const drawn = await prisma.question.findMany({ where: { id: { in: presented.map((p) => p.id) } } });
+  const questions = attempt.status === "IN_PROGRESS" ? toPublic(drawn, presented) : [];
+  // The answer key is shown only after a submit, and only when the admin enabled it.
+  const showKey = attempt.status === "SUBMITTED" && attempt.period.assessment.showAnswersAfterSubmit;
   return {
     status: attempt.status,
     title: attempt.period.assessment.title,
     questions,
+    correctOptionIds: showKey
+      ? Object.fromEntries(drawn.map((q) => [q.id, q.correctOptionIds as string[]]))
+      : undefined,
+    answerKey: showKey
+      ? drawn.map((q) => {
+          const labels = new Map((q.options as Option[]).map((o) => [o.id, o.label]));
+          return { text: q.text, correct: (q.correctOptionIds as string[]).map((id) => labels.get(id) ?? id) };
+        })
+      : undefined,
     scorePercent: attempt.scorePercent,
     passed: attempt.passed,
     expiresAt: endOf(attempt.startedAt, attempt.period.assessment.timeLimitMinutes),

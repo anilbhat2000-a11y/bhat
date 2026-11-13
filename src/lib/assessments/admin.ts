@@ -67,6 +67,7 @@ export async function addQuestion(actor: SessionUser, assessmentId: string, row:
       points: q.points,
     },
   });
+  await recordAudit(prisma, { actorId: actor.id, action: "question.add", entityType: "Question", entityId: created.id, after: { assessmentId, text: q.text } });
   return { ok: true, id: created.id };
 }
 
@@ -95,6 +96,7 @@ export async function importQuestions(
       }),
     ),
   );
+  await recordAudit(prisma, { actorId: actor.id, action: "question.import", entityType: "Assessment", entityId: assessmentId, after: { count: parsed.questions.length } });
   return { ok: true, created: parsed.questions.length };
 }
 

@@ -104,6 +104,7 @@ export async function addLesson(
       url: input.type === "LINK" ? input.url : null,
     },
   });
+  await recordAudit(prisma, { actorId: actor.id, action: "lesson.add", entityType: "Lesson", entityId: lesson.id, after: { courseId, type: input.type } });
   return { ok: true, id: lesson.id };
 }
 
@@ -135,6 +136,7 @@ export async function uploadLessonFile(
         fileKey: checked.key,
       },
     });
+    await recordAudit(prisma, { actorId: actor.id, action: "lesson.upload", entityType: "Lesson", entityId: lesson.id, after: { courseId, type: input.type } });
     return { ok: true, id: lesson.id };
   } catch {
     await storage.delete(checked.key);
@@ -158,6 +160,7 @@ export async function reorderLessons(actor: SessionUser, courseId: string, order
     for (const [i, id] of orderedIds.entries()) {
       await tx.lesson.update({ where: { id }, data: { position: i + 1 } });
     }
+    await recordAudit(tx, { actorId: actor.id, action: "lesson.reorder", entityType: "Course", entityId: courseId, after: { order: orderedIds } });
   });
   return { ok: true, id: courseId };
 }

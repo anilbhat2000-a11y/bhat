@@ -3,7 +3,7 @@
 > next build
 
 ▲ Next.js 16.4.6 (Turbopack)
-✓ Running next.config.ts took 30ms
+✓ Running next.config.ts took 28ms
 - Cache Components enabled
 - Partial Prefetching enabled
 - Experiments (use with caution):
@@ -11,15 +11,15 @@
   · serverActions
 
   Creating an optimized production build ...
-✓ Compiled successfully in 577ms
+✓ Compiled successfully in 455ms
   Running TypeScript ...
-  Finished TypeScript in 3.0s ...
+  Finished TypeScript in 2.7s ...
   Collecting page data using 3 workers ...
   Generating static pages using 3 workers (0/28) ...
   Generating static pages using 3 workers (7/28) 
   Generating static pages using 3 workers (14/28) 
   Generating static pages using 3 workers (21/28) 
-✓ Generating static pages using 3 workers (28/28) in 539ms
+✓ Generating static pages using 3 workers (28/28) in 553ms
   Finalizing page optimization ...
 
 Route (app)

@@ -26,6 +26,13 @@ export default async function AttemptPage({
           <>
             <p>Score: {attempt.scorePercent}%</p>
             <p>{attempt.passed ? "Passed" : "Not passed"}</p>
+            {attempt.answerKey ? (
+              <ol>
+                {attempt.answerKey.map((a, i) => (
+                  <li key={i}>{a.text}: correct answer {a.correct.join(", ")}</li>
+                ))}
+              </ol>
+            ) : null}
           </>
         ) : (
           <p>This attempt ran out of time and was not scored.</p>
