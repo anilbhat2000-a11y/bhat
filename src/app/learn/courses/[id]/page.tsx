@@ -79,7 +79,12 @@ export default async function LearnCoursePage({
               </form>
             ) : null}
             {l.type === "VIDEO" ? (
-              <VideoLesson lessonId={l.id} src={`/api/files/${l.id}`} startAt={positions.get(l.id) ?? 0} />
+              <VideoLesson
+                lessonId={l.id}
+                src={`/api/files/${l.id}`}
+                startAt={positions.get(l.id) ?? 0}
+                captionsSrc={l.captionFileKey ? `/api/captions/${l.id}` : null}
+              />
             ) : null}
             {!done && l.type !== "LAB" ? (
               <form action={completeLessonAction}>

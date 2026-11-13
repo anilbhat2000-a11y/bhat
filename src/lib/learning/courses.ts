@@ -166,17 +166,25 @@ export async function reorderLessons(actor: SessionUser, courseId: string, order
 }
 
 // Files are served only to admins, or to anyone when the course is published.
-// Returns null (shown as 404) for every other case, including unknown lessons.
+// Returns the stored key and type (not the bytes, so the route can stream a range);
+// null (shown as 404) for every other case, including unknown lessons.
 export async function getLessonFile(
   actor: SessionUser,
   lessonId: string,
-  storage: FileStorage = defaultStorage(),
-): Promise<{ bytes: Buffer; mime: string; title: string } | null> {
+): Promise<{ key: string; mime: string; title: string } | null> {
   const lesson = await prisma.lesson.findUnique({ where: { id: lessonId }, include: { course: true } });
   if (!lesson || !lesson.fileKey) return null;
   const allowed = actor.role === "ADMIN" || lesson.course.status === "PUBLISHED";
   if (!allowed) return null;
-  return { bytes: await storage.get(lesson.fileKey), mime: mimeForKey(lesson.fileKey), title: lesson.title };
+  return { key: lesson.fileKey, mime: mimeForKey(lesson.fileKey), title: lesson.title };
+}
+
+// The WebVTT captions of a video lesson, under the same access rule as the video.
+export async function getLessonCaption(actor: SessionUser, lessonId: string): Promise<{ key: string } | null> {
+  const lesson = await prisma.lesson.findUnique({ where: { id: lessonId }, include: { course: true } });
+  if (!lesson || !lesson.captionFileKey) return null;
+  const allowed = actor.role === "ADMIN" || lesson.course.status === "PUBLISHED";
+  return allowed ? { key: lesson.captionFileKey } : null;
 }
 
 

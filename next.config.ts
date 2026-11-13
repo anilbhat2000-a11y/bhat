@@ -2,6 +2,9 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   cacheComponents: true,
+  // Byte ranges must match the bytes on disk, so Next does not compress responses. Put a
+  // reverse proxy in front of the app if you want compression for pages.
+  compress: false,
   // Requests pass through proxy.ts, which buffers the body. Allow the largest upload
   // (a 500 MB video plus form overhead) through the proxy as well.
 

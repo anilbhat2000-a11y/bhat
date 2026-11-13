@@ -27,3 +27,12 @@ it("delete removes the file", async () => {
   await s.delete(KEY);
   await expect(s.get(KEY)).rejects.toThrow();
 });
+
+it("stat reports the size, and stream returns only the requested bytes", async () => {
+  const s = createLocalStorage(root);
+  await s.put(KEY, Buffer.from("0123456789"));
+  expect((await s.stat(KEY)).size).toBe(10);
+  const chunks: Buffer[] = [];
+  for await (const c of s.stream(KEY, 2, 5)) chunks.push(Buffer.from(c));
+  expect(Buffer.concat(chunks).toString()).toBe("2345");
+});

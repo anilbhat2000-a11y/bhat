@@ -31,6 +31,12 @@ async function main(): Promise<void> {
       update: {},
       create: { name: "E2E Subject", slug: "e2e-subject", category: "TECHNICAL" },
     });
+  } else if (command === "lesson-id") {
+    const lesson = await prisma.lesson.findFirst({ where: { title: args[0] } });
+    console.log(lesson?.id ?? "");
+  } else if (command === "lesson-course-id") {
+    const lesson = await prisma.lesson.findFirst({ where: { title: args[0] } });
+    console.log(lesson?.courseId ?? "");
   } else if (command === "set-active") {
     const [email, value] = args;
     await prisma.user.update({ where: { email }, data: { active: value === "true" } });

@@ -1,4 +1,5 @@
-import { mkdir, readFile, rm, writeFile } from "node:fs/promises";
+import { createReadStream } from "node:fs";
+import { mkdir, readFile, rm, stat, writeFile } from "node:fs/promises";
 import { dirname, resolve, sep } from "node:path";
 import type { FileStorage } from "./types";
 
@@ -26,6 +27,13 @@ export function createLocalStorage(rootDir: string): FileStorage {
     },
     async delete(key) {
       await rm(pathFor(key), { force: true });
+    },
+    async stat(key) {
+      const info = await stat(pathFor(key));
+      return { size: info.size };
+    },
+    stream(key, start, end) {
+      return createReadStream(pathFor(key), { start, end });
     },
   };
 }

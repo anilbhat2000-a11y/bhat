@@ -3,8 +3,19 @@
 import { useEffect, useRef } from "react";
 import { savePositionAction } from "../app/actions/progress";
 
-// Plays a lesson video, resumes from the saved position, and saves progress every 5 seconds.
-export function VideoLesson({ lessonId, src, startAt }: { lessonId: string; src: string; startAt: number }) {
+// Plays a lesson video, resumes from the saved position, saves progress every 5 seconds,
+// and offers the lesson's captions when it has them.
+export function VideoLesson({
+  lessonId,
+  src,
+  startAt,
+  captionsSrc,
+}: {
+  lessonId: string;
+  src: string;
+  startAt: number;
+  captionsSrc: string | null;
+}) {
   const ref = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
@@ -26,5 +37,9 @@ export function VideoLesson({ lessonId, src, startAt }: { lessonId: string; src:
     };
   }, [lessonId, startAt]);
 
-  return <video ref={ref} src={src} controls width={640} preload="metadata" />;
+  return (
+    <video ref={ref} src={src} controls width={640} preload="metadata">
+      {captionsSrc ? <track kind="captions" srcLang="en" label="English" src={captionsSrc} default /> : null}
+    </video>
+  );
 }

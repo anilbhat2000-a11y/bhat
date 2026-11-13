@@ -77,8 +77,8 @@ describe("courses and lessons", () => {
   it("an employee cannot read a file from an unpublished course (Review Focus 3 / access)", async () => {
     const lesson = await prisma.lesson.findFirst({ where: { courseId, type: "PDF" } });
     expect(lesson).not.toBeNull();
-    expect(await getLessonFile(employee, lesson!.id, storage)).toBeNull();
-    const asAdmin = await getLessonFile(admin, lesson!.id, storage);
+    expect(await getLessonFile(employee, lesson!.id)).toBeNull();
+    const asAdmin = await getLessonFile(admin, lesson!.id);
     expect(asAdmin?.mime).toBe("application/pdf");
   });
 
