@@ -6,6 +6,8 @@ import { dueSummary } from "../../lib/learning/home";
 import { LocalTime } from "../../components/LocalTime";
 import { openRemedialsFor } from "../../lib/assessments/remedial";
 import { loadRows, recommendations, subjectProgress, weakTopics } from "../../lib/reports/analytics";
+import { assignedCoursesFor } from "../../lib/learning/assignments";
+import { announcementsFor } from "../../lib/community/community";
 
 // "in 3 days", "in 5 hours", "overdue by 2 days": a countdown to the due time.
 function countdown(due: Date, now: Date): string {
@@ -41,6 +43,7 @@ export default async function LearnHome() {
   const progress = subjectProgress(mine.courses, mine.progress);
   const weak = weakTopics(mine.attempts);
   const suggested = recommendations(weak, mine.courses, mine.progress);
+  const [assigned, announcements] = await Promise.all([assignedCoursesFor(user.id, now), announcementsFor(user)]);
   const certificates = await prisma.certification.findMany({
     where: { userId: user.id, expiresAt: { gt: now } },
     include: { subject: true },
@@ -52,6 +55,19 @@ export default async function LearnHome() {
   return (
     <main style={{ padding: "16px", fontFamily: "system-ui, sans-serif" }}>
       <h1>Your learning</h1>
+      <form method="get" action="/learn/search" role="search" className="no-print">
+        <label>Search courses <input type="search" name="q" minLength={2} required /></label> <button type="submit">Search</button>
+      </form>
+      {announcements.length > 0 ? (
+        <section aria-labelledby="h-news">
+          <h2 id="h-news">Announcements</h2>
+          <ul>
+            {announcements.map((a) => (
+              <li key={a.id}><strong>{a.title}</strong> (<LocalTime iso={a.createdAt.toISOString()} />)<br /><span style={{ whiteSpace: "pre-wrap" }}>{a.body}</span></li>
+            ))}
+          </ul>
+        </section>
+      ) : null}
       <ul>
         <li>Due this week: {summary.thisWeek}</li>
         <li>Due this month: {summary.thisMonth}</li>
@@ -85,6 +101,18 @@ export default async function LearnHome() {
           ))}
         </ul>
       )}
+      <h2>Assigned courses</h2>
+      {assigned.length === 0 ? <p>No courses assigned to you.</p> : (
+        <ul>
+          {assigned.map((a) => (
+            <li key={a.courseId}>
+              <Link href={`/learn/courses/${a.courseId}`}>{a.title}</Link> ({a.subject}): {a.status}
+              {a.dueAt && a.status !== "Completed" ? <>, <strong>{countdown(a.dueAt, now)}</strong></> : null}
+            </li>
+          ))}
+        </ul>
+      )}
+
       <h2>Assessments to do</h2>
       {open.length === 0 ? <p>Nothing due right now.</p> : (
         <ul>

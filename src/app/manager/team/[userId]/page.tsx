@@ -7,6 +7,9 @@ import { openRemedialsFor } from "../../../../lib/assessments/remedial";
 import { commentRemedialAction } from "../../../actions/remedial";
 import { LocalTime } from "../../../../components/LocalTime";
 import { loadRows, weakTopics } from "../../../../lib/reports/analytics";
+import { assignedCoursesFor } from "../../../../lib/learning/assignments";
+import { assignCourseAction, unassignCourseAction } from "../../../actions/community";
+import { prisma } from "../../../../lib/db/client";
 
 export default async function MemberPage({
   params,
@@ -29,6 +32,12 @@ export default async function MemberPage({
   // memberDetail has checked the reporting line, so the plans can be read.
   const remedials = await openRemedialsFor(userId);
   const weak = weakTopics((await loadRows(viewer, { onlyUserId: userId })).attempts);
+  const [assigned, catalogue, myAssignments] = await Promise.all([
+    assignedCoursesFor(userId),
+    prisma.course.findMany({ where: { status: "PUBLISHED" }, select: { id: true, title: true, level: true, subject: { select: { name: true } } }, orderBy: [{ subject: { name: "asc" } }, { title: "asc" }] }),
+    prisma.courseAssignment.findMany({ where: { targetType: "USER", targetValue: userId } }),
+  ]);
+  const removable = new Map(myAssignments.map((a) => [a.courseId, a.id]));
 
   return (
     <main style={{ padding: "16px", fontFamily: "system-ui, sans-serif" }}>
@@ -36,6 +45,39 @@ export default async function MemberPage({
       <p>{detail.email}{detail.department ? ` · ${detail.department}` : ""}</p>
       {notice ? <p role="status">{notice}</p> : null}
       {error ? <p role="alert">{error}</p> : null}
+
+      <h2>Assigned courses</h2>
+      {assigned.length === 0 ? <p>No courses assigned.</p> : (
+        <ul>
+          {assigned.map((a) => (
+            <li key={a.courseId}>
+              {a.title} ({a.subject}): {a.status}{a.dueAt ? `, due ${a.dueAt.toISOString().slice(0, 10)}` : ""}
+              {removable.has(a.courseId) && viewer.id !== userId ? (
+                <form action={unassignCourseAction} style={{ display: "inline" }}>
+                  <input type="hidden" name="assignmentId" value={removable.get(a.courseId)} />
+                  <input type="hidden" name="returnTo" value={`/manager/team/${userId}`} />{" "}
+                  <button type="submit" aria-label={`Remove assignment of ${a.title}`}>Remove</button>
+                </form>
+              ) : null}
+            </li>
+          ))}
+        </ul>
+      )}
+      {viewer.id !== userId ? (
+        <form data-test="assign-member" action={assignCourseAction}>
+          <input type="hidden" name="targetType" value="USER" />
+          <input type="hidden" name="targetValue" value={userId} />
+          <input type="hidden" name="returnTo" value={`/manager/team/${userId}`} />
+          <label>Make a course mandatory{" "}
+            <select name="courseId" required defaultValue="">
+              <option value="" disabled>Choose a course</option>
+              {catalogue.map((c) => <option key={c.id} value={c.id}>{c.subject.name}: {c.title} ({c.level.toLowerCase()})</option>)}
+            </select>
+          </label>{" "}
+          <label>Due date (optional) <input type="date" name="dueDate" /></label>{" "}
+          <button type="submit">Assign</button>
+        </form>
+      ) : null}
 
       <h2>Weak topics</h2>
       {weak.length === 0 ? <p>No weak subjects: average scores are at or above the pass marks.</p> : (

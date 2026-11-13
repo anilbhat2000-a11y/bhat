@@ -11,6 +11,8 @@ import { ScheduleSessionForm } from "../../../../components/ScheduleSessionForm"
 import { attachCaptionAction } from "../../../actions/courses";
 import { LessonReorder } from "../../../../components/LessonReorder";
 import { deleteCourseAction, updateCourseAction } from "../../../actions/account";
+import { assignCourseAction, unassignCourseAction } from "../../../actions/community";
+import { feedbackSummary } from "../../../../lib/community/community";
 
 export default async function CoursePage({
   params,
@@ -31,7 +33,16 @@ export default async function CoursePage({
     },
   });
   if (!course) notFound();
-  const instructors = await prisma.instructor.findMany({ where: { active: true }, orderBy: { name: "asc" } });
+  const [instructors, assignments, people, feedback] = await Promise.all([
+    prisma.instructor.findMany({ where: { active: true }, orderBy: { name: "asc" } }),
+    prisma.courseAssignment.findMany({ where: { courseId: course.id }, orderBy: { createdAt: "asc" } }),
+    prisma.user.findMany({ where: { active: true }, select: { id: true, name: true, department: true, jobTitle: true }, orderBy: { name: "asc" } }),
+    feedbackSummary(course.id),
+  ]);
+  const nameOf = new Map(people.map((p) => [p.id, p.name]));
+  const departments = [...new Set(people.map((p) => p.department).filter((x): x is string => !!x))].sort();
+  const jobTitles = [...new Set(people.map((p) => p.jobTitle).filter((x): x is string => !!x))].sort();
+  const TARGET = { USER: "Person", DEPARTMENT: "Department", JOB_TITLE: "Job title" } as const;
   const moduleSelect = course.modules.length > 0 ? (
     <label>Module{" "}
       <select aria-label="Module" name="moduleId" defaultValue="">
@@ -81,6 +92,59 @@ export default async function CoursePage({
         <input type="hidden" name="archived" value={course.status === "ARCHIVED" ? "false" : "true"} />
         <button type="submit">{course.status === "ARCHIVED" ? "Restore to draft" : "Archive (retire) this course"}</button>
       </form>
+
+      <h2>Assignments</h2>
+      <p>Make this course mandatory for a person, a whole department, or everyone with a job title. Department and job-title assignments include people who join later. Learners see assigned courses and due dates on their home page, and get reminders 3 days before, on the day, and when overdue.</p>
+      {course.status !== "PUBLISHED" ? <p>Publish the course before assigning it.</p> : (
+        <form data-test="assign-course" action={assignCourseAction}>
+          <input type="hidden" name="courseId" value={course.id} />
+          <input type="hidden" name="returnTo" value={`/admin/courses/${course.id}`} />
+          <fieldset>
+            <legend>Assign to</legend>
+            <label>Who{" "}
+              <select name="targetType" defaultValue="DEPARTMENT" aria-label="Assign to">
+                <option value="DEPARTMENT">Department</option>
+                <option value="JOB_TITLE">Job title</option>
+                <option value="USER">Person (choose below)</option>
+              </select>
+            </label>{" "}
+            <label>Department, job title or person{" "}
+              <input name="targetValue" list="assign-targets" required aria-label="Department, job title or person" />
+            </label>
+            <datalist id="assign-targets">
+              {departments.map((d) => <option key={`d-${d}`} value={d}>Department</option>)}
+              {jobTitles.map((t) => <option key={`t-${t}`} value={t}>Job title</option>)}
+              {people.map((p) => <option key={p.id} value={p.id}>{p.name}</option>)}
+            </datalist>{" "}
+            <label>Due date (optional) <input name="dueDate" type="date" /></label>{" "}
+            <button type="submit">Assign course</button>
+          </fieldset>
+        </form>
+      )}
+      {assignments.length === 0 ? <p>Not assigned to anyone yet.</p> : (
+        <ul>
+          {assignments.map((a) => (
+            <li key={a.id}>
+              {TARGET[a.targetType]}: {a.targetType === "USER" ? nameOf.get(a.targetValue) ?? "(removed user)" : a.targetValue}
+              {a.dueAt ? `, due ${a.dueAt.toISOString().slice(0, 10)}` : ", no due date"}{" "}
+              <form action={unassignCourseAction} style={{ display: "inline" }}>
+                <input type="hidden" name="assignmentId" value={a.id} />
+                <input type="hidden" name="returnTo" value={`/admin/courses/${course.id}`} />
+                <button type="submit">Remove</button>
+              </form>
+            </li>
+          ))}
+        </ul>
+      )}
+
+      <h2>Learner feedback</h2>
+      {feedback.count === 0 ? <p>No feedback yet.</p> : (
+        <>
+          <p>{feedback.count} response{feedback.count === 1 ? "" : "s"}, average usefulness {feedback.average} of 5.</p>
+          <ul>{feedback.comments.slice(0, 20).map((c, i) => <li key={i}>{c.rating}/5, {c.name}: {c.comment}</li>)}</ul>
+        </>
+      )}
+      {course.status !== "DRAFT" ? <p><a href={`/learn/courses/${course.id}#qa`}>Open the course Q&amp;A to answer or moderate questions</a></p> : null}
 
       <h2>Modules</h2>
       <p>Group lessons into modules. Learners see the modules in this order, each with its estimated time.</p>

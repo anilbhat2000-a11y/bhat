@@ -19,7 +19,9 @@ export default async function AdminHome() {
           <li><Link href="/admin/assessments">Assessments</Link></li>
           <li><Link href="/admin/grading">Grading queue</Link> ({waiting} waiting)</li>
           <li><Link href="/admin/dashboard">Dashboard</Link></li>
+          <li><Link href="/admin/announcements">Announcements</Link></li>
           <li><Link href="/admin/audit">Audit log</Link></li>
+          <li><Link href="/learn/search">Search courses, lessons and questions</Link></li>
         </ul>
       </nav>
     </main>

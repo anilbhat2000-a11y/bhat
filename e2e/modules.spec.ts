@@ -43,7 +43,7 @@ test("an admin builds a course with three modules; learners see them; archiving 
   const learner = await browser.newPage();
   await signIn(learner, "employee@example.test");
   await learner.goto(courseUrl.replace("/admin/courses/", "/learn/courses/"));
-  const moduleHeadings = learner.getByRole("heading", { level: 2 });
+  const moduleHeadings = learner.getByRole("heading", { level: 2, name: /^Module / });
   await expect(moduleHeadings).toHaveText([/Module 1: Getting started/, /Module 2: Core skills/, /Module 3: Review/]);
   await expect(learner.getByRole("heading", { level: 3 })).toHaveText(["Welcome", "Main topic", "Wrap-up quiz prep"]);
   await expect(learner.getByText("about 1 h 10 min in total")).toBeVisible();

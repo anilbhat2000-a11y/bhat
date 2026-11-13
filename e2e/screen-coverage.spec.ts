@@ -75,7 +75,7 @@ test("a live session is booked, and shows on the learner's home page", async ({ 
   await learner.goto("/learn/catalogue");
   await learner.getByRole("link", { name: title }).click();
   await learner.getByRole("button", { name: "Register for this session" }).click();
-  await expect(learner.getByText("You are registered")).toBeVisible();
+  await expect(learner.getByText("You are registered", { exact: true })).toBeVisible();
   await learner.goto("/learn");
   await expect(learner.getByRole("heading", { name: "Upcoming live sessions" })).toBeVisible();
   await expect(learner.getByText(lessonTitle)).toBeVisible();
