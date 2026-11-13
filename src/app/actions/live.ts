@@ -41,7 +41,7 @@ export async function markAttendanceAction(formData: FormData): Promise<void> {
   const actor = await requireSession();
   const sessionId = text(formData, "sessionId");
   const session = await prisma.liveSession.findUnique({ where: { id: sessionId }, include: { lesson: true } });
-  const to = `/admin/courses/${session?.lesson.courseId ?? ""}`;
+  const to = actor.role === "MANAGER" ? "/manager/sessions" : `/admin/courses/${session?.lesson.courseId ?? ""}`;
   await markAttendance(sessionId, formData.getAll("attendeeIds").map(String), actor);
   revalidatePath(to);
   redirect(`${to}?notice=${encodeURIComponent("Attendance saved")}`);

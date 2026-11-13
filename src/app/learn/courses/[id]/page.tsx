@@ -23,7 +23,7 @@ export default async function LearnCoursePage({
   const course = await prisma.course.findUnique({
     where: { id },
     include: {
-      lessons: { orderBy: { position: "asc" }, include: { liveSession: { include: { registrations: { where: { userId: user.id } } } } } },
+      lessons: { orderBy: { position: "asc" }, include: { liveSession: { include: { registrations: { where: { userId: user.id } } } }, instructors: { include: { instructor: true } } } },
       progress: { where: { userId: user.id } },
     },
   });
@@ -50,6 +50,9 @@ export default async function LearnCoursePage({
         return (
           <section key={l.id} style={{ marginBottom: 24 }}>
             <h2>{l.title} {done ? "(complete)" : ""}</h2>
+            {l.instructors.length > 0 ? (
+              <p>Taught by {l.instructors.map((x) => `${x.instructor.name}${x.instructor.location ? ` (${x.instructor.location})` : ""}${x.instructor.expertise.length ? `: ${x.instructor.expertise.join(", ")}` : ""}`).join("; ")}</p>
+            ) : null}
             {l.type === "TEXT" ? <p style={{ whiteSpace: "pre-wrap" }}>{l.body}</p> : null}
             {l.type === "LINK" ? <p><a href={l.url ?? "#"} rel="noopener noreferrer">Open link</a></p> : null}
             {l.type === "PDF" ? <p><a href={`/api/files/${l.id}`}>Open PDF</a></p> : null}

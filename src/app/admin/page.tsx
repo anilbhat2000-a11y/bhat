@@ -12,6 +12,7 @@ export default async function AdminHome() {
         <ul>
           <li><Link href="/admin/users">Users</Link></li>
           <li><Link href="/admin/subjects">Subjects</Link></li>
+          <li><Link href="/admin/instructors">Instructors</Link></li>
           <li><Link href="/admin/courses">Courses</Link></li>
           <li><Link href="/admin/assessments">Assessments</Link></li>
           <li><Link href="/admin/dashboard">Dashboard</Link></li>

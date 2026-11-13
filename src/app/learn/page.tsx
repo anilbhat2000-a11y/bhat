@@ -17,6 +17,12 @@ export default async function LearnHome() {
     periods.map((p) => ({ cadence: p.assessment.cadence, status: p.status, dueAt: p.dueAt })),
     now,
   );
+  const sessions = await prisma.liveSessionRegistration.findMany({
+    where: { userId: user.id, liveSession: { endsAt: { gte: now } } },
+    include: { liveSession: { include: { lesson: { include: { course: true } } } } },
+    orderBy: { liveSession: { startsAt: "asc" } },
+    take: 10,
+  });
   const open = periods.filter((p) => p.status === "OPEN" || p.status === "OVERDUE").slice(0, 10);
 
   return (
@@ -28,6 +34,16 @@ export default async function LearnHome() {
         <li>Due this year: {summary.thisYear}</li>
         <li>Overdue: {summary.overdue}</li>
       </ul>
+      <h2>Upcoming live sessions</h2>
+      {sessions.length === 0 ? <p>No sessions booked.</p> : (
+        <ul>
+          {sessions.map((r) => (
+            <li key={r.id}>
+              {r.liveSession.lesson.title} ({r.liveSession.lesson.course.title}) — {r.liveSession.startsAt.toISOString().replace("T", " ").slice(0, 16)} UTC
+            </li>
+          ))}
+        </ul>
+      )}
       <h2>Assessments to do</h2>
       {open.length === 0 ? <p>Nothing due right now.</p> : (
         <ul>
