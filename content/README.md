@@ -1,5 +1,11 @@
 # Course content
 
+This folder holds the sample content loaded by the seed:
+
+- `courses/`: one course per file (format below).
+- `question-banks/`: recurring assessments with their question banks (the 20-question Sales Basic and Networking Basic monthly assessments). Same question format as below, plus `cadence`, `timeLimitMinutes`, `questionsPerAttempt` and `assignDepartment`. Question types include `FILL_BLANK` (options are the accepted answers), `MATCHING` (options written `left=right`) and `SHORT_ANSWER`, each with an empty `correct`, and any question can have `scenario` and `explanation`.
+- `catalogue.json`: the 17-subject catalogue outline (see `docs/CATALOGUE.md`).
+
 Each file in `courses/` is one course. The seed step (`prisma/seed.ts`, Task 19 of the plan) loads these files into the database.
 
 ## File format
