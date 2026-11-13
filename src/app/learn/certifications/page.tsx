@@ -20,7 +20,7 @@ export default async function CertificationsPage() {
                 <td>{r.issuedAt.toISOString().slice(0, 10)}</td>
                 <td>{r.expiresAt.toISOString().slice(0, 10)}</td>
                 <td>{r.active ? "Active" : "Expired: renew by passing the assessment again"}</td>
-                <td>{r.verificationCode}</td>
+                <td>{r.verificationCode} · <a href={`/api/certificates/${r.id}`}>PDF</a></td>
               </tr>
             ))}
           </tbody>
