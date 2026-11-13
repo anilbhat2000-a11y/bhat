@@ -41,6 +41,6 @@ yarn-error.log*
 next-env.d.ts
 
 # local storage and env
-storage/
+/storage/
 .env
 src/generated/
