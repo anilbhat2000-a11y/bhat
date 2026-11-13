@@ -18,6 +18,10 @@ const RULES: Record<UploadKind, Rule> = {
   CAPTION: { mimes: { "text/vtt": "vtt" }, limitMb: () => 1 },
 };
 
+export function sizeLimitBytes(kind: UploadKind): number {
+  return RULES[kind].limitMb() * MB;
+}
+
 export function validateUpload(
   input: { filename: string; mime: string; sizeBytes: number },
   kind: UploadKind,
@@ -27,7 +31,7 @@ export function validateUpload(
   if (!ext) {
     return { ok: false, reason: `File type ${input.mime} is not allowed here` };
   }
-  const limit = rule.limitMb() * MB;
+  const limit = sizeLimitBytes(kind);
   if (input.sizeBytes > limit) {
     return { ok: false, reason: `File is too large: the size limit is ${rule.limitMb()} MB` };
   }

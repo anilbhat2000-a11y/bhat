@@ -2,7 +2,7 @@ import { connection } from "next/server";
 import { guardPortal } from "../../../../lib/auth/portal";
 import { notFound } from "next/navigation";
 import { prisma } from "../../../../lib/db/client";
-import { addLessonAction, moveLessonAction, setPublishedAction, uploadLessonAction } from "../../../actions/courses";
+import { addLessonAction, moveLessonAction, setPublishedAction } from "../../../actions/courses";
 import { markAttendanceAction } from "../../../actions/live";
 import { LocalTime } from "../../../../components/LocalTime";
 import { ScheduleSessionForm } from "../../../../components/ScheduleSessionForm";
@@ -118,7 +118,7 @@ export default async function CoursePage({
       ))}
 
       <h2>Upload a file lesson</h2>
-      <form data-test="upload-lesson" action={uploadLessonAction} encType="multipart/form-data">
+      <form data-test="upload-lesson" action="/api/upload/lesson" method="post" encType="multipart/form-data">
         <input type="hidden" name="courseId" value={course.id} />
         <input aria-label="Title" name="title" placeholder="Title" required />{" "}
         <select aria-label="Type" name="type" defaultValue="PDF">

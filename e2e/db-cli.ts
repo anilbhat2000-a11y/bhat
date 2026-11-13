@@ -46,6 +46,9 @@ async function main(): Promise<void> {
       data: { userId: user.id, subjectId: subject.id, level: "BASIC", issuedAt: new Date(), expiresAt: new Date(Date.now() + 365 * 24 * 3600_000), verificationCode: code },
     });
     console.log(`${cert.id} ${code}`);
+  } else if (command === "course-id") {
+    const course = await prisma.course.findFirst({ where: { title: args[0] } });
+    console.log(course?.id ?? "");
   } else if (command === "set-active") {
     const [email, value] = args;
     await prisma.user.update({ where: { email }, data: { active: value === "true" } });

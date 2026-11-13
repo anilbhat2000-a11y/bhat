@@ -36,3 +36,13 @@ it("stat reports the size, and stream returns only the requested bytes", async (
   for await (const c of s.stream(KEY, 2, 5)) chunks.push(Buffer.from(c));
   expect(Buffer.concat(chunks).toString()).toBe("2345");
 });
+
+it("putStream writes chunks as they arrive, without buffering the whole file first", async () => {
+  const s = createLocalStorage(root);
+  async function* chunks() {
+    yield Buffer.from("hello ");
+    yield Buffer.from("streamed");
+  }
+  await s.putStream(KEY, chunks());
+  expect((await s.get(KEY)).toString()).toBe("hello streamed");
+});

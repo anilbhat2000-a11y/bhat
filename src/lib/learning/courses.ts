@@ -136,28 +136,42 @@ export async function uploadLessonFile(
   storage: FileStorage = defaultStorage(),
 ): Promise<Result> {
   asAdmin(actor);
-  if (!input.title.trim()) return { ok: false, error: "Title is required" };
   const checked = validateUpload(
     { filename: input.filename, mime: input.mime, sizeBytes: input.sizeBytes },
     input.type === "PDF" ? "DOCUMENT" : "VIDEO",
   );
   if (!checked.ok) return { ok: false, error: checked.reason };
-  if (!(await prisma.course.findUnique({ where: { id: courseId } }))) return { ok: false, error: "Course not found" };
-
   await storage.put(checked.key, input.bytes);
+  return saveLessonFile(actor, courseId, { title: input.title, type: input.type, key: checked.key }, storage);
+}
+
+// Records a lesson for a file that is already in storage under `key`. On any failure the
+// stored file is removed, so nothing is left behind without a lesson.
+export async function saveLessonFile(
+  actor: SessionUser,
+  courseId: string,
+  input: { title: string; type: "PDF" | "VIDEO"; key: string },
+  storage: FileStorage = defaultStorage(),
+): Promise<Result> {
+  asAdmin(actor);
+  const fail = async (error: string): Promise<Result> => {
+    await storage.delete(input.key);
+    return { ok: false, error };
+  };
+  if (!input.title.trim()) return fail("Title is required");
+  if (!(await prisma.course.findUnique({ where: { id: courseId } }))) return fail("Course not found");
   try {
     const position = await nextPosition(courseId);
     const lesson = await writeWithAudit(
       (tx) =>
         tx.lesson.create({
-          data: { courseId, position, title: input.title.trim(), type: input.type as LessonType, fileKey: checked.key },
+          data: { courseId, position, title: input.title.trim(), type: input.type as LessonType, fileKey: input.key },
         }),
       (l) => ({ actorId: actor.id, action: "lesson.upload", entityType: "Lesson", entityId: l.id, after: { courseId, type: input.type } }),
     );
     return { ok: true, id: lesson.id };
   } catch {
-    await storage.delete(checked.key);
-    return { ok: false, error: "Could not save the lesson. Nothing was stored." };
+    return fail("Could not save the lesson. Nothing was stored.");
   }
 }
 

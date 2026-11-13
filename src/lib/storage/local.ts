@@ -1,6 +1,7 @@
-import { createReadStream } from "node:fs";
+import { createReadStream, createWriteStream } from "node:fs";
 import { mkdir, readFile, rm, stat, writeFile } from "node:fs/promises";
 import { dirname, resolve, sep } from "node:path";
+import { pipeline } from "node:stream/promises";
 import type { FileStorage } from "./types";
 
 // Keys produced by validateUpload: a UUID plus one of the allowed extensions.
@@ -21,6 +22,11 @@ export function createLocalStorage(rootDir: string): FileStorage {
       const full = pathFor(key);
       await mkdir(dirname(full), { recursive: true });
       await writeFile(full, data);
+    },
+    async putStream(key, source) {
+      const full = pathFor(key);
+      await mkdir(dirname(full), { recursive: true });
+      await pipeline(source, createWriteStream(full));
     },
     async get(key) {
       return readFile(pathFor(key));
