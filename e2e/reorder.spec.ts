@@ -24,7 +24,10 @@ test("an admin drags a lesson above another, and the new order is kept", async (
   }
   const second = page.locator("li[data-lesson-title='Second lesson']");
   const first = page.locator("li[data-lesson-title='First lesson']");
+  // Wait for the server to save the order before reloading, so the reload sees it.
+  const saved = page.waitForResponse((r) => r.request().method() === "POST" && r.url().includes("/admin/courses/"));
   await second.dragTo(first);
+  await saved;
   await expect(page.locator("ol[data-test=lesson-list] li").first()).toHaveAttribute("data-lesson-title", "Second lesson");
   await page.reload();
   await expect(page.locator("ol[data-test=lesson-list] li").first()).toHaveAttribute("data-lesson-title", "Second lesson");
