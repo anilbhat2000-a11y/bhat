@@ -32,6 +32,7 @@ it("CSV quotes fields with commas and doubles embedded quotes", () => {
 
 it("CSV of no rows is an empty string", () => {
   expect(toCsv([])).toBe("");
+  expect(toCsv([], ["name", "email"])).toBe("name,email\r\n");
 });
 
 it("counts each person once per subject and level, using their latest certificate", () => {

@@ -38,9 +38,10 @@ export function passRateByDepartment(attempts: { department: string; passed: boo
 }
 
 // RFC 4180: CRLF line endings, fields with commas, quotes, or line breaks are quoted.
-export function toCsv(rows: Record<string, unknown>[]): string {
-  if (rows.length === 0) return "";
-  const headers = Object.keys(rows[0]);
+// Pass `columns` so an empty report still has its header row.
+export function toCsv(rows: Record<string, unknown>[], columns?: readonly string[]): string {
+  const headers = columns ? [...columns] : rows.length > 0 ? Object.keys(rows[0]) : [];
+  if (headers.length === 0) return "";
   const escape = (v: unknown) => {
     const s = v === null || v === undefined ? "" : String(v);
     return /[",\r\n]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
