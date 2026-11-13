@@ -73,10 +73,14 @@ export async function markAttendance(sessionId: string, attendeeIds: string[], a
     if (actor.role !== "ADMIN" && (id === actor.id || !canViewUser(actor, id, users))) throw new AuthError(403);
   }
   await prisma.$transaction(async (tx) => {
-    await tx.liveSessionRegistration.updateMany({
-      where: { liveSessionId: sessionId, userId: { in: attendeeIds } },
-      data: { attended: true },
-    });
+    // Recording attendance also books the person if they were not registered.
+    for (const userId of attendeeIds) {
+      await tx.liveSessionRegistration.upsert({
+        where: { liveSessionId_userId: { liveSessionId: sessionId, userId } },
+        create: { liveSessionId: sessionId, userId, attended: true },
+        update: { attended: true },
+      });
+    }
     await recordAudit(tx, { actorId: actor.id, action: "session.attendance", entityType: "LiveSession", entityId: sessionId, after: { attendeeIds } });
   });
   for (const id of attendeeIds) {

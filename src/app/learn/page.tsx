@@ -3,6 +3,7 @@ import Link from "next/link";
 import { requireSession } from "../../lib/auth/current-user";
 import { prisma } from "../../lib/db/client";
 import { dueSummary } from "../../lib/learning/home";
+import { LocalTime } from "../../components/LocalTime";
 
 export default async function LearnHome() {
   await connection();
@@ -39,7 +40,7 @@ export default async function LearnHome() {
         <ul>
           {sessions.map((r) => (
             <li key={r.id}>
-              {r.liveSession.lesson.title} ({r.liveSession.lesson.course.title}) — {r.liveSession.startsAt.toISOString().replace("T", " ").slice(0, 16)} UTC
+              {r.liveSession.lesson.title} ({r.liveSession.lesson.course.title}) — <LocalTime iso={r.liveSession.startsAt.toISOString()} />
             </li>
           ))}
         </ul>

@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { requireSession } from "../../../../lib/auth/current-user";
 import { attemptForUser } from "../../../../lib/assessments/take";
 import { submitAttemptAction } from "../../../actions/attempts";
+import { AttemptTimer } from "../../../../components/AttemptTimer";
 
 export default async function AttemptPage({
   params,
@@ -45,9 +46,9 @@ export default async function AttemptPage({
   return (
     <main style={{ padding: "16px", fontFamily: "system-ui, sans-serif" }}>
       <h1>{attempt.title}</h1>
-      {attempt.expiresAt ? <p>Time limit ends at {attempt.expiresAt.toISOString()}</p> : null}
+      {attempt.expiresAt ? <AttemptTimer formId="attempt-form" endsAtIso={attempt.expiresAt.toISOString()} /> : null}
       {error ? <p role="alert">{error}</p> : null}
-      <form action={submitAttemptAction}>
+      <form id="attempt-form" action={submitAttemptAction}>
         <input type="hidden" name="attemptId" value={id} />
         {attempt.questions.map((q, i) => (
           <fieldset key={q.id} style={{ marginBottom: 16 }}>

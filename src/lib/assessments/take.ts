@@ -75,7 +75,8 @@ export async function startAttempt(
     await prisma.assessmentAttempt.update({ where: { id: inProgress.id }, data: { status: "EXPIRED" } });
   }
 
-  const attemptsSoFar = await prisma.assessmentAttempt.count({ where: { periodId, userId: actor.id } });
+  // Voided attempts (an admin reset) stay on record but no longer count toward the limit.
+  const attemptsSoFar = await prisma.assessmentAttempt.count({ where: { periodId, userId: actor.id, status: { not: "VOIDED" } } });
   if (period.status !== "OPEN" || now.getTime() > period.dueAt.getTime()) throw new Error("This period is closed");
   if (!canStartAttempt(attemptsSoFar, period.assessment.maxAttemptsPerPeriod, period.status)) {
     throw new Error("No attempts left: the attempt limit for this period is reached");

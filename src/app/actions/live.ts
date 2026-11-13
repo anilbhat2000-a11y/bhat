@@ -15,8 +15,9 @@ export async function scheduleSessionAction(formData: FormData): Promise<void> {
   const to = `/admin/courses/${lesson?.courseId ?? ""}`;
   const capacityText = text(formData, "capacity").trim();
   const result = await scheduleSession(actor, lessonId, {
-    startsAt: new Date(text(formData, "startsAt")),
-    endsAt: new Date(text(formData, "endsAt")),
+    // The browser sends UTC instants (startsAtIso). A plain value is read as UTC only as a fallback.
+    startsAt: new Date(text(formData, "startsAtIso") || text(formData, "startsAt")),
+    endsAt: new Date(text(formData, "endsAtIso") || text(formData, "endsAt")),
     meetingUrl: text(formData, "meetingUrl"),
     capacity: capacityText === "" ? null : Number(capacityText),
     instructorIds: formData.getAll("instructorIds").map(String).filter(Boolean),

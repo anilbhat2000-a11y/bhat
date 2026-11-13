@@ -3,7 +3,9 @@ import { guardPortal } from "../../../../lib/auth/portal";
 import { notFound } from "next/navigation";
 import { prisma } from "../../../../lib/db/client";
 import { addLessonAction, moveLessonAction, setPublishedAction, uploadLessonAction } from "../../../actions/courses";
-import { markAttendanceAction, scheduleSessionAction } from "../../../actions/live";
+import { markAttendanceAction } from "../../../actions/live";
+import { LocalTime } from "../../../../components/LocalTime";
+import { ScheduleSessionForm } from "../../../../components/ScheduleSessionForm";
 import { attachCaptionAction } from "../../../actions/courses";
 import { LessonReorder } from "../../../../components/LessonReorder";
 import { deleteCourseAction, updateCourseAction } from "../../../actions/account";
@@ -91,7 +93,7 @@ export default async function CoursePage({
           <h2>Live session: {l.title}</h2>
           {l.liveSession ? (
             <>
-              <p>{l.liveSession.startsAt.toISOString()} to {l.liveSession.endsAt.toISOString()} · {l.liveSession.registrations.length} registered{l.liveSession.capacity !== null ? ` of ${l.liveSession.capacity}` : ""}</p>
+              <p><LocalTime iso={l.liveSession.startsAt.toISOString()} /> to <LocalTime iso={l.liveSession.endsAt.toISOString()} /> · {l.liveSession.registrations.length} registered{l.liveSession.capacity !== null ? ` of ${l.liveSession.capacity}` : ""}</p>
               <form action={markAttendanceAction}>
                 <input type="hidden" name="sessionId" value={l.liveSession.id} />
                 {l.liveSession.registrations.map((r) => (
@@ -103,19 +105,7 @@ export default async function CoursePage({
               </form>
             </>
           ) : <p>Not scheduled yet.</p>}
-          <form action={scheduleSessionAction}>
-            <input type="hidden" name="lessonId" value={l.id} />
-            <input aria-label="Starts at" name="startsAt" type="datetime-local" required /> to <input name="endsAt" type="datetime-local" required />{" "}
-            <input aria-label="https://meeting link" name="meetingUrl" type="url" placeholder="https://meeting link" required />{" "}
-            <input aria-label="Capacity (optional)" name="capacity" type="number" min={0} placeholder="Capacity (optional)" />
-            <fieldset>
-              <legend>Instructors</legend>
-              {instructors.map((i) => (
-                <label key={i.id}><input type="checkbox" name="instructorIds" value={i.id} /> {i.name} ({i.location ?? "location not set"})</label>
-              ))}
-            </fieldset>
-            <button type="submit">Save session</button>
-          </form>
+          <ScheduleSessionForm lessonId={l.id} instructors={instructors} />
         </section>
       ))}
 

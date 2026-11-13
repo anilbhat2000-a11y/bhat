@@ -6,8 +6,9 @@ import { requireSession } from "../../lib/auth/current-user";
 import { parseCsvRows } from "../../lib/import/csv";
 import type { QuestionRow } from "../../lib/import/questions";
 import {
-  createAssessment, addQuestion, importQuestions, setAssessmentPublished, setAssignments,
+  createAssessment, addQuestion, importQuestions, setAssessmentPublished, setAssignments, resetAttempts,
 } from "../../lib/assessments/admin";
+import { prisma } from "../../lib/db/client";
 import { openPeriodsFor } from "../../lib/assessments/open-periods";
 import type { Cadence, Level } from "../../generated/prisma/client";
 
@@ -97,4 +98,15 @@ export async function setAssignmentAction(formData: FormData): Promise<void> {
   await openPeriodsFor(id, new Date());
   revalidatePath(to);
   back(to, "Assignment saved", "notice");
+}
+
+export async function resetAttemptsAction(formData: FormData): Promise<void> {
+  const actor = await requireSession();
+  const periodId = text(formData, "periodId");
+  const period = await prisma.assessmentPeriod.findUnique({ where: { id: periodId }, select: { assessmentId: true } });
+  const to = `/admin/assessments/${period?.assessmentId ?? ""}`;
+  const result = await resetAttempts(actor, periodId);
+  if (!result.ok) back(to, result.error, "error");
+  revalidatePath(to);
+  back(to, "Attempts reset", "notice");
 }

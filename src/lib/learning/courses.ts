@@ -61,11 +61,17 @@ export async function updateCourse(
 export async function setCoursePublished(actor: SessionUser, id: string, published: boolean): Promise<Result> {
   asAdmin(actor);
   if (published) {
-    const lessons = await prisma.lesson.findMany({ where: { courseId: id }, select: { type: true, captionFileKey: true } });
+    const lessons = await prisma.lesson.findMany({
+      where: { courseId: id },
+      select: { type: true, captionFileKey: true, liveSession: { select: { id: true } } },
+    });
     if (lessons.length === 0) return { ok: false, error: "Add at least one lesson before publishing" };
     for (const l of lessons) {
       const check = canPublishLesson(l);
       if (!check.ok) return { ok: false, error: check.reason };
+      if (l.type === "LIVE_SESSION" && !l.liveSession) {
+        return { ok: false, error: "Schedule every live session before publishing the course" };
+      }
     }
   }
   const before = await prisma.course.findUnique({ where: { id }, select: { status: true } });

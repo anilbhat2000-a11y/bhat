@@ -71,6 +71,7 @@ enum AttemptStatus {
   IN_PROGRESS
   SUBMITTED
   EXPIRED
+  VOIDED
 }
 
 enum LanguageLevel {

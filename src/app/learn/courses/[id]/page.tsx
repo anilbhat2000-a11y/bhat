@@ -8,6 +8,7 @@ import { registerAction } from "../../../actions/live";
 import { saveLabAction } from "../../../actions/labs";
 import { parseLabChecklist } from "../../../../lib/learning/labs";
 import { VideoLesson } from "../../../../components/VideoLesson";
+import { LocalTime } from "../../../../components/LocalTime";
 
 export default async function LearnCoursePage({
   params,
@@ -58,7 +59,7 @@ export default async function LearnCoursePage({
             {l.type === "PDF" ? <p><a href={`/api/files/${l.id}`}>Open PDF</a></p> : null}
             {l.type === "LIVE_SESSION" && l.liveSession ? (
               <div>
-                <p>{l.liveSession.startsAt.toISOString()} to {l.liveSession.endsAt.toISOString()}</p>
+                <p><LocalTime iso={l.liveSession.startsAt.toISOString()} /> to <LocalTime iso={l.liveSession.endsAt.toISOString()} /></p>
                 <p><a href={l.liveSession.meetingUrl} rel="noopener noreferrer">Meeting link</a></p>
                 {l.liveSession.registrations.length > 0 ? (
                   <p>You are registered{l.liveSession.registrations[0].attended ? " and attended" : ""}.</p>
@@ -89,7 +90,7 @@ export default async function LearnCoursePage({
                 captionsSrc={l.captionFileKey ? `/api/captions/${l.id}` : null}
               />
             ) : null}
-            {!done && l.type !== "LAB" ? (
+            {!done && l.type !== "LAB" && l.type !== "LIVE_SESSION" ? (
               <form action={completeLessonAction}>
                 <input type="hidden" name="lessonId" value={l.id} />
                 <button type="submit">Mark complete</button>

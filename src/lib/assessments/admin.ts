@@ -140,3 +140,21 @@ export async function setAssignments(
   });
   return { ok: true, id: assessmentId };
 }
+
+// An admin reopens a period: failed, expired and unfinished attempts are voided (kept on
+// record, not counted), and an open period can be attempted again. A passed period stays passed.
+export async function resetAttempts(actor: SessionUser, periodId: string): Promise<Result> {
+  asAdmin(actor);
+  const period = await prisma.assessmentPeriod.findUnique({ where: { id: periodId } });
+  if (!period) return { ok: false, error: "Period not found" };
+  if (period.status === "PASSED") return { ok: false, error: "This period is already passed" };
+  await prisma.$transaction(async (tx) => {
+    await tx.assessmentAttempt.updateMany({
+      where: { periodId, status: { in: ["SUBMITTED", "EXPIRED", "IN_PROGRESS"] } },
+      data: { status: "VOIDED" },
+    });
+    await tx.assessmentPeriod.update({ where: { id: periodId }, data: { status: "OPEN" } });
+    await recordAudit(tx, { actorId: actor.id, action: "period.reset", entityType: "AssessmentPeriod", entityId: periodId, before: { status: period.status } });
+  });
+  return { ok: true, id: periodId };
+}

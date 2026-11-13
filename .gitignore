@@ -43,6 +43,7 @@ next-env.d.ts
 # local storage and env
 /storage/
 .env
+!.env.example
 src/generated/
 /test-results/
 /playwright-report/

@@ -3,7 +3,7 @@ import { guardPortal } from "../../../../lib/auth/portal";
 import { notFound } from "next/navigation";
 import { prisma } from "../../../../lib/db/client";
 import {
-  addQuestionAction, importQuestionsAction, setAssignmentAction, setPublishedAction,
+  addQuestionAction, importQuestionsAction, setAssignmentAction, setPublishedAction, resetAttemptsAction,
 } from "../../../actions/assessments";
 
 export default async function AssessmentPage({
@@ -22,6 +22,12 @@ export default async function AssessmentPage({
     include: { questions: { orderBy: { position: "asc" } }, assignments: true },
   });
   if (!assessment) notFound();
+  const periods = await prisma.assessmentPeriod.findMany({
+    where: { assessmentId: id },
+    include: { user: { select: { name: true } } },
+    orderBy: [{ periodKey: "desc" }, { dueAt: "asc" }],
+    take: 200,
+  });
 
   return (
     <main style={{ padding: "16px", fontFamily: "system-ui, sans-serif" }}>
@@ -64,6 +70,23 @@ export default async function AssessmentPage({
         <br />
         <button type="submit">Import</button>
       </form>
+
+      <h2>Learner periods</h2>
+      {periods.length === 0 ? <p>No one has an open period yet.</p> : (
+        <ul>
+          {periods.map((p) => (
+            <li key={p.id}>
+              {p.user.name}, {p.periodKey}: {p.status.toLowerCase()}{" "}
+              {p.status !== "PASSED" ? (
+                <form action={resetAttemptsAction} style={{ display: "inline" }}>
+                  <input type="hidden" name="periodId" value={p.id} />
+                  <button type="submit">Reset attempts</button>
+                </form>
+              ) : null}
+            </li>
+          ))}
+        </ul>
+      )}
 
       <h2>Assigned to</h2>
       <p>{assessment.assignments.map((a) => `${a.targetType}${a.targetValue ? `: ${a.targetValue}` : ""}`).join(", ") || "Nobody yet"}</p>

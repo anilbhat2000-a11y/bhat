@@ -58,7 +58,26 @@ export async function completeLessonForUser(userId: string, lessonId: string): P
       },
     }),
   ]);
+  // An attended live session that now comes next completes on its own (attendance can be
+  // recorded before the earlier lessons are done).
+  await completeAttendedLive(userId, lesson.courseId);
   return { ok: true };
+}
+
+async function completeAttendedLive(userId: string, courseId: string): Promise<void> {
+  for (;;) {
+    const lessons = await prisma.lesson.findMany({ where: { courseId }, orderBy: { position: "asc" } });
+    const row = await prisma.courseProgress.findUnique({ where: { userId_courseId: { userId, courseId } } });
+    const done = new Set<string>((row?.completedLessonIds as string[] | undefined) ?? []);
+    const nextLesson = lessons.find((l) => !done.has(l.id));
+    if (!nextLesson || nextLesson.type !== "LIVE_SESSION") return;
+    const attended = await prisma.liveSessionRegistration.findFirst({
+      where: { userId, attended: true, liveSession: { lessonId: nextLesson.id } },
+    });
+    if (!attended) return;
+    const result = await completeLessonForUser(userId, nextLesson.id);
+    if (!result.ok) return;
+  }
 }
 
 // Stores where a video stopped, and which lesson the learner was on.

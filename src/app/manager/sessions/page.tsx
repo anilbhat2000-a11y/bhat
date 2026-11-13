@@ -3,6 +3,7 @@ import { requireSession } from "../../../lib/auth/current-user";
 import { prisma } from "../../../lib/db/client";
 import { teamMembers } from "../../../lib/manager/team";
 import { markAttendanceAction } from "../../actions/live";
+import { LocalTime } from "../../../components/LocalTime";
 
 // Sessions your team is booked on. Mark attendance for your own team only.
 export default async function ManagerSessionsPage({ searchParams }: { searchParams: Promise<{ error?: string; notice?: string }> }) {
@@ -29,7 +30,7 @@ export default async function ManagerSessionsPage({ searchParams }: { searchPara
         return (
           <section key={sessionId}>
             <h2>{s.lesson.title} ({s.lesson.course.title})</h2>
-            <p>{s.startsAt.toISOString().replace("T", " ").slice(0, 16)} UTC</p>
+            <p><LocalTime iso={s.startsAt.toISOString()} /></p>
             <form action={markAttendanceAction}>
               <input type="hidden" name="sessionId" value={sessionId} />
               {regs.map((r) => (

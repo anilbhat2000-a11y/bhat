@@ -22,11 +22,30 @@ services:
       DATABASE_URL: postgresql://lms:${POSTGRES_PASSWORD}@db:5432/lms
       FILE_STORAGE_DIR: /app/storage
       CRON_SECRET: ${CRON_SECRET:?set CRON_SECRET in .env}
-      SMTP_URL: ${SMTP_URL:-smtp://mailhog:1025}
+      SMTP_URL: ${SMTP_URL:?set SMTP_URL in .env (for example smtp://user:pass@smtp.example.com:587)}
     ports:
       - "3000:3000"
     volumes:
       - storage:/app/storage
+
+  # Runs the scheduled work once an hour: opens new assessment periods, marks overdue
+  # ones, and sends reminders. Without it, recurring assessments do not roll over.
+  scheduler:
+    image: alpine:3.20
+    depends_on:
+      - app
+    environment:
+      CRON_SECRET: ${CRON_SECRET:?set CRON_SECRET in .env}
+    command:
+      - sh
+      - -c
+      - |
+        apk add --no-cache wget >/dev/null
+        while true; do
+          wget -q -O- --header "Authorization: Bearer $$CRON_SECRET" --post-data="" http://app:3000/api/cron/reminders || echo "scheduler: run failed"
+          sleep 3600
+        done
+    restart: unless-stopped
 
 volumes:
   pgdata:

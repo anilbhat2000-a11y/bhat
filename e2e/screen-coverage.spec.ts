@@ -59,13 +59,15 @@ test("a live session is booked, and shows on the learner's home page", async ({ 
   await page.selectOption("form[data-test=add-lesson] select[name=type]", "LIVE_SESSION");
   await page.click("form[data-test=add-lesson] button[type=submit]");
   await expect(page.getByText("Lesson added")).toBeVisible();
-  await page.click("form[data-test=publish] button[type=submit]");
   const schedule = page.locator(`form:has(input[name=lessonId][value="${runDb(["lesson-id", lessonTitle])}"])`);
   await schedule.locator("input[name=startsAt]").fill("2030-06-01T10:00");
   await schedule.locator("input[name=endsAt]").fill("2030-06-01T11:00");
   await schedule.locator("input[name=meetingUrl]").fill("https://meet.example.test/session");
   await schedule.locator("button:has-text('Save session')").click();
   await expect(page.getByText("Session scheduled")).toBeVisible();
+  // A live session must be scheduled before its course can be published.
+  await page.click("form[data-test=publish] button[type=submit]");
+  await expect(page.getByText("Status: Published")).toBeVisible();
 
   const ctx = await browser.newContext();
   const learner = await ctx.newPage();
