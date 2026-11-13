@@ -1,7 +1,14 @@
 import type { Role } from "../../generated/prisma/client";
 
-export type UserRow = { name: string; email: string; role: string; department: string; managerEmail: string };
-export type ParsedUser = { name: string; email: string; role: Role; department: string; managerEmail: string | null };
+export type UserRow = { name: string; email: string; role: string; department: string; managerEmail: string; password: string };
+export type ParsedUser = {
+  name: string;
+  email: string;
+  role: Role;
+  department: string;
+  managerEmail: string | null;
+  password: string;
+};
 export type RowError = { row: number; reason: string };
 
 const ROLES: Role[] = ["ADMIN", "MANAGER", "EMPLOYEE"];
@@ -36,7 +43,9 @@ export function parseUserRows(
       return fail("manager is not in this file or the system");
     }
 
-    users.push({ name, email, role, department: raw.department.trim(), managerEmail });
+    if (raw.password.length < 8) return fail("initial password must be at least 8 characters");
+
+    users.push({ name, email, role, department: raw.department.trim(), managerEmail, password: raw.password });
   });
 
   return errors.length > 0 ? { ok: false, errors } : { ok: true, users };
