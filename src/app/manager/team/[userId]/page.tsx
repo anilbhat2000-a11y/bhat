@@ -6,6 +6,7 @@ import { memberDetail } from "../../../../lib/manager/team";
 import { openRemedialsFor } from "../../../../lib/assessments/remedial";
 import { commentRemedialAction } from "../../../actions/remedial";
 import { LocalTime } from "../../../../components/LocalTime";
+import { loadRows, weakTopics } from "../../../../lib/reports/analytics";
 
 export default async function MemberPage({
   params,
@@ -27,6 +28,7 @@ export default async function MemberPage({
   }
   // memberDetail has checked the reporting line, so the plans can be read.
   const remedials = await openRemedialsFor(userId);
+  const weak = weakTopics((await loadRows(viewer, { onlyUserId: userId })).attempts);
 
   return (
     <main style={{ padding: "16px", fontFamily: "system-ui, sans-serif" }}>
@@ -34,6 +36,13 @@ export default async function MemberPage({
       <p>{detail.email}{detail.department ? ` · ${detail.department}` : ""}</p>
       {notice ? <p role="status">{notice}</p> : null}
       {error ? <p role="alert">{error}</p> : null}
+
+      <h2>Weak topics</h2>
+      {weak.length === 0 ? <p>No weak subjects: average scores are at or above the pass marks.</p> : (
+        <ul>
+          {weak.map((w) => <li key={w.subject}>{w.subject}: average {w.averageScore}% over {w.attempts} attempt{w.attempts === 1 ? "" : "s"} (pass mark {w.passMark}%){w.lastPassed ? "" : "; last attempt not passed"}</li>)}
+        </ul>
+      )}
 
       <h2>Remedial plans</h2>
       {remedials.length === 0 ? <p>No open remedial plans.</p> : (

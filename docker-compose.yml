@@ -82,6 +82,7 @@ services:
   # Daily encrypted backup of the database and uploaded files into ./backups.
   backup:
     build: ./deploy/backup
+    image: lms-backup
     depends_on:
       db:
         condition: service_healthy

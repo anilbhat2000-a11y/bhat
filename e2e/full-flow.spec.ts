@@ -68,5 +68,5 @@ test("the full loop: admin publishes, employee learns and passes, manager and ad
   await managerContext.close();
 
   await page.goto("/admin/dashboard");
-  await expect(page.getByRole("cell", { name: "E2E Subject" })).toBeVisible();
+  await expect(page.getByRole("region", { name: "Certifications by subject" }).getByRole("cell", { name: "E2E Subject" })).toBeVisible();
 });

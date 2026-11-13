@@ -5,6 +5,17 @@ import { prisma } from "../../lib/db/client";
 import { dueSummary } from "../../lib/learning/home";
 import { LocalTime } from "../../components/LocalTime";
 import { openRemedialsFor } from "../../lib/assessments/remedial";
+import { loadRows, recommendations, subjectProgress, weakTopics } from "../../lib/reports/analytics";
+
+// "in 3 days", "in 5 hours", "overdue by 2 days": a countdown to the due time.
+function countdown(due: Date, now: Date): string {
+  const ms = due.getTime() - now.getTime();
+  const abs = Math.abs(ms);
+  const days = Math.floor(abs / 86_400_000);
+  const hours = Math.floor((abs % 86_400_000) / 3_600_000);
+  const span = days > 0 ? `${days} day${days === 1 ? "" : "s"}${hours ? ` ${hours} h` : ""}` : `${Math.max(1, hours)} hour${hours === 1 ? "" : "s"}`;
+  return ms >= 0 ? `due in ${span}` : `overdue by ${span}`;
+}
 
 export default async function LearnHome() {
   await connection();
@@ -26,6 +37,16 @@ export default async function LearnHome() {
     take: 10,
   });
   const remedials = await openRemedialsFor(user.id);
+  const mine = await loadRows(user, { onlyUserId: user.id });
+  const progress = subjectProgress(mine.courses, mine.progress);
+  const weak = weakTopics(mine.attempts);
+  const suggested = recommendations(weak, mine.courses, mine.progress);
+  const certificates = await prisma.certification.findMany({
+    where: { userId: user.id, expiresAt: { gt: now } },
+    include: { subject: true },
+    orderBy: { issuedAt: "desc" },
+    take: 5,
+  });
   const open = periods.filter((p) => p.status === "OPEN" || p.status === "OVERDUE").slice(0, 10);
 
   return (
@@ -69,7 +90,46 @@ export default async function LearnHome() {
         <ul>
           {open.map((p) => (
             <li key={p.id}>
-              {p.assessment.title} — due {p.dueAt.toISOString().slice(0, 10)} ({p.status.toLowerCase()})
+              {p.assessment.title}: <strong>{countdown(p.dueAt, now)}</strong> (<LocalTime iso={p.dueAt.toISOString()} />)
+            </li>
+          ))}
+        </ul>
+      )}
+
+      <h2>My progress by subject</h2>
+      {progress.length === 0 ? <p>You have not started a course yet. <Link href="/learn/catalogue">Browse the catalogue</Link>.</p> : (
+        <ul style={{ listStyle: "none", padding: 0 }}>
+          {progress.map((p) => (
+            <li key={`${p.subject}-${p.level}`} style={{ marginBottom: 8 }}>
+              <label>
+                {p.subject}, {p.level.toLowerCase()}: {p.completed} of {p.lessons} lessons ({p.percent}%)
+                <br />
+                <progress value={p.percent} max={100} style={{ width: "100%", maxWidth: 320 }}>{p.percent}%</progress>
+              </label>
+            </li>
+          ))}
+        </ul>
+      )}
+
+      {suggested.length > 0 ? (
+        <>
+          <h2>Recommended for you</h2>
+          <p>Based on subjects where your scores are below the pass mark.</p>
+          <ul>
+            {suggested.map((r) => (
+              <li key={r.courseId}><Link href={`/learn/courses/${r.courseId}`}>{r.course}</Link> ({r.subject}, {r.level.toLowerCase()})</li>
+            ))}
+          </ul>
+        </>
+      ) : null}
+
+      <h2>My certificates</h2>
+      {certificates.length === 0 ? <p>No active certificates yet.</p> : (
+        <ul>
+          {certificates.map((c) => (
+            <li key={c.id}>
+              {c.subject.name}, {c.level.toLowerCase()}, valid until <LocalTime iso={c.expiresAt.toISOString()} />:{" "}
+              <a href={`/api/certificates/${c.id}`}>Download PDF</a> · <a href={`/verify/${c.verificationCode}`}>Verification page</a>
             </li>
           ))}
         </ul>
