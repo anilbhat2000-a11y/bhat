@@ -19,7 +19,7 @@ export default async function CoursesPage({ searchParams }: { searchParams: Prom
       <ul>
         {courses.map((c) => (
           <li key={c.id}>
-            <a href={`/admin/courses/${c.id}`}>{c.title}</a> — {c.subject.name}, {c.level}, {c.status === "PUBLISHED" ? "Published" : "Draft"}
+            <a href={`/admin/courses/${c.id}`}>{c.title}</a> — {c.subject.name}, {c.level}, {({ DRAFT: "Draft", PUBLISHED: "Published", ARCHIVED: "Archived" } as const)[c.status]}
           </li>
         ))}
       </ul>

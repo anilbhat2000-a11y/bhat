@@ -3,6 +3,7 @@ import type { ReadableStream as WebReadableStream } from "node:stream/web";
 import busboy from "busboy";
 import { currentUser } from "../../../../lib/auth/current-user";
 import { saveLessonFile } from "../../../../lib/learning/courses";
+import { assignLessonModules } from "../../../../lib/learning/modules";
 import { defaultStorage } from "../../../../lib/storage";
 import { sizeLimitBytes, validateUpload, type UploadKind } from "../../../../lib/storage/validate";
 
@@ -135,5 +136,10 @@ export async function POST(request: Request): Promise<Response> {
     storage,
   );
   if (!result.ok) return redirectTo(courseTo, result.error, "error");
+  const moduleId = fields.get("moduleId");
+  if (moduleId && result.id) {
+    const placed = await assignLessonModules(actor, fields.get("courseId") ?? "", { [result.id]: moduleId });
+    if (!placed.ok) return redirectTo(courseTo, `File uploaded, but not placed in the module: ${placed.error}`, "error");
+  }
   return redirectTo(courseTo, "File uploaded", "notice");
 }

@@ -4,7 +4,8 @@ import type { SessionUser } from "../auth/session";
 import { defaultStorage, mimeForKey } from "../storage";
 import type { FileStorage } from "../storage/types";
 import { validateUpload } from "../storage/validate";
-import type { Level, LessonType } from "../../generated/prisma/client";
+import type { CourseStatus, Level, LessonType } from "../../generated/prisma/client";
+import { learnerCanOpen } from "./modules";
 import { recordAudit, writeWithAudit } from "../audit/record";
 import { canPublishLesson } from "./publish";
 import { parseLabChecklist } from "./labs";
@@ -205,8 +206,7 @@ export async function getLessonFile(
 ): Promise<{ key: string; mime: string; title: string } | null> {
   const lesson = await prisma.lesson.findUnique({ where: { id: lessonId }, include: { course: true } });
   if (!lesson || !lesson.fileKey) return null;
-  const allowed = actor.role === "ADMIN" || lesson.course.status === "PUBLISHED";
-  if (!allowed) return null;
+  if (!(await canReadCourse(actor, lesson.course))) return null;
   return { key: lesson.fileKey, mime: mimeForKey(lesson.fileKey), title: lesson.title };
 }
 
@@ -214,8 +214,20 @@ export async function getLessonFile(
 export async function getLessonCaption(actor: SessionUser, lessonId: string): Promise<{ key: string } | null> {
   const lesson = await prisma.lesson.findUnique({ where: { id: lessonId }, include: { course: true } });
   if (!lesson || !lesson.captionFileKey) return null;
-  const allowed = actor.role === "ADMIN" || lesson.course.status === "PUBLISHED";
-  return allowed ? { key: lesson.captionFileKey } : null;
+  return (await canReadCourse(actor, lesson.course)) ? { key: lesson.captionFileKey } : null;
+}
+
+// Admins read every course. Learners read published courses, and archived ones they had
+// started (see learnerCanOpen).
+export async function canReadCourse(actor: SessionUser, course: { id: string; status: CourseStatus }): Promise<boolean> {
+  if (actor.role === "ADMIN") return true;
+  if (course.status === "PUBLISHED") return true;
+  if (course.status !== "ARCHIVED") return false;
+  const progress = await prisma.courseProgress.findUnique({
+    where: { userId_courseId: { userId: actor.id, courseId: course.id } },
+    select: { id: true },
+  });
+  return learnerCanOpen(course.status, progress !== null);
 }
 
 

@@ -9,6 +9,12 @@ import { saveLabAction } from "../../../actions/labs";
 import { parseLabChecklist } from "../../../../lib/learning/labs";
 import { VideoLesson } from "../../../../components/VideoLesson";
 import { LocalTime } from "../../../../components/LocalTime";
+import { groupByModule, learnerCanOpen, totalMinutes } from "../../../../lib/learning/modules";
+
+function formatMinutes(m: number): string {
+  const h = Math.floor(m / 60);
+  return h > 0 ? `${h} h${m % 60 ? ` ${m % 60} min` : ""}` : `${m} min`;
+}
 
 export default async function LearnCoursePage({
   params,
@@ -25,10 +31,14 @@ export default async function LearnCoursePage({
     where: { id },
     include: {
       lessons: { orderBy: { position: "asc" }, include: { liveSession: { include: { registrations: { where: { userId: user.id } } } }, instructors: { include: { instructor: true } } } },
+      modules: { orderBy: { position: "asc" } },
       progress: { where: { userId: user.id } },
     },
   });
-  if (!course || course.status !== "PUBLISHED") notFound();
+  if (!course || !learnerCanOpen(course.status, course.progress.length > 0)) notFound();
+  const archived = course.status === "ARCHIVED";
+  const groups = groupByModule(course.lessons, course.modules);
+  const minutes = totalMinutes(course.modules);
 
   const completed = (course.progress[0]?.completedLessonIds as string[] | undefined) ?? [];
   const lessonIds = course.lessons.map((l) => l.id);
@@ -42,15 +52,25 @@ export default async function LearnCoursePage({
     <main style={{ padding: "16px", fontFamily: "system-ui, sans-serif" }}>
       <h1>{course.title}</h1>
       <p>{course.description}</p>
-      <p>Progress: {percent}%</p>
+      <p>Progress: {percent}%{minutes > 0 ? ` · about ${formatMinutes(minutes)} in total` : ""}</p>
+      {archived ? <p role="status">This course has been retired. You can review what you completed, but it no longer records progress.</p> : null}
       {error ? <p role="alert">{error}</p> : null}
       {resume ? <p>You stopped at: {course.lessons.find((l) => l.id === resume)?.title}</p> : null}
 
-      {course.lessons.map((l) => {
+      {groups.map((g, gi) => (
+      <section key={g.module?.id ?? `none-${gi}`} aria-labelledby={g.module ? `module-${g.module.id}` : undefined}>
+        {g.module ? (
+          <h2 id={`module-${g.module.id}`}>
+            Module {g.module.position}: {g.module.title}
+            {g.module.estimatedMinutes ? <small> ({formatMinutes(g.module.estimatedMinutes)})</small> : null}
+          </h2>
+        ) : course.modules.length > 0 ? <h2>Other lessons</h2> : null}
+      {g.lessons.map((l) => {
         const done = completed.includes(l.id);
+        const H = course.modules.length > 0 ? "h3" : "h2";
         return (
           <section key={l.id} style={{ marginBottom: 24 }}>
-            <h2>{l.title} {done ? "(complete)" : ""}</h2>
+            <H>{l.title} {done ? "(complete)" : ""}</H>
             {l.instructors.length > 0 ? (
               <p>Taught by {l.instructors.map((x) => `${x.instructor.name}${x.instructor.location ? ` (${x.instructor.location})` : ""}${x.instructor.expertise.length ? `: ${x.instructor.expertise.join(", ")}` : ""}`).join("; ")}</p>
             ) : null}
@@ -90,7 +110,7 @@ export default async function LearnCoursePage({
                 captionsSrc={l.captionFileKey ? `/api/captions/${l.id}` : null}
               />
             ) : null}
-            {!done && l.type !== "LAB" && l.type !== "LIVE_SESSION" ? (
+            {!done && !archived && l.type !== "LAB" && l.type !== "LIVE_SESSION" ? (
               <form action={completeLessonAction}>
                 <input type="hidden" name="lessonId" value={l.id} />
                 <button type="submit">Mark complete</button>
@@ -99,6 +119,8 @@ export default async function LearnCoursePage({
           </section>
         );
       })}
+      </section>
+      ))}
     </main>
   );
 }

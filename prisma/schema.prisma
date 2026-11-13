@@ -31,6 +31,8 @@ enum Level {
 enum CourseStatus {
   DRAFT
   PUBLISHED
+  // Retired: hidden from the catalogue; learners who started it can still review it.
+  ARCHIVED
 }
 
 enum LessonType {
@@ -167,16 +169,35 @@ model Course {
   updatedAt       DateTime     @updatedAt @map("updated_at")
 
   lessons     Lesson[]
+  modules     Module[]
   progress    CourseProgress[]
   assessments Assessment[]
 
   @@map("courses")
 }
 
+// A group of lessons inside a course. Lesson.position stays the one source of order;
+// assigning lessons to modules re-sorts positions so each module's lessons sit together.
+model Module {
+  id               String   @id @default(cuid())
+  courseId         String   @map("course_id")
+  course           Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  position         Int
+  title            String
+  estimatedMinutes Int?     @map("estimated_minutes")
+
+  lessons Lesson[]
+
+  @@unique([courseId, position])
+  @@map("modules")
+}
+
 model Lesson {
   id             String     @id @default(cuid())
   courseId       String     @map("course_id")
   course         Course     @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  moduleId       String?    @map("module_id")
+  module         Module?    @relation(fields: [moduleId], references: [id], onDelete: SetNull)
   position       Int
   title          String
   type           LessonType

@@ -5,6 +5,7 @@ import { redirect } from "next/navigation";
 import { requireSession } from "../../lib/auth/current-user";
 import { createCourse, addLesson, setCoursePublished, reorderLessons, attachCaption } from "../../lib/learning/courses";
 import { prisma } from "../../lib/db/client";
+import { addModule, assignLessonModules, deleteModule, setCourseArchived } from "../../lib/learning/modules";
 import type { Level } from "../../generated/prisma/client";
 
 const text = (fd: FormData, key: string) => String(fd.get(key) ?? "");
@@ -40,8 +41,64 @@ export async function addLessonAction(formData: FormData): Promise<void> {
   });
   const to = `/admin/courses/${courseId}`;
   if (!result.ok) back(to, result.error, "error");
+  const moduleId = text(formData, "moduleId");
+  if (moduleId && result.id) {
+    const placed = await assignLessonModules(actor, courseId, { [result.id]: moduleId });
+    if (!placed.ok) back(to, `Lesson added, but not placed in the module: ${placed.error}`, "error");
+  }
   revalidatePath(to);
   back(to, "Lesson added", "notice");
+}
+
+export async function addModuleAction(formData: FormData): Promise<void> {
+  const actor = await requireSession();
+  const courseId = text(formData, "courseId");
+  const to = `/admin/courses/${courseId}`;
+  const minutes = text(formData, "estimatedMinutes").trim();
+  const result = await addModule(actor, courseId, {
+    title: text(formData, "title"),
+    estimatedMinutes: minutes ? Number(minutes) : null,
+  });
+  if (!result.ok) back(to, result.error, "error");
+  revalidatePath(to);
+  back(to, "Module added", "notice");
+}
+
+export async function deleteModuleAction(formData: FormData): Promise<void> {
+  const actor = await requireSession();
+  const courseId = text(formData, "courseId");
+  const to = `/admin/courses/${courseId}`;
+  const result = await deleteModule(actor, text(formData, "moduleId"));
+  if (!result.ok) back(to, result.error, "error");
+  revalidatePath(to);
+  back(to, "Module removed. Its lessons are kept without a module.", "notice");
+}
+
+// One select per lesson, named module-<lessonId>.
+export async function assignModulesAction(formData: FormData): Promise<void> {
+  const actor = await requireSession();
+  const courseId = text(formData, "courseId");
+  const to = `/admin/courses/${courseId}`;
+  const assignment: Record<string, string | null> = {};
+  for (const [key, value] of formData.entries()) {
+    if (key.startsWith("module-")) assignment[key.slice("module-".length)] = String(value) || null;
+  }
+  const result = await assignLessonModules(actor, courseId, assignment);
+  if (!result.ok) back(to, result.error, "error");
+  revalidatePath(to);
+  back(to, "Lessons grouped into modules", "notice");
+}
+
+export async function setArchivedAction(formData: FormData): Promise<void> {
+  const actor = await requireSession();
+  const courseId = text(formData, "courseId");
+  const to = `/admin/courses/${courseId}`;
+  const archived = text(formData, "archived") === "true";
+  const result = await setCourseArchived(actor, courseId, archived);
+  if (!result.ok) back(to, result.error, "error");
+  revalidatePath(to);
+  revalidatePath("/admin/courses");
+  back(to, archived ? "Course archived" : "Course restored to draft", "notice");
 }
 
 export async function setPublishedAction(formData: FormData): Promise<void> {

@@ -2,7 +2,9 @@ import { connection } from "next/server";
 import { guardPortal } from "../../../../lib/auth/portal";
 import { notFound } from "next/navigation";
 import { prisma } from "../../../../lib/db/client";
-import { addLessonAction, moveLessonAction, setPublishedAction } from "../../../actions/courses";
+import { addLessonAction, addModuleAction, assignModulesAction, deleteModuleAction, setArchivedAction, setPublishedAction } from "../../../actions/courses";
+
+const STATUS_LABEL = { DRAFT: "Draft", PUBLISHED: "Published", ARCHIVED: "Archived" } as const;
 import { markAttendanceAction } from "../../../actions/live";
 import { LocalTime } from "../../../../components/LocalTime";
 import { ScheduleSessionForm } from "../../../../components/ScheduleSessionForm";
@@ -25,15 +27,24 @@ export default async function CoursePage({
     where: { id },
     include: {
       lessons: { orderBy: { position: "asc" }, include: { liveSession: { include: { registrations: { include: { user: true } } } } } },
+      modules: { orderBy: { position: "asc" }, include: { _count: { select: { lessons: true } } } },
     },
   });
   if (!course) notFound();
   const instructors = await prisma.instructor.findMany({ where: { active: true }, orderBy: { name: "asc" } });
+  const moduleSelect = course.modules.length > 0 ? (
+    <label>Module{" "}
+      <select aria-label="Module" name="moduleId" defaultValue="">
+        <option value="">No module</option>
+        {course.modules.map((m) => <option key={m.id} value={m.id}>{m.position}. {m.title}</option>)}
+      </select>
+    </label>
+  ) : null;
 
   return (
     <main style={{ padding: "16px", fontFamily: "system-ui, sans-serif" }}>
       <h1>{course.title}</h1>
-      <p>Status: {course.status === "PUBLISHED" ? "Published" : "Draft"}</p>
+      <p>Status: {STATUS_LABEL[course.status]}</p>
       {error ? <p role="alert">{error}</p> : null}
       {notice ? <p role="status">{notice}</p> : null}
 
@@ -58,10 +69,40 @@ export default async function CoursePage({
         </form>
       ) : null}
 
-      <form data-test="publish" action={setPublishedAction}>
+      {course.status !== "ARCHIVED" ? (
+        <form data-test="publish" action={setPublishedAction}>
+          <input type="hidden" name="courseId" value={course.id} />
+          <input type="hidden" name="published" value={course.status === "PUBLISHED" ? "false" : "true"} />
+          <button type="submit">{course.status === "PUBLISHED" ? "Unpublish" : "Publish"}</button>
+        </form>
+      ) : null}
+      <form action={setArchivedAction}>
         <input type="hidden" name="courseId" value={course.id} />
-        <input type="hidden" name="published" value={course.status === "PUBLISHED" ? "false" : "true"} />
-        <button type="submit">{course.status === "PUBLISHED" ? "Unpublish" : "Publish"}</button>
+        <input type="hidden" name="archived" value={course.status === "ARCHIVED" ? "false" : "true"} />
+        <button type="submit">{course.status === "ARCHIVED" ? "Restore to draft" : "Archive (retire) this course"}</button>
+      </form>
+
+      <h2>Modules</h2>
+      <p>Group lessons into modules. Learners see the modules in this order, each with its estimated time.</p>
+      {course.modules.length > 0 ? (
+        <ol>
+          {course.modules.map((m) => (
+            <li key={m.id}>
+              {m.title}{m.estimatedMinutes ? ` (${m.estimatedMinutes} min)` : ""} · {m._count.lessons} lesson{m._count.lessons === 1 ? "" : "s"}{" "}
+              <form action={deleteModuleAction} style={{ display: "inline" }}>
+                <input type="hidden" name="courseId" value={course.id} />
+                <input type="hidden" name="moduleId" value={m.id} />
+                <button type="submit" aria-label={`Remove module ${m.title}`}>Remove</button>
+              </form>
+            </li>
+          ))}
+        </ol>
+      ) : <p>No modules yet.</p>}
+      <form data-test="add-module" action={addModuleAction}>
+        <input type="hidden" name="courseId" value={course.id} />
+        <label>Module title <input aria-label="Module title" name="title" required /></label>{" "}
+        <label>Estimated minutes <input aria-label="Estimated minutes" name="estimatedMinutes" type="number" min={1} max={10000} /></label>{" "}
+        <button type="submit">Add module</button>
       </form>
 
       <h2>Lessons</h2>
@@ -69,6 +110,23 @@ export default async function CoursePage({
         courseId={course.id}
         lessons={course.lessons.map((l) => ({ id: l.id, title: l.title, type: l.type + (l.type === "VIDEO" ? (l.captionFileKey ? ", captions added" : ", captions needed to publish") : "") }))}
       />
+
+      {course.modules.length > 0 && course.lessons.length > 0 ? (
+        <form data-test="assign-modules" action={assignModulesAction}>
+          <h3>Lesson modules</h3>
+          <input type="hidden" name="courseId" value={course.id} />
+          {course.lessons.map((l) => (
+            <label key={l.id} style={{ display: "block" }}>
+              {l.title}{" "}
+              <select aria-label={`Module for ${l.title}`} name={`module-${l.id}`} defaultValue={l.moduleId ?? ""}>
+                <option value="">No module</option>
+                {course.modules.map((m) => <option key={m.id} value={m.id}>{m.position}. {m.title}</option>)}
+              </select>
+            </label>
+          ))}
+          <button type="submit">Save lesson modules</button>
+        </form>
+      ) : null}
 
       <h2>Add a text, link, lab, or live session lesson</h2>
       <p>For a lab, the text is the instructions, with one '- [ ] step' line per checklist item.</p>
@@ -85,6 +143,7 @@ export default async function CoursePage({
         <textarea aria-label="Lesson text (for text lessons)" name="body" rows={4} cols={60} placeholder="Lesson text (for text lessons)" />
         <br />
         <input aria-label="https://… (for link lessons)" name="url" type="url" placeholder="https://… (for link lessons)" />{" "}
+        {moduleSelect}{" "}
         <button type="submit">Add lesson</button>
       </form>
 
@@ -121,6 +180,7 @@ export default async function CoursePage({
       <form data-test="upload-lesson" action="/api/upload/lesson" method="post" encType="multipart/form-data">
         <input type="hidden" name="courseId" value={course.id} />
         <input aria-label="Title" name="title" placeholder="Title" required />{" "}
+        {moduleSelect}{" "}
         <select aria-label="Type" name="type" defaultValue="PDF">
           <option value="PDF">PDF document</option>
           <option value="VIDEO">Video (MP4)</option>
