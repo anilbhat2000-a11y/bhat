@@ -5,7 +5,7 @@ import { defaultStorage, mimeForKey } from "../storage";
 import type { FileStorage } from "../storage/types";
 import { validateUpload } from "../storage/validate";
 import type { Level, LessonType } from "../../generated/prisma/client";
-import { recordAudit } from "../audit/record";
+import { recordAudit, writeWithAudit } from "../audit/record";
 import { canPublishLesson } from "./publish";
 
 export type Result = { ok: true; id?: string } | { ok: false; error: string };
@@ -23,16 +23,19 @@ export async function createCourse(
   if (!Number.isInteger(input.passMarkPercent) || input.passMarkPercent < 1 || input.passMarkPercent > 100) {
     return { ok: false, error: "Pass mark must be between 1 and 100" };
   }
-  const course = await prisma.course.create({
-    data: {
-      subjectId: input.subjectId,
-      title: input.title.trim(),
-      description: input.description.trim() || null,
-      level: input.level,
-      passMarkPercent: input.passMarkPercent,
-    },
-  });
-  await recordAudit(prisma, { actorId: actor.id, action: "course.create", entityType: "Course", entityId: course.id, after: { title: course.title } });
+  const course = await writeWithAudit(
+    (tx) =>
+      tx.course.create({
+        data: {
+          subjectId: input.subjectId,
+          title: input.title.trim(),
+          description: input.description.trim() || null,
+          level: input.level,
+          passMarkPercent: input.passMarkPercent,
+        },
+      }),
+    (c) => ({ actorId: actor.id, action: "course.create", entityType: "Course", entityId: c.id, after: { title: c.title } }),
+  );
   return { ok: true, id: course.id };
 }
 
@@ -42,8 +45,7 @@ export async function updateCourse(
   patch: { title?: string; description?: string; level?: Level; passMarkPercent?: number },
 ): Promise<Result> {
   asAdmin(actor);
-  await recordAudit(prisma, { actorId: actor.id, action: "course.update", entityType: "Course", entityId: id, after: { ...patch } });
-  await prisma.course.update({
+  await writeWithAudit((tx) => tx.course.update({
     where: { id },
     data: {
       ...(patch.title !== undefined && { title: patch.title.trim() }),
@@ -51,7 +53,7 @@ export async function updateCourse(
       ...(patch.level !== undefined && { level: patch.level }),
       ...(patch.passMarkPercent !== undefined && { passMarkPercent: patch.passMarkPercent }),
     },
-  });
+  }), () => ({ actorId: actor.id, action: "course.update", entityType: "Course", entityId: id, after: { ...patch } }));
   return { ok: true, id };
 }
 
@@ -67,15 +69,17 @@ export async function setCoursePublished(actor: SessionUser, id: string, publish
     }
   }
   const before = await prisma.course.findUnique({ where: { id }, select: { status: true } });
-  await prisma.course.update({ where: { id }, data: { status: published ? "PUBLISHED" : "DRAFT" } });
-  await recordAudit(prisma, {
-    actorId: actor.id,
-    action: published ? "course.publish" : "course.unpublish",
-    entityType: "Course",
-    entityId: id,
-    before: { status: before?.status ?? null },
-    after: { status: published ? "PUBLISHED" : "DRAFT" },
-  });
+  await writeWithAudit(
+    (tx) => tx.course.update({ where: { id }, data: { status: published ? "PUBLISHED" : "DRAFT" } }),
+    () => ({
+      actorId: actor.id,
+      action: published ? "course.publish" : "course.unpublish",
+      entityType: "Course",
+      entityId: id,
+      before: { status: before?.status ?? null },
+      after: { status: published ? "PUBLISHED" : "DRAFT" },
+    }),
+  );
   return { ok: true, id };
 }
 
@@ -95,17 +99,21 @@ export async function addLesson(
     return { ok: false, error: input.type === "LAB" ? "Labs need a checklist: one '- [ ] step' line per item" : "Text lessons need content" };
   }
   if (input.type === "LINK" && !HTTP_URL.test(input.url ?? "")) return { ok: false, error: "Enter a full http or https link" };
-  const lesson = await prisma.lesson.create({
-    data: {
-      courseId,
-      position: await nextPosition(courseId),
-      title: input.title.trim(),
-      type: input.type,
-      body: input.type === "TEXT" || input.type === "LAB" ? input.body : null,
-      url: input.type === "LINK" ? input.url : null,
-    },
-  });
-  await recordAudit(prisma, { actorId: actor.id, action: "lesson.add", entityType: "Lesson", entityId: lesson.id, after: { courseId, type: input.type } });
+  const position = await nextPosition(courseId);
+  const lesson = await writeWithAudit(
+    (tx) =>
+      tx.lesson.create({
+        data: {
+          courseId,
+          position,
+          title: input.title.trim(),
+          type: input.type,
+          body: input.type === "TEXT" || input.type === "LAB" ? input.body : null,
+          url: input.type === "LINK" ? input.url : null,
+        },
+      }),
+    (l) => ({ actorId: actor.id, action: "lesson.add", entityType: "Lesson", entityId: l.id, after: { courseId, type: input.type } }),
+  );
   return { ok: true, id: lesson.id };
 }
 
@@ -128,16 +136,14 @@ export async function uploadLessonFile(
 
   await storage.put(checked.key, input.bytes);
   try {
-    const lesson = await prisma.lesson.create({
-      data: {
-        courseId,
-        position: await nextPosition(courseId),
-        title: input.title.trim(),
-        type: input.type as LessonType,
-        fileKey: checked.key,
-      },
-    });
-    await recordAudit(prisma, { actorId: actor.id, action: "lesson.upload", entityType: "Lesson", entityId: lesson.id, after: { courseId, type: input.type } });
+    const position = await nextPosition(courseId);
+    const lesson = await writeWithAudit(
+      (tx) =>
+        tx.lesson.create({
+          data: { courseId, position, title: input.title.trim(), type: input.type as LessonType, fileKey: checked.key },
+        }),
+      (l) => ({ actorId: actor.id, action: "lesson.upload", entityType: "Lesson", entityId: l.id, after: { courseId, type: input.type } }),
+    );
     return { ok: true, id: lesson.id };
   } catch {
     await storage.delete(checked.key);
@@ -204,13 +210,15 @@ export async function attachCaption(
   if (!checked.ok) return { ok: false, error: checked.reason };
   await storage.put(checked.key, input.bytes);
   try {
-    await prisma.lesson.update({ where: { id: lessonId }, data: { captionFileKey: checked.key } });
+    await writeWithAudit(
+      (tx) => tx.lesson.update({ where: { id: lessonId }, data: { captionFileKey: checked.key } }),
+      () => ({ actorId: actor.id, action: "caption.attach", entityType: "Lesson", entityId: lessonId, after: { captionFileKey: checked.key } }),
+    );
   } catch {
     await storage.delete(checked.key);
     return { ok: false, error: "Could not save the caption file. Nothing was stored." };
   }
   if (lesson.captionFileKey) await storage.delete(lesson.captionFileKey);
-  await recordAudit(prisma, { actorId: actor.id, action: "caption.attach", entityType: "Lesson", entityId: lessonId, after: { captionFileKey: checked.key } });
   return { ok: true, id: lessonId };
 }
 

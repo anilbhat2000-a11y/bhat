@@ -111,3 +111,11 @@ export async function attachCaptionAction(formData: FormData): Promise<void> {
   revalidatePath(to);
   back(to, "Captions saved", "notice");
 }
+
+// Saves a full new order, from drag and drop.
+export async function reorderLessonsAction(courseId: string, orderedIds: string[]): Promise<{ ok: boolean; error?: string }> {
+  const actor = await requireSession();
+  const result = await reorderLessons(actor, courseId, orderedIds);
+  if (result.ok) revalidatePath(`/admin/courses/${courseId}`);
+  return result.ok ? { ok: true } : { ok: false, error: result.error };
+}

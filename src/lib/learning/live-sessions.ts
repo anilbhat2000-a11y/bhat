@@ -26,35 +26,40 @@ export async function scheduleSession(
     meetingUrl: input.meetingUrl,
     capacity: input.capacity,
   };
-  const session = await prisma.liveSession.upsert({ where: { lessonId }, update: data, create: { lessonId, ...data } });
-  await recordAudit(prisma, { actorId: actor.id, action: "session.schedule", entityType: "LiveSession", entityId: session.id, after: { ...data, instructors: input.instructorIds.length } });
-  await prisma.$transaction([
-    prisma.lessonInstructor.deleteMany({ where: { lessonId } }),
-    prisma.lessonInstructor.createMany({
+  const session = await prisma.$transaction(async (tx) => {
+    const row = await tx.liveSession.upsert({ where: { lessonId }, update: data, create: { lessonId, ...data } });
+    await tx.lessonInstructor.deleteMany({ where: { lessonId } });
+    await tx.lessonInstructor.createMany({
       data: input.instructorIds.map((instructorId) => ({ lessonId, instructorId })),
       skipDuplicates: true,
-    }),
-  ]);
+    });
+    await recordAudit(tx, { actorId: actor.id, action: "session.schedule", entityType: "LiveSession", entityId: row.id, after: { ...data, instructors: input.instructorIds.length } });
+    return row;
+  });
   return { ok: true, id: session.id };
 }
 
 // Capacity null means unlimited; capacity 0 means no places. A full session refuses the next.
+// The session row is locked first, so two registrations for the last place queue up.
 export async function registerForSession(sessionId: string, userId: string, now: Date = new Date()): Promise<Result> {
-  const session = await prisma.liveSession.findUnique({
-    where: { id: sessionId },
-    include: { _count: { select: { registrations: true } } },
+  return prisma.$transaction(async (tx) => {
+    await tx.$queryRaw`SELECT id FROM live_sessions WHERE id = ${sessionId} FOR UPDATE`;
+    const session = await tx.liveSession.findUnique({
+      where: { id: sessionId },
+      include: { _count: { select: { registrations: true } } },
+    });
+    if (!session) return { ok: false, error: "Session not found" } as Result;
+    if (now.getTime() >= session.endsAt.getTime()) return { ok: false, error: "This session has ended" } as Result;
+    const existing = await tx.liveSessionRegistration.findUnique({
+      where: { liveSessionId_userId: { liveSessionId: sessionId, userId } },
+    });
+    if (existing) return { ok: false, error: "You are already registered for this session" } as Result;
+    if (session.capacity !== null && session._count.registrations >= session.capacity) {
+      return { ok: false, error: "This session is full" } as Result;
+    }
+    const row = await tx.liveSessionRegistration.create({ data: { liveSessionId: sessionId, userId } });
+    return { ok: true, id: row.id } as Result;
   });
-  if (!session) return { ok: false, error: "Session not found" };
-  if (now.getTime() >= session.endsAt.getTime()) return { ok: false, error: "This session has ended" };
-  const existing = await prisma.liveSessionRegistration.findUnique({
-    where: { liveSessionId_userId: { liveSessionId: sessionId, userId } },
-  });
-  if (existing) return { ok: false, error: "You are already registered for this session" };
-  if (session.capacity !== null && session._count.registrations >= session.capacity) {
-    return { ok: false, error: "This session is full" };
-  }
-  const row = await prisma.liveSessionRegistration.create({ data: { liveSessionId: sessionId, userId } });
-  return { ok: true, id: row.id };
 }
 
 // Admins can mark anyone. Managers can mark only their reporting line, never themselves.
@@ -67,11 +72,13 @@ export async function markAttendance(sessionId: string, attendeeIds: string[], a
   for (const id of attendeeIds) {
     if (actor.role !== "ADMIN" && (id === actor.id || !canViewUser(actor, id, users))) throw new AuthError(403);
   }
-  await prisma.liveSessionRegistration.updateMany({
-    where: { liveSessionId: sessionId, userId: { in: attendeeIds } },
-    data: { attended: true },
+  await prisma.$transaction(async (tx) => {
+    await tx.liveSessionRegistration.updateMany({
+      where: { liveSessionId: sessionId, userId: { in: attendeeIds } },
+      data: { attended: true },
+    });
+    await recordAudit(tx, { actorId: actor.id, action: "session.attendance", entityType: "LiveSession", entityId: sessionId, after: { attendeeIds } });
   });
-  await recordAudit(prisma, { actorId: actor.id, action: "session.attendance", entityType: "LiveSession", entityId: sessionId, after: { attendeeIds } });
   for (const id of attendeeIds) {
     // An attendee who has not finished earlier lessons keeps the attendance; the lesson
     // completes once the order allows it.

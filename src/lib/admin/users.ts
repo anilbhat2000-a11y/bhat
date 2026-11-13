@@ -6,7 +6,7 @@ import type { SessionUser } from "../auth/session";
 import { parseCsvRows } from "../import/csv";
 import { parseUserRows, type UserRow } from "../import/users";
 import type { Category, Role } from "../../generated/prisma/client";
-import { recordAudit } from "../audit/record";
+import { recordAudit, writeWithAudit } from "../audit/record";
 
 export type Result = { ok: true; id?: string } | { ok: false; error: string };
 const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -38,18 +38,22 @@ export async function createUser(actor: SessionUser, input: UserInput): Promise<
   if (input.managerId && !(await prisma.user.findUnique({ where: { id: input.managerId } }))) {
     return { ok: false, error: "Manager not found" };
   }
-  const user = await prisma.user.create({
-    data: {
-      name: input.name.trim(),
-      email,
-      role: input.role,
-      department: input.department?.trim() || null,
-      jobTitle: input.jobTitle?.trim() || null,
-      managerId: input.managerId || null,
-      passwordHash: await hashPassword(input.password),
-    },
-  });
-  await recordAudit(prisma, { actorId: actor.id, action: "user.create", entityType: "User", entityId: user.id, after: { email, role: input.role } });
+  const passwordHash = await hashPassword(input.password);
+  const user = await writeWithAudit(
+    (tx) =>
+      tx.user.create({
+        data: {
+          name: input.name.trim(),
+          email,
+          role: input.role,
+          department: input.department?.trim() || null,
+          jobTitle: input.jobTitle?.trim() || null,
+          managerId: input.managerId || null,
+          passwordHash,
+        },
+      }),
+    (u) => ({ actorId: actor.id, action: "user.create", entityType: "User", entityId: u.id, after: { email, role: input.role } }),
+  );
   return { ok: true, id: user.id };
 }
 
@@ -74,17 +78,20 @@ export async function updateUser(
     department: patch.department?.trim() || null,
     managerId: patch.managerId || null,
   };
-  await prisma.user.update({
-    where: { id },
-    data: {
-      ...(patch.name !== undefined && { name: patch.name.trim() }),
-      ...(patch.role !== undefined && { role: patch.role }),
-      ...(patch.department !== undefined && { department: patch.department?.trim() || null }),
-      ...(patch.jobTitle !== undefined && { jobTitle: patch.jobTitle?.trim() || null }),
-      ...(patch.managerId !== undefined && { managerId: patch.managerId || null }),
-    },
-  });
-  await recordAudit(prisma, { actorId: actor.id, action: "user.update", entityType: "User", entityId: id, before: before ?? null, after: changed });
+  await writeWithAudit(
+    (tx) =>
+      tx.user.update({
+        where: { id },
+        data: {
+          ...(patch.name !== undefined && { name: patch.name.trim() }),
+          ...(patch.role !== undefined && { role: patch.role }),
+          ...(patch.department !== undefined && { department: patch.department?.trim() || null }),
+          ...(patch.jobTitle !== undefined && { jobTitle: patch.jobTitle?.trim() || null }),
+          ...(patch.managerId !== undefined && { managerId: patch.managerId || null }),
+        },
+      }),
+    () => ({ actorId: actor.id, action: "user.update", entityType: "User", entityId: id, before: before ?? null, after: changed }),
+  );
   return { ok: true, id };
 }
 
@@ -124,15 +131,18 @@ export async function createSubject(
   if (!Number.isInteger(input.certificationValidityMonths) || input.certificationValidityMonths < 1) {
     return { ok: false, error: "Validity must be a whole number of months" };
   }
-  const subject = await prisma.subject.create({
-    data: {
-      name: input.name.trim(),
-      slug: slugify(input.name),
-      category: input.category,
-      certificationValidityMonths: input.certificationValidityMonths,
-    },
-  });
-  await recordAudit(prisma, { actorId: actor.id, action: "subject.create", entityType: "Subject", entityId: subject.id, after: { name: subject.name, category: subject.category } });
+  const subject = await writeWithAudit(
+    (tx) =>
+      tx.subject.create({
+        data: {
+          name: input.name.trim(),
+          slug: slugify(input.name),
+          category: input.category,
+          certificationValidityMonths: input.certificationValidityMonths,
+        },
+      }),
+    (s) => ({ actorId: actor.id, action: "subject.create", entityType: "Subject", entityId: s.id, after: { name: s.name, category: s.category } }),
+  );
   return { ok: true, id: subject.id };
 }
 
@@ -142,8 +152,7 @@ export async function updateSubject(
   patch: { name?: string; category?: Category; certificationValidityMonths?: number },
 ): Promise<Result> {
   asAdmin(actor);
-  await recordAudit(prisma, { actorId: actor.id, action: "subject.update", entityType: "Subject", entityId: id, after: { ...patch } });
-  await prisma.subject.update({
+  await writeWithAudit((tx) => tx.subject.update({
     where: { id },
     data: {
       ...(patch.name !== undefined && { name: patch.name.trim(), slug: slugify(patch.name) }),
@@ -152,7 +161,7 @@ export async function updateSubject(
         certificationValidityMonths: patch.certificationValidityMonths,
       }),
     },
-  });
+  }), () => ({ actorId: actor.id, action: "subject.update", entityType: "Subject", entityId: id, after: { ...patch } }));
   return { ok: true, id };
 }
 

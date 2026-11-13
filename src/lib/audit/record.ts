@@ -45,3 +45,15 @@ export async function listAudit(filter: { entityType?: string; entityId?: string
     take: filter.limit ?? 200,
   });
 }
+
+// Runs a write and its audit row in one transaction: both happen, or neither does.
+export async function writeWithAudit<T>(
+  write: (tx: Prisma.TransactionClient) => Promise<T>,
+  event: (result: T) => AuditEvent,
+): Promise<T> {
+  return prisma.$transaction(async (tx) => {
+    const result = await write(tx);
+    await recordAudit(tx, event(result));
+    return result;
+  });
+}

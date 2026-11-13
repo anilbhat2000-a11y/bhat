@@ -5,6 +5,7 @@ import { prisma } from "../../../../lib/db/client";
 import { addLessonAction, moveLessonAction, setPublishedAction, uploadLessonAction } from "../../../actions/courses";
 import { markAttendanceAction, scheduleSessionAction } from "../../../actions/live";
 import { attachCaptionAction } from "../../../actions/courses";
+import { LessonReorder } from "../../../../components/LessonReorder";
 import { deleteCourseAction, updateCourseAction } from "../../../actions/account";
 
 export default async function CoursePage({
@@ -62,18 +63,10 @@ export default async function CoursePage({
       </form>
 
       <h2>Lessons</h2>
-      <ol>
-        {course.lessons.map((l) => (
-          <li key={l.id}>
-            {l.title} <small>({l.type}{l.type === "VIDEO" ? (l.captionFileKey ? ", captions added" : ", captions needed to publish") : ""})</small>{" "}
-            <form action={moveLessonAction} style={{ display: "inline" }}>
-              <input type="hidden" name="lessonId" value={l.id} />
-              <button name="direction" value="up" type="submit">Up</button>
-              <button name="direction" value="down" type="submit">Down</button>
-            </form>
-          </li>
-        ))}
-      </ol>
+      <LessonReorder
+        courseId={course.id}
+        lessons={course.lessons.map((l) => ({ id: l.id, title: l.title, type: l.type + (l.type === "VIDEO" ? (l.captionFileKey ? ", captions added" : ", captions needed to publish") : "") }))}
+      />
 
       <h2>Add a text, link, lab, or live session lesson</h2>
       <p>For a lab, the text is the instructions, with one '- [ ] step' line per checklist item.</p>

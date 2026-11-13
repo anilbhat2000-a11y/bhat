@@ -3,7 +3,7 @@ import { requireRole } from "../auth/guards";
 import type { SessionUser } from "../auth/session";
 import { parseQuestionRows, type QuestionRow } from "../import/questions";
 import type { Cadence, Level } from "../../generated/prisma/client";
-import { recordAudit } from "../audit/record";
+import { recordAudit, writeWithAudit } from "../audit/record";
 
 export type Result = { ok: true; id?: string } | { ok: false; error: string };
 const asAdmin = (actor: SessionUser) => requireRole(actor, ["ADMIN"]);
@@ -29,20 +29,23 @@ export async function createAssessment(
   }
   const attempts = input.maxAttemptsPerPeriod ?? 3;
   if (!Number.isInteger(attempts) || attempts < 1 || attempts > 10) return { ok: false, error: "Attempts per period must be 1 to 10" };
-  const assessment = await prisma.assessment.create({
-    data: {
-      subjectId: input.subjectId,
-      title: input.title.trim(),
-      cadence: input.cadence,
-      level: input.level,
-      passMarkPercent: input.passMarkPercent,
-      timeLimitMinutes: input.timeLimitMinutes ?? null,
-      maxAttemptsPerPeriod: attempts,
-      questionsPerAttempt: input.questionsPerAttempt ?? null,
-      showAnswersAfterSubmit: input.showAnswersAfterSubmit ?? false,
-    },
-  });
-  await recordAudit(prisma, { actorId: actor.id, action: "assessment.create", entityType: "Assessment", entityId: assessment.id, after: { title: assessment.title, cadence: assessment.cadence } });
+  const assessment = await writeWithAudit(
+    (tx) =>
+      tx.assessment.create({
+        data: {
+          subjectId: input.subjectId,
+          title: input.title.trim(),
+          cadence: input.cadence,
+          level: input.level,
+          passMarkPercent: input.passMarkPercent,
+          timeLimitMinutes: input.timeLimitMinutes ?? null,
+          maxAttemptsPerPeriod: attempts,
+          questionsPerAttempt: input.questionsPerAttempt ?? null,
+          showAnswersAfterSubmit: input.showAnswersAfterSubmit ?? false,
+        },
+      }),
+    (a) => ({ actorId: actor.id, action: "assessment.create", entityType: "Assessment", entityId: a.id, after: { title: a.title, cadence: a.cadence } }),
+  );
   return { ok: true, id: assessment.id };
 }
 
@@ -56,18 +59,22 @@ export async function addQuestion(actor: SessionUser, assessmentId: string, row:
   const parsed = parseQuestionRows([row]);
   if (!parsed.ok) return { ok: false, error: parsed.errors[0].reason };
   const [q] = parsed.questions;
-  const created = await prisma.question.create({
-    data: {
-      assessmentId,
-      position: await nextPosition(assessmentId),
-      type: q.type,
-      text: q.text,
-      options: q.options,
-      correctOptionIds: q.correctOptionIds,
-      points: q.points,
-    },
-  });
-  await recordAudit(prisma, { actorId: actor.id, action: "question.add", entityType: "Question", entityId: created.id, after: { assessmentId, text: q.text } });
+  const position = await nextPosition(assessmentId);
+  const created = await writeWithAudit(
+    (tx) =>
+      tx.question.create({
+        data: {
+          assessmentId,
+          position,
+          type: q.type,
+          text: q.text,
+          options: q.options,
+          correctOptionIds: q.correctOptionIds,
+          points: q.points,
+        },
+      }),
+    (c) => ({ actorId: actor.id, action: "question.add", entityType: "Question", entityId: c.id, after: { assessmentId, text: q.text } }),
+  );
   return { ok: true, id: created.id };
 }
 
@@ -81,9 +88,9 @@ export async function importQuestions(
   const parsed = parseQuestionRows(rows);
   if (!parsed.ok) return parsed;
   const start = await nextPosition(assessmentId);
-  await prisma.$transaction(
-    parsed.questions.map((q, i) =>
-      prisma.question.create({
+  await prisma.$transaction(async (tx) => {
+    for (const [i, q] of parsed.questions.entries()) {
+      await tx.question.create({
         data: {
           assessmentId,
           position: start + i,
@@ -93,10 +100,10 @@ export async function importQuestions(
           correctOptionIds: q.correctOptionIds,
           points: q.points,
         },
-      }),
-    ),
-  );
-  await recordAudit(prisma, { actorId: actor.id, action: "question.import", entityType: "Assessment", entityId: assessmentId, after: { count: parsed.questions.length } });
+      });
+    }
+    await recordAudit(tx, { actorId: actor.id, action: "question.import", entityType: "Assessment", entityId: assessmentId, after: { count: parsed.questions.length } });
+  });
   return { ok: true, created: parsed.questions.length };
 }
 
@@ -112,8 +119,10 @@ export async function setAssessmentPublished(actor: SessionUser, id: string, pub
       return { ok: false, error: `Questions per attempt (${assessment.questionsPerAttempt}) is more than the ${count} questions in the bank` };
     }
   }
-  await prisma.assessment.update({ where: { id }, data: { published } });
-  await recordAudit(prisma, { actorId: actor.id, action: published ? "assessment.publish" : "assessment.unpublish", entityType: "Assessment", entityId: id, after: { published } });
+  await writeWithAudit(
+    (tx) => tx.assessment.update({ where: { id }, data: { published } }),
+    () => ({ actorId: actor.id, action: published ? "assessment.publish" : "assessment.unpublish", entityType: "Assessment", entityId: id, after: { published } }),
+  );
   return { ok: true, id };
 }
 
@@ -124,10 +133,10 @@ export async function setAssignments(
   targets: { targetType: "ALL" | "DEPARTMENT" | "USER"; targetValue: string | null }[],
 ): Promise<Result> {
   asAdmin(actor);
-  await prisma.$transaction([
-    prisma.assessmentAssignment.deleteMany({ where: { assessmentId } }),
-    ...targets.map((t) => prisma.assessmentAssignment.create({ data: { assessmentId, ...t } })),
-  ]);
-  await recordAudit(prisma, { actorId: actor.id, action: "assessment.assign", entityType: "Assessment", entityId: assessmentId, after: { targets } });
+  await prisma.$transaction(async (tx) => {
+    await tx.assessmentAssignment.deleteMany({ where: { assessmentId } });
+    for (const t of targets) await tx.assessmentAssignment.create({ data: { assessmentId, ...t } });
+    await recordAudit(tx, { actorId: actor.id, action: "assessment.assign", entityType: "Assessment", entityId: assessmentId, after: { targets } });
+  });
   return { ok: true, id: assessmentId };
 }

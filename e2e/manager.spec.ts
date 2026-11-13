@@ -21,9 +21,8 @@ test("a manager cannot open a user outside their team", async ({ page }) => {
   await page.fill("input[name=password]", TEST_PASSWORD);
   await page.click("button[type=submit]");
   await expect(page).toHaveURL(/\/manager/);
-  await page.goto("/manager/team/not-in-my-line");
-  // The forbidden page is shown and no record data is rendered. The HTTP status is 200 here
-  // because the portal shell has already streamed before the scope check runs.
+  const refused = await page.goto("/manager/team/not-in-my-line");
+  expect(refused?.status()).toBe(403);
   await expect(page.getByRole("heading", { name: "You do not have access to this record" })).toBeVisible();
   await expect(page.getByRole("heading", { name: "Course progress" })).toHaveCount(0);
 });
