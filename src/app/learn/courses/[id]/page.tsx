@@ -1,0 +1,65 @@
+import { connection } from "next/server";
+import { notFound } from "next/navigation";
+import { requireSession } from "../../../../lib/auth/current-user";
+import { prisma } from "../../../../lib/db/client";
+import { courseProgressPercent, lastLessonFor } from "../../../../lib/learning/progress";
+import { completeLessonAction } from "../../../actions/progress";
+import { VideoLesson } from "../../../../components/VideoLesson";
+
+export default async function LearnCoursePage({
+  params,
+  searchParams,
+}: {
+  params: Promise<{ id: string }>;
+  searchParams: Promise<{ error?: string }>;
+}) {
+  await connection();
+  const user = await requireSession();
+  const { id } = await params;
+  const { error } = await searchParams;
+  const course = await prisma.course.findUnique({
+    where: { id },
+    include: { lessons: { orderBy: { position: "asc" } }, progress: { where: { userId: user.id } } },
+  });
+  if (!course || course.status !== "PUBLISHED") notFound();
+
+  const completed = (course.progress[0]?.completedLessonIds as string[] | undefined) ?? [];
+  const lessonIds = course.lessons.map((l) => l.id);
+  const percent = courseProgressPercent(lessonIds.length, completed, lessonIds);
+  const resume = await lastLessonFor(user.id, course.id);
+  const positions = new Map(
+    (await prisma.lessonProgress.findMany({ where: { userId: user.id, lessonId: { in: lessonIds } } }))
+      .map((p) => [p.lessonId, p.positionSeconds]),
+  );
+
+  return (
+    <main style={{ padding: "16px", fontFamily: "system-ui, sans-serif" }}>
+      <h1>{course.title}</h1>
+      <p>{course.description}</p>
+      <p>Progress: {percent}%</p>
+      {error ? <p role="alert">{error}</p> : null}
+      {resume ? <p>You stopped at: {course.lessons.find((l) => l.id === resume)?.title}</p> : null}
+
+      {course.lessons.map((l) => {
+        const done = completed.includes(l.id);
+        return (
+          <section key={l.id} style={{ marginBottom: 24 }}>
+            <h2>{l.title} {done ? "(complete)" : ""}</h2>
+            {l.type === "TEXT" ? <p style={{ whiteSpace: "pre-wrap" }}>{l.body}</p> : null}
+            {l.type === "LINK" ? <p><a href={l.url ?? "#"} rel="noopener noreferrer">Open link</a></p> : null}
+            {l.type === "PDF" ? <p><a href={`/api/files/${l.id}`}>Open PDF</a></p> : null}
+            {l.type === "VIDEO" ? (
+              <VideoLesson lessonId={l.id} src={`/api/files/${l.id}`} startAt={positions.get(l.id) ?? 0} />
+            ) : null}
+            {!done ? (
+              <form action={completeLessonAction}>
+                <input type="hidden" name="lessonId" value={l.id} />
+                <button type="submit">Mark complete</button>
+              </form>
+            ) : null}
+          </section>
+        );
+      })}
+    </main>
+  );
+}
