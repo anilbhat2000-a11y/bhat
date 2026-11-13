@@ -51,3 +51,7 @@ blob-report/
 
 # agent scratch (logs, workspace)
 /.superpowers/
+
+# deployment secrets and data
+/deploy/nginx/certs/
+/backups/

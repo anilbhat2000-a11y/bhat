@@ -4,3 +4,5 @@ node_modules
 .superpowers
 storage
 .env
+backups
+deploy/nginx/certs
