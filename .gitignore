@@ -44,3 +44,6 @@ next-env.d.ts
 /storage/
 .env
 src/generated/
+/test-results/
+/playwright-report/
+blob-report/

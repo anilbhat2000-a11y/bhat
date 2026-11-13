@@ -4,11 +4,16 @@ import { AuthError } from "./guards";
 
 export const SESSION_COOKIE = "lms_session";
 
-// Reads the signed-in user from the request cookie, or throws AuthError(401).
-export async function requireSession(): Promise<SessionUser> {
+// The signed-in user, or null when there is no valid session.
+export async function currentUser(): Promise<SessionUser | null> {
   const jar = await cookies();
   const token = jar.get(SESSION_COOKIE)?.value;
-  const user = token ? await readSession(token) : null;
+  return token ? readSession(token) : null;
+}
+
+// Reads the signed-in user, or throws AuthError(401).
+export async function requireSession(): Promise<SessionUser> {
+  const user = await currentUser();
   if (!user) throw new AuthError(401);
   return user;
 }
