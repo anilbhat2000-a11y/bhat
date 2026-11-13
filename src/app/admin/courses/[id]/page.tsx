@@ -2,6 +2,7 @@ import { connection } from "next/server";
 import { notFound } from "next/navigation";
 import { prisma } from "../../../../lib/db/client";
 import { addLessonAction, moveLessonAction, setPublishedAction, uploadLessonAction } from "../../../actions/courses";
+import { markAttendanceAction, scheduleSessionAction } from "../../../actions/live";
 
 export default async function CoursePage({
   params,
@@ -15,9 +16,12 @@ export default async function CoursePage({
   const { error, notice } = await searchParams;
   const course = await prisma.course.findUnique({
     where: { id },
-    include: { lessons: { orderBy: { position: "asc" } } },
+    include: {
+      lessons: { orderBy: { position: "asc" }, include: { liveSession: { include: { registrations: { include: { user: true } } } } } },
+    },
   });
   if (!course) notFound();
+  const instructors = await prisma.instructor.findMany({ where: { active: true }, orderBy: { name: "asc" } });
 
   return (
     <main style={{ padding: "16px", fontFamily: "system-ui, sans-serif" }}>
@@ -53,6 +57,7 @@ export default async function CoursePage({
         <select name="type" defaultValue="TEXT">
           <option value="TEXT">Text</option>
           <option value="LINK">Link</option>
+          <option value="LIVE_SESSION">Live session</option>
         </select>
         <br />
         <textarea name="body" rows={4} cols={60} placeholder="Lesson text (for text lessons)" />
@@ -60,6 +65,39 @@ export default async function CoursePage({
         <input name="url" type="url" placeholder="https://… (for link lessons)" />{" "}
         <button type="submit">Add lesson</button>
       </form>
+
+      {course.lessons.filter((l) => l.type === "LIVE_SESSION").map((l) => (
+        <section key={`live-${l.id}`}>
+          <h2>Live session: {l.title}</h2>
+          {l.liveSession ? (
+            <>
+              <p>{l.liveSession.startsAt.toISOString()} to {l.liveSession.endsAt.toISOString()} · {l.liveSession.registrations.length} registered{l.liveSession.capacity !== null ? ` of ${l.liveSession.capacity}` : ""}</p>
+              <form action={markAttendanceAction}>
+                <input type="hidden" name="sessionId" value={l.liveSession.id} />
+                {l.liveSession.registrations.map((r) => (
+                  <label key={r.id} style={{ display: "block" }}>
+                    <input type="checkbox" name="attendeeIds" value={r.userId} defaultChecked={r.attended} /> {r.user.name}
+                  </label>
+                ))}
+                <button type="submit">Save attendance</button>
+              </form>
+            </>
+          ) : <p>Not scheduled yet.</p>}
+          <form action={scheduleSessionAction}>
+            <input type="hidden" name="lessonId" value={l.id} />
+            <input name="startsAt" type="datetime-local" required /> to <input name="endsAt" type="datetime-local" required />{" "}
+            <input name="meetingUrl" type="url" placeholder="https://meeting link" required />{" "}
+            <input name="capacity" type="number" min={0} placeholder="Capacity (optional)" />
+            <fieldset>
+              <legend>Instructors</legend>
+              {instructors.map((i) => (
+                <label key={i.id}><input type="checkbox" name="instructorIds" value={i.id} /> {i.name} ({i.location ?? "location not set"})</label>
+              ))}
+            </fieldset>
+            <button type="submit">Save session</button>
+          </form>
+        </section>
+      ))}
 
       <h2>Upload a file lesson</h2>
       <form data-test="upload-lesson" action={uploadLessonAction} encType="multipart/form-data">

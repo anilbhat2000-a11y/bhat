@@ -70,7 +70,7 @@ async function nextPosition(courseId: string): Promise<number> {
 export async function addLesson(
   actor: SessionUser,
   courseId: string,
-  input: { title: string; type: "TEXT" | "LINK"; body?: string; url?: string },
+  input: { title: string; type: "TEXT" | "LINK" | "LIVE_SESSION"; body?: string; url?: string },
 ): Promise<Result> {
   asAdmin(actor);
   if (!input.title.trim()) return { ok: false, error: "Title is required" };

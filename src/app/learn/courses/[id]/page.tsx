@@ -4,6 +4,7 @@ import { requireSession } from "../../../../lib/auth/current-user";
 import { prisma } from "../../../../lib/db/client";
 import { courseProgressPercent, lastLessonFor } from "../../../../lib/learning/progress";
 import { completeLessonAction } from "../../../actions/progress";
+import { registerAction } from "../../../actions/live";
 import { VideoLesson } from "../../../../components/VideoLesson";
 
 export default async function LearnCoursePage({
@@ -19,7 +20,10 @@ export default async function LearnCoursePage({
   const { error } = await searchParams;
   const course = await prisma.course.findUnique({
     where: { id },
-    include: { lessons: { orderBy: { position: "asc" } }, progress: { where: { userId: user.id } } },
+    include: {
+      lessons: { orderBy: { position: "asc" }, include: { liveSession: { include: { registrations: { where: { userId: user.id } } } } } },
+      progress: { where: { userId: user.id } },
+    },
   });
   if (!course || course.status !== "PUBLISHED") notFound();
 
@@ -48,6 +52,20 @@ export default async function LearnCoursePage({
             {l.type === "TEXT" ? <p style={{ whiteSpace: "pre-wrap" }}>{l.body}</p> : null}
             {l.type === "LINK" ? <p><a href={l.url ?? "#"} rel="noopener noreferrer">Open link</a></p> : null}
             {l.type === "PDF" ? <p><a href={`/api/files/${l.id}`}>Open PDF</a></p> : null}
+            {l.type === "LIVE_SESSION" && l.liveSession ? (
+              <div>
+                <p>{l.liveSession.startsAt.toISOString()} to {l.liveSession.endsAt.toISOString()}</p>
+                <p><a href={l.liveSession.meetingUrl} rel="noopener noreferrer">Meeting link</a></p>
+                {l.liveSession.registrations.length > 0 ? (
+                  <p>You are registered{l.liveSession.registrations[0].attended ? " and attended" : ""}.</p>
+                ) : (
+                  <form action={registerAction}>
+                    <input type="hidden" name="sessionId" value={l.liveSession.id} />
+                    <button type="submit">Register for this session</button>
+                  </form>
+                )}
+              </div>
+            ) : null}
             {l.type === "VIDEO" ? (
               <VideoLesson lessonId={l.id} src={`/api/files/${l.id}`} startAt={positions.get(l.id) ?? 0} />
             ) : null}

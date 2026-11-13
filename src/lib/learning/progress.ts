@@ -13,12 +13,17 @@ type Done = { ok: true } | { ok: false; error: string };
 
 // Lessons must be completed in order. Completing an already completed lesson is accepted.
 export async function completeLesson(actor: SessionUser, lessonId: string): Promise<Done> {
+  return completeLessonForUser(actor.id, lessonId);
+}
+
+// Same rules, for a user id. Used when a manager or admin records attendance.
+export async function completeLessonForUser(userId: string, lessonId: string): Promise<Done> {
   const lesson = await prisma.lesson.findUnique({ where: { id: lessonId }, include: { course: true } });
   if (!lesson || lesson.course.status !== "PUBLISHED") return { ok: false, error: "This lesson is not available" };
 
   const lessons = await prisma.lesson.findMany({ where: { courseId: lesson.courseId }, orderBy: { position: "asc" } });
   const existing = await prisma.courseProgress.findUnique({
-    where: { userId_courseId: { userId: actor.id, courseId: lesson.courseId } },
+    where: { userId_courseId: { userId, courseId: lesson.courseId } },
   });
   const completed = new Set<string>((existing?.completedLessonIds as string[] | undefined) ?? []);
   if (completed.has(lessonId)) return { ok: true };
@@ -30,14 +35,14 @@ export async function completeLesson(actor: SessionUser, lessonId: string): Prom
   const allDone = lessons.every((l) => completed.has(l.id));
   await prisma.$transaction([
     prisma.lessonProgress.upsert({
-      where: { userId_lessonId: { userId: actor.id, lessonId } },
-      create: { userId: actor.id, lessonId, completed: true },
+      where: { userId_lessonId: { userId, lessonId } },
+      create: { userId, lessonId, completed: true },
       update: { completed: true },
     }),
     prisma.courseProgress.upsert({
-      where: { userId_courseId: { userId: actor.id, courseId: lesson.courseId } },
+      where: { userId_courseId: { userId, courseId: lesson.courseId } },
       create: {
-        userId: actor.id,
+        userId,
         courseId: lesson.courseId,
         completedLessonIds: [...completed],
         completedAt: allDone ? new Date() : null,
