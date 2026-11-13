@@ -2,18 +2,29 @@ import { connection } from "next/server";
 import { requireSession } from "../../../../lib/auth/current-user";
 import { certificationRows } from "../../../../lib/reports/queries";
 import { certsBySubject } from "../../../../lib/reports/aggregate";
+import { teamCompletion } from "../../../../lib/manager/team";
 
 export default async function TeamSummaryPage() {
   await connection();
   const viewer = await requireSession();
   const now = new Date();
   const rows = await certificationRows(viewer, now);
+  const completion = await teamCompletion(viewer);
   const subjects = certsBySubject(rows.map((r) => ({ subject: r.subject, level: r.level, expiresAt: r.expiresAt })), now);
 
   return (
     <main style={{ padding: "16px", fontFamily: "system-ui, sans-serif" }}>
       <h1>Team certifications</h1>
       <p><a href="/api/export/team">Download team CSV</a></p>
+      <h2>Course completion</h2>
+      <table>
+        <thead><tr><th>Member</th><th>Courses completed</th><th>Completion</th></tr></thead>
+        <tbody>
+          {completion.map((c) => (
+            <tr key={c.id}><td>{c.name}</td><td>{c.completed} of {c.published}</td><td>{c.percent}%</td></tr>
+          ))}
+        </tbody>
+      </table>
       {subjects.length === 0 ? <p>Your team has no certifications yet.</p> : (
         <table>
           <thead><tr><th>Subject</th><th>Basic</th><th>Intermediate</th><th>Advanced</th><th>Active</th><th>Expired</th></tr></thead>

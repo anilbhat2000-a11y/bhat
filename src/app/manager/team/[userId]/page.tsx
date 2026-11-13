@@ -21,6 +21,18 @@ export default async function MemberPage({ params }: { params: Promise<{ userId:
       <h1>{detail.name}</h1>
       <p>{detail.email}{detail.department ? ` · ${detail.department}` : ""}</p>
 
+      <h2>Profile</h2>
+      <h3>Skills (self-rated)</h3>
+      <ul>{detail.profile.skills.map((s) => <li key={s.subject}>{s.subject}: {s.rating}/5</li>)}</ul>
+      <h3>Languages</h3>
+      <ul>{detail.profile.languages.map((l) => <li key={l.language}>{l.language}: {l.level.toLowerCase()}</li>)}</ul>
+      <h3>Education</h3>
+      <ul>{detail.profile.education.map((e, i) => <li key={i}>{e.qualification}, {e.institution}{e.fieldOfStudy ? ` (${e.fieldOfStudy})` : ""}</li>)}</ul>
+      <h3>Work experience</h3>
+      <ul>{detail.profile.experience.map((e, i) => <li key={i}>{e.jobTitle} at {e.company}, {e.startMonth} to {e.endMonth ?? "now"}</li>)}</ul>
+      <h3>External certifications</h3>
+      <ul>{detail.profile.externalCertifications.map((c, i) => <li key={i}>{c.name} ({c.issuingBody})</li>)}</ul>
+
       <h2>Course progress</h2>
       <ul>{detail.courses.map((c) => <li key={c.title}>{c.title}: {c.percent}%</li>)}</ul>
 

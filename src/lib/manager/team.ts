@@ -39,11 +39,29 @@ export async function memberDetail(viewer: SessionUser, userId: string) {
     prisma.assessmentPeriod.findMany({ where: { userId, status: "OVERDUE" }, include: { assessment: true } }),
   ]);
 
+  const profileRows = await prisma.user.findUnique({
+    where: { id: userId },
+    include: {
+      profileSkills: { include: { subject: true } },
+      profileEducation: true,
+      profileExperience: true,
+      profileExternalCerts: true,
+      profileLanguages: true,
+    },
+  });
+
   return {
     id: user.id,
     name: user.name,
     email: user.email,
     department: user.department,
+    profile: {
+      skills: (profileRows?.profileSkills ?? []).map((s) => ({ subject: s.subject.name, rating: s.selfRating })),
+      education: (profileRows?.profileEducation ?? []).map((e) => ({ institution: e.institution, qualification: e.qualification, fieldOfStudy: e.fieldOfStudy, startYear: e.startYear, endYear: e.endYear })),
+      experience: (profileRows?.profileExperience ?? []).map((e) => ({ company: e.company, jobTitle: e.jobTitle, startMonth: e.startMonth, endMonth: e.endMonth, description: e.description })),
+      externalCertifications: (profileRows?.profileExternalCerts ?? []).map((c) => ({ name: c.name, issuingBody: c.issuingBody, issuedOn: c.issuedOn, proofUrl: c.proofUrl })),
+      languages: (profileRows?.profileLanguages ?? []).map((l) => ({ language: l.language, level: l.level })),
+    },
     courses: courses.map((c) => {
       const completed = (c.progress[0]?.completedLessonIds as string[] | undefined) ?? [];
       const lessonIds = c.lessons.map((l) => l.id);
@@ -66,4 +84,25 @@ export async function memberDetail(viewer: SessionUser, userId: string) {
     })),
     overdue: periods.map((p) => ({ assessment: p.assessment.title, periodKey: p.periodKey })),
   };
+}
+
+
+// Per team member: courses completed out of the published courses, as a percentage.
+export async function teamCompletion(viewer: SessionUser) {
+  const members = await teamMembers(viewer);
+  const published = await prisma.course.count({ where: { status: "PUBLISHED" } });
+  const progress = await prisma.courseProgress.findMany({
+    where: { userId: { in: members.map((m) => m.id) }, completedAt: { not: null } },
+    select: { userId: true },
+  });
+  return members.map((m) => {
+    const completed = progress.filter((p) => p.userId === m.id).length;
+    return {
+      id: m.id,
+      name: m.name,
+      completed,
+      published,
+      percent: published === 0 ? 0 : Math.round((completed / published) * 100),
+    };
+  });
 }
