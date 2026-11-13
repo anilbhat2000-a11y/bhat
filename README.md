@@ -65,3 +65,4 @@ Tests use `TEST_DATABASE_URL`, which defaults to `postgresql://lms:lms@localhost
 | `MAX_UPLOAD_MB_DOC`, `MAX_UPLOAD_MB_VIDEO`, `MAX_UPLOAD_MB_PHOTO` | upload size limits |
 | `SMTP_URL`, `MAIL_FROM` | email for reminders |
 | `CRON_SECRET` | secret for the reminder endpoint |
+| `COOKIE_SECURE` | `true` or `false`. Sign-in cookies are Secure in production; this overrides that. Use `false` only for plain HTTP on a non-localhost host, and put TLS in front of the app otherwise. |

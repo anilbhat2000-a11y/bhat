@@ -5,6 +5,7 @@ import { prisma } from "../../../../lib/db/client";
 import {
   addQuestionAction, importQuestionsAction, setAssignmentAction, setPublishedAction, resetAttemptsAction,
 } from "../../../actions/assessments";
+import { deleteQuestionAction, updateSettingsAction } from "../../../actions/content";
 
 export default async function AssessmentPage({
   params,
@@ -22,6 +23,8 @@ export default async function AssessmentPage({
     include: { questions: { orderBy: { position: "asc" } }, assignments: true },
   });
   if (!assessment) notFound();
+  const people = await prisma.user.findMany({ where: { active: true }, select: { id: true, name: true, department: true }, orderBy: { name: "asc" } });
+  const departments = [...new Set(people.map((p) => p.department).filter((d): d is string => Boolean(d)))].sort();
   const periods = await prisma.assessmentPeriod.findMany({
     where: { assessmentId: id },
     include: { user: { select: { name: true } } },
@@ -44,8 +47,27 @@ export default async function AssessmentPage({
 
       <h2>Questions ({assessment.questions.length})</h2>
       <ol>
-        {assessment.questions.map((q) => <li key={q.id}>{q.text} <small>({q.type}, {q.points} pts)</small></li>)}
+        {assessment.questions.map((q) => (
+          <li key={q.id}>
+            {q.text} <small>({q.type}, {q.points} pts)</small>{" "}
+            <form action={deleteQuestionAction} style={{ display: "inline" }}>
+              <input type="hidden" name="questionId" value={q.id} />
+              <button type="submit">Delete question</button>
+            </form>
+          </li>
+        ))}
       </ol>
+
+      <h2>Settings</h2>
+      <form action={updateSettingsAction}>
+        <input type="hidden" name="assessmentId" value={assessment.id} />
+        <label>Pass mark <input name="passMarkPercent" type="number" min={1} max={100} defaultValue={assessment.passMarkPercent} /></label>{" "}
+        <label>Attempts per period <input name="maxAttemptsPerPeriod" type="number" min={1} max={10} defaultValue={assessment.maxAttemptsPerPeriod} /></label>{" "}
+        <label>Time limit (minutes) <input name="timeLimitMinutes" type="number" min={1} defaultValue={assessment.timeLimitMinutes ?? ""} /></label>{" "}
+        <label>Questions per attempt <input name="questionsPerAttempt" type="number" min={1} defaultValue={assessment.questionsPerAttempt ?? ""} /></label>{" "}
+        <label><input name="showAnswersAfterSubmit" type="checkbox" defaultChecked={assessment.showAnswersAfterSubmit} /> Show correct answers after submit</label>{" "}
+        <button type="submit">Save settings</button>
+      </form>
 
       <h2>Add a question</h2>
       <form data-test="add-question" action={addQuestionAction}>
@@ -97,7 +119,11 @@ export default async function AssessmentPage({
           <option value="DEPARTMENT">A department</option>
           <option value="USER">One user (by id)</option>
         </select>{" "}
-        <input aria-label="Department name or user id" name="targetValue" placeholder="Department name or user id" />{" "}
+        <input aria-label="Department name or user id" name="targetValue" placeholder="Department name or user id" list="assign-targets" />{" "}
+        <datalist id="assign-targets">
+          {departments.map((d) => <option key={`d-${d}`} value={d} />)}
+          {people.map((p) => <option key={`u-${p.id}`} value={p.id} label={p.name} />)}
+        </datalist>{" "}
         <button type="submit">Save assignment</button>
       </form>
     </main>

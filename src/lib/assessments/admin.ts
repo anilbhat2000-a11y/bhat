@@ -133,9 +133,34 @@ export async function setAssignments(
   targets: { targetType: "ALL" | "DEPARTMENT" | "USER"; targetValue: string | null }[],
 ): Promise<Result> {
   asAdmin(actor);
+  // Each target must match someone, so a typo cannot silently assign nobody.
+  for (const t of targets) {
+    if (t.targetType === "ALL") continue;
+    if (t.targetType === "USER") {
+      if (!t.targetValue || !(await prisma.user.findUnique({ where: { id: t.targetValue } }))) {
+        return { ok: false, error: "No user matches that id" };
+      }
+    } else {
+      const match = await prisma.user.findFirst({ where: { department: t.targetValue ?? "" } });
+      if (!match) return { ok: false, error: `No one is in the department "${t.targetValue ?? ""}"` };
+    }
+  }
   await prisma.$transaction(async (tx) => {
     await tx.assessmentAssignment.deleteMany({ where: { assessmentId } });
     for (const t of targets) await tx.assessmentAssignment.create({ data: { assessmentId, ...t } });
+    // Learners no longer assigned lose their open periods, if they have not started them.
+    const stillAssigned = new Set(
+      (await tx.user.findMany({ where: { active: true }, select: { id: true, department: true } })).filter((u) =>
+        targets.some((t) => t.targetType === "ALL" || (t.targetType === "USER" && t.targetValue === u.id) ||
+          (t.targetType === "DEPARTMENT" && t.targetValue === u.department)),
+      ).map((u) => u.id),
+    );
+    const open = await tx.assessmentPeriod.findMany({ where: { assessmentId, status: "OPEN" }, select: { id: true, userId: true } });
+    for (const p of open) {
+      if (stillAssigned.has(p.userId)) continue;
+      const attempts = await tx.assessmentAttempt.count({ where: { periodId: p.id } });
+      if (attempts === 0) await tx.assessmentPeriod.delete({ where: { id: p.id } });
+    }
     await recordAudit(tx, { actorId: actor.id, action: "assessment.assign", entityType: "Assessment", entityId: assessmentId, after: { targets } });
   });
   return { ok: true, id: assessmentId };
@@ -157,4 +182,49 @@ export async function resetAttempts(actor: SessionUser, periodId: string): Promi
     await recordAudit(tx, { actorId: actor.id, action: "period.reset", entityType: "AssessmentPeriod", entityId: periodId, before: { status: period.status } });
   });
   return { ok: true, id: periodId };
+}
+
+// Deleting a question. Answers already given keep their stored question snapshot, so past
+// attempts are unaffected.
+export async function deleteQuestion(actor: SessionUser, questionId: string): Promise<Result> {
+  asAdmin(actor);
+  const q = await prisma.question.findUnique({ where: { id: questionId }, select: { assessmentId: true, text: true } });
+  if (!q) return { ok: false, error: "Question not found" };
+  await prisma.$transaction(async (tx) => {
+    await tx.question.delete({ where: { id: questionId } });
+    await recordAudit(tx, { actorId: actor.id, action: "question.delete", entityType: "Question", entityId: questionId, before: { text: q.text, assessmentId: q.assessmentId } });
+  });
+  return { ok: true, id: questionId };
+}
+
+// Changes an assessment's settings. Attempts already made are unchanged.
+export async function updateAssessmentSettings(
+  actor: SessionUser,
+  id: string,
+  input: {
+    passMarkPercent: number;
+    showAnswersAfterSubmit: boolean;
+    maxAttemptsPerPeriod: number;
+    timeLimitMinutes: number | null;
+    questionsPerAttempt: number | null;
+  },
+): Promise<Result> {
+  asAdmin(actor);
+  if (!Number.isInteger(input.passMarkPercent) || input.passMarkPercent < 1 || input.passMarkPercent > 100) {
+    return { ok: false, error: "Pass mark must be between 1 and 100" };
+  }
+  if (!Number.isInteger(input.maxAttemptsPerPeriod) || input.maxAttemptsPerPeriod < 1 || input.maxAttemptsPerPeriod > 10) {
+    return { ok: false, error: "Attempts per period must be 1 to 10" };
+  }
+  if (input.questionsPerAttempt !== null) {
+    const bank = await prisma.question.count({ where: { assessmentId: id } });
+    if (input.questionsPerAttempt < 1 || input.questionsPerAttempt > bank) {
+      return { ok: false, error: `Questions per attempt must be between 1 and ${bank}` };
+    }
+  }
+  await writeWithAudit(
+    (tx) => tx.assessment.update({ where: { id }, data: input }),
+    () => ({ actorId: actor.id, action: "assessment.settings", entityType: "Assessment", entityId: id, after: { ...input } }),
+  );
+  return { ok: true, id };
 }

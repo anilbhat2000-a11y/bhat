@@ -1,5 +1,5 @@
 import { it, expect } from "vitest";
-import { certsBySubject, passRateByDepartment, toCsv } from "./aggregate";
+import { certsBySubject, passRateByDepartment, toCsv, latestPerPerson } from "./aggregate";
 
 const now = new Date("2026-06-01T00:00:00Z");
 
@@ -32,4 +32,14 @@ it("CSV quotes fields with commas and doubles embedded quotes", () => {
 
 it("CSV of no rows is an empty string", () => {
   expect(toCsv([])).toBe("");
+});
+
+it("counts each person once per subject and level, using their latest certificate", () => {
+  const rows = latestPerPerson([
+    { userId: "u1", subject: "Networking", level: "BASIC", issuedAt: new Date("2026-01-01Z"), expiresAt: new Date("2027-01-01Z") },
+    { userId: "u1", subject: "Networking", level: "BASIC", issuedAt: new Date("2026-06-01Z"), expiresAt: new Date("2027-06-01Z") },
+    { userId: "u2", subject: "Networking", level: "BASIC", issuedAt: new Date("2026-02-01Z"), expiresAt: new Date("2027-02-01Z") },
+  ]);
+  expect(rows).toHaveLength(2);
+  expect(rows.find((r) => r.userId === "u1")?.expiresAt.toISOString()).toBe("2027-06-01T00:00:00.000Z");
 });

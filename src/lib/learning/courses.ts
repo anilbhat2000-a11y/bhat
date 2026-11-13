@@ -7,6 +7,7 @@ import { validateUpload } from "../storage/validate";
 import type { Level, LessonType } from "../../generated/prisma/client";
 import { recordAudit, writeWithAudit } from "../audit/record";
 import { canPublishLesson } from "./publish";
+import { parseLabChecklist } from "./labs";
 
 export type Result = { ok: true; id?: string } | { ok: false; error: string };
 const HTTP_URL = /^https?:\/\/\S+$/i;
@@ -101,6 +102,9 @@ export async function addLesson(
 ): Promise<Result> {
   asAdmin(actor);
   if (!input.title.trim()) return { ok: false, error: "Title is required" };
+  if (input.type === "LAB" && parseLabChecklist(input.body ?? "").length === 0) {
+    return { ok: false, error: "A lab needs at least one checklist step: a line such as '- [ ] Create the VLAN'" };
+  }
   if ((input.type === "TEXT" || input.type === "LAB") && !(input.body ?? "").trim()) {
     return { ok: false, error: input.type === "LAB" ? "Labs need a checklist: one '- [ ] step' line per item" : "Text lessons need content" };
   }
@@ -239,4 +243,17 @@ export async function deleteCourse(actor: SessionUser, id: string): Promise<Resu
     await recordAudit(tx, { actorId: actor.id, action: "course.delete", entityType: "Course", entityId: id, before: { title: course.title } });
   });
   return { ok: true, id };
+}
+
+// Deleting a lesson removes its progress records with it, so learners' course progress may
+// refer to a lesson that no longer exists; the course list order is kept.
+export async function deleteLesson(actor: SessionUser, lessonId: string): Promise<Result> {
+  asAdmin(actor);
+  const lesson = await prisma.lesson.findUnique({ where: { id: lessonId }, select: { courseId: true, title: true } });
+  if (!lesson) return { ok: false, error: "Lesson not found" };
+  await prisma.$transaction(async (tx) => {
+    await tx.lesson.delete({ where: { id: lessonId } });
+    await recordAudit(tx, { actorId: actor.id, action: "lesson.delete", entityType: "Lesson", entityId: lessonId, before: { title: lesson.title, courseId: lesson.courseId } });
+  });
+  return { ok: true, id: lessonId };
 }

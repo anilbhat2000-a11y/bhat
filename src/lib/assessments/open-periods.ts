@@ -28,7 +28,7 @@ export async function openPeriodsFor(assessmentId: string, now: Date = new Date(
   return { created: created.count };
 }
 
-async function assignedUserIds(
+export async function assignedUserIds(
   assignments: { targetType: "ALL" | "DEPARTMENT" | "USER"; targetValue: string | null }[],
 ): Promise<string[]> {
   const ids = new Set<string>();

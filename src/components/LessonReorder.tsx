@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { reorderLessonsAction } from "../app/actions/courses";
 import { moveLessonAction } from "../app/actions/courses";
+import { deleteLessonAction } from "../app/actions/content";
 
 type Item = { id: string; title: string; type: string };
 
@@ -49,6 +50,10 @@ export function LessonReorder({ courseId, lessons }: { courseId: string; lessons
               <input type="hidden" name="lessonId" value={l.id} />
               <button name="direction" value="up" type="submit">Up</button>
               <button name="direction" value="down" type="submit">Down</button>
+            </form>{" "}
+            <form action={deleteLessonAction} style={{ display: "inline" }}>
+              <input type="hidden" name="lessonId" value={l.id} />
+              <button type="submit">Delete lesson</button>
             </form>
           </li>
         ))}

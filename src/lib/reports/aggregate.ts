@@ -49,3 +49,15 @@ export function toCsv(rows: Record<string, unknown>[]): string {
   for (const row of rows) lines.push(headers.map((h) => escape(row[h])).join(","));
   return lines.join("\r\n") + "\r\n";
 }
+
+// One row per person, subject and level: the most recent certificate, so a weekly pass does
+// not count as many certificates.
+export function latestPerPerson<T extends { userId: string; subject: string; level: Level; issuedAt: Date }>(certs: T[]): T[] {
+  const latest = new Map<string, T>();
+  for (const c of certs) {
+    const key = `${c.userId}|${c.subject}|${c.level}`;
+    const current = latest.get(key);
+    if (!current || c.issuedAt.getTime() > current.issuedAt.getTime()) latest.set(key, c);
+  }
+  return [...latest.values()];
+}

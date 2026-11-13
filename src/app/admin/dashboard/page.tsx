@@ -3,7 +3,7 @@ import { guardPortal } from "../../../lib/auth/portal";
 import { requireSession } from "../../../lib/auth/current-user";
 import { prisma } from "../../../lib/db/client";
 import { certificationRows, companyHealthRows } from "../../../lib/reports/queries";
-import { certsBySubject } from "../../../lib/reports/aggregate";
+import { certsBySubject, latestPerPerson } from "../../../lib/reports/aggregate";
 import { SubjectBarChart } from "../../../components/SubjectBarChart";
 
 export default async function AdminDashboard() {
@@ -16,7 +16,7 @@ export default async function AdminDashboard() {
     companyHealthRows(viewer),
     prisma.assessmentPeriod.count({ where: { status: "OVERDUE" } }),
   ]);
-  const subjects = certsBySubject(certs.map((c) => ({ subject: c.subject, level: c.level, expiresAt: c.expiresAt })), now);
+  const subjects = certsBySubject(latestPerPerson(certs).map((c) => ({ subject: c.subject, level: c.level, expiresAt: c.expiresAt })), now);
 
   return (
     <main style={{ padding: "16px", fontFamily: "system-ui, sans-serif" }}>

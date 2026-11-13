@@ -8,7 +8,7 @@ export default async function MyAssessmentsPage({ searchParams }: { searchParams
   const user = await requireSession();
   const { error } = await searchParams;
   const periods = await prisma.assessmentPeriod.findMany({
-    where: { userId: user.id },
+    where: { userId: user.id, assessment: { published: true } },
     include: { assessment: true },
     orderBy: { dueAt: "asc" },
   });

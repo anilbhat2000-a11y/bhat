@@ -18,6 +18,8 @@ export async function certificationRows(viewer: SessionUser, now: Date = new Dat
   return certs
     .filter((c) => inScope(scope, c.userId))
     .map((c) => ({
+      userId: c.userId,
+      issuedAt: c.issuedAt,
       name: c.user.name,
       email: c.user.email,
       department: c.user.department ?? "",

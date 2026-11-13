@@ -1,7 +1,7 @@
 import { connection } from "next/server";
 import { requireSession } from "../../../../lib/auth/current-user";
 import { certificationRows } from "../../../../lib/reports/queries";
-import { certsBySubject } from "../../../../lib/reports/aggregate";
+import { certsBySubject, latestPerPerson } from "../../../../lib/reports/aggregate";
 import { teamCompletion } from "../../../../lib/manager/team";
 
 export default async function TeamSummaryPage() {
@@ -10,7 +10,7 @@ export default async function TeamSummaryPage() {
   const now = new Date();
   const rows = await certificationRows(viewer, now);
   const completion = await teamCompletion(viewer);
-  const subjects = certsBySubject(rows.map((r) => ({ subject: r.subject, level: r.level, expiresAt: r.expiresAt })), now);
+  const subjects = certsBySubject(latestPerPerson(rows).map((r) => ({ subject: r.subject, level: r.level, expiresAt: r.expiresAt })), now);
 
   return (
     <main style={{ padding: "16px", fontFamily: "system-ui, sans-serif" }}>

@@ -7,6 +7,7 @@ import { verifyPassword } from "../../lib/auth/password";
 import { createSession, hashToken } from "../../lib/auth/session";
 import { HOME } from "../../lib/auth/portal";
 import { SESSION_COOKIE } from "../../lib/auth/current-user";
+import { cookieSecure } from "../../lib/auth/cookie";
 
 export type LoginState = { error?: string };
 
@@ -22,7 +23,7 @@ export async function login(_prev: LoginState, formData: FormData): Promise<Logi
   const { token, expiresAt } = await createSession(user.id);
   (await cookies()).set(SESSION_COOKIE, token, {
     httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
+    secure: cookieSecure(process.env),
     sameSite: "lax",
     path: "/",
     expires: expiresAt,
