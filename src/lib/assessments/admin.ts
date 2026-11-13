@@ -3,6 +3,7 @@ import { requireRole } from "../auth/guards";
 import type { SessionUser } from "../auth/session";
 import { parseQuestionRows, type QuestionRow } from "../import/questions";
 import type { Cadence, Level } from "../../generated/prisma/client";
+import { recordAudit } from "../audit/record";
 
 export type Result = { ok: true; id?: string } | { ok: false; error: string };
 const asAdmin = (actor: SessionUser) => requireRole(actor, ["ADMIN"]);
@@ -41,6 +42,7 @@ export async function createAssessment(
       showAnswersAfterSubmit: input.showAnswersAfterSubmit ?? false,
     },
   });
+  await recordAudit(prisma, { actorId: actor.id, action: "assessment.create", entityType: "Assessment", entityId: assessment.id, after: { title: assessment.title, cadence: assessment.cadence } });
   return { ok: true, id: assessment.id };
 }
 
@@ -109,6 +111,7 @@ export async function setAssessmentPublished(actor: SessionUser, id: string, pub
     }
   }
   await prisma.assessment.update({ where: { id }, data: { published } });
+  await recordAudit(prisma, { actorId: actor.id, action: published ? "assessment.publish" : "assessment.unpublish", entityType: "Assessment", entityId: id, after: { published } });
   return { ok: true, id };
 }
 
@@ -123,5 +126,6 @@ export async function setAssignments(
     prisma.assessmentAssignment.deleteMany({ where: { assessmentId } }),
     ...targets.map((t) => prisma.assessmentAssignment.create({ data: { assessmentId, ...t } })),
   ]);
+  await recordAudit(prisma, { actorId: actor.id, action: "assessment.assign", entityType: "Assessment", entityId: assessmentId, after: { targets } });
   return { ok: true, id: assessmentId };
 }

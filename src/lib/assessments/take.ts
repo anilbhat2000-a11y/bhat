@@ -2,6 +2,7 @@ import { prisma } from "../db/client";
 import { AuthError } from "../auth/guards";
 import type { SessionUser } from "../auth/session";
 import { makeVerificationCode } from "../certificates/code";
+import { recordAudit } from "../audit/record";
 import { canStartAttempt, isWithinTimeLimit } from "./attempts";
 import { expiresAt } from "./certifications";
 import { scoreAttempt, shuffleOptions } from "./scoring";
@@ -129,6 +130,13 @@ export async function submitAttempt(
     await tx.assessmentAttempt.update({
       where: { id: attemptId },
       data: { status: "SUBMITTED", submittedAt: now, scorePercent: scoring.scorePercent, passed: scoring.passed, answers },
+    });
+    await recordAudit(tx, {
+      actorId: actor.id,
+      action: "attempt.submit",
+      entityType: "AssessmentAttempt",
+      entityId: attemptId,
+      after: { scorePercent: scoring.scorePercent, passed: scoring.passed },
     });
     if (scoring.passed) {
       await tx.assessmentPeriod.update({ where: { id: attempt.periodId }, data: { status: "PASSED" } });

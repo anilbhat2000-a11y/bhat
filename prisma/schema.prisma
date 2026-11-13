@@ -107,7 +107,6 @@ model User {
   certifications      Certification[]
   registrations       LiveSessionRegistration[]
   notifications       Notification[]
-  auditEvents         AuditEvent[]          @relation("Actor")
   profileSkills       ProfileSkill[]
   profileEducation    ProfileEducation[]
   profileExperience   ProfileExperience[]
@@ -379,7 +378,6 @@ model AuditEvent {
   before     Json?
   after      Json?
   at         DateTime @default(now())
-  actor      User     @relation("Actor", fields: [actorId], references: [id])
 
   @@index([entityType, entityId])
   @@map("audit_events")

@@ -6,6 +6,7 @@ import type { SessionUser } from "../auth/session";
 import { parseCsvRows } from "../import/csv";
 import { parseUserRows, type UserRow } from "../import/users";
 import type { Category, Role } from "../../generated/prisma/client";
+import { recordAudit } from "../audit/record";
 
 export type Result = { ok: true; id?: string } | { ok: false; error: string };
 const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -48,6 +49,7 @@ export async function createUser(actor: SessionUser, input: UserInput): Promise<
       passwordHash: await hashPassword(input.password),
     },
   });
+  await recordAudit(prisma, { actorId: actor.id, action: "user.create", entityType: "User", entityId: user.id, after: { email, role: input.role } });
   return { ok: true, id: user.id };
 }
 
@@ -83,10 +85,21 @@ export async function updateUser(
 export async function setActive(actor: SessionUser, id: string, active: boolean): Promise<Result> {
   asAdmin(actor);
   if (!active && actor.id === id) return { ok: false, error: "You cannot deactivate your own account" };
-  await prisma.$transaction([
-    prisma.user.update({ where: { id }, data: { active } }),
-    ...(active ? [] : [prisma.session.deleteMany({ where: { userId: id } })]),
-  ]);
+  const before = await prisma.user.findUnique({ where: { id }, select: { active: true } });
+  if (!before) return { ok: false, error: "User not found" };
+  // The change, the sign-out, and the audit row succeed or fail together.
+  await prisma.$transaction(async (tx) => {
+    await tx.user.update({ where: { id }, data: { active } });
+    if (!active) await tx.session.deleteMany({ where: { userId: id } });
+    await recordAudit(tx, {
+      actorId: actor.id,
+      action: active ? "user.activate" : "user.deactivate",
+      entityType: "User",
+      entityId: id,
+      before: { active: before.active },
+      after: { active },
+    });
+  });
   return { ok: true, id };
 }
 

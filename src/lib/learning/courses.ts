@@ -5,6 +5,7 @@ import { defaultStorage, mimeForKey } from "../storage";
 import type { FileStorage } from "../storage/types";
 import { validateUpload } from "../storage/validate";
 import type { Level, LessonType } from "../../generated/prisma/client";
+import { recordAudit } from "../audit/record";
 
 export type Result = { ok: true; id?: string } | { ok: false; error: string };
 const HTTP_URL = /^https?:\/\/\S+$/i;
@@ -30,6 +31,7 @@ export async function createCourse(
       passMarkPercent: input.passMarkPercent,
     },
   });
+  await recordAudit(prisma, { actorId: actor.id, action: "course.create", entityType: "Course", entityId: course.id, after: { title: course.title } });
   return { ok: true, id: course.id };
 }
 
@@ -58,7 +60,16 @@ export async function setCoursePublished(actor: SessionUser, id: string, publish
     const lessons = await prisma.lesson.count({ where: { courseId: id } });
     if (lessons === 0) return { ok: false, error: "Add at least one lesson before publishing" };
   }
+  const before = await prisma.course.findUnique({ where: { id }, select: { status: true } });
   await prisma.course.update({ where: { id }, data: { status: published ? "PUBLISHED" : "DRAFT" } });
+  await recordAudit(prisma, {
+    actorId: actor.id,
+    action: published ? "course.publish" : "course.unpublish",
+    entityType: "Course",
+    entityId: id,
+    before: { status: before?.status ?? null },
+    after: { status: published ? "PUBLISHED" : "DRAFT" },
+  });
   return { ok: true, id };
 }
 
