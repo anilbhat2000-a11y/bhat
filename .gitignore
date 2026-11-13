@@ -47,3 +47,6 @@ src/generated/
 /test-results/
 /playwright-report/
 blob-report/
+
+# agent scratch (logs, workspace)
+/.superpowers/
