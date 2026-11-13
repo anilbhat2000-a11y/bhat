@@ -10,6 +10,7 @@ it("renders a one-page PDF with the holder, subject, and verification code", asy
     issuedAt: new Date("2026-01-01T00:00:00Z"),
     expiresAt: new Date("2027-01-01T00:00:00Z"),
     code: "ABCD2345EFGH",
+    verifyUrl: "https://lms.example/verify/ABCD2345EFGH",
   });
   expect(bytes.subarray(0, 4).toString()).toBe("%PDF");
   const doc = await PDFDocument.load(bytes);
@@ -24,6 +25,7 @@ it("non-Latin names render without failing", async () => {
     issuedAt: new Date("2026-01-01T00:00:00Z"),
     expiresAt: new Date("2027-01-01T00:00:00Z"),
     code: "ABCD2345EFGH",
+    verifyUrl: "https://lms.example/verify/ABCD2345EFGH",
   });
   expect(bytes.length).toBeGreaterThan(100);
 });

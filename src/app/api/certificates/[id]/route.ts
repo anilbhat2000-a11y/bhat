@@ -2,10 +2,11 @@ import { connection } from "next/server";
 import { currentUser } from "../../../../lib/auth/current-user";
 import { prisma } from "../../../../lib/db/client";
 import { renderCertificatePdf } from "../../../../lib/certificates/render";
+import { verifyUrl } from "../../../../lib/certificates/qr";
 
 // The holder and admins can download a certificate. Everyone else gets 404, so the
 // response does not reveal whether the certificate exists.
-export async function GET(_request: Request, { params }: { params: Promise<{ id: string }> }) {
+export async function GET(request: Request, { params }: { params: Promise<{ id: string }> }) {
   await connection();
   const user = await currentUser();
   if (!user) return new Response("Not signed in", { status: 401 });
@@ -20,6 +21,7 @@ export async function GET(_request: Request, { params }: { params: Promise<{ id:
     issuedAt: cert.issuedAt,
     expiresAt: cert.expiresAt,
     code: cert.verificationCode,
+    verifyUrl: verifyUrl(cert.verificationCode, { baseUrl: process.env.PUBLIC_BASE_URL, requestUrl: request.url, headers: request.headers }),
   });
   return new Response(new Uint8Array(pdf), {
     headers: {
