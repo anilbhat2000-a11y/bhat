@@ -37,8 +37,12 @@ type BankFile = {
   timeLimitMinutes: number | null;
   questionsPerAttempt: number | null;
   assignDepartment: string | null;
-  questions: { type: string; text: string; options: string[]; correct: string[]; points: number }[];
+  questions: SeedQuestion[];
 };
+
+// Correct answers are written as option text. FILL_BLANK, MATCHING ("left=right") and
+// SHORT_ANSWER define their answers in the options, so `correct` is left empty for them.
+type SeedQuestion = { type: string; text: string; options: string[]; correct: string[]; points: number; scenario?: string; explanation?: string };
 
 type CourseFile = {
   slug: string;
@@ -52,7 +56,7 @@ type CourseFile = {
     title: string;
     level: "BASIC" | "INTERMEDIATE" | "ADVANCED";
     passMarkPercent: number;
-    questions: { type: string; text: string; options: string[]; correct: string[]; points: number }[];
+    questions: SeedQuestion[];
   };
 };
 
@@ -115,6 +119,8 @@ function toQuestionRows(questions: BankFile["questions"], file: string) {
       return String(index + 1);
     }).join("|"),
     points: String(q.points),
+    scenario: q.scenario,
+    explanation: q.explanation,
   }));
   const parsed = parseQuestionRows(rows);
   if (!parsed.ok) throw new Error(`${file}: ${parsed.errors.map((e) => `question ${e.row}: ${e.reason}`).join("; ")}`);
@@ -145,7 +151,7 @@ async function loadBank(db: PrismaClient, b: BankFile, file: string): Promise<vo
       published: true,
       questions: {
         create: questions.map((q, i) => ({
-          position: i + 1, type: q.type, text: q.text, options: q.options, correctOptionIds: q.correctOptionIds, points: q.points,
+          position: i + 1, type: q.type, text: q.text, options: q.options, correctOptionIds: q.correctOptionIds, points: q.points, scenario: q.scenario, explanation: q.explanation,
         })),
       },
       assignments: b.assignDepartment ? { create: { targetType: "DEPARTMENT", targetValue: b.assignDepartment } } : undefined,
@@ -187,6 +193,8 @@ async function loadCourse(db: PrismaClient, c: CourseFile, file: string): Promis
               options: q.options,
               correctOptionIds: q.correctOptionIds,
               points: q.points,
+              scenario: q.scenario,
+              explanation: q.explanation,
             })),
           },
         },

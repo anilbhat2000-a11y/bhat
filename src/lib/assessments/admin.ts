@@ -71,6 +71,8 @@ export async function addQuestion(actor: SessionUser, assessmentId: string, row:
           options: q.options,
           correctOptionIds: q.correctOptionIds,
           points: q.points,
+          scenario: q.scenario,
+          explanation: q.explanation,
         },
       }),
     (c) => ({ actorId: actor.id, action: "question.add", entityType: "Question", entityId: c.id, after: { assessmentId, text: q.text } }),
@@ -99,6 +101,8 @@ export async function importQuestions(
           options: q.options,
           correctOptionIds: q.correctOptionIds,
           points: q.points,
+          scenario: q.scenario,
+          explanation: q.explanation,
         },
       });
     }
@@ -175,7 +179,7 @@ export async function resetAttempts(actor: SessionUser, periodId: string): Promi
   if (period.status === "PASSED") return { ok: false, error: "This period is already passed" };
   await prisma.$transaction(async (tx) => {
     await tx.assessmentAttempt.updateMany({
-      where: { periodId, status: { in: ["SUBMITTED", "EXPIRED", "IN_PROGRESS"] } },
+      where: { periodId, status: { in: ["SUBMITTED", "AWAITING_GRADING", "EXPIRED", "IN_PROGRESS"] } },
       data: { status: "VOIDED" },
     });
     await tx.assessmentPeriod.update({ where: { id: periodId }, data: { status: "OPEN" } });

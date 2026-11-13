@@ -13,8 +13,44 @@ it("parses a valid single-choice row, with option ids o1..oN", () => {
       options: [{ id: "o1", label: "A" }, { id: "o2", label: "B" }, { id: "o3", label: "C" }],
       correctOptionIds: ["o2"],
       points: 1,
+      scenario: null,
+      explanation: null,
     });
   }
+});
+
+it("keeps a scenario and an explanation when given", () => {
+  const r = parseQuestionRows([{ ...single, scenario: " A customer needs 40 desks wired. ", explanation: "B, because…" }]);
+  expect(r.ok && r.questions[0]).toMatchObject({ scenario: "A customer needs 40 desks wired.", explanation: "B, because…" });
+});
+
+it("parses fill-in-the-blank: every listed answer is accepted", () => {
+  const r = parseQuestionRows([{ type: "fill_blank", text: "A ____ connects networks", options: "router|a router", correct: "", points: "1" }]);
+  expect(r.ok && r.questions[0]).toMatchObject({
+    type: "FILL_BLANK",
+    options: [{ id: "o1", label: "router" }, { id: "o2", label: "a router" }],
+    correctOptionIds: ["o1", "o2"],
+  });
+  expect(parseQuestionRows([{ type: "FILL_BLANK", text: "x", options: "", correct: "", points: "1" }]).ok).toBe(false);
+});
+
+it("parses matching pairs written left=right, and rejects malformed or duplicate pairs", () => {
+  const r = parseQuestionRows([{ type: "MATCHING", text: "Match", options: "Switch=Layer 2|Router=Layer 3", correct: "", points: "2" }]);
+  expect(r.ok && r.questions[0].options).toEqual([
+    { id: "o1", label: "Switch", match: "Layer 2" }, { id: "o2", label: "Router", match: "Layer 3" },
+  ]);
+  const bad = parseQuestionRows([
+    { type: "MATCHING", text: "M", options: "A=1", correct: "", points: "1" },
+    { type: "MATCHING", text: "M", options: "A=1|B", correct: "", points: "1" },
+    { type: "MATCHING", text: "M", options: "A=1|B=1", correct: "", points: "1" },
+  ]);
+  expect(!bad.ok && bad.errors.map((e) => e.row)).toEqual([1, 2, 3]);
+});
+
+it("parses a short answer with no options, and refuses options on one", () => {
+  const r = parseQuestionRows([{ type: "SHORT_ANSWER", text: "Explain BANT", options: "", correct: "", points: "5", explanation: "Model answer" }]);
+  expect(r.ok && r.questions[0]).toMatchObject({ type: "SHORT_ANSWER", options: [], correctOptionIds: [], points: 5 });
+  expect(parseQuestionRows([{ type: "SHORT_ANSWER", text: "x", options: "a", correct: "", points: "1" }]).ok).toBe(false);
 });
 
 it("parses a multiple-choice row with several correct indexes", () => {

@@ -5,44 +5,89 @@ import { makeVerificationCode } from "../certificates/code";
 import { recordAudit } from "../audit/record";
 import { canStartAttempt, isWithinTimeLimit } from "./attempts";
 import { expiresAt } from "./certifications";
-import { scoreAttempt, shuffleOptions } from "./scoring";
-import type { QuestionType } from "../../generated/prisma/client";
+import { scoreAttempt, shuffleOptions, type ScoringQuestion } from "./scoring";
+import type { Level, QuestionType } from "../../generated/prisma/client";
 
 export type PublicQuestion = {
   id: string;
   type: QuestionType;
   text: string;
   points: number;
+  scenario: string | null;
+  // Choice questions: options in this attempt's order. Matching: the left-hand items.
+  // Fill-in-the-blank and short answer: empty, so accepted answers never reach the browser.
   options: { id: string; label: string }[];
+  // Matching only: the right-hand items, in this attempt's order.
+  choices?: { id: string; label: string }[];
 };
 
 type Presented = { id: string; optionOrder: string[] };
 
 class AlreadySubmitted extends Error {}
-type Option = { id: string; label: string };
+type Option = { id: string; label: string; match?: string };
+type DrawnQuestion = { id: string; type: QuestionType; text: string; points: number; options: unknown; scenario: string | null };
 
 function endOf(startedAt: Date, limitMinutes: number | null): Date | null {
   return limitMinutes === null ? null : new Date(startedAt.getTime() + limitMinutes * 60_000);
 }
 
-// Builds the learner's view: options in this attempt's order, and no answer key.
-function toPublic(
-  drawn: { id: string; type: QuestionType; text: string; points: number; options: unknown }[],
-  presented: Presented[],
-): PublicQuestion[] {
+// Builds the learner's view, in this attempt's order and without the answer key.
+function toPublic(drawn: DrawnQuestion[], presented: Presented[]): PublicQuestion[] {
   return presented.map((p) => {
     const q = drawn.find((d) => d.id === p.id);
     if (!q) throw new Error("presented question missing");
-    const byId = new Map((q.options as Option[]).map((o) => [o.id, o]));
-    return {
-      id: q.id,
-      type: q.type,
-      text: q.text,
-      points: q.points,
-      options: p.optionOrder.map((id) => byId.get(id) as Option),
-    };
+    const options = q.options as Option[];
+    const byId = new Map(options.map((o) => [o.id, o]));
+    const base = { id: q.id, type: q.type, text: q.text, points: q.points, scenario: q.scenario };
+    if (q.type === "FILL_BLANK" || q.type === "SHORT_ANSWER") return { ...base, options: [] };
+    if (q.type === "MATCHING") {
+      return {
+        ...base,
+        options: options.map((o) => ({ id: o.id, label: o.label })),
+        choices: p.optionOrder.map((id) => ({ id, label: byId.get(id)?.match ?? "" })),
+      };
+    }
+    return { ...base, options: p.optionOrder.map((id) => ({ id, label: (byId.get(id) as Option).label })) };
   });
 }
+
+// The questions the attempt was given, in scoring form.
+function toScoring(questions: { id: string; type: QuestionType; correctOptionIds: unknown; points: number; options: unknown }[]): ScoringQuestion[] {
+  return questions.map((q) => ({
+    id: q.id, type: q.type, correctOptionIds: q.correctOptionIds as string[], points: q.points, options: q.options as Option[],
+  }));
+}
+
+type Tx = Parameters<Parameters<typeof prisma.$transaction>[0]>[0];
+
+// What a final result does: on a pass the period is passed and a certificate is issued.
+// Shared by automatic marking at submit and by a reviewer's grading.
+export async function applyResult(
+  tx: Tx,
+  input: { attemptId: string; periodId: string; userId: string; actorId: string; passed: boolean; now: Date;
+    assessment: { id: string; subjectId: string; level: Level; courseId: string | null; subject: { certificationValidityMonths: number } } },
+): Promise<void> {
+  if (!input.passed) {
+    await onFail(tx, input);
+    return;
+  }
+  await tx.assessmentPeriod.update({ where: { id: input.periodId }, data: { status: "PASSED" } });
+  const cert = await tx.certification.create({
+    data: {
+      userId: input.userId,
+      subjectId: input.assessment.subjectId,
+      level: input.assessment.level,
+      issuedAt: input.now,
+      expiresAt: expiresAt(input.now, input.assessment.subject.certificationValidityMonths),
+      sourceAttemptId: input.attemptId,
+      verificationCode: makeVerificationCode(),
+    },
+  });
+  await recordAudit(tx, { actorId: input.actorId, action: "certificate.issue", entityType: "Certification", entityId: cert.id, after: { userId: input.userId, subjectId: input.assessment.subjectId, level: input.assessment.level } });
+}
+
+// Hook for a failed result; the remedial path is added here.
+async function onFail(_tx: Tx, _input: Parameters<typeof applyResult>[1]): Promise<void> {}
 
 // Starts an attempt, or resumes the in-progress one. The attempt row is written before
 // any answer is given, so a dropped connection loses nothing.
@@ -87,7 +132,7 @@ export async function startAttempt(
   const drawn = pool && pool < all.length ? shuffleOptions(all, rng).slice(0, pool) : all;
   const presented: Presented[] = drawn.map((q) => ({
     id: q.id,
-    optionOrder: shuffleOptions((q.options as Option[]).map((o) => o.id), rng),
+    optionOrder: q.type === "FILL_BLANK" || q.type === "SHORT_ANSWER" ? [] : shuffleOptions((q.options as Option[]).map((o) => o.id), rng),
   }));
 
   const attempt = await prisma.assessmentAttempt.create({
@@ -102,7 +147,7 @@ export async function submitAttempt(
   answers: Record<string, string[]>,
   opts: { now?: Date } = {},
 ): Promise<
-  | { ok: true; scorePercent: number; passed: boolean; correct?: Record<string, string[]> }
+  | { ok: true; scorePercent: number | null; passed: boolean | null; awaitingGrading: boolean; correct?: Record<string, string[]> }
   | { ok: false; error: string }
 > {
   const now = opts.now ?? new Date();
@@ -112,7 +157,7 @@ export async function submitAttempt(
   });
   if (!attempt) return { ok: false, error: "Attempt not found" };
   if (attempt.userId !== actor.id) throw new AuthError(403);
-  if (attempt.status === "SUBMITTED") return { ok: false, error: "This attempt was already submitted" };
+  if (attempt.status === "SUBMITTED" || attempt.status === "AWAITING_GRADING") return { ok: false, error: "This attempt was already submitted" };
   if (attempt.status === "EXPIRED") return { ok: false, error: "This attempt ran out of time" };
 
   const assessment = attempt.period.assessment;
@@ -128,11 +173,8 @@ export async function submitAttempt(
 
   const presented = attempt.presentedQuestions as Presented[];
   const questions = await prisma.question.findMany({ where: { id: { in: presented.map((p) => p.id) } } });
-  const scoring = scoreAttempt(
-    questions.map((q) => ({ id: q.id, type: q.type, correctOptionIds: q.correctOptionIds as string[], points: q.points })),
-    answers,
-    assessment.passMarkPercent,
-  );
+  const scoring = scoreAttempt(toScoring(questions), answers, assessment.passMarkPercent);
+  const awaitingGrading = scoring.pendingManual.length > 0;
 
   try {
     await prisma.$transaction(async (tx) => {
@@ -140,7 +182,13 @@ export async function submitAttempt(
       // double submit cannot issue two certificates.
       const claim = await tx.assessmentAttempt.updateMany({
         where: { id: attemptId, status: "IN_PROGRESS" },
-        data: { status: "SUBMITTED", submittedAt: now, scorePercent: scoring.scorePercent, passed: scoring.passed, answers },
+        data: {
+          status: awaitingGrading ? "AWAITING_GRADING" : "SUBMITTED",
+          submittedAt: now,
+          scorePercent: scoring.scorePercent,
+          passed: scoring.passed,
+          answers,
+        },
       });
       if (claim.count !== 1) throw new AlreadySubmitted();
       await recordAudit(tx, {
@@ -148,22 +196,12 @@ export async function submitAttempt(
         action: "attempt.submit",
         entityType: "AssessmentAttempt",
         entityId: attemptId,
-        after: { scorePercent: scoring.scorePercent, passed: scoring.passed },
+        after: { scorePercent: scoring.scorePercent, passed: scoring.passed, awaitingGrading },
       });
-      if (scoring.passed) {
-        await tx.assessmentPeriod.update({ where: { id: attempt.periodId }, data: { status: "PASSED" } });
-        const cert = await tx.certification.create({
-          data: {
-            userId: actor.id,
-            subjectId: assessment.subjectId,
-            level: assessment.level,
-            issuedAt: now,
-            expiresAt: expiresAt(now, assessment.subject.certificationValidityMonths),
-            sourceAttemptId: attemptId,
-            verificationCode: makeVerificationCode(),
-          },
+      if (!awaitingGrading) {
+        await applyResult(tx, {
+          attemptId, periodId: attempt.periodId, userId: actor.id, actorId: actor.id, passed: scoring.passed === true, now, assessment,
         });
-        await recordAudit(tx, { actorId: actor.id, action: "certificate.issue", entityType: "Certification", entityId: cert.id, after: { subjectId: assessment.subjectId, level: assessment.level } });
       }
     });
   } catch (e) {
@@ -171,10 +209,10 @@ export async function submitAttempt(
     throw e;
   }
 
-  const correct = assessment.showAnswersAfterSubmit
+  const correct = assessment.showAnswersAfterSubmit && !awaitingGrading
     ? Object.fromEntries(questions.map((q) => [q.id, q.correctOptionIds as string[]]))
     : undefined;
-  return { ok: true, scorePercent: scoring.scorePercent, passed: scoring.passed, correct };
+  return { ok: true, scorePercent: scoring.scorePercent, passed: scoring.passed, awaitingGrading, correct };
 }
 
 // What the learner sees for their own attempt: the questions while it is in progress,
@@ -191,19 +229,29 @@ export async function attemptForUser(actor: SessionUser, attemptId: string) {
   const questions = attempt.status === "IN_PROGRESS" ? toPublic(drawn, presented) : [];
   // The answer key is shown only after a submit, and only when the admin enabled it.
   const showKey = attempt.status === "SUBMITTED" && attempt.period.assessment.showAnswersAfterSubmit;
+  const given = (attempt.answers as Record<string, string[]> | null) ?? {};
+  const grades = (attempt.manualGrades as Record<string, { points: number; note?: string }> | null) ?? {};
+  const order = new Map(presented.map((p, i) => [p.id, i]));
   return {
     status: attempt.status,
     title: attempt.period.assessment.title,
+    proctored: attempt.period.assessment.proctored,
+    proctorMaxViolations: attempt.period.assessment.proctorMaxViolations,
+    violations: ((attempt.proctorEvents as unknown[] | null) ?? []).length,
     questions,
     correctOptionIds: showKey
       ? Object.fromEntries(drawn.map((q) => [q.id, q.correctOptionIds as string[]]))
       : undefined,
     answerKey: showKey
-      ? drawn.map((q) => {
-          const labels = new Map((q.options as Option[]).map((o) => [o.id, o.label]));
-          return { text: q.text, correct: (q.correctOptionIds as string[]).map((id) => labels.get(id) ?? id) };
-        })
+      ? [...drawn].sort((a, b) => (order.get(a.id) ?? 0) - (order.get(b.id) ?? 0)).map((q) => ({
+          text: q.text,
+          correct: describeCorrect(q.type, q.options as Option[], q.correctOptionIds as string[]),
+          yourAnswer: describeAnswer(q.type, q.options as Option[], given[q.id] ?? []),
+          explanation: q.explanation,
+          reviewerNote: grades[q.id]?.note ?? null,
+        }))
       : undefined,
+    reviewerNote: attempt.status === "SUBMITTED" ? attempt.reviewerNote : null,
     scorePercent: attempt.scorePercent,
     passed: attempt.passed,
     expiresAt: endOf(attempt.startedAt, attempt.period.assessment.timeLimitMinutes),
@@ -214,4 +262,26 @@ export async function attemptForUser(actor: SessionUser, attemptId: string) {
 export async function presentedQuestionIds(attemptId: string): Promise<string[]> {
   const attempt = await prisma.assessmentAttempt.findUnique({ where: { id: attemptId } });
   return ((attempt?.presentedQuestions as Presented[] | undefined) ?? []).map((p) => p.id);
+}
+
+// The correct answer in words, for the answer key.
+export function describeCorrect(type: QuestionType, options: Option[], correctIds: string[]): string[] {
+  if (type === "SHORT_ANSWER") return ["Marked by a reviewer"];
+  if (type === "FILL_BLANK") return options.map((o) => o.label);
+  if (type === "MATCHING") return options.map((o) => `${o.label} → ${o.match}`);
+  const labels = new Map(options.map((o) => [o.id, o.label]));
+  return correctIds.map((id) => labels.get(id) ?? id);
+}
+
+// What the learner answered, in words.
+export function describeAnswer(type: QuestionType, options: Option[], given: string[]): string[] {
+  if (type === "FILL_BLANK" || type === "SHORT_ANSWER") return given.filter((g) => g.trim());
+  const byId = new Map(options.map((o) => [o.id, o]));
+  if (type === "MATCHING") {
+    return given.map((pair) => {
+      const [left, right] = pair.split("=");
+      return `${byId.get(left)?.label ?? "?"} → ${byId.get(right)?.match ?? "?"}`;
+    });
+  }
+  return given.map((id) => byId.get(id)?.label ?? id);
 }

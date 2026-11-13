@@ -55,6 +55,12 @@ enum QuestionType {
   SINGLE
   MULTIPLE
   TRUE_FALSE
+  // Options hold the accepted answers; matching ignores case and extra spaces.
+  FILL_BLANK
+  // Options hold left/right pairs ({ id, label, match }); the learner pairs them up.
+  MATCHING
+  // Free text, marked by a reviewer in the grading queue.
+  SHORT_ANSWER
 }
 
 enum TargetType {
@@ -72,6 +78,8 @@ enum PeriodStatus {
 enum AttemptStatus {
   IN_PROGRESS
   SUBMITTED
+  // Submitted, with short answers still to be marked by a reviewer.
+  AWAITING_GRADING
   EXPIRED
   VOIDED
 }
@@ -310,6 +318,10 @@ model Assessment {
   questionsPerAttempt    Int?     @map("questions_per_attempt")
   showAnswersAfterSubmit Boolean  @default(false) @map("show_answers_after_submit")
   published              Boolean  @default(false)
+  // Proctored mode: full screen is required, and leaving it or switching tabs is recorded.
+  // At proctorMaxViolations the attempt is submitted as it stands.
+  proctored              Boolean  @default(false)
+  proctorMaxViolations   Int      @default(3) @map("proctor_max_violations")
 
   questions   Question[]
   assignments AssessmentAssignment[]
@@ -328,6 +340,10 @@ model Question {
   options          Json
   correctOptionIds Json         @map("correct_option_ids")
   points           Int          @default(1)
+  // Case study or situation shown above the question (scenario-based questions).
+  scenario         String?      @db.Text
+  // Shown after submit when the assessment allows answers; guides reviewers of short answers.
+  explanation      String?      @db.Text
 
   @@unique([assessmentId, position])
   @@map("questions")
@@ -371,6 +387,13 @@ model AssessmentAttempt {
   passed             Boolean?
   presentedQuestions Json          @map("presented_questions")
   answers            Json?
+  // Reviewer marks for short answers: { [questionId]: { points, note } }.
+  manualGrades       Json?         @map("manual_grades")
+  reviewerNote       String?       @map("reviewer_note")
+  gradedById         String?       @map("graded_by_id")
+  gradedAt           DateTime?     @map("graded_at")
+  // Proctoring events: [{ type: "fullscreen-exit" | "tab-hidden", at }].
+  proctorEvents      Json          @default("[]") @map("proctor_events")
   period             AssessmentPeriod @relation(fields: [periodId], references: [id], onDelete: Cascade)
   user               User             @relation(fields: [userId], references: [id], onDelete: Cascade)
 

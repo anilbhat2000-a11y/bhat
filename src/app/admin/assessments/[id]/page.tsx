@@ -70,22 +70,39 @@ export default async function AssessmentPage({
       </form>
 
       <h2>Add a question</h2>
+      <details>
+        <summary>How to fill in each question type</summary>
+        <ul>
+          <li><strong>Single, multiple, true/false:</strong> options separated by |, and the correct option number(s), for example 2 or 1|3. True/false options are exactly True|False.</li>
+          <li><strong>Fill in the blank:</strong> write ____ in the question; options are every accepted answer, separated by |. Leave correct empty.</li>
+          <li><strong>Matching:</strong> options are pairs written left=right, separated by |, for example Switch=Layer 2|Router=Layer 3. Leave correct empty.</li>
+          <li><strong>Short answer:</strong> no options and no correct number. Put a model answer in the explanation; a reviewer marks it in the grading queue.</li>
+          <li><strong>Scenario-based:</strong> any type, with the case study in the scenario box.</li>
+        </ul>
+      </details>
       <form data-test="add-question" action={addQuestionAction}>
         <input type="hidden" name="assessmentId" value={assessment.id} />
         <select aria-label="Type" name="type" defaultValue="SINGLE">
           <option value="SINGLE">Single choice</option>
           <option value="MULTIPLE">Multiple choice</option>
           <option value="TRUE_FALSE">True / false</option>
+          <option value="FILL_BLANK">Fill in the blank</option>
+          <option value="MATCHING">Matching</option>
+          <option value="SHORT_ANSWER">Short answer (manually graded)</option>
         </select>{" "}
         <input aria-label="Question" name="text" placeholder="Question" required />{" "}
-        <input aria-label="Options, e.g. A|B|C" name="options" placeholder="Options, e.g. A|B|C" required />{" "}
-        <input aria-label="Correct option number(s), e.g. 2" name="correct" placeholder="Correct option number(s), e.g. 2" required />{" "}
-        <input name="points" type="number" min={1} defaultValue={1} aria-label="Points" />{" "}
+        <input aria-label="Options, e.g. A|B|C" name="options" placeholder="Options, e.g. A|B|C" />{" "}
+        <input aria-label="Correct option number(s), e.g. 2" name="correct" placeholder="Correct option number(s), e.g. 2" />{" "}
+        <input name="points" type="number" min={1} defaultValue={1} aria-label="Points" />
+        <br />
+        <textarea aria-label="Scenario (optional)" name="scenario" rows={2} cols={60} placeholder="Scenario or case study (optional)" />{" "}
+        <textarea aria-label="Explanation (optional)" name="explanation" rows={2} cols={60} placeholder="Explanation shown after submit, or model answer for reviewers (optional)" />
+        <br />
         <button type="submit">Add question</button>
       </form>
 
       <h2>Import questions (CSV)</h2>
-      <p>Columns: type, text, options, correct, points. Options and correct numbers are separated by |.</p>
+      <p>Columns: type, text, options, correct, points, and optionally scenario and explanation. Options and correct numbers are separated by |. Types: SINGLE, MULTIPLE, TRUE_FALSE, FILL_BLANK, MATCHING, SHORT_ANSWER.</p>
       <form data-test="import-questions" action={importQuestionsAction}>
         <input type="hidden" name="assessmentId" value={assessment.id} />
         <textarea aria-label="Csv" name="csv" rows={6} cols={80} required />

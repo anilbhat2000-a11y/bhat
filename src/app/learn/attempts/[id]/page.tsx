@@ -27,14 +27,25 @@ export default async function AttemptPage({
           <>
             <p>Score: {attempt.scorePercent}%</p>
             <p>{attempt.passed ? "Passed" : "Not passed"}</p>
+            {attempt.reviewerNote ? <p>Reviewer&apos;s note: {attempt.reviewerNote}</p> : null}
             {attempt.answerKey ? (
               <ol>
                 {attempt.answerKey.map((a, i) => (
-                  <li key={i}>{a.text}: correct answer {a.correct.join(", ")}</li>
+                  <li key={i} style={{ marginBottom: 12 }}>
+                    {a.text}
+                    <br />Your answer: {a.yourAnswer.length ? a.yourAnswer.join("; ") : "(no answer)"}
+                    <br />Correct answer: {a.correct.join("; ")}
+                    {a.explanation ? <><br />Explanation: {a.explanation}</> : null}
+                    {a.reviewerNote ? <><br />Reviewer: {a.reviewerNote}</> : null}
+                  </li>
                 ))}
               </ol>
             ) : null}
           </>
+        ) : attempt.status === "AWAITING_GRADING" ? (
+          <p role="status">Submitted. Some answers are marked by a reviewer, so your score will appear here once they are graded.</p>
+        ) : attempt.status === "VOIDED" ? (
+          <p>This attempt was reset by an administrator and does not count.</p>
         ) : (
           <p>This attempt ran out of time and was not scored.</p>
         )}
@@ -52,17 +63,36 @@ export default async function AttemptPage({
         <input type="hidden" name="attemptId" value={id} />
         {attempt.questions.map((q, i) => (
           <fieldset key={q.id} style={{ marginBottom: 16 }}>
-            <legend>{i + 1}. {q.text} ({q.points} pts)</legend>
-            {q.options.map((o) => (
-              <label key={o.id} style={{ display: "block" }}>
-                <input
-                  type={q.type === "MULTIPLE" ? "checkbox" : "radio"}
-                  name={`q-${q.id}`}
-                  value={o.id}
-                />{" "}
-                {o.label}
+            <legend>{i + 1}. {q.text} ({q.points} pts){q.type === "MULTIPLE" ? " (select all that apply)" : ""}</legend>
+            {q.scenario ? <p style={{ whiteSpace: "pre-wrap", borderLeft: "3px solid #888", paddingLeft: 8 }}><strong>Scenario:</strong> {q.scenario}</p> : null}
+            {q.type === "FILL_BLANK" ? (
+              <label>Your answer <input name={`q-${q.id}`} autoComplete="off" maxLength={200} /></label>
+            ) : q.type === "SHORT_ANSWER" ? (
+              <label>Your answer (marked by a reviewer)<br />
+                <textarea name={`q-${q.id}`} rows={5} cols={60} maxLength={5000} />
               </label>
-            ))}
+            ) : q.type === "MATCHING" ? (
+              q.options.map((o) => (
+                <label key={o.id} style={{ display: "block" }}>
+                  {o.label}{" "}
+                  <select name={`q-${q.id}`} defaultValue="" aria-label={`Match for ${o.label}`}>
+                    <option value="" disabled>Choose a match</option>
+                    {(q.choices ?? []).map((c) => <option key={c.id} value={`${o.id}=${c.id}`}>{c.label}</option>)}
+                  </select>
+                </label>
+              ))
+            ) : (
+              q.options.map((o) => (
+                <label key={o.id} style={{ display: "block" }}>
+                  <input
+                    type={q.type === "MULTIPLE" ? "checkbox" : "radio"}
+                    name={`q-${q.id}`}
+                    value={o.id}
+                  />{" "}
+                  {o.label}
+                </label>
+              ))
+            )}
           </fieldset>
         ))}
         <button type="submit">Submit answers</button>

@@ -1,10 +1,12 @@
 import { connection } from "next/server";
 import Link from "next/link";
 import { guardPortal } from "../../lib/auth/portal";
+import { prisma } from "../../lib/db/client";
 
 export default async function AdminHome() {
   await connection();
   await guardPortal(["ADMIN"]);
+  const waiting = await prisma.assessmentAttempt.count({ where: { status: "AWAITING_GRADING" } });
   return (
     <main style={{ padding: "16px", fontFamily: "system-ui, sans-serif" }}>
       <h1>Admin portal</h1>
@@ -15,6 +17,7 @@ export default async function AdminHome() {
           <li><Link href="/admin/instructors">Instructors</Link></li>
           <li><Link href="/admin/courses">Courses</Link></li>
           <li><Link href="/admin/assessments">Assessments</Link></li>
+          <li><Link href="/admin/grading">Grading queue</Link> ({waiting} waiting)</li>
           <li><Link href="/admin/dashboard">Dashboard</Link></li>
           <li><Link href="/admin/audit">Audit log</Link></li>
         </ul>

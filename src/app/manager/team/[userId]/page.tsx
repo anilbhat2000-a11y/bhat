@@ -40,7 +40,7 @@ export default async function MemberPage({ params }: { params: Promise<{ userId:
       <ul>
         {detail.attempts.map((a, i) => (
           <li key={i}>
-            {a.assessment} ({a.periodKey}): {a.status === "SUBMITTED" ? `${a.scorePercent}% ${a.passed ? "passed" : "not passed"}` : a.status.toLowerCase()}
+            {a.assessment} ({a.periodKey}): {a.status === "SUBMITTED" ? `${a.scorePercent}% ${a.passed ? "passed" : "not passed"}` : a.status.toLowerCase().replace("_", " ")}
           </li>
         ))}
       </ul>

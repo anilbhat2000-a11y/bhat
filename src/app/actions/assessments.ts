@@ -47,6 +47,8 @@ export async function addQuestionAction(formData: FormData): Promise<void> {
     options: text(formData, "options"),
     correct: text(formData, "correct"),
     points: text(formData, "points") || "1",
+    scenario: text(formData, "scenario"),
+    explanation: text(formData, "explanation"),
   };
   const result = await addQuestion(actor, assessmentId, row);
   if (!result.ok) back(to, result.error, "error");
@@ -54,7 +56,8 @@ export async function addQuestionAction(formData: FormData): Promise<void> {
   back(to, "Question added", "notice");
 }
 
-// CSV columns: type, text, options (|-separated), correct (option numbers, |-separated), points.
+// CSV columns: type, text, options (|-separated), correct (option numbers, |-separated), points,
+// and optionally scenario and explanation.
 export async function importQuestionsAction(formData: FormData): Promise<void> {
   const actor = await requireSession();
   const assessmentId = text(formData, "assessmentId");
@@ -65,6 +68,8 @@ export async function importQuestionsAction(formData: FormData): Promise<void> {
     options: r.options ?? "",
     correct: r.correct ?? "",
     points: r.points ?? "1",
+    scenario: r.scenario ?? "",
+    explanation: r.explanation ?? "",
   }));
   const result = await importQuestions(actor, assessmentId, rows);
   if (!result.ok) {
