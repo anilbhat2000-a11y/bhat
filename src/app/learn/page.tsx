@@ -4,6 +4,7 @@ import { requireSession } from "../../lib/auth/current-user";
 import { prisma } from "../../lib/db/client";
 import { dueSummary } from "../../lib/learning/home";
 import { LocalTime } from "../../components/LocalTime";
+import { openRemedialsFor } from "../../lib/assessments/remedial";
 
 export default async function LearnHome() {
   await connection();
@@ -24,6 +25,7 @@ export default async function LearnHome() {
     orderBy: { liveSession: { startsAt: "asc" } },
     take: 10,
   });
+  const remedials = await openRemedialsFor(user.id);
   const open = periods.filter((p) => p.status === "OPEN" || p.status === "OVERDUE").slice(0, 10);
 
   return (
@@ -35,6 +37,23 @@ export default async function LearnHome() {
         <li>Due this year: {summary.thisYear}</li>
         <li>Overdue: {summary.overdue}</li>
       </ul>
+      {remedials.length > 0 ? (
+        <>
+          <h2>Remedial training</h2>
+          <ul>
+            {remedials.map((r) => (
+              <li key={r.id}>
+                You did not pass {r.assessment}.{" "}
+                {r.courseId && r.courseTitle ? (
+                  r.courseDone ? <>You have reviewed <Link href={`/learn/courses/${r.courseId}`}>{r.courseTitle}</Link>. </> : <>Work through <Link href={`/learn/courses/${r.courseId}`}>{r.courseTitle}</Link> again. </>
+                ) : null}
+                Your retake opens <LocalTime iso={r.retakeAfter.toISOString()} />.
+                {r.managerComment ? <> Your manager says: {r.managerComment}</> : null}
+              </li>
+            ))}
+          </ul>
+        </>
+      ) : null}
       <h2>Upcoming live sessions</h2>
       {sessions.length === 0 ? <p>No sessions booked.</p> : (
         <ul>

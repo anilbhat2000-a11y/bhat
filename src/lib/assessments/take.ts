@@ -5,6 +5,7 @@ import { makeVerificationCode } from "../certificates/code";
 import { recordAudit } from "../audit/record";
 import { canStartAttempt, isWithinTimeLimit } from "./attempts";
 import { expiresAt } from "./certifications";
+import { openRemedial, remedialBlock } from "./remedial";
 import { scoreAttempt, shuffleOptions, type ScoringQuestion } from "./scoring";
 import type { Level, QuestionType } from "../../generated/prisma/client";
 
@@ -65,7 +66,7 @@ type Tx = Parameters<Parameters<typeof prisma.$transaction>[0]>[0];
 export async function applyResult(
   tx: Tx,
   input: { attemptId: string; periodId: string; userId: string; actorId: string; passed: boolean; now: Date;
-    assessment: { id: string; subjectId: string; level: Level; courseId: string | null; subject: { certificationValidityMonths: number } } },
+    assessment: { id: string; subjectId: string; level: Level; courseId: string | null; retakeDelayHours: number; subject: { certificationValidityMonths: number } } },
 ): Promise<void> {
   if (!input.passed) {
     await onFail(tx, input);
@@ -86,8 +87,13 @@ export async function applyResult(
   await recordAudit(tx, { actorId: input.actorId, action: "certificate.issue", entityType: "Certification", entityId: cert.id, after: { userId: input.userId, subjectId: input.assessment.subjectId, level: input.assessment.level } });
 }
 
-// Hook for a failed result; the remedial path is added here.
-async function onFail(_tx: Tx, _input: Parameters<typeof applyResult>[1]): Promise<void> {}
+// A failed result starts the remedial path: lessons again, then a scheduled retake.
+async function onFail(tx: Tx, input: Parameters<typeof applyResult>[1]): Promise<void> {
+  await openRemedial(tx, {
+    userId: input.userId, actorId: input.actorId, attemptId: input.attemptId, periodId: input.periodId, now: input.now,
+    assessment: { id: input.assessment.id, courseId: input.assessment.courseId, retakeDelayHours: input.assessment.retakeDelayHours },
+  });
+}
 
 // Starts an attempt, or resumes the in-progress one. The attempt row is written before
 // any answer is given, so a dropped connection loses nothing.
@@ -126,6 +132,8 @@ export async function startAttempt(
   if (!canStartAttempt(attemptsSoFar, period.assessment.maxAttemptsPerPeriod, period.status)) {
     throw new Error("No attempts left: the attempt limit for this period is reached");
   }
+  const blocked = await remedialBlock(actor.id, period.assessmentId, now);
+  if (blocked) throw new Error(blocked);
 
   const all = await prisma.question.findMany({ where: { assessmentId: period.assessmentId }, orderBy: { position: "asc" } });
   const pool = period.assessment.questionsPerAttempt;

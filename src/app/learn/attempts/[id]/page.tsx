@@ -4,6 +4,7 @@ import { requireSession } from "../../../../lib/auth/current-user";
 import { attemptForUser } from "../../../../lib/assessments/take";
 import { submitAttemptAction } from "../../../actions/attempts";
 import { AttemptTimer } from "../../../../components/AttemptTimer";
+import { ProctorGuard } from "../../../../components/ProctorGuard";
 
 export default async function AttemptPage({
   params,
@@ -54,49 +55,57 @@ export default async function AttemptPage({
     );
   }
 
+  const form = (
+    <form id="attempt-form" action={submitAttemptAction}>
+      <input type="hidden" name="attemptId" value={id} />
+      {attempt.questions.map((q, i) => (
+        <fieldset key={q.id} style={{ marginBottom: 16 }}>
+          <legend>{i + 1}. {q.text} ({q.points} pts){q.type === "MULTIPLE" ? " (select all that apply)" : ""}</legend>
+          {q.scenario ? <p style={{ whiteSpace: "pre-wrap", borderLeft: "3px solid #888", paddingLeft: 8 }}><strong>Scenario:</strong> {q.scenario}</p> : null}
+          {q.type === "FILL_BLANK" ? (
+            <label>Your answer <input name={`q-${q.id}`} autoComplete="off" maxLength={200} /></label>
+          ) : q.type === "SHORT_ANSWER" ? (
+            <label>Your answer (marked by a reviewer)<br />
+              <textarea name={`q-${q.id}`} rows={5} cols={60} maxLength={5000} />
+            </label>
+          ) : q.type === "MATCHING" ? (
+            q.options.map((o) => (
+              <label key={o.id} style={{ display: "block" }}>
+                {o.label}{" "}
+                <select name={`q-${q.id}`} defaultValue="" aria-label={`Match for ${o.label}`}>
+                  <option value="" disabled>Choose a match</option>
+                  {(q.choices ?? []).map((c) => <option key={c.id} value={`${o.id}=${c.id}`}>{c.label}</option>)}
+                </select>
+              </label>
+            ))
+          ) : (
+            q.options.map((o) => (
+              <label key={o.id} style={{ display: "block" }}>
+                <input
+                  type={q.type === "MULTIPLE" ? "checkbox" : "radio"}
+                  name={`q-${q.id}`}
+                  value={o.id}
+                />{" "}
+                {o.label}
+              </label>
+            ))
+          )}
+        </fieldset>
+      ))}
+      <button type="submit">Submit answers</button>
+    </form>
+  );
+
   return (
     <main style={{ padding: "16px", fontFamily: "system-ui, sans-serif" }}>
       <h1>{attempt.title}</h1>
       {attempt.expiresAt ? <AttemptTimer formId="attempt-form" endsAtIso={attempt.expiresAt.toISOString()} /> : null}
       {error ? <p role="alert">{error}</p> : null}
-      <form id="attempt-form" action={submitAttemptAction}>
-        <input type="hidden" name="attemptId" value={id} />
-        {attempt.questions.map((q, i) => (
-          <fieldset key={q.id} style={{ marginBottom: 16 }}>
-            <legend>{i + 1}. {q.text} ({q.points} pts){q.type === "MULTIPLE" ? " (select all that apply)" : ""}</legend>
-            {q.scenario ? <p style={{ whiteSpace: "pre-wrap", borderLeft: "3px solid #888", paddingLeft: 8 }}><strong>Scenario:</strong> {q.scenario}</p> : null}
-            {q.type === "FILL_BLANK" ? (
-              <label>Your answer <input name={`q-${q.id}`} autoComplete="off" maxLength={200} /></label>
-            ) : q.type === "SHORT_ANSWER" ? (
-              <label>Your answer (marked by a reviewer)<br />
-                <textarea name={`q-${q.id}`} rows={5} cols={60} maxLength={5000} />
-              </label>
-            ) : q.type === "MATCHING" ? (
-              q.options.map((o) => (
-                <label key={o.id} style={{ display: "block" }}>
-                  {o.label}{" "}
-                  <select name={`q-${q.id}`} defaultValue="" aria-label={`Match for ${o.label}`}>
-                    <option value="" disabled>Choose a match</option>
-                    {(q.choices ?? []).map((c) => <option key={c.id} value={`${o.id}=${c.id}`}>{c.label}</option>)}
-                  </select>
-                </label>
-              ))
-            ) : (
-              q.options.map((o) => (
-                <label key={o.id} style={{ display: "block" }}>
-                  <input
-                    type={q.type === "MULTIPLE" ? "checkbox" : "radio"}
-                    name={`q-${q.id}`}
-                    value={o.id}
-                  />{" "}
-                  {o.label}
-                </label>
-              ))
-            )}
-          </fieldset>
-        ))}
-        <button type="submit">Submit answers</button>
-      </form>
+      {attempt.proctored ? (
+        <ProctorGuard attemptId={id} formId="attempt-form" limit={attempt.proctorMaxViolations} initialCount={attempt.violations}>
+          {form}
+        </ProctorGuard>
+      ) : form}
     </main>
   );
 }

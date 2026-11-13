@@ -66,6 +66,10 @@ export default async function AssessmentPage({
         <label>Time limit (minutes) <input name="timeLimitMinutes" type="number" min={1} defaultValue={assessment.timeLimitMinutes ?? ""} /></label>{" "}
         <label>Questions per attempt <input name="questionsPerAttempt" type="number" min={1} defaultValue={assessment.questionsPerAttempt ?? ""} /></label>{" "}
         <label><input name="showAnswersAfterSubmit" type="checkbox" defaultChecked={assessment.showAnswersAfterSubmit} /> Show correct answers after submit</label>{" "}
+        <label>Retake delay after a fail (hours) <input name="retakeDelayHours" type="number" min={0} max={720} defaultValue={assessment.retakeDelayHours} /></label>
+        <br />
+        <label><input name="proctored" type="checkbox" defaultChecked={assessment.proctored} /> Proctored mode (full screen required; leaving it or switching tabs is recorded)</label>{" "}
+        <label>Violations allowed before the attempt is submitted <input name="proctorMaxViolations" type="number" min={1} max={20} defaultValue={assessment.proctorMaxViolations} /></label>{" "}
         <button type="submit">Save settings</button>
       </form>
 

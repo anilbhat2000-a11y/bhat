@@ -183,6 +183,11 @@ export async function resetAttempts(actor: SessionUser, periodId: string): Promi
       data: { status: "VOIDED" },
     });
     await tx.assessmentPeriod.update({ where: { id: periodId }, data: { status: "OPEN" } });
+    // A reset is an admin override, so any open remedial plan for it is closed too.
+    await tx.remedialPlan.updateMany({
+      where: { userId: period.userId, assessmentId: period.assessmentId, status: "OPEN" },
+      data: { status: "DONE", closedAt: new Date() },
+    });
     await recordAudit(tx, { actorId: actor.id, action: "period.reset", entityType: "AssessmentPeriod", entityId: periodId, before: { status: period.status } });
   });
   return { ok: true, id: periodId };
@@ -211,9 +216,18 @@ export async function updateAssessmentSettings(
     maxAttemptsPerPeriod: number;
     timeLimitMinutes: number | null;
     questionsPerAttempt: number | null;
+    proctored?: boolean;
+    proctorMaxViolations?: number;
+    retakeDelayHours?: number;
   },
 ): Promise<Result> {
   asAdmin(actor);
+  if (input.proctorMaxViolations !== undefined && (!Number.isInteger(input.proctorMaxViolations) || input.proctorMaxViolations < 1 || input.proctorMaxViolations > 20)) {
+    return { ok: false, error: "Allowed proctoring violations must be 1 to 20" };
+  }
+  if (input.retakeDelayHours !== undefined && (!Number.isInteger(input.retakeDelayHours) || input.retakeDelayHours < 0 || input.retakeDelayHours > 720)) {
+    return { ok: false, error: "Retake delay must be 0 to 720 hours" };
+  }
   if (!Number.isInteger(input.passMarkPercent) || input.passMarkPercent < 1 || input.passMarkPercent > 100) {
     return { ok: false, error: "Pass mark must be between 1 and 100" };
   }

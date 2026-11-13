@@ -38,7 +38,7 @@ beforeAll(async () => {
   subjectId = s.id;
 
   const a = await prisma.assessment.create({
-    data: { subjectId, title: "A", cadence: "MONTHLY", level: "BASIC", passMarkPercent: 70, published: true, maxAttemptsPerPeriod: 3 },
+    data: { subjectId, title: "A", cadence: "MONTHLY", level: "BASIC", passMarkPercent: 70, published: true, maxAttemptsPerPeriod: 3, retakeDelayHours: 0 },
   });
   assessmentId = a.id;
   await makeQuestions(assessmentId, 2);
@@ -48,7 +48,7 @@ beforeAll(async () => {
   periodId = p.id;
 
   const pool = await prisma.assessment.create({
-    data: { subjectId, title: "Pool", cadence: "MONTHLY", level: "BASIC", passMarkPercent: 50, published: true, questionsPerAttempt: 3 },
+    data: { subjectId, title: "Pool", cadence: "MONTHLY", level: "BASIC", passMarkPercent: 50, published: true, questionsPerAttempt: 3, retakeDelayHours: 0 },
   });
   poolAssessmentId = pool.id;
   await makeQuestions(poolAssessmentId, 5);

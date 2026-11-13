@@ -42,6 +42,9 @@ export async function updateSettingsAction(formData: FormData): Promise<void> {
     maxAttemptsPerPeriod: Number(text(formData, "maxAttemptsPerPeriod") || 3),
     timeLimitMinutes: optional(formData, "timeLimitMinutes"),
     questionsPerAttempt: optional(formData, "questionsPerAttempt"),
+    proctored: text(formData, "proctored") === "on",
+    proctorMaxViolations: Number(text(formData, "proctorMaxViolations") || 3),
+    retakeDelayHours: Number(text(formData, "retakeDelayHours") || 0),
   });
   if (!result.ok) redirect(`${to}?error=${encodeURIComponent(result.error)}`);
   revalidatePath(to);

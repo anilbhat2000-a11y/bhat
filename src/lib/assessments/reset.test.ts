@@ -17,7 +17,7 @@ beforeAll(async () => {
   learner = { id: u.id, role: "EMPLOYEE", active: true, name: "L", email: u.email, department: null };
   subjectId = (await prisma.subject.create({ data: { name: `${tag} s`, slug: `${tag}-s`, category: "TECHNICAL" } })).id;
   assessmentId = (await prisma.assessment.create({
-    data: { subjectId, title: tag, cadence: "ONE_TIME", level: "BASIC", passMarkPercent: 70, published: true, maxAttemptsPerPeriod: 3 },
+    data: { subjectId, title: tag, cadence: "ONE_TIME", level: "BASIC", passMarkPercent: 70, published: true, maxAttemptsPerPeriod: 3, retakeDelayHours: 0 },
   })).id;
   await prisma.question.create({ data: { assessmentId, position: 1, type: "SINGLE", text: "Q", options: [{ id: "o1", label: "A" }, { id: "o2", label: "B" }], correctOptionIds: ["o2"], points: 1 } });
   periodId = (await prisma.assessmentPeriod.create({

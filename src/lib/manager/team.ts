@@ -75,6 +75,7 @@ export async function memberDetail(viewer: SessionUser, userId: string) {
         scorePercent: a.scorePercent,
         passed: a.passed,
         status: a.status,
+        proctorFlags: ((a.proctorEvents as unknown[] | null) ?? []).length,
       })),
     certifications: certs.map((c) => ({
       subject: c.subject.name,

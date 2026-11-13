@@ -123,6 +123,7 @@ model User {
   profileExperience   ProfileExperience[]
   profileExternalCerts ProfileExternalCertification[]
   profileLanguages    ProfileLanguage[]
+  remedials           RemedialPlan[]
 
   @@map("users")
 }
@@ -322,10 +323,13 @@ model Assessment {
   // At proctorMaxViolations the attempt is submitted as it stands.
   proctored              Boolean  @default(false)
   proctorMaxViolations   Int      @default(3) @map("proctor_max_violations")
+  // After a failed result, the retake opens this many hours later (remedial path).
+  retakeDelayHours       Int      @default(24) @map("retake_delay_hours")
 
   questions   Question[]
   assignments AssessmentAssignment[]
   periods     AssessmentPeriod[]
+  remedials   RemedialPlan[]
 
   @@map("assessments")
 }
@@ -499,4 +503,30 @@ model ProfileLanguage {
 
   @@unique([userId, language])
   @@map("profile_languages")
+}
+
+enum RemedialStatus {
+  OPEN
+  DONE
+}
+
+// Created when a learner fails an assessment: the linked course's lessons are set to be
+// done again, and the retake opens at retakeAfter. Closed when the learner starts the
+// retake with both conditions met. Managers can comment on it.
+model RemedialPlan {
+  id             String         @id @default(cuid())
+  userId         String         @map("user_id")
+  user           User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  assessmentId   String         @map("assessment_id")
+  assessment     Assessment     @relation(fields: [assessmentId], references: [id], onDelete: Cascade)
+  courseId       String?        @map("course_id")
+  attemptId      String         @map("attempt_id")
+  retakeAfter    DateTime       @map("retake_after")
+  status         RemedialStatus @default(OPEN)
+  managerComment String?        @map("manager_comment")
+  createdAt      DateTime       @default(now()) @map("created_at")
+  closedAt       DateTime?      @map("closed_at")
+
+  @@index([userId, status])
+  @@map("remedial_plans")
 }
