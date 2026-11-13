@@ -1,4 +1,5 @@
 import { connection } from "next/server";
+import { guardPortal } from "../../../../lib/auth/portal";
 import { notFound } from "next/navigation";
 import { prisma } from "../../../../lib/db/client";
 import {
@@ -13,6 +14,7 @@ export default async function AssessmentPage({
   searchParams: Promise<{ error?: string; notice?: string }>;
 }) {
   await connection();
+  await guardPortal(["ADMIN"]);
   const { id } = await params;
   const { error, notice } = await searchParams;
   const assessment = await prisma.assessment.findUnique({

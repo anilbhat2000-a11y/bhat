@@ -171,16 +171,18 @@ export async function importUsers(
   );
   if (errors.length > 0) return { ok: false, errors };
 
+  // Hash first: bcrypt is slow, and a transaction left open that long times out.
+  const hashes = await Promise.all(parsed.users.map((u) => hashPassword(u.password)));
   const created = await prisma.$transaction(async (tx) => {
     // Managers may be created in the same file, so insert without manager links first.
-    for (const u of parsed.users) {
+    for (const [i, u] of parsed.users.entries()) {
       await tx.user.create({
         data: {
           name: u.name,
           email: u.email,
           role: u.role,
           department: u.department || null,
-          passwordHash: await hashPassword(u.password),
+          passwordHash: hashes[i],
         },
       });
     }

@@ -39,3 +39,13 @@ test("the export endpoints refuse anonymous and out-of-role requests", async ({ 
   await signIn(page, "employee@example.test");
   expect((await page.request.get("/api/export/certifications")).status()).toBe(403);
 });
+
+test("an admin page returns no data to a request with a fake session cookie (review Critical 1)", async ({ page, context }) => {
+  await context.addCookies([{ name: "lms_session", value: "not-a-real-session", url: "http://localhost:3000" }]);
+  for (const path of ["/admin/users", "/admin/audit", "/admin/courses", "/admin/assessments", "/admin/subjects", "/admin/dashboard"]) {
+    const res = await page.request.get(path, { maxRedirects: 0 });
+    const body = await res.text();
+    expect(body, path).not.toContain("@example.test");
+    expect(body, path).not.toContain("E2E Subject");
+  }
+});

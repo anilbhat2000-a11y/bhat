@@ -1,9 +1,11 @@
 import { connection } from "next/server";
+import { guardPortal } from "../../../lib/auth/portal";
 import { prisma } from "../../../lib/db/client";
 import { createAssessmentAction } from "../../actions/assessments";
 
 export default async function AssessmentsPage({ searchParams }: { searchParams: Promise<{ error?: string }> }) {
   await connection();
+  await guardPortal(["ADMIN"]);
   const { error } = await searchParams;
   const [assessments, subjects] = await Promise.all([
     prisma.assessment.findMany({ orderBy: { title: "asc" }, include: { subject: true } }),
@@ -42,6 +44,8 @@ export default async function AssessmentsPage({ searchParams }: { searchParams: 
         <input name="passMarkPercent" type="number" min={1} max={100} defaultValue={70} aria-label="Pass mark" />{" "}
         <input name="timeLimitMinutes" type="number" min={1} placeholder="Time limit (min, optional)" />{" "}
         <input name="questionsPerAttempt" type="number" min={1} placeholder="Questions per attempt (optional)" />{" "}
+        <label>Attempts per period <input name="maxAttemptsPerPeriod" type="number" min={1} max={10} defaultValue={3} /></label>{" "}
+        <label><input name="showAnswersAfterSubmit" type="checkbox" defaultChecked /> Show correct answers after submit</label>{" "}
         <button type="submit">Create assessment</button>
       </form>
     </main>

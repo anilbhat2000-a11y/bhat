@@ -12,12 +12,13 @@ const text = (fd: FormData, key: string) => String(fd.get(key) ?? "");
 const opt = (fd: FormData, key: string) => (text(fd, key).trim() === "" ? null : text(fd, key).trim());
 const int = (fd: FormData, key: string) => (text(fd, key).trim() === "" ? null : Number(text(fd, key)));
 
-// Rows are submitted as edu_0_institution, edu_1_institution, and so on.
+// Rows are submitted as edu_0_institution, edu_1_institution, and so on. A row is kept only
+// when its first field (the one that names it) is filled in; a blank row is ignored.
 function rows(fd: FormData, prefix: string, count: number, fields: string[]) {
   const out: Record<string, string>[] = [];
   for (let i = 0; i < count; i++) {
     const row = Object.fromEntries(fields.map((f) => [f, text(fd, `${prefix}_${i}_${f}`).trim()]));
-    if (Object.values(row).some((v) => v !== "")) out.push(row);
+    if (row[fields[0]] !== "") out.push(row);
   }
   return out;
 }

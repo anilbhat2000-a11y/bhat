@@ -1,9 +1,11 @@
 import { connection } from "next/server";
+import { guardPortal } from "../../../lib/auth/portal";
 import { prisma } from "../../../lib/db/client";
 import { createCourseAction } from "../../actions/courses";
 
 export default async function CoursesPage({ searchParams }: { searchParams: Promise<{ error?: string }> }) {
   await connection();
+  await guardPortal(["ADMIN"]);
   const { error } = await searchParams;
   const [courses, subjects] = await Promise.all([
     prisma.course.findMany({ orderBy: { title: "asc" }, include: { subject: true } }),

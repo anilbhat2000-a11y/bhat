@@ -17,6 +17,8 @@ export type PublicQuestion = {
 };
 
 type Presented = { id: string; optionOrder: string[] };
+
+class AlreadySubmitted extends Error {}
 type Option = { id: string; label: string };
 
 function endOf(startedAt: Date, limitMinutes: number | null): Date | null {
@@ -74,7 +76,7 @@ export async function startAttempt(
   }
 
   const attemptsSoFar = await prisma.assessmentAttempt.count({ where: { periodId, userId: actor.id } });
-  if (period.status !== "OPEN") throw new Error("This period is closed");
+  if (period.status !== "OPEN" || now.getTime() > period.dueAt.getTime()) throw new Error("This period is closed");
   if (!canStartAttempt(attemptsSoFar, period.assessment.maxAttemptsPerPeriod, period.status)) {
     throw new Error("No attempts left: the attempt limit for this period is reached");
   }
@@ -113,6 +115,11 @@ export async function submitAttempt(
   if (attempt.status === "EXPIRED") return { ok: false, error: "This attempt ran out of time" };
 
   const assessment = attempt.period.assessment;
+  // A submit after the period's due time is not scored, whatever the attempt's own limit.
+  if (now.getTime() > attempt.period.dueAt.getTime()) {
+    await prisma.assessmentAttempt.update({ where: { id: attemptId }, data: { status: "EXPIRED" } });
+    return { ok: false, error: "The period closed before this submit. The attempt was not scored." };
+  }
   if (!isWithinTimeLimit(attempt.startedAt, now, assessment.timeLimitMinutes)) {
     await prisma.assessmentAttempt.update({ where: { id: attemptId }, data: { status: "EXPIRED" } });
     return { ok: false, error: "Time limit passed. This attempt was not scored." };
@@ -126,34 +133,42 @@ export async function submitAttempt(
     assessment.passMarkPercent,
   );
 
-  await prisma.$transaction(async (tx) => {
-    await tx.assessmentAttempt.update({
-      where: { id: attemptId },
-      data: { status: "SUBMITTED", submittedAt: now, scorePercent: scoring.scorePercent, passed: scoring.passed, answers },
-    });
-    await recordAudit(tx, {
-      actorId: actor.id,
-      action: "attempt.submit",
-      entityType: "AssessmentAttempt",
-      entityId: attemptId,
-      after: { scorePercent: scoring.scorePercent, passed: scoring.passed },
-    });
-    if (scoring.passed) {
-      await tx.assessmentPeriod.update({ where: { id: attempt.periodId }, data: { status: "PASSED" } });
-      const cert = await tx.certification.create({
-        data: {
-          userId: actor.id,
-          subjectId: assessment.subjectId,
-          level: assessment.level,
-          issuedAt: now,
-          expiresAt: expiresAt(now, assessment.subject.certificationValidityMonths),
-          sourceAttemptId: attemptId,
-          verificationCode: makeVerificationCode(),
-        },
+  try {
+    await prisma.$transaction(async (tx) => {
+      // Claim the attempt first: only one submit can move it out of IN_PROGRESS, so a
+      // double submit cannot issue two certificates.
+      const claim = await tx.assessmentAttempt.updateMany({
+        where: { id: attemptId, status: "IN_PROGRESS" },
+        data: { status: "SUBMITTED", submittedAt: now, scorePercent: scoring.scorePercent, passed: scoring.passed, answers },
       });
-      await recordAudit(tx, { actorId: actor.id, action: "certificate.issue", entityType: "Certification", entityId: cert.id, after: { subjectId: assessment.subjectId, level: assessment.level } });
-    }
-  });
+      if (claim.count !== 1) throw new AlreadySubmitted();
+      await recordAudit(tx, {
+        actorId: actor.id,
+        action: "attempt.submit",
+        entityType: "AssessmentAttempt",
+        entityId: attemptId,
+        after: { scorePercent: scoring.scorePercent, passed: scoring.passed },
+      });
+      if (scoring.passed) {
+        await tx.assessmentPeriod.update({ where: { id: attempt.periodId }, data: { status: "PASSED" } });
+        const cert = await tx.certification.create({
+          data: {
+            userId: actor.id,
+            subjectId: assessment.subjectId,
+            level: assessment.level,
+            issuedAt: now,
+            expiresAt: expiresAt(now, assessment.subject.certificationValidityMonths),
+            sourceAttemptId: attemptId,
+            verificationCode: makeVerificationCode(),
+          },
+        });
+        await recordAudit(tx, { actorId: actor.id, action: "certificate.issue", entityType: "Certification", entityId: cert.id, after: { subjectId: assessment.subjectId, level: assessment.level } });
+      }
+    });
+  } catch (e) {
+    if (e instanceof AlreadySubmitted) return { ok: false, error: "This attempt was already submitted" };
+    throw e;
+  }
 
   const correct = assessment.showAnswersAfterSubmit
     ? Object.fromEntries(questions.map((q) => [q.id, q.correctOptionIds as string[]]))

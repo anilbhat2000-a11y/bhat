@@ -21,6 +21,8 @@ services:
     environment:
       DATABASE_URL: postgresql://lms:${POSTGRES_PASSWORD}@db:5432/lms
       FILE_STORAGE_DIR: /app/storage
+      CRON_SECRET: ${CRON_SECRET:?set CRON_SECRET in .env}
+      SMTP_URL: ${SMTP_URL:-smtp://mailhog:1025}
     ports:
       - "3000:3000"
     volumes:

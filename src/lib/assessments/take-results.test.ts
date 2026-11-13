@@ -31,6 +31,7 @@ beforeAll(async () => {
 });
 
 afterAll(async () => {
+  await prisma.certification.deleteMany({ where: { userId: learner.id } });
   await prisma.assessmentAttempt.deleteMany({ where: { userId: learner.id } });
   await prisma.assessmentPeriod.deleteMany({ where: { userId: learner.id } });
   await prisma.question.deleteMany({ where: { assessmentId: { in: made } } });
@@ -52,5 +53,28 @@ describe("results after submit (spec 5: show answers when enabled)", () => {
     const attemptId = await setup(false);
     const view = await attemptForUser(learner, attemptId);
     expect(view?.correctOptionIds).toBeUndefined();
+  });
+});
+
+describe("a double submit issues one certificate (review item 14)", () => {
+  it("two submits of the same attempt at once: exactly one result is scored", async () => {
+    const a = await prisma.assessment.create({
+      data: { subjectId, title: `${tag} race`, cadence: "MONTHLY", level: "BASIC", passMarkPercent: 50, published: true },
+    });
+    made.push(a.id);
+    const q = await prisma.question.create({
+      data: { assessmentId: a.id, position: 1, type: "SINGLE", text: "Q", options: [{ id: "o1", label: "A" }, { id: "o2", label: "B" }], correctOptionIds: ["o2"], points: 1 },
+    });
+    const p = await prisma.assessmentPeriod.create({
+      data: { assessmentId: a.id, userId: learner.id, periodKey: "2026-08", opensAt: new Date("2026-08-01Z"), dueAt: new Date("2026-12-31Z") },
+    });
+    const started = await startAttempt(learner, p.id);
+    const answers = { [q.id]: ["o2"] };
+    const [first, second] = await Promise.all([
+      submitAttempt(learner, started.attemptId, answers),
+      submitAttempt(learner, started.attemptId, answers),
+    ]);
+    expect([first.ok, second.ok].filter(Boolean)).toHaveLength(1);
+    expect(await prisma.certification.count({ where: { sourceAttemptId: started.attemptId } })).toBe(1);
   });
 });

@@ -43,3 +43,21 @@ async function assignedUserIds(
   }
   return [...ids];
 }
+
+// Scheduled: opens the current period for every published assessment, and marks past-due
+// periods OVERDUE. Without this, recurring assessments would never roll over.
+export async function openAllPeriods(now: Date = new Date()): Promise<{ created: number; failed: number }> {
+  const published = await prisma.assessment.findMany({ where: { published: true }, select: { id: true } });
+  let created = 0;
+  let failed = 0;
+  for (const a of published) {
+    // One assessment that fails must not stop the others; the next run retries it.
+    try {
+      created += (await openPeriodsFor(a.id, now)).created;
+    } catch (e) {
+      failed++;
+      console.error("could not open periods for", a.id, (e as Error).message);
+    }
+  }
+  return { created, failed };
+}

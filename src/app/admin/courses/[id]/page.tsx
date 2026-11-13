@@ -1,4 +1,5 @@
 import { connection } from "next/server";
+import { guardPortal } from "../../../../lib/auth/portal";
 import { notFound } from "next/navigation";
 import { prisma } from "../../../../lib/db/client";
 import { addLessonAction, moveLessonAction, setPublishedAction, uploadLessonAction } from "../../../actions/courses";
@@ -13,6 +14,7 @@ export default async function CoursePage({
   searchParams: Promise<{ error?: string; notice?: string }>;
 }) {
   await connection();
+  await guardPortal(["ADMIN"]);
   const { id } = await params;
   const { error, notice } = await searchParams;
   const course = await prisma.course.findUnique({

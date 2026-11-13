@@ -49,7 +49,11 @@ export function validateProfileEdit(
     if (e.endMonth && !MONTH.test(e.endMonth)) errors.experience = "End month must look like 2024-03";
     if (e.description && e.description.length > 1000) errors.experience = "Experience descriptions must be 1000 characters or fewer";
   }
+  const seenLanguages = new Set<string>();
   for (const l of input.languages ?? []) {
+    if (!l.language.trim()) errors.languages = "Each language row needs a language name";
+    else if (seenLanguages.has(l.language.trim().toLowerCase())) errors.languages = "Each language can be listed once";
+    seenLanguages.add(l.language.trim().toLowerCase());
     if (!LEVELS.includes(l.level)) errors.languages = "Language level must be basic, working, or fluent";
   }
   return Object.keys(errors).length === 0 ? { ok: true } : { ok: false, errors };

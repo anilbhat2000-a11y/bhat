@@ -39,7 +39,7 @@ export default async function LearnHome() {
         </ul>
       )}
       <nav>
-        <Link href="/learn/catalogue">Course catalogue</Link> · <Link href="/learn/assessments">All my assessments</Link> · <Link href="/learn/certifications">My certifications</Link>
+        <Link href="/learn/catalogue">Course catalogue</Link> · <Link href="/learn/assessments">All my assessments</Link> · <Link href="/learn/certifications">My certifications</Link> · <Link href="/learn/profile">My profile</Link>
       </nav>
     </main>
   );

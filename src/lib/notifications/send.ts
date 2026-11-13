@@ -28,7 +28,13 @@ export async function sendReminders(
   for (const r of due) {
     const p = byId.get(r.periodId);
     if (!p) continue;
-    await mailer.send(p.user.email, SUBJECT[r.type](p.assessment.title), `Please complete "${p.assessment.title}" by ${p.dueAt.toISOString().slice(0, 10)}.`);
+    try {
+      await mailer.send(p.user.email, SUBJECT[r.type](p.assessment.title), `Please complete "${p.assessment.title}" by ${p.dueAt.toISOString().slice(0, 10)}.`);
+    } catch (e) {
+      // Not recorded, so the next run retries it. The rest of this run still goes out.
+      console.error("reminder send failed", r.key, (e as Error).message);
+      continue;
+    }
     await prisma.notification.create({ data: { userId: p.userId, key: r.key, type: r.type } });
     sent++;
   }

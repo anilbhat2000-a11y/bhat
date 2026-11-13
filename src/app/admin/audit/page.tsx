@@ -1,9 +1,11 @@
 import { connection } from "next/server";
+import { guardPortal } from "../../../lib/auth/portal";
 import { listAudit } from "../../../lib/audit/record";
 import { prisma } from "../../../lib/db/client";
 
 export default async function AuditPage({ searchParams }: { searchParams: Promise<{ entityType?: string }> }) {
   await connection();
+  await guardPortal(["ADMIN"]);
   const { entityType } = await searchParams;
   const events = await listAudit({ entityType: entityType || undefined, limit: 200 });
   const actors = new Map((await prisma.user.findMany({ where: { id: { in: [...new Set(events.map((e) => e.actorId))] } }, select: { id: true, name: true } })).map((u) => [u.id, u.name]));

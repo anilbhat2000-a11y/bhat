@@ -1,9 +1,11 @@
 import { connection } from "next/server";
+import { guardPortal } from "../../../lib/auth/portal";
 import { prisma } from "../../../lib/db/client";
 import { createSubjectAction } from "../../actions/subjects";
 
 export default async function SubjectsPage({ searchParams }: { searchParams: Promise<{ error?: string; notice?: string }> }) {
   await connection();
+  await guardPortal(["ADMIN"]);
   const { error, notice } = await searchParams;
   const subjects = await prisma.subject.findMany({ orderBy: { name: "asc" } });
 

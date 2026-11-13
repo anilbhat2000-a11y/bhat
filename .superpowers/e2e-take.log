@@ -1,6 +1,0 @@
-
-Running 1 test using 1 worker
-
-  ✓  1 e2e/take-assessment.spec.ts:11:1 › an employee takes a published monthly assessment and sees a pass (4.2s)
-
-  1 passed (11.3s)

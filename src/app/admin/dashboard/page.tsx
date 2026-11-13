@@ -1,4 +1,5 @@
 import { connection } from "next/server";
+import { guardPortal } from "../../../lib/auth/portal";
 import { requireSession } from "../../../lib/auth/current-user";
 import { prisma } from "../../../lib/db/client";
 import { certificationRows, companyHealthRows } from "../../../lib/reports/queries";
@@ -7,6 +8,7 @@ import { SubjectBarChart } from "../../../components/SubjectBarChart";
 
 export default async function AdminDashboard() {
   await connection();
+  await guardPortal(["ADMIN"]);
   const viewer = await requireSession();
   const now = new Date();
   const [certs, health, overdue] = await Promise.all([

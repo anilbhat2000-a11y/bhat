@@ -47,3 +47,19 @@ describe("initials for the avatar fallback", () => {
     expect(initialsFor("Ravi")).toBe("RA");
   });
 });
+
+describe("language rows (review Critical 4)", () => {
+  it("a language row with no language name is refused, not stored", () => {
+    const r = validateProfileEdit(employee, { languages: [{ language: "", level: "WORKING" }] });
+    expect(r.ok).toBe(false);
+    if (!r.ok) expect(r.errors).toHaveProperty("languages");
+  });
+
+  it("the same language twice is refused", () => {
+    const r = validateProfileEdit(employee, {
+      languages: [{ language: "Hindi", level: "FLUENT" }, { language: "Hindi", level: "BASIC" }],
+    });
+    expect(r.ok).toBe(false);
+    if (!r.ok) expect(r.errors).toHaveProperty("languages");
+  });
+});
