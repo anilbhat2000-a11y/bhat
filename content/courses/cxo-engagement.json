@@ -1,0 +1,48 @@
+{
+  "slug": "cxo-engagement",
+  "title": "CXO Engagement",
+  "subject": "Sales",
+  "category": "BUSINESS",
+  "level": "ADVANCED",
+  "passMarkPercent": 70,
+  "description": "Understand what CEOs, CFOs, and CIOs care about, earn time with senior leaders, and present a business case in executive language.",
+  "lessons": [
+    {
+      "position": 1,
+      "title": "What CXOs care about",
+      "type": "TEXT",
+      "body": "Each executive looks at a purchase differently:\n\n- **CEO:** growth, competitiveness, and risk to the business.\n- **CFO:** cost, return on investment, cash flow, and budget control.\n- **CIO or CTO:** reliability, security, integration, and the team's capacity to run it.\n- **COO:** continuity of operations and service levels.\n\nBefore you meet a CXO, research their priorities from public statements, annual reports, and your existing contacts. Then frame your offer around their concern, not your product."
+    },
+    {
+      "position": 2,
+      "title": "Earning executive time",
+      "type": "TEXT",
+      "body": "Executives give time to people who respect their time. To earn it:\n\n- Request a specific, short meeting with a clear purpose: 'I would like 20 minutes to share how two peer companies reduced outage costs.'\n- Bring something useful even if they do not buy: a relevant insight, a benchmark, or an introduction.\n- Involve your champion. A request from a trusted internal sponsor is more likely to be accepted.\n\nDo not send long decks ahead of the meeting unless asked. A one-page summary is usually enough."
+    },
+    {
+      "position": 3,
+      "title": "The executive briefing and business case",
+      "type": "TEXT",
+      "body": "An executive briefing should take about three minutes to read or present:\n\n1. **The issue:** one sentence on the business problem, in the executive's terms.\n2. **The cost of inaction:** the money, risk, or lost opportunity if nothing changes.\n3. **The recommendation:** what you propose, and why it is the best option.\n4. **The return:** expected benefits in financial or risk terms, with stated assumptions.\n5. **The decision needed:** what you need from them, and by when.\n\nAvoid technical jargon. If a technical detail matters, put it in an appendix for the technical team."
+    },
+    {
+      "position": 4,
+      "title": "Following through with senior leaders",
+      "type": "TEXT",
+      "body": "After a senior meeting, send a short written summary within one working day. Include the agreed next steps, owners, and dates. If you promised something, deliver it or explain the change.\n\nSenior relationships are built over time through consistency. Share relevant updates briefly and only when they matter to that executive. Never use an executive relationship to bypass the buyer's process. Respect the procurement and approval steps, even when a senior leader is supportive."
+    }
+  ],
+  "assessment": {
+    "title": "CXO Engagement: completion check",
+    "cadence": "ONE_TIME",
+    "level": "ADVANCED",
+    "passMarkPercent": 70,
+    "questions": [
+      { "position": 1, "type": "SINGLE", "text": "Which concern most often matters most to a CFO?", "options": ["Brand design", "Cost, return on investment, and budget control", "Individual software features", "Office layout"], "correct": ["Cost, return on investment, and budget control"], "points": 1 },
+      { "position": 2, "type": "SINGLE", "text": "How long should a typical executive briefing take to read or present?", "options": ["About three minutes", "About one hour", "About a full day", "No time limit"], "correct": ["About three minutes"], "points": 1 },
+      { "position": 3, "type": "SINGLE", "text": "What should follow a senior meeting?", "options": ["Nothing, unless they call", "A short written summary with next steps, owners, and dates", "A long technical deck", "A discount offer"], "correct": ["A short written summary with next steps, owners, and dates"], "points": 1 },
+      { "position": 4, "type": "MULTIPLE", "text": "Which belong in an executive briefing? (Select all that apply)", "options": ["The issue in the executive's terms", "The cost of inaction", "Dense technical specifications", "The decision needed and by when"], "correct": ["The issue in the executive's terms", "The cost of inaction", "The decision needed and by when"], "points": 2 },
+      { "position": 5, "type": "TRUE_FALSE", "text": "You may use a senior leader's support to skip the buyer's procurement and approval steps.", "options": ["True", "False"], "correct": ["False"], "points": 1 }
+    ]
+  }
+}

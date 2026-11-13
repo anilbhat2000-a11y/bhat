@@ -1,0 +1,48 @@
+{
+  "slug": "manager-learning-circles",
+  "title": "Manager Learning Circles",
+  "subject": "Human Resources",
+  "category": "BUSINESS",
+  "level": "INTERMEDIATE",
+  "passMarkPercent": 70,
+  "description": "How leaders and managers learn together in small peer groups: run a learning circle, build psychological safety, and turn what you learn into team practice.",
+  "lessons": [
+    {
+      "position": 1,
+      "title": "What a learning circle is",
+      "type": "TEXT",
+      "body": "A learning circle is a small group of six to ten leaders who meet regularly to learn a topic together. Each meeting has a short input, a discussion, and a practice step the group applies at work before the next meeting.\n\nLearning circles work because managers learn most from peers facing similar problems. The group becomes a place to test ideas, admit what is not working, and get honest feedback."
+    },
+    {
+      "position": 2,
+      "title": "Running a session",
+      "type": "TEXT",
+      "body": "A simple 60-minute format:\n\n1. **Check-in (5 minutes):** each person shares one thing from their last practice step.\n2. **Input (15 minutes):** a short teaching piece, a case, or a guest speaker.\n3. **Discussion (25 minutes):** structured questions, such as 'Where have you seen this?' and 'What would you do differently?'\n4. **Commit (15 minutes):** each person chooses one practice step for the next two weeks, and says it aloud.\n\nRotate the facilitator, so no single person runs every session."
+    },
+    {
+      "position": 3,
+      "title": "Psychological safety",
+      "type": "TEXT",
+      "body": "Learning requires admitting uncertainty. Psychological safety is the belief that you can speak up, ask questions, and make mistakes without being punished or humiliated. Research by Amy Edmondson at Harvard found it is a strong predictor of team learning.\n\nBuild it by:\n\n- Asking questions yourself first, and admitting what you do not know.\n- Thanking people who raise problems.\n- Keeping what is said in the circle confidential, unless the group agrees otherwise.\n- Not using learning-circle comments in performance decisions."
+    },
+    {
+      "position": 4,
+      "title": "From learning to team practice",
+      "type": "TEXT",
+      "body": "Learning has no value until it changes how a team works. After each session, each manager should:\n\n- Try one practice step with their team within two weeks.\n- Ask the team what changed, and what did not.\n- Report back at the next session with one example.\n\nA practice step that is small and specific, such as 'hold a 10-minute coaching conversation on each deal this week', is more likely to stick than a general intention to improve."
+    }
+  ],
+  "assessment": {
+    "title": "Manager Learning Circles: completion check",
+    "cadence": "ONE_TIME",
+    "level": "INTERMEDIATE",
+    "passMarkPercent": 70,
+    "questions": [
+      { "position": 1, "type": "SINGLE", "text": "What is the usual size of a learning circle?", "options": ["Two people", "Six to ten leaders", "Fifty people", "The whole company"], "correct": ["Six to ten leaders"], "points": 1 },
+      { "position": 2, "type": "SINGLE", "text": "What does psychological safety mean?", "options": ["Physical security at the office", "Believing you can speak up and make mistakes without punishment", "Avoiding all conflict", "Keeping information secret"], "correct": ["Believing you can speak up and make mistakes without punishment"], "points": 1 },
+      { "position": 3, "type": "SINGLE", "text": "What should each person do before the next meeting?", "options": ["Write a report for senior leaders", "Try one practice step with their team and report back", "Prepare a slide deck", "Nothing"], "correct": ["Try one practice step with their team and report back"], "points": 1 },
+      { "position": 4, "type": "MULTIPLE", "text": "Which behaviours build psychological safety? (Select all that apply)", "options": ["Asking questions and admitting what you do not know", "Thanking people who raise problems", "Using learning-circle comments in performance reviews", "Keeping what is said confidential"], "correct": ["Asking questions and admitting what you do not know", "Thanking people who raise problems", "Keeping what is said confidential"], "points": 2 },
+      { "position": 5, "type": "TRUE_FALSE", "text": "A practice step works best when it is small and specific.", "options": ["True", "False"], "correct": ["True"], "points": 1 }
+    ]
+  }
+}

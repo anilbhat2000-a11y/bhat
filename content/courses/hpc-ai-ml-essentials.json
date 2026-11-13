@@ -1,0 +1,48 @@
+{
+  "slug": "hpc-ai-ml-essentials",
+  "title": "HPC, AI and ML Infrastructure Essentials",
+  "subject": "HPC/AI/ML",
+  "category": "TECHNICAL",
+  "level": "INTERMEDIATE",
+  "passMarkPercent": 70,
+  "description": "What high-performance computing, AI, and machine learning need from infrastructure, how to qualify these workloads, and how to avoid overpromising.",
+  "lessons": [
+    {
+      "position": 1,
+      "title": "What HPC, AI, and ML workloads need",
+      "type": "TEXT",
+      "body": "High-performance computing (HPC) runs large calculations by combining many processors in a cluster. AI and machine learning (ML) training is often similar: it needs many parallel processors, usually graphics processing units (GPUs), and large volumes of data.\n\nThe main infrastructure needs are:\n\n- **Compute:** many CPUs or GPUs, connected closely enough to share work.\n- **Memory and storage:** fast storage that can feed data to the processors without delay.\n- **Network:** high-speed, low-latency links between nodes.\n- **Power and cooling:** dense racks draw and generate a lot of heat.\n\nA design that is strong on compute but weak on storage or networking will run slowly."
+    },
+    {
+      "position": 2,
+      "title": "Training and inference",
+      "type": "TEXT",
+      "body": "AI work has two phases:\n\n- **Training:** the model learns from data. This is compute-heavy and often runs for hours or days.\n- **Inference:** the trained model is used to make predictions. It needs less compute per request but must respond quickly and reliably.\n\nBuy-or-build decisions depend on which phase the customer needs. Many customers start with inference on an existing model rather than training their own."
+    },
+    {
+      "position": 3,
+      "title": "Qualifying an AI or HPC opportunity",
+      "type": "TEXT",
+      "body": "Before proposing hardware, ask:\n\n- What problem should the workload solve, and how will success be measured?\n- What data is available, where is it stored, and how clean is it?\n- Is the workload training, inference, simulation, or analytics?\n- What are the performance targets and the time limit for results?\n- Who will run and maintain the environment, and what skills exist today?\n- What are the power, cooling, and rack space constraints?\n\nIf the answers are unclear, propose a short assessment or proof of concept before a large purchase."
+    },
+    {
+      "position": 4,
+      "title": "Avoiding overpromising",
+      "type": "TEXT",
+      "body": "AI projects often fail because expectations are unrealistic. Do not promise specific model accuracy or speed-up figures without a benchmark on the customer's own workload. Be clear about:\n\n- Which parts of the solution are standard and which need customisation.\n- The skills and time needed to build and operate the solution.\n- The ongoing costs of power, cooling, support, and upgrades.\n\nAn honest scope builds trust. A pilot that meets a clear target is a stronger outcome than a large purchase that does not."
+    }
+  ],
+  "assessment": {
+    "title": "HPC, AI and ML Infrastructure Essentials: completion check",
+    "cadence": "ONE_TIME",
+    "level": "INTERMEDIATE",
+    "passMarkPercent": 70,
+    "questions": [
+      { "position": 1, "type": "SINGLE", "text": "Which processors are commonly used for parallel AI training?", "options": ["Graphics processing units (GPUs)", "Printers", "Switches only", "UPS units"], "correct": ["Graphics processing units (GPUs)"], "points": 1 },
+      { "position": 2, "type": "SINGLE", "text": "Which phase makes predictions with a trained model?", "options": ["Training", "Inference", "Backup", "Cabling"], "correct": ["Inference"], "points": 1 },
+      { "position": 3, "type": "SINGLE", "text": "What should you do when a customer asks for a guaranteed model accuracy figure?", "options": ["Promise it to close the deal", "Benchmark on the customer's own workload before promising", "Quote the highest number you have seen", "Refuse to discuss performance"], "correct": ["Benchmark on the customer's own workload before promising"], "points": 1 },
+      { "position": 4, "type": "MULTIPLE", "text": "Which infrastructure needs are central to HPC and AI? (Select all that apply)", "options": ["High-speed, low-latency networking", "Fast storage to feed data to processors", "Power and cooling for dense racks", "A single printer"], "correct": ["High-speed, low-latency networking", "Fast storage to feed data to processors", "Power and cooling for dense racks"], "points": 2 },
+      { "position": 5, "type": "TRUE_FALSE", "text": "Proposing a short proof of concept is reasonable when the workload requirements are unclear.", "options": ["True", "False"], "correct": ["True"], "points": 1 }
+    ]
+  }
+}

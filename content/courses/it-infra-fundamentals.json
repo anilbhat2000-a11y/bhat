@@ -1,0 +1,48 @@
+{
+  "slug": "it-infra-fundamentals",
+  "title": "IT Infrastructure Fundamentals",
+  "subject": "IT INFRA",
+  "category": "TECHNICAL",
+  "level": "BASIC",
+  "passMarkPercent": 70,
+  "description": "The building blocks of a business IT environment, the on-premise, cloud, and hybrid choices, and how endpoint and infrastructure deals are shaped by lifecycle and support.",
+  "lessons": [
+    {
+      "position": 1,
+      "title": "Components of an IT infrastructure",
+      "type": "TEXT",
+      "body": "IT infrastructure is the set of hardware, software, and services that let an organisation run its applications. The main components are:\n\n- **Compute:** servers and desktops or laptops that run applications.\n- **Storage:** where data is kept (covered in the Server and Storage course).\n- **Network:** switches, routers, and wireless access that connect everything (see Networking Fundamentals).\n- **Power and cooling:** UPS units and air conditioning that keep equipment running.\n- **Management and security:** monitoring tools, backup, and access control.\n\nA weak link in any of these affects the whole business, so a sound design considers them together."
+    },
+    {
+      "position": 2,
+      "title": "On-premise, cloud, and hybrid",
+      "type": "TEXT",
+      "body": "Organisations choose where to run workloads:\n\n- **On-premise:** equipment owned and housed by the company. Full control, but the company carries capital cost and upkeep.\n- **Cloud:** services rented from a provider. Flexible and quick to scale, with running costs that depend on usage.\n- **Hybrid:** a mix, for example core systems on-premise and collaboration tools in the cloud.\n\nThe right choice depends on data rules, latency needs, budget pattern, and the skills available in-house. Ask these questions before recommending a model."
+    },
+    {
+      "position": 3,
+      "title": "The infrastructure lifecycle",
+      "type": "TEXT",
+      "body": "Infrastructure has a lifecycle: planning, procurement, deployment, support, and refresh. Each stage creates a sales opportunity:\n\n- **Planning:** a site survey or capacity review.\n- **Procurement:** the right product, warranty, and delivery schedule.\n- **Deployment:** installation, configuration, and testing.\n- **Support:** service contracts and response times.\n- **Refresh:** replacing equipment before it fails or falls out of support.\n\nA customer who has a support contract and a refresh plan is easier to serve and renew than one who buys hardware only once."
+    },
+    {
+      "position": 4,
+      "title": "Service levels and warranty basics",
+      "type": "TEXT",
+      "body": "A service level agreement (SLA) defines what the supplier promises: response time, resolution time, and uptime. Warranty covers defects within a stated period. Support contracts, such as annual maintenance contracts (AMC), extend or replace warranty cover.\n\nWhen discussing these terms, state exactly what is covered, what is excluded, and how the customer raises a request. Vague promises create disputes later."
+    }
+  ],
+  "assessment": {
+    "title": "IT Infrastructure Fundamentals: completion check",
+    "cadence": "ONE_TIME",
+    "level": "BASIC",
+    "passMarkPercent": 70,
+    "questions": [
+      { "position": 1, "type": "SINGLE", "text": "Which component runs applications for users?", "options": ["Compute", "Cooling", "Backup only", "Firewall rules"], "correct": ["Compute"], "points": 1 },
+      { "position": 2, "type": "SINGLE", "text": "Which model means equipment is owned and housed by the company?", "options": ["Cloud", "On-premise", "Hybrid", "Managed print"], "correct": ["On-premise"], "points": 1 },
+      { "position": 3, "type": "SINGLE", "text": "What does an SLA define?", "options": ["The product colour", "The supplier's response time, resolution time, and uptime", "The price list", "The customer's staff count"], "correct": ["The supplier's response time, resolution time, and uptime"], "points": 1 },
+      { "position": 4, "type": "MULTIPLE", "text": "Which stages belong to the infrastructure lifecycle? (Select all that apply)", "options": ["Planning", "Refresh", "Marketing campaign", "Deployment"], "correct": ["Planning", "Refresh", "Deployment"], "points": 2 },
+      { "position": 5, "type": "TRUE_FALSE", "text": "Warranty and an annual maintenance contract (AMC) are the same thing.", "options": ["True", "False"], "correct": ["False"], "points": 1 }
+    ]
+  }
+}

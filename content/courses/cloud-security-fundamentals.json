@@ -1,0 +1,48 @@
+{
+  "slug": "cloud-security-fundamentals",
+  "title": "Cloud Security Fundamentals",
+  "subject": "CLOUD SOLUTIONS",
+  "category": "TECHNICAL",
+  "level": "INTERMEDIATE",
+  "passMarkPercent": 70,
+  "description": "Secure identities, data, network access, and configuration in the cloud, and understand the shared responsibility model that governs all of it.",
+  "lessons": [
+    {
+      "position": 1,
+      "title": "Shared responsibility in practice",
+      "type": "TEXT",
+      "body": "The cloud provider secures the underlying platform: data centres, hardware, and core services. The customer secures what they build and store in it: identities, data, access settings, and application configuration.\n\nThe split changes with the service model. In infrastructure services the customer manages more, including the operating system. In software services the provider manages more, but the customer still controls who has access and what data they store. Most cloud breaches come from customer-side configuration, not from failures in the provider's platform."
+    },
+    {
+      "position": 2,
+      "title": "Identity and access management",
+      "type": "TEXT",
+      "body": "Identity is the new security perimeter in the cloud. Core practices:\n\n- **Least privilege:** give each user and service only the permissions they need.\n- **Multi-factor authentication (MFA):** require a second factor for all administrator and remote access.\n- **Avoid long-lived keys:** prefer temporary credentials, and rotate any key that must exist.\n- **Review access regularly:** remove accounts of people who have left or changed role.\n\nShared or default administrator accounts are a common cause of compromise. Each person should have their own named account."
+    },
+    {
+      "position": 3,
+      "title": "Data protection and encryption",
+      "type": "TEXT",
+      "body": "Protect data at rest (stored) and in transit (moving). Most cloud platforms offer encryption at rest, and encryption in transit uses TLS. The key question is who controls the encryption keys. Options include provider-managed keys, customer-managed keys, and keys held in a dedicated key management service.\n\nClassify data before deciding how to protect it. Public marketing material needs less protection than customer records or financial data. Restrict storage buckets and databases from public access unless there is a documented reason."
+    },
+    {
+      "position": 4,
+      "title": "Logging, monitoring, and misconfiguration",
+      "type": "TEXT",
+      "body": "Cloud environments change quickly, so visibility matters. Turn on audit logging for all accounts, keep logs in a protected location, and review alerts for unusual sign-ins, new administrator roles, and changes to security settings.\n\nMisconfiguration is the most common cloud weakness: a storage bucket left public, a security group open to the internet, or logging turned off. Automated configuration checks can find these issues continuously, and each finding should have an owner and a deadline."
+    }
+  ],
+  "assessment": {
+    "title": "Cloud Security Fundamentals: completion check",
+    "cadence": "ONE_TIME",
+    "level": "INTERMEDIATE",
+    "passMarkPercent": 70,
+    "questions": [
+      { "position": 1, "type": "SINGLE", "text": "Under shared responsibility, who is usually responsible for access settings and data a customer stores in the cloud?", "options": ["The provider entirely", "The customer", "No one", "The internet carrier"], "correct": ["The customer"], "points": 1 },
+      { "position": 2, "type": "SINGLE", "text": "What does least privilege mean?", "options": ["Giving everyone administrator rights", "Giving each user and service only the permissions they need", "Sharing one account across a team", "Turning off authentication"], "correct": ["Giving each user and service only the permissions they need"], "points": 1 },
+      { "position": 3, "type": "SINGLE", "text": "Which practice is a common cause of cloud compromise?", "options": ["Named accounts with MFA", "Shared or default administrator accounts", "Regular access reviews", "Audit logging"], "correct": ["Shared or default administrator accounts"], "points": 1 },
+      { "position": 4, "type": "MULTIPLE", "text": "Which are common cloud misconfigurations? (Select all that apply)", "options": ["A storage bucket left public without reason", "Logging turned off", "MFA required for administrators", "A security group open to the whole internet"], "correct": ["A storage bucket left public without reason", "Logging turned off", "A security group open to the whole internet"], "points": 2 },
+      { "position": 5, "type": "TRUE_FALSE", "text": "Data should be classified before deciding how to protect it.", "options": ["True", "False"], "correct": ["True"], "points": 1 }
+    ]
+  }
+}

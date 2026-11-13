@@ -1,0 +1,48 @@
+{
+  "slug": "cloud-certification-preparation",
+  "title": "Cloud Certification Preparation",
+  "subject": "CLOUD SOLUTIONS",
+  "category": "TECHNICAL",
+  "level": "INTERMEDIATE",
+  "passMarkPercent": 70,
+  "description": "A vendor-neutral approach to cloud certifications: understand the exam blueprint, practise in a sandbox account, and turn knowledge into design decisions.",
+  "lessons": [
+    {
+      "position": 1,
+      "title": "Reading the exam blueprint",
+      "type": "TEXT",
+      "body": "Every cloud certification publishes an exam guide or blueprint listing the domains, their weights, and the skills measured. Print it, and rate your confidence in each domain from one to five.\n\nUse the lowest-rated domains to set your study priorities. A domain with a high weight and low confidence should come first."
+    },
+    {
+      "position": 2,
+      "title": "Hands-on practice in a sandbox",
+      "type": "TEXT",
+      "body": "Cloud exams reward candidates who have used the services. Most providers offer free tiers or sandbox accounts. Set a spending alert before you start, and delete resources when a lab ends, so costs do not build up.\n\nUseful exercises include creating a virtual network with private and public subnets, deploying a virtual machine with restricted access, configuring storage with access policies, and reviewing a billing report."
+    },
+    {
+      "position": 3,
+      "title": "From knowledge to design decisions",
+      "type": "TEXT",
+      "body": "Many questions are scenarios: a business needs high availability, low cost, or strict data controls, and you choose the best design. Practise asking the same questions each time:\n\n- What are the availability and recovery targets?\n- What are the cost and performance constraints?\n- Where must the data be kept, and who may access it?\n- What is the simplest option that meets the requirement?\n\nThe correct answer is usually the one that meets every stated requirement with the least complexity."
+    },
+    {
+      "position": 4,
+      "title": "Practice exams and review",
+      "type": "TEXT",
+      "body": "Use practice exams in the final weeks. Take them under timed conditions. After each one, review every question, including those you got right, because a lucky guess does not show understanding.\n\nKeep a list of the services and concepts that caused errors. Review that list on the day before the exam."
+    }
+  ],
+  "assessment": {
+    "title": "Cloud Certification Preparation: completion check",
+    "cadence": "ONE_TIME",
+    "level": "INTERMEDIATE",
+    "passMarkPercent": 70,
+    "questions": [
+      { "position": 1, "type": "SINGLE", "text": "Where can you find the domains and their weights for a cloud exam?", "options": ["In the exam guide or blueprint", "In a random forum post", "In the exam room", "In the invoice"], "correct": ["In the exam guide or blueprint"], "points": 1 },
+      { "position": 2, "type": "SINGLE", "text": "Why set a spending alert before a sandbox lab?", "options": ["To increase the bill", "To avoid unexpected costs", "To disable logging", "To make the lab faster"], "correct": ["To avoid unexpected costs"], "points": 1 },
+      { "position": 3, "type": "SINGLE", "text": "In a scenario question, what is usually the best answer?", "options": ["The most complex design", "The design that meets every requirement with the least complexity", "The most expensive design", "The design with the most services"], "correct": ["The design that meets every requirement with the least complexity"], "points": 1 },
+      { "position": 4, "type": "MULTIPLE", "text": "Which are good practice reviewing practice exams? (Select all that apply)", "options": ["Reviewing questions you answered correctly", "Keeping a list of concepts that caused errors", "Skipping explanations", "Taking them under timed conditions"], "correct": ["Reviewing questions you answered correctly", "Keeping a list of concepts that caused errors", "Taking them under timed conditions"], "points": 2 },
+      { "position": 5, "type": "TRUE_FALSE", "text": "Resources in a lab should be left running after the lab ends so they are ready next time.", "options": ["True", "False"], "correct": ["False"], "points": 1 }
+    ]
+  }
+}

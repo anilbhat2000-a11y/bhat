@@ -1,0 +1,48 @@
+{
+  "slug": "data-visualization-fundamentals",
+  "title": "Data Visualization Fundamentals",
+  "subject": "Data and Analytics",
+  "category": "TECHNICAL",
+  "level": "BASIC",
+  "passMarkPercent": 70,
+  "description": "Choose the right chart for the question, use colour and labels clearly, avoid misleading charts, and design dashboards people can read at a glance.",
+  "lessons": [
+    {
+      "position": 1,
+      "title": "Choosing the right chart",
+      "type": "TEXT",
+      "body": "The chart should follow from the question:\n\n- **Comparison across categories:** bar chart, sorted by value.\n- **Change over time:** line chart.\n- **Part of a whole:** a stacked bar, or a pie chart only with two or three slices.\n- **Distribution:** histogram or box plot.\n- **Relationship between two measures:** scatter plot.\n\nA table is often the right choice when the reader needs exact values. Ask 'What should the reader see first?' and pick the chart that makes that point obvious."
+    },
+    {
+      "position": 2,
+      "title": "Honest and clear charts",
+      "type": "TEXT",
+      "body": "Several common choices mislead readers:\n\n- **Truncated bar axes:** starting a bar chart above zero exaggerates differences. Bars should start at zero.\n- **3D effects:** they distort the size of each part.\n- **Inconsistent scales:** comparing charts that use different axis ranges without saying so.\n- **Too many series:** a chart with eight coloured lines is hard to read. Highlight the one or two that matter.\n\nLabel the axes, state the units, and give each chart a title that says what it shows, not only what it is."
+    },
+    {
+      "position": 3,
+      "title": "Colour, labels, and emphasis",
+      "type": "TEXT",
+      "body": "Use colour to highlight, not decorate. Grey out background categories and colour the one you want the reader to notice. Keep colour choices readable for colour-blind viewers, and do not rely on red and green alone to show good and bad.\n\nDirect labels on the data are easier to read than a separate legend. Remove gridlines and borders that do not help the reader."
+    },
+    {
+      "position": 4,
+      "title": "Designing a dashboard",
+      "type": "TEXT",
+      "body": "A dashboard should answer a small set of questions for a defined audience. Arrange it in order of importance: headline KPIs at the top, supporting trends below, and detail at the bottom or on a separate page.\n\nTest the dashboard by asking a colleague to find the answer to a common question within 30 seconds. If they cannot, simplify it."
+    }
+  ],
+  "assessment": {
+    "title": "Data Visualization Fundamentals: completion check",
+    "cadence": "ONE_TIME",
+    "level": "BASIC",
+    "passMarkPercent": 70,
+    "questions": [
+      { "position": 1, "type": "SINGLE", "text": "Which chart best shows change over time?", "options": ["Pie chart", "Line chart", "Scatter plot", "Bubble map"], "correct": ["Line chart"], "points": 1 },
+      { "position": 2, "type": "SINGLE", "text": "Why should bar charts usually start at zero?", "options": ["It looks more modern", "A truncated axis exaggerates differences", "It saves space", "It is required by law"], "correct": ["A truncated axis exaggerates differences"], "points": 1 },
+      { "position": 3, "type": "SINGLE", "text": "What is the best use of colour in a chart?", "options": ["To decorate every series", "To highlight the one or two things the reader should notice", "To match the company logo only", "To hide the data"], "correct": ["To highlight the one or two things the reader should notice"], "points": 1 },
+      { "position": 4, "type": "MULTIPLE", "text": "Which are misleading or unclear chart practices? (Select all that apply)", "options": ["3D effects that distort the size of parts", "Truncated bar axes", "Labelled axes with units", "Eight coloured lines with no highlighting"], "correct": ["3D effects that distort the size of parts", "Truncated bar axes", "Eight coloured lines with no highlighting"], "points": 2 },
+      { "position": 5, "type": "TRUE_FALSE", "text": "On a dashboard, headline KPIs should appear at the top.", "options": ["True", "False"], "correct": ["True"], "points": 1 }
+    ]
+  }
+}

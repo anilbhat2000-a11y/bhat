@@ -1,0 +1,48 @@
+{
+  "slug": "fundamentals-enterprise-sales",
+  "title": "Fundamentals of Enterprise Sales",
+  "subject": "Sales",
+  "category": "BUSINESS",
+  "level": "BASIC",
+  "passMarkPercent": 70,
+  "description": "How enterprise deals differ from small sales, how buying committees work, and how to qualify and forecast with discipline.",
+  "lessons": [
+    {
+      "position": 1,
+      "title": "How enterprise sales differ",
+      "type": "TEXT",
+      "body": "Enterprise deals involve larger budgets, several decision makers, longer cycles (often several months), and formal procurement. A small sale is often won by one conversation with the owner. An enterprise sale is won by building agreement across many people, each with different concerns.\n\nThree things change in enterprise selling:\n\n- **Stakeholders:** you deal with people in IT, finance, operations, and leadership, not one buyer.\n- **Risk:** buyers worry about what happens after purchase, such as downtime, support, and integration with existing systems.\n- **Process:** procurement rules, approvals, and vendor registration set the pace, not your sales plan.\n\nThe seller's job is to plan for these differences from the first meeting."
+    },
+    {
+      "position": 2,
+      "title": "The enterprise sales cycle",
+      "type": "TEXT",
+      "body": "A typical cycle runs through these stages:\n\n1. **Prospecting:** find accounts that fit your offer and reach the right person.\n2. **Qualification:** confirm there is a real need, budget, and timeline.\n3. **Discovery:** understand the business problem in depth.\n4. **Solution design:** shape the offer with the customer's technical team.\n5. **Proposal:** present a written offer tied to the agreed outcomes.\n6. **Negotiation:** agree on terms, price, and service levels.\n7. **Closing and handover:** sign, then pass the account to delivery and support.\n\nEach stage should have exit criteria. For example, you move to proposal only after the customer has confirmed the problem, the budget range, and the decision process."
+    },
+    {
+      "position": 3,
+      "title": "Buying committees and roles",
+      "type": "TEXT",
+      "body": "Most enterprise purchases are made by a group. Learn to identify these roles:\n\n- **Economic buyer:** controls the budget and signs the approval.\n- **Champion:** wants your solution to succeed and works for you inside the company.\n- **Technical evaluator:** tests whether the solution works and is supportable.\n- **End users:** will use the solution daily and affect adoption.\n- **Procurement:** manages the process, vendor terms, and price comparison.\n- **Blocker:** may have a reason to resist, such as a past bad experience or a competing preference.\n\nMap these people early. A deal with a strong champion and no access to the economic buyer is at risk."
+    },
+    {
+      "position": 4,
+      "title": "Qualification and forecasting",
+      "type": "TEXT",
+      "body": "Qualification frameworks help you decide where to spend time. Two common ones:\n\n- **BANT:** Budget, Authority, Need, Timeline.\n- **MEDDIC:** Metrics, Economic buyer, Decision criteria, Decision process, Identify pain, Champion.\n\nFor forecasting, use stage definitions with exit criteria, and group deals into categories:\n\n- **Commit:** you expect to close this period, and the customer has confirmed the decision steps.\n- **Best case:** could close if things go well.\n- **Pipeline:** early, not yet expected to close.\n\nKeep the pipeline clean. Remove deals with no next step and update close dates when they slip."
+    }
+  ],
+  "assessment": {
+    "title": "Fundamentals of Enterprise Sales: completion check",
+    "cadence": "ONE_TIME",
+    "level": "BASIC",
+    "passMarkPercent": 70,
+    "questions": [
+      { "position": 1, "type": "SINGLE", "text": "What most clearly distinguishes an enterprise sale from a small sale?", "options": ["Lower prices", "Several decision makers and a formal process", "Shorter cycles", "Fewer product options"], "correct": ["Several decision makers and a formal process"], "points": 1 },
+      { "position": 2, "type": "SINGLE", "text": "Which stage should come before writing a proposal?", "options": ["Prospecting", "Discovery and qualification", "Closing", "Post-sale handover"], "correct": ["Discovery and qualification"], "points": 1 },
+      { "position": 3, "type": "SINGLE", "text": "Who controls the budget and signs the approval?", "options": ["Champion", "Technical evaluator", "Economic buyer", "End user"], "correct": ["Economic buyer"], "points": 1 },
+      { "position": 4, "type": "MULTIPLE", "text": "Which are valid forecast categories or qualification elements? (Select all that apply)", "options": ["Commit", "Best case", "Cold lead", "Economic buyer", "Pipeline"], "correct": ["Commit", "Best case", "Economic buyer", "Pipeline"], "points": 2 },
+      { "position": 5, "type": "TRUE_FALSE", "text": "A deal with a strong champion but no access to the economic buyer is free of risk.", "options": ["True", "False"], "correct": ["False"], "points": 1 }
+    ]
+  }
+}

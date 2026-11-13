@@ -1,0 +1,48 @@
+{
+  "slug": "security-certification-preparation",
+  "title": "Security Certification Preparation",
+  "subject": "CYBER SECURITY",
+  "category": "TECHNICAL",
+  "level": "INTERMEDIATE",
+  "passMarkPercent": 70,
+  "description": "A study approach for security certifications: plan your preparation, use practice questions well, build hands-on skill, and manage exam day. Vendor-neutral.",
+  "lessons": [
+    {
+      "position": 1,
+      "title": "Choosing a certification and planning your study",
+      "type": "TEXT",
+      "body": "Choose a certification that matches your role and your next career step. Read the official exam objectives first. They list the topics the exam covers and the weight of each, and they are the best guide to what to study.\n\nBuild a plan with fixed weekly study time, for example four sessions of 60 to 90 minutes. Schedule the exam date early. A booked exam creates a deadline that most people need to study consistently."
+    },
+    {
+      "position": 2,
+      "title": "Study methods that work",
+      "type": "TEXT",
+      "body": "Reading alone produces weak recall. Better methods are:\n\n- **Active recall:** close the book and write down what you remember about a topic.\n- **Spaced repetition:** revisit topics after one day, one week, and one month.\n- **Practice questions:** use them to find weak areas, then study the explanations, not only the score.\n- **Teach it:** explaining a concept to a colleague shows whether you understand it.\n\nTrack the topics you get wrong, and spend most of your time on them."
+    },
+    {
+      "position": 3,
+      "title": "Building hands-on skill",
+      "type": "TEXT",
+      "body": "Security exams test concepts, but job performance needs practice. Where possible, complement reading with labs: configure a firewall policy in a test environment, review sample logs for signs of an attack, or work through a basic incident response scenario.\n\nHands-on work also makes the concepts easier to remember, because you have seen what they do."
+    },
+    {
+      "position": 4,
+      "title": "Exam day and after",
+      "type": "TEXT",
+      "body": "Before exam day, confirm the booking, identification requirements, and the testing format, whether test centre or online proctored. Sleep well and arrive early.\n\nDuring the exam, read each question fully, eliminate clearly wrong options, and do not spend too long on one question. Mark difficult questions and return to them. After passing, record the certification and its renewal requirements, since most security certifications need continuing education to stay valid."
+    }
+  ],
+  "assessment": {
+    "title": "Security Certification Preparation: completion check",
+    "cadence": "ONE_TIME",
+    "level": "INTERMEDIATE",
+    "passMarkPercent": 70,
+    "questions": [
+      { "position": 1, "type": "SINGLE", "text": "Where should you start when preparing for a security certification?", "options": ["With a random practice test", "With the official exam objectives", "With the cheapest course", "With the last chapter of the book"], "correct": ["With the official exam objectives"], "points": 1 },
+      { "position": 2, "type": "SINGLE", "text": "Which study method means closing the book and writing down what you remember?", "options": ["Passive re-reading", "Active recall", "Highlighting", "Skimming"], "correct": ["Active recall"], "points": 1 },
+      { "position": 3, "type": "SINGLE", "text": "After a practice question, what gives the most learning value?", "options": ["Only checking the score", "Studying the explanation of each answer", "Skipping to the next question", "Memorising the option letters"], "correct": ["Studying the explanation of each answer"], "points": 1 },
+      { "position": 4, "type": "MULTIPLE", "text": "Which are good preparation practices? (Select all that apply)", "options": ["Scheduling the exam date early", "Spaced repetition of key topics", "Avoiding all hands-on work", "Tracking weak topics and focusing on them"], "correct": ["Scheduling the exam date early", "Spaced repetition of key topics", "Tracking weak topics and focusing on them"], "points": 2 },
+      { "position": 5, "type": "TRUE_FALSE", "text": "Most security certifications require continuing education to remain valid.", "options": ["True", "False"], "correct": ["True"], "points": 1 }
+    ]
+  }
+}

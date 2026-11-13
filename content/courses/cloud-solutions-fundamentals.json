@@ -1,0 +1,48 @@
+{
+  "slug": "cloud-solutions-fundamentals",
+  "title": "Cloud Solutions Fundamentals",
+  "subject": "CLOUD SOLUTIONS",
+  "category": "TECHNICAL",
+  "level": "BASIC",
+  "passMarkPercent": 70,
+  "description": "Cloud service models, deployment models, shared responsibility, cost models, migration approaches, and how to position cloud for business customers.",
+  "lessons": [
+    {
+      "position": 1,
+      "title": "Service models: IaaS, PaaS, SaaS",
+      "type": "TEXT",
+      "body": "Cloud services are grouped by how much the provider manages:\n\n- **Infrastructure as a Service (IaaS):** virtual machines, storage, and networks. The customer manages the operating system and applications.\n- **Platform as a Service (PaaS):** a platform for building and running applications. The customer manages the code and data.\n- **Software as a Service (SaaS):** a finished application, such as email or collaboration tools, used through a browser.\n\nThe more the provider manages, the less the customer runs, but the less control they have."
+    },
+    {
+      "position": 2,
+      "title": "Deployment models and shared responsibility",
+      "type": "TEXT",
+      "body": "Deployment models are:\n\n- **Public cloud:** shared infrastructure run by a provider.\n- **Private cloud:** infrastructure dedicated to one organisation, on-premise or hosted.\n- **Hybrid cloud:** a combination of the two, connected and managed together.\n\nShared responsibility means the provider secures the cloud platform, while the customer secures what they put in it: data, identities, access settings, and configuration. Most cloud security incidents come from customer-side configuration, not provider failure."
+    },
+    {
+      "position": 3,
+      "title": "Cost models and migration approaches",
+      "type": "TEXT",
+      "body": "Cloud is usually paid as an operating cost that depends on use, rather than a one-off capital purchase. Costs can rise quickly if usage is not monitored, so plan budgets and set alerts.\n\nCommon migration approaches are:\n\n1. **Rehost:** move the application as it is (lift and shift). Quick, with limited change.\n2. **Replatform:** make small changes to use a managed service.\n3. **Refactor:** redesign the application for the cloud. Most effort, most benefit.\n\nChoose the approach by the application's age, its criticality, and the team's skills."
+    },
+    {
+      "position": 4,
+      "title": "Positioning cloud for business customers",
+      "type": "TEXT",
+      "body": "Business customers often ask whether cloud is cheaper. The honest answer depends on usage patterns, data rules, and skills. Good questions include:\n\n- Which applications are in use, and which are most important to the business?\n- Where is the data, and what rules apply to it?\n- How much capacity is needed at peak and in normal periods?\n- Who manages the environment today, and how much time do they spend on it?\n\nPosition cloud as a way to meet a specific need, with a clear cost comparison and an exit plan."
+    }
+  ],
+  "assessment": {
+    "title": "Cloud Solutions Fundamentals: completion check",
+    "cadence": "ONE_TIME",
+    "level": "BASIC",
+    "passMarkPercent": 70,
+    "questions": [
+      { "position": 1, "type": "SINGLE", "text": "Which model provides a finished application used through a browser?", "options": ["IaaS", "PaaS", "SaaS", "On-premise"], "correct": ["SaaS"], "points": 1 },
+      { "position": 2, "type": "SINGLE", "text": "Under shared responsibility, who secures the data and access settings a customer puts in the cloud?", "options": ["The provider entirely", "The customer", "Nobody", "The network carrier"], "correct": ["The customer"], "points": 1 },
+      { "position": 3, "type": "SINGLE", "text": "Which migration approach moves an application with little change?", "options": ["Rehost", "Refactor", "Replatform with new features", "Rewrite in another language"], "correct": ["Rehost"], "points": 1 },
+      { "position": 4, "type": "MULTIPLE", "text": "Which are deployment models? (Select all that apply)", "options": ["Public cloud", "Private cloud", "Hybrid cloud", "Paper cloud"], "correct": ["Public cloud", "Private cloud", "Hybrid cloud"], "points": 2 },
+      { "position": 5, "type": "TRUE_FALSE", "text": "Cloud costs stay low automatically, so usage monitoring is not needed.", "options": ["True", "False"], "correct": ["False"], "points": 1 }
+    ]
+  }
+}

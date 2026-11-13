@@ -1,0 +1,48 @@
+{
+  "slug": "networking-fundamentals",
+  "title": "Networking Fundamentals",
+  "subject": "NETWORKING",
+  "category": "TECHNICAL",
+  "level": "BASIC",
+  "passMarkPercent": 70,
+  "description": "LAN, WAN, switching, routing, wireless, and leased-line connectivity, with the discovery questions that shape a networking proposal.",
+  "lessons": [
+    {
+      "position": 1,
+      "title": "LAN, WAN, and the building blocks",
+      "type": "TEXT",
+      "body": "A local area network (LAN) connects devices within one site, such as an office or a branch. A wide area network (WAN) connects sites that are far apart, using service providers' links.\n\nThe main devices are:\n\n- **Switch:** connects devices inside a LAN and forwards traffic to the right port.\n- **Router:** connects different networks, including the LAN to the internet or to other sites.\n- **Access point:** provides wireless connectivity.\n- **Firewall:** controls traffic between networks for security (see Cyber Security Fundamentals)."
+    },
+    {
+      "position": 2,
+      "title": "Switching, VLANs, and routing",
+      "type": "TEXT",
+      "body": "A VLAN (virtual LAN) splits one physical switch into separate logical networks. Staff, guests, and servers can be kept apart, which improves security and performance.\n\nRouting moves traffic between networks using IP addresses. A static route is set by hand. A dynamic routing protocol lets routers share routes automatically.\n\nWhen planning a LAN, decide how many users and devices each segment needs, and which services must be separated."
+    },
+    {
+      "position": 3,
+      "title": "Wireless and connectivity links",
+      "type": "TEXT",
+      "body": "Wireless access points give mobility but share radio capacity. Plan coverage with a site survey, and count devices per access point, not only users.\n\nFor WAN connectivity, common options are:\n\n- **Broadband:** shared, lower cost, and variable speed.\n- **Leased line:** a dedicated link with a committed bandwidth and a service level, usually at a higher cost.\n- **Redundant links:** a second connection from a different provider, with automatic failover.\n\nFor branch offices, a redundant link is often more valuable than a faster single link."
+    },
+    {
+      "position": 4,
+      "title": "Discovery questions for networking projects",
+      "type": "TEXT",
+      "body": "Before proposing equipment, ask:\n\n- How many users and devices are at each site, and how is that expected to grow?\n- Which applications are critical, and what happens when the network is down?\n- What is the current internet or WAN link, its cost, and its uptime?\n- Who supports the network today, and how quickly must problems be resolved?\n- Are there security or guest access rules to follow?\n\nThe answers determine the design. Equipment without a design basis tends to be undersized or overpriced."
+    }
+  ],
+  "assessment": {
+    "title": "Networking Fundamentals: completion check",
+    "cadence": "ONE_TIME",
+    "level": "BASIC",
+    "passMarkPercent": 70,
+    "questions": [
+      { "position": 1, "type": "SINGLE", "text": "Which network connects sites that are far apart?", "options": ["LAN", "WAN", "VLAN", "PAN"], "correct": ["WAN"], "points": 1 },
+      { "position": 2, "type": "SINGLE", "text": "What does a VLAN do?", "options": ["Connects two sites over the internet", "Splits one switch into separate logical networks", "Replaces the firewall", "Provides wireless coverage"], "correct": ["Splits one switch into separate logical networks"], "points": 1 },
+      { "position": 3, "type": "SINGLE", "text": "Which connectivity option gives committed bandwidth and a service level?", "options": ["Shared broadband", "Leased line", "Wi-Fi hotspot", "Dial-up"], "correct": ["Leased line"], "points": 1 },
+      { "position": 4, "type": "MULTIPLE", "text": "Which are good discovery questions for a networking project? (Select all that apply)", "options": ["How many users are at each site?", "Which applications are critical?", "What colour is the office?", "What is the current link's cost and uptime?"], "correct": ["How many users are at each site?", "Which applications are critical?", "What is the current link's cost and uptime?"], "points": 2 },
+      { "position": 5, "type": "TRUE_FALSE", "text": "A redundant link from a second provider can provide automatic failover for branch offices.", "options": ["True", "False"], "correct": ["True"], "points": 1 }
+    ]
+  }
+}

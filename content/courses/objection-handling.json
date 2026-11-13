@@ -1,0 +1,48 @@
+{
+  "slug": "objection-handling",
+  "title": "Objection Handling",
+  "subject": "Sales",
+  "category": "BUSINESS",
+  "level": "INTERMEDIATE",
+  "passMarkPercent": 70,
+  "description": "Recognise the real concern behind an objection, respond with a structured method, and know when to concede.",
+  "lessons": [
+    {
+      "position": 1,
+      "title": "What an objection really is",
+      "type": "TEXT",
+      "body": "An objection is a buyer's concern, not a rejection. Most objections are requests for more information, reassurance, or a better fit.\n\nCommon types in enterprise IT sales:\n\n- **Price:** 'This is more than the other quote.'\n- **Need:** 'We do not need this right now.'\n- **Timing:** 'Ask us again next financial year.'\n- **Trust:** 'We have had bad experiences with this type of vendor.'\n- **Authority:** 'I need to check with someone else first.'\n- **Competitor:** 'Another vendor offered a better deal.'\n\nIdentify which type you are hearing. Each type needs a different response."
+    },
+    {
+      "position": 2,
+      "title": "The LAER method",
+      "type": "TEXT",
+      "body": "Use this four-step method:\n\n1. **Listen:** let the customer finish. Do not interrupt or start defending.\n2. **Acknowledge:** 'That is a fair concern about the installation timeline.'\n3. **Explore:** ask what sits behind the concern. 'What would a successful installation look like for your team?'\n4. **Respond:** answer the real concern with evidence, a trade-off, or a reframe.\n\nThe explore step matters most. Many objections turn out to be about something else, such as a risk to someone's reputation. Respond only when you understand the concern."
+    },
+    {
+      "position": 3,
+      "title": "Responding with evidence and reframing",
+      "type": "TEXT",
+      "body": "Useful responses include:\n\n- **Feel, felt, found:** 'I understand how you feel. Other customers felt the same. They found that the first quarter cost more but the next three were lower.'\n- **Reframe:** change the comparison. 'You are comparing a one-off price. Let us compare the three-year cost of downtime.'\n- **Evidence:** a reference customer, a trial, a measurable pilot, or a published warranty term.\n\nDo not make claims you cannot support. If you do not know the answer, say so and commit to a date for the answer."
+    },
+    {
+      "position": 4,
+      "title": "When to concede and how to record objections",
+      "type": "TEXT",
+      "body": "Some objections deserve a concession. Concede only in exchange for something: 'If we reduce the price, can you commit to a three-year term?' Never give a concession for nothing. Trade, do not give.\n\nRecord every objection in the CRM with its type, the response given, and whether it was resolved. Patterns across many deals show which objections your team handles poorly, and which need better marketing, product changes, or pricing rules."
+    }
+  ],
+  "assessment": {
+    "title": "Objection Handling: completion check",
+    "cadence": "ONE_TIME",
+    "level": "INTERMEDIATE",
+    "passMarkPercent": 70,
+    "questions": [
+      { "position": 1, "type": "SINGLE", "text": "What is the first step of the LAER method?", "options": ["Respond", "Explore", "Listen", "Acknowledge"], "correct": ["Listen"], "points": 1 },
+      { "position": 2, "type": "SINGLE", "text": "An objection that says 'ask us again next financial year' is most likely which type?", "options": ["Price", "Need", "Timing", "Authority"], "correct": ["Timing"], "points": 1 },
+      { "position": 3, "type": "SINGLE", "text": "Why should you explore the concern before responding?", "options": ["To delay the decision", "Because the stated objection often hides the real concern", "To avoid answering", "To make the customer talk longer about price"], "correct": ["Because the stated objection often hides the real concern"], "points": 1 },
+      { "position": 4, "type": "MULTIPLE", "text": "Which are good practice when handling objections? (Select all that apply)", "options": ["Making claims you cannot support", "Acknowledging a fair concern", "Recording the objection and the response", "Conceding a price cut without asking for anything in return"], "correct": ["Acknowledging a fair concern", "Recording the objection and the response"], "points": 2 },
+      { "position": 5, "type": "TRUE_FALSE", "text": "A concession should be given freely to keep the customer happy.", "options": ["True", "False"], "correct": ["False"], "points": 1 }
+    ]
+  }
+}

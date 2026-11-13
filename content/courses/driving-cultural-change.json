@@ -1,0 +1,48 @@
+{
+  "slug": "driving-cultural-change",
+  "title": "Driving Cultural Change and Business Results",
+  "subject": "Human Resources",
+  "category": "BUSINESS",
+  "level": "ADVANCED",
+  "passMarkPercent": 70,
+  "description": "Lead cultural change with a clear model, use the ADKAR and Kotter frameworks, and link learning to measurable business results.",
+  "lessons": [
+    {
+      "position": 1,
+      "title": "Why culture change is hard",
+      "type": "TEXT",
+      "body": "Culture is the set of shared behaviours and beliefs that shape how work gets done. It changes only when people change what they do every day. Announcements alone rarely shift behaviour.\n\nCulture change usually fails for three reasons: leaders do not model the new behaviour, the old incentives still reward the old behaviour, and no one is given the skills to act differently. Address all three from the start."
+    },
+    {
+      "position": 2,
+      "title": "The ADKAR model for individual change",
+      "type": "TEXT",
+      "body": "ADKAR describes the five steps an individual needs to change, in order:\n\n1. **Awareness:** understanding why the change is needed.\n2. **Desire:** wanting to take part in it.\n3. **Knowledge:** knowing how to change.\n4. **Ability:** being able to perform the new behaviour in practice.\n5. **Reinforcement:** having the change sustained by recognition and consequences.\n\nUse ADKAR to diagnose where people are stuck. A team that understands the change but lacks the ability needs practice, not more messages."
+    },
+    {
+      "position": 3,
+      "title": "Kotter's steps for organisational change",
+      "type": "TEXT",
+      "body": "John Kotter's eight steps for leading change are:\n\n1. Create a sense of urgency.\n2. Build a guiding coalition.\n3. Form a strategic vision.\n4. Communicate the vision.\n5. Remove obstacles to action.\n6. Create short-term wins.\n7. Build on the change.\n8. Anchor the change in the culture.\n\nSkipping early steps, especially urgency and the guiding coalition, is a common reason change programmes stall. Use the steps as a checklist, not a strict sequence."
+    },
+    {
+      "position": 4,
+      "title": "Linking learning to business results",
+      "type": "TEXT",
+      "body": "Start from the business result, then work back to the learning. For example: 'Reduce deal cycle time by 15 percent over two quarters.' Then identify the behaviours that drive it, the training that builds them, and the measures that show whether they happen.\n\nTrack three kinds of measure: leading indicators (such as coaching sessions held), behaviour indicators (such as use of the discovery framework in deal reviews), and results (such as cycle time and win rate). Review them each quarter, and stop activities that do not move the results."
+    }
+  ],
+  "assessment": {
+    "title": "Driving Cultural Change and Business Results: completion check",
+    "cadence": "ONE_TIME",
+    "level": "ADVANCED",
+    "passMarkPercent": 70,
+    "questions": [
+      { "position": 1, "type": "SINGLE", "text": "What does the 'A' in ADKAR stand for?", "options": ["Action", "Awareness", "Alignment", "Assessment"], "correct": ["Awareness"], "points": 1 },
+      { "position": 2, "type": "SINGLE", "text": "In ADKAR, what comes immediately after Desire?", "options": ["Awareness", "Knowledge", "Reinforcement", "Ability"], "correct": ["Knowledge"], "points": 1 },
+      { "position": 3, "type": "SINGLE", "text": "Which Kotter step is a common reason change programmes stall when skipped?", "options": ["Creating a sense of urgency", "Choosing a logo", "Printing a handbook", "Renaming the office"], "correct": ["Creating a sense of urgency"], "points": 1 },
+      { "position": 4, "type": "MULTIPLE", "text": "Which are common reasons culture change fails? (Select all that apply)", "options": ["Leaders do not model the new behaviour", "Old incentives still reward the old behaviour", "People are not given the skills to act differently", "The company has a clear, measurable goal"], "correct": ["Leaders do not model the new behaviour", "Old incentives still reward the old behaviour", "People are not given the skills to act differently"], "points": 2 },
+      { "position": 5, "type": "TRUE_FALSE", "text": "Start from the business result, then work back to the learning needed to achieve it.", "options": ["True", "False"], "correct": ["True"], "points": 1 }
+    ]
+  }
+}

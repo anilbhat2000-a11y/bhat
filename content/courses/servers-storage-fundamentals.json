@@ -1,0 +1,48 @@
+{
+  "slug": "servers-storage-fundamentals",
+  "title": "Server and Storage Fundamentals",
+  "subject": "Server and storage",
+  "category": "TECHNICAL",
+  "level": "INTERMEDIATE",
+  "passMarkPercent": 70,
+  "description": "Server form factors, key components, storage types, RAID, backup and disaster recovery, and how to size and quote server and storage systems.",
+  "lessons": [
+    {
+      "position": 1,
+      "title": "Server form factors and key components",
+      "type": "TEXT",
+      "body": "Servers come in several form factors:\n\n- **Tower:** a standalone unit for small offices.\n- **Rack:** mounted in a standard cabinet, common in server rooms and data centres.\n- **Blade:** many compact servers sharing one chassis for power and cooling.\n\nKey components are the processor (CPU), memory (RAM), storage, network interfaces, and power supplies. Redundant power supplies and fans keep a server running when one part fails. Sizing starts with the workloads each server must run."
+    },
+    {
+      "position": 2,
+      "title": "Storage types: DAS, NAS, and SAN",
+      "type": "TEXT",
+      "body": "Storage is connected in different ways:\n\n- **Direct-attached storage (DAS):** disks connected directly to one server. Simple, but not shared.\n- **Network-attached storage (NAS):** a file-level storage device on the network, shared by many users. Common for file sharing.\n- **Storage area network (SAN):** block-level storage on a dedicated network, used by servers for databases and virtual machines that need low latency.\n\nChoose by how many systems must share the data and what performance they need."
+    },
+    {
+      "position": 3,
+      "title": "RAID, backup, and disaster recovery",
+      "type": "TEXT",
+      "body": "RAID combines disks for performance or redundancy. RAID 1 mirrors data across two disks. RAID 5 and RAID 6 spread data and parity across disks, and survive one or two disk failures respectively.\n\nRAID is not backup. A deleted file or a ransomware attack is copied across the RAID set. Backup keeps separate copies at defined points in time, and must be tested by restoring it. Disaster recovery adds a copy at another site, with a defined recovery time objective (RTO) and recovery point objective (RPO)."
+    },
+    {
+      "position": 4,
+      "title": "Sizing and quoting",
+      "type": "TEXT",
+      "body": "Before quoting, confirm:\n\n- The applications to run, their CPU and memory needs, and expected growth.\n- Storage capacity needed now and in three to five years, and the growth rate.\n- Backup and recovery requirements, including RTO and RPO.\n- Power, cooling, and rack space available.\n- Warranty and support levels required.\n\nQuote the configuration with its warranty, support, and installation. A server quoted without a backup plan is an incomplete proposal."
+    }
+  ],
+  "assessment": {
+    "title": "Server and Storage Fundamentals: completion check",
+    "cadence": "ONE_TIME",
+    "level": "INTERMEDIATE",
+    "passMarkPercent": 70,
+    "questions": [
+      { "position": 1, "type": "SINGLE", "text": "Which storage type is a shared file-level device on the network?", "options": ["DAS", "NAS", "SAN", "RAM"], "correct": ["NAS"], "points": 1 },
+      { "position": 2, "type": "SINGLE", "text": "Which RAID level mirrors data across two disks?", "options": ["RAID 0", "RAID 1", "RAID 5", "RAID 6"], "correct": ["RAID 1"], "points": 1 },
+      { "position": 3, "type": "SINGLE", "text": "What does RTO describe?", "options": ["How much data may be lost", "How quickly service must be restored after a disaster", "The number of server cores", "The warranty period"], "correct": ["How quickly service must be restored after a disaster"], "points": 1 },
+      { "position": 4, "type": "MULTIPLE", "text": "Which statements about RAID and backup are correct? (Select all that apply)", "options": ["RAID is a substitute for backup", "Backup keeps separate copies at defined points in time", "A backup should be tested by restoring it", "RAID protects against accidental deletion"], "correct": ["Backup keeps separate copies at defined points in time", "A backup should be tested by restoring it"], "points": 2 },
+      { "position": 5, "type": "TRUE_FALSE", "text": "A server quoted without a backup or recovery plan is a complete proposal.", "options": ["True", "False"], "correct": ["False"], "points": 1 }
+    ]
+  }
+}
