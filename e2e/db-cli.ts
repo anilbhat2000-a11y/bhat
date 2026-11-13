@@ -37,6 +37,15 @@ async function main(): Promise<void> {
   } else if (command === "lesson-course-id") {
     const lesson = await prisma.lesson.findFirst({ where: { title: args[0] } });
     console.log(lesson?.courseId ?? "");
+  } else if (command === "issue-cert") {
+    const user = await prisma.user.findUnique({ where: { email: "employee@example.test" } });
+    const subject = await prisma.subject.findUnique({ where: { slug: "e2e-subject" } });
+    if (!user || !subject) throw new Error("seed data missing");
+    const code = `E2E${Date.now().toString(36).toUpperCase()}`.slice(0, 12).padEnd(12, "X");
+    const cert = await prisma.certification.create({
+      data: { userId: user.id, subjectId: subject.id, level: "BASIC", issuedAt: new Date(), expiresAt: new Date(Date.now() + 365 * 24 * 3600_000), verificationCode: code },
+    });
+    console.log(`${cert.id} ${code}`);
   } else if (command === "set-active") {
     const [email, value] = args;
     await prisma.user.update({ where: { email }, data: { active: value === "true" } });

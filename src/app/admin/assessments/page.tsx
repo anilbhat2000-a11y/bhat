@@ -45,7 +45,7 @@ export default async function AssessmentsPage({ searchParams }: { searchParams: 
         <input aria-label="Time limit (min, optional)" name="timeLimitMinutes" type="number" min={1} placeholder="Time limit (min, optional)" />{" "}
         <input aria-label="Questions per attempt (optional)" name="questionsPerAttempt" type="number" min={1} placeholder="Questions per attempt (optional)" />{" "}
         <label>Attempts per period <input aria-label="Max attempts per period" name="maxAttemptsPerPeriod" type="number" min={1} max={10} defaultValue={3} /></label>{" "}
-        <label><input aria-label="Show answers after submit" name="showAnswersAfterSubmit" type="checkbox" defaultChecked /> Show correct answers after submit</label>{" "}
+        <label><input name="showAnswersAfterSubmit" type="checkbox" defaultChecked /> Show correct answers after submit</label>{" "}
         <button type="submit">Create assessment</button>
       </form>
     </main>

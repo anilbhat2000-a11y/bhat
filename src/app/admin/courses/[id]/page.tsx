@@ -103,7 +103,7 @@ export default async function CoursePage({
                 <input type="hidden" name="sessionId" value={l.liveSession.id} />
                 {l.liveSession.registrations.map((r) => (
                   <label key={r.id} style={{ display: "block" }}>
-                    <input aria-label="Attendee  s" type="checkbox" name="attendeeIds" value={r.userId} defaultChecked={r.attended} /> {r.user.name}
+                    <input type="checkbox" name="attendeeIds" value={r.userId} defaultChecked={r.attended} /> {r.user.name}
                   </label>
                 ))}
                 <button type="submit">Save attendance</button>
@@ -118,7 +118,7 @@ export default async function CoursePage({
             <fieldset>
               <legend>Instructors</legend>
               {instructors.map((i) => (
-                <label key={i.id}><input aria-label="Instructor  s" type="checkbox" name="instructorIds" value={i.id} /> {i.name} ({i.location ?? "location not set"})</label>
+                <label key={i.id}><input type="checkbox" name="instructorIds" value={i.id} /> {i.name} ({i.location ?? "location not set"})</label>
               ))}
             </fieldset>
             <button type="submit">Save session</button>
