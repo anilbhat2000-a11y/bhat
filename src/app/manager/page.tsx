@@ -1,3 +1,5 @@
+import { redirect } from "next/navigation";
+
 export default function ManagerHome() {
-  return <h1>Manager portal</h1>;
+  redirect("/manager/team");
 }

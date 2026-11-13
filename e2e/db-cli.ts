@@ -22,6 +22,10 @@ async function main(): Promise<void> {
         create: { ...u, passwordHash },
       });
     }
+    const manager = await prisma.user.findUnique({ where: { email: "manager@example.test" } });
+    if (manager) {
+      await prisma.user.update({ where: { email: "employee@example.test" }, data: { managerId: manager.id } });
+    }
     await prisma.subject.upsert({
       where: { slug: "e2e-subject" },
       update: {},
