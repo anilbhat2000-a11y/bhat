@@ -255,6 +255,7 @@ model LessonProgress {
   lesson          Lesson   @relation(fields: [lessonId], references: [id], onDelete: Cascade)
   positionSeconds Int      @default(0) @map("position_seconds")
   completed       Boolean  @default(false)
+  checkedItemIds  Json     @default("[]") @map("checked_item_ids")
   updatedAt       DateTime @updatedAt @map("updated_at")
 
   @@unique([userId, lessonId])

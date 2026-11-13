@@ -30,7 +30,8 @@ export async function createCourseAction(formData: FormData): Promise<void> {
 export async function addLessonAction(formData: FormData): Promise<void> {
   const actor = await requireSession();
   const courseId = text(formData, "courseId");
-  const type = text(formData, "type") === "LINK" ? "LINK" : "TEXT";
+  const requested = text(formData, "type");
+  const type = (["TEXT", "LINK", "LAB", "LIVE_SESSION"].includes(requested) ? requested : "TEXT") as "TEXT" | "LINK" | "LAB" | "LIVE_SESSION";
   const result = await addLesson(actor, courseId, {
     title: text(formData, "title"),
     type,

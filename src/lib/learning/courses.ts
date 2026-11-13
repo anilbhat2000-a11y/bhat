@@ -70,11 +70,13 @@ async function nextPosition(courseId: string): Promise<number> {
 export async function addLesson(
   actor: SessionUser,
   courseId: string,
-  input: { title: string; type: "TEXT" | "LINK" | "LIVE_SESSION"; body?: string; url?: string },
+  input: { title: string; type: "TEXT" | "LINK" | "LIVE_SESSION" | "LAB"; body?: string; url?: string },
 ): Promise<Result> {
   asAdmin(actor);
   if (!input.title.trim()) return { ok: false, error: "Title is required" };
-  if (input.type === "TEXT" && !(input.body ?? "").trim()) return { ok: false, error: "Text lessons need content" };
+  if ((input.type === "TEXT" || input.type === "LAB") && !(input.body ?? "").trim()) {
+    return { ok: false, error: input.type === "LAB" ? "Labs need a checklist: one '- [ ] step' line per item" : "Text lessons need content" };
+  }
   if (input.type === "LINK" && !HTTP_URL.test(input.url ?? "")) return { ok: false, error: "Enter a full http or https link" };
   const lesson = await prisma.lesson.create({
     data: {
@@ -82,7 +84,7 @@ export async function addLesson(
       position: await nextPosition(courseId),
       title: input.title.trim(),
       type: input.type,
-      body: input.type === "TEXT" ? input.body : null,
+      body: input.type === "TEXT" || input.type === "LAB" ? input.body : null,
       url: input.type === "LINK" ? input.url : null,
     },
   });

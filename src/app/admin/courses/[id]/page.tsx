@@ -50,13 +50,15 @@ export default async function CoursePage({
         ))}
       </ol>
 
-      <h2>Add a text or link lesson</h2>
+      <h2>Add a text, link, lab, or live session lesson</h2>
+      <p>For a lab, the text is the instructions, with one '- [ ] step' line per checklist item.</p>
       <form data-test="add-lesson" action={addLessonAction}>
         <input type="hidden" name="courseId" value={course.id} />
         <input name="title" placeholder="Title" required />{" "}
         <select name="type" defaultValue="TEXT">
           <option value="TEXT">Text</option>
           <option value="LINK">Link</option>
+          <option value="LAB">Hands-on lab (checklist)</option>
           <option value="LIVE_SESSION">Live session</option>
         </select>
         <br />

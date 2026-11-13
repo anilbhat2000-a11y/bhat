@@ -5,6 +5,8 @@ import { prisma } from "../../../../lib/db/client";
 import { courseProgressPercent, lastLessonFor } from "../../../../lib/learning/progress";
 import { completeLessonAction } from "../../../actions/progress";
 import { registerAction } from "../../../actions/live";
+import { saveLabAction } from "../../../actions/labs";
+import { parseLabChecklist } from "../../../../lib/learning/labs";
 import { VideoLesson } from "../../../../components/VideoLesson";
 
 export default async function LearnCoursePage({
@@ -31,10 +33,9 @@ export default async function LearnCoursePage({
   const lessonIds = course.lessons.map((l) => l.id);
   const percent = courseProgressPercent(lessonIds.length, completed, lessonIds);
   const resume = await lastLessonFor(user.id, course.id);
-  const positions = new Map(
-    (await prisma.lessonProgress.findMany({ where: { userId: user.id, lessonId: { in: lessonIds } } }))
-      .map((p) => [p.lessonId, p.positionSeconds]),
-  );
+  const progressRows = await prisma.lessonProgress.findMany({ where: { userId: user.id, lessonId: { in: lessonIds } } });
+  const positions = new Map(progressRows.map((p) => [p.lessonId, p.positionSeconds]));
+  const checkedByLesson = new Map(progressRows.map((p) => [p.lessonId, (p.checkedItemIds as string[] | undefined) ?? []]));
 
   return (
     <main style={{ padding: "16px", fontFamily: "system-ui, sans-serif" }}>
@@ -66,10 +67,21 @@ export default async function LearnCoursePage({
                 )}
               </div>
             ) : null}
+            {l.type === "LAB" ? (
+              <form action={saveLabAction}>
+                <input type="hidden" name="lessonId" value={l.id} />
+                {parseLabChecklist(l.body ?? "").map((item) => (
+                  <label key={item.id} style={{ display: "block" }}>
+                    <input type="checkbox" name="item" value={item.id} defaultChecked={(checkedByLesson.get(l.id) ?? []).includes(item.id)} /> {item.text}
+                  </label>
+                ))}
+                <button type="submit">Save lab progress</button>
+              </form>
+            ) : null}
             {l.type === "VIDEO" ? (
               <VideoLesson lessonId={l.id} src={`/api/files/${l.id}`} startAt={positions.get(l.id) ?? 0} />
             ) : null}
-            {!done ? (
+            {!done && l.type !== "LAB" ? (
               <form action={completeLessonAction}>
                 <input type="hidden" name="lessonId" value={l.id} />
                 <button type="submit">Mark complete</button>
