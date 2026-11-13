@@ -22,6 +22,9 @@
 - Uploaded file types: PDF, MP4, PNG, JPG only. Size limits from env: `MAX_UPLOAD_MB_DOC=50`, `MAX_UPLOAD_MB_VIDEO=500`.
 - Files stored under `FILE_STORAGE_DIR` (default `./storage`), never under `public/`.
 - All dates are stored in UTC; display in `Asia/Kolkata`.
+- Profile photos: JPG or PNG, up to 5 MB (`MAX_UPLOAD_MB_PHOTO=5`), cropped to a square in the browser before upload.
+- Employees only: no tenant layer, no external accounts (spec, section 1).
+- Field lists for every table are in the spec: section 3 (core), 6A (live sessions, instructors), 6B (notifications, certificates, audit, pools, resume), 6C (employee profile). The schema in Task 2 must include every field listed there.
 
 ## Review Focus
 
@@ -89,7 +92,7 @@ git add -A && git commit -m "chore: scaffold Next.js app with Vitest and Playwri
 
 **Interfaces:**
 - Consumes: Task 1
-- Produces: Prisma models `User`, `Subject`, `Course`, `Lesson`, `Assessment`, `Question`, `AssessmentAssignment`, `AssessmentPeriod`, `AssessmentAttempt`, `CourseProgress`, `Certification`; enums `Role {ADMIN MANAGER EMPLOYEE}`, `Category {BUSINESS TECHNICAL}`, `Level {BASIC INTERMEDIATE ADVANCED}`, `CourseStatus {DRAFT PUBLISHED}`, `LessonType {TEXT PDF VIDEO LINK}`, `Cadence {ONE_TIME WEEKLY MONTHLY ANNUAL}`, `QuestionType {SINGLE MULTIPLE TRUE_FALSE}`, `TargetType {ALL DEPARTMENT USER}`, `PeriodStatus {OPEN PASSED OVERDUE}`; `export const prisma: PrismaClient` from `client.ts`.
+- Produces: Prisma models `User`, `Subject`, `Course`, `Lesson`, `Assessment`, `Question`, `AssessmentAssignment`, `AssessmentPeriod`, `AssessmentAttempt`, `CourseProgress`, `LessonProgress`, `Certification`, `Instructor`, `LessonInstructor`, `LiveSession`, `LiveSessionRegistration`, `Notification`, `AuditEvent`, `ProfileSkill`, `ProfileEducation`, `ProfileExperience`, `ProfileExternalCertification`, `ProfileLanguage`, `Session`; enums `Role {ADMIN MANAGER EMPLOYEE}`, `Category {BUSINESS TECHNICAL}`, `Level {BASIC INTERMEDIATE ADVANCED}`, `CourseStatus {DRAFT PUBLISHED}`, `LessonType {TEXT PDF VIDEO LINK LIVE_SESSION LAB}`, `Cadence {ONE_TIME WEEKLY MONTHLY ANNUAL}`, `QuestionType {SINGLE MULTIPLE TRUE_FALSE}`, `TargetType {ALL DEPARTMENT USER}`, `PeriodStatus {OPEN PASSED OVERDUE}`, `LanguageLevel {BASIC WORKING FLUENT}`; `export const prisma: PrismaClient` from `client.ts`. Field lists come from the spec (see Global Constraints).
 
 - [ ] **Step 1: Write the failing test**
 
@@ -645,6 +648,7 @@ git add -A && git commit -m "feat: add admin assessment authoring and period ope
   - `courseProgressPercent(totalLessons: number, completedLessonIds: string[], lessonIds: string[]): number` — rounded integer; ignores ids not in `lessonIds`; 0 when no lessons.
   - `completeLesson(lessonId: string): Promise<{ ok: boolean; error?: string }>` — only for lessons in published courses; the lesson must be the next incomplete one in order (no skipping).
   - `listCatalogue(user): Promise<SubjectWithCourses[]>` — published courses only, grouped by category.
+  - Resume (spec 6B): `saveLessonPosition(lessonId: string, seconds: number): Promise<void>` stores `lesson_progress.position_seconds` and sets `course_progress.last_lesson_id`; `lastLessonFor(userId: string, courseId: string): Promise<string | null>`. Rejects negative seconds. A VIDEO lesson returns its saved position on reload.
 
 - [ ] **Step 1: Write failing tests:** `courseProgressPercent(4, ["a","x"], ["a","b","c","d"])` is 25; `completeLesson` on lesson 3 before lesson 2 is refused; unpublished course lessons are refused.
 
@@ -674,6 +678,7 @@ git add -A && git commit -m "feat: add learner catalogue and lesson progress"
   - `startAttempt(periodId: string): Promise<{ attemptId: string; questions: PublicQuestion[]; expiresAt: Date | null }>` — refuses when `canStartAttempt` is false; writes the attempt row first (save on start). `PublicQuestion` has no `correctOptionIds`, and options are shuffled per attempt with `shuffleOptions`.
   - `submitAttempt(attemptId: string, answers: Record<string, string[]>): Promise<{ ok: true; scorePercent: number; passed: boolean; answers?: ... } | { ok: false; error: string }>` — refuses if `isWithinTimeLimit` is false (the attempt is marked `expired`); scores with `scoreAttempt`; on pass, sets period `PASSED`, and creates a `Certification` with `expiresAt(now, subject.certification_validity_months)` for the assessment's subject and level. Returns the correct option ids only when `show_answers_after_submit` is true.
   - A repeat submit on an already-submitted attempt returns `{ ok: false, error: "already submitted" }`.
+  - Question pools (spec 6B): when `assessments.questions_per_attempt` is set, `startAttempt` draws that many distinct questions at random using an injectable `rng`. Scoring uses only the drawn questions. Test: pool of 5, per-attempt 3 gives 3 distinct questions; with an injected rng the draw is deterministic.
 
 - [ ] **Step 1: Write failing tests:** submit after the time limit is refused (use an injected `now`); a passing submit creates one certification; a repeat submit is refused; a fourth start in the same period is refused.
 
@@ -832,7 +837,106 @@ git add -A && git commit -m "test: add end-to-end and authorization flows"
 
 ---
 
-### Task 21: Final verification
+### Task 21: Live sessions, registration, and attendance (spec 6A)
+
+**Files:**
+- Create: `src/lib/learning/live-sessions.ts`, `src/app/actions/live-sessions.ts`, `src/app/(admin)/courses/[id]/sessions/page.tsx`, `src/app/(learn)/sessions/[id]/page.tsx`
+- Test: `src/lib/learning/live-sessions.test.ts`
+
+**Interfaces:**
+- Consumes: Task 2 (`LiveSession`, `LiveSessionRegistration`), Task 4 (`canViewUser`), Task 14 (`completeLesson`)
+- Produces:
+  - `scheduleSession(lessonId: string, input: { startsAt: Date; endsAt: Date; meetingUrl: string; capacity: number | null; instructorIds: string[] }): Promise<{ ok: boolean; error?: string }>` — refuses when `endsAt <= startsAt` or the lesson is not `LIVE_SESSION`.
+  - `registerForSession(sessionId: string, userId: string, now?: Date): Promise<{ ok: boolean; error?: string }>` — refuses duplicates and sessions that have ended; refuses when registrations already equal `capacity` (capacity null means unlimited).
+  - `markAttendance(sessionId: string, attendeeIds: string[], actor: SessionUser): Promise<void>` — actor must be ADMIN, or a MANAGER for each attendee (`canViewUser`). A user marked attended completes the lesson.
+- Tests: exactly-full session refuses the next registration; registering twice refuses; a session that already ended refuses registration; `markAttendance` by a manager for a non-team member throws 403; attended learner has the lesson completed.
+
+### Task 22: Hands-on lab lessons (spec 6A)
+
+**Files:**
+- Create: `src/lib/learning/labs.ts`
+- Test: `src/lib/learning/labs.test.ts`
+
+**Interfaces:**
+- Consumes: Task 2 (`LessonType`), Task 14 (`completeLesson`)
+- Produces:
+  - `parseLabChecklist(body: string): { id: string; text: string }[]` — each `- [ ] text` line in the body is an item; `id` is `item-<index>` (1-based).
+  - `labComplete(items: { id: string }[], checkedIds: string[]): boolean` — true only when every item id is checked; unknown ids are ignored; zero items is not complete.
+  - `saveLabProgress(lessonId: string, userId: string, checkedIds: string[]): Promise<{ complete: boolean }>` — when complete, calls `completeLesson`.
+- Tests: body with 3 items and 2 checked is not complete; 3 checked is complete; an unknown id does not count toward completion; a body with no items is not complete.
+
+### Task 23: Reminders (spec 6B)
+
+**Files:**
+- Create: `src/lib/notifications/reminders.ts`, `src/lib/notifications/mailer.ts`, `src/app/api/cron/reminders/route.ts`
+- Test: `src/lib/notifications/reminders.test.ts`
+
+**Interfaces:**
+- Consumes: Task 5 (period status), Task 2 (`Notification`)
+- Produces:
+  - `type ReminderType = "DUE_SOON" | "DUE_TODAY" | "OVERDUE"`
+  - `remindersDue(periods: { id: string; userId: string; dueAt: Date; status: PeriodStatus }[], now: Date, alreadySent: Set<string>): { key: string; periodId: string; userId: string; type: ReminderType }[]` — key is `${periodId}:${type}`. `DUE_SOON` when `dueAt` is 3 days or less away and more than 1 day away; `DUE_TODAY` when due within the next 24 hours; `OVERDUE` when `dueAt < now` and status is OPEN or OVERDUE. Passed periods never produce reminders. Keys in `alreadySent` are skipped.
+  - `interface Mailer { send(to: string, subject: string, body: string): Promise<void> }`; the SMTP implementation reads `SMTP_URL` from config.
+  - Route `POST /api/cron/reminders` requires header `Authorization: Bearer ${CRON_SECRET}`.
+- Tests: a period due in 2 days gives `DUE_SOON`; due in 5 days gives nothing; past due and OPEN gives `OVERDUE`; a PASSED period gives nothing; a key already in `alreadySent` is skipped. The weekly manager digest lists overdue team members only.
+
+### Task 24: Audit log (spec 6B)
+
+**Files:**
+- Create: `src/lib/audit/record.ts`, `src/app/(admin)/audit/page.tsx`
+- Test: `src/lib/audit/record.test.ts`
+
+**Interfaces:**
+- Consumes: Task 2 (`AuditEvent`), Task 3 (`SessionUser`)
+- Produces:
+  - `recordAudit(tx: PrismaTransaction, event: { actorId: string; action: string; entityType: string; entityId: string; before?: object; after?: object }): Promise<void>`
+  - `changedFields(before: Record<string, unknown>, after: Record<string, unknown>): string[]` — keys whose values differ (JSON comparison), sorted.
+  - The module exports no update or delete function for `AuditEvent`.
+- Tests: `changedFields` lists only changed keys; `setActive` (Task 11) writes one audit row with `action: "user.deactivate"`; the module exports no function named update or delete.
+
+### Task 25: Certificates and verification (spec 6B)
+
+**Files:**
+- Create: `src/lib/certificates/code.ts`, `src/lib/certificates/render.ts`, `src/app/verify/[code]/page.tsx`, `src/app/api/certificates/[id]/route.ts`
+- Test: `src/lib/certificates/code.test.ts`, `src/lib/certificates/verify.test.ts`
+
+**Interfaces:**
+- Consumes: Task 6 (`isActive`), Task 2 (`Certification`)
+- Produces:
+  - `makeVerificationCode(rng?: () => number): string` — 12 characters from `ABCDEFGHJKLMNPQRSTUVWXYZ23456789` (no 0, O, 1, or I).
+  - `renderCertificatePdf(data: { holderName: string; subject: string; level: Level; issuedAt: Date; expiresAt: Date; code: string }): Promise<Buffer>` — uses `pdf-lib`.
+  - `verificationView(cert: { holderName: string; subject: string; level: Level; issuedAt: Date; expiresAt: Date }, now: Date): { valid: boolean; holderName: string; subject: string; level: Level; issuedAt: Date; expiresAt: Date }` — contains no score or attempt fields.
+- Tests: code is 12 characters and uses only the allowed charset; `verificationView` returns `valid: false` when `expiresAt == now` (matches Review Focus 1); the returned object has no `score` key.
+
+### Task 26: Employee profile and profile pictures (spec 6C, and profile photos from the admin section)
+
+**Files:**
+- Create: `src/lib/profile/validate.ts`, `src/lib/profile/initials.ts`, `src/app/(learn)/profile/page.tsx`, `src/app/actions/profile.ts`
+- Modify: `src/app/actions/users.ts` (photo upload on create and edit, using `validateUpload` kind `IMAGE` with the 5 MB photo limit)
+- Test: `src/lib/profile/validate.test.ts`, `src/lib/profile/initials.test.ts`
+
+**Interfaces:**
+- Consumes: Task 8 (`validateUpload`), Task 4 (`requireRole`), Task 24 (`recordAudit`)
+- Produces:
+  - `validateProfileEdit(actor: SessionUser, input: Partial<EmployeeProfile>): { ok: true } | { ok: false; errors: Record<string, string> }` — an employee may edit only personal details, skills, education, experience, external certifications, and languages. Employment fields (department, role title, manager, joined date) are admin-only, and an employee submitting them is refused. Limits: bio 500 characters, experience description 1000 characters, `selfRating` 1 to 5, language level one of `BASIC | WORKING | FLUENT`.
+  - `initialsFor(name: string): string` — first letter of the first two words, uppercased; a single word gives its first two letters.
+  - `saveProfile(actor: SessionUser, userId: string, input: Partial<EmployeeProfile>): Promise<{ ok: boolean; errors?: Record<string, string> }>`
+- Tests: an employee setting `department` is refused; a 501-character bio is refused; `selfRating` 0 is refused; a 6 MB photo is refused; `initialsFor("Anil Bhat")` is `AB` and `initialsFor("Ravi")` is `RA`; a manager cannot call `saveProfile` for a team member (spec: managers view only).
+
+### Task 27: Accessibility checks and caption requirement (spec 6B)
+
+**Files:**
+- Create: `src/lib/learning/publish.ts`, `e2e/accessibility.spec.ts`
+- Modify: `prisma/schema.prisma` (add `caption_file_key` to `lessons`), `src/app/actions/lessons.ts`
+- Test: `src/lib/learning/publish.test.ts`, `e2e/accessibility.spec.ts`
+
+**Interfaces:**
+- Consumes: Task 12 (lesson actions), Task 14 (catalogue)
+- Produces:
+  - `canPublishLesson(lesson: { type: LessonType; captionFileKey: string | null }): { ok: boolean; reason?: string }` — a VIDEO lesson without a caption file is refused with reason `"Captions (.vtt) are required for video lessons"`.
+- Tests: a VIDEO lesson with no caption is refused; with a caption it passes; a TEXT lesson needs no caption. Playwright with `@axe-core/playwright` on the login, admin dashboard, and learner catalogue pages reports zero serious or critical violations.
+
+### Task 28: Final verification
 
 **Files:**
 - Modify: `README.md` (setup and run instructions)
