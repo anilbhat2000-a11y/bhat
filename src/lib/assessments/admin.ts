@@ -46,6 +46,8 @@ export async function createAssessment(
           questionsPerAttempt: input.questionsPerAttempt ?? null,
           showAnswersAfterSubmit: input.showAnswersAfterSubmit ?? false,
           courseId: input.courseId || null,
+          // Annual exams are proctored by company policy; admins can change it per exam.
+          proctored: input.cadence === "ANNUAL",
         },
       }),
     (a) => ({ actorId: actor.id, action: "assessment.create", entityType: "Assessment", entityId: a.id, after: { title: a.title, cadence: a.cadence } }),

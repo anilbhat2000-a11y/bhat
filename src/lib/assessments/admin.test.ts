@@ -73,3 +73,21 @@ describe("admin assessment authoring", () => {
     await prisma.assessmentAssignment.deleteMany({ where: { assessmentId } });
   });
 });
+
+describe("annual exams", () => {
+  it("are created in proctored mode with 5 allowed violations; others are not proctored", async () => {
+    const tag = `annual-${Date.now()}`;
+    const a = await prisma.user.create({ data: { name: "A", email: `${tag}@example.test`, passwordHash: "x", role: "ADMIN" } });
+    const actor = { id: a.id, role: "ADMIN" as const, active: true, name: "A", email: a.email, department: null };
+    const subject = await prisma.subject.create({ data: { name: `${tag} s`, slug: tag, category: "TECHNICAL" } });
+    const annual = await createAssessment(actor, { subjectId: subject.id, title: "Annual", cadence: "ANNUAL", level: "ADVANCED", passMarkPercent: 70 });
+    const weekly = await createAssessment(actor, { subjectId: subject.id, title: "Weekly", cadence: "WEEKLY", level: "BASIC", passMarkPercent: 70 });
+    const rows = await prisma.assessment.findMany({ where: { subjectId: subject.id }, orderBy: { title: "asc" } });
+    expect(annual.ok && weekly.ok).toBe(true);
+    expect(rows.map((r) => [r.title, r.proctored, r.proctorMaxViolations])).toEqual([["Annual", true, 5], ["Weekly", false, 5]]);
+    await prisma.auditEvent.deleteMany({ where: { actorId: a.id } });
+    await prisma.assessment.deleteMany({ where: { subjectId: subject.id } });
+    await prisma.subject.delete({ where: { id: subject.id } });
+    await prisma.user.delete({ where: { id: a.id } });
+  });
+});

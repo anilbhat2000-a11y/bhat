@@ -86,6 +86,8 @@ Add an optional due date. Learners see assigned courses with a countdown on thei
 
 ### Proctored mode
 
+Company policy: annual exams are proctored, and the 5th violation ends the attempt. New annual assessments start in proctored mode with 5 allowed violations; you can change either per assessment.
+
 The questions stay hidden until the learner enters full screen. Leaving full screen or switching to another tab or window counts as a violation, and the count is stored on the attempt. When the allowed number is reached, the attempt is submitted as it stands. Managers see the number of proctoring flags on each attempt. Proctored mode deters casual cheating; it cannot detect a second device. On phones without full-screen support, only tab switches are counted.
 
 ### Grading short answers
@@ -129,17 +131,21 @@ A certificate is issued automatically when a learner passes. It shows the name, 
 
 ## 7. Audit log
 
-**Admin portal → Audit log** lists every change to users, courses, lessons, modules, assessments, questions, assignments (assessment and course), attempts, grades, certificates, remedial plans, announcements and hidden Q&A posts, with who made it and when. Filter by type (User, Course, Assessment and so on). The log cannot be edited or deleted.
+**Admin portal → Audit log** lists every change to users, courses, lessons, modules, assessments, questions, assignments (assessment and course), attempts, grades, certificates, remedial plans, announcements and hidden Q&A posts, with who made it and when. Filter by type (User, Course, Assessment and so on). The log cannot be edited or deleted from the portal. Entries older than the retention period (1 year) are removed by the retention purge, which logs what it removed.
 
 ## 8. Reminders
 
 The scheduler runs every hour. Learners get an email 3 days before an assessment period or an assigned course is due, on the due date, and when it becomes overdue. Managers get a weekly list of overdue team members. Each reminder is sent once.
 
-## 9. Before go-live checklist
+## 9. Data retention
+
+Company policy is to keep data for 1 year. Every hour the scheduler deletes data older than 365 days: assessment periods and attempts, certificates that expired more than a year ago, audit events, announcements, Q&A posts, feedback, closed remedial plans and old reminder records. User accounts, courses, course completions, and current certificates are kept. Each purge appears in the audit log as "retention.purge" with counts. Export any report you must keep longer (Dashboard → Download CSV) before it ages out. The period is set by `RETENTION_DAYS` in `.env`.
+
+## 10. Before go-live checklist
 
 - [ ] Real admin accounts created; demo accounts deactivated (`INSTALL.md` §6: `create-admin`, then `deactivate-demo`).
 - [ ] Users imported, with departments and managers.
 - [ ] Placeholder content replaced with company-approved material (search for `[PLACEHOLDER]`).
 - [ ] SMTP tested: a reminder arrives.
 - [ ] Backup made, copied off the server, and a restore tested (see `INSTALL.md`).
-- [ ] Certificate issuer name confirmed (open question 2 in `ARCHITECTURE.md`).
+- [ ] SMTP details entered in `.env` (`SMTP_URL`, `MAIL_FROM`) once the company shares them.

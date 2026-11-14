@@ -335,7 +335,7 @@ model Assessment {
   // Proctored mode: full screen is required, and leaving it or switching tabs is recorded.
   // At proctorMaxViolations the attempt is submitted as it stands.
   proctored              Boolean  @default(false)
-  proctorMaxViolations   Int      @default(3) @map("proctor_max_violations")
+  proctorMaxViolations   Int      @default(5) @map("proctor_max_violations")
   // After a failed result, the retake opens this many hours later (remedial path).
   retakeDelayHours       Int      @default(24) @map("retake_delay_hours")
 

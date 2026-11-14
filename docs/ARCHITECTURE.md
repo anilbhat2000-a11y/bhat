@@ -98,7 +98,7 @@ All containers run from Docker Compose on one server. No container reaches the i
 - Sessions end after 30 idle minutes or 12 hours.
 - Uploaded files are checked for type and size, stored under random names, and served only to users who can see the course.
 - Backups are encrypted with AES-256 (GPG symmetric) before they are written.
-- The audit log has no update or delete path in the app.
+- The audit log has no update or delete path in the app; only the retention purge removes entries older than 1 year, and it logs each purge.
 
 ## 6. Sizing (300 concurrent users)
 
@@ -120,31 +120,39 @@ Phase 4 must repeat the load test on the production server with real data.
 1. Learners are company employees only. There is no multi-tenancy and no external learners.
 2. Departments and locations are free-text values on the user record, created by the admin or by import. There is no separate approval hierarchy beyond the reporting manager.
 3. The company provides an internal CA certificate, or accepts the self-signed certificate created by `deploy/nginx/make-cert.sh`.
-4. The company SMTP server accepts mail from the LMS server without OAuth.
+4. The company SMTP server accepts mail from the LMS server without OAuth (details to come).
 5. One weekly assessment runs per assigned subject, and it opens on Monday (ISO week). The weekday can be changed in configuration.
 6. Certificates are valid for 12 months unless a subject sets a different validity.
 7. Correct answers are hidden after submission unless the admin enables them per assessment.
 8. Proctored mode is a deterrent, not a guarantee. It records full-screen exits and tab switches, and can submit the attempt automatically after a set number of violations. It cannot stop a second device.
-9. All course content in this repository is a placeholder. The company supplies the real videos, documents, and SCORM packages, and approves all wording about policies, prices, and products.
+9. All course content in this repository is a placeholder. The company supplies the real videos and documents, and approves all wording about policies, prices, and products.
 
-## 8. Open questions for the company
+## 8. Company decisions and open questions
+
+**Decided by the company on 2026-11-14:**
+
+| Topic | Decision | What the LMS does |
+| --- | --- | --- |
+| Sign-in | No LDAP or Active Directory | Local accounts with bcrypt passwords, rate-limited sign-in and idle timeout. No directory integration is planned. |
+| Branding | Logo supplied; legal name **3C IT SOLUTIONS & TELECOMS INDIA LIMITED** | Logo on every portal page, the sign-in page and certificates (`public/brand/`). Colours are taken from the logo (blue `#1701c1`, green `#007969`, teal `#50beab`). The legal name is printed on certificates (`src/lib/brand.ts`). |
+| Proctoring | Required for the annual exam; 5 violations end an attempt | New annual assessments start in proctored mode; every assessment defaults to 5 allowed violations. Existing annual assessments were switched over by a migration. Admins can still change both per assessment. |
+| SCORM | Not buying SCORM content | No SCORM player. Content is video, PDF, text, labs, links and live sessions. |
+| Data retention | 1 year | The scheduler deletes data older than 365 days (`RETENTION_DAYS`): assessment periods and attempts (by due date), certificates expired more than a year ago, audit events, sent-reminder records, announcements, Q&A posts, feedback, closed remedial plans and expired sessions. Kept: user accounts, course content, course progress and completions, and certificates that are valid or expired less than a year ago. Each purge is logged with counts. Backups are kept for 14 days (`BACKUP_KEEP_DAYS`), so deleted data disappears from backups two weeks later. |
+| Backups | On the local server | Written to `BACKUP_HOST_DIR` (default `./backups`). Use a second disk in the server if there is one: a backup on the system disk does not survive that disk failing. |
+
+**Still open:**
 
 | # | Question | Default until answered |
 | --- | --- | --- |
-| 1 | Is LDAP or Active Directory available, and should it replace local passwords? | Local accounts only. |
-| 2 | Branding: logo, colours, and the exact legal name for certificates. | Text logo, "3C IT Solutions and Telecoms India Ltd". |
-| 3 | SMTP host, port, account, and sender address. | Set in `.env`. Reminders are not sent until it is set. |
-| 4 | Is proctored mode required for the annual exam, and how many violations end an attempt? | Off by default. 3 violations when on. |
-| 5 | Will third-party SCORM content be bought? SCORM needs a runtime player that is not built yet. | Not supported. Upload as MP4/PDF, or ask the vendor for those formats. |
-| 6 | Which weekday should weekly assessments open? | Monday. |
-| 7 | Data retention: how long to keep attempts, audit events, and deactivated users. | Keep everything. |
-| 8 | Backup target: a second disk, a NAS, or offsite media? | `./backups` on the same server. Move this to another disk. |
-| 9 | Server OS: Ubuntu Server or Windows Server? | Ubuntu Server 24.04 with Docker. |
-| 10 | Who are the subject-matter experts who will moderate course Q&A? | Admins only. |
-| 11 | Locations: the list of offices. | Free text on the user. |
-| 12 | Should questions be tagged by topic below subject level (for finer weak-topic analysis)? | Weak topics are reported per subject. |
-| 13 | Should managers also grade short answers for their team, or only L&D? | L&D admins only. |
-| 14 | Should course reminders also go to the manager? | Learner only; managers see overdue courses in the dashboards. |
+| 1 | SMTP host, port, account and sender address (the company will share these). | Email is off: the LMS runs normally, but sends no reminders or announcement emails. Set `SMTP_URL` and `MAIL_FROM` in `.env`, then `docker compose up -d`. |
+| 2 | Which weekday should weekly assessments open? | Monday. |
+| 3 | Server OS: Ubuntu Server or Windows Server? | Ubuntu Server 24.04 with Docker. |
+| 4 | Who are the subject-matter experts who will moderate course Q&A? | Admins only. |
+| 5 | Locations: the list of offices. | Free text on the user. |
+| 6 | Should questions be tagged by topic below subject level (for finer weak-topic analysis)? | Weak topics are reported per subject. |
+| 7 | Should managers also grade short answers for their team, or only L&D? | L&D admins only. |
+| 8 | Should course reminders also go to the manager? | Learner only; managers see overdue courses in the dashboards. |
+| 9 | Should deactivated user accounts be deleted after a year too? (Needs a record of when an account was deactivated.) | Kept. |
 
 ## 9. Brief coverage
 
@@ -153,9 +161,9 @@ Status: **Done** (built and tested), **Partial** (part built; the rest is listed
 | Brief section | Requirement | Status | Where |
 | --- | --- | --- | --- |
 | 2 | Node.js + Next.js + PostgreSQL, local file storage | Done | This document |
-| 2 | bcrypt passwords; LDAP/AD later | Done / Open | `src/lib/auth`; question 1 |
+| 2 | bcrypt passwords; LDAP/AD later | Done | Local accounts; the company has no AD (§8) |
 | 2 | HTML5 video with progress tracking | Done | `src/components/VideoLesson.tsx` |
-| 2 | SCORM 1.2 / 2004 | Open | Question 5 |
+| 2 | SCORM 1.2 / 2004 | Not needed | The company is not buying SCORM content (§8) |
 | 2 | Docker Compose, Nginx, HTTPS, no internet at runtime | Done | `docker-compose.yml`, `deploy/nginx`, `e2e/offline.spec.ts` |
 | 2 | Daily automated backup with restore instructions | Done | `deploy/backup`, `INSTALL.md` §7 |
 | 3 | Admin: courses, modules, lessons, assessments; draft/publish/archive | Done | `/admin/courses`, `/admin/assessments` |
@@ -172,7 +180,7 @@ Status: **Done** (built and tested), **Partial** (part built; the rest is listed
 | 3 | Employee: dashboard, courses, resume, assessments, results, certificates, self-enrol | Done | `/learn` |
 | 4 | 17 subjects × 3 levels with objectives, modules, prerequisites, paths, content placeholders | Done | `CATALOGUE.md`, `content/catalogue.json` |
 | 5 | Weekly, monthly, annual assessments; pools; shuffling; attempts; time limits; pass marks | Done | `src/lib/assessments` |
-| 5 | Proctored mode (full screen, tab-switch detection) | Done | `src/components/ProctorGuard.tsx` |
+| 5 | Proctored mode (full screen, tab-switch detection) | Done | `src/components/ProctorGuard.tsx`; on for annual exams, 5 violations |
 | 5 | Automatic grading; manual grading queue with reviewer notes | Done | `/admin/grading` |
 | 5 | Certificates with verification ID and QR code; validity | Done | `src/lib/certificates` |
 | 5 | Remedial path: lessons again, scheduled retake | Done | `src/lib/assessments/remedial.ts` |
@@ -191,7 +199,7 @@ Status: **Done** (built and tested), **Partial** (part built; the rest is listed
 | 9 | 300 concurrent users | Done (measured on test hardware) | §6 and `TESTING.md` §4 |
 | 9 | WCAG 2.1 AA basics | Done | `e2e/accessibility.spec.ts` |
 | 9 | HTTPS, server-side RBAC, validation, SQLi/XSS/CSRF, rate-limited login, session timeout, encrypted backups | Done | §5 |
-| 9 | Data retention and export policies configurable by admin | Open | Question 7 |
+| 9 | Data retention and export policies configurable by admin | Done | 1 year (`RETENTION_DAYS`), purged by the scheduler; exports as CSV (§8) |
 | 9 | Logs with rotation | Done | Docker log rotation (`docker-compose.yml`) |
 | 9 | Installation guide, admin manual, user guide | Done | `INSTALL.md`, `ADMIN_MANUAL.md`, `USER_GUIDE.md` |
 | 10 | Tests and demo checklist per phase | Done | `TESTING.md` |

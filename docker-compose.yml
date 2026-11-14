@@ -32,9 +32,11 @@ services:
       DATABASE_URL: postgresql://lms:${POSTGRES_PASSWORD}@db:5432/lms
       FILE_STORAGE_DIR: /app/storage
       CRON_SECRET: ${CRON_SECRET:?set CRON_SECRET in .env}
-      SMTP_URL: ${SMTP_URL:?set SMTP_URL in .env (for example smtp://user:pass@smtp.example.com:587)}
+      # Optional until the company mail server details are known: without it, no email is sent.
+      SMTP_URL: ${SMTP_URL:-}
       MAIL_FROM: ${MAIL_FROM:-lms@3cit.local}
       SESSION_IDLE_MINUTES: ${SESSION_IDLE_MINUTES:-30}
+      RETENTION_DAYS: ${RETENTION_DAYS:-365}
       PUBLIC_BASE_URL: ${PUBLIC_BASE_URL:-}
     # Reachable only through Nginx, never directly from the LAN.
     expose:

@@ -35,7 +35,7 @@ export default async function AssessmentsPage({ searchParams }: { searchParams: 
           <option value="ONE_TIME">One time</option>
           <option value="WEEKLY">Weekly</option>
           <option value="MONTHLY">Monthly</option>
-          <option value="ANNUAL">Annual</option>
+          <option value="ANNUAL">Annual (proctored)</option>
         </select>{" "}
         <select aria-label="Level" name="level" defaultValue="BASIC">
           <option value="BASIC">Basic</option>

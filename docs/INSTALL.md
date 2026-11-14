@@ -53,12 +53,13 @@ Edit `.env` and set at least these values:
 | --- | --- |
 | `POSTGRES_PASSWORD` | A long random password for the database. |
 | `CRON_SECRET` | A long random value. The scheduler uses it to call the reminder endpoint. |
-| `SMTP_URL` | The company SMTP server, for example `smtp://lms%40company.in:password@smtp.company.in:587`. |
+| `SMTP_URL` | The company SMTP server, for example `smtp://lms%40company.in:password@smtp.company.in:587`. Leave empty until you have the details: the LMS runs, but sends no email. |
 | `MAIL_FROM` | The sender address for LMS emails. |
 | `PUBLIC_BASE_URL` | The address staff type, for example `https://lms.3cit.local`. It is printed in certificate QR codes. |
 | `BACKUP_PASSPHRASE` | A long passphrase that encrypts backups. **Store a copy offline.** Without it, no backup can be restored. |
 | `BACKUP_HOST_DIR` | Where backups are written on the server. Use a second disk or a mounted NAS if possible. |
 | `APP_REPLICAS` | Number of app processes. Keep 3 for an 8 vCPU server. |
+| `RETENTION_DAYS` | Data older than this is deleted (company policy: 365). |
 | `TZ` | Time zone for the backup schedule and server messages. Default `Asia/Kolkata`. |
 
 To generate random values:
@@ -141,7 +142,7 @@ See the backups:
 ls -lh backups/
 ```
 
-Copy backups off the server regularly (for example to a NAS or tape). A backup on the same disk does not protect against disk failure.
+Company decision: backups stay on the local server. If the server has a second disk, mount it and point `BACKUP_HOST_DIR` at it (for example `/mnt/backup/lms`): a backup on the system disk is lost if that disk fails. Keep a copy of `BACKUP_PASSPHRASE` somewhere other than the server.
 
 ### Restore
 
