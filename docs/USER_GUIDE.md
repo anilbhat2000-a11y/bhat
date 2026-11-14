@@ -28,6 +28,8 @@ The LMS works on desktop, tablet and phone browsers.
 - **Recommended for you**: courses in subjects where your scores are below the pass mark.
 - **My certificates**, with download and verification links.
 
+The **Catalogue** lists every course open to you in a table, with its subject, level, number of lessons, duration and your progress. Search, filter by subject or level, or show only the courses you have started, then press **Start**, **Continue** or **Review**.
+
 Use the search box to find courses and lessons. Some courses are made for particular departments; you see those for your own department, plus any assigned to you.
 
 ### Taking a course

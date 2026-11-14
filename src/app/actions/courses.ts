@@ -3,10 +3,10 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { requireSession } from "../../lib/auth/current-user";
-import { createCourse, addLesson, setCoursePublished, reorderLessons, attachCaption } from "../../lib/learning/courses";
+import { createCourse, addLesson, setCoursePublished, reorderLessons, attachCaption, updateCourse, setCourseStatus, deleteCourseSafely } from "../../lib/learning/courses";
 import { prisma } from "../../lib/db/client";
 import { addModule, assignLessonModules, deleteModule, setCourseArchived } from "../../lib/learning/modules";
-import type { Level } from "../../generated/prisma/client";
+import type { CourseStatus, Level } from "../../generated/prisma/client";
 
 const text = (fd: FormData, key: string) => String(fd.get(key) ?? "");
 
@@ -155,4 +155,48 @@ export async function reorderLessonsAction(courseId: string, orderedIds: string[
   const result = await reorderLessons(actor, courseId, orderedIds);
   if (result.ok) revalidatePath(`/admin/courses/${courseId}`);
   return result.ok ? { ok: true } : { ok: false, error: result.error };
+}
+
+// "Modify" from the catalogue: details, departments and status in one form.
+export async function modifyCourseAction(formData: FormData): Promise<void> {
+  const actor = await requireSession();
+  const id = text(formData, "id");
+  const to = `/admin/courses/${id}/modify`;
+  const level = (["BASIC", "INTERMEDIATE", "ADVANCED"].includes(text(formData, "level")) ? text(formData, "level") : "BASIC") as Level;
+  const saved = await updateCourse(actor, id, {
+    title: text(formData, "title"),
+    description: text(formData, "description"),
+    subjectId: text(formData, "subjectId"),
+    level,
+    passMarkPercent: Number(text(formData, "passMarkPercent") || 70),
+    departments: [...formData.getAll("department").map(String), ...text(formData, "otherDepartments").split(",")],
+  });
+  if (!saved.ok) back(to, saved.error, "error");
+  const status = text(formData, "status");
+  if (["DRAFT", "PUBLISHED", "ARCHIVED"].includes(status)) {
+    const changed = await setCourseStatus(actor, id, status as CourseStatus);
+    if (!changed.ok) back(to, `Details saved, but the status was not changed: ${changed.error}`, "error");
+  }
+  revalidatePath("/admin/courses");
+  revalidatePath(`/admin/courses/${id}`);
+  redirect(`/admin/courses?notice=${encodeURIComponent("Course updated")}`);
+}
+
+export async function deleteCourseConfirmedAction(formData: FormData): Promise<void> {
+  const actor = await requireSession();
+  const id = text(formData, "id");
+  if (text(formData, "confirm") !== "on") back(`/admin/courses/${id}/delete`, "Tick the box to confirm you want to delete this course", "error");
+  const result = await deleteCourseSafely(actor, id);
+  if (!result.ok) back(`/admin/courses/${id}/delete`, result.error, "error");
+  revalidatePath("/admin/courses");
+  redirect(`/admin/courses?notice=${encodeURIComponent("Course deleted")}`);
+}
+
+export async function archiveFromCatalogueAction(formData: FormData): Promise<void> {
+  const actor = await requireSession();
+  const id = text(formData, "id");
+  const result = await setCourseStatus(actor, id, "ARCHIVED");
+  if (!result.ok) back(`/admin/courses/${id}/delete`, result.error, "error");
+  revalidatePath("/admin/courses");
+  redirect(`/admin/courses?notice=${encodeURIComponent("Course archived. Learner records are kept; restore it any time with Modify.")}`);
 }

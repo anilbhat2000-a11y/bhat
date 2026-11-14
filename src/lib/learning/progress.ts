@@ -150,7 +150,7 @@ export async function listCatalogue(user: SessionUser) {
   const hidden = await hiddenCourseIds(user);
   const courses = await prisma.course.findMany({
     where: { status: "PUBLISHED", id: { notIn: [...hidden] } },
-    include: { subject: true, lessons: { select: { id: true } }, progress: { where: { userId: user.id } } },
+    include: { subject: true, lessons: { select: { id: true } }, modules: { select: { estimatedMinutes: true } }, progress: { where: { userId: user.id } } },
     orderBy: [{ subject: { name: "asc" } }, { title: "asc" }],
   });
   const groups = (["BUSINESS", "TECHNICAL"] as const).map((category) => ({
@@ -165,6 +165,11 @@ export async function listCatalogue(user: SessionUser) {
           title: c.title,
           level: c.level,
           subject: c.subject.name,
+          description: c.description,
+          lessonCount: lessonIds.length,
+          minutes: c.modules.reduce((n, m) => n + (m.estimatedMinutes ?? 0), 0),
+          started: c.progress.length > 0,
+          completed: !!c.progress[0]?.completedAt,
           progress: courseProgressPercent(lessonIds.length, completed, lessonIds),
         };
       }),

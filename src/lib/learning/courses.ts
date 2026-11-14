@@ -6,7 +6,7 @@ import { defaultStorage, mimeForKey } from "../storage";
 import type { FileStorage } from "../storage/types";
 import { validateUpload } from "../storage/validate";
 import type { CourseStatus, Level, LessonType } from "../../generated/prisma/client";
-import { learnerCanOpen } from "./modules";
+import { learnerCanOpen, setCourseArchived } from "./modules";
 import { recordAudit, writeWithAudit } from "../audit/record";
 import { canPublishLesson } from "./publish";
 import { parseLabChecklist } from "./labs";
@@ -52,15 +52,23 @@ export async function createCourse(
 export async function updateCourse(
   actor: SessionUser,
   id: string,
-  patch: { title?: string; description?: string; level?: Level; passMarkPercent?: number; minVideoWatchPercent?: number; requireAssessmentPass?: boolean; departments?: string[] },
+  patch: { title?: string; description?: string; level?: Level; passMarkPercent?: number; minVideoWatchPercent?: number; requireAssessmentPass?: boolean; departments?: string[]; subjectId?: string },
 ): Promise<Result> {
   asAdmin(actor);
   if (patch.minVideoWatchPercent !== undefined && (!Number.isInteger(patch.minVideoWatchPercent) || patch.minVideoWatchPercent < 0 || patch.minVideoWatchPercent > 100)) {
     return { ok: false, error: "Minimum video watched must be 0 to 100%" };
   }
+  if (patch.title !== undefined && !patch.title.trim()) return { ok: false, error: "Title is required" };
+  if (patch.passMarkPercent !== undefined && (!Number.isInteger(patch.passMarkPercent) || patch.passMarkPercent < 1 || patch.passMarkPercent > 100)) {
+    return { ok: false, error: "Pass mark must be between 1 and 100" };
+  }
+  if (patch.subjectId !== undefined && !(await prisma.subject.findUnique({ where: { id: patch.subjectId }, select: { id: true } }))) {
+    return { ok: false, error: "Choose a subject" };
+  }
   await writeWithAudit((tx) => tx.course.update({
     where: { id },
     data: {
+      ...(patch.subjectId !== undefined && { subjectId: patch.subjectId }),
       ...(patch.title !== undefined && { title: patch.title.trim() }),
       ...(patch.description !== undefined && { description: patch.description.trim() || null }),
       ...(patch.level !== undefined && { level: patch.level }),
@@ -288,6 +296,49 @@ export async function deleteCourse(actor: SessionUser, id: string): Promise<Resu
     await recordAudit(tx, { actorId: actor.id, action: "course.delete", entityType: "Course", entityId: id, before: { title: course.title } });
   });
   return { ok: true, id };
+}
+
+// What deleting a course would affect, for the confirmation page.
+export async function courseImpact(id: string) {
+  const [progress, completed, attempts, assignments, paths, lessons] = await Promise.all([
+    prisma.courseProgress.count({ where: { courseId: id } }),
+    prisma.courseProgress.count({ where: { courseId: id, completedAt: { not: null } } }),
+    prisma.assessmentAttempt.count({ where: { period: { assessment: { courseId: id } } } }),
+    prisma.courseAssignment.count({ where: { courseId: id } }),
+    prisma.learningPathCourse.count({ where: { courseId: id, path: { isTemplate: false } } }),
+    prisma.lesson.count({ where: { courseId: id } }),
+  ]);
+  return { progress, completed, attempts, assignments, paths, lessons, hasLearnerRecords: progress > 0 || attempts > 0 };
+}
+
+// Deletes a course from the catalogue. Drafts can always be deleted. A published or archived
+// course can be deleted only if no learner has started it or taken its assessment;
+// otherwise it should be archived, which keeps every learner record.
+export async function deleteCourseSafely(actor: SessionUser, id: string): Promise<Result> {
+  asAdmin(actor);
+  const course = await prisma.course.findUnique({ where: { id }, select: { status: true } });
+  if (!course) return { ok: false, error: "Course not found" };
+  if (course.status !== "DRAFT") {
+    if ((await courseImpact(id)).hasLearnerRecords) {
+      return { ok: false, error: "Learners have records in this course, so it cannot be deleted. Archive it instead: it leaves the catalogue and every learner record is kept." };
+    }
+    await prisma.course.update({ where: { id }, data: { status: "DRAFT" } });
+  }
+  return deleteCourse(actor, id);
+}
+
+// Moves a course to Draft, Published or Archived, applying the publishing rules.
+export async function setCourseStatus(actor: SessionUser, id: string, status: CourseStatus): Promise<Result> {
+  asAdmin(actor);
+  const course = await prisma.course.findUnique({ where: { id }, select: { status: true } });
+  if (!course) return { ok: false, error: "Course not found" };
+  if (course.status === status) return { ok: true, id };
+  if (status === "ARCHIVED") return setCourseArchived(actor, id, true);
+  if (course.status === "ARCHIVED") {
+    const restored = await setCourseArchived(actor, id, false);
+    if (!restored.ok || status === "DRAFT") return restored;
+  }
+  return setCoursePublished(actor, id, status === "PUBLISHED");
 }
 
 // Deleting a lesson removes its progress records with it, so learners' course progress may

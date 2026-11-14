@@ -10,7 +10,7 @@ import { LocalTime } from "../../../../components/LocalTime";
 import { ScheduleSessionForm } from "../../../../components/ScheduleSessionForm";
 import { attachCaptionAction } from "../../../actions/courses";
 import { LessonReorder } from "../../../../components/LessonReorder";
-import { deleteCourseAction, updateCourseAction } from "../../../actions/account";
+import { updateCourseAction } from "../../../actions/account";
 import { assignCourseAction, unassignCourseAction } from "../../../actions/community";
 import { feedbackSummary } from "../../../../lib/community/community";
 
@@ -93,12 +93,7 @@ export default async function CoursePage({
         </fieldset>
         <button type="submit">Save course</button>
       </form>
-      {course.status === "DRAFT" ? (
-        <form action={deleteCourseAction}>
-          <input type="hidden" name="id" value={course.id} />
-          <button type="submit" className="btn-danger">Delete this draft course</button>
-        </form>
-      ) : null}
+      <p className="no-print"><a href={`/admin/courses/${course.id}/modify`}>Modify details and status</a> · <a href={`/admin/courses/${course.id}/delete`} className="danger-link">Delete this course</a></p>
 
       <div className="action-bar">
       {course.status !== "ARCHIVED" ? (

@@ -79,3 +79,28 @@ describe("editing and deleting content", () => {
     expect(await prisma.course.findUnique({ where: { id: draft.id } })).toBeNull();
   });
 });
+
+describe("catalogue modify and delete", () => {
+  it("modifies subject and status, deletes an unused published course, and refuses one with learner records", async () => {
+    const { deleteCourseSafely, setCourseStatus, courseImpact } = await import("./learning/courses");
+    const made = await createCourse(admin, { subjectId, title: `${tag} catalogue`, description: "", level: "BASIC", passMarkPercent: 70 });
+    if (!made.ok || !made.id) throw new Error("setup");
+    const id = made.id;
+    expect(await updateCourse(admin, id, { subjectId: "missing" })).toMatchObject({ ok: false });
+    expect(await updateCourse(admin, id, { title: " " })).toMatchObject({ ok: false });
+    // Publishing needs a lesson.
+    expect(await setCourseStatus(admin, id, "PUBLISHED")).toMatchObject({ ok: false });
+    await prisma.lesson.create({ data: { courseId: id, position: 1, title: "L1", type: "TEXT", body: "x" } });
+    expect((await setCourseStatus(admin, id, "PUBLISHED")).ok).toBe(true);
+    expect((await setCourseStatus(admin, id, "ARCHIVED")).ok).toBe(true);
+    expect((await setCourseStatus(admin, id, "PUBLISHED")).ok).toBe(true);
+    expect((await prisma.course.findUniqueOrThrow({ where: { id } })).status).toBe("PUBLISHED");
+    // A learner starts it: it can no longer be deleted, only archived.
+    await prisma.courseProgress.create({ data: { userId: admin.id, courseId: id } });
+    expect((await courseImpact(id)).hasLearnerRecords).toBe(true);
+    expect(await deleteCourseSafely(admin, id)).toMatchObject({ ok: false });
+    await prisma.courseProgress.deleteMany({ where: { courseId: id } });
+    expect((await deleteCourseSafely(admin, id)).ok).toBe(true);
+    expect(await prisma.course.findUnique({ where: { id } })).toBeNull();
+  });
+});

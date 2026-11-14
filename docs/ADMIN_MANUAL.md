@@ -20,7 +20,13 @@ For L&D and HR administrators. Sign in and open the **Admin portal** (`/admin`).
 
 ## 3. Courses
 
-**Admin portal → Courses**
+**Admin portal → Courses** opens the **course catalogue**: every course in one table with its subject, level, number of lessons, learners (started / completed), the departments it is for, status and last update.
+
+- **Find courses:** click **All**, **Published**, **Draft** or **Archived**; search by title or description; filter by subject, level or department; click a column heading to sort (click again to reverse). 25 courses per page.
+- **Edit** opens the course editor: lessons, modules, files, captions, assignments and feedback.
+- **Modify** opens a short form to change the title, subject, level, pass mark, description, departments and status (Draft, Published or Archived) in one go.
+- **Delete** shows what would be affected (lessons, learners who started or completed it, completion-check attempts, assignments and learning paths) and asks you to tick a box to confirm. A course that learners have started or been tested on cannot be deleted, because that would erase their records; the page offers **Archive** instead, which removes it from the catalogue and keeps every record. Restore an archived course with Modify. Every deletion is recorded in the audit log.
+- **New course** and **Upload a course** are at the top right.
 
 ### Upload a course for your departments
 
