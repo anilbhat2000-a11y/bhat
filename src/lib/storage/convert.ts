@@ -68,9 +68,9 @@ export async function convertStoredFile(storage: FileStorage, sourceKey: string,
   }
 }
 
-// Converts an old-format Office file held in memory (.xls or .doc) to its modern equivalent
-// (.xlsx or .docx), so it can be read by the spreadsheet and Word readers.
-export async function convertOfficeBuffer(data: Buffer, fromExt: "xls" | "doc", toExt: "xlsx" | "docx"): Promise<Buffer> {
+// Converts an Office file held in memory: old formats (.xls, .doc) to their modern equivalent
+// so the spreadsheet and Word readers can read them, or any Office file to PDF.
+export async function convertOfficeBuffer(data: Buffer, fromExt: "xls" | "doc" | "ppt" | "pptx" | "docx" | "xlsx", toExt: "xlsx" | "docx" | "pdf"): Promise<Buffer> {
   const dir = await mkdtemp(join(tmpdir(), "lms-convert-"));
   try {
     const input = join(dir, `input.${fromExt}`);

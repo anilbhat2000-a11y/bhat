@@ -493,3 +493,16 @@ a.btn-outline:hover { background: var(--accent-soft); }
 .file-lesson p { margin-top: 8px; }
 .report-bad { border-left: 5px solid var(--danger); }
 .report-ok { border-left: 5px solid var(--ok); }
+
+/* AI assistant review screens */
+.ai-notes { border-left: 4px solid #d99a00; }
+.ai-two { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; align-items: start; }
+@media (max-width: 900px) { .ai-two { grid-template-columns: 1fr; } }
+.page textarea.ai-body { width: 100%; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 0.86rem; line-height: 1.45; }
+.ai-preview { max-height: 640px; overflow: auto; }
+.ai-lesson { margin: 10px 0; padding: 8px 10px; border: 1px solid var(--border); border-radius: 8px; }
+.ai-lesson > summary { cursor: pointer; font-weight: 600; }
+.ai-questions { padding-left: 20px; }
+.ai-question { margin-bottom: 18px; padding-bottom: 12px; border-bottom: 1px solid var(--border); }
+.ai-question label, .ai-lesson label { display: block; margin: 6px 0; }
+.ai-question textarea { width: 100%; }

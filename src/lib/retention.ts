@@ -10,7 +10,7 @@ export function retentionDays(env: Record<string, string | undefined> = process.
 }
 
 export type PurgeCounts = Record<
-  "periodsAndAttempts" | "expiredCertificates" | "auditEvents" | "notifications" | "announcements" | "coursePosts" | "feedback" | "remedialPlans" | "sessions",
+  "periodsAndAttempts" | "expiredCertificates" | "auditEvents" | "notifications" | "announcements" | "coursePosts" | "feedback" | "remedialPlans" | "aiDrafts" | "sessions",
   number
 >;
 
@@ -31,6 +31,7 @@ export async function purgeOldData(now: Date = new Date(), days: number = retent
       coursePosts: (await tx.coursePost.deleteMany({ where: { ...user, parentId: null, createdAt: { lt: cutoff } } })).count,
       feedback: (await tx.courseFeedback.deleteMany({ where: { ...user, createdAt: { lt: cutoff } } })).count,
       remedialPlans: (await tx.remedialPlan.deleteMany({ where: { ...user, status: "DONE", closedAt: { lt: cutoff } } })).count,
+      aiDrafts: (await tx.aiDraft.deleteMany({ where: { ...(onlyUserIds ? { createdById: { in: onlyUserIds } } : {}), createdAt: { lt: cutoff } } })).count,
       sessions: (await tx.session.deleteMany({ where: { ...user, expiresAt: { lt: now } } })).count,
     };
     // Record what was purged (counts only), so the log shows the policy at work.

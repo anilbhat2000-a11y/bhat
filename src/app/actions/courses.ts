@@ -3,7 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { requireSession } from "../../lib/auth/current-user";
-import { createCourse, addLesson, setCoursePublished, reorderLessons, attachCaption, updateCourse, setCourseStatus, deleteCourseSafely } from "../../lib/learning/courses";
+import { createCourse, addLesson, setCoursePublished, reorderLessons, attachCaption, updateCourse, setCourseStatus, deleteCourseSafely, updateLessonText } from "../../lib/learning/courses";
 import { prisma } from "../../lib/db/client";
 import { addModule, assignLessonModules, deleteModule, setCourseArchived } from "../../lib/learning/modules";
 import type { CourseStatus, Level } from "../../generated/prisma/client";
@@ -199,4 +199,14 @@ export async function archiveFromCatalogueAction(formData: FormData): Promise<vo
   if (!result.ok) back(`/admin/courses/${id}/delete`, result.error, "error");
   revalidatePath("/admin/courses");
   redirect(`/admin/courses?notice=${encodeURIComponent("Course archived. Learner records are kept; restore it any time with Modify.")}`);
+}
+
+export async function updateLessonTextAction(formData: FormData): Promise<void> {
+  const actor = await requireSession();
+  const courseId = text(formData, "courseId");
+  const lessonId = text(formData, "lessonId");
+  const result = await updateLessonText(actor, lessonId, { title: text(formData, "title"), body: text(formData, "body") });
+  if (!result.ok) back(`/admin/courses/${courseId}/lessons/${lessonId}`, result.error, "error");
+  revalidatePath(`/admin/courses/${courseId}`);
+  back(`/admin/courses/${courseId}/lessons/${lessonId}`, "Lesson saved", "notice");
 }

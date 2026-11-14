@@ -16,6 +16,7 @@
     "db:deactivate-demo": "tsx prisma/deactivate-demo.ts"
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "^1.8.0",
     "@prisma/adapter-pg": "7.10.1",
     "@prisma/client": "7.10.1",
     "bcryptjs": "^3.0.3",
@@ -33,7 +34,8 @@
     "react-dom": "19.3.0",
     "recharts": "^3.10.1",
     "tsx": "^4.23.15",
-    "yauzl": "^3.4.0"
+    "yauzl": "^3.4.0",
+    "zod": "^4.6.7"
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.14.0",

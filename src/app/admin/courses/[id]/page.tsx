@@ -203,6 +203,20 @@ export default async function CoursePage({
         lessons={course.lessons.map((l) => ({ id: l.id, title: l.title, type: lessonTypeLabel(l) }))}
       />
 
+      <div className="card no-print" data-test="text-lesson-tools">
+        <h3>Edit text and use the AI assistant</h3>
+        {course.lessons.some((l) => l.type === "TEXT") ? (
+          <ul>
+            {course.lessons.filter((l) => l.type === "TEXT").map((l) => (
+              <li key={l.id}>
+                {l.title} · <a href={`/admin/courses/${course.id}/lessons/${l.id}`}>Edit text</a> · <a href={`/admin/ai?lesson=${l.id}`}>Improve with AI</a>
+              </li>
+            ))}
+          </ul>
+        ) : <p className="muted">This course has no text lessons.</p>}
+        <p><a href={`/admin/ai?course=${course.id}`}>Write completion-check questions with AI</a></p>
+      </div>
+
       {course.modules.length > 0 && course.lessons.length > 0 ? (
         <form data-test="assign-modules" action={assignModulesAction}>
           <h3>Lesson modules</h3>

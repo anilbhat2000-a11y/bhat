@@ -99,6 +99,25 @@ Add an optional due date. Learners see assigned courses with a countdown on thei
 
 **Catalogue shells:** `docs/CATALOGUE.md` lists all 51 planned courses with modules and the content to supply. If the catalogue seed was run, these exist as draft courses with their modules, ready for lessons.
 
+### AI assistant
+
+**Admin portal → AI assistant.** Claude, an AI model by Anthropic, drafts content in the portal's house style (introduction, teaching sections, key terms, real-world example, common mistakes, key takeaways). It is switched off until the server administrator adds `ANTHROPIC_API_KEY` to `.env` (see INSTALL.md). It can:
+
+1. **Create a new course.** Type the topic, choose the subject and level, say who it is for and how many modules, lessons and questions you want. A 3 × 3 course takes two to five minutes; the draft page refreshes itself.
+2. **Improve a lesson.** On a course page, click **Improve with AI** next to a text lesson (or choose a course under *Update existing content*). Say what should change, for example "update for the latest e-invoicing rules" or "simplify for new joiners".
+3. **Write completion-check questions** for a course from its text lessons.
+
+For any of these you can attach a **reference file**: a company policy, process note, datasheet or old slide deck (PDF, Word, PowerPoint, Excel or text, up to 25 MB). The AI then takes company-specific facts from your file. Without one, it writes `[PLACEHOLDER: …]` wherever a company detail (price, approval level, policy) is needed.
+
+**Every result is a draft.** Nothing changes until you review it:
+- Read the **Check these before you apply** box and replace every `[PLACEHOLDER`.
+- Edit any lesson text, untick lessons, questions or links you do not want, and open each source link.
+- Click **Create the course (unpublished)**, **Save over the lesson** or **Add ticked questions**. New courses are saved as drafts: check them on the course page, then publish.
+
+The AI can be wrong. You are responsible for what you publish. Do not attach files containing personal data about employees or customers: requests and files are sent to Anthropic over the internet. Every request, apply and discard is in the audit log, and a lesson's previous text is kept in the log when it is replaced.
+
+**Edit text by hand:** on a course page, **Edit text** next to a text lesson opens an editor with a preview.
+
 ### Learning paths
 
 **Admin portal → Learning paths.** A learning path is a set of courses in a planned order, assigned as one unit, such as a new joiner's first month or an engineer's track.

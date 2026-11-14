@@ -38,6 +38,13 @@ services:
       SESSION_IDLE_MINUTES: ${SESSION_IDLE_MINUTES:-30}
       RETENTION_DAYS: ${RETENTION_DAYS:-365}
       PUBLIC_BASE_URL: ${PUBLIC_BASE_URL:-}
+      # Optional AI assistant (admin only). Without a key it stays switched off and the LMS
+      # needs no internet. With a key, the app calls api.anthropic.com over HTTPS.
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}
+      AI_MODEL: ${AI_MODEL:-claude-opus-5-5}
+      # Only if the server reaches the internet through a company proxy.
+      HTTPS_PROXY: ${HTTPS_PROXY:-}
+      NODE_USE_ENV_PROXY: ${HTTPS_PROXY:+1}
     # Reachable only through Nginx, never directly from the LAN.
     expose:
       - "3000"

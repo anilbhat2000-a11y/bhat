@@ -8,6 +8,7 @@ import { LmsDashboard, parseTab } from "../../components/LmsDashboard";
 import { lmsDashboard, parseDuration } from "../../lib/reports/lms-dashboard";
 
 const SHORTCUTS: { href: string; icon: IconName; title: string; text: string }[] = [
+  { href: "/admin/ai", icon: "spark", title: "AI assistant", text: "Draft a course, improve a lesson, write questions" },
   { href: "/admin/courses/upload", icon: "book", title: "Upload a course", text: "Your own PDFs and videos, for chosen departments" },
   { href: "/admin/courses/bulk", icon: "layers", title: "Bulk upload courses", text: "Many courses from one Excel workbook and files" },
   { href: "/admin/paths/new", icon: "list", title: "Create a learning path", text: "Ready-made or custom, then assign it" },

@@ -385,3 +385,23 @@ export async function deleteLesson(actor: SessionUser, lessonId: string): Promis
   await markCustomised(lesson.courseId);
   return { ok: true, id: lessonId };
 }
+
+// Changes a text lesson's title and content (used by the lesson editor and the AI
+// assistant). The previous text is kept in the audit log, so a change can be undone by hand.
+export async function updateLessonText(actor: SessionUser, lessonId: string, input: { title: string; body: string }): Promise<Result> {
+  asAdmin(actor);
+  const lesson = await prisma.lesson.findUnique({ where: { id: lessonId }, select: { courseId: true, title: true, body: true, type: true } });
+  if (!lesson) return { ok: false, error: "Lesson not found" };
+  if (lesson.type !== "TEXT") return { ok: false, error: "Only text lessons can be edited this way" };
+  const title = input.title.trim();
+  const body = input.body.replace(/\r\n/g, "\n").trim();
+  if (!title) return { ok: false, error: "Title is required" };
+  if (!body) return { ok: false, error: "Text lessons need content" };
+  if (body.length > 200_000) return { ok: false, error: "The lesson is too long (200,000 characters at most). Split it into two lessons." };
+  await writeWithAudit(
+    (tx) => tx.lesson.update({ where: { id: lessonId }, data: { title, body } }),
+    () => ({ actorId: actor.id, action: "lesson.edit", entityType: "Lesson", entityId: lessonId, before: { title: lesson.title, body: lesson.body }, after: { title, body } }),
+  );
+  await markCustomised(lesson.courseId);
+  return { ok: true, id: lessonId };
+}

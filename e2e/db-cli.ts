@@ -32,7 +32,7 @@ async function main(): Promise<void> {
       create: { name: "E2E Subject", slug: "e2e-subject", category: "TECHNICAL" },
     });
   } else if (command === "lesson-id") {
-    const lesson = await prisma.lesson.findFirst({ where: { title: args[0] } });
+    const lesson = await prisma.lesson.findFirst({ where: { title: args[0], ...(args[1] ? { course: { title: args[1] } } : {}) } });
     console.log(lesson?.id ?? "");
   } else if (command === "lesson-course-id") {
     const lesson = await prisma.lesson.findFirst({ where: { title: args[0] } });
@@ -52,6 +52,16 @@ async function main(): Promise<void> {
   } else if (command === "check-id") {
     const a = await prisma.assessment.findFirst({ where: { course: { title: args[0] }, cadence: "ONE_TIME" } });
     console.log(a?.id ?? "");
+  } else if (command === "ai-lesson-draft") {
+    // A finished AI rewrite of the given lesson, as if the AI assistant had written it.
+    const lesson = await prisma.lesson.findUniqueOrThrow({ where: { id: args[0] } });
+    const admin = await prisma.user.findUniqueOrThrow({ where: { email: "admin@example.test" } });
+    const d = await prisma.aiDraft.create({ data: {
+      kind: "LESSON", status: "READY", title: lesson.title, courseId: lesson.courseId, lessonId: lesson.id, createdById: admin.id, model: "test",
+      request: { instruction: "", before: { title: lesson.title, body: lesson.body ?? "" }, source: null },
+      result: { title: "Rewritten by AI", body: "Better intro.\n\n## Key terms\n\n- **SLA**: service level agreement", changes: ["Added key terms"], reviewNotes: ["Check [PLACEHOLDER: SLA hours]"] },
+    } });
+    console.log(d.id);
   } else if (command === "set-active") {
     const [email, value] = args;
     await prisma.user.update({ where: { email }, data: { active: value === "true" } });

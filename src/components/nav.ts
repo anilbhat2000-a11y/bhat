@@ -1,7 +1,7 @@
 // Menu items for each portal. Icons are drawn by Icon.tsx (inline SVG, no web fonts).
 export type IconName =
   | "home" | "chart" | "users" | "book" | "layers" | "check" | "inbox" | "person" | "megaphone"
-  | "shield" | "search" | "award" | "grid" | "calendar" | "id" | "list";
+  | "shield" | "search" | "award" | "grid" | "calendar" | "id" | "list" | "spark";
 
 export type NavItem = { href: string; label: string; icon: IconName; exact?: boolean };
 export type NavGroup = { label: string; items: NavItem[] };
@@ -16,6 +16,7 @@ export const NAV: Record<"admin" | "manager" | "learn", NavGroup[]> = {
     { label: "Learning", items: [
       { href: "/admin/subjects", label: "Subjects", icon: "layers" },
       { href: "/admin/courses", label: "Courses", icon: "book" },
+      { href: "/admin/ai", label: "AI assistant", icon: "spark" },
       { href: "/admin/paths", label: "Learning paths", icon: "list" },
       { href: "/admin/assessments", label: "Assessments", icon: "check" },
       { href: "/admin/grading", label: "Grading queue", icon: "inbox" },

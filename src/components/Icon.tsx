@@ -17,6 +17,7 @@ const PATHS: Record<IconName, string> = {
   grid: "M4 4h7v7H4zM13 4h7v7h-7zM4 13h7v7H4zM13 13h7v7h-7z",
   calendar: "M4 6h16v15H4zM4 10h16M8 3v4M16 3v4",
   id: "M3 5h18v14H3zM7 15.5a2.5 2.5 0 0 1 5 0M9.5 11.5a1.75 1.75 0 1 0 0-3.5 1.75 1.75 0 0 0 0 3.5M14.5 10H18M14.5 14H18",
+  spark: "M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8zM19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8z",
   list: "M8 6h13M8 12h13M8 18h13M3.5 6h.01M3.5 12h.01M3.5 18h.01",
 };
 

@@ -21,7 +21,7 @@ test("an admin builds a course, adds a lesson, and publishes it", async ({ page 
   await page.fill("form[data-test=add-lesson] input[name=title]", "Welcome");
   await page.fill("form[data-test=add-lesson] textarea[name=body]", "Read this first.");
   await page.click("form[data-test=add-lesson] button[type=submit]");
-  await expect(page.getByText("Welcome")).toBeVisible();
+  await expect(page.locator(`li[data-lesson-title="Welcome"]`)).toBeVisible();
 
   await page.click("form[data-test=publish] button[type=submit]");
   await expect(page.getByText("Status: Published")).toBeVisible();

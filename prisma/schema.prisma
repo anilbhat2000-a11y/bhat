@@ -695,3 +695,30 @@ model LearningPathAssignment {
   @@unique([pathId, targetType, targetValue])
   @@map("learning_path_assignments")
 }
+
+// A piece of content written by the AI assistant, waiting for an admin to review it.
+// Nothing reaches learners until an admin applies the draft (and publishes the course).
+//   kind:   COURSE (a new course: modules, lessons, questions), LESSON (a rewrite of one
+//           text lesson) or QUESTIONS (completion-check questions for a course).
+//   status: GENERATING, READY, FAILED, APPLIED or DISCARDED.
+model AiDraft {
+  id          String    @id @default(cuid())
+  kind        String
+  status      String    @default("GENERATING")
+  title       String
+  courseId    String?   @map("course_id")
+  lessonId    String?   @map("lesson_id")
+  request     Json
+  result      Json?
+  error       String?
+  model       String?
+  inputTokens  Int?     @map("input_tokens")
+  outputTokens Int?     @map("output_tokens")
+  createdById String    @map("created_by_id")
+  createdAt   DateTime  @default(now()) @map("created_at")
+  updatedAt   DateTime  @updatedAt @map("updated_at")
+  appliedAt   DateTime? @map("applied_at")
+
+  @@index([createdAt])
+  @@map("ai_drafts")
+}

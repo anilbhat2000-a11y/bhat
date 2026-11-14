@@ -66,6 +66,8 @@ Edit `.env` and set at least these values:
 | `BACKUP_HOST_DIR` | Where backups are written on the server. Use a second disk or a mounted NAS if possible. |
 | `APP_REPLICAS` | Number of app processes. Keep 3 for an 8 vCPU server. |
 | `RETENTION_DAYS` | Data older than this is deleted (company policy: 365). |
+| `ANTHROPIC_API_KEY` | Optional. Switches on the admin **AI assistant**. Create a key at console.anthropic.com (billed by Anthropic). Leave empty to keep it off; the LMS then needs no internet. With a key, the server must reach `api.anthropic.com` on port 443. |
+| `HTTPS_PROXY` | Optional. Only if the server reaches the internet through a company proxy, for example `http://proxy.company.in:8080`. |
 | `TZ` | Time zone for the backup schedule and server messages. Default `Asia/Kolkata`. |
 
 To generate random values:
@@ -214,4 +216,7 @@ Disconnect the server's internet (or block outbound traffic at the firewall) and
 | No reminder emails | Check `SMTP_URL`, and `docker compose logs scheduler`. |
 | Uploads fail for large videos | The limit is `MAX_UPLOAD_MB_VIDEO` (default 500 MB). Nginx allows up to 4 GB on upload routes, for bulk uploads. |
 | A PowerPoint, Word, Excel, MOV or MKV lesson stays "converting" or shows "could not be converted" | The Docker image includes LibreOffice and ffmpeg. Check `docker compose logs app` for "lesson conversion failed". Very large or password-protected files cannot be converted; learners can still download the original. |
+| AI assistant says it is switched off | `ANTHROPIC_API_KEY` is empty in `.env`. Add it, then run `docker compose up -d`. |
+| AI draft fails with "could not reach api.anthropic.com" | Allow outbound HTTPS to `api.anthropic.com` at the firewall, or set `HTTPS_PROXY`. |
+| AI draft fails with "API key is not valid" or "limit was reached" | Check the key and the account's billing and limits at console.anthropic.com. |
 | Backup container keeps restarting | `BACKUP_PASSPHRASE` is missing from `.env`. |
