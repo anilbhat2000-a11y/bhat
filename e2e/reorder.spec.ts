@@ -20,10 +20,12 @@ test("an admin drags a lesson above another, and the new order is kept", async (
     await page.fill("form[data-test=add-lesson] input[name=title]", t);
     await page.fill("form[data-test=add-lesson] textarea[name=body]", "Text");
     await page.click("form[data-test=add-lesson] button[type=submit]");
-    await expect(page.getByText("Lesson added")).toBeVisible();
+    await expect(page.locator(`ol[data-test=lesson-list] li[data-lesson-title="${t}"]`)).toBeVisible();
   }
   const second = page.locator("li[data-lesson-title='Second lesson']");
   const first = page.locator("li[data-lesson-title='First lesson']");
+  // Both rows must be on screen: the page stays scrolled down at the form after adding a lesson.
+  await page.locator("ol[data-test=lesson-list]").evaluate((el) => el.scrollIntoView({ block: "center" }));
   await second.dragTo(first);
   await expect(page.locator("ol[data-test=lesson-list] li").first()).toHaveAttribute("data-lesson-title", "Second lesson");
   await page.reload();

@@ -199,6 +199,7 @@ export default async function CoursePage({
 
       <h2 id="lessons">Lessons</h2>
       <LessonReorder
+        key={course.lessons.map((l) => `${l.id}:${l.title}:${l.type}`).join("|")}
         courseId={course.id}
         lessons={course.lessons.map((l) => ({ id: l.id, title: l.title, type: lessonTypeLabel(l) }))}
       />
