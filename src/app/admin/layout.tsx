@@ -1,12 +1,20 @@
 import { Suspense } from "react";
 import { PortalGate } from "../../components/PortalGate";
 import { PortalHeader } from "../../components/PortalHeader";
+import { SideNav } from "../../components/SideNav";
 
-export default function AdminLayout({ children }: { children: React.ReactNode }) {
+export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <Suspense fallback={null}>
-      <PortalHeader home="/admin" />
-      <PortalGate allowed={["ADMIN"]}>{children}</PortalGate>
+      <div className="shell">
+        <PortalHeader portal="admin" />
+        <div className="shell-body">
+          <SideNav portal="admin" />
+          <div className="shell-main">
+            <PortalGate allowed={["ADMIN"]}>{children}</PortalGate>
+          </div>
+        </div>
+      </div>
     </Suspense>
   );
 }

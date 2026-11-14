@@ -10,7 +10,7 @@ export default async function AuditPage({ searchParams }: { searchParams: Promis
   const events = await listAudit({ entityType: entityType || undefined, limit: 200 });
   const actors = new Map((await prisma.user.findMany({ where: { id: { in: [...new Set(events.map((e) => e.actorId))] } }, select: { id: true, name: true } })).map((u) => [u.id, u.name]));
   return (
-    <main style={{ padding: "16px", fontFamily: "system-ui, sans-serif" }}>
+    <main className="page">
       <h1>Audit log</h1>
       <form>
         <label>Entity type <input aria-label="User, Course, Assessment" name="entityType" defaultValue={entityType ?? ""} placeholder="User, Course, Assessment" /></label>{" "}

@@ -10,7 +10,7 @@ export default async function CataloguePage() {
   const user = await requireSession();
   const groups = await listCatalogue(user);
   return (
-    <main style={{ padding: "16px", fontFamily: "system-ui, sans-serif" }}>
+    <main className="page">
       <h1>Course catalogue</h1>
       {groups.map((g) => (
         <section key={g.category}>

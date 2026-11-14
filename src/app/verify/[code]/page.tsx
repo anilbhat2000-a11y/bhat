@@ -18,7 +18,7 @@ async function VerifyContent({ params }: { params: Promise<{ code: string }> }) 
   const cert = await prisma.certification.findUnique({ where: { verificationCode: code.toUpperCase() }, include: { user: true, subject: true } });
   if (!cert) {
     return (
-      <main style={{ padding: "16px", fontFamily: "system-ui, sans-serif" }}>
+      <main className="page">
         <h1>No certificate matches this code</h1>
       </main>
     );
@@ -28,7 +28,7 @@ async function VerifyContent({ params }: { params: Promise<{ code: string }> }) 
     new Date(),
   );
   return (
-    <main style={{ padding: "16px", fontFamily: "system-ui, sans-serif" }}>
+    <main className="page">
       <h1>{v.valid ? "Valid certificate" : "Expired certificate"}</h1>
       <p>Holder: {v.holderName}</p>
       <p>Subject: {v.subject} ({v.level.toLowerCase()})</p>

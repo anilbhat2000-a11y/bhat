@@ -10,7 +10,7 @@ export default async function GradingQueuePage({ searchParams }: { searchParams:
   const { notice } = await searchParams;
   const queue = await gradingQueue(actor);
   return (
-    <main style={{ padding: "16px", fontFamily: "system-ui, sans-serif" }}>
+    <main className="page">
       <h1>Grading queue</h1>
       <p>Attempts with short answers wait here until a reviewer marks them. The oldest are first.</p>
       {notice ? <p role="status">{notice}</p> : null}

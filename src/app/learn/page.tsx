@@ -53,7 +53,7 @@ export default async function LearnHome() {
   const open = periods.filter((p) => p.status === "OPEN" || p.status === "OVERDUE").slice(0, 10);
 
   return (
-    <main style={{ padding: "16px", fontFamily: "system-ui, sans-serif" }}>
+    <main className="page">
       <h1>Your learning</h1>
       <form method="get" action="/learn/search" role="search" className="no-print">
         <label>Search courses <input type="search" name="q" minLength={2} required /></label> <button type="submit">Search</button>
@@ -68,12 +68,12 @@ export default async function LearnHome() {
           </ul>
         </section>
       ) : null}
-      <ul>
-        <li>Due this week: {summary.thisWeek}</li>
-        <li>Due this month: {summary.thisMonth}</li>
-        <li>Due this year: {summary.thisYear}</li>
-        <li>Overdue: {summary.overdue}</li>
-      </ul>
+      <section aria-label="Assessments due" className="tiles">
+        <div className="tile is-blue"><div className="tile-value">{summary.thisWeek}</div><div className="tile-label">Due this week</div></div>
+        <div className="tile is-green"><div className="tile-value">{summary.thisMonth}</div><div className="tile-label">Due this month</div></div>
+        <div className="tile"><div className="tile-value">{summary.thisYear}</div><div className="tile-label">Due this year</div></div>
+        <div className={summary.overdue > 0 ? "tile is-red" : "tile"}><div className="tile-value">{summary.overdue}</div><div className="tile-label">Overdue</div></div>
+      </section>
       {remedials.length > 0 ? (
         <>
           <h2>Remedial training</h2>

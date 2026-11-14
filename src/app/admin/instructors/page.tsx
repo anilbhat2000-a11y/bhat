@@ -9,7 +9,7 @@ export default async function InstructorsPage({ searchParams }: { searchParams: 
   const { error, notice } = await searchParams;
   const instructors = await prisma.instructor.findMany({ orderBy: { name: "asc" } });
   return (
-    <main style={{ padding: "16px", fontFamily: "system-ui, sans-serif" }}>
+    <main className="page">
       <h1>Instructors</h1>
       {error ? <p role="alert">{error}</p> : null}
       {notice ? <p role="status">{notice}</p> : null}

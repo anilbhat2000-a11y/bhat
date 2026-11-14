@@ -67,7 +67,7 @@ export default async function LearnCoursePage({
   const checkedByLesson = new Map(progressRows.map((p) => [p.lessonId, (p.checkedItemIds as string[] | undefined) ?? []]));
 
   return (
-    <main style={{ padding: "16px", fontFamily: "system-ui, sans-serif" }}>
+    <main className="page">
       <h1>{course.title}</h1>
       <p>{course.description}</p>
       <p>Progress: {percent}%{minutes > 0 ? ` · about ${formatMinutes(minutes)} in total` : ""}</p>

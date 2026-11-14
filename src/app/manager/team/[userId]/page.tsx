@@ -40,7 +40,7 @@ export default async function MemberPage({
   const removable = new Map(myAssignments.map((a) => [a.courseId, a.id]));
 
   return (
-    <main style={{ padding: "16px", fontFamily: "system-ui, sans-serif" }}>
+    <main className="page">
       <h1>{detail.name}</h1>
       <p>{detail.email}{detail.department ? ` · ${detail.department}` : ""}</p>
       {notice ? <p role="status">{notice}</p> : null}

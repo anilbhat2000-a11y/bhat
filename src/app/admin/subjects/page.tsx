@@ -11,7 +11,7 @@ export default async function SubjectsPage({ searchParams }: { searchParams: Pro
   const subjects = await prisma.subject.findMany({ orderBy: { name: "asc" } });
 
   return (
-    <main style={{ padding: "16px", fontFamily: "system-ui, sans-serif" }}>
+    <main className="page">
       <h1>Subjects</h1>
       {error ? <p role="alert">{error}</p> : null}
       {notice ? <p role="status">{notice}</p> : null}

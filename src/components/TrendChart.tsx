@@ -5,7 +5,7 @@ import { CartesianGrid, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YA
 // Course completions per month. The same numbers are in the table beside it.
 export function TrendChart({ data }: { data: { month: string; completions: number }[] }) {
   return (
-    <div style={{ width: "100%", maxWidth: 640, height: 240 }} aria-hidden="true">
+    <div style={{ width: "100%", maxWidth: 640, height: 240 }} role="img" aria-label="Line chart of course completions per month. The same numbers are in the table above.">
       <ResponsiveContainer>
         <LineChart data={data}>
           <CartesianGrid strokeDasharray="3 3" />

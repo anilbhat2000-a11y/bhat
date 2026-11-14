@@ -7,7 +7,7 @@ export default async function CertificationsPage() {
   const user = await requireSession();
   const rows = await myCertifications(user.id);
   return (
-    <main style={{ padding: "16px", fontFamily: "system-ui, sans-serif" }}>
+    <main className="page">
       <h1>My certifications</h1>
       {rows.length === 0 ? <p>No certifications yet.</p> : (
         <table>

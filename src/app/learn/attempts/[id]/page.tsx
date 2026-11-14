@@ -22,7 +22,7 @@ export default async function AttemptPage({
 
   if (attempt.status !== "IN_PROGRESS") {
     return (
-      <main style={{ padding: "16px", fontFamily: "system-ui, sans-serif" }}>
+      <main className="page">
         <h1>{attempt.title}</h1>
         {attempt.status === "SUBMITTED" ? (
           <>
@@ -97,7 +97,7 @@ export default async function AttemptPage({
   );
 
   return (
-    <main style={{ padding: "16px", fontFamily: "system-ui, sans-serif" }}>
+    <main className="page">
       <h1>{attempt.title}</h1>
       {attempt.expiresAt ? <AttemptTimer formId="attempt-form" endsAtIso={attempt.expiresAt.toISOString()} /> : null}
       {error ? <p role="alert">{error}</p> : null}

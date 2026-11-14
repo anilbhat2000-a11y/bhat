@@ -20,7 +20,7 @@ export default async function ManagerSessionsPage({ searchParams }: { searchPara
   for (const r of rows) bySession.set(r.liveSessionId, [...(bySession.get(r.liveSessionId) ?? []), r]);
 
   return (
-    <main style={{ padding: "16px", fontFamily: "system-ui, sans-serif" }}>
+    <main className="page">
       <h1>Team sessions</h1>
       {error ? <p role="alert">{error}</p> : null}
       {notice ? <p role="status">{notice}</p> : null}

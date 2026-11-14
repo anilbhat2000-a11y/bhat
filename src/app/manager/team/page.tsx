@@ -8,7 +8,7 @@ export default async function TeamPage() {
   const viewer = await requireSession();
   const members = await teamMembers(viewer);
   return (
-    <main style={{ padding: "16px", fontFamily: "system-ui, sans-serif" }}>
+    <main className="page">
       <h1>My team</h1>
       <p><Link href="/manager/team/summary">Team certifications</Link> · <Link href="/manager/sessions">Team sessions</Link></p>
       {members.length === 0 ? <p>No one reports to you yet.</p> : (

@@ -14,7 +14,7 @@ export default async function AssessmentsPage({ searchParams }: { searchParams: 
   ]);
 
   return (
-    <main style={{ padding: "16px", fontFamily: "system-ui, sans-serif" }}>
+    <main className="page">
       <h1>Assessments</h1>
       {error ? <p role="alert">{error}</p> : null}
       <ul>

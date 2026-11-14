@@ -51,7 +51,7 @@ export default async function AdminDashboard({ searchParams }: { searchParams: P
   ].filter(Boolean).join(", ");
 
   return (
-    <main style={{ padding: "16px", fontFamily: "system-ui, sans-serif" }}>
+    <main className="page">
       <h1>Dashboard</h1>
       <p>Showing: {described}. Counts include active users only. The period applies to issue, completion and submit dates; overdue work and the expiry forecast are as of today.</p>
 

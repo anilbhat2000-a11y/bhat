@@ -2,27 +2,66 @@ import { connection } from "next/server";
 import Link from "next/link";
 import { guardPortal } from "../../lib/auth/portal";
 import { prisma } from "../../lib/db/client";
+import { Icon } from "../../components/Icon";
+import type { IconName } from "../../components/nav";
+
+const SHORTCUTS: { href: string; icon: IconName; title: string; text: string }[] = [
+  { href: "/admin/users", icon: "users", title: "Users", text: "Add people, import a CSV, set managers" },
+  { href: "/admin/courses", icon: "book", title: "Courses", text: "Build courses, modules and lessons" },
+  { href: "/admin/assessments", icon: "check", title: "Assessments", text: "Weekly, monthly and annual tests" },
+  { href: "/admin/grading", icon: "inbox", title: "Grading queue", text: "Mark short answers" },
+  { href: "/admin/dashboard", icon: "chart", title: "Dashboard", text: "Certifications, completion, pass rates" },
+  { href: "/admin/announcements", icon: "megaphone", title: "Announcements", text: "Tell staff about new courses" },
+  { href: "/admin/audit", icon: "shield", title: "Audit log", text: "Every change, who and when" },
+  { href: "/learn/search", icon: "search", title: "Search", text: "Courses, lessons and questions" },
+];
 
 export default async function AdminHome() {
   await connection();
-  await guardPortal(["ADMIN"]);
-  const waiting = await prisma.assessmentAttempt.count({ where: { status: "AWAITING_GRADING" } });
+  const user = await guardPortal(["ADMIN"]);
+  const now = new Date();
+  const [people, courses, assessments, waiting, overdue, certified] = await Promise.all([
+    prisma.user.count({ where: { active: true } }),
+    prisma.course.count({ where: { status: "PUBLISHED" } }),
+    prisma.assessment.count({ where: { published: true } }),
+    prisma.assessmentAttempt.count({ where: { status: "AWAITING_GRADING" } }),
+    prisma.assessmentPeriod.count({ where: { status: "OVERDUE", user: { active: true } } }),
+    prisma.certification.count({ where: { expiresAt: { gt: now }, user: { active: true } } }),
+  ]);
+  const stats: { value: number; label: string; tone: string; href: string }[] = [
+    { value: people, label: "Active users", tone: "is-blue", href: "/admin/users" },
+    { value: courses, label: "Published courses", tone: "is-green", href: "/admin/courses" },
+    { value: assessments, label: "Published assessments", tone: "", href: "/admin/assessments" },
+    { value: certified, label: "Valid certificates", tone: "is-green", href: "/admin/dashboard" },
+    { value: waiting, label: "Waiting to be graded", tone: waiting > 0 ? "is-red" : "", href: "/admin/grading" },
+    { value: overdue, label: "Overdue assessments", tone: overdue > 0 ? "is-red" : "", href: "/admin/dashboard" },
+  ];
+
   return (
-    <main style={{ padding: "16px", fontFamily: "system-ui, sans-serif" }}>
-      <h1>Admin portal</h1>
-      <nav>
-        <ul>
-          <li><Link href="/admin/users">Users</Link></li>
-          <li><Link href="/admin/subjects">Subjects</Link></li>
-          <li><Link href="/admin/instructors">Instructors</Link></li>
-          <li><Link href="/admin/courses">Courses</Link></li>
-          <li><Link href="/admin/assessments">Assessments</Link></li>
-          <li><Link href="/admin/grading">Grading queue</Link> ({waiting} waiting)</li>
-          <li><Link href="/admin/dashboard">Dashboard</Link></li>
-          <li><Link href="/admin/announcements">Announcements</Link></li>
-          <li><Link href="/admin/audit">Audit log</Link></li>
-          <li><Link href="/learn/search">Search courses, lessons and questions</Link></li>
-        </ul>
+    <main className="page">
+      <h1>Welcome, {user.name.split(" ")[0]}</h1>
+      <p>Here is the state of learning across the company today.</p>
+
+      <section aria-label="Key figures" className="tiles">
+        {stats.map((s) => (
+          <Link key={s.label} href={s.href} className={`tile tile-link ${s.tone}`} style={{ flexDirection: "column", gap: 0 }}>
+            <span className="tile-value" style={{ color: "var(--text)", fontSize: "1.9rem" }}>{s.value}</span>
+            <span className="tile-label">{s.label}</span>
+          </Link>
+        ))}
+      </section>
+
+      <h2>Quick actions</h2>
+      <nav aria-label="Admin shortcuts" className="tiles">
+        {SHORTCUTS.map((s) => (
+          <Link key={s.href} href={s.href} className="tile tile-link">
+            <Icon name={s.icon} size={24} />
+            <span>
+              <strong style={{ color: "var(--text)", fontSize: "1rem" }}>{s.title}</strong>
+              <span>{s.text}</span>
+            </span>
+          </Link>
+        ))}
       </nav>
     </main>
   );

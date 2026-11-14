@@ -10,7 +10,7 @@ export default async function SearchPage({ searchParams }: { searchParams: Promi
   const results = await search(user, q);
   const total = results.courses.length + results.lessons.length + results.questions.length;
   return (
-    <main style={{ padding: "16px", fontFamily: "system-ui, sans-serif" }}>
+    <main className="page">
       <h1>Search</h1>
       <form method="get" role="search">
         <label>Search courses and lessons{user.role === "ADMIN" ? ", and the question bank" : ""}{" "}

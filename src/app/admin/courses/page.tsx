@@ -13,7 +13,7 @@ export default async function CoursesPage({ searchParams }: { searchParams: Prom
   ]);
 
   return (
-    <main style={{ padding: "16px", fontFamily: "system-ui, sans-serif" }}>
+    <main className="page">
       <h1>Courses</h1>
       {error ? <p role="alert">{error}</p> : null}
       <ul>

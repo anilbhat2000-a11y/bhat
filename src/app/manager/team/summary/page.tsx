@@ -21,7 +21,7 @@ export default async function TeamSummaryPage() {
   const subjects = certsBySubject(latestPerPerson(rows).map((r) => ({ subject: r.subject, level: r.level, expiresAt: r.expiresAt })), now);
 
   return (
-    <main style={{ padding: "16px", fontFamily: "system-ui, sans-serif" }}>
+    <main className="page">
       <h1>Team certifications</h1>
       <p className="no-print"><a href="/api/export/team">Download team CSV</a> <PrintButton /></p>
 

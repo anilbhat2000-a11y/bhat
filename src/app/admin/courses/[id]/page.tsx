@@ -53,9 +53,10 @@ export default async function CoursePage({
   ) : null;
 
   return (
-    <main style={{ padding: "16px", fontFamily: "system-ui, sans-serif" }}>
+    <main className="page">
       <h1>{course.title}</h1>
       <p>Status: {STATUS_LABEL[course.status]}</p>
+      <nav className="subnav" aria-label="Sections on this page"><a href="#assignments">Assignments</a><a href="#feedback">Feedback</a><a href="#modules">Modules</a><a href="#lessons">Lessons</a><a href="#add-lesson">Add lesson</a><a href="#upload">Upload file</a></nav>
       {error ? <p role="alert">{error}</p> : null}
       {notice ? <p role="status">{notice}</p> : null}
 
@@ -85,10 +86,11 @@ export default async function CoursePage({
       {course.status === "DRAFT" ? (
         <form action={deleteCourseAction}>
           <input type="hidden" name="id" value={course.id} />
-          <button type="submit">Delete this draft course</button>
+          <button type="submit" className="btn-danger">Delete this draft course</button>
         </form>
       ) : null}
 
+      <div className="action-bar">
       {course.status !== "ARCHIVED" ? (
         <form data-test="publish" action={setPublishedAction}>
           <input type="hidden" name="courseId" value={course.id} />
@@ -99,10 +101,11 @@ export default async function CoursePage({
       <form action={setArchivedAction}>
         <input type="hidden" name="courseId" value={course.id} />
         <input type="hidden" name="archived" value={course.status === "ARCHIVED" ? "false" : "true"} />
-        <button type="submit">{course.status === "ARCHIVED" ? "Restore to draft" : "Archive (retire) this course"}</button>
+        <button type="submit" className={course.status === "ARCHIVED" ? "" : "btn-danger"}>{course.status === "ARCHIVED" ? "Restore to draft" : "Archive (retire) this course"}</button>
       </form>
+      </div>
 
-      <h2>Assignments</h2>
+      <h2 id="assignments">Assignments</h2>
       <p>Make this course mandatory for a person, a whole department, or everyone with a job title. Department and job-title assignments include people who join later. Learners see assigned courses and due dates on their home page, and get reminders 3 days before, on the day, and when overdue.</p>
       {course.status !== "PUBLISHED" ? <p>Publish the course before assigning it.</p> : (
         <form data-test="assign-course" action={assignCourseAction}>
@@ -146,7 +149,7 @@ export default async function CoursePage({
         </ul>
       )}
 
-      <h2>Learner feedback</h2>
+      <h2 id="feedback">Learner feedback</h2>
       {feedback.count === 0 ? <p>No feedback yet.</p> : (
         <>
           <p>{feedback.count} response{feedback.count === 1 ? "" : "s"}, average usefulness {feedback.average} of 5.</p>
@@ -155,7 +158,7 @@ export default async function CoursePage({
       )}
       {course.status !== "DRAFT" ? <p><a href={`/learn/courses/${course.id}#qa`}>Open the course Q&amp;A to answer or moderate questions</a></p> : null}
 
-      <h2>Modules</h2>
+      <h2 id="modules">Modules</h2>
       <p>Group lessons into modules. Learners see the modules in this order, each with its estimated time.</p>
       {course.modules.length > 0 ? (
         <ol>
@@ -178,7 +181,7 @@ export default async function CoursePage({
         <button type="submit">Add module</button>
       </form>
 
-      <h2>Lessons</h2>
+      <h2 id="lessons">Lessons</h2>
       <LessonReorder
         courseId={course.id}
         lessons={course.lessons.map((l) => ({ id: l.id, title: l.title, type: l.type + (l.type === "VIDEO" ? (l.captionFileKey ? ", captions added" : ", captions needed to publish") : "") }))}
@@ -201,7 +204,7 @@ export default async function CoursePage({
         </form>
       ) : null}
 
-      <h2>Add a text, link, lab, or live session lesson</h2>
+      <h2 id="add-lesson">Add a text, link, lab, or live session lesson</h2>
       <p>For a lab, the text is the instructions, with one '- [ ] step' line per checklist item.</p>
       <form data-test="add-lesson" action={addLessonAction}>
         <input type="hidden" name="courseId" value={course.id} />
@@ -249,7 +252,7 @@ export default async function CoursePage({
         </form>
       ))}
 
-      <h2>Upload a file lesson</h2>
+      <h2 id="upload">Upload a file lesson</h2>
       <form data-test="upload-lesson" action="/api/upload/lesson" method="post" encType="multipart/form-data">
         <input type="hidden" name="courseId" value={course.id} />
         <input aria-label="Title" name="title" placeholder="Title" required />{" "}

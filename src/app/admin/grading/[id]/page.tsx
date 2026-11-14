@@ -21,7 +21,7 @@ export default async function GradeAttemptPage({
   const open = view.status === "AWAITING_GRADING" && !view.ownAttempt;
 
   return (
-    <main style={{ padding: "16px", fontFamily: "system-ui, sans-serif" }}>
+    <main className="page">
       <h1>Grade: {view.assessment}</h1>
       <p>Learner: {view.learner} · Pass mark {view.passMarkPercent}%</p>
       {error ? <p role="alert">{error}</p> : null}

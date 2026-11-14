@@ -38,8 +38,9 @@ export default async function AssessmentPage({
   });
 
   return (
-    <main style={{ padding: "16px", fontFamily: "system-ui, sans-serif" }}>
+    <main className="page">
       <h1>{assessment.title}</h1>
+      <nav className="subnav" aria-label="Sections on this page"><a href="#questions">Questions</a><a href="#settings">Settings</a><a href="#add-question">Add question</a><a href="#import">Import CSV</a><a href="#periods">Learner periods</a><a href="#assigned">Assigned to</a></nav>
       <p>Status: {assessment.published ? "Published" : "Draft"} · {assessment.cadence} · pass mark {assessment.passMarkPercent}%</p>
       {error ? <p role="alert">{error}</p> : null}
       {notice ? <p role="status">{notice}</p> : null}
@@ -50,7 +51,7 @@ export default async function AssessmentPage({
         <button type="submit">{assessment.published ? "Unpublish" : "Publish"}</button>
       </form>
 
-      <h2>Questions ({assessment.questions.length})</h2>
+      <h2 id="questions">Questions ({assessment.questions.length})</h2>
       <ol>
         {assessment.questions.map((q) => (
           <li key={q.id}>
@@ -63,7 +64,7 @@ export default async function AssessmentPage({
         ))}
       </ol>
 
-      <h2>Settings</h2>
+      <h2 id="settings">Settings</h2>
       <form action={updateSettingsAction}>
         <input type="hidden" name="assessmentId" value={assessment.id} />
         <label>Pass mark <input name="passMarkPercent" type="number" min={1} max={100} defaultValue={assessment.passMarkPercent} /></label>{" "}
@@ -84,7 +85,7 @@ export default async function AssessmentPage({
         <button type="submit">Save settings</button>
       </form>
 
-      <h2>Add a question</h2>
+      <h2 id="add-question">Add a question</h2>
       <details>
         <summary>How to fill in each question type</summary>
         <ul>
@@ -116,7 +117,7 @@ export default async function AssessmentPage({
         <button type="submit">Add question</button>
       </form>
 
-      <h2>Import questions (CSV)</h2>
+      <h2 id="import">Import questions (CSV)</h2>
       <p>Columns: type, text, options, correct, points, and optionally scenario and explanation. Options and correct numbers are separated by |. Types: SINGLE, MULTIPLE, TRUE_FALSE, FILL_BLANK, MATCHING, SHORT_ANSWER.</p>
       <form data-test="import-questions" action={importQuestionsAction}>
         <input type="hidden" name="assessmentId" value={assessment.id} />
@@ -125,7 +126,7 @@ export default async function AssessmentPage({
         <button type="submit">Import</button>
       </form>
 
-      <h2>Learner periods</h2>
+      <h2 id="periods">Learner periods</h2>
       {periods.length === 0 ? <p>No one has an open period yet.</p> : (
         <ul>
           {periods.map((p) => (
@@ -142,7 +143,7 @@ export default async function AssessmentPage({
         </ul>
       )}
 
-      <h2>Assigned to</h2>
+      <h2 id="assigned">Assigned to</h2>
       <p>{assessment.assignments.map((a) => `${a.targetType}${a.targetValue ? `: ${a.targetValue}` : ""}`).join(", ") || "Nobody yet"}</p>
       <form action={setAssignmentAction}>
         <input type="hidden" name="assessmentId" value={assessment.id} />

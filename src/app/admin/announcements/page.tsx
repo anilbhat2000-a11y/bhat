@@ -14,7 +14,7 @@ export default async function AnnouncementsPage({ searchParams }: { searchParams
     prisma.user.findMany({ where: { active: true, department: { not: null } }, select: { department: true }, distinct: ["department"] }),
   ]);
   return (
-    <main style={{ padding: "16px", fontFamily: "system-ui, sans-serif" }}>
+    <main className="page">
       <h1>Announcements</h1>
       <p>Announcements appear on everyone&apos;s home page (or one department&apos;s). Tick the email box to also send them by email through the company mail server.</p>
       {error ? <p role="alert">{error}</p> : null}

@@ -21,7 +21,7 @@ export default async function UserPage({
   const managers = await prisma.user.findMany({ where: { role: { not: "EMPLOYEE" }, NOT: { id } }, orderBy: { name: "asc" } });
 
   return (
-    <main style={{ padding: "16px", fontFamily: "system-ui, sans-serif" }}>
+    <main className="page">
       <h1>{user.name}</h1>
       {error ? <p role="alert">{error}</p> : null}
       {notice ? <p role="status">{notice}</p> : null}

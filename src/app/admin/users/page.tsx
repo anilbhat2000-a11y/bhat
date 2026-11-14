@@ -14,7 +14,7 @@ export default async function UsersPage({ searchParams }: { searchParams: Promis
   const managers = users.filter((u) => u.role !== "EMPLOYEE");
 
   return (
-    <main style={{ padding: "16px", fontFamily: "system-ui, sans-serif" }}>
+    <main className="page">
       <h1>Users</h1>
       {error ? <p role="alert">{error}</p> : null}
       {notice ? <p role="status">{notice}</p> : null}
@@ -26,10 +26,10 @@ export default async function UsersPage({ searchParams }: { searchParams: Promis
             <tr key={u.id}>
               <td><a href={`/admin/users/${u.id}`}>{u.name}</a></td>
               <td>{u.email}</td>
-              <td>{u.role}</td>
+              <td><span className="badge">{u.role.charAt(0) + u.role.slice(1).toLowerCase()}</span></td>
               <td>{u.department ?? ""}</td>
               <td>{u.manager?.name ?? ""}</td>
-              <td>{u.active ? "Active" : "Deactivated"}</td>
+              <td><span className={u.active ? "badge badge-ok" : "badge badge-off"}>{u.active ? "Active" : "Deactivated"}</span></td>
             </tr>
           ))}
         </tbody>

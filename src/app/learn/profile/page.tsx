@@ -23,7 +23,7 @@ export default async function ProfilePage({ searchParams }: { searchParams: Prom
   const lang = [...user.profileLanguages, null, null, null].slice(0, 3);
 
   return (
-    <main style={{ padding: "16px", fontFamily: "system-ui, sans-serif" }}>
+    <main className="page">
       <h1>My profile</h1>
       {error ? <p role="alert">{error}</p> : null}
       {notice ? <p role="status">{notice}</p> : null}
