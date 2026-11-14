@@ -11,25 +11,25 @@
       "position": 1,
       "title": "Lead with the insight",
       "type": "TEXT",
-      "body": "An insight is a finding that changes what someone should do. A chart shows data; an insight says what it means. Compare:\n\n- Weak: 'Here is the regional sales chart.'\n- Better: 'Sales in the north fell 18 percent after the price change, while the south held steady. We should review the north pricing before next quarter.'\n\nState the insight in the first sentence. Executives and busy colleagues often read only the headline, so make it complete."
+      "body": "Busy decision makers want the answer first. Leading with the insight, the main finding and what it means, respects their time and makes your analysis more likely to drive action.\n\n## What an insight is\n\nAn insight is more than a number. It combines:\n\n- **What happened:** the finding, such as \"Billing outages fell 40% at branches with dual links.\"\n- **Why it matters:** the business impact, such as \"This protects daily collections.\"\n- **What to do:** the recommended action, such as \"Extend dual links to the remaining 60 branches.\"\n\n## Leading with the insight\n\n- Start presentations, emails and reports with a one- or two-sentence summary of the insight and recommendation.\n- Follow with supporting evidence.\n- Keep details and methods for later sections or an appendix.\n\nThis \"answer first\" approach, often called the pyramid principle in consulting, helps readers grasp the message even if they read only the beginning.\n\n## Key terms\n\n- **Insight:** a finding plus its meaning and implications.\n- **Executive summary:** a short opening that states the insight and recommendation.\n- **Answer first:** presenting the conclusion before the supporting detail.\n\n## Real-world example\n\nAn analyst sends a ten-page report on service performance, with the key finding on page eight. Nobody acts. The next month, the email opens with: \"Evening tickets breach SLAs three times more often than daytime tickets; extending the support shift by two hours would fix most breaches at low cost.\" The operations head approves the change the same day.\n\n## Common mistakes\n\n- Starting with methods and data sources.\n- Presenting numbers without meaning or action.\n- Burying the key finding.\n\n## Key takeaways\n\n- An insight is what happened, why it matters and what to do.\n- Lead with the insight and recommendation.\n- Put methods and detail later."
     },
     {
       "position": 2,
       "title": "Structuring the story",
       "type": "TEXT",
-      "body": "A simple structure works for most audiences:\n\n1. **Situation:** the context the audience already knows.\n2. **Complication:** what changed or what problem appeared.\n3. **Insight:** what the data shows about the complication.\n4. **Recommendation:** the decision or action proposed.\n5. **Next steps:** owners and dates.\n\nKeep each slide or section to one message. If a slide has two messages, split it."
+      "body": "A clear story structure helps your audience follow the analysis and reach a decision. Stories connect data to the audience's goals and concerns.\n\n## A simple structure\n\n1. **Context:** the situation and why it matters to the audience.\n2. **Complication:** the problem, change or question that needs attention.\n3. **Resolution:** your insight and recommended action, supported by evidence.\n\nThis situation-complication-resolution structure is widely used for business communication.\n\n## Building the story\n\n- **Know your audience:** what they care about, what they already know and what decision they must make.\n- **Choose a few key points:** usually three or fewer supporting points.\n- **Use one chart per point,** with a headline title stating the message.\n- **Connect points logically:** each slide or section should lead naturally to the next.\n- **End with the decision or next step.**\n\n## Key terms\n\n- **Situation-complication-resolution:** a structure for business stories.\n- **Supporting point:** evidence that backs the main message.\n- **Storyline:** the sequence of points from context to recommendation.\n\n## Real-world example\n\nAn analyst presents customer churn data as a series of 20 charts. The leadership team gets lost. Restructured, the story becomes: context, renewals are a growing share of revenue; complication, churn rose among mid-sized customers after a support change; resolution, restoring a named account manager for those customers is projected to cut churn, with a pilot proposed. Three charts support it. Leadership approves the pilot.\n\n## Common mistakes\n\n- Showing every chart from the analysis.\n- No clear link between points.\n- Ending without a decision request.\n\n## Key takeaways\n\n- Use context, complication and resolution.\n- Tailor the story to the audience and limit it to a few key points.\n- End with a clear decision or next step."
     },
     {
       "position": 3,
       "title": "Showing uncertainty and limits",
       "type": "TEXT",
-      "body": "Every analysis has limits. State them plainly: the sample size, the period covered, known data gaps, and the confidence in the result. Use ranges or confidence intervals where they help, and avoid precise figures that imply more accuracy than the data supports.\n\nSaying 'the trend is likely, but we need another quarter to confirm it' builds more trust than a confident claim that later fails. Trust is the main asset an analyst has."
+      "body": "All data has limits. Showing uncertainty honestly builds trust and helps decision makers judge how much weight to give your findings.\n\n## Sources of uncertainty\n\n- **Sample size:** small samples can give misleading results.\n- **Data quality:** missing, inaccurate or outdated data.\n- **Assumptions:** forecasts depend on assumptions about the future.\n- **Measurement:** how a metric is defined and captured.\n- **External factors:** seasonality, market changes or one-off events.\n\n## Communicating uncertainty\n\n- State key assumptions clearly.\n- Use ranges rather than single numbers where appropriate: \"We expect savings of ₹20–30 lakh.\"\n- Show confidence levels in plain language: \"high confidence\", \"moderate confidence\".\n- Explain data limitations briefly, such as \"Data excludes the two newest branches.\"\n- Present scenarios: best case, expected case and worst case.\n- Distinguish facts from interpretation and recommendation.\n\n## Why it matters\n\nDecision makers can plan for risk only if they know it exists. Overstating certainty damages trust when results differ from predictions.\n\n## Key terms\n\n- **Uncertainty:** the degree to which a result may differ from reality.\n- **Range:** a span of likely values.\n- **Scenario:** a possible future based on different assumptions.\n- **Assumption:** something accepted as true for the analysis.\n\n## Real-world example\n\nA forecast predicts that a new managed service will reach a specific revenue figure in year one. It misses by 30%, and leadership loses confidence in analytics. For the next forecast, the analyst presents a range with best, expected and worst cases, lists key assumptions and explains which assumption matters most. When results land within the range, trust is restored.\n\n## Common mistakes\n\n- Presenting forecasts as certain single numbers.\n- Hiding data limitations.\n- Mixing facts with opinions without saying so.\n\n## Key takeaways\n\n- Identify uncertainty from samples, data quality, assumptions and external factors.\n- Use ranges, scenarios and plain-language confidence levels.\n- Be honest about limits; it builds trust."
     },
     {
       "position": 4,
       "title": "Driving follow-up action",
       "type": "TEXT",
-      "body": "A presentation is successful when it changes what happens next. Close with the decision needed, the owner, and the date. Send a short written summary afterwards with the insight, the recommendation, the open questions, and the dashboard or file behind it.\n\nCheck back after the decision. If the action was taken, record the result. This builds a track record that shows the analysis was useful, and it gives you feedback for the next analysis."
+      "body": "Analysis creates value only when it leads to action. Driving follow-up turns insights into decisions, decisions into actions and actions into measurable results.\n\n## Turning insights into action\n\n- **End every presentation with a clear request:** a decision, approval or next step.\n- **Agree actions with owners and dates** before the meeting ends.\n- **Send a short written summary** of the insight, decision and actions within a day.\n\n## Tracking results\n\n- Define how success will be measured before the action starts.\n- Set a review date to check results.\n- Compare results with expectations, and report back honestly.\n- Feed lessons learned into future analysis.\n\n## Building a decision-making culture\n\n- Share successful examples where analysis led to better decisions.\n- Make data easy to access through trusted dashboards.\n- Encourage questions and challenge of assumptions.\n- Recognise people who use data well.\n\n## Key terms\n\n- **Action owner:** the person responsible for an agreed action.\n- **Review date:** when results will be checked.\n- **Closed loop:** tracking actions through to measured results.\n\n## Real-world example\n\nAn analysis shows that late invoices cause most payment delays. The analyst's presentation ends with a request to introduce an invoice checklist. The finance head agrees, assigns an owner and sets a review in two months. At the review, average collection time has improved. The results are shared company-wide, and other teams start requesting analysis for their own problems.\n\n## Common mistakes\n\n- Presentations that end without a request.\n- No owners or dates for actions.\n- Never checking whether actions worked.\n\n## Key takeaways\n\n- End with a clear request and agree actions with owners and dates.\n- Measure results and report back.\n- Close the loop and share successes to build a data-driven culture."
     }
   ],
   "assessment": {
@@ -38,11 +38,121 @@
     "level": "ADVANCED",
     "passMarkPercent": 70,
     "questions": [
-      { "position": 1, "type": "SINGLE", "text": "What is an insight?", "options": ["Any chart with colour", "A finding that changes what someone should do", "A list of all data fields", "A raw data export"], "correct": ["A finding that changes what someone should do"], "points": 1 },
-      { "position": 2, "type": "SINGLE", "text": "In the story structure, what comes after the complication?", "options": ["Situation", "Insight", "Next steps only", "Appendix"], "correct": ["Insight"], "points": 1 },
-      { "position": 3, "type": "SINGLE", "text": "How should an analyst handle uncertainty?", "options": ["Hide it to look confident", "State the limits and confidence plainly", "Use the most precise figure possible", "Avoid mentioning data gaps"], "correct": ["State the limits and confidence plainly"], "points": 1 },
-      { "position": 4, "type": "MULTIPLE", "text": "Which belong in a good closing for an insight presentation? (Select all that apply)", "options": ["The decision needed", "The owner and date", "A list of every slide", "Open questions in the follow-up summary"], "correct": ["The decision needed", "The owner and date", "Open questions in the follow-up summary"], "points": 2 },
-      { "position": 5, "type": "TRUE_FALSE", "text": "Each slide or section should carry one main message.", "options": ["True", "False"], "correct": ["True"], "points": 1 }
+      {
+        "type": "SINGLE",
+        "text": "What should come first in a report for busy decision makers?",
+        "options": [
+          "Data sources",
+          "Methods",
+          "The insight and recommendation",
+          "Appendices"
+        ],
+        "correct": [
+          "The insight and recommendation"
+        ],
+        "points": 1,
+        "explanation": "Answer first, then support it."
+      },
+      {
+        "type": "MULTIPLE",
+        "text": "Which are parts of an insight?",
+        "options": [
+          "What happened",
+          "Why it matters",
+          "What to do",
+          "The analyst's job title"
+        ],
+        "correct": [
+          "What happened",
+          "Why it matters",
+          "What to do"
+        ],
+        "points": 1,
+        "explanation": "An insight links a finding to meaning and action."
+      },
+      {
+        "type": "SINGLE",
+        "text": "What is the situation-complication-resolution structure?",
+        "options": [
+          "A chart type",
+          "A structure for business stories",
+          "A database model",
+          "A security framework"
+        ],
+        "correct": [
+          "A structure for business stories"
+        ],
+        "points": 1,
+        "explanation": "It moves from context to problem to recommendation."
+      },
+      {
+        "type": "TRUE_FALSE",
+        "text": "Presenting a forecast as a range with stated assumptions is more honest than a single certain number.",
+        "options": [
+          "True",
+          "False"
+        ],
+        "correct": [
+          "True"
+        ],
+        "points": 1,
+        "explanation": "Ranges and assumptions show uncertainty clearly."
+      },
+      {
+        "type": "SINGLE",
+        "text": "What should happen before a meeting about an insight ends?",
+        "options": [
+          "Nothing",
+          "Agree actions with owners and dates",
+          "Delete the data",
+          "Start a new analysis"
+        ],
+        "correct": [
+          "Agree actions with owners and dates"
+        ],
+        "points": 1,
+        "explanation": "Actions with owners turn insights into results."
+      },
+      {
+        "type": "TRUE_FALSE",
+        "text": "Showing every chart from the analysis makes a presentation stronger.",
+        "options": [
+          "True",
+          "False"
+        ],
+        "correct": [
+          "False"
+        ],
+        "points": 1,
+        "explanation": "Focus on a few key points that support the message."
+      },
+      {
+        "type": "MATCHING",
+        "text": "Match each term to its meaning.",
+        "options": [
+          "Executive summary=Short opening with insight and recommendation",
+          "Scenario=Possible future based on different assumptions",
+          "Action owner=Person responsible for an action",
+          "Closed loop=Tracking actions to measured results"
+        ],
+        "correct": [],
+        "points": 1,
+        "explanation": "These terms support decision-focused communication."
+      }
     ]
-  }
+  },
+  "sources": [
+    {
+      "title": "GOV.UK Analysis Function: guidance on data visualisation and presenting statistics",
+      "url": "https://analysisfunction.civilservice.gov.uk/"
+    },
+    {
+      "title": "Tableau: visual best practices and learning resources",
+      "url": "https://www.tableau.com/learn"
+    },
+    {
+      "title": "Microsoft Learn: free role-based training paths",
+      "url": "https://learn.microsoft.com/en-us/training/"
+    }
+  ]
 }

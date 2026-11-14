@@ -11,25 +11,25 @@
       "position": 1,
       "title": "Choosing a certification and planning your study",
       "type": "TEXT",
-      "body": "Choose a certification that matches your role and your next career step. Read the official exam objectives first. They list the topics the exam covers and the weight of each, and they are the best guide to what to study.\n\nBuild a plan with fixed weekly study time, for example four sessions of 60 to 90 minutes. Schedule the exam date early. A booked exam creates a deadline that most people need to study consistently."
+      "body": "Security certifications help you build structured knowledge and prove it to employers and customers. Choosing the right certification for your role and experience, and planning your study, sets you up for success.\n\n## Common security certification paths\n\n- **Entry level:** for example ISC2 Certified in Cybersecurity (CC) and CompTIA Security+, covering core security concepts.\n- **Practitioner and specialist:** vendor certifications for firewalls, endpoint security, cloud security or SOC tools, and certifications in areas such as ethical hacking or incident handling.\n- **Advanced and management:** for example ISC2 CISSP, which requires several years of relevant work experience, and ISACA's CISM (security management) and CISA (audit).\n- **Cloud security:** security certifications from cloud providers and industry bodies.\n\nRequirements, exam versions and experience rules change; check the certifying body's official pages.\n\n## Choosing a certification\n\n- Match it to your current role and next career step, for example SOC analyst, security engineer or presales.\n- Consider what customers and employers value; OEM certifications may also matter for partner programmes.\n- Frameworks such as the NIST NICE Framework describe cybersecurity work roles and skills, which can help you plan a path.\n\n## Planning your study\n\n1. Download the official exam objectives.\n2. Estimate study time based on your experience.\n3. Set a target exam date and a weekly study schedule.\n4. Combine reading, video, labs and practice questions.\n5. Review progress every week.\n\n## Key terms\n\n- **Exam objectives:** the official list of topics tested.\n- **Experience requirement:** work experience needed for some certifications.\n- **CPE:** continuing professional education credits needed to maintain many certifications.\n\n## Real-world example\n\nA support engineer wants to move into the company's SOC. Instead of attempting an advanced management certification, she chooses an entry-level security certification, then a SOC tool vendor certification. Each step is achievable and directly useful in her new role.\n\n## Common mistakes\n\n- Choosing a certification for prestige rather than fit.\n- Ignoring experience requirements.\n- No schedule or exam date.\n\n## Key takeaways\n\n- Choose certifications that fit your role, experience and career path.\n- Use official objectives and plan a realistic schedule.\n- Check requirements and maintenance rules on official sites."
     },
     {
       "position": 2,
       "title": "Study methods that work",
       "type": "TEXT",
-      "body": "Reading alone produces weak recall. Better methods are:\n\n- **Active recall:** close the book and write down what you remember about a topic.\n- **Spaced repetition:** revisit topics after one day, one week, and one month.\n- **Practice questions:** use them to find weak areas, then study the explanations, not only the score.\n- **Teach it:** explaining a concept to a colleague shows whether you understand it.\n\nTrack the topics you get wrong, and spend most of your time on them."
+      "body": "Security exams cover a wide range of topics. Effective study methods help you learn and remember more in less time.\n\n## Methods that work\n\n- **Active recall:** close the book and test yourself. Flashcards and practice questions are powerful tools.\n- **Spaced repetition:** review topics at increasing intervals, such as one day, three days, one week and two weeks later.\n- **Interleaving:** mix topics in a session rather than studying one topic for hours.\n- **Teach others:** explaining a concept to a colleague reveals gaps in your understanding.\n- **Connect to real work:** link concepts to incidents, policies and systems you have seen.\n\n## Organising study\n\n- Break the objectives into small topics.\n- Study in focused sessions of 30 to 50 minutes with short breaks.\n- Keep a list of difficult topics and revisit them regularly.\n- Join a study group or learning circle with colleagues.\n\n## Using practice questions\n\n- Use reputable practice questions from official or trusted sources.\n- Review explanations for every question.\n- Track scores by domain to guide study.\n- Avoid \"brain dumps\" of real exam questions; they breach certification agreements and can lead to revocation.\n\n## Key terms\n\n- **Active recall:** retrieving information from memory.\n- **Spaced repetition:** reviewing at increasing intervals.\n- **Interleaving:** mixing different topics during practice.\n\n## Real-world example\n\nTwo colleagues prepare for the same security exam. One re-reads a textbook three times. The other uses flashcards with spaced repetition, explains topics in a weekly study group and takes practice questions by domain. The second colleague retains more, scores higher on practice tests and passes first time.\n\n## Common mistakes\n\n- Re-reading instead of testing yourself.\n- Cramming everything in the last week.\n- Using brain dumps.\n\n## Key takeaways\n\n- Use active recall, spaced repetition, interleaving and teaching others.\n- Study in focused sessions and track weak areas.\n- Use reputable practice questions and avoid brain dumps."
     },
     {
       "position": 3,
       "title": "Building hands-on skill",
       "type": "TEXT",
-      "body": "Security exams test concepts, but job performance needs practice. Where possible, complement reading with labs: configure a firewall policy in a test environment, review sample logs for signs of an attack, or work through a basic incident response scenario.\n\nHands-on work also makes the concepts easier to remember, because you have seen what they do."
+      "body": "Security is a practical field. Hands-on skills make exam concepts real, help with performance-based questions and prepare you for actual security work.\n\n## Building a safe lab\n\n- Use **virtual machines** on a laptop or a cloud sandbox to build small networks.\n- Include a few systems, such as a Windows machine, a Linux machine and a firewall.\n- Keep the lab **isolated** from company and customer networks.\n- Use only deliberately vulnerable practice systems and legal training platforms.\n- **Never test tools or techniques on systems you do not own or have written permission to test.** Unauthorised access is an offence under India's Information Technology Act, 2000.\n\n## Skills to practise\n\n- Configure firewall rules and test what traffic passes.\n- Harden an operating system: disable unnecessary services, apply updates and set strong policies.\n- Read logs: find failed logins and suspicious activity.\n- Use network tools to see traffic and open ports.\n- Configure MFA and access controls.\n- Practise incident response steps on a simulated incident.\n\n## Learning resources\n\n- Official labs from certification bodies and vendors.\n- Capture-the-flag (CTF) challenges designed for legal practice.\n- Free courses from academies such as Cisco Networking Academy.\n\n## Key terms\n\n- **Lab:** an isolated practice environment.\n- **Hardening:** reducing a system's attack surface.\n- **Capture the flag (CTF):** legal security challenges for practice.\n- **Authorisation:** written permission to test a system.\n\n## Real-world example\n\nA junior engineer builds a small lab with a firewall, a Windows server and a Linux server. He practises reading Windows security logs and spots failed logins he generated himself. When a real brute-force attempt appears at work months later, he recognises the pattern immediately and escalates it.\n\n## Common mistakes\n\n- Practising on company or public systems without permission.\n- Connecting a vulnerable lab to the office network.\n- Studying theory only.\n\n## Key takeaways\n\n- Build an isolated lab with virtual machines or a cloud sandbox.\n- Practise firewalls, hardening, log reading, MFA and incident response.\n- Test only systems you own or have written permission to test."
     },
     {
       "position": 4,
       "title": "Exam day and after",
       "type": "TEXT",
-      "body": "Before exam day, confirm the booking, identification requirements, and the testing format, whether test centre or online proctored. Sleep well and arrive early.\n\nDuring the exam, read each question fully, eliminate clearly wrong options, and do not spend too long on one question. Mark difficult questions and return to them. After passing, record the certification and its renewal requirements, since most security certifications need continuing education to stay valid."
+      "body": "Good preparation can be undone by a poor exam day. Planning the practical details reduces stress, and maintaining your certification keeps it valuable after you pass.\n\n## Before the exam\n\n- **Check the rules:** accepted ID documents, arrival time for test centres, and requirements for online proctoring, such as a clear desk, a working webcam and a private room.\n- **Test your setup** if taking the exam online.\n- **Rest well** the night before; last-minute cramming adds little.\n\n## During the exam\n\n- **Read each question carefully,** looking for words such as \"best\", \"first\" and \"most likely\".\n- **Manage time:** know the number of questions and minutes; flag difficult questions and return to them.\n- **Use elimination:** remove clearly wrong answers first.\n- **Performance-based questions:** some exams include simulations; if they take long, consider whether you can return to them later, if the exam allows it.\n\n## After the exam\n\n- **If you pass:** update your profile, inform your manager and add the certification to the company's records, as it may count towards OEM partner requirements.\n- **If you do not pass:** review the score report by domain, adjust your plan and check the retake policy.\n- **Maintain the certification:** many security certifications require continuing professional education (CPE) credits, annual fees or renewal exams.\n- **Keep learning:** the threat landscape changes constantly.\n\n## Key terms\n\n- **Online proctoring:** remote supervision of an exam by webcam.\n- **Score report:** results, often by domain.\n- **Retake policy:** rules on waiting periods and fees for retakes.\n- **CPE credits:** continuing education required to maintain a certification.\n\n## Real-world example\n\nA candidate taking an online exam is stopped at the start because there are papers and a second monitor on her desk. She reschedules, clears the room and passes the following week. She now shares a short exam-day checklist with colleagues.\n\n## Common mistakes\n\n- Not reading online proctoring rules.\n- Spending too long on one hard question.\n- Forgetting CPE requirements and letting a certification lapse.\n\n## Key takeaways\n\n- Check exam rules and test your setup.\n- Read carefully, manage time and use elimination.\n- After passing, record the certification and plan maintenance."
     }
   ],
   "assessment": {
@@ -38,11 +38,129 @@
     "level": "INTERMEDIATE",
     "passMarkPercent": 70,
     "questions": [
-      { "position": 1, "type": "SINGLE", "text": "Where should you start when preparing for a security certification?", "options": ["With a random practice test", "With the official exam objectives", "With the cheapest course", "With the last chapter of the book"], "correct": ["With the official exam objectives"], "points": 1 },
-      { "position": 2, "type": "SINGLE", "text": "Which study method means closing the book and writing down what you remember?", "options": ["Passive re-reading", "Active recall", "Highlighting", "Skimming"], "correct": ["Active recall"], "points": 1 },
-      { "position": 3, "type": "SINGLE", "text": "After a practice question, what gives the most learning value?", "options": ["Only checking the score", "Studying the explanation of each answer", "Skipping to the next question", "Memorising the option letters"], "correct": ["Studying the explanation of each answer"], "points": 1 },
-      { "position": 4, "type": "MULTIPLE", "text": "Which are good preparation practices? (Select all that apply)", "options": ["Scheduling the exam date early", "Spaced repetition of key topics", "Avoiding all hands-on work", "Tracking weak topics and focusing on them"], "correct": ["Scheduling the exam date early", "Spaced repetition of key topics", "Tracking weak topics and focusing on them"], "points": 2 },
-      { "position": 5, "type": "TRUE_FALSE", "text": "Most security certifications require continuing education to remain valid.", "options": ["True", "False"], "correct": ["True"], "points": 1 }
+      {
+        "type": "SINGLE",
+        "text": "What is the best basis for choosing a security certification?",
+        "options": [
+          "Its prestige",
+          "Fit with your role, experience and career path",
+          "The cheapest exam",
+          "What a friend took"
+        ],
+        "correct": [
+          "Fit with your role, experience and career path"
+        ],
+        "points": 1,
+        "explanation": "The right certification supports your next career step."
+      },
+      {
+        "type": "TRUE_FALSE",
+        "text": "Some advanced security certifications, such as CISSP, require several years of relevant work experience.",
+        "options": [
+          "True",
+          "False"
+        ],
+        "correct": [
+          "True"
+        ],
+        "points": 1,
+        "explanation": "Check experience requirements on the certifying body's site."
+      },
+      {
+        "type": "MULTIPLE",
+        "text": "Which are effective study methods?",
+        "options": [
+          "Active recall",
+          "Spaced repetition",
+          "Teaching others",
+          "Cramming the night before"
+        ],
+        "correct": [
+          "Active recall",
+          "Spaced repetition",
+          "Teaching others"
+        ],
+        "points": 1,
+        "explanation": "Cramming is less effective than spaced study."
+      },
+      {
+        "type": "SINGLE",
+        "text": "Which systems may you test security tools on?",
+        "options": [
+          "Any website",
+          "Your company's production network without asking",
+          "Systems you own or have written permission to test",
+          "A customer's servers to show your skill"
+        ],
+        "correct": [
+          "Systems you own or have written permission to test"
+        ],
+        "points": 1,
+        "explanation": "Unauthorised testing is illegal under the IT Act, 2000."
+      },
+      {
+        "type": "SINGLE",
+        "text": "What are CPE credits?",
+        "options": [
+          "Exam discount codes",
+          "Continuing education needed to maintain many certifications",
+          "Cloud credits",
+          "Practice exam scores"
+        ],
+        "correct": [
+          "Continuing education needed to maintain many certifications"
+        ],
+        "points": 1,
+        "explanation": "Many certifications require CPE to stay active."
+      },
+      {
+        "type": "TRUE_FALSE",
+        "text": "A practice lab should be connected to the office network so it feels realistic.",
+        "options": [
+          "True",
+          "False"
+        ],
+        "correct": [
+          "False"
+        ],
+        "points": 1,
+        "explanation": "Keep labs isolated from company and customer networks."
+      },
+      {
+        "type": "MATCHING",
+        "text": "Match each term to its meaning.",
+        "options": [
+          "Hardening=Reducing a system's attack surface",
+          "CTF=Legal security challenges for practice",
+          "Online proctoring=Remote exam supervision by webcam",
+          "Score report=Exam results by domain"
+        ],
+        "correct": [],
+        "points": 1,
+        "explanation": "These terms appear in security exam preparation."
+      }
     ]
-  }
+  },
+  "sources": [
+    {
+      "title": "CompTIA: Security+ and other certification objectives",
+      "url": "https://www.comptia.org/"
+    },
+    {
+      "title": "ISC2: CC, CISSP and other security certifications",
+      "url": "https://www.isc2.org/"
+    },
+    {
+      "title": "ISACA: CISA, CISM and other certifications",
+      "url": "https://www.isaca.org/"
+    },
+    {
+      "title": "NIST NICE Framework: cybersecurity work roles and skills",
+      "url": "https://www.nist.gov/itl/applied-cybersecurity/nice/nice-framework-resource-center"
+    },
+    {
+      "title": "Cisco Networking Academy: cybersecurity courses",
+      "url": "https://www.netacad.com/"
+    }
+  ]
 }

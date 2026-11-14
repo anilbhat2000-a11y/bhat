@@ -11,25 +11,25 @@
       "position": 1,
       "title": "Reading the exam blueprint",
       "type": "TEXT",
-      "body": "Every cloud certification publishes an exam guide or blueprint listing the domains, their weights, and the skills measured. Print it, and rate your confidence in each domain from one to five.\n\nUse the lowest-rated domains to set your study priorities. A domain with a high weight and low confidence should come first."
+      "body": "Every major cloud certification, from AWS, Microsoft Azure and Google Cloud, publishes an official exam guide (sometimes called a study guide or skills outline). It lists the domains tested, how much each domain counts and the specific skills expected. Reading it carefully is the first and most important step in preparation.\n\n## What an exam guide contains\n\n- **Target candidate:** the experience and role the exam is designed for.\n- **Domains and weightings:** the main topic areas and the percentage of questions from each.\n- **Skills measured:** specific tasks within each domain.\n- **Exam details:** number and type of questions, duration, passing score and languages.\n- **Recommended training and documentation.**\n\n## Common certification levels\n\n- **Foundational:** cloud concepts and business value, such as AWS Certified Cloud Practitioner, Microsoft Azure Fundamentals (AZ-900) and Google Cloud Digital Leader.\n- **Associate:** hands-on administration, development or architecture, such as AWS Solutions Architect – Associate, Azure Administrator (AZ-104) and Google Associate Cloud Engineer.\n- **Professional and specialty:** advanced architecture, security, networking or data.\n\nExam codes and content change over time; always use the latest official guide.\n\n## Using the guide to plan\n\n1. Copy the domains and skills into a checklist.\n2. Rate your confidence in each skill: strong, partial or new.\n3. Spend most time on high-weight domains where you are weakest.\n4. Link each skill to official documentation, training and hands-on labs.\n\n## Key terms\n\n- **Exam guide / blueprint:** the official outline of an exam.\n- **Domain:** a major topic area in the exam.\n- **Weighting:** the share of questions from a domain.\n\n## Real-world example\n\nAn engineer studies for an associate cloud exam by reading random blog posts and fails narrowly. For the retake, he downloads the official exam guide, builds a checklist, notices that one domain he skipped carries a large weighting, and focuses his study there. He passes comfortably.\n\n## Common mistakes\n\n- Studying without the official guide.\n- Spending equal time on all topics regardless of weighting.\n- Using outdated material after an exam version change.\n\n## Key takeaways\n\n- Start with the latest official exam guide.\n- Build a checklist and rate your confidence in each skill.\n- Focus on high-weight, weak areas."
     },
     {
       "position": 2,
       "title": "Hands-on practice in a sandbox",
       "type": "TEXT",
-      "body": "Cloud exams reward candidates who have used the services. Most providers offer free tiers or sandbox accounts. Set a spending alert before you start, and delete resources when a lab ends, so costs do not build up.\n\nUseful exercises include creating a virtual network with private and public subnets, deploying a virtual machine with restricted access, configuring storage with access policies, and reviewing a billing report."
+      "body": "Cloud certifications test practical understanding. Reading alone is not enough; hands-on practice in a real cloud account builds the knowledge that exams, and customers, expect.\n\n## Setting up a safe sandbox\n\n- Use a **personal or company-provided practice account,** separate from production.\n- Many providers offer **free tiers or trial credits,** and some training platforms provide temporary lab environments.\n- **Set budget alerts immediately** so unexpected charges are caught early.\n- **Enable MFA** on the account and avoid using the root or global administrator for daily work.\n- **Tag and delete resources** after each practice session.\n\n## What to practise\n\n- Create and secure identities and roles.\n- Build networks: virtual networks, subnets, routing and security groups.\n- Launch, resize and back up virtual machines.\n- Configure storage with access policies and lifecycle rules.\n- Deploy a managed database.\n- Set up monitoring, logging and alerts.\n- Use infrastructure as code templates for repeatable builds.\n\n## Practising effectively\n\n- Follow official labs and tutorials linked from the exam guide.\n- Then build small projects on your own, such as a highly available website.\n- Break things deliberately and troubleshoot.\n- Write short notes on what you learned.\n\n## Key terms\n\n- **Sandbox:** a safe environment for practice.\n- **Free tier:** limited free usage offered by cloud providers.\n- **Budget alert:** a notification when spending reaches a set level.\n\n## Real-world example\n\nA presales consultant practises in a trial account but forgets to delete a large virtual machine and a managed database, receiving an unexpected bill. Next time, she sets a small budget alert on day one, tags all resources with \"practice\" and uses a script to delete them at the end of each session.\n\n## Common mistakes\n\n- No budget alerts.\n- Practising in production accounts.\n- Leaving resources running after practice.\n\n## Key takeaways\n\n- Practise hands-on in a separate, secured sandbox with budget alerts.\n- Cover identity, networking, compute, storage, databases and monitoring.\n- Clean up after every session."
     },
     {
       "position": 3,
       "title": "From knowledge to design decisions",
       "type": "TEXT",
-      "body": "Many questions are scenarios: a business needs high availability, low cost, or strict data controls, and you choose the best design. Practise asking the same questions each time:\n\n- What are the availability and recovery targets?\n- What are the cost and performance constraints?\n- Where must the data be kept, and who may access it?\n- What is the simplest option that meets the requirement?\n\nThe correct answer is usually the one that meets every stated requirement with the least complexity."
+      "body": "Higher-level cloud exams often use scenario questions: a business situation with requirements, where you must choose the best design. They test judgement, not just memory. This skill is also exactly what customers need from presales and architects.\n\n## How scenario questions work\n\n- A scenario describes a business need, constraints and priorities, such as lowest cost, highest availability or least operational effort.\n- Several answers may work technically; the correct one best matches the stated priorities.\n\n## A method for answering\n\n1. **Read the question at the end first:** what exactly is asked?\n2. **Underline key requirements and constraints:** \"most cost-effective\", \"minimal downtime\", \"without managing servers\".\n3. **Eliminate answers that break a requirement.**\n4. **Compare the remaining answers against the priority.**\n5. **Choose managed services when \"least operational effort\" is required,** and resilient multi-zone designs when \"high availability\" is required.\n\n## Linking to real design frameworks\n\nProvider frameworks, such as the AWS Well-Architected Framework and the Azure Well-Architected Framework, describe pillars such as reliability, security, cost optimisation, operational excellence and performance efficiency. Thinking in these pillars helps you weigh trade-offs in both exams and real projects.\n\n## Key terms\n\n- **Scenario question:** a question based on a business situation.\n- **Trade-off:** gaining one benefit at the cost of another.\n- **Managed service:** a service where the provider handles operations.\n- **Availability zone:** an isolated location within a cloud region.\n\n## Real-world example\n\nA practice question asks for the most cost-effective way to store infrequently accessed backups for seven years. A candidate picks high-performance storage because it is familiar. Reviewing the scenario method, she notices \"most cost-effective\" and \"infrequently accessed\", and chooses an archive storage tier. She applies the same thinking later when designing a customer's backup retention.\n\n## Common mistakes\n\n- Choosing the most powerful option instead of the one that fits the priority.\n- Missing key words such as \"least effort\" or \"lowest cost\".\n- Memorising answers without understanding trade-offs.\n\n## Key takeaways\n\n- Scenario questions test judgement against stated priorities.\n- Read the question, mark requirements, eliminate and compare.\n- Use well-architected pillars to weigh trade-offs."
     },
     {
       "position": 4,
       "title": "Practice exams and review",
       "type": "TEXT",
-      "body": "Use practice exams in the final weeks. Take them under timed conditions. After each one, review every question, including those you got right, because a lucky guess does not show understanding.\n\nKeep a list of the services and concepts that caused errors. Review that list on the day before the exam."
+      "body": "Practice exams show whether you are ready, highlight weak areas and build familiarity with the exam format. Used well, they are among the most effective study tools.\n\n## Using practice exams well\n\n- **Take a baseline test early** to find weak domains.\n- **Review every question,** including ones you got right, to confirm your reasoning.\n- **Understand why wrong answers are wrong,** not just why the right answer is right.\n- **Return to documentation and labs** for weak areas.\n- **Take a full timed test** close to exam day to practise timing.\n- Use official or reputable practice questions; avoid \"brain dump\" sites that share real exam questions, which breach certification agreements and can lead to bans.\n\n## Study techniques that work\n\nResearch on learning supports:\n\n- **Active recall:** testing yourself rather than re-reading.\n- **Spaced repetition:** reviewing material over increasing intervals.\n- **Interleaving:** mixing topics in practice sessions.\n\n## Exam day\n\n- Check the exam rules: ID requirements, online proctoring requirements such as a clear desk and webcam, and timing.\n- Manage time: flag difficult questions and return to them.\n- Read each question carefully for key words.\n- After the exam, note areas to strengthen, and plan for recertification, as many cloud certifications must be renewed periodically.\n\n## Key terms\n\n- **Practice exam:** a test that simulates the real exam.\n- **Active recall:** retrieving information from memory to strengthen learning.\n- **Spaced repetition:** reviewing at increasing intervals.\n- **Recertification:** renewing a certification before it expires.\n\n## Real-world example\n\nAn engineer scores 60% on a baseline practice test. She tracks results by domain, focuses on weak areas with labs and documentation, and uses flashcards with spaced repetition. Two weeks later she scores 85% on a timed practice test and passes the real exam the following week.\n\n## Common mistakes\n\n- Memorising practice answers without understanding.\n- Using brain dumps.\n- Taking the exam without a timed rehearsal.\n\n## Key takeaways\n\n- Use practice exams to find gaps and review every answer.\n- Study with active recall, spaced repetition and interleaving.\n- Prepare for exam rules and timing, and plan recertification."
     }
   ],
   "assessment": {
@@ -38,11 +38,131 @@
     "level": "INTERMEDIATE",
     "passMarkPercent": 70,
     "questions": [
-      { "position": 1, "type": "SINGLE", "text": "Where can you find the domains and their weights for a cloud exam?", "options": ["In the exam guide or blueprint", "In a random forum post", "In the exam room", "In the invoice"], "correct": ["In the exam guide or blueprint"], "points": 1 },
-      { "position": 2, "type": "SINGLE", "text": "Why set a spending alert before a sandbox lab?", "options": ["To increase the bill", "To avoid unexpected costs", "To disable logging", "To make the lab faster"], "correct": ["To avoid unexpected costs"], "points": 1 },
-      { "position": 3, "type": "SINGLE", "text": "In a scenario question, what is usually the best answer?", "options": ["The most complex design", "The design that meets every requirement with the least complexity", "The most expensive design", "The design with the most services"], "correct": ["The design that meets every requirement with the least complexity"], "points": 1 },
-      { "position": 4, "type": "MULTIPLE", "text": "Which are good practice reviewing practice exams? (Select all that apply)", "options": ["Reviewing questions you answered correctly", "Keeping a list of concepts that caused errors", "Skipping explanations", "Taking them under timed conditions"], "correct": ["Reviewing questions you answered correctly", "Keeping a list of concepts that caused errors", "Taking them under timed conditions"], "points": 2 },
-      { "position": 5, "type": "TRUE_FALSE", "text": "Resources in a lab should be left running after the lab ends so they are ready next time.", "options": ["True", "False"], "correct": ["False"], "points": 1 }
+      {
+        "type": "SINGLE",
+        "text": "What is the first step in preparing for a cloud certification?",
+        "options": [
+          "Book the exam",
+          "Read the latest official exam guide",
+          "Buy a laptop",
+          "Memorise brain dumps"
+        ],
+        "correct": [
+          "Read the latest official exam guide"
+        ],
+        "points": 1,
+        "explanation": "The exam guide defines the domains and skills tested."
+      },
+      {
+        "type": "SINGLE",
+        "text": "Which should you set up first in a practice cloud account?",
+        "options": [
+          "A large database",
+          "Budget alerts and MFA",
+          "Public storage",
+          "Production workloads"
+        ],
+        "correct": [
+          "Budget alerts and MFA"
+        ],
+        "points": 1,
+        "explanation": "Protect against unexpected charges and account compromise."
+      },
+      {
+        "type": "TRUE_FALSE",
+        "text": "In scenario questions, the most powerful option is always the correct answer.",
+        "options": [
+          "True",
+          "False"
+        ],
+        "correct": [
+          "False"
+        ],
+        "points": 1,
+        "explanation": "The best answer matches the stated priorities, such as cost or effort."
+      },
+      {
+        "type": "MULTIPLE",
+        "text": "Which study techniques are supported by learning research?",
+        "options": [
+          "Active recall",
+          "Spaced repetition",
+          "Interleaving",
+          "Re-reading only"
+        ],
+        "correct": [
+          "Active recall",
+          "Spaced repetition",
+          "Interleaving"
+        ],
+        "points": 1,
+        "explanation": "Testing yourself works better than re-reading."
+      },
+      {
+        "type": "SINGLE",
+        "text": "Why avoid 'brain dump' sites?",
+        "options": [
+          "They are slow",
+          "They share real exam questions, breaching certification agreements",
+          "They are too expensive",
+          "They have no ads"
+        ],
+        "correct": [
+          "They share real exam questions, breaching certification agreements"
+        ],
+        "points": 1,
+        "explanation": "Using them can lead to bans and does not build real skill."
+      },
+      {
+        "type": "SINGLE",
+        "text": "A question asks for the most cost-effective storage for rarely accessed backups kept for years. What should guide your choice?",
+        "options": [
+          "Highest performance",
+          "An archive or cold storage tier",
+          "The newest service",
+          "The most familiar option"
+        ],
+        "correct": [
+          "An archive or cold storage tier"
+        ],
+        "points": 1,
+        "explanation": "Match the answer to 'cost-effective' and 'infrequently accessed'."
+      },
+      {
+        "type": "MATCHING",
+        "text": "Match each term to its meaning.",
+        "options": [
+          "Domain=Major topic area in the exam",
+          "Weighting=Share of questions from a domain",
+          "Sandbox=Safe environment for practice",
+          "Recertification=Renewing before expiry"
+        ],
+        "correct": [],
+        "points": 1,
+        "explanation": "These terms appear throughout certification preparation."
+      }
     ]
-  }
+  },
+  "sources": [
+    {
+      "title": "AWS Certification: exam guides and domains",
+      "url": "https://aws.amazon.com/certification/"
+    },
+    {
+      "title": "Microsoft Learn: Microsoft Credentials and exam study guides",
+      "url": "https://learn.microsoft.com/en-us/credentials/"
+    },
+    {
+      "title": "Google Cloud: certification exam guides",
+      "url": "https://cloud.google.com/learn/certification"
+    },
+    {
+      "title": "AWS Skill Builder: cloud training",
+      "url": "https://skillbuilder.aws/"
+    },
+    {
+      "title": "Microsoft Learn: free role-based training paths",
+      "url": "https://learn.microsoft.com/en-us/training/"
+    }
+  ]
 }

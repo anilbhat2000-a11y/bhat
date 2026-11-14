@@ -11,25 +11,25 @@
       "position": 1,
       "title": "Choosing the right chart",
       "type": "TEXT",
-      "body": "The chart should follow from the question:\n\n- **Comparison across categories:** bar chart, sorted by value.\n- **Change over time:** line chart.\n- **Part of a whole:** a stacked bar, or a pie chart only with two or three slices.\n- **Distribution:** histogram or box plot.\n- **Relationship between two measures:** scatter plot.\n\nA table is often the right choice when the reader needs exact values. Ask 'What should the reader see first?' and pick the chart that makes that point obvious."
+      "body": "A chart should answer a question quickly. Choosing the right chart type depends on what you want to show: comparison, trend, composition, distribution or relationship.\n\n## Matching chart to purpose\n\n- **Compare categories:** bar charts (horizontal bars work well for long labels).\n- **Show a trend over time:** line charts.\n- **Show parts of a whole:** stacked bar charts, or a pie chart only for a few parts (two to four) where exact comparison is not needed.\n- **Show distribution:** histograms or box plots.\n- **Show relationship between two measures:** scatter plots.\n- **Show a single important number:** a large number with context, such as a target or change from last period.\n- **Show exact values:** a well-formatted table.\n\n## Choosing well\n\n- Start with the question: \"Which region grew fastest?\" suggests a sorted bar chart of growth.\n- Prefer simple, familiar charts; people read bar and line charts accurately.\n- Sort bars meaningfully, usually from largest to smallest.\n- Avoid 3D effects, which distort sizes.\n\n## Key terms\n\n- **Bar chart:** compares values across categories.\n- **Line chart:** shows change over time.\n- **Histogram:** shows how values are distributed.\n- **Scatter plot:** shows the relationship between two measures.\n\n## Real-world example\n\nA monthly report shows sales for 15 product lines in a pie chart. Readers cannot tell which slices are bigger. Replacing it with a sorted horizontal bar chart makes the top and bottom performers obvious at a glance, and the meeting discussion moves straight to actions.\n\n## Common mistakes\n\n- Pie charts with many slices.\n- 3D charts that distort values.\n- Unsorted bars that hide the message.\n\n## Key takeaways\n\n- Choose charts by purpose: comparison, trend, composition, distribution or relationship.\n- Prefer simple bar and line charts, sorted meaningfully.\n- Use tables when exact values matter."
     },
     {
       "position": 2,
       "title": "Honest and clear charts",
       "type": "TEXT",
-      "body": "Several common choices mislead readers:\n\n- **Truncated bar axes:** starting a bar chart above zero exaggerates differences. Bars should start at zero.\n- **3D effects:** they distort the size of each part.\n- **Inconsistent scales:** comparing charts that use different axis ranges without saying so.\n- **Too many series:** a chart with eight coloured lines is hard to read. Highlight the one or two that matter.\n\nLabel the axes, state the units, and give each chart a title that says what it shows, not only what it is."
+      "body": "Charts can mislead, sometimes by accident. Honest charts show the data accurately and let readers draw correct conclusions. Trust in your reports depends on it.\n\n## Common ways charts mislead\n\n- **Truncated axes on bar charts:** starting the y-axis above zero exaggerates differences. Bar charts should start at zero because bar length represents value.\n- **Inconsistent scales:** comparing charts with different scales side by side.\n- **Cherry-picked time ranges:** choosing dates that support a story while hiding the bigger picture.\n- **Area and 3D distortion:** sizes that do not match values.\n- **Missing context:** no comparison with targets, previous periods or totals.\n- **Dual axes:** two different scales on one chart can suggest relationships that do not exist.\n\n## Principles for honest charts\n\n- Start bar chart axes at zero; line charts may use a narrower range if clearly labelled.\n- Label axes, units and time periods clearly.\n- Show the data source and date.\n- Include context, such as targets or last year's figures.\n- Use consistent scales when comparing charts.\n- Mention data limitations, such as incomplete months.\n\n## Key terms\n\n- **Truncated axis:** an axis that does not start at zero.\n- **Cherry-picking:** selecting data that supports a conclusion while ignoring the rest.\n- **Context:** comparisons that give meaning to numbers.\n\n## Real-world example\n\nA dashboard shows customer satisfaction rising sharply, with bars growing to double the height. In fact, the score moved from 4.1 to 4.3 out of 5; the y-axis started at 4.0. When the axis is corrected to start at zero and the target is added, managers see a small improvement still below target, and continue the improvement plan instead of celebrating.\n\n## Common mistakes\n\n- Bar charts with axes not starting at zero.\n- No source or date.\n- Missing comparison with targets.\n\n## Key takeaways\n\n- Avoid truncated bar axes, inconsistent scales, cherry-picking and 3D distortion.\n- Label clearly, show sources and add context.\n- Honest charts build trust."
     },
     {
       "position": 3,
       "title": "Colour, labels, and emphasis",
       "type": "TEXT",
-      "body": "Use colour to highlight, not decorate. Grey out background categories and colour the one you want the reader to notice. Keep colour choices readable for colour-blind viewers, and do not rely on red and green alone to show good and bad.\n\nDirect labels on the data are easier to read than a separate legend. Remove gridlines and borders that do not help the reader."
+      "body": "Colour, labels and emphasis guide the reader's attention. Used well, they make the message obvious. Used badly, they create clutter and confusion.\n\n## Using colour well\n\n- **Use colour with purpose:** highlight what matters and keep the rest neutral, such as grey.\n- **Limit the palette:** too many colours make charts hard to read.\n- **Be consistent:** the same category should have the same colour across charts.\n- **Consider colour vision deficiency:** avoid relying only on red versus green; use labels, patterns or colour-blind-friendly palettes.\n- **Use sequential colours** for ordered values (light to dark) and **diverging colours** for values above and below a midpoint.\n\n## Labels and text\n\n- Write a **headline title** that states the message: \"Southern region missed SLA targets in three of four months\", not \"SLA by region\".\n- Label data directly on the chart where possible, instead of using a separate legend.\n- Remove unnecessary gridlines, borders and decimal places.\n- Use clear units and readable font sizes.\n\n## Emphasis\n\n- Highlight the key bar, line or number with colour or annotation.\n- Add short annotations to explain spikes or changes: \"New SD-WAN rollout completed\".\n\n## Key terms\n\n- **Palette:** the set of colours used.\n- **Headline title:** a title that states the main message.\n- **Direct labelling:** placing labels next to data instead of in a legend.\n- **Annotation:** a note on the chart explaining a point.\n\n## Real-world example\n\nA chart of support tickets for 12 product lines uses 12 bright colours and a legend. Readers struggle to find anything. The redesign uses grey for all lines except the two that are rising fastest, which are highlighted in the company colour and directly labelled. The title states: \"Firewall and Wi-Fi tickets rose 30% this quarter.\" The message is understood in seconds.\n\n## Common mistakes\n\n- Using many bright colours without purpose.\n- Generic titles that do not state the message.\n- Relying on red and green alone.\n\n## Key takeaways\n\n- Use colour to highlight, keep the rest neutral and stay consistent.\n- Write headline titles and label data directly.\n- Annotate important changes and design for colour vision deficiency."
     },
     {
       "position": 4,
       "title": "Designing a dashboard",
       "type": "TEXT",
-      "body": "A dashboard should answer a small set of questions for a defined audience. Arrange it in order of importance: headline KPIs at the top, supporting trends below, and detail at the bottom or on a separate page.\n\nTest the dashboard by asking a colleague to find the answer to a common question within 30 seconds. If they cannot, simplify it."
+      "body": "A dashboard brings key metrics together so people can monitor performance and spot issues at a glance. A good dashboard is designed for a specific audience and purpose.\n\n## Design steps\n\n1. **Know the audience and purpose:** executives need a high-level view; operations teams need detail and real-time status.\n2. **Choose a few key metrics:** focus on the KPIs that drive decisions.\n3. **Arrange by importance:** people read from top left; put the most important information there.\n4. **Group related information:** for example, sales metrics together, service metrics together.\n5. **Provide context:** targets, trends and comparisons with previous periods.\n6. **Allow drill-down:** let users click from summary to detail when needed.\n7. **Keep it clean:** consistent colours, enough white space and no decorative clutter.\n\n## Keeping dashboards useful\n\n- Show when the data was last refreshed.\n- Make sure definitions of each metric are available.\n- Review usage and remove metrics nobody uses.\n- Control access, especially where dashboards include personal or sensitive data.\n\n## Key terms\n\n- **Dashboard:** a visual display of key metrics.\n- **Drill-down:** moving from summary to detailed data.\n- **Refresh:** updating the dashboard with new data.\n- **Audience:** the people who will use the dashboard.\n\n## Real-world example\n\nAn operations dashboard has 40 charts on one page, and managers stop using it. The redesign shows five KPIs at the top, each with target and trend, followed by one section per region with drill-down to individual sites. A \"last refreshed\" time is shown. Managers start opening it in daily stand-up meetings.\n\n## Common mistakes\n\n- Trying to show everything on one page.\n- No targets or trends, so numbers lack meaning.\n- No refresh time, so users do not trust the data.\n\n## Key takeaways\n\n- Design for a specific audience and purpose with a few key metrics.\n- Arrange by importance, group related information and provide context.\n- Show refresh times, definitions and control access."
     }
   ],
   "assessment": {
@@ -38,11 +38,121 @@
     "level": "BASIC",
     "passMarkPercent": 70,
     "questions": [
-      { "position": 1, "type": "SINGLE", "text": "Which chart best shows change over time?", "options": ["Pie chart", "Line chart", "Scatter plot", "Bubble map"], "correct": ["Line chart"], "points": 1 },
-      { "position": 2, "type": "SINGLE", "text": "Why should bar charts usually start at zero?", "options": ["It looks more modern", "A truncated axis exaggerates differences", "It saves space", "It is required by law"], "correct": ["A truncated axis exaggerates differences"], "points": 1 },
-      { "position": 3, "type": "SINGLE", "text": "What is the best use of colour in a chart?", "options": ["To decorate every series", "To highlight the one or two things the reader should notice", "To match the company logo only", "To hide the data"], "correct": ["To highlight the one or two things the reader should notice"], "points": 1 },
-      { "position": 4, "type": "MULTIPLE", "text": "Which are misleading or unclear chart practices? (Select all that apply)", "options": ["3D effects that distort the size of parts", "Truncated bar axes", "Labelled axes with units", "Eight coloured lines with no highlighting"], "correct": ["3D effects that distort the size of parts", "Truncated bar axes", "Eight coloured lines with no highlighting"], "points": 2 },
-      { "position": 5, "type": "TRUE_FALSE", "text": "On a dashboard, headline KPIs should appear at the top.", "options": ["True", "False"], "correct": ["True"], "points": 1 }
+      {
+        "type": "SINGLE",
+        "text": "Which chart is best for showing a trend over time?",
+        "options": [
+          "Pie chart",
+          "Line chart",
+          "Scatter plot",
+          "Table"
+        ],
+        "correct": [
+          "Line chart"
+        ],
+        "points": 1,
+        "explanation": "Line charts show change over time clearly."
+      },
+      {
+        "type": "TRUE_FALSE",
+        "text": "Bar chart value axes should normally start at zero.",
+        "options": [
+          "True",
+          "False"
+        ],
+        "correct": [
+          "True"
+        ],
+        "points": 1,
+        "explanation": "Bar length represents value; truncated axes exaggerate differences."
+      },
+      {
+        "type": "SINGLE",
+        "text": "Which title is best?",
+        "options": [
+          "SLA by region",
+          "Chart 3",
+          "Southern region missed SLA targets in three of four months",
+          "Data"
+        ],
+        "correct": [
+          "Southern region missed SLA targets in three of four months"
+        ],
+        "points": 1,
+        "explanation": "A headline title states the message."
+      },
+      {
+        "type": "MULTIPLE",
+        "text": "Which practices make a dashboard useful?",
+        "options": [
+          "A few key metrics",
+          "Targets and trends",
+          "Last refreshed time",
+          "As many charts as possible"
+        ],
+        "correct": [
+          "A few key metrics",
+          "Targets and trends",
+          "Last refreshed time"
+        ],
+        "points": 1,
+        "explanation": "Too many charts reduce usability."
+      },
+      {
+        "type": "SINGLE",
+        "text": "Why avoid relying only on red versus green?",
+        "options": [
+          "They are expensive",
+          "Some people have colour vision deficiency",
+          "They print badly",
+          "They are out of fashion"
+        ],
+        "correct": [
+          "Some people have colour vision deficiency"
+        ],
+        "points": 1,
+        "explanation": "Use labels, patterns or colour-blind-friendly palettes."
+      },
+      {
+        "type": "TRUE_FALSE",
+        "text": "3D effects make charts more accurate.",
+        "options": [
+          "True",
+          "False"
+        ],
+        "correct": [
+          "False"
+        ],
+        "points": 1,
+        "explanation": "3D distorts sizes and makes comparison harder."
+      },
+      {
+        "type": "MATCHING",
+        "text": "Match each question to a chart type.",
+        "options": [
+          "Compare regions=Bar chart",
+          "Trend over months=Line chart",
+          "Relationship between two measures=Scatter plot",
+          "Distribution of values=Histogram"
+        ],
+        "correct": [],
+        "points": 1,
+        "explanation": "Choose the chart by purpose."
+      }
     ]
-  }
+  },
+  "sources": [
+    {
+      "title": "GOV.UK Analysis Function: guidance on data visualisation and presenting statistics",
+      "url": "https://analysisfunction.civilservice.gov.uk/"
+    },
+    {
+      "title": "Tableau: visual best practices and learning resources",
+      "url": "https://www.tableau.com/learn"
+    },
+    {
+      "title": "Microsoft Learn: Power BI documentation (data models, refresh, workspaces)",
+      "url": "https://learn.microsoft.com/en-us/power-bi/"
+    }
+  ]
 }

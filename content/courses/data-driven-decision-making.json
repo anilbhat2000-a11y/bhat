@@ -11,25 +11,25 @@
       "position": 1,
       "title": "Start with the decision, not the data",
       "type": "TEXT",
-      "body": "A useful analysis starts with a decision someone must make. Before pulling any data, write down:\n\n- **The decision:** what will be done differently depending on the answer.\n- **The question:** a specific, answerable question, such as 'Which two product lines have the highest return rate this quarter?'\n- **The owner:** who will act on the answer.\n\nAnalysis without a decision tends to produce reports that no one reads. Ask 'What would we do if the number were high, and what if it were low?' If the answer is the same either way, the analysis may not be worth doing."
+      "body": "Data-driven decision making means using evidence, rather than instinct alone, to make business choices. The most common mistake is to start by collecting data and hoping an answer appears. Good analysis starts with the decision you need to make.\n\n## Framing the question\n\nBefore looking at any data, write down:\n\n- **The decision:** what choice must be made? For example, \"Should we open a new service centre in Pune?\"\n- **The options:** what are the realistic alternatives?\n- **The information needed:** what would you need to know to choose well? Demand, cost, travel times, competitor presence?\n- **The deadline:** when must the decision be made?\n- **The decision maker:** who decides, and what do they care about?\n\n## Good and weak questions\n\n- **Weak:** \"What does our sales data show?\"\n- **Strong:** \"Which three customer segments grew fastest last year, and should we shift sales effort towards them next quarter?\"\n\nA strong question is specific, linked to an action and answerable with available data.\n\n## Key terms\n\n- **Decision:** a choice between options that leads to action.\n- **Hypothesis:** a testable statement, such as \"Branches with two internet links have fewer billing outages.\"\n- **Evidence:** data and facts that support or challenge a hypothesis.\n\n## Real-world example\n\nA service manager asks the analytics team for \"all the ticket data\". After a short conversation, the real decision becomes clear: whether to hire two more engineers for the southern region or extend support hours. The team analyses ticket volumes by region and hour, and response times against SLAs. The data shows most breaches happen in the evening, so extending hours with a shift change solves the problem without new hires.\n\n## Common mistakes\n\n- Starting with data instead of the decision.\n- Questions too broad to answer.\n- Ignoring who will make the decision and what they need.\n\n## Key takeaways\n\n- Start with the decision, options, information needed and deadline.\n- Write specific questions linked to actions.\n- Use hypotheses to focus the analysis."
     },
     {
       "position": 2,
       "title": "Defining metrics and KPIs",
       "type": "TEXT",
-      "body": "A key performance indicator (KPI) is a measure tied to a goal. A good KPI has a clear definition, a named owner, a source, and a target. For example, 'Win rate: deals won divided by deals closed in the period, from the CRM, target 25 percent.'\n\nDistinguish between:\n\n- **Leading indicators:** early signals, such as meetings booked or trials started.\n- **Lagging indicators:** outcomes, such as revenue or customer retention.\n\nLeading indicators let you act sooner, but lagging indicators confirm whether the actions worked."
+      "body": "Metrics turn business goals into numbers you can track. Key performance indicators (KPIs) are the few metrics that matter most for a goal. Choosing and defining them well prevents confusion and wrong decisions.\n\n## Metric versus KPI\n\n- **Metric:** any measurement, such as the number of tickets closed.\n- **KPI:** a metric directly linked to a key objective, such as \"percentage of priority-1 tickets resolved within SLA\".\n\n## Defining a metric properly\n\nEvery metric needs a clear written definition:\n\n- **Name and purpose:** what it measures and why.\n- **Formula:** exactly how it is calculated, including what is included and excluded.\n- **Data source:** which system provides the data.\n- **Frequency:** how often it is measured.\n- **Owner:** who is responsible for the metric.\n- **Target:** what good looks like.\n\nWithout a shared definition, two teams can report different numbers for the \"same\" metric.\n\n## Leading and lagging indicators\n\n- **Lagging indicators** measure outcomes after they happen, such as revenue or customer churn.\n- **Leading indicators** predict future outcomes, such as pipeline value or the number of discovery meetings held.\n- Use both: leading indicators give time to act; lagging indicators confirm results.\n\n## Key terms\n\n- **KPI:** key performance indicator.\n- **Metric definition:** the exact formula, source and rules for a metric.\n- **Leading / lagging indicator:** predictive / outcome measure.\n- **Target:** the level of performance aimed for.\n\n## Real-world example\n\nSales and finance report different \"monthly revenue\" figures. Sales counts orders booked; finance counts invoices raised. Both are valid, but the confusion wastes meetings. The company defines two metrics, \"order bookings\" and \"invoiced revenue\", with written formulas and sources. Reports become consistent.\n\n## Common mistakes\n\n- Too many KPIs, so nothing is in focus.\n- Metrics without written definitions.\n- Using only lagging indicators.\n\n## Key takeaways\n\n- KPIs are the few metrics linked to key objectives.\n- Define every metric with formula, source, frequency, owner and target.\n- Use both leading and lagging indicators."
     },
     {
       "position": 3,
       "title": "Checking data quality",
       "type": "TEXT",
-      "body": "Before trusting an analysis, check the data against four properties:\n\n- **Completeness:** are records missing, such as blank fields or missing months?\n- **Accuracy:** do the values match the source of truth?\n- **Consistency:** is the same thing recorded the same way, such as one spelling of a region name?\n- **Timeliness:** is the data current enough for the decision?\n\nA quick check is to compare totals with a trusted report. If they differ, find out why before presenting any conclusion."
+      "body": "Decisions are only as good as the data behind them. Poor data quality leads to wrong conclusions, wasted effort and lost trust. Checking data quality is a routine step in every analysis.\n\n## Dimensions of data quality\n\nData management professionals, such as those following the DAMA body of knowledge, commonly describe these dimensions:\n\n- **Accuracy:** does the data reflect reality?\n- **Completeness:** are required values present?\n- **Consistency:** does the data agree across systems?\n- **Timeliness:** is the data up to date for the decision?\n- **Validity:** does the data follow the expected format and rules?\n- **Uniqueness:** are there duplicate records?\n\n## Practical checks\n\n- Count records and compare with expected totals.\n- Look for blanks, impossible values (such as negative quantities) and outliers.\n- Check for duplicates, such as the same customer entered twice.\n- Compare totals with another trusted source, such as finance reports.\n- Check date ranges and time zones.\n- Ask the people who enter the data how it is captured.\n\n## Handling problems\n\n- Fix data at the source where possible, not just in the report.\n- Document any cleaning steps and assumptions.\n- Tell decision makers about limitations.\n- Handle personal data carefully and lawfully under the DPDP Act, using only what the analysis needs.\n\n## Key terms\n\n- **Data quality:** how fit data is for its intended use.\n- **Outlier:** a value far from the others.\n- **Duplicate:** a record that appears more than once.\n- **Data owner:** the person responsible for a dataset's quality.\n\n## Real-world example\n\nAn analysis suggests that one region has doubled its sales. A quality check finds that a CRM import created duplicate opportunities for that region. After removing duplicates, growth is modest. Catching the error prevents the company from moving resources based on a false trend.\n\n## Common mistakes\n\n- Trusting data without checking it.\n- Cleaning data silently without documenting changes.\n- Fixing reports instead of fixing the source.\n\n## Key takeaways\n\n- Check accuracy, completeness, consistency, timeliness, validity and uniqueness.\n- Compare with trusted sources and look for blanks, outliers and duplicates.\n- Fix at the source, document cleaning and share limitations."
     },
     {
       "position": 4,
       "title": "Correlation, cause, and testing",
       "type": "TEXT",
-      "body": "Two measures that move together are correlated, but that does not mean one causes the other. Ice cream sales and drowning rates both rise in summer, for example, but neither causes the other.\n\nTo show that an action caused a result, compare against a control group that did not receive the action, or run an A/B test where people are randomly assigned to two versions. Be cautious about conclusions from a single period, a small sample, or a result that was hoped for."
+      "body": "A common trap in analysis is assuming that because two things move together, one causes the other. **Correlation** means two measures change together. **Causation** means one actually causes the other. Confusing them leads to costly mistakes.\n\n## Why correlation is not causation\n\n- **Confounding factors:** a third factor may cause both. For example, larger branches may have both more staff and more sales; adding staff to a small branch may not raise sales.\n- **Reverse causation:** the effect may cause the \"cause\". Customers who are happier may use support less, rather than less support making them happy.\n- **Coincidence:** with enough data, some measures move together by chance.\n\n## Testing for cause\n\n- **Controlled experiments (A/B tests):** randomly split customers or sites into groups, change one thing for one group and compare results.\n- **Pilots with comparison groups:** try a change in some branches and compare with similar branches that did not change.\n- **Before-and-after with care:** compare results before and after a change, while checking for other factors such as seasons.\n- **Statistical methods:** regression and other techniques can account for some confounding factors, but need care and expertise.\n\n## Key terms\n\n- **Correlation:** measures moving together.\n- **Causation:** one factor causing another.\n- **Confounding factor:** a third factor affecting both measures.\n- **A/B test:** a controlled experiment comparing two versions.\n\n## Real-world example\n\nAnalysis shows that customers who attended a product webinar bought more the next quarter. Marketing wants to make webinars mandatory for all sales campaigns. A closer look shows that customers who attended were already larger and more engaged. The team runs a test: half of a matched customer list is invited and half is not. The invited group buys slightly more, but far less than the original analysis suggested. Investment is adjusted accordingly.\n\n## Common mistakes\n\n- Treating correlation as proof of cause.\n- Ignoring confounding factors.\n- Making large changes without a pilot or test.\n\n## Key takeaways\n\n- Correlation does not prove causation; check for confounders, reverse causation and chance.\n- Use A/B tests, pilots with comparison groups and careful before-and-after analysis.\n- Test before making large investments."
     }
   ],
   "assessment": {
@@ -38,11 +38,127 @@
     "level": "BASIC",
     "passMarkPercent": 70,
     "questions": [
-      { "position": 1, "type": "SINGLE", "text": "What should an analysis start with?", "options": ["Pulling all available data", "The decision that must be made", "The chart style", "The software licence"], "correct": ["The decision that must be made"], "points": 1 },
-      { "position": 2, "type": "SINGLE", "text": "Which is a leading indicator?", "options": ["Annual revenue", "Customer retention rate", "Trials started this month", "Profit for the year"], "correct": ["Trials started this month"], "points": 1 },
-      { "position": 3, "type": "SINGLE", "text": "Which data quality property is about the same thing being recorded the same way?", "options": ["Completeness", "Accuracy", "Consistency", "Timeliness"], "correct": ["Consistency"], "points": 1 },
-      { "position": 4, "type": "MULTIPLE", "text": "Which are good ways to test whether an action caused a result? (Select all that apply)", "options": ["Comparing against a control group", "Running an A/B test with random assignment", "Assuming correlation proves cause", "Checking a single period and a small sample"], "correct": ["Comparing against a control group", "Running an A/B test with random assignment"], "points": 2 },
-      { "position": 5, "type": "TRUE_FALSE", "text": "Two measures that rise together always show that one causes the other.", "options": ["True", "False"], "correct": ["False"], "points": 1 }
+      {
+        "type": "SINGLE",
+        "text": "What should good analysis start with?",
+        "options": [
+          "Collecting all available data",
+          "The decision that needs to be made",
+          "Choosing a chart",
+          "Buying software"
+        ],
+        "correct": [
+          "The decision that needs to be made"
+        ],
+        "points": 1,
+        "explanation": "Framing the decision focuses the analysis."
+      },
+      {
+        "type": "SINGLE",
+        "text": "Which is a leading indicator for sales?",
+        "options": [
+          "Last year's revenue",
+          "Number of discovery meetings held",
+          "Annual profit",
+          "Customer churn last year"
+        ],
+        "correct": [
+          "Number of discovery meetings held"
+        ],
+        "points": 1,
+        "explanation": "Leading indicators predict future outcomes."
+      },
+      {
+        "type": "MULTIPLE",
+        "text": "Which are dimensions of data quality?",
+        "options": [
+          "Accuracy",
+          "Completeness",
+          "Timeliness",
+          "Colourfulness"
+        ],
+        "correct": [
+          "Accuracy",
+          "Completeness",
+          "Timeliness"
+        ],
+        "points": 1,
+        "explanation": "Other dimensions include consistency, validity and uniqueness."
+      },
+      {
+        "type": "TRUE_FALSE",
+        "text": "If two measures move together, one must cause the other.",
+        "options": [
+          "True",
+          "False"
+        ],
+        "correct": [
+          "False"
+        ],
+        "points": 1,
+        "explanation": "Correlation does not prove causation."
+      },
+      {
+        "type": "SINGLE",
+        "text": "What is the best way to test whether a change causes an improvement?",
+        "options": [
+          "Ask one manager",
+          "Run a controlled test or pilot with a comparison group",
+          "Look at one month's data",
+          "Assume it works"
+        ],
+        "correct": [
+          "Run a controlled test or pilot with a comparison group"
+        ],
+        "points": 1,
+        "explanation": "Comparison groups help separate the effect from other factors."
+      },
+      {
+        "type": "SINGLE",
+        "text": "Sales and finance report different revenue figures. What is the best fix?",
+        "options": [
+          "Use whichever is higher",
+          "Write clear definitions for each metric",
+          "Stop reporting revenue",
+          "Average them"
+        ],
+        "correct": [
+          "Write clear definitions for each metric"
+        ],
+        "points": 1,
+        "explanation": "Written definitions remove confusion."
+      },
+      {
+        "type": "MATCHING",
+        "text": "Match each term to its meaning.",
+        "options": [
+          "KPI=Key metric linked to an objective",
+          "Confounding factor=Third factor affecting both measures",
+          "Outlier=Value far from the others",
+          "A/B test=Controlled comparison of two versions"
+        ],
+        "correct": [],
+        "points": 1,
+        "explanation": "These are core analysis terms."
+      }
     ]
-  }
+  },
+  "sources": [
+    {
+      "title": "DAMA International: data management body of knowledge (data quality dimensions)",
+      "url": "https://www.dama.org/"
+    },
+    {
+      "title": "NIST/SEMATECH e-Handbook of Statistical Methods",
+      "url": "https://www.itl.nist.gov/div898/handbook/"
+    },
+    {
+      "title": "MeitY: Digital Personal Data Protection Act, 2023 and Rules",
+      "url": "https://www.meity.gov.in/"
+    },
+    {
+      "title": "Microsoft Learn: free role-based training paths",
+      "url": "https://learn.microsoft.com/en-us/training/"
+    }
+  ]
 }

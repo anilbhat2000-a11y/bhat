@@ -11,25 +11,25 @@
       "position": 1,
       "title": "What analytics platforms do",
       "type": "TEXT",
-      "body": "Analytics platforms, often called business intelligence (BI) tools, perform four jobs:\n\n1. **Connect** to data sources such as databases, spreadsheets, CRM systems, and cloud services.\n2. **Model** the data, by defining relationships and calculations once so every report uses the same logic.\n3. **Visualise** the results in charts, tables, and dashboards.\n4. **Share** the results, with controls over who can see what.\n\nThe same four jobs apply whichever product is used. Learning them makes it easier to move between tools."
+      "body": "Business intelligence (BI) and analytics platforms, such as Microsoft Power BI, Tableau, Qlik and Looker, connect to data, prepare it, model it and present it in reports and dashboards that people across the organisation can use.\n\n## What analytics platforms do\n\n- **Connect** to data sources: databases, ERP and CRM systems, spreadsheets and cloud services.\n- **Prepare** data: clean, combine and reshape it.\n- **Model** data: define relationships between tables and calculations such as KPIs.\n- **Visualise:** build charts, reports and dashboards.\n- **Share and collaborate:** publish to users with the right access.\n- **Govern:** control who sees what and keep definitions consistent.\n\n## Self-service and central BI\n\n- **Self-service BI** lets business users build their own reports, speeding up insight.\n- **Central or managed BI** provides trusted, certified datasets and reports maintained by a data team.\n- Most organisations combine both: certified central datasets that business users can build on.\n\n## Key terms\n\n- **Business intelligence (BI):** tools and practices for turning data into information for decisions.\n- **Data source:** a system that provides data.\n- **Report / dashboard:** a collection of visuals for analysis or monitoring.\n- **Certified dataset:** a dataset approved as trusted for wide use.\n\n## Real-world example\n\nA company's managers each build their own spreadsheets from ERP exports, leading to different numbers in every meeting. The company introduces a BI platform with a certified sales and service dataset maintained by the finance team. Managers build their own views on top of it. Meetings now start from the same numbers.\n\n## Common mistakes\n\n- Every team building separate datasets with different definitions.\n- Treating the BI tool as only a charting tool.\n- No ownership of data and reports.\n\n## Key takeaways\n\n- Analytics platforms connect, prepare, model, visualise, share and govern data.\n- Combine self-service with certified central datasets.\n- Assign clear ownership of data and reports."
     },
     {
       "position": 2,
       "title": "Data sources and refresh",
       "type": "TEXT",
-      "body": "A platform is only as current as its connection. Decide for each source:\n\n- **Connection type:** a direct query, or an imported copy of the data.\n- **Refresh schedule:** how often the data is updated, for example daily at 06:00.\n- **Ownership:** who maintains the source and fixes it when it breaks.\n\nImported copies are fast to report on but go stale. Direct queries stay current but can be slower and put load on the source system."
+      "body": "Reports are only as current as their data. Understanding how platforms connect to sources and refresh data helps you choose the right approach for each need.\n\n## Connection approaches\n\n- **Import (scheduled refresh):** data is copied into the platform and refreshed on a schedule, such as daily or hourly. Fast for users; data is as fresh as the last refresh.\n- **Direct query / live connection:** the platform queries the source each time a user views the report. Data is current, but performance depends on the source system.\n- **Hybrid approaches:** some data imported, some queried live.\n- **Streaming:** for real-time data such as device telemetry.\n\n## Gateways and on-premises data\n\nWhen data is on-premises, a **data gateway** securely connects the cloud BI service to local sources. It must be installed, kept updated and monitored.\n\n## Planning refresh\n\n- Match refresh frequency to the decision: daily sales review needs daily data; network monitoring may need near real time.\n- Schedule refreshes outside peak hours for source systems.\n- Monitor refresh failures and alert data owners.\n- Show the last refresh time on reports.\n\n## Key terms\n\n- **Scheduled refresh:** updating imported data at set times.\n- **Direct query:** querying the source at view time.\n- **Data gateway:** software connecting cloud BI services to on-premises data.\n- **Latency:** delay between data changing and appearing in reports.\n\n## Real-world example\n\nA sales dashboard uses direct query against the live ERP database. Every morning, when many managers open it, the ERP slows down for order entry staff. The data team switches the dashboard to an import model refreshed every two hours from a reporting replica. Dashboards load faster and the ERP is no longer affected.\n\n## Common mistakes\n\n- Direct query on busy operational systems.\n- Refresh failures nobody notices.\n- Refreshing more often than decisions require.\n\n## Key takeaways\n\n- Choose import, direct query, hybrid or streaming based on freshness and performance needs.\n- Use and monitor gateways for on-premises data.\n- Match refresh frequency to decisions and show refresh times."
     },
     {
       "position": 3,
       "title": "Data models and shared definitions",
       "type": "TEXT",
-      "body": "A data model defines how tables relate, such as orders linked to customers and products, and holds calculations like 'Revenue minus returns'. Define each KPI once in the model, not separately in each report, so two reports cannot show different revenue figures.\n\nUse a star-shaped design where possible: a central table of events, such as sales, linked to descriptive tables such as customers, products, and dates. This keeps reports fast and the logic easy to check."
+      "body": "A data model defines how tables relate and how key measures are calculated. A good model makes reports fast, accurate and consistent. Shared definitions mean everyone uses the same calculation for the same metric.\n\n## Building a good data model\n\n- **Star schema:** a common design with **fact tables** (events or transactions, such as sales lines or tickets) surrounded by **dimension tables** (descriptive data, such as customers, products, dates and regions). Star schemas are easy to understand and perform well in most BI tools.\n- **Relationships:** connect facts to dimensions using keys.\n- **Date table:** a dedicated calendar table supports time comparisons such as month-on-month or financial year to date, including India's April-to-March financial year.\n- **Measures:** central calculations, such as revenue, margin percentage or SLA compliance, defined once in the model.\n\n## Shared definitions\n\n- Define each KPI once in a central model, not separately in each report.\n- Document definitions in a data dictionary, with formula, source and owner.\n- Certify trusted datasets so users know which to use.\n\n## Key terms\n\n- **Data model:** the structure of tables, relationships and measures.\n- **Fact table:** records events or transactions.\n- **Dimension table:** describes entities such as customers or products.\n- **Data dictionary:** documentation of fields and metric definitions.\n\n## Real-world example\n\nThree reports show three different margin percentages for the same quarter, because each calculates margin differently. The data team defines one margin measure in the central model, documents it in the data dictionary and certifies the dataset. All reports switch to the shared measure, and the debate about \"whose number is right\" ends.\n\n## Common mistakes\n\n- One large flat table with everything in it.\n- Calculating the same KPI differently in each report.\n- No date table, making time comparisons difficult.\n\n## Key takeaways\n\n- Use star schemas with fact and dimension tables and a date table.\n- Define measures once in the model and document them.\n- Certify trusted datasets for shared use."
     },
     {
       "position": 4,
       "title": "Publishing, access, and governance",
       "type": "TEXT",
-      "body": "Publish dashboards to a shared workspace, not to personal files, so the team uses one version. Control access by role: managers may see their team's data, while finance sees the full ledger. Keep a named owner for each dashboard, and review dashboards that have not been used for several months.\n\nRecord who changed a metric definition and when. A changed definition without a record is one of the most common causes of disputes about numbers."
+      "body": "Publishing reports widely brings value, but also risk: the wrong people may see sensitive data, or poorly built reports may spread confusion. Governance keeps analytics trusted, secure and useful.\n\n## Access control\n\n- **Workspaces or projects:** organise content by team or purpose.\n- **Roles:** viewers, contributors and administrators have different permissions.\n- **Row-level security (RLS):** users see only the rows they are allowed to, such as their own region's data.\n- **Sensitivity labels and classification:** mark confidential reports and control sharing and export.\n- **Personal data:** follow the DPDP Act and company policy; show personal details only where needed.\n\n## Governance practices\n\n- **Ownership:** each dataset and report has a named owner.\n- **Certification:** trusted datasets and reports are marked as certified.\n- **Lifecycle:** development, testing and production stages for important reports.\n- **Usage monitoring:** see which reports are used and retire unused ones.\n- **Training and standards:** templates, naming conventions and design guidelines.\n\n## Key terms\n\n- **Row-level security:** restricting data rows by user.\n- **Workspace:** a container for reports and datasets.\n- **Sensitivity label:** a classification controlling handling of data.\n- **Certification:** marking content as trusted.\n\n## Real-world example\n\nA sales performance report, including individual salespeople's incentives, is shared with \"everyone in the company\" by mistake. After the incident, the company applies row-level security so managers see only their teams, adds a \"confidential\" sensitivity label that blocks external sharing, and reviews workspace access monthly.\n\n## Common mistakes\n\n- Sharing reports with everyone by default.\n- No row-level security for sensitive data.\n- Hundreds of unused, unowned reports.\n\n## Key takeaways\n\n- Control access with workspaces, roles, row-level security and sensitivity labels.\n- Assign owners, certify trusted content and manage report lifecycles.\n- Monitor usage and protect personal data."
     }
   ],
   "assessment": {
@@ -38,11 +38,125 @@
     "level": "INTERMEDIATE",
     "passMarkPercent": 70,
     "questions": [
-      { "position": 1, "type": "SINGLE", "text": "Which is one of the four main jobs of an analytics platform?", "options": ["Printing invoices", "Connecting to data sources", "Hiring staff", "Manufacturing products"], "correct": ["Connecting to data sources"], "points": 1 },
-      { "position": 2, "type": "SINGLE", "text": "What is the main risk of an imported data copy?", "options": ["It cannot be visualised", "It goes stale between refreshes", "It is always too expensive", "It cannot be shared"], "correct": ["It goes stale between refreshes"], "points": 1 },
-      { "position": 3, "type": "SINGLE", "text": "Why define each KPI once in the data model?", "options": ["So reports cannot show different figures for the same measure", "To make the file larger", "To hide the calculation", "To avoid refreshing data"], "correct": ["So reports cannot show different figures for the same measure"], "points": 1 },
-      { "position": 4, "type": "MULTIPLE", "text": "Which are good governance practices for dashboards? (Select all that apply)", "options": ["Publishing to a shared workspace", "Keeping a named owner", "Recording who changed a metric definition", "Sharing one personal file by email each week"], "correct": ["Publishing to a shared workspace", "Keeping a named owner", "Recording who changed a metric definition"], "points": 2 },
-      { "position": 5, "type": "TRUE_FALSE", "text": "Access to dashboards should be controlled by role.", "options": ["True", "False"], "correct": ["True"], "points": 1 }
+      {
+        "type": "SINGLE",
+        "text": "In a star schema, what does a fact table hold?",
+        "options": [
+          "Descriptions of customers",
+          "Events or transactions such as sales lines",
+          "User passwords",
+          "Report colours"
+        ],
+        "correct": [
+          "Events or transactions such as sales lines"
+        ],
+        "points": 1,
+        "explanation": "Dimension tables hold descriptive data."
+      },
+      {
+        "type": "SINGLE",
+        "text": "What does row-level security do?",
+        "options": [
+          "Encrypts the whole database",
+          "Restricts which data rows each user can see",
+          "Speeds up refresh",
+          "Adds colours to rows"
+        ],
+        "correct": [
+          "Restricts which data rows each user can see"
+        ],
+        "points": 1,
+        "explanation": "Users see only the data they are allowed to."
+      },
+      {
+        "type": "TRUE_FALSE",
+        "text": "Direct query on a busy operational database can slow that system down.",
+        "options": [
+          "True",
+          "False"
+        ],
+        "correct": [
+          "True"
+        ],
+        "points": 1,
+        "explanation": "Each report view queries the source."
+      },
+      {
+        "type": "MULTIPLE",
+        "text": "Which are good governance practices for analytics?",
+        "options": [
+          "Named owners for datasets",
+          "Certified datasets",
+          "Usage monitoring",
+          "Sharing all reports with everyone"
+        ],
+        "correct": [
+          "Named owners for datasets",
+          "Certified datasets",
+          "Usage monitoring"
+        ],
+        "points": 1,
+        "explanation": "Broad sharing creates risk."
+      },
+      {
+        "type": "SINGLE",
+        "text": "What connects a cloud BI service to on-premises data?",
+        "options": [
+          "A data gateway",
+          "A printer",
+          "A UPS",
+          "A firewall rule only"
+        ],
+        "correct": [
+          "A data gateway"
+        ],
+        "points": 1,
+        "explanation": "Gateways securely link cloud services to local sources."
+      },
+      {
+        "type": "TRUE_FALSE",
+        "text": "Each report should calculate key KPIs in its own way.",
+        "options": [
+          "True",
+          "False"
+        ],
+        "correct": [
+          "False"
+        ],
+        "points": 1,
+        "explanation": "Define measures once centrally for consistency."
+      },
+      {
+        "type": "MATCHING",
+        "text": "Match each term to its meaning.",
+        "options": [
+          "Scheduled refresh=Updating imported data at set times",
+          "Dimension table=Describes entities like customers",
+          "Data dictionary=Documents fields and definitions",
+          "Certified dataset=Approved as trusted"
+        ],
+        "correct": [],
+        "points": 1,
+        "explanation": "These terms appear in every BI platform."
+      }
     ]
-  }
+  },
+  "sources": [
+    {
+      "title": "Microsoft Learn: Power BI documentation (data models, refresh, workspaces)",
+      "url": "https://learn.microsoft.com/en-us/power-bi/"
+    },
+    {
+      "title": "Tableau: visual best practices and learning resources",
+      "url": "https://www.tableau.com/learn"
+    },
+    {
+      "title": "DAMA International: data management body of knowledge (data quality dimensions)",
+      "url": "https://www.dama.org/"
+    },
+    {
+      "title": "MeitY: Digital Personal Data Protection Act, 2023 and Rules",
+      "url": "https://www.meity.gov.in/"
+    }
+  ]
 }
