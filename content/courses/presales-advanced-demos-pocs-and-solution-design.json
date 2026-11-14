@@ -29,29 +29,43 @@
       "position": 1,
       "title": "Demo planning",
       "type": "TEXT",
-      "body": "A demo shows a customer that the solution does what they need. A generic feature tour rarely wins; a demo built around the customer's own success criteria does.\n\n## Plan the demo\n\n1. Ask the customer what they must see to be convinced. Write down three to five success criteria.\n2. Build a short story: \"Here is your problem today; here is how it looks with our solution.\"\n3. Prepare realistic data and test the full flow beforehand on the same network and equipment.\n4. Prepare a backup (screenshots or a recording) in case the network fails.\n\n## During the demo\n\n- Restate the success criteria at the start.\n- Show each one, then pause and ask \"Does this meet your need?\"\n- Do not show features nobody asked for.\n- Note every question you cannot answer and promise a written reply.\n\n## After the demo\n\nSend a short summary: criteria shown, questions raised, answers, and the agreed next step.",
+      "body": "A demonstration shows the customer how our solution solves their problem. A good demo is not a tour of every feature; it is a short, focused story built around the customer's own situation. Planning makes the difference between a demo that wins and one that confuses.\n\n## Planning a demo\n\n1. **Know the audience:** who will attend, what they care about, and what they already know.\n2. **Agree the objectives:** what the customer wants to see and what decision the demo supports.\n3. **Build a storyline:** start with the customer's problem, show how the solution solves it, and end with the result.\n4. **Prepare the environment:** test the setup, the data and the network the day before and again an hour before.\n5. **Plan for failure:** have screenshots or a recorded video ready in case of a technical problem.\n\n## Delivering the demo\n\n- Start by confirming the agenda and what the customer hopes to see.\n- Show the most important outcome early; attention drops over time.\n- Use the customer's terms, data and examples where possible.\n- Pause to check understanding and invite questions.\n- Finish with a summary and an agreed next step.\n\n## Key terms\n\n- **Demo script:** the planned sequence of what will be shown and said.\n- **Storyline:** the problem-to-solution narrative behind the demo.\n- **Demo environment:** the systems and data used for the demonstration.\n\n## Real-world example\n\nA logistics company wants to see a network monitoring tool. Instead of opening every menu, Kavya builds the demo around a scenario: a branch link fails at 9 a.m. She shows the alert arriving, the dashboard pinpointing the failed link, and the automatic ticket created for the service provider. The operations head immediately sees how outages would be found faster. The demo takes 20 minutes and leads to a POC.\n\n## Common mistakes\n\n- Showing every feature instead of the ones that matter.\n- Not testing the environment, leading to a failed demo.\n- Running past the agreed time.\n\n## Key takeaways\n\n- Build the demo around the customer's problem and audience.\n- Test everything and have a backup plan.\n- Keep it short, focused and end with a next step.",
       "module": 1
     },
     {
       "position": 2,
       "title": "POC scoping and success criteria",
       "type": "TEXT",
-      "body": "A proof of concept (POC) tests the solution in the customer's environment before they buy. POCs cost time and equipment, so scope them carefully.\n\n## Agree before you start\n\n- **Objective:** the business question the POC must answer.\n- **Scope:** what is in and out (sites, users, features).\n- **Entry criteria:** what must be ready before we start (rack space, network access, test users).\n- **Success (exit) criteria:** measurable results, for example \"roaming between access points without dropping a video call\".\n- **Duration:** a fixed start and end date.\n- **Responsibilities:** who provides what, from both sides.\n- **What happens next** if the criteria are met (usually a purchase decision).\n\n## Run and close\n\nTrack results against each criterion. Close with a written report signed off by the customer. A POC with no agreed end often drifts on for months and ends without a decision.",
+      "body": "A proof of concept (POC) tests the solution in the customer's environment before they buy. POCs reduce the customer's risk, but they cost time and money for both sides. A POC without clear success criteria can drag on for months and end without a decision.\n\n## Scoping a POC\n\n- **Objective:** what question the POC will answer, such as \"Can the backup software restore a 2 TB database within four hours?\"\n- **Scope:** which systems, users and features are included, and what is excluded.\n- **Duration:** a fixed period, commonly two to six weeks.\n- **Resources:** equipment, licences, engineers and customer staff time.\n- **Responsibilities:** what we do, what the customer does and what the OEM provides.\n\n## Success criteria\n\nSuccess criteria are measurable tests agreed in writing before the POC starts. Good criteria are specific and testable:\n\n- \"Restore of a 2 TB database completes within four hours.\"\n- \"Wi-Fi signal of at least -67 dBm in all classrooms.\"\n- \"Alert reaches the operations team within two minutes of a link failure.\"\n\nAgree in advance that if the criteria are met, the customer will move to the next step, such as a commercial discussion.\n\n## Key terms\n\n- **Success criteria:** measurable conditions that show the POC passed.\n- **Pilot:** a small, real deployment used in production, often after a POC.\n- **Exit plan:** how equipment is returned or the POC converted to an order.\n\n## Real-world example\n\nA manufacturing company asks for a POC of endpoint security. The presales team agrees three success criteria with the CISO: install on 100 endpoints within a week, detect a set of test attacks safely simulated by the OEM, and use less than 5% CPU on average. The results are presented in a short report. Because the criteria were agreed in advance, the customer signs an order two weeks later.\n\n## Common mistakes\n\n- Starting a POC without written success criteria.\n- Letting the scope grow during the POC.\n- Not agreeing what happens after a successful POC.\n\n## Key takeaways\n\n- Scope the POC tightly with an objective, duration and responsibilities.\n- Agree measurable success criteria in writing before starting.\n- Agree the next step that follows a successful POC.",
       "module": 2
     },
     {
       "position": 3,
       "title": "Multi-vendor solution design",
       "type": "TEXT",
-      "body": "Real customer solutions often combine products from several OEMs. The design must make them work together and be supportable.\n\n## Integration points\n\nFor every place where two products meet, check:\n\n- **Compatibility:** supported versions, protocols and interfaces.\n- **Performance:** will one part become the bottleneck?\n- **Management:** can the customer monitor everything from one place?\n- **Support:** which vendor is responsible when something fails at the boundary?\n\n## Design for operations\n\n- Avoid single points of failure for critical services.\n- Plan capacity for growth (often three to five years).\n- Document IP plans, VLANs, rack layouts and cable schedules.\n- Include monitoring, backup and a clear escalation path.\n\n## Lab work\n\nWhere possible, build the critical integration in a lab before proposing it. Record configurations, versions and results so the delivery team can repeat them.",
+      "body": "Most real solutions combine products from several manufacturers, for example servers from one OEM, storage from another, a hypervisor from a third and a backup tool from a fourth. As a system integrator, our value lies in making these pieces work together reliably and in supporting the whole solution.\n\n## Principles of multi-vendor design\n\n- **Check compatibility:** use the manufacturers' compatibility and interoperability guides, such as hardware compatibility lists for hypervisors.\n- **Use open standards:** standards such as Ethernet, SIP, SNMP and SAML make products from different vendors work together.\n- **Design for supportability:** know who supports each part and how problems will be escalated across vendors.\n- **Avoid single points of failure:** where availability matters, plan redundancy across components.\n- **Document the design:** diagrams, IP plans, configurations and version numbers.\n\n## Managing risk\n\n- Prefer validated designs published by OEMs where possible.\n- Test unusual combinations in a lab or POC before proposing them.\n- Align support contracts so that every component has cover for the same period.\n- Confirm firmware and software versions that are supported together.\n\n## Key terms\n\n- **Interoperability:** the ability of products from different vendors to work together.\n- **Hardware compatibility list (HCL):** a vendor's list of tested and supported hardware.\n- **Validated design:** a reference architecture tested and published by an OEM.\n- **Single point of failure:** a component whose failure stops the whole service.\n\n## Real-world example\n\nA customer wants a virtualised server environment using existing storage from one vendor and new servers from another. Before quoting, presales checks the hypervisor's compatibility list and finds that the existing storage firmware is not supported with the latest hypervisor version. The design includes a firmware upgrade service for the storage. The project runs smoothly, while a competitor's design would have failed at installation.\n\n## Common mistakes\n\n- Assuming products will work together without checking compatibility lists.\n- Leaving gaps in support between vendors.\n- Not documenting versions and configurations.\n\n## Key takeaways\n\n- Check compatibility lists and use open standards and validated designs.\n- Plan support and escalation across all vendors.\n- Document the design so that it can be built and supported.",
       "module": 3
     },
     {
       "position": 4,
       "title": "Presenting the solution",
       "type": "TEXT",
-      "body": "The best design is wasted if the audience does not understand it. Technical and business audiences need different stories.\n\n## For business leaders\n\n- Start with the business outcome: cost, risk, growth, compliance.\n- Use one simple diagram.\n- Give the total cost and the payback, not the part numbers.\n- Close with a clear decision you need from them.\n\n## For technical teams\n\n- Show the detailed architecture and data flows.\n- Explain the design choices and the alternatives you rejected.\n- Be ready for deep questions on integration, security and operations.\n\n## Handling questions\n\n- Listen to the full question before answering.\n- If you do not know, say so and commit to a written answer by a date.\n- Never contradict a colleague in front of the customer; clarify afterwards.\n\n> This module includes a live session where you present a design to a panel and receive feedback.",
+      "body": "The final presentation of a solution often decides the deal. It brings together the customer's needs, the design, the plan, the price and our credibility. A strong presentation is short, clear and focused on the customer's outcomes.\n\n## Structure of a solution presentation\n\n1. **Their situation:** restate the business problem and goals in their words.\n2. **Our solution:** the design in one clear diagram, explained simply.\n3. **How it meets the requirements:** link each major requirement to part of the solution.\n4. **Implementation and support:** the plan, timeline, team and support model.\n5. **Why us:** relevant experience, references and certifications.\n6. **Investment and value:** the cost, the benefits and, where useful, the return on investment.\n7. **Next steps:** what we propose happens next.\n\n## Presenting with confidence\n\n- Rehearse with your sales colleague and agree who presents which section.\n- Know your numbers and the assumptions behind them.\n- Answer questions honestly; if you do not know, say so and commit to a follow-up.\n- Use few words on slides; talk to the audience, not to the screen.\n\n## Handling tough questions\n\n- Listen to the full question before answering.\n- Repeat or rephrase it to confirm understanding.\n- Give a short, direct answer, then offer detail if needed.\n- Never criticise a competitor; focus on our strengths.\n\n## Key terms\n\n- **Return on investment (ROI):** the benefit gained relative to the cost.\n- **Architecture diagram:** a simple picture of how the solution's parts connect.\n- **Reference:** a customer who can confirm our experience.\n\n## Real-world example\n\nAt a final presentation for a hospital network upgrade, the panel asks why the solution costs more than another bid. Instead of attacking the competitor, Sameer explains that the design includes redundant core switches so that the operating theatres stay connected if one switch fails. He links this to the hospital's requirement for 99.9% availability. The panel accepts the reasoning and scores the solution highest on technical merit.\n\n## Common mistakes\n\n- Overloading slides with text and part numbers.\n- Not rehearsing, leading to confusion between presenters.\n- Guessing answers instead of admitting uncertainty.\n\n## Key takeaways\n\n- Structure the presentation around the customer's problem and outcomes.\n- Rehearse, know your numbers and agree roles.\n- Answer honestly and stay positive about competitors.",
       "module": 4
+    }
+  ],
+  "sources": [
+    {
+      "title": "Microsoft Learn: free role-based training paths",
+      "url": "https://learn.microsoft.com/en-us/training/"
+    },
+    {
+      "title": "AWS Skill Builder: cloud training",
+      "url": "https://skillbuilder.aws/"
+    },
+    {
+      "title": "Cisco Networking Academy: networking and security courses",
+      "url": "https://www.netacad.com/"
     }
   ],
   "assessment": {
@@ -61,37 +75,82 @@
     "questions": [
       {
         "type": "SINGLE",
-        "text": "What makes a demo convincing?",
+        "text": "What should a demo be built around?",
         "options": [
-          "Showing every feature",
-          "Building it around the customer's own success criteria",
-          "Making it as long as possible",
-          "Using the vendor's default slides only"
+          "Every feature of the product",
+          "The customer's problem and a storyline",
+          "The OEM's marketing video",
+          "The price list"
         ],
         "correct": [
-          "Building it around the customer's own success criteria"
+          "The customer's problem and a storyline"
         ],
-        "points": 1
+        "points": 1,
+        "explanation": "A focused story around the customer's problem is more convincing than a feature tour."
       },
       {
-        "type": "MULTIPLE",
-        "text": "Which should be agreed before a POC starts? Select all that apply.",
+        "type": "SINGLE",
+        "text": "Which is a good POC success criterion?",
         "options": [
-          "Measurable success criteria",
-          "Fixed start and end dates",
-          "Entry criteria and responsibilities",
-          "The final discount"
+          "The customer likes the product",
+          "Restore of a 2 TB database completes within four hours",
+          "The POC goes well",
+          "The software is modern"
         ],
         "correct": [
-          "Measurable success criteria",
-          "Fixed start and end dates",
-          "Entry criteria and responsibilities"
+          "Restore of a 2 TB database completes within four hours"
         ],
-        "points": 2
+        "points": 1,
+        "explanation": "Success criteria must be specific and measurable."
       },
       {
         "type": "TRUE_FALSE",
-        "text": "A POC without an agreed end date usually leads to a quick decision.",
+        "text": "POC success criteria should be agreed in writing before the POC starts.",
+        "options": [
+          "True",
+          "False"
+        ],
+        "correct": [
+          "True"
+        ],
+        "points": 1,
+        "explanation": "Agreeing in advance prevents disputes about whether the POC passed."
+      },
+      {
+        "type": "SINGLE",
+        "text": "What is a hardware compatibility list (HCL)?",
+        "options": [
+          "A price list",
+          "A vendor's list of tested and supported hardware",
+          "A list of competitors",
+          "An asset register"
+        ],
+        "correct": [
+          "A vendor's list of tested and supported hardware"
+        ],
+        "points": 1,
+        "explanation": "Checking the HCL avoids unsupported combinations."
+      },
+      {
+        "type": "MULTIPLE",
+        "text": "Which practices reduce risk in a multi-vendor design?",
+        "options": [
+          "Using OEM validated designs",
+          "Aligning support contracts",
+          "Testing unusual combinations first",
+          "Assuming everything works together"
+        ],
+        "correct": [
+          "Using OEM validated designs",
+          "Aligning support contracts",
+          "Testing unusual combinations first"
+        ],
+        "points": 1,
+        "explanation": "Validated designs, aligned support and testing all reduce integration risk."
+      },
+      {
+        "type": "TRUE_FALSE",
+        "text": "If a panel asks a question you cannot answer, it is best to guess confidently.",
         "options": [
           "True",
           "False"
@@ -99,43 +158,16 @@
         "correct": [
           "False"
         ],
-        "points": 1
-      },
-      {
-        "type": "SINGLE",
-        "text": "In a multi-vendor design, what must be clear at every integration point?",
-        "options": [
-          "Which vendor supports the boundary when it fails",
-          "Which vendor has the larger logo",
-          "Which product is cheapest",
-          "Nothing beyond the price"
-        ],
-        "correct": [
-          "Which vendor supports the boundary when it fails"
-        ],
-        "points": 1
-      },
-      {
-        "type": "SINGLE",
-        "text": "What should a presentation to business leaders start with?",
-        "options": [
-          "Part numbers",
-          "The business outcome",
-          "Cable schedules",
-          "The VLAN plan"
-        ],
-        "correct": [
-          "The business outcome"
-        ],
-        "points": 1
+        "points": 1,
+        "explanation": "Say you will confirm and follow up. Wrong answers damage credibility."
       },
       {
         "type": "SHORT_ANSWER",
-        "text": "A customer asks in a demo whether the product supports a feature you are not sure about. Describe how you would respond.",
+        "text": "In two or three sentences, explain why a POC needs a fixed duration and a defined scope.",
         "options": [],
         "correct": [],
-        "points": 4,
-        "explanation": "Model answer: do not guess; say you will confirm in writing, note the question, check with the OEM, and reply by an agreed date in the demo summary."
+        "points": 1,
+        "explanation": "A fixed duration and scope control cost, keep the POC focused on the agreed question, and lead to a clear decision instead of an endless trial."
       }
     ]
   }

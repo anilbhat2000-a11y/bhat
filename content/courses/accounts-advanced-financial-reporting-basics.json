@@ -29,29 +29,47 @@
       "position": 1,
       "title": "Reading financial statements",
       "type": "TEXT",
-      "body": "Two statements describe a company's finances.\n\n## Profit and loss statement (P&L)\n\nShows performance over a period, such as a month or a year:\n\n- **Revenue:** sales.\n- **Cost of goods sold:** what the products and services we sold cost us.\n- **Gross profit:** revenue minus cost of goods sold.\n- **Operating expenses:** salaries, rent, travel, marketing.\n- **Operating profit,** then interest and tax, then **net profit**.\n\n## Balance sheet\n\nShows the position on one date:\n\n- **Assets:** what the company owns or is owed (cash, receivables, stock, equipment).\n- **Liabilities:** what it owes (payables, loans, taxes due).\n- **Equity:** what belongs to the owners.\n\nAssets always equal liabilities plus equity.",
+      "body": "Financial statements summarise how a company has performed and where it stands. Indian companies prepare them under the Companies Act, 2013, in the format set by Schedule III, and following either Ind AS (Indian Accounting Standards, for listed and larger companies) or the accounting standards notified for other companies. You do not need to be an accountant to read them, but you need to know what each statement tells you.\n\n## The main statements\n\n- **Balance sheet:** what the company owns (assets), what it owes (liabilities) and the owners' stake (equity) on a given date. Assets = Liabilities + Equity.\n- **Statement of profit and loss:** revenue, expenses and profit for a period, such as a quarter or a year.\n- **Cash flow statement:** cash coming in and going out, split into operating, investing and financing activities.\n- **Notes:** explanations, accounting policies and detailed breakdowns.\n\n## Reading them together\n\nProfit and cash are not the same. A company can show a profit but run short of cash if customers pay late or stock builds up. That is why the cash flow statement matters, especially in a trading-heavy IT business.\n\n## Key terms\n\n- **Revenue:** income from selling goods and services.\n- **Gross profit:** revenue minus the direct cost of what was sold.\n- **EBITDA:** earnings before interest, tax, depreciation and amortisation; a rough measure of operating profit.\n- **Net profit:** profit after all expenses, interest and tax.\n- **Current assets:** assets expected to turn into cash within a year, such as receivables and inventory.\n\n## Real-world example\n\nA systems integrator reports record revenue and a healthy profit for the year, but has to increase its bank overdraft. The cash flow statement shows why: receivables grew by ₹12 crore because two large government customers paid late. Management decides to tighten payment terms on new contracts and assign a dedicated collections owner for government accounts.\n\n## Common mistakes\n\n- Treating profit as if it were cash.\n- Looking only at revenue growth and ignoring margins.\n- Ignoring the notes, where important details are explained.\n\n## Key takeaways\n\n- The balance sheet, profit and loss statement and cash flow statement each answer different questions.\n- Profit is not cash; watch receivables and inventory.\n- Indian companies follow Schedule III and Ind AS or other notified standards.",
       "module": 1
     },
     {
       "position": 2,
       "title": "Margin and working capital",
       "type": "TEXT",
-      "body": "Two measures matter a lot in an IT solutions business.\n\n## Gross margin\n\nGross margin percentage = (revenue minus cost) ÷ revenue × 100.\n\nExample: we sell a solution for ₹10,00,000 that cost us ₹8,50,000. Gross profit is ₹1,50,000, and the gross margin is 15%.\n\nHardware resale often has thin margins; services and support usually carry higher margins. That is why services matter to profitability.\n\n## Working capital\n\nWorking capital = current assets minus current liabilities.\n\nIn practice it is driven by:\n\n- how quickly customers pay us (receivables);\n- how long stock sits before it is sold;\n- how long we take to pay vendors (payables).\n\nA company can be profitable and still run out of cash if customers pay slowly while vendors must be paid quickly.",
+      "body": "Margin and working capital are two of the most important measures for an IT trading and services company. Margin shows how much we earn on each sale. Working capital shows how much cash is tied up in running the business.\n\n## Margin\n\n- **Gross margin %** = (revenue − cost of goods and services sold) ÷ revenue × 100.\n- **Product margins** in IT resale are often thin, while **services margins** are usually higher.\n- **Mix matters:** adding installation, support or managed services to a deal can raise its overall margin.\n\nNote the difference between margin and markup. If you buy for ₹100 and sell for ₹125, the markup is 25% of cost, but the margin is 20% of the selling price.\n\n## Working capital\n\nWorking capital is current assets minus current liabilities. In practice, it is the cash tied up in receivables and inventory, less what we owe suppliers.\n\nThe **cash conversion cycle** measures how many days cash is tied up:\n\nCash conversion cycle = Days Inventory Outstanding (DIO) + Days Sales Outstanding (DSO) − Days Payable Outstanding (DPO).\n\nA shorter cycle means the business needs less borrowing to grow.\n\n## Key terms\n\n- **Gross margin:** profit after direct costs, as a percentage of revenue.\n- **Markup:** profit as a percentage of cost.\n- **Working capital:** current assets minus current liabilities.\n- **Cash conversion cycle:** DIO + DSO − DPO, in days.\n\n## Real-world example\n\nA deal for 500 laptops brings ₹3 crore in revenue at a 6% gross margin, or ₹18 lakh. The customer asks for 90-day credit, while the distributor gives 30 days. The company must fund about 60 days of the purchase cost itself. At a borrowing cost of around 10% a year, financing roughly ₹2.8 crore for 60 days costs about ₹4.6 lakh, a quarter of the margin. The finance team asks sales to negotiate 45-day terms or add services to improve the margin.\n\n## Common mistakes\n\n- Confusing margin with markup.\n- Agreeing long customer credit without considering financing cost.\n- Holding stock that is not linked to customer orders.\n\n## Key takeaways\n\n- Know the difference between margin and markup.\n- Working capital and the cash conversion cycle show how much cash the business ties up.\n- Credit terms and stock levels can quietly erase thin margins.",
       "module": 2
     },
     {
       "position": 3,
       "title": "Month-end close",
       "type": "TEXT",
-      "body": "Month-end close is the routine that makes the month's numbers reliable.\n\n## A typical checklist\n\n1. All sales invoices for the month are raised.\n2. All vendor invoices received are recorded; accruals made for goods received but not yet invoiced.\n3. Bank and key ledger reconciliations are complete.\n4. Stock is counted or checked against records.\n5. GST and TDS entries are checked against the returns to be filed.\n6. Unusual items are reviewed and explained.\n7. Management reports are prepared and reviewed.\n\n## Supporting audits\n\nAuditors test whether the accounts are true and fair. Help them by keeping:\n\n- signed POs, invoices, GRNs and delivery proofs filed by period;\n- reconciliations with explanations;\n- approvals for discounts, write-offs and unusual payments.",
+      "body": "Month-end close is the set of tasks the accounts team completes after each month ends, to produce accurate figures. A fast, reliable close gives management timely information and makes the year-end audit easier.\n\n## Typical month-end tasks\n\n1. **Cut-off:** make sure all sales and purchases are recorded in the right month, based on delivery and invoice dates.\n2. **Revenue:** check that all deliveries and completed services have been invoiced, and record accrued revenue where work is done but not yet billed.\n3. **Expenses:** record accruals for costs incurred but not yet invoiced, such as utilities or contractor work.\n4. **Reconciliations:** bank, customer, vendor, inventory and GST.\n5. **Fixed assets:** record additions and depreciation.\n6. **Review:** compare actuals with budget and the previous month, and investigate unusual movements.\n7. **Reporting:** prepare the management report.\n\n## Making the close faster\n\n- Use a checklist with owners and due dates for each task.\n- Ask sales, purchase and logistics to submit documents by a fixed day.\n- Reconcile accounts during the month, not only at the end.\n- Automate repetitive entries where possible.\n\n## Key terms\n\n- **Cut-off:** recording transactions in the correct period.\n- **Accrual:** recording income or expense in the period it relates to, even if not yet invoiced or paid.\n- **Provision:** an amount set aside for a likely future cost, such as doubtful debts or warranty claims.\n- **Variance:** the difference between actual and budget.\n\n## Real-world example\n\nA company's March results show unusually high revenue. During review, the controller finds that goods invoiced on 31 March were dispatched on 3 April. Under the company's revenue policy, the sale belongs to April. Correcting the cut-off before the books are closed avoids an audit qualification and gives management a true picture.\n\n## Common mistakes\n\n- Recording sales before the goods are delivered or the service performed.\n- Leaving reconciliations until year end.\n- Closing without reviewing unusual movements.\n\n## Key takeaways\n\n- Month-end close turns transactions into reliable monthly figures.\n- Cut-off, accruals and reconciliations are the core tasks.\n- A checklist with owners and deadlines makes the close faster and more accurate.",
       "module": 3
     },
     {
       "position": 4,
       "title": "Company reporting calendar",
       "type": "TEXT",
-      "body": "[PLACEHOLDER: The company will supply its reporting calendar.]\n\nThis lesson will list the company's monthly, quarterly and annual deadlines: management reports, GST returns, TDS returns, board meetings and audits. Until it is available, ask the Finance team for:\n\n- the monthly close date and who signs off;\n- statutory filing due dates the team tracks;\n- the format of management reports.",
+      "body": "Every finance team works to a calendar of statutory deadlines and internal reporting dates. This lesson covers the common deadlines most Indian companies follow. Your administrator will add 3C's own reporting calendar below.\n\n> **[PLACEHOLDER]** Company reporting calendar: monthly close dates, management report dates, board meeting schedule, budget cycle and the owners of each report. The LMS administrator adds these details.\n\n## Common statutory deadlines\n\nDeadlines change through notifications, so always check the official portals. Commonly applicable ones include:\n\n- **GST returns:** GSTR-1 (outward supplies) monthly by the 11th of the next month for most monthly filers, and GSTR-3B (summary and tax payment) monthly by the 20th, with quarterly options for small taxpayers.\n- **GST annual return (GSTR-9):** by 31 December after the financial year, where applicable.\n- **TDS payment:** generally by the 7th of the following month, with quarterly TDS returns.\n- **Advance income tax:** instalments due in June, September, December and March.\n- **Companies Act filings:** annual accounts and annual return with the Registrar of Companies after the annual general meeting.\n\n## Internal reporting\n\n- **Monthly management report:** revenue, margin, receivables, payables, cash and key variances.\n- **Quarterly review:** results compared with budget and forecast.\n- **Annual budget:** prepared before the financial year starts on 1 April.\n\n## Key terms\n\n- **Statutory deadline:** a date set by law for a filing or payment.\n- **Financial year (FY):** in India, 1 April to 31 March.\n- **Registrar of Companies (RoC):** the authority where companies file annual documents.\n\n## Real-world example\n\nA company misses the GSTR-1 deadline one month because the billing team closed late. Its customers cannot see their input tax credit on time and complain. The finance team adds the GSTR-1 date to the company calendar with a reminder five days earlier, and sets an internal invoice cut-off two days before the filing date.\n\n## Common mistakes\n\n- Relying on memory instead of a shared calendar.\n- Not allowing time for review before filing.\n- Using outdated due dates after a change notification.\n\n## Key takeaways\n\n- Keep a shared calendar of statutory and internal deadlines with owners.\n- Build in review time before each filing.\n- Check official portals for the latest due dates.",
       "module": 4
+    }
+  ],
+  "sources": [
+    {
+      "title": "Ministry of Corporate Affairs: Companies Act 2013, Schedule III and Ind AS",
+      "url": "https://www.mca.gov.in/"
+    },
+    {
+      "title": "The Institute of Chartered Accountants of India (ICAI): accounting standards and guidance",
+      "url": "https://www.icai.org/"
+    },
+    {
+      "title": "GST portal (GSTN): returns, GSTIN search and advisories",
+      "url": "https://www.gst.gov.in/"
+    },
+    {
+      "title": "Income Tax Department: due dates and e-filing",
+      "url": "https://www.incometax.gov.in/"
     }
   ],
   "assessment": {
@@ -61,50 +79,52 @@
     "questions": [
       {
         "type": "SINGLE",
-        "text": "What does a profit and loss statement show?",
+        "text": "Which statement shows what a company owns and owes on a given date?",
         "options": [
-          "Performance over a period",
-          "The position on one date",
-          "Only cash in the bank",
-          "Employee details"
+          "Statement of profit and loss",
+          "Balance sheet",
+          "Cash flow statement",
+          "Sales register"
         ],
         "correct": [
-          "Performance over a period"
-        ],
-        "points": 1
-      },
-      {
-        "type": "SINGLE",
-        "text": "What is always true of a balance sheet?",
-        "options": [
-          "Assets equal liabilities plus equity",
-          "Revenue equals profit",
-          "Cash equals equity",
-          "Liabilities are always zero"
-        ],
-        "correct": [
-          "Assets equal liabilities plus equity"
-        ],
-        "points": 1
-      },
-      {
-        "type": "SINGLE",
-        "text": "A solution sells for ₹10,00,000 and costs ₹8,50,000. What is the gross margin?",
-        "options": [
-          "8.5%",
-          "15%",
-          "85%",
-          "1.5%"
-        ],
-        "correct": [
-          "15%"
+          "Balance sheet"
         ],
         "points": 1,
-        "explanation": "(10,00,000 − 8,50,000) ÷ 10,00,000 × 100 = 15%."
+        "explanation": "The balance sheet shows assets, liabilities and equity at a point in time."
+      },
+      {
+        "type": "SINGLE",
+        "text": "You buy an item for ₹100 and sell it for ₹125. What is the gross margin?",
+        "options": [
+          "25%",
+          "20%",
+          "12.5%",
+          "125%"
+        ],
+        "correct": [
+          "20%"
+        ],
+        "points": 1,
+        "explanation": "Margin is profit ÷ selling price: 25 ÷ 125 = 20%. The markup is 25%."
+      },
+      {
+        "type": "SINGLE",
+        "text": "Which formula gives the cash conversion cycle?",
+        "options": [
+          "DSO + DPO − DIO",
+          "DIO + DSO − DPO",
+          "DPO − DSO",
+          "Revenue ÷ profit"
+        ],
+        "correct": [
+          "DIO + DSO − DPO"
+        ],
+        "points": 1,
+        "explanation": "Cash is tied up in inventory and receivables, less the credit suppliers give."
       },
       {
         "type": "TRUE_FALSE",
-        "text": "A profitable company can still run out of cash.",
+        "text": "A company that reports a profit can still run short of cash.",
         "options": [
           "True",
           "False"
@@ -113,32 +133,49 @@
           "True"
         ],
         "points": 1,
-        "explanation": "If customers pay slowly while vendors must be paid quickly, cash runs short."
+        "explanation": "Late customer payments and high inventory can absorb cash even when the business is profitable."
+      },
+      {
+        "type": "SINGLE",
+        "text": "Goods invoiced on 31 March are dispatched on 3 April. Under a delivery-based revenue policy, when is the sale recorded?",
+        "options": [
+          "March",
+          "April",
+          "Either",
+          "When paid"
+        ],
+        "correct": [
+          "April"
+        ],
+        "points": 1,
+        "explanation": "Cut-off follows the revenue recognition policy; here delivery happened in April."
       },
       {
         "type": "MULTIPLE",
-        "text": "Which belong on a month-end close checklist? Select all that apply.",
+        "text": "Which tasks are part of a month-end close?",
         "options": [
-          "All sales invoices raised",
-          "Bank reconciliation done",
-          "Accruals for goods received but not invoiced",
-          "Planning the office party"
+          "Cut-off checks",
+          "Accruals",
+          "Reconciliations",
+          "Deleting old invoices"
         ],
         "correct": [
-          "All sales invoices raised",
-          "Bank reconciliation done",
-          "Accruals for goods received but not invoiced"
+          "Cut-off checks",
+          "Accruals",
+          "Reconciliations"
         ],
-        "points": 2
+        "points": 1,
+        "explanation": "Cut-off, accruals and reconciliations are core close tasks; records are never deleted."
       },
       {
         "type": "FILL_BLANK",
-        "text": "Current assets minus current liabilities is called working ____.",
+        "text": "In India the financial year runs from 1 April to 31 ______.",
         "options": [
-          "capital"
+          "March"
         ],
         "correct": [],
-        "points": 1
+        "points": 1,
+        "explanation": "The Indian financial year ends on 31 March."
       }
     ]
   }

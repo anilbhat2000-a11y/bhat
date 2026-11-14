@@ -29,29 +29,47 @@
       "position": 1,
       "title": "Dispatch documents",
       "type": "TEXT",
-      "body": "Goods moving on the road without the right documents can be stopped, fined or delayed. Every dispatch needs a document set, checked before the vehicle leaves.\n\n## The usual document set\n\n- **Tax invoice** (for a sale) or **delivery challan** (for movements that are not sales, such as goods sent for demo, repair or on approval).\n- **E-way bill**, when the value and type of movement require it. Logistics and Accounts keep the current rules.\n- **Packing list:** what is in each box, with serial numbers.\n- **Lorry receipt (LR) or consignment note** from the transporter.\n- Any documents the customer asked for, such as a copy of their PO.\n\n## Before the vehicle leaves\n\n- Quantities and serial numbers on the packing list match the boxes.\n- Invoice, e-way bill and packing list show the same items, values and addresses.\n- The vehicle number on the e-way bill matches the vehicle.",
+      "body": "Every shipment that leaves our warehouse must travel with the right documents. Missing or wrong paperwork can stop a truck at a checkpoint, delay a customer's project and lead to penalties under GST. The logistics team is responsible for getting it right every time.\n\n## The main dispatch documents\n\n- **Tax invoice:** issued when goods are sold. It travels with the goods.\n- **Delivery challan:** used when goods move without a sale, for example for a demo, repair, job work or a stock transfer within the same GSTIN. Rule 55 of the CGST Rules sets out when a challan is used and what it must contain.\n- **E-way bill:** generally required when the consignment value is more than ₹50,000, under Rule 138 of the CGST Rules. It is generated on the government e-way bill portal.\n- **Packing list:** the contents of each box, with serial numbers where applicable.\n- **Lorry receipt (LR) or consignment note:** issued by the transporter as proof that it has received the goods for carriage.\n\n## Checks before dispatch\n\n1. The invoice or challan matches the sales order: items, quantities, customer and delivery address.\n2. Serial numbers on the packing list match the units being shipped.\n3. The e-way bill is generated with the correct invoice number, value, and vehicle number.\n4. The customer's site contact and delivery instructions are clear.\n\n## Key terms\n\n- **Delivery challan:** a document for moving goods when there is no sale.\n- **E-way bill:** an electronic document for the movement of goods above the threshold.\n- **Consignee:** the person or company receiving the goods.\n- **Lorry receipt (LR):** the transporter's receipt for goods accepted for carriage.\n\n## Real-world example\n\nA laptop shipment worth ₹4 lakh leaves the warehouse with the invoice but without an e-way bill, because the dispatcher thought the transporter would generate it. The truck is stopped at a checkpoint and the goods are detained until the issue is resolved, delaying a customer's office opening. The company makes e-way bill generation part of the dispatch checklist, with a second person checking it.\n\n## Common mistakes\n\n- Sending goods without an e-way bill when one is needed.\n- Using a tax invoice when goods are only being sent for demo or repair.\n- Mismatched serial numbers between the packing list and the units.\n\n## Key takeaways\n\n- Every shipment needs an invoice or delivery challan, and often an e-way bill.\n- Check documents against the sales order and the physical goods.\n- Make document checks part of a dispatch checklist with a second check.",
       "module": 1
     },
     {
       "position": 2,
       "title": "Packing and labelling",
       "type": "TEXT",
-      "body": "IT equipment is valuable and easily damaged. Good packing prevents claims and returns.\n\n## Packing\n\n- Use the original OEM cartons where possible; they are designed for the product.\n- Pack heavy items at the bottom; never stack on top of server cartons that say not to.\n- Fill empty space so items cannot move.\n- Seal boxes with company tape so tampering is visible.\n\n## Labelling\n\nEach box should show:\n\n- customer name, delivery address, contact person and phone;\n- our invoice or challan number;\n- box number, for example \"Box 3 of 7\";\n- handling marks: fragile, this way up, keep dry.\n\n> A photo of the packed and labelled boxes before dispatch is cheap insurance if a damage claim arises.",
+      "body": "Good packing protects goods in transit and makes receiving easy for the customer. IT equipment is sensitive to shock, moisture and static, and a damaged server or display can delay a whole project.\n\n## Packing principles\n\n- Use the original manufacturer packaging where possible; it is designed for the product.\n- Fill empty space so items do not move inside the box.\n- Use anti-static bags for loose components such as memory, drives and cards.\n- Stack heavy boxes at the bottom and do not exceed the stacking limit printed on the carton.\n- Palletise and shrink-wrap large shipments, and strap them securely.\n- Protect from moisture with plastic wrapping during the monsoon or for open vehicles.\n\n## Labelling\n\nEach box should carry a clear label with:\n\n- Customer name and full delivery address with PIN code.\n- Site contact name and phone number.\n- Invoice or challan number and the box number, for example \"Box 3 of 12\".\n- Handling marks where needed: \"Fragile\", \"This way up\", \"Keep dry\".\n\n## Key terms\n\n- **Palletising:** placing boxes on a pallet so they can be moved by forklift.\n- **Electrostatic discharge (ESD):** static electricity that can damage electronic components.\n- **Handling marks:** standard symbols that tell carriers how to handle a package.\n\n## Real-world example\n\nA shipment of 12 boxes reaches a customer, but box 7 is missing. Because each box was labelled \"Box x of 12\" and listed on the packing list with its contents, the customer notes the shortage on the delivery receipt at once. The transporter finds the box at its hub the next day. Without box numbers, the missing items might not have been noticed until installation.\n\n## Common mistakes\n\n- Reusing weak cartons for heavy items.\n- Leaving loose components unprotected from static.\n- Labels without box numbers or a contact phone number.\n\n## Key takeaways\n\n- Pack to protect against shock, moisture and static.\n- Label every box with the address, contact, document number and box count.\n- Use handling marks and follow stacking limits.",
       "module": 2
     },
     {
       "position": 3,
       "title": "Proof of delivery",
       "type": "TEXT",
-      "body": "Proof of delivery (POD) shows that the customer received the goods. Without it, collecting payment can be difficult.\n\n## A good POD records\n\n- the customer's name and address;\n- our invoice or challan number;\n- the number of boxes received, and their condition;\n- date and time of receipt;\n- name, signature and, where possible, the stamp of the person receiving.\n\n## In practice\n\n- The receiver should count the boxes and note any visible damage before signing.\n- If a box is damaged, write \"received damaged\" on the POD and take photos.\n- Send a scanned copy of the POD to Accounts the same day; many customers will not pay without it.",
+      "body": "Proof of delivery (POD) is evidence that the customer received the goods. It is needed to close the order, to support the invoice for payment and to resolve any dispute. Many customers will not pay until they receive a signed POD.\n\n## What a good POD contains\n\n- The customer's name, site address and the date and time of delivery.\n- The invoice or challan number.\n- The number of boxes received.\n- The name, signature and company stamp of the person receiving, with their phone number.\n- Any remarks about damage or shortage.\n\nElectronic POD, such as a photo or a signature captured on a transporter's app, is increasingly common. It should still show who received the goods and when.\n\n## Collecting PODs reliably\n\n- Instruct the transporter to collect a signed and stamped POD for every delivery.\n- Track PODs daily and follow up on any that are missing.\n- Scan and store PODs with the order record, so that accounts can attach them to invoices.\n- Agree with key customers who is authorised to sign at each site.\n\n## Key terms\n\n- **Proof of delivery (POD):** confirmation that the consignee received the goods.\n- **Consignee copy:** the copy of the documents kept by the receiver.\n- **Electronic POD (ePOD):** a digital record of delivery, often with photo and signature.\n\n## Real-world example\n\nA customer disputes an invoice, claiming one of five UPS units was never delivered. The logistics team retrieves the POD, signed and stamped by the customer's stores in-charge, showing five boxes received without remarks. The customer checks internally and finds the unit in another building. The invoice is paid in full.\n\n## Common mistakes\n\n- Accepting a POD with no name, stamp or date.\n- Not following up on missing PODs for weeks.\n- Storing PODs separately from the order record.\n\n## Key takeaways\n\n- A complete POD is the evidence that closes an order and supports payment.\n- Collect, track and store PODs with every order.\n- Agree authorised receivers with key customers.",
       "module": 3
     },
     {
       "position": 4,
       "title": "Damage and shortage",
       "type": "TEXT",
-      "body": "Problems found at delivery must be reported quickly, or the transporter and insurer may refuse the claim.\n\n## What to do\n\n1. **Record it on the POD:** \"1 box damaged\", \"2 boxes short\".\n2. **Take photos** of the outer box, the packing and the product.\n3. **Do not open or install** a damaged unit without instructions.\n4. **Inform** Logistics and the account manager the same day.\n5. **Notify** the transporter in writing, within the time stated in their terms.\n6. **Raise an insurance claim** if the goods were insured, with the photos, POD and invoice.\n\n## Afterwards\n\nArrange a replacement with Purchase and agree the new delivery date with the customer. Track the claim until it is settled.",
+      "body": "Even with good packing, goods are sometimes damaged or short when they arrive. How the problem is recorded at the moment of delivery decides whether we can recover the loss from the transporter or the insurer.\n\n## At the time of delivery\n\n- Ask the receiver to count the boxes and inspect them before signing.\n- If a box is damaged, wet or appears tampered with, note it clearly on the POD and the transporter's copy, for example \"Box 4 crushed, contents not checked\".\n- Take photographs of the damage, the labels and the vehicle.\n- If the damage is severe, the customer may refuse that box; record this on the POD.\n\n## After delivery\n\n1. Inform the logistics team and the transporter in writing on the same day.\n2. Raise a claim with the transporter and, where applicable, the insurer, with photos, the invoice, the packing list and the POD.\n3. Arrange a replacement for the customer so that their project is not delayed.\n4. Record the incident and the outcome to learn from it.\n\nUnder the Carriage by Road Act, 2007, a common carrier is responsible for loss or damage to goods in its care, subject to the conditions in the Act and the consignment note. Prompt written notice is important, so report problems as soon as possible.\n\n## Key terms\n\n- **Shortage:** fewer items received than invoiced.\n- **Concealed damage:** damage inside an undamaged-looking box, found only on opening.\n- **Claim:** a formal request to the transporter or insurer for compensation.\n\n## Real-world example\n\nA display arrives with a crushed corner on the box. The customer's receiver writes \"Box damaged, contents to be checked\" on the POD and takes photos. On opening, the screen is cracked. Because the damage was recorded and photographed, the transit insurer settles the claim, and a replacement reaches the customer within three days.\n\n## Common mistakes\n\n- Signing a clean POD without inspecting the boxes.\n- Reporting damage days later without photos.\n- Delaying the customer's replacement while waiting for the claim.\n\n## Key takeaways\n\n- Inspect before signing, and record damage or shortage on the POD.\n- Photograph and report in writing the same day.\n- Replace for the customer quickly, and pursue the claim in parallel.",
       "module": 4
+    }
+  ],
+  "sources": [
+    {
+      "title": "CBIC GST: CGST Rules (Rule 55 delivery challan, Rule 138 e-way bill) and Schedule I",
+      "url": "https://cbic-gst.gov.in/"
+    },
+    {
+      "title": "GST e-way bill system",
+      "url": "https://ewaybillgst.gov.in/"
+    },
+    {
+      "title": "Ministry of Road Transport and Highways: Carriage by Road Act, 2007 and rules",
+      "url": "https://morth.nic.in/"
+    },
+    {
+      "title": "ASCM (APICS): supply chain and inventory management body of knowledge",
+      "url": "https://www.ascm.org/"
     }
   ],
   "assessment": {
@@ -61,84 +79,104 @@
     "questions": [
       {
         "type": "SINGLE",
-        "text": "Goods are being sent to a customer for a demo, not sold. Which document usually goes with them instead of a tax invoice?",
+        "text": "Goods are sent to a customer for a demonstration, not sold. Which document should accompany them?",
         "options": [
+          "Tax invoice",
           "Delivery challan",
           "Credit note",
-          "Purchase order",
-          "Offer letter"
+          "Purchase order"
         ],
         "correct": [
           "Delivery challan"
         ],
-        "points": 1
-      },
-      {
-        "type": "MULTIPLE",
-        "text": "Which should match before a vehicle leaves? Select all that apply.",
-        "options": [
-          "Items and values on the invoice and e-way bill",
-          "Serial numbers on the packing list and the boxes",
-          "The vehicle number on the e-way bill and the vehicle",
-          "The driver's favourite route"
-        ],
-        "correct": [
-          "Items and values on the invoice and e-way bill",
-          "Serial numbers on the packing list and the boxes",
-          "The vehicle number on the e-way bill and the vehicle"
-        ],
-        "points": 2
+        "points": 1,
+        "explanation": "Rule 55 of the CGST Rules allows a delivery challan for movements that are not sales."
       },
       {
         "type": "SINGLE",
-        "text": "What is the main purpose of a proof of delivery?",
+        "text": "Above what consignment value is an e-way bill generally required?",
         "options": [
-          "To show the customer received the goods",
-          "To order more stock",
-          "To calculate GST",
-          "To book a vehicle"
+          "₹10,000",
+          "₹25,000",
+          "₹50,000",
+          "₹1,00,000"
         ],
         "correct": [
-          "To show the customer received the goods"
+          "₹50,000"
         ],
-        "points": 1
+        "points": 1,
+        "explanation": "Rule 138 sets ₹50,000 as the general threshold, though some states set different intra-state limits."
+      },
+      {
+        "type": "MULTIPLE",
+        "text": "What should a box label include?",
+        "options": [
+          "Delivery address with PIN code",
+          "Site contact phone number",
+          "Box number, such as 3 of 12",
+          "The purchase price"
+        ],
+        "correct": [
+          "Delivery address with PIN code",
+          "Site contact phone number",
+          "Box number, such as 3 of 12"
+        ],
+        "points": 1,
+        "explanation": "Clear labels help delivery and make shortages easy to spot. Prices should not be on labels."
       },
       {
         "type": "TRUE_FALSE",
-        "text": "If a box arrives damaged, the receiver should sign the POD as normal and report it later.",
+        "text": "If a box arrives damaged, the receiver should note it on the POD before signing.",
         "options": [
           "True",
           "False"
         ],
         "correct": [
-          "False"
+          "True"
         ],
         "points": 1,
-        "explanation": "Write 'received damaged' on the POD and take photos at once."
-      },
-      {
-        "type": "FILL_BLANK",
-        "text": "A label such as 'Box 3 of ____' helps the receiver check nothing is missing when 7 boxes are sent.",
-        "options": [
-          "7",
-          "seven"
-        ],
-        "correct": [],
-        "points": 1
+        "explanation": "Remarks on the POD are key evidence for a claim."
       },
       {
         "type": "SINGLE",
-        "text": "Which is the best practice when packing a server?",
+        "text": "What is the main purpose of a proof of delivery?",
         "options": [
-          "Use the original OEM carton where possible",
-          "Use any box and no filling",
-          "Stack other boxes on top regardless of markings",
-          "Leave it unsealed"
+          "Marketing",
+          "Evidence that the customer received the goods",
+          "Calculating GST",
+          "Ordering stock"
         ],
         "correct": [
-          "Use the original OEM carton where possible"
+          "Evidence that the customer received the goods"
         ],
-        "points": 1
+        "points": 1,
+        "explanation": "A POD closes the order and supports payment and dispute resolution."
+      },
+      {
+        "type": "TRUE_FALSE",
+        "text": "Anti-static bags are used to protect loose electronic components.",
+        "options": [
+          "True",
+          "False"
+        ],
+        "correct": [
+          "True"
+        ],
+        "points": 1,
+        "explanation": "Static discharge can damage memory, drives and cards."
+      },
+      {
+        "type": "MATCHING",
+        "text": "Match each document to its purpose.",
+        "options": [
+          "Tax invoice=Issued when goods are sold",
+          "Delivery challan=Movement without a sale",
+          "E-way bill=Electronic record for moving goods above the threshold",
+          "Lorry receipt=Transporter's receipt for goods"
+        ],
+        "correct": [],
+        "points": 1,
+        "explanation": "Using the right document avoids detention and disputes."
       }
     ]
   }

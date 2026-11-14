@@ -10,7 +10,7 @@ it("renders paragraphs, bold, code, lists, sub-headings and notes", () => {
   expect(out).toContain("<p>Intro with <strong>bold</strong> and <code>code</code>.</p>");
   expect(out).toContain("<ul><li>one</li><li>two</li></ul>");
   expect(out).toContain("<ol><li>first</li><li>second</li></ol>");
-  expect(out).toContain('<p class="lesson-subhead">Key points</p>');
+  expect(out).toContain('<h3 class="lesson-subhead">Key points</h3>');
   expect(out).toContain('<p class="lesson-note">Remember this.</p>');
 });
 
@@ -23,4 +23,11 @@ it("shows HTML in lesson text as text, never as markup", () => {
   expect(out).not.toContain("<script>");
   expect(out).not.toContain("<img");
   expect(out).toContain("&lt;script&gt;");
+});
+
+it("links https addresses, leaving trailing punctuation and other schemes as text", () => {
+  const out = html("See https://gem.gov.in/ for details. Not javascript:alert(1) or http://x.example.");
+  expect(out).toContain('<a href="https://gem.gov.in/" target="_blank" rel="noopener noreferrer">https://gem.gov.in/</a> for details.');
+  expect(out).not.toContain('href="javascript');
+  expect(out).not.toContain('href="http://');
 });

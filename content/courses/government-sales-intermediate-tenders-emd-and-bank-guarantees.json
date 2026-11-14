@@ -29,29 +29,51 @@
       "position": 1,
       "title": "Tender lifecycle",
       "type": "TEXT",
-      "body": "A tender moves through fixed stages. Missing one can disqualify a strong bid.\n\n## Stages\n\n1. **Notice published** on the portal: read it the same day.\n2. **Pre-bid meeting and queries:** ask about unclear or restrictive clauses before the query deadline.\n3. **Corrigenda:** the buyer may change dates, specifications or terms. Check the portal for corrigenda right up to submission.\n4. **Bid submission:** usually online, often in two covers: technical (with EMD and eligibility documents) and financial.\n5. **Technical evaluation:** bids that fail eligibility or specifications are rejected.\n6. **Financial opening:** prices of technically qualified bidders are opened; the lowest acceptable (L1) is identified.\n7. **Award:** letter of award or purchase order, followed by performance security and contract signing.",
+      "body": "When an item is not on GeM, or a project is large and complex, government organisations run a tender. A tender is a formal, competitive process with fixed rules and dates. Every step must be followed exactly; a missed document or a late upload can disqualify an otherwise winning bid.\n\n## Types of tender\n\n- **Open tender (advertised tender enquiry):** published on the Central Public Procurement Portal (CPPP) or the organisation's e-procurement portal, open to all eligible bidders.\n- **Limited tender:** sent to a limited number of registered or shortlisted vendors, usually for lower values or specialised items.\n- **Single tender:** placed with one supplier in special cases, such as proprietary items, with recorded justification.\n- **Two-stage bidding:** for complex projects where specifications are finalised after an initial technical stage.\n\n## The tender lifecycle\n\n1. **Publication:** the notice inviting tender (NIT) and tender documents are published.\n2. **Pre-bid meeting:** bidders raise queries; the buyer clarifies.\n3. **Corrigenda:** official changes to the tender are issued.\n4. **Bid submission:** technical and financial bids uploaded online before the deadline, usually with a digital signature certificate.\n5. **Technical evaluation:** eligibility and technical compliance are checked.\n6. **Financial evaluation:** prices of technically qualified bidders are opened and compared.\n7. **Award:** the letter of award or purchase order is issued to the successful bidder.\n8. **Contract and performance security:** the contract is signed and performance security submitted.\n\n## Key terms\n\n- **NIT:** notice inviting tender.\n- **Two-bid system:** separate technical and financial bids, opened in sequence.\n- **Digital signature certificate (DSC):** an electronic signature needed to submit bids online.\n- **Letter of award (LoA):** formal notice that a bidder has won.\n\n## Real-world example\n\nA company prepares an excellent bid for a state data-centre project but starts uploading 30 minutes before the deadline. The portal is slow, and the upload fails. The bid is not submitted, and months of preparation are wasted. The company now aims to upload at least a day before the deadline and keeps DSCs renewed and tested.\n\n## Common mistakes\n\n- Uploading at the last minute.\n- Expired or untested digital signature certificates.\n- Not reading corrigenda, which may change dates or requirements.\n\n## Key takeaways\n\n- Know the tender type and follow every step of the lifecycle.\n- Read all corrigenda and attend the pre-bid meeting.\n- Submit well before the deadline with a working DSC.",
       "module": 1
     },
     {
       "position": 2,
       "title": "Eligibility and documents",
       "type": "TEXT",
-      "body": "Eligibility criteria decide whether the bid is even evaluated. Check them first.\n\n## Common eligibility criteria\n\n- Minimum **annual turnover** over recent years.\n- **Similar work experience:** past orders of a given value and type, with completion certificates.\n- **OEM authorisation** (manufacturer's authorisation form, MAF) for the tender.\n- **Certifications** such as ISO.\n- **Registrations:** GST, PAN, and sometimes local office presence.\n- **Declarations:** not blacklisted, no conflicts of interest, integrity pact for large tenders.\n\n## Prepare in advance\n\nKeep a ready, current set of company documents: financial statements, past order copies with completion certificates, certificates and registrations. Requesting the MAF from the OEM early is essential; it can take days.",
+      "body": "Eligibility criteria decide who can bid. Even the best technical solution is rejected if the company does not meet the eligibility conditions or fails to upload the required documents in the right format.\n\n## Common eligibility criteria\n\n- **Legal status:** registered company, with GST and PAN.\n- **Financial capacity:** minimum average annual turnover over the last few years, supported by audited financial statements or a chartered accountant's certificate.\n- **Experience:** completion of similar work of a specified value in recent years, supported by work orders and completion certificates.\n- **OEM authorisation:** a manufacturer's authorisation form (MAF) for the products quoted.\n- **Certifications:** for example ISO 9001 for quality or ISO/IEC 27001 for information security.\n- **Declarations:** that the bidder is not blacklisted, and compliance with local content and other policies.\n\nMicro and small enterprises and DPIIT-recognised startups may receive relaxations on prior turnover and experience, subject to meeting quality and technical specifications, as allowed by the government's orders and the tender document.\n\n## Preparing documents\n\n- Maintain an up-to-date document library: incorporation documents, financials, certificates, completion certificates and standard declarations.\n- Read the tender's exact format requirements, such as specific annexure forms and notarisation.\n- Check that names, addresses and signatures are consistent across documents.\n- Prepare a checklist mapping each requirement to the uploaded file and page number.\n\n## Key terms\n\n- **Eligibility criteria:** minimum conditions a bidder must meet.\n- **Manufacturer's authorisation form (MAF):** an OEM's letter authorising a bidder to quote its products.\n- **Completion certificate:** a customer's confirmation that a project was completed.\n- **Blacklisting:** debarment of a vendor from government procurement for a period.\n\n## Real-world example\n\nA company meets the turnover and experience criteria, but its completion certificate for a key project shows a value slightly below the required amount because taxes were excluded. The tender asked for the value including taxes. The company obtains a revised certificate from the customer before submission. A careful reading of the criteria saved the bid.\n\n## Common mistakes\n\n- Uploading documents in the wrong format or annexure.\n- Missing the OEM authorisation form.\n- Inconsistent company names across certificates.\n\n## Key takeaways\n\n- Check eligibility early and decide whether to bid.\n- Keep a current library of standard documents.\n- Map every requirement to a document with a checklist.",
       "module": 2
     },
     {
       "position": 3,
       "title": "EMD and bank guarantees",
       "type": "TEXT",
-      "body": "Two kinds of security protect the buyer.\n\n## Earnest money deposit (EMD) or bid security\n\nSubmitted with the bid, to discourage bidders from withdrawing or changing their bid. GFR provides a typical range of a few percent of the estimated value; the exact amount and the accepted forms (bank guarantee, online payment) are in the tender. Many tenders accept a **bid security declaration** instead, and registered **MSEs and eligible startups** are often exempt; check the tender.\n\nThe EMD of unsuccessful bidders is returned after the award. It can be forfeited if a bidder withdraws during the validity period or refuses the award.\n\n## Performance security\n\nSubmitted by the winning bidder after the award, usually as a **bank guarantee** for a percentage of the contract value stated in the tender (GFR provides a typical range). It protects the buyer if we fail to perform, and is returned after the contract and warranty obligations end.\n\n## Bank guarantees in practice\n\n- Use the exact format in the tender.\n- Check amount, beneficiary name, validity and claim period before submitting.\n- Track expiry dates and extend in time if the contract runs longer.",
+      "body": "Government tenders protect the buyer against two risks: a bidder withdrawing its bid, and a winning supplier failing to perform. Bid security addresses the first; performance security addresses the second. Both are governed by the General Financial Rules.\n\n## Bid security (earnest money deposit)\n\n- **Rule 170 of GFR 2017:** bid security, also called earnest money deposit (EMD), is normally between **2% and 5%** of the estimated value of the goods or services.\n- **Bid Security Declaration:** following a Department of Expenditure order of November 2020, organisations are encouraged to accept a **Bid Security Declaration** instead of a monetary EMD. In it, the bidder accepts that it will be suspended from bidding for a period if it withdraws or changes its bid during validity, or fails to sign the contract or submit performance security after award.\n- **Exemptions:** micro and small enterprises registered for the tendered items and DPIIT-recognised startups are generally exempt from bid security, as provided in the tender.\n\n## Performance security\n\n- **Rule 171 of GFR 2017** (as amended): performance security is **3% to 5%** of the contract value for goods, consultancy and non-consultancy services. Works contracts follow separate limits.\n- It must remain valid until 60 days after the completion of all contractual obligations, including warranty.\n\n## Accepted forms\n\nCommon forms include bank guarantees, fixed deposit receipts, demand drafts, online payment and, since 2022, insurance surety bonds where the tender allows. Always use the format given in the tender.\n\n## Key terms\n\n- **EMD / bid security:** security that a bidder will not withdraw its bid.\n- **Bid Security Declaration:** a written undertaking in place of a monetary EMD.\n- **Performance security:** security for proper performance of the contract.\n- **Bank guarantee (BG):** a bank's promise to pay the buyer if the supplier fails its obligations.\n\n## Real-world example\n\nA company wins a ₹2 crore order with performance security of 5%, or ₹10 lakh, valid until 60 days after a three-year warranty. Finance arranges a bank guarantee in the tender's format. The account manager records the expiry date and the claim period, so the guarantee can be extended if the warranty is extended, and released promptly at the end.\n\n## Common mistakes\n\n- Submitting a bank guarantee in the wrong format or with a short validity.\n- Using old performance security percentages from before the amendment.\n- Forgetting to claim release of guarantees after obligations end.\n\n## Key takeaways\n\n- Bid security is usually 2–5%, often replaced by a Bid Security Declaration; MSEs and startups are generally exempt.\n- Performance security is 3–5% for goods and services, valid until 60 days after all obligations end.\n- Follow the tender's format and track guarantee expiry and release.",
       "module": 3
     },
     {
       "position": 4,
       "title": "Pre-bid queries and corrigenda",
       "type": "TEXT",
-      "body": "Before submission, clarify and track.\n\n## Pre-bid queries\n\n- Raise queries where specifications point to one brand, eligibility is unclear, or terms are unreasonable.\n- Quote the clause number, state the issue, and propose a change.\n- Submit before the deadline, in the format required.\n\n## Corrigenda\n\n- Buyers publish answers and changes as corrigenda.\n- A corrigendum can change dates, specifications, quantities or terms.\n- Check for corrigenda daily until submission, and make sure the bid follows the latest version.\n\n> Missing a corrigendum is one of the commonest reasons a well-prepared bid is rejected.",
+      "body": "Before submitting a bid, bidders can ask questions about the tender. After the pre-bid stage, the buyer may change the tender through corrigenda. Using pre-bid queries well and tracking every corrigendum are essential skills in government sales.\n\n## Pre-bid queries\n\n- **Purpose:** to clarify unclear points, request changes to restrictive specifications, and point out errors.\n- **Timing:** submit queries by the deadline and in the format required, often a table with clause number, original text, query and suggested change.\n- **Tone:** professional and factual. Explain why a change improves competition or quality.\n- **Good topics:** specifications that favour one brand, unrealistic delivery periods, unclear scope, conflicting clauses, and payment terms.\n\n## Corrigenda\n\nA corrigendum (or addendum) is an official change to the tender. It can change dates, specifications, quantities, eligibility or terms. Answers to pre-bid queries are often issued as a corrigendum.\n\n- Check the portal regularly until the bid deadline.\n- Read every corrigendum fully and update the bid accordingly.\n- Some tenders require bidders to upload signed copies of all corrigenda with the bid.\n\n## Key terms\n\n- **Pre-bid query:** a formal question submitted before the bid deadline.\n- **Pre-bid meeting:** a meeting where the buyer answers bidders' questions.\n- **Corrigendum / addendum:** an official change to the tender documents.\n\n## Real-world example\n\nA tender for campus Wi-Fi specifies an access point feature that only one brand offers. The company submits a pre-bid query explaining that equivalent standards-based features achieve the same result and that broader specifications would improve competition. The buyer issues a corrigendum accepting \"equivalent or better\" specifications. The company can now bid with its preferred OEM.\n\n## Common mistakes\n\n- Missing the query deadline.\n- Asking vague questions without clause references.\n- Not checking for corrigenda in the final days before submission.\n\n## Key takeaways\n\n- Use pre-bid queries to clarify and improve tender terms, with clause references.\n- Track and read every corrigendum until the deadline.\n- Update the bid and upload corrigenda copies if required.",
       "module": 4
+    }
+  ],
+  "sources": [
+    {
+      "title": "Department of Expenditure: General Financial Rules 2017, procurement manuals and office memoranda",
+      "url": "https://doe.gov.in/"
+    },
+    {
+      "title": "Central Public Procurement Portal (CPPP): e-tenders, corrigenda and bid submission",
+      "url": "https://eprocure.gov.in/"
+    },
+    {
+      "title": "Ministry of MSME: Public Procurement Policy for Micro and Small Enterprises",
+      "url": "https://msme.gov.in/"
+    },
+    {
+      "title": "Startup India: DPIIT recognition and public procurement benefits",
+      "url": "https://www.startupindia.gov.in/"
+    },
+    {
+      "title": "Government e-Marketplace (GeM): seller registration, buying modes and terms and conditions",
+      "url": "https://gem.gov.in/"
     }
   ],
   "assessment": {
@@ -61,31 +83,37 @@
     "questions": [
       {
         "type": "SINGLE",
-        "text": "In a two-cover tender, what usually happens first?",
+        "text": "Under Rule 170 of GFR 2017, bid security is normally:",
         "options": [
-          "Technical evaluation",
-          "Financial opening",
-          "Award",
-          "Contract signing"
+          "0.5% to 1%",
+          "2% to 5% of the estimated value",
+          "10% of the contract value",
+          "Not allowed"
         ],
         "correct": [
-          "Technical evaluation"
+          "2% to 5% of the estimated value"
         ],
-        "points": 1
+        "points": 1,
+        "explanation": "Rule 170 sets bid security between 2% and 5% of the estimated value."
       },
       {
-        "type": "MATCHING",
-        "text": "Match each security to when it is submitted.",
+        "type": "SINGLE",
+        "text": "What is the performance security range for goods and services under amended Rule 171?",
         "options": [
-          "EMD or bid security=With the bid",
-          "Performance security=After the award"
+          "1% to 2%",
+          "3% to 5%",
+          "5% to 10%",
+          "10% to 15%"
         ],
-        "correct": [],
-        "points": 2
+        "correct": [
+          "3% to 5%"
+        ],
+        "points": 1,
+        "explanation": "The amendment reduced performance security for goods and services to 3–5% of contract value."
       },
       {
         "type": "TRUE_FALSE",
-        "text": "Registered MSEs are often exempt from EMD, but the tender document must be checked.",
+        "text": "A Bid Security Declaration can be accepted instead of a monetary EMD.",
         "options": [
           "True",
           "False"
@@ -93,47 +121,68 @@
         "correct": [
           "True"
         ],
-        "points": 1
-      },
-      {
-        "type": "MULTIPLE",
-        "text": "Which are common eligibility criteria? Select all that apply.",
-        "options": [
-          "Minimum annual turnover",
-          "Similar work experience with completion certificates",
-          "OEM authorisation (MAF)",
-          "The number of cars the company owns"
-        ],
-        "correct": [
-          "Minimum annual turnover",
-          "Similar work experience with completion certificates",
-          "OEM authorisation (MAF)"
-        ],
-        "points": 2
+        "points": 1,
+        "explanation": "The Department of Expenditure's November 2020 order encourages Bid Security Declarations."
       },
       {
         "type": "SINGLE",
-        "text": "What is a corrigendum?",
+        "text": "Until when must performance security remain valid?",
         "options": [
-          "A change or clarification to the tender published by the buyer",
-          "A type of bank guarantee",
-          "A bidder's complaint",
-          "The final contract"
+          "Until delivery",
+          "Until 60 days after completion of all obligations, including warranty",
+          "One year from award",
+          "Until the first payment"
         ],
         "correct": [
-          "A change or clarification to the tender published by the buyer"
+          "Until 60 days after completion of all obligations, including warranty"
         ],
-        "points": 1
+        "points": 1,
+        "explanation": "Rule 171 requires validity until 60 days beyond completion of all contractual obligations."
       },
       {
-        "type": "FILL_BLANK",
-        "text": "The OEM's letter authorising us to bid its products is the manufacturer's authorisation ____.",
+        "type": "MULTIPLE",
+        "text": "Which documents are commonly required to prove eligibility?",
         "options": [
-          "form",
-          "MAF"
+          "Audited financial statements or CA certificate",
+          "Completion certificates",
+          "Manufacturer's authorisation form",
+          "Employee birthday list"
         ],
-        "correct": [],
-        "points": 1
+        "correct": [
+          "Audited financial statements or CA certificate",
+          "Completion certificates",
+          "Manufacturer's authorisation form"
+        ],
+        "points": 1,
+        "explanation": "Financial, experience and OEM documents are standard eligibility proofs."
+      },
+      {
+        "type": "SINGLE",
+        "text": "A specification seems to favour one brand. What should you do?",
+        "options": [
+          "Bid anyway with another brand and hope",
+          "Submit a pre-bid query with the clause reference and suggested change",
+          "Complain to the media",
+          "Ignore the tender"
+        ],
+        "correct": [
+          "Submit a pre-bid query with the clause reference and suggested change"
+        ],
+        "points": 1,
+        "explanation": "Pre-bid queries are the formal channel to request changes."
+      },
+      {
+        "type": "TRUE_FALSE",
+        "text": "Corrigenda can change dates, specifications and eligibility, so bidders must check for them until the deadline.",
+        "options": [
+          "True",
+          "False"
+        ],
+        "correct": [
+          "True"
+        ],
+        "points": 1,
+        "explanation": "Missing a corrigendum can make a bid non-compliant."
       }
     ]
   }

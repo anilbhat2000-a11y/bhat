@@ -29,29 +29,51 @@
       "position": 1,
       "title": "Invoices and mandatory fields",
       "type": "TEXT",
-      "body": "An invoice is both a request for payment and a tax document. An incorrect invoice can delay payment and can deny the customer their GST input tax credit.\n\n## Fields on a GST tax invoice\n\n- Supplier's name, address and GSTIN.\n- A unique, consecutive invoice number and the invoice date.\n- Customer's name, address and GSTIN (for registered customers).\n- Place of supply.\n- Description of goods or services, with HSN or SAC code.\n- Quantity, unit and taxable value.\n- GST rate and tax amount, shown as CGST and SGST, or IGST.\n- Total invoice value.\n- Signature (or digital signature) of the supplier.\n\n## Before an invoice goes out\n\n- Match it to the customer's PO: items, quantities, prices, PO number.\n- Check the customer's GSTIN and billing address.\n- Attach the documents the customer asks for (delivery proof, installation report).",
+      "body": "An invoice is more than a request for payment. Under GST, a tax invoice is a legal document: it allows the customer to claim input tax credit and it records our tax liability. A wrong or incomplete invoice can delay payment, cause the customer to lose tax credit, and lead to penalties.\n\n## Mandatory fields on a tax invoice\n\nRule 46 of the CGST Rules lists what a tax invoice must contain. The main fields are:\n\n- The supplier's name, address and GSTIN.\n- A unique, consecutive invoice number of up to 16 characters, unique for the financial year.\n- The date of issue.\n- The recipient's name, address and GSTIN (if registered).\n- The HSN code for goods or SAC code for services.\n- A description of the goods or services, the quantity and the unit.\n- The taxable value, after any discount.\n- The tax rate and the tax amount, shown separately for CGST, SGST or UTGST, and IGST.\n- The place of supply, with the name of the state, for inter-state supplies.\n- The delivery address if it is different from the place of supply.\n- Whether tax is payable on reverse charge.\n- The signature or digital signature of the supplier or an authorised representative.\n\n## Good invoicing practice\n\n- Raise the invoice on time, matching the customer's PO exactly: items, quantities, prices and PO number.\n- Check the customer's GSTIN on the GST portal before the first invoice.\n- Attach supporting documents the customer requires, such as delivery proof or installation reports.\n- Never edit an issued invoice. Use a credit note or debit note to correct it.\n\n## Key terms\n\n- **Tax invoice:** the GST document issued for a taxable supply.\n- **Taxable value:** the value on which GST is calculated.\n- **Reverse charge:** a case where the recipient, not the supplier, pays the GST.\n\n## Real-world example\n\nA customer's accounts team rejects an invoice for ₹8 lakh because the PO number is missing and the GSTIN has one wrong character. The payment, due in 30 days, is delayed by three weeks while a corrected invoice is issued. The billing team now checks every invoice against the PO and validates the GSTIN on the portal before sending.\n\n## Common mistakes\n\n- Missing the customer's PO reference.\n- Wrong GSTIN or place of supply.\n- Editing an invoice after issue instead of issuing a credit or debit note.\n\n## Key takeaways\n\n- A tax invoice must contain the fields listed in Rule 46 of the CGST Rules.\n- Match every invoice to the customer's PO and verify the GSTIN.\n- Correct errors with credit or debit notes, never by editing an issued invoice.",
       "module": 1
     },
     {
       "position": 2,
       "title": "GST basics",
       "type": "TEXT",
-      "body": "GST (Goods and Services Tax) is charged on most supplies in India. Which type of GST applies depends on where the supply is made.\n\n## Three components\n\n- **CGST** (Central GST) and **SGST** (State GST): both charged, in equal halves, when the supplier and the place of supply are in the **same state**.\n- **IGST** (Integrated GST): charged when the supply is **between states** (or an import).\n\nExample: a supplier in Maharashtra sells to a customer in Maharashtra: CGST plus SGST. To a customer in Karnataka: IGST.\n\n## Input tax credit\n\nA registered business can usually reduce the GST it pays by the GST it was charged on its purchases. This only works if the supplier's invoice is correct and the supplier files its returns. That is why our own invoices must be accurate: our customers depend on them.\n\n> GST rates and rules change through official notifications. Always confirm the current rate for a product with the Accounts team.",
+      "body": "Goods and Services Tax (GST) is India's main indirect tax on the supply of goods and services. It was introduced on 1 July 2017 and replaced many earlier taxes such as excise, service tax and VAT. Everyone in a commercial role should understand its basic structure.\n\n## Which GST applies\n\n- **Intra-state supply** (supplier and place of supply in the same state): **CGST** (central) plus **SGST** (state), or UTGST in a Union Territory, split equally.\n- **Inter-state supply** (different states): **IGST**, collected by the centre.\n- **Example:** an 18% supply within Maharashtra is charged 9% CGST plus 9% SGST. The same supply from Maharashtra to Karnataka is charged 18% IGST.\n\n## GST rates\n\nGST rates are set by the GST Council. Following the Council's decision of September 2025, effective 22 September 2025, the main rates are 5% and 18%, with a 40% rate for a small group of luxury and \"sin\" goods, and special low rates for a few items. Most IT hardware, software and IT services fall under 18%. Rates change, so always check the latest notification or ask the tax team before quoting.\n\n## Input tax credit\n\nA registered business can usually set off the GST it paid on purchases (input tax) against the GST it collects on sales (output tax). To claim it, the supplier must have reported the invoice in its returns, the goods or services must have been received, and the business must hold a valid tax invoice.\n\n## Key terms\n\n- **CGST, SGST, UTGST, IGST:** the components of GST depending on where the supply takes place.\n- **Place of supply:** the location that decides whether a supply is intra-state or inter-state.\n- **Input tax credit (ITC):** GST paid on purchases that can be set off against GST collected.\n- **GSTR-1 and GSTR-3B:** common GST returns for reporting sales and paying tax.\n\n## Real-world example\n\nA Delhi-based company sells servers to a customer in Noida, Uttar Pradesh, and delivers them there. Although the two cities are close, they are in different states, so the supply is inter-state and IGST applies. An invoice charging CGST and SGST would be wrong, and the customer could have trouble claiming its credit.\n\n## Common mistakes\n\n- Charging CGST and SGST on an inter-state supply, or IGST on an intra-state one.\n- Quoting old GST rates.\n- Assuming input credit is available without checking the supplier's returns.\n\n## Key takeaways\n\n- CGST plus SGST for intra-state supplies; IGST for inter-state supplies.\n- Most IT goods and services are taxed at 18%, but always check current rates.\n- Input tax credit depends on valid invoices and the supplier's compliance.",
       "module": 2
     },
     {
       "position": 3,
       "title": "HSN and SAC codes",
       "type": "TEXT",
-      "body": "Every item on a GST invoice carries a classification code.\n\n- **HSN** (Harmonised System of Nomenclature) codes classify **goods**, such as servers, switches and cables.\n- **SAC** (Services Accounting Code) codes classify **services**, such as installation, maintenance and support.\n\n## Why codes matter\n\n- The GST rate depends on the code.\n- A wrong code can mean the wrong tax, interest and penalties.\n- Customers and auditors check them.\n\n## In practice\n\n- Use the codes maintained by Accounts for each product family; do not guess.\n- When a quote combines goods and services, show them as separate lines with their own codes.\n- Ask Accounts before using a code for a new type of product or service.",
+      "body": "Every product and service on a GST invoice needs a classification code. Goods use HSN codes and services use SAC codes. The code decides the tax rate, so a wrong code can mean wrong tax.\n\n## HSN codes for goods\n\nHSN stands for Harmonized System of Nomenclature, an international system maintained by the World Customs Organization. India uses up to eight digits. Under GST notifications in force since 1 April 2021:\n\n- Businesses with aggregate turnover up to ₹5 crore in the previous year must show at least **4-digit** HSN codes on B2B invoices.\n- Businesses with turnover above ₹5 crore must show at least **6-digit** HSN codes on all invoices.\n\nExamples of chapters common in IT:\n\n- **8471:** computers and their units, such as laptops, desktops and servers.\n- **8517:** telephone and data communication equipment, including switches and routers.\n- **8504:** electrical transformers and static converters, which includes UPS units.\n- **8528:** monitors and projectors.\n\n## SAC codes for services\n\nSAC stands for Services Accounting Code. SAC codes start with 99. For example, heading **9983** covers other professional, technical and business services, which includes IT consulting, design and support services. Installation, maintenance and repair services have their own headings.\n\n## Choosing the right code\n\n- Use the code from the OEM's or distributor's invoice as a starting point, but confirm it.\n- For bundled supplies, such as hardware with installation, check with the tax team whether it is a composite supply, where the main item's rate applies.\n- Keep a master list of approved codes for common products and services.\n\n## Key terms\n\n- **HSN:** Harmonized System of Nomenclature, the code for goods.\n- **SAC:** Services Accounting Code, the code for services.\n- **Composite supply:** two or more supplies naturally bundled, taxed at the rate of the principal supply.\n\n## Real-world example\n\nA billing executive uses a 4-digit HSN code on an invoice. The company's turnover last year was ₹40 crore, so a 6-digit code is required. The customer's auditor flags it. The company updates its item master so that every product carries the correct 6-digit code, avoiding repeated corrections.\n\n## Common mistakes\n\n- Using too few digits for the company's turnover.\n- Copying codes without checking.\n- Using a goods code for a service.\n\n## Key takeaways\n\n- Goods use HSN codes; services use SAC codes starting with 99.\n- Above ₹5 crore turnover, show at least 6-digit HSN codes on invoices.\n- Keep an approved master list and check unusual items with the tax team.",
       "module": 3
     },
     {
       "position": 4,
       "title": "E-invoice and e-way bill",
       "type": "TEXT",
-      "body": "Two electronic documents are linked to invoicing and moving goods.\n\n## E-invoice\n\nBusinesses above a turnover limit set by the government must report B2B invoices to the Invoice Registration Portal (IRP). The portal returns an **IRN** (invoice reference number) and a **QR code** that must appear on the invoice. An invoice that must be an e-invoice but is not reported is not valid for the customer's input tax credit. The turnover limit has been lowered several times; confirm the current rule with Accounts.\n\n## E-way bill\n\nAn e-way bill is generated on the GST portal before goods above a set value are moved, for example from our warehouse to a customer site. It records the consignor, consignee, goods, value and vehicle. The vehicle carries it during transport. The value limit and validity rules are set by notification; Accounts and Logistics keep the current figures.\n\n> Raising these documents with wrong details is as serious as raising a wrong invoice. If in doubt, ask before generating.",
+      "body": "E-invoicing and e-way bills are two digital systems under GST. E-invoicing validates B2B invoices through a government portal. E-way bills track the movement of goods. Both are mandatory above set limits, and mistakes can lead to penalties or goods being detained in transit.\n\n## E-invoicing\n\n- **Who:** businesses whose aggregate annual turnover exceeds **₹5 crore** in any financial year since 2017-18 must issue e-invoices for B2B supplies and exports. This limit applies from 1 August 2023 (Notification 10/2023-Central Tax). It was reduced in stages from ₹500 crore.\n- **How:** the invoice details are uploaded to the Invoice Registration Portal (IRP), which returns an Invoice Reference Number (IRN) and a signed QR code. The invoice is valid only with the IRN.\n- **Time limit:** some taxpayers must report invoices to the IRP within 30 days of the invoice date; check the current GSTN advisory for the limit that applies.\n\n## E-way bills\n\n- **When:** an e-way bill is generally required when goods worth more than **₹50,000** are moved, under Rule 138 of the CGST Rules. Some states set different limits for movement within the state.\n- **Parts:** Part A holds invoice and consignee details; Part B holds vehicle details.\n- **Validity:** for normal cargo, one day for every 200 km or part of it; for over-dimensional cargo, one day for every 20 km.\n- **Extension:** can be extended before or shortly after expiry if goods are delayed.\n\n## Key terms\n\n- **IRN:** Invoice Reference Number, a unique number generated by the IRP.\n- **IRP:** Invoice Registration Portal.\n- **Consignment value:** the value of goods, including tax, shown on the invoice or challan.\n\n## Real-world example\n\nA company dispatches ₹6 lakh of networking equipment from Bengaluru to a customer in Chennai, about 350 km away. The e-way bill is valid for two days. The truck breaks down and arrives on day three. Because the logistics team extended the e-way bill before it expired, the goods are not detained at a checkpoint.\n\n## Common mistakes\n\n- Issuing a B2B invoice without an IRN when e-invoicing applies.\n- Moving goods without an e-way bill, or with one that has expired.\n- Wrong vehicle number in Part B.\n\n## Key takeaways\n\n- E-invoicing applies above ₹5 crore turnover; an invoice needs an IRN to be valid.\n- E-way bills are generally required for goods above ₹50,000, with validity based on distance.\n- Check details carefully and extend e-way bills before they expire.",
       "module": 4
+    }
+  ],
+  "sources": [
+    {
+      "title": "CBIC GST: CGST Act, CGST Rules (including Rule 46 on tax invoices and Rule 138 on e-way bills) and notifications",
+      "url": "https://cbic-gst.gov.in/"
+    },
+    {
+      "title": "GST portal (GSTN): returns, GSTIN search and advisories",
+      "url": "https://www.gst.gov.in/"
+    },
+    {
+      "title": "GST e-invoice system (Invoice Registration Portal)",
+      "url": "https://einvoice1.gst.gov.in/"
+    },
+    {
+      "title": "GST e-way bill system",
+      "url": "https://ewaybillgst.gov.in/"
+    },
+    {
+      "title": "GST Council: rate decisions and meeting outcomes",
+      "url": "https://gstcouncil.gov.in/"
     }
   ],
   "assessment": {
@@ -60,80 +82,118 @@
     "passMarkPercent": 70,
     "questions": [
       {
+        "type": "SINGLE",
+        "text": "A supplier in Maharashtra sells an 18% item to a customer in Karnataka. Which tax applies?",
+        "options": [
+          "9% CGST + 9% SGST",
+          "18% IGST",
+          "18% SGST",
+          "No GST"
+        ],
+        "correct": [
+          "18% IGST"
+        ],
+        "points": 1,
+        "explanation": "Inter-state supplies attract IGST."
+      },
+      {
         "type": "MULTIPLE",
-        "text": "Which must appear on a GST tax invoice? Select all that apply.",
+        "text": "Which fields must appear on a GST tax invoice?",
         "options": [
           "Supplier's GSTIN",
           "HSN or SAC code",
-          "Place of supply",
+          "Tax rate and amount",
           "The salesperson's mobile number"
         ],
         "correct": [
           "Supplier's GSTIN",
           "HSN or SAC code",
-          "Place of supply"
+          "Tax rate and amount"
         ],
-        "points": 2
+        "points": 1,
+        "explanation": "These are among the mandatory fields listed in Rule 46 of the CGST Rules."
       },
       {
         "type": "SINGLE",
-        "text": "A Maharashtra supplier sells to a customer in Karnataka. Which GST applies?",
+        "text": "A company's turnover last year was ₹40 crore. How many HSN digits must it show on invoices?",
         "options": [
-          "CGST and SGST",
-          "IGST",
-          "No GST",
-          "Only SGST"
+          "2",
+          "4",
+          "At least 6",
+          "8 only"
         ],
         "correct": [
-          "IGST"
+          "At least 6"
         ],
-        "points": 1
+        "points": 1,
+        "explanation": "Above ₹5 crore turnover, at least 6-digit HSN codes are required."
       },
       {
-        "type": "SINGLE",
-        "text": "A Maharashtra supplier sells to a customer in Maharashtra. Which GST applies?",
+        "type": "FILL_BLANK",
+        "text": "Services are classified using ______ codes, which start with 99.",
         "options": [
-          "CGST and SGST",
-          "IGST",
-          "Customs duty",
-          "Only CGST"
-        ],
-        "correct": [
-          "CGST and SGST"
-        ],
-        "points": 1
-      },
-      {
-        "type": "MATCHING",
-        "text": "Match each code to what it classifies.",
-        "options": [
-          "HSN=Goods",
-          "SAC=Services"
+          "SAC",
+          "Services Accounting Code"
         ],
         "correct": [],
-        "points": 2
+        "points": 1,
+        "explanation": "SAC stands for Services Accounting Code."
+      },
+      {
+        "type": "SINGLE",
+        "text": "From 1 August 2023, e-invoicing applies to businesses with aggregate turnover above:",
+        "options": [
+          "₹500 crore",
+          "₹50 crore",
+          "₹10 crore",
+          "₹5 crore"
+        ],
+        "correct": [
+          "₹5 crore"
+        ],
+        "points": 1,
+        "explanation": "Notification 10/2023-Central Tax reduced the limit to ₹5 crore from 1 August 2023."
+      },
+      {
+        "type": "SINGLE",
+        "text": "For normal cargo, how long is an e-way bill valid?",
+        "options": [
+          "One day per 100 km",
+          "One day per 200 km",
+          "Seven days always",
+          "One day per 500 km"
+        ],
+        "correct": [
+          "One day per 200 km"
+        ],
+        "points": 1,
+        "explanation": "Rule 138 gives one day for every 200 km or part of it for normal cargo."
       },
       {
         "type": "TRUE_FALSE",
-        "text": "A customer may lose input tax credit if our invoice is incorrect.",
+        "text": "If an issued invoice has an error, you should edit it and resend it with the same number.",
         "options": [
           "True",
           "False"
         ],
         "correct": [
-          "True"
+          "False"
         ],
-        "points": 1
+        "points": 1,
+        "explanation": "Issued invoices are corrected through credit or debit notes, not edited."
       },
       {
-        "type": "FILL_BLANK",
-        "text": "The reference number returned by the Invoice Registration Portal for an e-invoice is the ____.",
+        "type": "MATCHING",
+        "text": "Match each HSN chapter to its products.",
         "options": [
-          "IRN",
-          "invoice reference number"
+          "8471=Computers, laptops and servers",
+          "8517=Switches, routers and phones",
+          "8504=Static converters such as UPS",
+          "8528=Monitors and projectors"
         ],
         "correct": [],
-        "points": 1
+        "points": 1,
+        "explanation": "Knowing common chapters helps you check product codes."
       }
     ]
   }

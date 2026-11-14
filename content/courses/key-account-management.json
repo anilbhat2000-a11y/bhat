@@ -5,44 +5,175 @@
   "category": "BUSINESS",
   "level": "ADVANCED",
   "passMarkPercent": 70,
-  "description": "Segment accounts, build account plans and coverage maps, manage account health and renewals, and grow share of wallet across infrastructure and services.",
+  "description": "Account planning, CXO conversations, multi-stakeholder deals, and forecasting. You will be able to: build an account plan with stakeholder map; lead a conversation with a CXO about business outcomes; close a multi-stakeholder deal; forecast with evidence for each committed deal.",
+  "modules": [
+    {
+      "title": "Account planning and mapping",
+      "minutes": 60
+    },
+    {
+      "title": "CXO engagement",
+      "minutes": 45
+    },
+    {
+      "title": "Complex closure",
+      "minutes": 45
+    },
+    {
+      "title": "Forecast discipline",
+      "minutes": 30
+    }
+  ],
   "lessons": [
     {
       "position": 1,
-      "title": "Account segmentation and account plans",
+      "title": "Account planning and mapping",
       "type": "TEXT",
-      "body": "Not every account deserves the same effort. Segment accounts by potential and current relationship:\n\n- **Strategic:** high value, long-term potential. Needs an account plan and executive sponsorship.\n- **Growth:** good potential, not yet fully developed. Needs a focused expansion plan.\n- **Maintain:** stable and profitable. Needs efficient service and renewal.\n\nEach strategic and growth account needs a written account plan covering the customer's goals, current spend, competitors, opportunities, risks, and the next three actions with owners and dates."
+      "body": "A strategic (key) account is a customer that matters to our business over many years, because of its size, growth or influence. Key account management treats such a customer as a long-term partnership, with a written plan, rather than a series of separate deals.\n\n## What goes into an account plan\n\n- **Account overview:** the customer's business, strategy, financial year and major initiatives.\n- **Installed base:** what they have bought from us and from competitors, with end-of-support dates.\n- **Relationship map:** the people who influence decisions and how strong our relationship is with each.\n- **Whitespace:** products and services they could buy from us but currently buy elsewhere or not at all.\n- **Goals and actions:** revenue targets, key opportunities, and named actions with owners and dates.\n- **Risks:** competitor threats, unhappy users, or upcoming leadership changes.\n\n## Mapping stakeholders\n\nFor each important person, record their role in decisions (decision maker, influencer, user, gatekeeper), their attitude to us (supporter, neutral, sceptic), and what they personally care about. A simple map shows where you are strong and where you need new relationships.\n\n## Key terms\n\n- **Key account:** a customer of long-term strategic importance.\n- **Whitespace analysis:** a review of what else a customer could buy from us.\n- **Installed base:** the products a customer already owns and uses.\n- **Relationship map:** a chart of stakeholders, their influence and their view of us.\n\n## Real-world example\n\nA bank has bought networking from us for five years. Ritu, the key account manager, builds an account plan. The installed-base review shows that the bank's branch firewalls reach end of support in 14 months, and that its video-conferencing rooms are supported by another partner. The relationship map shows a strong link with the network team but none with the new CISO. Ritu's plan includes a security workshop for the CISO and an early refresh proposal for the firewalls, a year ahead of competitors.\n\n## Common mistakes\n\n- Writing the plan once and never updating it.\n- Knowing only one contact in the account.\n- Focusing only on the next deal rather than the customer's strategy.\n\n## Key takeaways\n\n- Treat key accounts as long-term partnerships with a written plan.\n- Track the installed base, stakeholders, whitespace and risks.\n- Review and update the plan at least every quarter.",
+      "module": 1
     },
     {
       "position": 2,
-      "title": "Account mapping and coverage",
+      "title": "CXO engagement",
       "type": "TEXT",
-      "body": "An account map lists the people who influence buying decisions and how you connect with them. For each person, record their role, their priorities, their relationship with you (strong, weak, or none), and who on your side owns that relationship.\n\nA coverage gap is a role with no relationship. A typical gap is finance, or a senior technical leader who influences the next purchase. Close gaps by asking for introductions from existing contacts, or by offering something useful, such as a briefing on a relevant change in technology or regulation."
+      "body": "Senior executives, such as the CIO, CFO, CEO or business heads, make or approve the largest decisions. They have little time and think in business terms. To engage them, you must speak their language: growth, cost, risk, customers and compliance.\n\n## How executives think\n\n- They focus on business outcomes, not technical detail.\n- They ask \"Why now?\" and \"What happens if we do nothing?\"\n- They want to know the risk, the cost and the return.\n- They trust people who understand their industry and are well prepared.\n\n## Preparing for an executive meeting\n\n1. Research the organisation: annual report, investor presentations, news and leadership interviews.\n2. Identify one or two business priorities you can genuinely help with.\n3. Prepare a short point of view: what you have seen work at similar organisations.\n4. Plan to ask insightful questions, not to present slides for 45 minutes.\n5. Agree the outcome you want from the meeting, such as permission for a workshop.\n\n## During the meeting\n\n- Start with their priorities, not our company history.\n- Keep it short and specific. Respect the time agreed.\n- Use numbers carefully and be ready to explain where they came from.\n- Close by agreeing a clear next step and who will own it on their side.\n\n## Key terms\n\n- **CXO:** a common term for senior executives such as CEO, CFO, CIO and COO.\n- **Point of view:** a short, evidence-based opinion on how the customer could improve.\n- **Executive sponsor:** a senior person on our side who builds a peer relationship with the customer's executive.\n\n## Real-world example\n\nBefore meeting the CFO of a pharmaceutical company, Vikram reads the annual report and notices plans to open two new plants. He asks how quickly IT for a new plant can be ready, and shares how a similar manufacturer used a standard, pre-tested design to cut set-up time. The CFO asks for a workshop with the plant planning team. Vikram never showed a product slide.\n\n## Common mistakes\n\n- Using technical jargon with business leaders.\n- Arriving without having read about the customer's business.\n- Leaving without a next step.\n\n## Key takeaways\n\n- Executives buy outcomes: growth, cost, risk and compliance.\n- Preparation and a clear point of view earn their time.\n- Ask good questions and agree a concrete next step.",
+      "module": 2
     },
     {
       "position": 3,
-      "title": "Account health, renewals, and share of wallet",
+      "title": "Complex closure",
       "type": "TEXT",
-      "body": "Track account health with a small set of indicators: usage or service volumes, support issues, executive engagement, and upcoming renewal dates. A falling indicator is an early warning, and should trigger a review before the renewal conversation.\n\nShare of wallet is the portion of the customer's total spend in your category that you win. Grow it by:\n\n- Mapping the customer's full technology needs, not only the current project.\n- Offering complementary services, such as support, monitoring, or a refresh plan.\n- Using a renewal date to review scope, not only to extend the existing contract."
+      "body": "Large IT deals involve many people, several approval steps and formal procurement. Closing them takes careful planning. A mutual close plan, agreed with the customer, lists every step from today until the order and the start of delivery.\n\n## Understanding the decision process\n\nFind out early:\n\n- Who evaluates the technical solution and who evaluates the commercial offer.\n- Which committees or approvals are needed, such as an IT steering committee or the board.\n- What procurement steps are required, such as vendor registration, a negotiation meeting or a reverse auction.\n- What legal review the contract needs.\n- When the budget is released and when the financial year ends.\n\n## Building a mutual close plan\n\nA mutual close plan is a shared timeline that both sides agree. For each step it shows the action, the owner (ours or theirs) and the date. For example: technical sign-off, commercial negotiation, legal review, purchase approval, PO issue, and project kick-off. Sharing it with your champion helps them steer the deal internally and shows you where delays may come from.\n\n## Managing risk near the close\n\n- Confirm that all decision makers have seen and support the proposal.\n- Check that the scope, assumptions and exclusions are clear and written.\n- Watch for silence; a deal that goes quiet is usually at risk.\n- Avoid last-minute discounts that were not planned and approved.\n\n## Key terms\n\n- **Mutual close plan:** a shared timeline of steps to a signed order.\n- **Decision process:** the steps and approvals the customer follows to buy.\n- **Paper process:** the procurement, legal and finance steps that turn a decision into an order.\n\n## Real-world example\n\nMeera's customer agrees verbally to a ₹2 crore data-centre refresh in January. She builds a close plan with the customer's IT head and discovers that the legal review takes three weeks and the board meets only in March. Instead of forecasting the deal for February, she forecasts March, prepares the contract early, and the order arrives on time. Without the plan, the deal would have \"slipped\" in the forecast twice.\n\n## Common mistakes\n\n- Assuming a verbal \"yes\" means the order is near.\n- Ignoring procurement and legal timelines.\n- Discovering a new decision maker at the last minute.\n\n## Key takeaways\n\n- Map the full decision and paper process early.\n- Agree a mutual close plan with owners and dates.\n- Watch for silence and new stakeholders as warning signs.",
+      "module": 3
     },
     {
       "position": 4,
-      "title": "Governance and cross-selling",
+      "title": "Forecast discipline",
       "type": "TEXT",
-      "body": "For strategic accounts, set up a regular governance rhythm: a monthly operational review with the working team, and a quarterly business review with senior stakeholders. Use the quarterly review to agree on priorities, review service performance, and surface new opportunities.\n\nCross-selling works best when it solves a problem the customer has already admitted. Introduce a new offer during a review, using evidence from the account's own service history."
+      "body": "A forecast is the sales team's prediction of the orders it will close in a period. The company uses the forecast to plan purchasing, staffing and cash. An accurate forecast is a sign of a professional sales team; a forecast that keeps changing damages trust.\n\n## Forecast categories\n\nMany companies use three or four categories:\n\n- **Commit:** deals you are confident will close in the period, with evidence such as an approved budget and an agreed close plan.\n- **Best case:** deals that could close if everything goes well.\n- **Pipeline:** qualified opportunities that are unlikely to close this period.\n- **Omitted or closed lost:** deals that will not happen.\n\n## How to forecast accurately\n\n- Base each deal's category on evidence, not optimism.\n- Check the customer's buying steps against the time left in the period.\n- Look at your own history: what share of your \"commit\" deals actually closed?\n- Update the forecast as soon as something changes, and explain why.\n- Separate the order date from the invoice date, which may depend on delivery.\n\n## Inspecting a deal\n\nWhen reviewing a deal for the forecast, managers often ask:\n\n- Who signs, and have we spoken to them?\n- What happens next, and on which date?\n- What could stop this deal, and what are we doing about it?\n- Is the PO value agreed, including taxes and services?\n\n## Key terms\n\n- **Forecast accuracy:** how close the forecast was to the actual result.\n- **Slippage:** a deal moving to a later period than forecast.\n- **Sandbagging:** deliberately under-forecasting to look good later; it harms planning as much as over-forecasting.\n\n## Real-world example\n\nAt the start of the quarter, a sales team forecasts ₹10 crore in commit. By the last week, three deals have slipped because customer approvals were delayed. The team closes ₹7 crore. In the review, the manager finds that all three deals lacked a confirmed approval date. The next quarter, the team adds \"approval date confirmed by the customer\" as a requirement for commit, and accuracy improves.\n\n## Common mistakes\n\n- Putting deals in commit because the customer was friendly.\n- Hiding bad news until the end of the quarter.\n- Ignoring past accuracy when judging new deals.\n\n## Key takeaways\n\n- Forecast on evidence, using clear category rules.\n- Update early and explain changes.\n- Measure your accuracy and learn from slippage.",
+      "module": 4
+    }
+  ],
+  "sources": [
+    {
+      "title": "Salesforce Trailhead: sales and CRM learning trails",
+      "url": "https://trailhead.salesforce.com/"
+    },
+    {
+      "title": "HubSpot Academy: sales and inbound courses",
+      "url": "https://academy.hubspot.com/"
+    },
+    {
+      "title": "Microsoft Learn: free role-based training paths",
+      "url": "https://learn.microsoft.com/en-us/training/"
     }
   ],
   "assessment": {
-    "title": "Key Account Management: completion check",
-    "cadence": "ONE_TIME",
+    "title": "Sales Advanced: completion check",
     "level": "ADVANCED",
     "passMarkPercent": 70,
     "questions": [
-      { "position": 1, "type": "SINGLE", "text": "Which segment needs an account plan and executive sponsorship?", "options": ["Maintain", "Strategic", "Growth only", "One-time"], "correct": ["Strategic"], "points": 1 },
-      { "position": 2, "type": "SINGLE", "text": "What is a coverage gap in an account map?", "options": ["A competitor with more contacts", "A key role with no relationship on your side", "A product not in the catalogue", "A missing invoice"], "correct": ["A key role with no relationship on your side"], "points": 1 },
-      { "position": 3, "type": "SINGLE", "text": "What is share of wallet?", "options": ["The customer's total bank balance", "The portion of the customer's category spend that you win", "Your discount level", "The number of contacts in an account"], "correct": ["The portion of the customer's category spend that you win"], "points": 1 },
-      { "position": 4, "type": "MULTIPLE", "text": "Which are sound account health indicators? (Select all that apply)", "options": ["Support issue trends", "Executive engagement", "Upcoming renewal dates", "The number of brochures sent"], "correct": ["Support issue trends", "Executive engagement", "Upcoming renewal dates"], "points": 2 },
-      { "position": 5, "type": "TRUE_FALSE", "text": "A renewal date is a good moment to review scope, not only to extend the existing contract.", "options": ["True", "False"], "correct": ["True"], "points": 1 }
+      {
+        "type": "MULTIPLE",
+        "text": "Which items belong in a key account plan?",
+        "options": [
+          "Installed base and end-of-support dates",
+          "Relationship map",
+          "Whitespace",
+          "Personal opinions about competitors' staff"
+        ],
+        "correct": [
+          "Installed base and end-of-support dates",
+          "Relationship map",
+          "Whitespace"
+        ],
+        "points": 1,
+        "explanation": "An account plan covers the business, installed base, stakeholders, whitespace, goals, actions and risks."
+      },
+      {
+        "type": "SINGLE",
+        "text": "What do executives care about most in a first meeting?",
+        "options": [
+          "Technical specifications",
+          "Our company history",
+          "Business outcomes such as growth, cost and risk",
+          "Product roadmaps"
+        ],
+        "correct": [
+          "Business outcomes such as growth, cost and risk"
+        ],
+        "points": 1,
+        "explanation": "Senior leaders think in business terms; technical detail comes later with their teams."
+      },
+      {
+        "type": "TRUE_FALSE",
+        "text": "A mutual close plan lists the steps to the order with owners on both sides and dates.",
+        "options": [
+          "True",
+          "False"
+        ],
+        "correct": [
+          "True"
+        ],
+        "points": 1,
+        "explanation": "It is shared with the customer so both sides can see and manage the path to the order."
+      },
+      {
+        "type": "SINGLE",
+        "text": "A customer gives a verbal 'yes', but the board approves purchases only next quarter. How should you forecast the deal?",
+        "options": [
+          "Commit this quarter",
+          "Best case next quarter, moving to commit when approval is confirmed",
+          "Closed won",
+          "Remove it from the pipeline"
+        ],
+        "correct": [
+          "Best case next quarter, moving to commit when approval is confirmed"
+        ],
+        "points": 1,
+        "explanation": "Forecast based on the customer's real approval timeline, not on the verbal agreement."
+      },
+      {
+        "type": "SINGLE",
+        "text": "What is 'slippage' in a forecast?",
+        "options": [
+          "A deal lost to a competitor",
+          "A deal moving to a later period than forecast",
+          "A price reduction",
+          "A deal closing early"
+        ],
+        "correct": [
+          "A deal moving to a later period than forecast"
+        ],
+        "points": 1,
+        "explanation": "Slippage happens when the close date moves out, often because a step in the customer's process was missed."
+      },
+      {
+        "type": "TRUE_FALSE",
+        "text": "Sandbagging (deliberately under-forecasting) is harmless because the result is better than expected.",
+        "options": [
+          "True",
+          "False"
+        ],
+        "correct": [
+          "False"
+        ],
+        "points": 1,
+        "explanation": "Under-forecasting misleads purchasing, staffing and cash planning, just as over-forecasting does."
+      },
+      {
+        "type": "MATCHING",
+        "text": "Match each forecast category to its meaning.",
+        "options": [
+          "Commit=Confident, with evidence, this period",
+          "Best case=Could close if everything goes well",
+          "Pipeline=Qualified but unlikely this period",
+          "Closed lost=Will not happen"
+        ],
+        "correct": [],
+        "points": 1,
+        "explanation": "Clear category rules make forecasts comparable across the team."
+      }
     ]
   }
 }

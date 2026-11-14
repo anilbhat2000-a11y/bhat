@@ -29,29 +29,47 @@
       "position": 1,
       "title": "Data protection principles",
       "type": "TEXT",
-      "body": "India's Digital Personal Data Protection Act, 2023 (DPDP Act) governs digital personal data: information about an identifiable person, such as name, phone number, email, ID numbers or location.\n\n## Key terms\n\n- **Data principal:** the person the data is about.\n- **Data fiduciary:** the organisation that decides why and how the data is processed (for customer and employee data, usually us).\n- **Data processor:** someone processing data on the fiduciary's behalf, such as a cloud or payroll provider.\n\n## Core duties of a data fiduciary\n\n- Process personal data only for a lawful purpose, with valid **consent** or another ground the Act allows.\n- Give a clear **notice** of what data is collected and why.\n- Collect only what is needed, and keep it accurate.\n- Protect it with reasonable **security safeguards**.\n- Delete it when the purpose is served, unless law requires keeping it.\n- Report **personal data breaches** as the law requires.\n\n> The Act's rules and timelines are set out in detailed rules issued by the government. Your company's data protection contact will explain how they apply to your work.",
+      "body": "Personal data is any information about an identifiable person: a name, phone number, email address, employee ID, Aadhaar number, photograph or location. India's main privacy law is the **Digital Personal Data Protection Act, 2023 (DPDP Act)**. The Digital Personal Data Protection Rules, 2025 were notified on 14 November 2025, with obligations coming into force in phases over about 18 months.\n\n## Who is who under the DPDP Act\n\n- **Data Principal:** the person the data is about, such as an employee or a customer's staff member.\n- **Data Fiduciary:** the organisation that decides why and how personal data is processed. We are a data fiduciary for our own employees' and contacts' data.\n- **Data Processor:** an organisation that processes data on behalf of a fiduciary. When we manage a customer's systems, we may act as their processor.\n- **Data Protection Board of India:** the authority that handles complaints and imposes penalties.\n\n## Core principles\n\n- **Lawful processing with notice and consent,** or for certain legitimate uses listed in the Act, such as employment purposes.\n- **Purpose limitation:** use data only for the purpose it was collected for.\n- **Data minimisation:** collect only what is needed.\n- **Accuracy:** keep data correct and up to date.\n- **Storage limitation:** delete data when it is no longer needed for the purpose.\n- **Reasonable security safeguards** to prevent breaches.\n- **Accountability:** the fiduciary is responsible, including for its processors.\n\n## Rights of individuals\n\nData principals have rights to access information about their data, to correction and erasure, to grievance redressal and to nominate someone to act for them.\n\n## Key terms\n\n- **Personal data:** data about an individual who can be identified by or in relation to it.\n- **Consent manager:** a registered entity through which individuals can give and manage consent.\n- **Significant Data Fiduciary (SDF):** a fiduciary notified by the government with extra obligations.\n\n## Real-world example\n\nThe marketing team wants to use a list of attendees from a customer's event to send promotional emails. The attendees gave their details only to register for the event. Under the purpose limitation principle, the team cannot reuse the list for marketing without a lawful basis, such as consent. They instead invite attendees to opt in to future updates.\n\n## Common mistakes\n\n- Collecting more personal data than needed \"just in case\".\n- Using data for a new purpose without a lawful basis.\n- Keeping data indefinitely.\n\n## Key takeaways\n\n- The DPDP Act 2023 and the DPDP Rules 2025 govern personal data in India, with phased commencement.\n- Process data lawfully, for a stated purpose, using only what is needed, and keep it secure.\n- Individuals have rights to access, correction, erasure and grievance redressal.",
       "module": 1
     },
     {
       "position": 2,
       "title": "Handling personal data",
       "type": "TEXT",
-      "body": "Turn the principles into daily habits.\n\n## Collect\n\n- Ask only for data needed for the task. A demo registration does not need a date of birth.\n- Tell people why you are collecting it.\n\n## Use\n\n- Use data only for the purpose it was collected for.\n- Do not add customer contacts to marketing lists without a valid basis.\n\n## Store and share\n\n- Keep personal data only in approved company systems, not on personal devices or messaging apps.\n- Share only with colleagues and processors who need it.\n- When a vendor processes data for us, there should be an agreement covering protection.\n\n## Requests from individuals\n\nPeople have rights, such as to access, correct or erase their data and to raise grievances. Pass any such request to the data protection contact at once; do not handle it alone.",
+      "body": "Principles become real in daily work. Every employee handles personal data: in CRM records, HR files, support tickets, visitor logs and customer systems. Handling it carefully prevents breaches and builds trust with customers.\n\n## Practical rules\n\n- **Access:** see only the data you need for your role, and do not share login credentials.\n- **Sharing:** share personal data only with people and vendors who need it, through approved, secure channels.\n- **Storage:** keep data in approved systems, not on personal devices, USB drives or personal cloud storage.\n- **Email:** double-check recipients before sending files with personal data; use encryption or passwords where required.\n- **Printing:** collect printouts immediately and shred them when no longer needed.\n- **Retention:** follow the company's retention schedule and delete data securely when it expires.\n- **Customer environments:** when working on a customer's systems, access only what the task requires and never copy their data to our devices.\n\n## Working with vendors and processors\n\nWhen we share personal data with a vendor, such as a payroll provider or a cloud service, there must be a contract that limits use to our instructions, requires security safeguards and requires the vendor to report breaches. Under the DPDP Act, we remain responsible for processing done on our behalf.\n\n## Key terms\n\n- **Least privilege:** giving users only the access they need.\n- **Retention schedule:** a policy that sets how long each type of data is kept.\n- **Data processing agreement (DPA):** a contract that sets how a processor may handle personal data.\n- **Encryption:** converting data into a form that only authorised people can read.\n\n## Real-world example\n\nAn engineer troubleshooting a customer's HR application copies a database extract containing employee salaries to his laptop to \"check it later\". The laptop is stolen from his car. Even though the engineer meant no harm, the customer must now treat this as a personal data breach. Following the rule \"never copy customer data to our devices\" would have prevented it.\n\n## Common mistakes\n\n- Sending spreadsheets of personal data to the wrong recipient.\n- Keeping copies of customer data after a project ends.\n- Sharing data with vendors without a proper contract.\n\n## Key takeaways\n\n- Access, share and store personal data only as your role requires, in approved systems.\n- Never copy customer data to personal or company devices without authorisation.\n- Use contracts with security and breach-reporting terms for every processor.",
       "module": 2
     },
     {
       "position": 3,
       "title": "Breach response",
       "type": "TEXT",
-      "body": "A personal data breach is any unauthorised access, sharing, loss or destruction of personal data. Examples: an email with a customer list sent to the wrong person, a lost unencrypted laptop, a hacked account.\n\n## If you suspect a breach\n\n1. **Do not hide it** or try to fix it quietly.\n2. **Report immediately** to your manager and the IT or data protection contact.\n3. **Contain** if you safely can: recall the email, change the password, disconnect the device from the network.\n4. **Preserve evidence:** do not delete logs or emails.\n5. Let the response team assess and handle any notification required by law.\n\n> Speed matters. The law expects breaches to be reported promptly, and the company cannot meet that duty if it does not know.",
+      "body": "A personal data breach is any unauthorised processing or accidental disclosure, acquisition, sharing, use, alteration, destruction or loss of access to personal data that compromises its confidentiality, integrity or availability. Breaches happen to well-run companies too. What matters is detecting them quickly and responding correctly.\n\n## Reporting obligations in India\n\n- **DPDP Act and Rules:** a data fiduciary must inform the Data Protection Board and each affected data principal of a personal data breach. Under the DPDP Rules, 2025, affected individuals must be informed without delay, and a detailed report must be given to the Board within 72 hours of becoming aware of the breach, unless the Board allows longer.\n- **CERT-In directions (28 April 2022):** organisations must report specified types of cyber security incidents to CERT-In within **6 hours** of noticing them, and keep logs of their ICT systems for **180 days** within India.\n- **Contracts:** customer contracts often require us to notify them of incidents affecting their data within a set time.\n\n## What to do if you suspect a breach\n\n1. **Report immediately** to your manager and the IT or security team. Do not wait to be sure.\n2. **Contain:** follow instructions, such as disconnecting an infected device from the network. Do not delete evidence.\n3. **Record** what you saw and when.\n4. **Do not** contact customers, the media or authorities yourself unless asked; the response team coordinates communication.\n\n## Key terms\n\n- **Personal data breach:** compromise of the confidentiality, integrity or availability of personal data.\n- **Containment:** steps to stop a breach from spreading.\n- **CERT-In:** the Indian Computer Emergency Response Team, the national agency for cyber incidents.\n- **Incident response plan:** the company's documented steps for handling incidents.\n\n## Real-world example\n\nOn a Friday evening, a support engineer notices that a shared folder containing customer contact lists has been made public by mistake. She reports it immediately. The security team removes public access within minutes, checks logs to see whether the folder was accessed, and the legal team assesses the reporting obligations. Fast reporting limits the impact and lets the company meet its deadlines.\n\n## Common mistakes\n\n- Waiting until Monday, or until you are sure, before reporting.\n- Trying to fix the issue quietly without telling anyone.\n- Deleting logs or files that could show what happened.\n\n## Key takeaways\n\n- Report suspected breaches immediately; the clock for legal reporting may already be running.\n- CERT-In requires reporting of specified incidents within 6 hours; the DPDP Rules require prompt notice to individuals and a detailed report to the Board within 72 hours.\n- Contain, preserve evidence and let the response team handle communication.",
       "module": 3
     },
     {
       "position": 4,
       "title": "Statutory obligations relevant to the company",
       "type": "TEXT",
-      "body": "[PLACEHOLDER: The company will supply the statutory obligations relevant to it.]\n\nThis lesson will list the registers, returns and filings the company must maintain, and who owns each. Typical areas for an Indian company include:\n\n- **Tax:** GST returns, TDS returns, income tax.\n- **Employment:** provident fund, ESI, professional tax, payment of wages, leave records.\n- **Company law:** statutory registers, annual filings, board meetings.\n- **Safety and premises:** shops and establishments registration, fire safety.\n\nKnow which of these your role contributes to, and the deadlines you must meet.",
+      "body": "Beyond data protection, a company must comply with many laws: tax, labour, corporate and sector-specific rules. This lesson gives an overview of the statutory areas most relevant to an IT services company. Your administrator will add 3C's specific obligations below.\n\n> **[PLACEHOLDER]** Statutory obligations relevant to 3C: registrations held, licences (for example any telecom-related authorisations), compliance owners and the compliance calendar. The LMS administrator adds these details.\n\n## Common statutory areas\n\n- **Corporate law:** Companies Act, 2013, covering board meetings, annual filings and the vigil mechanism where applicable.\n- **Tax:** GST registration, returns and e-invoicing; income tax and TDS.\n- **Labour law:** wages, provident fund (EPF), employees' state insurance (ESI), gratuity and bonus. The four Labour Codes consolidate many older labour laws; follow the company's HR team for how they apply.\n- **Workplace:** the POSH Act, 2013, and the state Shops and Establishments Act.\n- **Information technology:** the Information Technology Act, 2000, and CERT-In directions on incident reporting and log retention.\n- **Data protection:** the DPDP Act, 2023 and the DPDP Rules, 2025.\n- **Sector-specific:** customers in banking, insurance, telecom and government often impose extra requirements from their regulators, such as the RBI, IRDAI or DoT.\n\n## Why it matters to you\n\nYou may not file returns yourself, but your actions affect compliance: an invoice with wrong GST details, a missing e-way bill, a contractor without a proper agreement, or a security incident not reported on time. Knowing the basics helps you spot issues early.\n\n## Key terms\n\n- **Statutory compliance:** meeting the requirements of laws and regulations.\n- **Compliance calendar:** a schedule of filing and renewal dates.\n- **Regulator:** a government body that supervises a sector, such as the RBI for banks.\n\n## Real-world example\n\nA bank customer's contract requires that our engineers working on its systems complete background verification and that incidents be reported within a few hours, reflecting RBI expectations for outsourcing. A project manager who knows this plans verification before engineers are deployed, avoiding delays and contract breaches.\n\n## Common mistakes\n\n- Assuming compliance is only the legal or finance team's job.\n- Ignoring regulator-driven requirements in customer contracts.\n- Missing renewal dates for registrations and licences.\n\n## Key takeaways\n\n- An IT company must comply with corporate, tax, labour, IT and data protection laws.\n- Customers' regulators often add requirements through contracts.\n- Everyone's daily actions affect statutory compliance.",
       "module": 4
+    }
+  ],
+  "sources": [
+    {
+      "title": "MeitY: Digital Personal Data Protection Act, 2023 and DPDP Rules, 2025",
+      "url": "https://www.meity.gov.in/"
+    },
+    {
+      "title": "CERT-In: incident reporting and the cyber security directions of 28 April 2022",
+      "url": "https://www.cert-in.org.in/"
+    },
+    {
+      "title": "India Code: official text of central Acts (Prevention of Corruption Act, Indian Contract Act, Arbitration Act)",
+      "url": "https://www.indiacode.nic.in/"
+    },
+    {
+      "title": "Ministry of Corporate Affairs: Companies Act 2013 (vigil mechanism, Section 177)",
+      "url": "https://www.mca.gov.in/"
     }
   ],
   "assessment": {
@@ -60,33 +78,70 @@
     "passMarkPercent": 70,
     "questions": [
       {
-        "type": "MATCHING",
-        "text": "Match each DPDP Act term to its meaning.",
+        "type": "SINGLE",
+        "text": "Under the DPDP Act, what is the organisation that decides why and how personal data is processed called?",
         "options": [
-          "Data principal=The person the data is about",
-          "Data fiduciary=The organisation that decides why and how data is processed",
-          "Data processor=Someone processing data on the fiduciary's behalf"
+          "Data Principal",
+          "Data Fiduciary",
+          "Data Processor",
+          "Consent Manager"
         ],
-        "correct": [],
-        "points": 3
+        "correct": [
+          "Data Fiduciary"
+        ],
+        "points": 1,
+        "explanation": "The data fiduciary decides the purpose and means of processing."
+      },
+      {
+        "type": "MULTIPLE",
+        "text": "Which are principles of data protection under the DPDP framework?",
+        "options": [
+          "Purpose limitation",
+          "Data minimisation",
+          "Storage limitation",
+          "Collect as much as possible"
+        ],
+        "correct": [
+          "Purpose limitation",
+          "Data minimisation",
+          "Storage limitation"
+        ],
+        "points": 1,
+        "explanation": "Collect only what is needed, use it for the stated purpose and delete it when no longer needed."
       },
       {
         "type": "SINGLE",
-        "text": "Which is personal data?",
+        "text": "Within how many hours must specified cyber incidents be reported to CERT-In?",
         "options": [
-          "A customer contact's mobile number",
-          "The model number of a switch",
-          "A product price list",
-          "The company's GST rate table"
+          "6 hours",
+          "24 hours",
+          "72 hours",
+          "7 days"
         ],
         "correct": [
-          "A customer contact's mobile number"
+          "6 hours"
         ],
-        "points": 1
+        "points": 1,
+        "explanation": "The CERT-In directions of 28 April 2022 require reporting within 6 hours of noticing the incident."
+      },
+      {
+        "type": "SINGLE",
+        "text": "How long do the CERT-In directions require ICT system logs to be kept within India?",
+        "options": [
+          "30 days",
+          "90 days",
+          "180 days",
+          "5 years"
+        ],
+        "correct": [
+          "180 days"
+        ],
+        "points": 1,
+        "explanation": "Logs must be kept for a rolling period of 180 days within Indian jurisdiction."
       },
       {
         "type": "TRUE_FALSE",
-        "text": "You should collect as much personal data as possible in case it is useful later.",
+        "text": "You should wait until you are sure a breach has happened before reporting it.",
         "options": [
           "True",
           "False"
@@ -95,44 +150,36 @@
           "False"
         ],
         "points": 1,
-        "explanation": "Collect only what is needed for the purpose."
+        "explanation": "Report suspected breaches immediately; legal reporting clocks may already be running."
       },
       {
         "type": "SINGLE",
-        "text": "You emailed a customer list to the wrong address. What is the first thing to do?",
+        "text": "An engineer needs to analyse a customer's data. What is the right approach?",
         "options": [
-          "Report it immediately to your manager and the data protection contact",
-          "Wait and see if anyone notices",
-          "Delete your sent email",
-          "Email the list again to the right person only"
+          "Copy it to a laptop",
+          "Work within the customer's environment, accessing only what the task needs",
+          "Email it to a personal account",
+          "Upload it to a free online tool"
         ],
         "correct": [
-          "Report it immediately to your manager and the data protection contact"
+          "Work within the customer's environment, accessing only what the task needs"
         ],
-        "points": 1
+        "points": 1,
+        "explanation": "Never copy customer data to our devices; follow least privilege.",
+        "scenario": "The customer's HR application is slow and the engineer must investigate."
       },
       {
-        "type": "MULTIPLE",
-        "text": "Where may customer personal data be kept? Select all that apply.",
+        "type": "TRUE_FALSE",
+        "text": "When a vendor processes personal data for us, we remain responsible under the DPDP Act.",
         "options": [
-          "Approved company systems",
-          "A personal messaging app",
-          "A personal USB drive at home",
-          "Shared only with colleagues who need it"
+          "True",
+          "False"
         ],
         "correct": [
-          "Approved company systems",
-          "Shared only with colleagues who need it"
+          "True"
         ],
-        "points": 2
-      },
-      {
-        "type": "SHORT_ANSWER",
-        "text": "A customer asks you to delete all the personal data we hold about them. Explain what you would do.",
-        "options": [],
-        "correct": [],
-        "points": 4,
-        "explanation": "Model answer: acknowledge the request, do not delete anything yourself, pass it at once to the data protection contact with the customer's details, and let them verify identity, check legal retention needs and respond."
+        "points": 1,
+        "explanation": "The data fiduciary is accountable for processing carried out on its behalf."
       }
     ]
   }

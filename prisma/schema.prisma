@@ -178,6 +178,12 @@ model Course {
   passMarkPercent Int          @map("pass_mark_percent")
   // Completion rules: a video lesson completes only after this share of it was actually
   // played (0 = no rule); and the course completes only after a linked assessment is passed.
+  // Seeded courses keep "seed" here while their lessons are untouched, so the seed can
+  // refresh their content in place. Admin changes to lessons or modules clear it.
+  contentSource   String?      @map("content_source")
+  contentHash     String?      @map("content_hash")
+  // Sources and further reading: [{ title, url }].
+  sources         Json         @default("[]")
   minVideoWatchPercent  Int     @default(0) @map("min_video_watch_percent")
   requireAssessmentPass Boolean @default(false) @map("require_assessment_pass")
   createdAt       DateTime     @default(now()) @map("created_at")

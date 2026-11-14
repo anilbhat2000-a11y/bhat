@@ -29,29 +29,47 @@
       "position": 1,
       "title": "Goods receipt",
       "type": "TEXT",
-      "body": "Goods receipt is the first control point for stock. What is recorded here drives payment to the vendor and delivery to the customer.\n\n## Steps\n\n1. **Check documents:** the vendor's invoice or challan and our PO number.\n2. **Count boxes** against the transporter's documents before signing.\n3. **Inspect** for damage; photograph any.\n4. **Open and verify** contents: part numbers, quantities, serial numbers.\n5. **Record the goods receipt note (GRN)** in the system against the PO.\n6. **Label and store** the goods in the right location.\n\n## Mismatches\n\n- Record only what was actually received.\n- Inform Purchase at once about shortages, wrong items or damage, so the vendor can be held to the terms.",
+      "body": "Goods receipt is the first control point for stock entering the warehouse. Errors here flow through the whole business: wrong stock levels, wrong invoices to customers and payments for goods we never received.\n\n## The goods receipt process\n\n1. **Check the documents:** match the vendor's invoice or challan and e-way bill with our purchase order.\n2. **Count the boxes** against the transporter's documents before signing.\n3. **Inspect for damage** and record any issue on the transporter's copy.\n4. **Open and verify:** check part numbers, quantities and serial numbers against the PO.\n5. **Create the goods receipt note (GRN)** in the ERP, recording what was actually accepted.\n6. **Label and store** the goods in the correct location.\n7. **Inform** purchase and sales that the goods have arrived.\n\n## Handling exceptions\n\n- **Wrong item:** do not accept it into stock; keep it aside and inform purchase.\n- **Short quantity:** record only what was received.\n- **Damaged goods:** record, photograph and keep in a quarantine area.\n- **No PO:** do not receive until purchase confirms the order.\n\n## Key terms\n\n- **Goods receipt note (GRN):** the record of goods received and accepted.\n- **Quarantine area:** a separate space for goods that cannot yet be accepted.\n- **Put-away:** moving received goods to their storage location.\n- **Bin location:** the specific shelf or rack position where an item is stored.\n\n## Real-world example\n\nA shipment of 40 switches arrives, but the packing list shows 24-port models while the PO is for 48-port models. The stores executive keeps the goods in quarantine and informs purchase the same day. The distributor arranges an exchange. Had the switches been received into stock, they might have been shipped to the customer by mistake.\n\n## Common mistakes\n\n- Signing for goods without counting boxes.\n- Creating a GRN for the PO quantity instead of the actual quantity.\n- Mixing unaccepted goods with saleable stock.\n\n## Key takeaways\n\n- Goods receipt is a control: check documents, count, inspect and verify.\n- Record only what was actually received and accepted.\n- Keep exceptions in quarantine and inform purchase immediately.",
       "module": 1
     },
     {
       "position": 2,
       "title": "Stock movements",
       "type": "TEXT",
-      "body": "Stock records are only useful if they match what is on the shelf.\n\n## Every movement is recorded\n\n- **In:** goods receipt from vendors, returns from customers, transfers from other branches.\n- **Out:** dispatches to customers, transfers to other branches, items sent for repair or demo.\n- **Internal:** moving items between locations in the warehouse.\n\n## Good practice\n\n- Record the movement when it happens, not at the end of the day.\n- Use location codes (rack, shelf, bin) so items can be found.\n- Issue stock on a **first in, first out** basis unless a specific serial number is needed.\n- Keep demo and repair stock separate from saleable stock.\n\n> Under GST, moving stock between branches with different GSTINs (for example in different states) is generally treated as a supply and needs proper documents. Check with Accounts before any inter-state transfer.",
+      "body": "Every time stock moves, the system must record it. Accurate stock movements mean we always know what we have, where it is and what is committed to customers.\n\n## Types of stock movement\n\n- **Receipt:** goods arriving from vendors (GRN).\n- **Issue:** goods leaving for a customer, a project or internal use.\n- **Transfer:** goods moving between locations, such as from the main warehouse to a branch.\n- **Return:** goods coming back from a customer or going back to a vendor.\n- **Adjustment:** correcting stock after a count, damage or write-off, with approval.\n\n## Picking and issuing\n\n- Pick only against an approved sales order or issue request.\n- Follow FIFO (first in, first out) so that older stock is used first, which matters for batteries and products with firmware or warranty start dates.\n- Scan or record serial numbers when picking.\n- Have a second person check high-value picks.\n\n## Stock transfers between states\n\nIf our company moves goods between its own offices in different states, each registration (GSTIN) is treated as a distinct person under GST. Such a transfer is generally a taxable supply that needs a tax invoice and, above the threshold, an e-way bill. A transfer within the same GSTIN usually moves on a delivery challan.\n\n## Key terms\n\n- **FIFO:** first in, first out; issue the oldest stock first.\n- **Stock adjustment:** an approved correction to recorded stock.\n- **Distinct person:** under GST, each registration of the same company in a different state.\n- **Reserved stock:** stock allocated to a specific customer order.\n\n## Real-world example\n\nUPS batteries lose charge and capacity when stored for long periods. A warehouse that picks the newest batteries first finds that older ones have deteriorated beyond use. After adopting FIFO, with storage dates on each pallet, the company stops writing off old batteries.\n\n## Common mistakes\n\n- Moving stock without recording the movement.\n- Adjusting stock without approval or explanation.\n- Treating inter-state transfers between our own branches as if they need no tax invoice.\n\n## Key takeaways\n\n- Record every receipt, issue, transfer, return and adjustment.\n- Use FIFO, especially for batteries and date-sensitive items.\n- Inter-state transfers between our own GSTINs generally need a tax invoice.",
       "module": 2
     },
     {
       "position": 3,
       "title": "Cycle counts",
       "type": "TEXT",
-      "body": "A cycle count checks part of the stock every week or month, instead of counting everything once a year.\n\n## How to run one\n\n1. Choose the items to count: high-value items more often, slow movers less often.\n2. Count without looking at the system quantity, so the count is not influenced.\n3. Compare the count with the system.\n4. Investigate differences: unrecorded dispatches, receipts posted to the wrong item, damage, theft.\n5. Adjust the system only after investigation and approval.\n\n## Why it matters\n\nRegular counts find errors while they are small and the cause can still be traced. A difference found a year later is usually impossible to explain.\n\n> This module includes a practice lab: run a cycle count on a sample stock list and explain the differences.",
+      "body": "A cycle count is a regular count of a portion of the inventory, rather than counting everything once a year. Over a cycle, every item is counted. Cycle counting finds errors early, keeps records accurate and avoids shutting the warehouse for a full stock-take.\n\n## How to plan cycle counts\n\nUse ABC analysis to decide how often to count each item:\n\n- **A items:** high value or fast-moving, often about 20% of items but most of the value. Count frequently, such as monthly.\n- **B items:** medium value. Count quarterly.\n- **C items:** low value, many items. Count once or twice a year.\n\n## Running a count\n\n1. Freeze movements for the items being counted, or count at a quiet time.\n2. Count physically without looking at the system quantity (a \"blind count\").\n3. Compare with the system and recount any difference.\n4. Investigate the cause: a missed GRN, a wrong pick, damage or theft.\n5. Post an approved adjustment and fix the process that caused the error.\n\n## Measuring accuracy\n\n**Inventory record accuracy** is the percentage of counted items where the system matches the physical count, within tolerance. Many well-run warehouses aim for 95% or higher.\n\n## Key terms\n\n- **Cycle count:** counting part of the inventory on a rolling schedule.\n- **ABC analysis:** grouping items by value or importance.\n- **Blind count:** counting without seeing the expected quantity.\n- **Inventory record accuracy:** the share of counts that match records.\n\n## Real-world example\n\nA monthly cycle count of laptops shows two fewer units than the system. Investigation finds that two laptops were issued to a customer as replacements without an issue entry in the ERP. The team adds a rule that no item leaves the warehouse without a system document, and the next counts match.\n\n## Common mistakes\n\n- Counting while goods are still moving in and out.\n- Adjusting stock without finding the cause.\n- Counting only once a year.\n\n## Key takeaways\n\n- Count high-value items often using ABC analysis.\n- Use blind counts, investigate differences and fix the cause.\n- Track inventory record accuracy as a key measure.",
       "module": 3
     },
     {
       "position": 4,
       "title": "Serial number tracking",
       "type": "TEXT",
-      "body": "Most IT equipment carries a unique serial number. Tracking serials links each unit to its customer, warranty and support.\n\n## Why serials matter\n\n- Warranty and OEM support are tied to the serial number.\n- OEM special pricing often requires proof of which serials went to which customer.\n- Returns and replacements must be matched to the original unit.\n\n## Practice\n\n- Scan or record serials at goods receipt.\n- Record serials again at dispatch, against the customer invoice.\n- Note serials on the packing list and the POD.\n- When a faulty unit is replaced, record both the old and new serial numbers.",
+      "body": "Most IT equipment has a unique serial number. Tracking serial numbers from receipt to customer delivery is essential for warranty claims, OEM audits, returns and fraud prevention.\n\n## Why serial numbers matter\n\n- **Warranty:** OEMs check serial numbers to confirm warranty status and start dates.\n- **OEM audits:** special-priced units must be traceable to the named end customer.\n- **Returns:** we must confirm that a returned unit is the one we sold.\n- **Theft and fraud:** missing or swapped units can be identified.\n- **Customer asset registers:** many customers ask for serial number lists for their records.\n\n## Good practice\n\n- Scan serial numbers at goods receipt and record them in the ERP against the GRN.\n- Scan again when picking and dispatching, and link each serial to the customer invoice.\n- Include serial numbers on the packing list and, where required, on the invoice.\n- Record serials for returns and replacements, linking old and new units.\n- Use barcode scanners to avoid typing errors.\n\n## Key terms\n\n- **Serial number:** a unique identifier for an individual unit.\n- **Traceability:** the ability to follow a unit through its history.\n- **RMA:** return merchandise authorisation, an OEM's approval to return a faulty unit.\n- **Asset register:** a list of a customer's equipment, often with serial numbers and locations.\n\n## Real-world example\n\nA customer reports that a server bought eight months ago has failed. The OEM asks for the serial number to log a warranty case. Because the company recorded serial numbers at dispatch and linked them to the invoice, the support team confirms the purchase date and warranty in minutes, and a replacement part arrives the next day.\n\n## Common mistakes\n\n- Typing serial numbers by hand, causing errors.\n- Recording serials at receipt but not at dispatch.\n- Not linking replacement units to the original.\n\n## Key takeaways\n\n- Capture serial numbers at receipt, dispatch, return and replacement.\n- Link each serial to the customer invoice for warranty and audit purposes.\n- Use scanners to reduce errors.",
       "module": 4
+    }
+  ],
+  "sources": [
+    {
+      "title": "ASCM (APICS): supply chain and inventory management body of knowledge",
+      "url": "https://www.ascm.org/"
+    },
+    {
+      "title": "CBIC GST: CGST Rules (Rule 55 delivery challan, Rule 138 e-way bill) and Schedule I",
+      "url": "https://cbic-gst.gov.in/"
+    },
+    {
+      "title": "GST e-way bill system",
+      "url": "https://ewaybillgst.gov.in/"
+    },
+    {
+      "title": "ASCM (APICS): supply chain and inventory management body of knowledge",
+      "url": "https://www.ascm.org/"
     }
   ],
   "assessment": {
@@ -61,84 +79,104 @@
     "questions": [
       {
         "type": "SINGLE",
-        "text": "When recording a goods receipt, what quantity should be entered?",
+        "text": "A shipment contains a different model from the PO. What should stores do?",
         "options": [
-          "What was actually received",
-          "What was ordered",
-          "What the vendor invoiced",
-          "A rounded figure"
+          "Receive it into stock",
+          "Keep it in quarantine and inform purchase",
+          "Return it without telling anyone",
+          "Ship it to the customer"
         ],
         "correct": [
-          "What was actually received"
+          "Keep it in quarantine and inform purchase"
         ],
-        "points": 1
+        "points": 1,
+        "explanation": "Unaccepted goods are kept separate until purchase resolves the issue."
       },
       {
         "type": "SINGLE",
-        "text": "What does 'first in, first out' mean?",
+        "text": "What does FIFO mean?",
         "options": [
-          "The oldest stock is issued first",
-          "The newest stock is issued first",
-          "Stock is never issued",
-          "The cheapest stock is issued first"
+          "Fast in, fast out",
+          "First in, first out",
+          "Free in, free out",
+          "Final inspection, final order"
         ],
         "correct": [
-          "The oldest stock is issued first"
+          "First in, first out"
         ],
-        "points": 1
+        "points": 1,
+        "explanation": "FIFO issues the oldest stock first, which matters for batteries and date-sensitive items."
       },
       {
         "type": "TRUE_FALSE",
-        "text": "In a cycle count, the counter should look at the system quantity first so they know what to expect.",
+        "text": "Under GST, a transfer of goods between our own offices in different states is generally a taxable supply needing a tax invoice.",
         "options": [
           "True",
           "False"
         ],
         "correct": [
-          "False"
+          "True"
         ],
         "points": 1,
-        "explanation": "Counting blind keeps the count independent."
-      },
-      {
-        "type": "MULTIPLE",
-        "text": "Why track serial numbers? Select all that apply.",
-        "options": [
-          "Warranty and support are tied to them",
-          "OEM special pricing may need proof of which serials went to which customer",
-          "Returns must match the original unit",
-          "They make boxes lighter"
-        ],
-        "correct": [
-          "Warranty and support are tied to them",
-          "OEM special pricing may need proof of which serials went to which customer",
-          "Returns must match the original unit"
-        ],
-        "points": 2
+        "explanation": "Each state registration is a distinct person, so inter-state transfers are generally taxable."
       },
       {
         "type": "SINGLE",
-        "text": "A cycle count shows 2 fewer switches than the system. What should happen next?",
+        "text": "In ABC analysis, which items should be counted most often?",
         "options": [
-          "Adjust the system immediately",
-          "Investigate the difference before any approved adjustment",
-          "Ignore it",
-          "Order 2 more switches"
+          "A items",
+          "B items",
+          "C items",
+          "None"
         ],
         "correct": [
-          "Investigate the difference before any approved adjustment"
+          "A items"
         ],
-        "points": 1
+        "points": 1,
+        "explanation": "A items carry most of the value and are counted most frequently."
+      },
+      {
+        "type": "SINGLE",
+        "text": "What is a blind count?",
+        "options": [
+          "Counting in the dark",
+          "Counting without seeing the system quantity",
+          "Counting only boxes",
+          "Skipping a count"
+        ],
+        "correct": [
+          "Counting without seeing the system quantity"
+        ],
+        "points": 1,
+        "explanation": "Blind counts avoid bias towards the expected number."
+      },
+      {
+        "type": "MULTIPLE",
+        "text": "Why do we track serial numbers?",
+        "options": [
+          "Warranty claims",
+          "OEM audits of special pricing",
+          "Verifying returns",
+          "Calculating GST rates"
+        ],
+        "correct": [
+          "Warranty claims",
+          "OEM audits of special pricing",
+          "Verifying returns"
+        ],
+        "points": 1,
+        "explanation": "Serial numbers support warranty, audit and returns; GST rates depend on HSN codes."
       },
       {
         "type": "FILL_BLANK",
-        "text": "The document recorded when goods arrive at the warehouse is the goods receipt ____.",
+        "text": "The record created when goods are received and accepted is the goods ______ note.",
         "options": [
-          "note",
-          "GRN"
+          "receipt",
+          "Receipt"
         ],
         "correct": [],
-        "points": 1
+        "points": 1,
+        "explanation": "The goods receipt note (GRN) records what was actually accepted."
       }
     ]
   }

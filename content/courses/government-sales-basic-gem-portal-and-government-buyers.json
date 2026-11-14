@@ -29,29 +29,47 @@
       "position": 1,
       "title": "How government buys",
       "type": "TEXT",
-      "body": "Government buyers spend public money, so they must follow written rules that ensure fairness, transparency and value. Understanding these rules is the first step to winning government business.\n\n## Who buys\n\n- Central ministries and departments, and their attached offices.\n- Central public sector enterprises (PSUs) and autonomous bodies.\n- State governments, state PSUs and local bodies, under their own rules.\n\n## Main rules for central buyers\n\n- The **General Financial Rules (GFR)** set the principles and procurement methods.\n- Each organisation may have its own **procurement manual**.\n- The **Government e-Marketplace (GeM)** is the main online platform for buying common goods and services.\n- Larger or specialised purchases go through **tenders**, often on the Central Public Procurement Portal or the organisation's own e-procurement site.\n\n> Government buying is slower and more formal than private buying. Patience and complete paperwork win.",
+      "body": "Government departments, public sector undertakings (PSUs), autonomous bodies and state governments are some of the largest buyers of IT in India. They buy differently from private companies: every purchase must follow public procurement rules designed for transparency, fair competition and value for public money.\n\n## The rules behind government buying\n\n- **General Financial Rules, 2017 (GFR 2017):** issued by the Department of Expenditure, Ministry of Finance. They set the basic principles and methods for procurement by central government ministries and departments.\n- **Procurement manuals:** the Department of Expenditure's manuals for the procurement of goods, of consultancy and other services, and of works explain the rules in detail and are updated from time to time.\n- **Preference policies:** Make in India (local content), micro and small enterprises (MSEs) and startups receive certain preferences.\n- **State rules:** state governments and their bodies follow their own procurement rules and portals, often based on similar principles.\n- **PSU policies:** public sector companies have board-approved procurement policies and portals.\n\n## Main ways government buys IT\n\n- **GeM (Government e-Marketplace):** the online marketplace for common goods and services. Under Rule 149 of GFR 2017, procurement of goods and services available on GeM is mandatory for central ministries and departments.\n- **E-tenders:** through the Central Public Procurement Portal (CPPP) or the organisation's own e-procurement portal, for items not on GeM or complex projects.\n\n## Key terms\n\n- **Public procurement:** buying by government organisations using public money.\n- **GFR 2017:** the General Financial Rules, which govern central government finances and procurement.\n- **PSU:** public sector undertaking, a government-owned company.\n- **Value for money:** getting the best quality and price for the public funds spent.\n\n## Real-world example\n\nA central government institute wants 200 desktops. Because desktops are available on GeM, the purchase officer must buy through GeM rather than calling local dealers for quotes. A system integrator registered on GeM with a compliant catalogue can participate; one that relies only on personal relationships cannot.\n\n## Common mistakes\n\n- Treating government buyers like private customers who can choose a vendor freely.\n- Ignoring state-specific rules and portals.\n- Not registering on GeM and the relevant e-procurement portals in advance.\n\n## Key takeaways\n\n- Government buying follows GFR 2017, procurement manuals and preference policies.\n- GeM is mandatory for central government purchases of goods and services available on it.\n- Register early on GeM and the portals your target customers use.",
       "module": 1
     },
     {
       "position": 2,
       "title": "GeM seller portal walkthrough",
       "type": "TEXT",
-      "body": "GeM (gem.gov.in) is the government's online marketplace. Central government buyers are generally required to buy goods and services available on GeM through it.\n\n## As a seller\n\n- **Registration:** using the company's PAN and other verified details, with an authorised person.\n- **Seller profile:** company details, bank account, office addresses, and documents such as GST registration.\n- **Vendor assessment:** GeM may require an assessment for some categories.\n- **Catalogue:** products are listed under categories with detailed specifications.\n- **OEM and reseller:** a reseller listing a brand's product generally needs the OEM's authorisation on GeM.\n\n## Keep the account healthy\n\n- Keep documents and authorisations current.\n- Respond to orders and messages within the time allowed.\n- Poor performance or false information can lead to suspension.\n\n> [PLACEHOLDER: The company's GeM seller ID, authorised users and internal approval for GeM bids.]",
+      "body": "The Government e-Marketplace (GeM) was launched in August 2016 and has become the main channel for central and many state government purchases. Sellers list products and services; government buyers compare and buy online. To sell on GeM, a company must register and keep its profile and catalogue accurate.\n\n## Registering as a seller\n\n- Register the organisation using PAN-based verification, with GST registration and bank details.\n- Add Udyam registration if the company is a micro, small or medium enterprise, to claim MSE benefits.\n- Choose seller type: OEM (manufacturer) or reseller. Resellers usually need the OEM's authorisation to list branded products.\n- Complete the company profile: turnover, experience, office addresses and certifications.\n- Some categories require vendor assessment or additional documents.\n\n## Using the seller dashboard\n\n- **Catalogue management:** add and update products and services with correct specifications and prices.\n- **Bids and reverse auctions:** view bids in your categories and participate.\n- **Orders:** accept orders, record delivery and track acceptance.\n- **Invoices and payments:** submit invoices and track payment status.\n- **Incident management:** respond to complaints and incidents raised by buyers.\n\n## Key terms\n\n- **Seller:** a company registered on GeM to sell.\n- **OEM panel:** the process by which manufacturers register their brands and authorise resellers.\n- **Catalogue:** the listing of a product or service with specifications and price.\n- **Incident:** a complaint raised on GeM, which can lead to suspension if not resolved.\n\n## Real-world example\n\nA system integrator registers on GeM but does not update its catalogue for months. When prices fall, its listed prices remain high and it never appears among the lowest offers. Another integrator assigns a team member to review catalogue prices weekly and to respond to bids daily. It wins several direct purchase orders in its first quarter.\n\n## Common mistakes\n\n- Registering but not keeping the catalogue current.\n- Listing branded products without valid OEM authorisation.\n- Ignoring incidents raised by buyers.\n\n## Key takeaways\n\n- Register on GeM with accurate company, tax and MSE details.\n- Get OEM authorisation before listing branded products as a reseller.\n- Manage the catalogue, bids, orders and incidents actively.",
       "module": 2
     },
     {
       "position": 3,
       "title": "Direct purchase, L1 and bids on GeM",
       "type": "TEXT",
-      "body": "GeM supports several ways of buying, depending mainly on the value of the purchase. The value limits are set by GFR and GeM rules and are revised from time to time, so check the current limits on GeM.\n\n## The main modes\n\n- **Direct purchase:** for low-value purchases, the buyer may order directly from any seller meeting the requirement.\n- **L1 purchase:** for purchases in the next value band, the buyer compares offers and orders from the lowest-priced (L1) seller meeting the requirement.\n- **Bid / reverse auction:** for higher values, the buyer publishes a bid; sellers submit offers, sometimes followed by a reverse auction where prices are revised downwards.\n\n## What this means for sellers\n\n- For direct and L1 buys, **catalogue price and accurate specifications** decide who wins.\n- For bids, read the bid document carefully: eligibility, technical specifications, EMD and documents.\n- Watch the published deadlines; GeM does not accept late offers.",
+      "body": "GeM offers buyers different modes of purchase depending on the value of the order. Under the GFR, as amended by the Department of Expenditure's office memorandum of 10 July 2024, the limits for buying through GeM are:\n\n## Buying modes by value\n\n- **Up to ₹50,000:** **direct purchase** from any seller on GeM who meets the required quality, specification and delivery period.\n- **Above ₹50,000 and up to ₹10 lakh:** **direct purchase through L1** — the buyer compares offers from sellers of at least three different manufacturers who meet the requirements, and buys from the lowest-priced (L1) seller.\n- **Above ₹10 lakh:** **bid** or **reverse auction (RA)** on GeM. Buyers may also choose a bid or RA for lower values.\n\nBuyers must record their reasons and follow their organisation's financial powers when they choose.\n\n## How bids and reverse auctions work\n\n- In a **bid**, sellers submit technical and price offers by a deadline. Technical evaluation comes first; prices of technically qualified sellers are then compared.\n- In a **reverse auction**, technically qualified sellers lower their prices in real time for a set period, and the lowest price wins.\n- Bid documents state eligibility criteria, specifications, delivery, warranty and any bid security or performance security.\n\n## Key terms\n\n- **Direct purchase:** buying from a seller without a bid, within the value limit.\n- **L1:** the lowest-priced technically compliant offer.\n- **Reverse auction (RA):** an online auction in which sellers lower prices.\n- **Bid:** a formal competitive process on GeM with a submission deadline.\n\n## Real-world example\n\nA district office needs projectors worth ₹4 lakh. Because the value is between ₹50,000 and ₹10 lakh, the buyer compares products from at least three manufacturers that meet the specification and buys from the L1 seller. A seller whose catalogue price is competitive and whose product exactly matches the common specification wins the order without any bid.\n\n## Common mistakes\n\n- Using old value limits; they were revised in July 2024.\n- Assuming the cheapest product always wins, without meeting specifications.\n- Missing bid deadlines or technical documents.\n\n## Key takeaways\n\n- Up to ₹50,000: direct purchase. Above ₹50,000 to ₹10 lakh: L1 among at least three manufacturers. Above ₹10 lakh: bid or reverse auction.\n- Technical compliance comes first; then price decides.\n- Check the latest Department of Expenditure orders, as limits change.",
       "module": 3
     },
     {
       "position": 4,
       "title": "Catalogue compliance",
       "type": "TEXT",
-      "body": "The catalogue is our shop window on GeM. Errors can lead to rejected orders or penalties.\n\n## Listing well\n\n- Use the correct category and fill every specification field accurately.\n- Use the OEM's official part number and datasheet.\n- Price realistically; the price must be honoured if an order comes.\n- Keep stock status and delivery periods realistic.\n\n## Stay compliant\n\n- Remove or update products that are discontinued or out of stock.\n- Never list a product you are not authorised to sell.\n- Update prices when costs change, following GeM's rules on price changes.\n- Make sure specifications match exactly what will be delivered; a mismatch can mean rejection at delivery.",
+      "body": "On GeM, your catalogue is your shop window. Buyers find, compare and buy products based on what the catalogue says. An inaccurate catalogue can lead to lost orders, rejected deliveries, incidents and even suspension.\n\n## What catalogue compliance means\n\n- **Correct specifications:** every listed attribute must match the actual product delivered.\n- **Correct price:** the offer price must be reasonable and not higher than the price offered elsewhere for the same conditions; GeM may compare prices with market references.\n- **Country of origin and local content:** sellers must declare the country of origin and the percentage of local content, as required under the Make in India policy.\n- **Authorisation:** resellers must have valid OEM authorisation for branded items.\n- **Stock and delivery:** listed products should be available to deliver within the stated period.\n- **Images and brochures:** must represent the actual product.\n\n## Keeping the catalogue healthy\n\n- Review prices regularly against the market and update them.\n- Remove products that are end of sale or out of stock.\n- Check specifications against OEM datasheets after any model change.\n- Respond quickly to buyer queries and incidents.\n\n## Key terms\n\n- **Local content:** the share of value added in India, declared under the Make in India order.\n- **Market price reasonableness:** the requirement that GeM prices are fair compared with the market.\n- **Suspension:** temporary blocking of a seller or product on GeM for violations.\n\n## Real-world example\n\nA seller lists a laptop model with 16 GB of memory, but delivers units with 8 GB because the specification was copied from a different model. The buyer rejects the delivery and raises an incident. The seller must replace the units at its own cost and its rating suffers. After this, the seller checks every catalogue entry against the OEM's datasheet before publishing.\n\n## Common mistakes\n\n- Copying specifications from another model.\n- Incorrect local content declarations.\n- Leaving outdated prices and discontinued models listed.\n\n## Key takeaways\n\n- Catalogue specifications, prices and declarations must be accurate.\n- Declare country of origin and local content correctly.\n- Review and update the catalogue regularly.",
       "module": 4
+    }
+  ],
+  "sources": [
+    {
+      "title": "Government e-Marketplace (GeM): seller registration, buying modes and terms and conditions",
+      "url": "https://gem.gov.in/"
+    },
+    {
+      "title": "Department of Expenditure: General Financial Rules 2017, procurement manuals and office memoranda",
+      "url": "https://doe.gov.in/"
+    },
+    {
+      "title": "Central Public Procurement Portal (CPPP): e-tenders, corrigenda and bid submission",
+      "url": "https://eprocure.gov.in/"
+    },
+    {
+      "title": "DPIIT: Public Procurement (Preference to Make in India) Order",
+      "url": "https://dpiit.gov.in/"
     }
   ],
   "assessment": {
@@ -61,32 +79,80 @@
     "questions": [
       {
         "type": "SINGLE",
-        "text": "What is GeM?",
+        "text": "Under which rule of GFR 2017 is procurement through GeM mandatory for goods and services available on it?",
         "options": [
-          "The government's online marketplace for goods and services",
-          "A private shopping website",
-          "A tax filing portal",
-          "A bank"
+          "Rule 47",
+          "Rule 149",
+          "Rule 170",
+          "Rule 171"
         ],
         "correct": [
-          "The government's online marketplace for goods and services"
+          "Rule 149"
         ],
-        "points": 1
+        "points": 1,
+        "explanation": "Rule 149 of GFR 2017 covers procurement through GeM."
       },
       {
-        "type": "MATCHING",
-        "text": "Match each GeM buying mode to how it works.",
+        "type": "SINGLE",
+        "text": "A buyer needs items worth ₹40,000 available on GeM. Which mode can be used?",
         "options": [
-          "Direct purchase=Low value; buyer orders directly from a seller meeting the need",
-          "L1 purchase=Buyer compares offers and orders from the lowest-priced seller",
-          "Bid / reverse auction=Higher value; sellers submit offers to a published bid"
+          "Direct purchase from any compliant seller",
+          "Bid only",
+          "Reverse auction only",
+          "Open tender on CPPP"
         ],
-        "correct": [],
-        "points": 3
+        "correct": [
+          "Direct purchase from any compliant seller"
+        ],
+        "points": 1,
+        "explanation": "Up to ₹50,000, direct purchase from any seller meeting the requirements is allowed."
+      },
+      {
+        "type": "SINGLE",
+        "text": "For a purchase of ₹4 lakh on GeM, what is the usual direct purchase rule?",
+        "options": [
+          "Buy from any seller",
+          "Buy from the L1 seller after comparing at least three different manufacturers",
+          "Always run a reverse auction",
+          "Buy from the seller with the best brochure"
+        ],
+        "correct": [
+          "Buy from the L1 seller after comparing at least three different manufacturers"
+        ],
+        "points": 1,
+        "explanation": "Above ₹50,000 and up to ₹10 lakh, the buyer compares at least three manufacturers and buys from L1."
+      },
+      {
+        "type": "SINGLE",
+        "text": "Above what value does a GeM purchase normally require a bid or reverse auction?",
+        "options": [
+          "₹50,000",
+          "₹2.5 lakh",
+          "₹10 lakh",
+          "₹1 crore"
+        ],
+        "correct": [
+          "₹10 lakh"
+        ],
+        "points": 1,
+        "explanation": "The DoE office memorandum of 10 July 2024 set ₹10 lakh as the limit for direct purchase through L1."
       },
       {
         "type": "TRUE_FALSE",
-        "text": "A reseller may list any brand on GeM without the OEM's authorisation.",
+        "text": "Sellers on GeM must declare the country of origin and local content of their products.",
+        "options": [
+          "True",
+          "False"
+        ],
+        "correct": [
+          "True"
+        ],
+        "points": 1,
+        "explanation": "These declarations support the Make in India purchase preference."
+      },
+      {
+        "type": "TRUE_FALSE",
+        "text": "A reseller can list a branded product on GeM without the manufacturer's authorisation if it buys from a distributor.",
         "options": [
           "True",
           "False"
@@ -94,46 +160,21 @@
         "correct": [
           "False"
         ],
-        "points": 1
+        "points": 1,
+        "explanation": "Resellers generally need OEM authorisation to list branded products."
       },
       {
-        "type": "SINGLE",
-        "text": "Which rules set the principles for central government procurement?",
+        "type": "MATCHING",
+        "text": "Match each term to its meaning.",
         "options": [
-          "General Financial Rules (GFR)",
-          "The Companies Act",
-          "Income Tax Rules",
-          "The Motor Vehicles Act"
-        ],
-        "correct": [
-          "General Financial Rules (GFR)"
-        ],
-        "points": 1
-      },
-      {
-        "type": "MULTIPLE",
-        "text": "Which are good practices for a GeM catalogue? Select all that apply.",
-        "options": [
-          "Fill every specification field accurately",
-          "Use the OEM's official part number",
-          "Remove discontinued products",
-          "List products you hope to get authorisation for later"
-        ],
-        "correct": [
-          "Fill every specification field accurately",
-          "Use the OEM's official part number",
-          "Remove discontinued products"
-        ],
-        "points": 2
-      },
-      {
-        "type": "FILL_BLANK",
-        "text": "In an L1 purchase, the order goes to the ____-priced seller meeting the requirement.",
-        "options": [
-          "lowest"
+          "L1=Lowest-priced technically compliant offer",
+          "Reverse auction=Sellers lower prices in real time",
+          "GFR 2017=Rules governing central government procurement",
+          "Incident=Complaint raised by a buyer on GeM"
         ],
         "correct": [],
-        "points": 1
+        "points": 1,
+        "explanation": "These terms are used in every GeM transaction."
       }
     ]
   }

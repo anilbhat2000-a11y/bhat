@@ -29,29 +29,51 @@
       "position": 1,
       "title": "General Financial Rules and procurement manuals",
       "type": "TEXT",
-      "body": "The General Financial Rules (GFR) set out how central government buys. Knowing the principles helps you prepare bids that evaluators can accept, and raise valid queries.\n\n## Key principles\n\n- **Transparency, competition, fairness** and elimination of arbitrariness.\n- **Value for money:** the lowest acceptable bid that meets the specifications.\n- **Specifications** should meet the need without favouring one brand.\n- **Procurement methods** depend on value and situation: GeM, open tender, limited tender, single-source (with justification).\n- **Two-bid system** for complex purchases: technical and financial bids evaluated separately.\n\n## Where to look\n\n- The GFR and the Ministry of Finance procurement manuals.\n- The buying organisation's own manual.\n- The tender document itself, which is final for that purchase.",
+      "body": "Senior government sales professionals understand the rules buyers must follow. This helps you plan bids, raise the right queries and avoid actions that could disqualify you or put the buyer in a difficult position.\n\n## The framework\n\n- **General Financial Rules, 2017 (GFR 2017):** Chapter 6 covers procurement of goods and services, including principles, GeM, tender types, bid security, performance security and evaluation.\n- **Manuals for Procurement:** the Department of Expenditure publishes manuals for goods, consultancy and other services, and works. They explain the GFR in practical detail and are updated periodically.\n- **Delegation of financial powers:** each officer can approve purchases only within their financial powers.\n- **CVC guidelines:** the Central Vigilance Commission issues guidelines on transparency, including the use of an integrity pact in large tenders.\n- **State rules:** state governments have their own financial rules and procurement acts, such as transparency in public procurement acts in several states.\n\n## Core principles buyers must follow\n\n- Transparency, competition, fairness and elimination of arbitrariness.\n- Specifications based on functional requirements, not a particular brand.\n- Reasonable delivery periods and terms.\n- Recorded reasons for decisions.\n\n## Key terms\n\n- **Chapter 6 of GFR 2017:** the chapter on procurement of goods and services.\n- **Integrity pact:** an agreement between the buyer and bidders to avoid corrupt practices, monitored by independent external monitors.\n- **Delegation of financial powers:** limits on what each officer can approve.\n\n## Real-world example\n\nA PSU's tender includes an integrity pact. A bidder's agent suggests approaching an evaluation committee member informally. The bid manager refuses, reminding the team that the integrity pact commits bidders to ethical conduct and that a violation could lead to disqualification and blacklisting. The company competes on merit and remains eligible for future tenders.\n\n## Common mistakes\n\n- Expecting buyers to bend rules to favour a relationship.\n- Not understanding the buyer's financial powers and approval timelines.\n- Ignoring the integrity pact terms.\n\n## Key takeaways\n\n- GFR 2017, procurement manuals, CVC guidelines and state rules frame government buying.\n- Buyers must ensure transparency, competition and recorded reasons.\n- Ethical conduct, including compliance with integrity pacts, is non-negotiable.",
       "module": 1
     },
     {
       "position": 2,
       "title": "Preference policies",
       "type": "TEXT",
-      "body": "Government policies give certain bidders preference. Know whether we qualify, and what declarations are required.\n\n## Make in India (Public Procurement Preference)\n\nThe government's Make in India procurement order gives purchase preference to **local suppliers**, classified by the share of local content in what they supply (for example Class I and Class II local suppliers). The required local content and the declarations, such as a self-certificate of local content, are stated in the tender.\n\n## MSE procurement policy\n\nGovernment buyers have targets to buy from micro and small enterprises. Benefits for registered MSEs commonly include EMD exemption and purchase preference rules stated in the tender.\n\n## Practical steps\n\n- Check which preferences apply in each tender.\n- Get local content certificates from OEMs early where needed.\n- Make declarations only when they are true; false declarations can lead to debarment.",
+      "body": "Government procurement policies give preferences to certain suppliers to support domestic manufacturing, small businesses and startups. Understanding them can change bid strategy, partner selection and pricing.\n\n## Make in India (local content)\n\nThe **Public Procurement (Preference to Make in India) Order, 2017**, issued by DPIIT and revised over time, most recently in July 2024, classifies suppliers by local content:\n\n- **Class I local supplier:** local content of **50% or more**.\n- **Class II local supplier:** local content of **more than 20% but less than 50%**.\n- **Non-local supplier:** local content of **20% or less**.\n\nClass I local suppliers receive purchase preference, with a margin of purchase preference of 20% in the cases defined by the order. Bidders must declare local content, and false declarations attract penalties, including debarment. Many ministries notify higher local content requirements for specific products.\n\n## Micro and small enterprises\n\nUnder the **Public Procurement Policy for MSEs Order, 2012** (amended in 2018), central ministries, departments and PSUs must procure at least **25%** of their annual procurement of goods and services from micro and small enterprises, including **4%** from enterprises owned by SC/ST entrepreneurs and **3%** from women-owned enterprises. MSEs also receive benefits such as free tender documents and exemption from bid security. A list of items is reserved for purchase from MSEs.\n\n## Startups\n\nDPIIT-recognised startups may receive relaxations from prior turnover and experience criteria, subject to meeting quality and technical specifications, and are generally exempt from bid security.\n\n## Key terms\n\n- **Local content:** the value added in India as a share of the total value.\n- **Margin of purchase preference:** the price band within which a preferred supplier can be awarded the order by matching L1.\n- **MSE:** micro and small enterprise, registered under Udyam.\n\n## Real-world example\n\nA company's bid uses an imported server brand with low local content, while a competitor offers a server assembled in India with more than 50% local content. The competitor qualifies as a Class I local supplier and receives purchase preference. For the next tender, the company partners with an OEM that manufactures in India and declares local content with supporting certificates.\n\n## Common mistakes\n\n- Ignoring local content when selecting OEMs for government bids.\n- Making local content declarations without evidence.\n- Not registering as an MSE when eligible.\n\n## Key takeaways\n\n- Class I (50% or more), Class II (over 20% and under 50%), non-local (20% or less).\n- MSEs: 25% annual procurement target, with 4% SC/ST and 3% women-owned.\n- Choose partners and declare local content with evidence.",
       "module": 2
     },
     {
       "position": 3,
       "title": "Bid assembly",
       "type": "TEXT",
-      "body": "A complete, well-ordered bid is easier to qualify. Build it methodically.\n\n## Typical bid structure\n\n1. Covering letter and index.\n2. EMD or bid security declaration, or exemption proof.\n3. Eligibility documents in the order the tender lists them.\n4. Technical bid: compliance statement, datasheets, MAF, deviations (ideally none).\n5. Mandatory forms and declarations, signed and stamped.\n6. Financial bid in the exact format required (often a BoQ sheet on the portal).\n\n## Checks\n\n- Every page that must be signed is signed by the authorised signatory.\n- Names, numbers and values are consistent across all documents.\n- File formats and sizes meet portal limits.\n- Upload well before the deadline; portals slow down at the last minute.\n\n> This module includes a practice lab: assemble a complete bid from a sample tender.",
+      "body": "Bid assembly turns months of work into a complete, compliant submission. A disciplined process prevents last-minute errors, which are the most common reason good bids fail.\n\n## The bid team\n\n- **Bid manager:** owns the timeline, checklist and final submission.\n- **Sales:** customer insight, pricing strategy and relationships.\n- **Presales:** technical solution, compliance statement and BOM.\n- **Finance:** pricing, bid security, financial documents and certificates.\n- **Legal and compliance:** contract terms, declarations and integrity pact.\n\n## The bid assembly process\n\n1. **Bid/no-bid decision:** check eligibility, competition, margins and risks.\n2. **Requirements checklist:** list every document, form and annexure with an owner.\n3. **Technical bid:** compliance statement, solution, datasheets and OEM authorisations.\n4. **Commercial bid:** price schedule in the exact format, with taxes stated as required.\n5. **Internal review:** a second person checks every page against the checklist.\n6. **Approval:** final price and terms approved by the authorised person.\n7. **Upload:** at least a day early, with a tested digital signature certificate.\n8. **Post-submission:** save the submission receipt and a complete copy of the bid.\n\n## Key terms\n\n- **Bid/no-bid decision:** deciding whether to invest in a bid.\n- **Price schedule / BoQ:** the buyer's format for prices, also called bill of quantities.\n- **Submission receipt:** the portal's confirmation of a successful bid upload.\n\n## Real-world example\n\nDuring internal review, the bid team discovers that the technical bid quotes a switch model with a two-year warranty, while the tender requires three years. The price schedule assumed three years. The team corrects the datasheet and the OEM authorisation before upload. Without the review, the bid would have been rejected for inconsistency.\n\n## Common mistakes\n\n- No clear bid manager or checklist.\n- Prices revealed in the technical bid, which can lead to rejection in a two-bid system.\n- Inconsistencies between the technical and commercial bids.\n\n## Key takeaways\n\n- Make a clear bid/no-bid decision and assign a bid manager.\n- Use a checklist and an independent internal review.\n- Upload early and keep proof of submission and a full copy.",
       "module": 3
     },
     {
       "position": 4,
       "title": "Post-award and payments",
       "type": "TEXT",
-      "body": "Winning the order is half the job. Government payments need complete paperwork.\n\n## After the award\n\n- Submit the performance security in time and in the required format.\n- Sign the contract or accept the GeM order within the allowed time.\n- Deliver exactly what was specified; deviations can lead to rejection.\n\n## Getting paid\n\n- Collect the documents the buyer needs: delivery challan, installation report, inspection and acceptance certificate, invoice.\n- On GeM, the buyer issues a consignee receipt and acceptance certificate (CRAC) before payment; follow up so it is issued promptly.\n- Track payment against the contract's terms and escalate politely through the right channel if delayed.",
+      "body": "Winning the order is half the work. Government contracts have strict delivery, acceptance and documentation requirements. Payment depends on meeting them exactly.\n\n## After the award\n\n- **Accept the order or contract** within the required time.\n- **Submit performance security** in the required form and validity.\n- **Plan delivery and installation** to meet the contract schedule; delays can attract liquidated damages.\n- **Deliver with correct documents:** invoice, delivery challan where needed, e-way bill and warranty certificates.\n- **Obtain acceptance:** installation and acceptance certificates signed by the consignee.\n\n## Payments on GeM\n\nOn GeM, the consignee generates a **Consignee Receipt and Acceptance Certificate (CRAC)** after receiving and accepting the goods or services; if the consignee does not act in time, GeM can generate it automatically. Under GeM's general terms and conditions and Ministry of Finance instructions, the buyer must pay within **10 days of the CRAC** being generated, including auto-generation. Late payment can attract penal interest charged to the buyer organisation. Sellers can track payment status on the portal and raise issues if payment is delayed.\n\n## Payments under tenders\n\n- Payments follow the contract's milestones, for example a percentage on delivery and the balance on installation and acceptance.\n- Submit complete bills with all required documents to avoid queries.\n- Track deductions such as TDS under income tax, TDS under GST where applicable, and any liquidated damages.\n\n## Key terms\n\n- **CRAC:** Consignee Receipt and Acceptance Certificate on GeM.\n- **Consignee:** the official who receives the goods on behalf of the buyer.\n- **Liquidated damages:** pre-agreed deductions for delay.\n- **Final bill:** the last payment claim after all obligations are met.\n\n## Real-world example\n\nA company delivers 100 desktops to a government school network through GeM. It coordinates with the consignee to verify the delivery and generate the CRAC promptly, then submits its invoice the same day. Payment arrives within the 10 days set by GeM. Another seller who delivered on time but did not follow up on the CRAC waited two months.\n\n## Common mistakes\n\n- Delivering without the exact documents required by the contract.\n- Not following up for acceptance certificates or the CRAC.\n- Ignoring liquidated damages clauses when planning delivery.\n\n## Key takeaways\n\n- Accept the order, submit performance security and deliver on schedule.\n- On GeM, payment follows the CRAC; follow up with the consignee promptly.\n- Submit complete bills and track deductions and guarantee releases.",
       "module": 4
+    }
+  ],
+  "sources": [
+    {
+      "title": "Department of Expenditure: General Financial Rules 2017, procurement manuals and office memoranda",
+      "url": "https://doe.gov.in/"
+    },
+    {
+      "title": "DPIIT: Public Procurement (Preference to Make in India) Order",
+      "url": "https://dpiit.gov.in/"
+    },
+    {
+      "title": "Ministry of MSME: Public Procurement Policy for Micro and Small Enterprises",
+      "url": "https://msme.gov.in/"
+    },
+    {
+      "title": "Government e-Marketplace (GeM): seller registration, buying modes and terms and conditions",
+      "url": "https://gem.gov.in/"
+    },
+    {
+      "title": "Central Vigilance Commission: integrity pact guidelines",
+      "url": "https://cvc.gov.in/"
     }
   ],
   "assessment": {
@@ -61,81 +83,97 @@
     "questions": [
       {
         "type": "SINGLE",
-        "text": "Under GFR, which bid is normally selected?",
+        "text": "Under the Make in India order as revised in 2024, what local content makes a Class I local supplier?",
         "options": [
-          "The lowest acceptable bid that meets the specifications",
-          "The highest bid",
-          "The bid from the largest company",
-          "The first bid received"
+          "10% or more",
+          "20% or more",
+          "50% or more",
+          "100%"
         ],
         "correct": [
-          "The lowest acceptable bid that meets the specifications"
+          "50% or more"
         ],
-        "points": 1
+        "points": 1,
+        "explanation": "Class I requires local content of 50% or more."
+      },
+      {
+        "type": "SINGLE",
+        "text": "A supplier with 35% local content is classified as:",
+        "options": [
+          "Class I local supplier",
+          "Class II local supplier",
+          "Non-local supplier",
+          "Exempt"
+        ],
+        "correct": [
+          "Class II local supplier"
+        ],
+        "points": 1,
+        "explanation": "Class II is more than 20% and less than 50% local content."
+      },
+      {
+        "type": "SINGLE",
+        "text": "What share of annual procurement must central ministries and PSUs source from MSEs?",
+        "options": [
+          "10%",
+          "20%",
+          "25%",
+          "50%"
+        ],
+        "correct": [
+          "25%"
+        ],
+        "points": 1,
+        "explanation": "The MSE procurement policy sets a 25% target, including 4% SC/ST and 3% women-owned enterprises."
+      },
+      {
+        "type": "FILL_BLANK",
+        "text": "On GeM, the certificate generated after goods are received and accepted is called the ______.",
+        "options": [
+          "CRAC",
+          "Consignee Receipt and Acceptance Certificate"
+        ],
+        "correct": [],
+        "points": 1,
+        "explanation": "Payment on GeM follows the CRAC."
       },
       {
         "type": "TRUE_FALSE",
-        "text": "Government specifications should favour one brand to make evaluation easy.",
+        "text": "In a two-bid system, revealing prices in the technical bid can lead to rejection.",
         "options": [
           "True",
           "False"
         ],
         "correct": [
-          "False"
+          "True"
         ],
-        "points": 1
-      },
-      {
-        "type": "SINGLE",
-        "text": "What does the Make in India procurement order give preference to?",
-        "options": [
-          "Local suppliers, based on local content",
-          "Foreign suppliers",
-          "The cheapest supplier regardless of origin",
-          "Suppliers with the most employees"
-        ],
-        "correct": [
-          "Local suppliers, based on local content"
-        ],
-        "points": 1
+        "points": 1,
+        "explanation": "Prices belong only in the financial bid, which is opened after technical evaluation."
       },
       {
         "type": "MULTIPLE",
-        "text": "Which checks should be done before uploading a bid? Select all that apply.",
+        "text": "Which actions are part of a disciplined bid assembly?",
         "options": [
-          "Required pages signed by the authorised signatory",
-          "Values consistent across documents",
-          "File formats and sizes within portal limits",
-          "Upload in the last five minutes to keep it secret"
+          "Bid/no-bid decision",
+          "Requirements checklist with owners",
+          "Independent internal review",
+          "Uploading in the last ten minutes"
         ],
         "correct": [
-          "Required pages signed by the authorised signatory",
-          "Values consistent across documents",
-          "File formats and sizes within portal limits"
+          "Bid/no-bid decision",
+          "Requirements checklist with owners",
+          "Independent internal review"
         ],
-        "points": 2
-      },
-      {
-        "type": "SINGLE",
-        "text": "On GeM, which document from the buyer is needed before payment?",
-        "options": [
-          "Consignee receipt and acceptance certificate (CRAC)",
-          "A purchase requisition",
-          "Our offer letter",
-          "A credit note"
-        ],
-        "correct": [
-          "Consignee receipt and acceptance certificate (CRAC)"
-        ],
-        "points": 1
+        "points": 1,
+        "explanation": "Last-minute uploads are a common cause of failure."
       },
       {
         "type": "SHORT_ANSWER",
-        "text": "A tender requires a self-certificate of local content. The OEM has not confirmed the local content figure. What would you do?",
+        "text": "Explain in two or three sentences why accurate local content declarations matter in government bids.",
         "options": [],
         "correct": [],
-        "points": 4,
-        "explanation": "Model answer: do not guess or sign a false declaration; ask the OEM for a written local content certificate early; if it cannot be obtained in time, bid without claiming the preference or escalate to the manager."
+        "points": 1,
+        "explanation": "Local content decides the supplier's class and purchase preference under the Make in India order. False declarations can lead to penalties and debarment, so declarations must be backed by evidence."
       }
     ]
   }

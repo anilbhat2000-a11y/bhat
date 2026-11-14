@@ -3,7 +3,7 @@ import { requireRole } from "../auth/guards";
 import type { SessionUser } from "../auth/session";
 import type { CourseStatus } from "../../generated/prisma/client";
 import { recordAudit, writeWithAudit } from "../audit/record";
-import type { Result } from "./courses";
+import { markCustomised, type Result } from "./courses";
 
 const asAdmin = (actor: SessionUser) => requireRole(actor, ["ADMIN"]);
 
@@ -76,6 +76,7 @@ export async function addModule(
     (tx) => tx.module.create({ data: { courseId, title, estimatedMinutes: minutes, position: (last?.position ?? 0) + 1 } }),
     (m) => ({ actorId: actor.id, action: "module.add", entityType: "Module", entityId: m.id, after: { courseId, title, estimatedMinutes: minutes } }),
   );
+  await markCustomised(courseId);
   return { ok: true, id: created.id };
 }
 
@@ -88,6 +89,7 @@ export async function deleteModule(actor: SessionUser, moduleId: string): Promis
     await tx.module.delete({ where: { id: moduleId } });
     await recordAudit(tx, { actorId: actor.id, action: "module.delete", entityType: "Module", entityId: moduleId, before: { courseId: module.courseId, title: module.title } });
   });
+  await markCustomised(module.courseId);
   return { ok: true, id: moduleId };
 }
 
@@ -119,6 +121,7 @@ export async function assignLessonModules(
     for (const [i, id] of order.entries()) await tx.lesson.update({ where: { id }, data: { position: i + 1 } });
     await recordAudit(tx, { actorId: actor.id, action: "lesson.assign-modules", entityType: "Course", entityId: courseId, after: { assignment, order } });
   });
+  await markCustomised(courseId);
   return { ok: true, id: courseId };
 }
 

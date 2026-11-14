@@ -5,44 +5,177 @@
   "category": "BUSINESS",
   "level": "INTERMEDIATE",
   "passMarkPercent": 70,
-  "description": "Lead with the customer's business problem, ask questions that uncover impact, and present solutions as outcomes the customer values.",
+  "description": "Running discovery, presenting value, handling objections, and negotiating terms. You will be able to: run a structured discovery meeting; write a value proposition tied to a customer outcome; handle common objections with evidence; plan a negotiation, including your walk-away point.",
+  "modules": [
+    {
+      "title": "Discovery and questioning",
+      "minutes": 45
+    },
+    {
+      "title": "Value propositions",
+      "minutes": 30
+    },
+    {
+      "title": "Objection handling role-plays",
+      "minutes": 60
+    },
+    {
+      "title": "Negotiation planning",
+      "minutes": 45
+    }
+  ],
   "lessons": [
     {
       "position": 1,
-      "title": "The consultative mindset",
+      "title": "Discovery and questioning",
       "type": "TEXT",
-      "body": "A product-first seller asks, 'What can I sell you?' A consultative seller asks, 'What outcome are you trying to achieve, and what is it costing you not to achieve it?'\n\nConsultative selling means:\n\n- Treating the customer's business goals as the starting point.\n- Being willing to recommend nothing, or a smaller solution, if that is right for the customer.\n- Building trust over several interactions, not one presentation.\n\nCustomers buy from advisers they trust. Trust comes from accuracy, follow-through, and admitting what you do not know."
+      "body": "Consultative selling starts with the customer's business, not with our product list. The salesperson acts like a trusted adviser: they ask questions, listen carefully, and only then suggest a solution. Discovery is the stage where this happens, and the quality of your questions decides the quality of your proposal.\n\n## Types of discovery questions\n\n- **Situation questions:** facts about the current state. \"How many users and sites do you support?\"\n- **Problem questions:** difficulties and dissatisfaction. \"Where do outages hurt you most?\"\n- **Implication questions:** the cost of the problem. \"What happens to billing when the branch link is down for a day?\"\n- **Need-payoff questions:** the value of solving it. \"If outages stopped, what would that mean for your branch staff?\"\n\nThese four types come from SPIN Selling, a research-based method published by Neil Rackham in 1988. The key lesson from that research is that in large sales, implication and need-payoff questions matter most, because they help the customer see the value for themselves.\n\n## How to run a discovery meeting\n\n1. Prepare: read the customer's website, annual report or news, and your CRM history.\n2. Agree the agenda and the time available at the start.\n3. Ask open questions and let the customer talk most of the time.\n4. Summarise what you heard and check that it is right.\n5. Agree a clear next step before you leave.\n\n## Key terms\n\n- **Open question:** a question that cannot be answered with yes or no.\n- **Active listening:** paying full attention, taking notes and confirming what you heard.\n- **Pain point:** a problem that costs the customer time, money or risk.\n\n## Real-world example\n\nA hospital's IT manager asks Arjun for a quote for 50 new desktops. Arjun asks why now. The manager explains that doctors wait several minutes to open patient records. Further questions reveal that the real cause is a slow, ageing server and a congested network, not the desktops. Arjun's proposal covers a server upgrade and network changes, at a lower cost than 50 desktops, and solves the real problem. The customer now sees Arjun as an adviser.\n\n## Common mistakes\n\n- Pitching the product in the first ten minutes.\n- Asking a list of questions without listening to the answers.\n- Leaving without summarising and agreeing a next step.\n\n## Key takeaways\n\n- Discovery is about understanding the business problem and its cost.\n- Implication and need-payoff questions help the customer see the value.\n- Listen more than you talk, and confirm what you heard.",
+      "module": 1
     },
     {
       "position": 2,
-      "title": "Discovery questions",
+      "title": "Value propositions",
       "type": "TEXT",
-      "body": "Good discovery uses a mix of question types:\n\n- **Open questions** invite explanation: 'How does your team handle branch network failures today?'\n- **Probing questions** dig deeper: 'What happened the last time that failed?'\n- **Impact questions** measure cost: 'How many hours of downtime did that cause, and what did it cost?'\n- **Solution questions** test ideas: 'If we could cut that downtime in half, what would it be worth to you?'\n\nAsk fewer, better questions. Let the customer talk for most of the meeting. Write down what they say, using their words."
+      "body": "A value proposition explains why the customer should choose our solution, in terms that matter to them. Features describe what a product does. Benefits describe what the customer gains. Value connects that gain to a business result the customer cares about, such as revenue, cost, risk or compliance.\n\n## From feature to value\n\n- **Feature:** \"This firewall has built-in SD-WAN.\"\n- **Benefit:** \"Your branches can use two internet links and switch automatically if one fails.\"\n- **Value:** \"Billing at your 40 branches keeps running during link failures, which protects daily collections.\"\n\nAlways finish the chain. Customers rarely buy features; they buy outcomes.\n\n## Building a value proposition\n\n1. Start with the pain point and its cost from discovery.\n2. Describe the outcome the customer wants.\n3. Explain how our solution achieves it, in plain language.\n4. Add proof: a reference customer, a case study or a pilot result.\n5. Keep it short enough to say in under a minute.\n\n## Tailoring to each stakeholder\n\nDifferent people care about different things. The IT head may care about manageability, the CFO about total cost and cash flow, and the business head about uptime and user experience. One solution can have several value statements, each in the stakeholder's language.\n\n## Key terms\n\n- **Value proposition:** a clear statement of the business result the customer gets from our solution.\n- **Differentiator:** something we offer that competitors do not, which matters to this customer.\n- **Proof point:** evidence that the value is real, such as a reference site.\n\n## Real-world example\n\nTwo partners bid to replace a manufacturer's ageing UPS units. One sends a datasheet comparison. The other shows that the plant lost about six production hours last year due to power dips, estimates what those hours cost, and explains how the new UPS design with battery monitoring prevents this. The second partner wins, even though its price is slightly higher.\n\n## Common mistakes\n\n- Listing features and hoping the customer works out the value.\n- Using the same message for the CFO and the network engineer.\n- Making claims without proof.\n\n## Key takeaways\n\n- Move from feature to benefit to business value every time.\n- Tailor the message to each stakeholder's priorities.\n- Support every claim with evidence.",
+      "module": 2
     },
     {
       "position": 3,
-      "title": "Listening and summarising",
+      "title": "Objection handling role-plays",
       "type": "TEXT",
-      "body": "Listening is an active skill. Three techniques help:\n\n1. **Pause before responding** so the customer can finish.\n2. **Summarise back:** 'So the main issue is slow approvals, and it is delaying three projects. Is that right?'\n3. **Ask for correction:** 'What did I miss?'\n\nSummarising proves you understood and gives the customer a chance to correct you before you propose anything. It also surfaces disagreement early, which is cheaper to handle than a surprise at proposal stage."
+      "body": "Objections are a normal part of selling. An objection usually means the customer is engaged but has a concern. Handled well, it builds trust; handled badly, it ends the conversation. The best preparation is to know the common objections in advance and practise your responses.\n\n## A simple method for handling objections\n\n1. **Listen fully.** Do not interrupt or defend yourself immediately.\n2. **Acknowledge.** Show that the concern is reasonable: \"I understand why that matters.\"\n3. **Clarify.** Ask a question to find the real issue: \"When you say it is expensive, compared with what?\"\n4. **Respond.** Answer the real concern with facts, options or proof.\n5. **Confirm.** Check that the answer resolved it: \"Does that address your concern?\"\n\n## Common objections in IT sales\n\n- **\"Your price is too high.\"** Often means the value is not clear, or they are comparing different scopes. Compare like with like, and show total cost over the life of the solution.\n- **\"We are happy with our current vendor.\"** Ask what they value in that vendor, and look for gaps you can fill.\n- **\"Now is not the right time.\"** Find out what drives the timing, such as budget cycles or a project freeze.\n- **\"We need to think about it.\"** Ask what is still unclear, and offer to answer it.\n\n## Practising with role-plays\n\nRole-plays feel awkward, but they work. Pair with a colleague: one plays a tough customer, the other responds, and a third person observes and gives feedback. Practise the five steps until they feel natural.\n\n## Key terms\n\n- **Objection:** a concern or reason the customer gives for not moving forward.\n- **Total cost of ownership (TCO):** purchase price plus running, support and replacement costs over the life of the solution.\n\n## Real-world example\n\nA CFO tells Sneha that a competitor's storage quote is 15% cheaper. Sneha asks to see what is included. The competitor quoted one year of support and no installation, while Sneha quoted five years of support with on-site installation and data migration. When the CFO compares five-year costs, Sneha's offer is lower. The objection becomes the reason she wins.\n\n## Common mistakes\n\n- Arguing with the customer or dismissing the concern.\n- Dropping the price immediately without understanding the comparison.\n- Answering a different question from the one asked.\n\n## Key takeaways\n\n- Treat objections as questions to be understood, not attacks.\n- Listen, acknowledge, clarify, respond and confirm.\n- Practise common objections in role-plays before you meet customers.",
+      "module": 3
     },
     {
       "position": 4,
-      "title": "Presenting solutions as business outcomes",
+      "title": "Negotiation planning",
       "type": "TEXT",
-      "body": "Map each feature to a business outcome the customer named in discovery. Use a simple structure:\n\n- **Their problem:** 'Your branch offices lose connectivity for about four hours a month.'\n- **What we propose:** 'A redundant internet link with automatic failover.'\n- **The outcome:** 'Reduced downtime, and fewer escalations for the operations team.'\n- **Proof:** a reference, a trial, or a measurable pilot.\n\nAvoid listing specifications the customer did not ask for. A solution that matches the stated need is easier to approve than a long catalogue."
+      "body": "Negotiation is where scope, price and terms are agreed. Good negotiators prepare carefully, know their limits, and look for agreements where both sides gain. The aim is a deal that the customer is happy with and that is profitable for us, so the relationship continues.\n\n## Plan before you negotiate\n\n- **Your objectives:** the outcome you want on price, scope, payment terms and timelines.\n- **Your walk-away point:** the least favourable deal you can accept, based on approvals and margin floors.\n- **Your BATNA:** your Best Alternative To a Negotiated Agreement, what you will do if there is no deal. The idea comes from the Harvard book *Getting to Yes* by Roger Fisher and William Ury (1981).\n- **The customer's likely position:** their budget, priorities, alternatives and deadline.\n- **Tradeables:** items you can offer that cost you little but are valuable to them.\n\n## Trading, not conceding\n\nNever give something away without getting something back. If the customer asks for a lower price, ask for something in return: a larger order, a longer contract, faster payment, or a reference visit. Common tradeables include:\n\n- Payment terms, such as advance payment for a better price.\n- Contract length, such as a three-year support agreement.\n- Scope, such as removing an optional item to meet a budget.\n- Timing, such as an order before quarter end.\n\n## Key terms\n\n- **BATNA:** your best option if this negotiation fails.\n- **Walk-away point:** the limit beyond which you will not agree.\n- **Concession:** something you give up during a negotiation.\n- **Anchoring:** the effect of the first number mentioned on the rest of the discussion.\n\n## Real-world example\n\nA university asks for a 12% discount on a campus Wi-Fi project. Karan's approved limit is 7%. He offers 6% if the university places a three-year managed Wi-Fi support contract and pays 30% in advance. The university gets a lower price, Karan protects his margin and gains recurring revenue, and both sides leave satisfied.\n\n## Common mistakes\n\n- Starting a negotiation without knowing your walk-away point.\n- Giving discounts without asking for anything in return.\n- Agreeing to terms you are not authorised to approve.\n\n## Key takeaways\n\n- Prepare objectives, limits, your BATNA and tradeables before the meeting.\n- Trade concessions; do not give them away.\n- Aim for an agreement both sides are happy to keep.",
+      "module": 4
+    }
+  ],
+  "sources": [
+    {
+      "title": "Harvard Program on Negotiation: negotiation skills articles",
+      "url": "https://www.pon.harvard.edu/"
+    },
+    {
+      "title": "Salesforce Trailhead: sales and CRM learning trails",
+      "url": "https://trailhead.salesforce.com/"
+    },
+    {
+      "title": "HubSpot Academy: sales and inbound courses",
+      "url": "https://academy.hubspot.com/"
     }
   ],
   "assessment": {
-    "title": "Consultative Sales: completion check",
-    "cadence": "ONE_TIME",
+    "title": "Sales Intermediate: completion check",
     "level": "INTERMEDIATE",
     "passMarkPercent": 70,
     "questions": [
-      { "position": 1, "type": "SINGLE", "text": "What does a consultative seller start with?", "options": ["The product catalogue", "The customer's business goals", "The lowest price", "The competitor's weaknesses"], "correct": ["The customer's business goals"], "points": 1 },
-      { "position": 2, "type": "SINGLE", "text": "Which question type measures the cost of a problem?", "options": ["Open question", "Probing question", "Impact question", "Solution question"], "correct": ["Impact question"], "points": 1 },
-      { "position": 3, "type": "SINGLE", "text": "Why summarise back what the customer said?", "options": ["To end the meeting faster", "To show you understood and let them correct you", "To avoid listening", "To shorten the proposal"], "correct": ["To show you understood and let them correct you"], "points": 1 },
-      { "position": 4, "type": "MULTIPLE", "text": "Which practices reflect consultative selling? (Select all that apply)", "options": ["Letting the customer talk most of the time", "Listing every feature in the first meeting", "Mapping features to stated outcomes", "Recommending a smaller solution when it fits"], "correct": ["Letting the customer talk most of the time", "Mapping features to stated outcomes", "Recommending a smaller solution when it fits"], "points": 2 },
-      { "position": 5, "type": "TRUE_FALSE", "text": "Consultative selling builds trust over several interactions rather than one presentation.", "options": ["True", "False"], "correct": ["True"], "points": 1 }
+      {
+        "type": "SINGLE",
+        "text": "In SPIN Selling, which question type explores the cost or consequence of a problem?",
+        "options": [
+          "Situation",
+          "Problem",
+          "Implication",
+          "Need-payoff"
+        ],
+        "correct": [
+          "Implication"
+        ],
+        "points": 1,
+        "explanation": "Implication questions explore what the problem costs, which helps the customer see why it matters."
+      },
+      {
+        "type": "SINGLE",
+        "text": "Which statement is a value statement rather than a feature?",
+        "options": [
+          "The firewall has built-in SD-WAN",
+          "The switch has 48 ports",
+          "Billing at your branches keeps running during link failures",
+          "The UPS is 10 kVA"
+        ],
+        "correct": [
+          "Billing at your branches keeps running during link failures"
+        ],
+        "points": 1,
+        "explanation": "Value links the solution to a business result the customer cares about."
+      },
+      {
+        "type": "TRUE_FALSE",
+        "text": "BATNA stands for Best Alternative To a Negotiated Agreement.",
+        "options": [
+          "True",
+          "False"
+        ],
+        "correct": [
+          "True"
+        ],
+        "points": 1,
+        "explanation": "The term comes from the book Getting to Yes by Fisher and Ury."
+      },
+      {
+        "type": "SINGLE",
+        "text": "A customer says your price is too high. What is the best first step?",
+        "options": [
+          "Offer a discount",
+          "Ask what they are comparing it with",
+          "End the meeting",
+          "Remove the support from the quote"
+        ],
+        "correct": [
+          "Ask what they are comparing it with"
+        ],
+        "points": 1,
+        "explanation": "Clarify the real concern first. Often the competitor's scope is different."
+      },
+      {
+        "type": "MULTIPLE",
+        "text": "Which of these are good tradeables in a negotiation?",
+        "options": [
+          "Advance payment",
+          "A longer support contract",
+          "A reference visit",
+          "A promise not written in the contract"
+        ],
+        "correct": [
+          "Advance payment",
+          "A longer support contract",
+          "A reference visit"
+        ],
+        "points": 1,
+        "explanation": "Tradeables are written, valuable exchanges. Side promises outside the contract are not allowed."
+      },
+      {
+        "type": "SINGLE",
+        "text": "What should you do before a negotiation meeting?",
+        "options": [
+          "Decide your walk-away point and tradeables",
+          "Ask for the customer's budget only",
+          "Prepare the largest discount you can offer",
+          "Nothing; react in the meeting"
+        ],
+        "correct": [
+          "Decide your walk-away point and tradeables"
+        ],
+        "points": 1,
+        "explanation": "Preparation sets your limits and options, so you do not concede under pressure."
+      },
+      {
+        "type": "MATCHING",
+        "text": "Match each objection-handling step to its action.",
+        "options": [
+          "Acknowledge=Show the concern is reasonable",
+          "Clarify=Ask a question to find the real issue",
+          "Respond=Answer with facts, options or proof",
+          "Confirm=Check the concern is resolved"
+        ],
+        "correct": [],
+        "points": 1,
+        "explanation": "Listening comes first, then these four steps in order."
+      }
     ]
   }
 }

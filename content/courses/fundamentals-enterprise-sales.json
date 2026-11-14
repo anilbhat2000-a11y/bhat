@@ -5,44 +5,178 @@
   "category": "BUSINESS",
   "level": "BASIC",
   "passMarkPercent": 70,
-  "description": "How enterprise deals differ from small sales, how buying committees work, and how to qualify and forecast with discipline.",
+  "description": "The stages of a B2B IT sale, from prospecting to closure, and how to manage a pipeline. You will be able to: describe each stage of the B2B sales process; qualify a lead using a framework such as BANT; keep accurate records of customer interactions in the CRM; read a pipeline report and spot stalled deals.",
+  "modules": [
+    {
+      "title": "The sales process end to end",
+      "minutes": 30
+    },
+    {
+      "title": "Prospecting and qualification",
+      "minutes": 40
+    },
+    {
+      "title": "Pipeline and CRM hygiene",
+      "minutes": 30
+    },
+    {
+      "title": "Company sales policy and approval levels",
+      "minutes": 20
+    }
+  ],
   "lessons": [
     {
       "position": 1,
-      "title": "How enterprise sales differ",
+      "title": "The sales process end to end",
       "type": "TEXT",
-      "body": "Enterprise deals involve larger budgets, several decision makers, longer cycles (often several months), and formal procurement. A small sale is often won by one conversation with the owner. An enterprise sale is won by building agreement across many people, each with different concerns.\n\nThree things change in enterprise selling:\n\n- **Stakeholders:** you deal with people in IT, finance, operations, and leadership, not one buyer.\n- **Risk:** buyers worry about what happens after purchase, such as downtime, support, and integration with existing systems.\n- **Process:** procurement rules, approvals, and vendor registration set the pace, not your sales plan.\n\nThe seller's job is to plan for these differences from the first meeting."
+      "body": "Business-to-business (B2B) selling is different from selling to a consumer. A company rarely buys IT on impulse. Several people are involved, there is a budget to approve, and the decision can take weeks or months. A clear, repeatable sales process helps you move each opportunity forward step by step, and helps your manager see what is really in the pipeline.\n\n## The stages of a B2B sale\n\nMost IT companies use a version of these stages. The names differ between CRMs, but the logic is the same.\n\n1. **Prospecting:** finding organisations that may need what we sell.\n2. **Qualification:** checking that there is a real need, budget, authority and timeline.\n3. **Discovery:** understanding the customer's business problem in detail.\n4. **Solution and proposal:** working with presales to design an answer and price it.\n5. **Negotiation:** agreeing scope, price and terms.\n6. **Closure:** receiving the purchase order (PO) or contract.\n7. **Delivery and hand-over:** making sure what we sold is delivered, so the customer buys again.\n\n## Why every stage needs an exit criterion\n\nAn exit criterion is a fact that must be true before an opportunity moves to the next stage. For example, an opportunity should not move to \"Proposal\" until you know who signs the PO and when the budget is available. Exit criteria stop the pipeline from filling up with hopeful guesses.\n\n## Key terms\n\n- **Opportunity:** a specific, qualified chance to sell to a customer, with a value and an expected close date.\n- **Pipeline:** all open opportunities, grouped by stage.\n- **Sales cycle:** the time from first contact to the signed order.\n- **Win rate:** the share of closed opportunities that we won.\n\n## Real-world example\n\nPriya, an account manager, meets the IT head of a mid-sized logistics company in Pune. He mentions that branch internet keeps failing. Instead of sending a quotation for routers the same day, Priya qualifies the need: 40 branches are affected, the finance team has set aside money in the next quarter, and the COO approves anything above a set value. She records this in the CRM, moves the opportunity to \"Discovery\", and books a session with presales to study the branch network. Because each stage has facts behind it, her manager can forecast the deal with confidence.\n\n## Common mistakes\n\n- Jumping from the first meeting straight to a quotation.\n- Moving opportunities forward on hope rather than evidence.\n- Forgetting the hand-over stage, which decides whether the customer buys again.\n\n## Key takeaways\n\n- A B2B sale has several stages, and each stage needs evidence before you move on.\n- Qualification and discovery save time for you, presales and the customer.\n- A disciplined process makes your forecast believable.",
+      "module": 1
     },
     {
       "position": 2,
-      "title": "The enterprise sales cycle",
+      "title": "Prospecting and qualification",
       "type": "TEXT",
-      "body": "A typical cycle runs through these stages:\n\n1. **Prospecting:** find accounts that fit your offer and reach the right person.\n2. **Qualification:** confirm there is a real need, budget, and timeline.\n3. **Discovery:** understand the business problem in depth.\n4. **Solution design:** shape the offer with the customer's technical team.\n5. **Proposal:** present a written offer tied to the agreed outcomes.\n6. **Negotiation:** agree on terms, price, and service levels.\n7. **Closing and handover:** sign, then pass the account to delivery and support.\n\nEach stage should have exit criteria. For example, you move to proposal only after the customer has confirmed the problem, the budget range, and the decision process."
+      "body": "Prospecting fills the top of the pipeline. Qualification decides which prospects deserve your time. Good salespeople spend as much effort deciding where *not* to invest as they do chasing new leads.\n\n## Where prospects come from\n\n- **Existing customers:** the easiest new business. A customer who bought servers last year may now need backup or security.\n- **Referrals:** satisfied customers and OEM partners can introduce you to similar organisations.\n- **OEM and distributor leads:** manufacturers often pass leads to registered partners.\n- **Events and webinars:** industry events, OEM launches and associations.\n- **Targeted outreach:** research a sector, such as private hospitals or engineering colleges, and contact the right roles with a relevant message.\n\n## Qualifying with BANT\n\nBANT is a simple checklist, popularised by IBM, that many sales teams still use:\n\n- **Budget:** is money available or can it be made available?\n- **Authority:** who decides, and who signs?\n- **Need:** is there a real business problem we can solve?\n- **Timeline:** when must the solution be in place, and why then?\n\nFor larger, complex deals, many teams use a deeper framework such as MEDDIC (Metrics, Economic buyer, Decision criteria, Decision process, Identify pain, Champion). Use whichever your company has chosen, consistently.\n\n## Key terms\n\n- **Lead:** a contact or company that has shown some interest but is not yet qualified.\n- **Ideal customer profile (ICP):** the type of organisation most likely to buy and succeed with our solutions.\n- **Champion:** a person inside the customer who wants our solution to win and helps us navigate.\n\n## Real-world example\n\nRahul receives a lead from an OEM: a school group asking about interactive panels. A quick qualification call shows the group has 12 campuses, a board meeting next month that approves the annual budget, and a principal who is pushing for digital classrooms. That is a qualified opportunity. A second lead, a single coaching centre \"just looking at prices\", is logged as a lead for later. Rahul spends his week on the first.\n\n## Common mistakes\n\n- Treating every enquiry as an opportunity.\n- Asking about budget too late, after weeks of design work.\n- Talking only to the person who called, without finding out who decides.\n\n## Key takeaways\n\n- Build a steady flow of prospects from customers, referrals, partners and targeted outreach.\n- Qualify early with a consistent checklist such as BANT.\n- Invest your time where the need, budget and decision maker are clear.",
+      "module": 2
     },
     {
       "position": 3,
-      "title": "Buying committees and roles",
+      "title": "Pipeline and CRM hygiene",
       "type": "TEXT",
-      "body": "Most enterprise purchases are made by a group. Learn to identify these roles:\n\n- **Economic buyer:** controls the budget and signs the approval.\n- **Champion:** wants your solution to succeed and works for you inside the company.\n- **Technical evaluator:** tests whether the solution works and is supportable.\n- **End users:** will use the solution daily and affect adoption.\n- **Procurement:** manages the process, vendor terms, and price comparison.\n- **Blocker:** may have a reason to resist, such as a past bad experience or a competing preference.\n\nMap these people early. A deal with a strong champion and no access to the economic buyer is at risk."
+      "body": "A CRM (customer relationship management) system is where the company's sales knowledge lives. If an opportunity is not in the CRM, or the record is out of date, managers cannot forecast, presales cannot plan, and a colleague cannot help when you are on leave. CRM hygiene means keeping records complete, accurate and current.\n\n## What a good opportunity record contains\n\n- The customer, the contacts and their roles in the decision.\n- The business problem in one or two sentences.\n- The products and services involved, and an estimated value.\n- The current stage, the expected close date and the next step with a date.\n- Competitors, if known, and any OEM deal registration.\n\n## Habits that keep the pipeline healthy\n\n- **Update after every meaningful interaction:** a meeting, a call or a proposal sent.\n- **Always have a next step:** \"Follow up\" is not a next step; \"Demo for the IT head on 12 March\" is.\n- **Be honest about close dates:** push a date out when the customer's plan changes, rather than letting it pass.\n- **Close lost deals properly:** record why the deal was lost. This is how the company learns.\n- **Review weekly:** spend 20 minutes each week checking stale opportunities.\n\n## Key terms\n\n- **Stale opportunity:** one with no activity for a long time or a close date in the past.\n- **Weighted pipeline:** opportunity value multiplied by the probability linked to its stage.\n- **Commit:** deals the salesperson is confident will close in the period.\n\n## Real-world example\n\nAt a quarterly review, a sales manager finds that a ₹40 lakh opportunity has had a close date in the past for two months. The salesperson explains that the customer postponed the project to the next financial year, but the CRM was never updated. The forecast had counted the deal, and the purchase team had already asked a distributor to hold stock. One honest update would have avoided both problems.\n\n## Common mistakes\n\n- Updating the CRM only before review meetings.\n- Keeping lost deals open \"just in case\".\n- Leaving out contact roles, so nobody knows who the decision maker is.\n\n## Key takeaways\n\n- The CRM is a shared tool: other teams plan based on what you record.\n- Every open opportunity needs a dated next step and an honest close date.\n- Recording why deals are lost is as valuable as recording wins.",
+      "module": 3
     },
     {
       "position": 4,
-      "title": "Qualification and forecasting",
+      "title": "Company sales policy and approval levels",
       "type": "TEXT",
-      "body": "Qualification frameworks help you decide where to spend time. Two common ones:\n\n- **BANT:** Budget, Authority, Need, Timeline.\n- **MEDDIC:** Metrics, Economic buyer, Decision criteria, Decision process, Identify pain, Champion.\n\nFor forecasting, use stage definitions with exit criteria, and group deals into categories:\n\n- **Commit:** you expect to close this period, and the customer has confirmed the decision steps.\n- **Best case:** could close if things go well.\n- **Pipeline:** early, not yet expected to close.\n\nKeep the pipeline clean. Remove deals with no next step and update close dates when they slip."
+      "body": "Every company sets rules for pricing, discounts, credit and approvals. These rules protect margins, cash flow and the company's reputation. This lesson explains the common types of sales policy found in IT companies. Your administrator will add 3C's own policy and approval levels below.\n\n> **[PLACEHOLDER]** Company sales policy: discount limits by role, approval matrix, credit terms, and the documents required before a sales order is booked. The LMS administrator adds these details.\n\n## Typical areas covered by a sales policy\n\n- **Pricing and discounts:** the maximum discount each role can give without approval.\n- **Margin floors:** the minimum gross margin allowed on a deal, often different for products and services.\n- **Credit terms:** standard payment terms, and who can approve longer terms or credit limits.\n- **Special pricing:** how to request OEM special pricing or deal registration.\n- **Order booking:** documents needed, such as the customer PO, signed quotation and tax details.\n- **Ethics:** no unapproved gifts, no side agreements, no promises outside the written proposal.\n\n## Why approvals matter\n\nApprovals are not a lack of trust. They make sure that someone checks the risk on large or unusual deals: a long credit period, a penalty clause, or a price below cost. A deal that looks good today can lose money if the payment arrives a year late.\n\n## Key terms\n\n- **Approval matrix:** a table that shows who can approve what, usually by value or discount level.\n- **Gross margin:** selling price minus the direct cost of goods and services, often shown as a percentage of the selling price.\n- **Side letter:** an informal promise outside the contract. Most companies forbid these.\n\n## Real-world example\n\nA customer asks Neha for 90-day payment terms on a large order. The standard term is 30 days. Instead of agreeing on the call, Neha explains that she will check, and raises the request with the finance team, attaching the customer's payment history. Finance approves 60 days with a part payment in advance. The deal closes, and the company's cash flow is protected.\n\n## Common mistakes\n\n- Promising a price or term to the customer before it is approved.\n- Splitting one large order into small ones to avoid an approval level.\n- Booking an order without the customer's PO or with mismatched details.\n\n## Key takeaways\n\n- Learn your company's discount limits, margin floors and credit terms.\n- Ask for approval before you commit, not after.\n- Keep every promise in writing, inside the proposal or contract.",
+      "module": 4
+    }
+  ],
+  "sources": [
+    {
+      "title": "Salesforce Trailhead: sales and CRM learning trails",
+      "url": "https://trailhead.salesforce.com/"
+    },
+    {
+      "title": "HubSpot Academy: sales and inbound courses",
+      "url": "https://academy.hubspot.com/"
+    },
+    {
+      "title": "Microsoft Learn: Dynamics 365 Sales documentation (opportunity and pipeline management)",
+      "url": "https://learn.microsoft.com/en-us/dynamics365/sales/"
     }
   ],
   "assessment": {
-    "title": "Fundamentals of Enterprise Sales: completion check",
-    "cadence": "ONE_TIME",
+    "title": "Sales Basic: completion check",
     "level": "BASIC",
     "passMarkPercent": 70,
     "questions": [
-      { "position": 1, "type": "SINGLE", "text": "What most clearly distinguishes an enterprise sale from a small sale?", "options": ["Lower prices", "Several decision makers and a formal process", "Shorter cycles", "Fewer product options"], "correct": ["Several decision makers and a formal process"], "points": 1 },
-      { "position": 2, "type": "SINGLE", "text": "Which stage should come before writing a proposal?", "options": ["Prospecting", "Discovery and qualification", "Closing", "Post-sale handover"], "correct": ["Discovery and qualification"], "points": 1 },
-      { "position": 3, "type": "SINGLE", "text": "Who controls the budget and signs the approval?", "options": ["Champion", "Technical evaluator", "Economic buyer", "End user"], "correct": ["Economic buyer"], "points": 1 },
-      { "position": 4, "type": "MULTIPLE", "text": "Which are valid forecast categories or qualification elements? (Select all that apply)", "options": ["Commit", "Best case", "Cold lead", "Economic buyer", "Pipeline"], "correct": ["Commit", "Best case", "Economic buyer", "Pipeline"], "points": 2 },
-      { "position": 5, "type": "TRUE_FALSE", "text": "A deal with a strong champion but no access to the economic buyer is free of risk.", "options": ["True", "False"], "correct": ["False"], "points": 1 }
+      {
+        "type": "SINGLE",
+        "text": "Which stage should come before you prepare a proposal?",
+        "options": [
+          "Qualification and discovery",
+          "Negotiation",
+          "Closure",
+          "Hand-over"
+        ],
+        "correct": [
+          "Qualification and discovery"
+        ],
+        "points": 1,
+        "explanation": "You need to know the need, budget, decision maker and problem before a proposal can answer it."
+      },
+      {
+        "type": "MULTIPLE",
+        "text": "Which items are part of BANT qualification?",
+        "options": [
+          "Budget",
+          "Authority",
+          "Need",
+          "Timeline",
+          "Brand preference"
+        ],
+        "correct": [
+          "Budget",
+          "Authority",
+          "Need",
+          "Timeline"
+        ],
+        "points": 1,
+        "explanation": "BANT stands for Budget, Authority, Need and Timeline."
+      },
+      {
+        "type": "TRUE_FALSE",
+        "text": "An exit criterion is a fact that must be true before an opportunity moves to the next stage.",
+        "options": [
+          "True",
+          "False"
+        ],
+        "correct": [
+          "True"
+        ],
+        "points": 1,
+        "explanation": "Exit criteria keep opportunities moving on evidence rather than hope."
+      },
+      {
+        "type": "SINGLE",
+        "text": "Which of these is a good next step in a CRM record?",
+        "options": [
+          "Follow up",
+          "Call sometime",
+          "Demo for the IT head on 12 March",
+          "Waiting for customer"
+        ],
+        "correct": [
+          "Demo for the IT head on 12 March"
+        ],
+        "points": 1,
+        "explanation": "A good next step is specific: an action, a person and a date."
+      },
+      {
+        "type": "SINGLE",
+        "text": "A customer postpones a project to next year. What should you do with the opportunity?",
+        "options": [
+          "Leave it as it is",
+          "Update the close date and record the reason",
+          "Delete it",
+          "Mark it won"
+        ],
+        "correct": [
+          "Update the close date and record the reason"
+        ],
+        "points": 1,
+        "explanation": "Honest close dates keep the forecast and stock planning accurate.",
+        "scenario": "Your opportunity is in 'Proposal' stage with a close date this month."
+      },
+      {
+        "type": "TRUE_FALSE",
+        "text": "Splitting one large order into several small ones to avoid an approval level is acceptable if the customer agrees.",
+        "options": [
+          "True",
+          "False"
+        ],
+        "correct": [
+          "False"
+        ],
+        "points": 1,
+        "explanation": "Splitting orders to avoid approvals bypasses the company's risk controls and is not allowed."
+      },
+      {
+        "type": "MATCHING",
+        "text": "Match each term to its meaning.",
+        "options": [
+          "Lead=Interest shown, not yet qualified",
+          "Opportunity=Qualified chance to sell with a value and date",
+          "Champion=Person inside the customer who supports our solution",
+          "Win rate=Share of closed deals that we won"
+        ],
+        "correct": [],
+        "points": 1,
+        "explanation": "These are the basic words used in every pipeline review."
+      }
     ]
   }
 }

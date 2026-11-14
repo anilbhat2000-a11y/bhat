@@ -29,29 +29,43 @@
       "position": 1,
       "title": "Key contract clauses",
       "type": "TEXT",
-      "body": "Contracts with customers, OEMs and vendors define what we must deliver and what happens if we do not. Read the key clauses before signing and before delivery.\n\n## Clauses to find in every contract\n\n- **Scope:** exactly what we supply, including services. Anything outside scope is extra.\n- **Delivery and acceptance:** dates, location, and how the customer accepts the work.\n- **Warranty:** what is covered, for how long, and from when (delivery, installation or acceptance).\n- **Service levels (SLAs):** response and resolution times, uptime commitments.\n- **Penalties or liquidated damages:** amounts payable for delay or SLA failures.\n- **Liability:** caps on how much either side can be liable for.\n- **Payment terms:** milestones, retention, documents needed for payment.\n- **Termination:** when and how either side can end the contract.",
+      "body": "Contracts set out what we promise to deliver and what the customer promises in return. In IT projects, a few clauses carry most of the risk. Sales, presales, project and finance teams should all understand them, because a promise made in a meeting or proposal can become a contractual obligation.\n\n## Key clauses and what they mean\n\n- **Scope of work:** exactly what we will deliver. Anything outside it is a change.\n- **Acceptance:** how and when the customer confirms that deliverables are complete. Payments often depend on it.\n- **Payment terms:** amounts, milestones, due dates and consequences of late payment.\n- **Warranty and support:** what we fix, for how long and within what response times.\n- **Service levels (SLAs):** measurable commitments, such as uptime or resolution time, often with service credits.\n- **Liquidated damages (LD):** pre-agreed compensation for delay. Under Section 74 of the Indian Contract Act, 1872, a court allows reasonable compensation up to the stated amount.\n- **Limitation of liability:** a cap on how much either party can claim, often linked to the contract value.\n- **Indemnity:** a promise to cover the other party's losses arising from specified events, such as intellectual property infringement.\n- **Confidentiality and data protection:** how information must be protected.\n- **Termination:** when and how either party can end the contract.\n- **Force majeure:** relief when events beyond control, such as natural disasters, prevent performance.\n- **Dispute resolution:** often negotiation, then arbitration under the Arbitration and Conciliation Act, 1996, and the governing law and seat.\n\n## Key terms\n\n- **Liquidated damages:** a pre-agreed amount payable for a specific breach, typically delay.\n- **Limitation of liability:** a contractual cap on damages.\n- **Indemnity:** a promise to compensate for certain losses.\n- **Force majeure:** events beyond reasonable control that excuse delay.\n\n## Real-world example\n\nA contract for 200 site installations includes liquidated damages of 0.5% of the order value per week of delay, capped at 10%. The project team plans without reading the contract and falls four weeks behind due to late site readiness from the customer. Because no one recorded the customer's delays in writing, the company struggles to contest the LD deduction. Contract awareness from day one would have protected it.\n\n## Common mistakes\n\n- Not reading the contract before planning the project.\n- Accepting unlimited liability without approval.\n- Failing to record customer-caused delays in writing.\n\n## Key takeaways\n\n- Scope, acceptance, payment, SLAs, LD, liability, indemnity and termination carry most of the risk.\n- Promises in proposals can become contract obligations.\n- Read the contract before delivery begins and keep written records.",
       "module": 1
     },
     {
       "position": 2,
       "title": "Obligation tracking",
       "type": "TEXT",
-      "body": "Signing the contract is the start. Track each obligation until it is met.\n\n## An obligation register\n\nFor each contract, list:\n\n- the obligation (for example, \"deliver 40 access points\");\n- the clause number;\n- the owner in our team;\n- the due date;\n- the evidence that it was met (POD, installation report, acceptance certificate);\n- the status.\n\n## Back-to-back\n\nOur obligations to the customer often depend on OEMs and vendors. Make sure their terms (warranty length, delivery times, SLAs) are at least as good as what we promised. If the customer gets a three-year warranty and the OEM gives one year, the gap is our risk.",
+      "body": "Signing a contract is the start, not the end. Every contract creates obligations with dates and conditions. Obligation tracking makes sure we meet ours, and that the customer meets theirs.\n\n## What to track\n\n- **Delivery milestones** and their due dates.\n- **Service levels** and how they are measured and reported.\n- **Reports and reviews** we must provide, such as monthly SLA reports.\n- **Payment milestones** and the documents needed to claim them.\n- **Bank guarantees and insurance** with expiry dates.\n- **Renewal and notice dates,** such as the notice period for non-renewal.\n- **Customer obligations,** such as site readiness, access and approvals.\n\n## How to track effectively\n\n1. After signature, prepare a short **contract summary** listing every obligation, owner and date.\n2. Put the dates on a shared calendar with reminders well ahead.\n3. Review obligations in project meetings and monthly account reviews.\n4. Record evidence of completion, such as signed acceptance certificates.\n5. Record customer delays and changes in writing, as they happen.\n\n## Key terms\n\n- **Contract summary:** a short document listing key obligations, owners and dates.\n- **Milestone:** a defined point in the project, often linked to payment.\n- **Notice period:** the time required to inform the other party before ending or not renewing a contract.\n- **Change request:** a formal request to change the scope, time or price.\n\n## Real-world example\n\nA three-year managed services contract renews automatically unless notice is given 90 days before expiry. The customer wants to renegotiate prices, and so does the company, because costs have risen. Because the account manager tracked the notice date, the company opens discussions four months early and agrees a new rate before the automatic renewal at the old price.\n\n## Common mistakes\n\n- Filing the contract away after signature.\n- Missing bank guarantee expiry or renewal notice dates.\n- Doing extra work without a change request.\n\n## Key takeaways\n\n- Turn every contract into a list of obligations, owners and dates.\n- Use shared calendars and regular reviews.\n- Record evidence of completion, customer delays and changes in writing.",
       "module": 2
     },
     {
       "position": 3,
       "title": "Non-standard terms and approvals",
       "type": "TEXT",
-      "body": "Some terms carry more risk than usual and need approval before we accept them.\n\n## Warning signs\n\n- **Unlimited liability,** or liability far above the contract value.\n- **Penalties without a cap,** or penalties for things outside our control.\n- **Warranties longer than the OEM's.**\n- **Acceptance** that depends only on the customer's opinion, with no objective test.\n- **Payment** tied to events we do not control.\n- **Unclear scope,** such as \"all other items required\".\n- **Intellectual property** clauses giving away rights we do not own.\n\nWhen you see these, do not agree on the spot. Refer the contract for review following the approval matrix.",
+      "body": "Customers often propose their own contract terms, and some are risky for us. Non-standard terms must be reviewed and approved before we accept them, so that someone with the right authority has weighed the risk against the value of the deal.\n\n## Common risky terms in IT contracts\n\n- **Unlimited liability** or liability caps far above the contract value.\n- **Broad indemnities,** for example covering all losses, including indirect losses.\n- **High liquidated damages** with no cap, or penalties for matters outside our control.\n- **Back-to-back terms** that pass obligations to us that our OEM will not support, such as longer warranties than the manufacturer offers.\n- **Long payment terms** or payment only after the customer's end client pays.\n- **Unilateral termination** for convenience without compensation for work done.\n- **Intellectual property transfer** of our pre-existing tools or methods.\n\n## The approval process\n\n1. **Identify** deviations from our standard terms early, ideally at the RFP or proposal stage.\n2. **Assess** the risk: likelihood, potential cost and whether it can be passed to OEMs or insured.\n3. **Negotiate** alternatives, such as caps, carve-outs or mutual obligations.\n4. **Approve** according to the contract approval matrix, involving legal and finance.\n5. **Record** the approved deviations in the contract summary.\n\n## Key terms\n\n- **Deviation:** a contract term that differs from the company's standard.\n- **Back-to-back:** aligning our obligations to the customer with the OEM's or subcontractor's obligations to us.\n- **Carve-out:** an exception to a clause, such as excluding indirect losses from liability.\n- **Indirect loss:** loss not directly caused by the breach, such as lost profits.\n\n## Real-world example\n\nA customer's draft contract requires a five-year on-site warranty for equipment, but the OEM provides three years. The presales team flags it during the RFP. The company prices two years of extended OEM support into the bid and gets legal approval for the remaining terms. Had the gap been missed, the company would have carried two years of hardware risk at its own cost.\n\n## Common mistakes\n\n- Discovering risky terms only at signature.\n- Accepting customer terms that the OEM does not support.\n- Approving deviations without the right authority.\n\n## Key takeaways\n\n- Identify non-standard terms early and assess their risk.\n- Align obligations back-to-back with OEMs and subcontractors.\n- Get approval from the right authority and record approved deviations.",
       "module": 3
     },
     {
       "position": 4,
       "title": "Company contract approval matrix",
       "type": "TEXT",
-      "body": "[PLACEHOLDER: The company will supply its contract approval matrix.]\n\nThis lesson will show who can approve which contracts and deviations. Until then:\n\n- Do not sign or accept any contract or PO terms beyond your authority.\n- Send non-standard terms to your manager and Finance before accepting.\n- Keep the signed contract and all amendments in the contract file.",
+      "body": "Each company sets who can approve which contracts and deviations. This lesson explains how a contract approval matrix usually works. Your administrator will add 3C's own matrix below.\n\n> **[PLACEHOLDER]** Company contract approval matrix: approval levels by contract value and by type of deviation (liability, LD, payment terms, IP), required reviewers from legal and finance, and authorised signatories. The LMS administrator adds these details.\n\n## How approval matrices usually work\n\n- **By value:** for example, contracts up to one value approved by a sales head, higher values by a director, and the largest by the managing director or board.\n- **By risk:** some deviations, such as unlimited liability or IP transfer, need senior or legal approval regardless of value.\n- **Reviewers:** legal reviews terms, finance reviews payment and credit, and delivery reviews feasibility.\n- **Signatories:** only authorised persons may sign contracts on behalf of the company.\n\n## Good practice\n\n- Start the approval process early; legal reviews take time.\n- Provide a clear summary: customer, value, margin, key deviations and their risk.\n- Keep the approval record with the signed contract.\n- Never sign or accept customer terms by email unless you are authorised.\n\n## Key terms\n\n- **Authorised signatory:** a person empowered by the company to sign contracts.\n- **Approval matrix:** the table of who approves what.\n- **Board resolution:** a decision of the board of directors, sometimes needed for major contracts or to authorise signatories.\n\n## Real-world example\n\nA sales manager receives a customer's purchase order with attached terms that include unlimited liability. He nearly accepts it by email to secure the order before month end. Instead, he checks the approval matrix, which requires legal approval for any liability above the contract value. Legal negotiates a cap equal to the contract value, and the order is accepted a week later.\n\n## Common mistakes\n\n- Signing contracts without authority.\n- Accepting PO terms by email without review.\n- Starting legal review too late, delaying the deal.\n\n## Key takeaways\n\n- Follow the approval matrix for both value and risk.\n- Only authorised signatories may sign.\n- Start approvals early and keep the record with the contract.",
       "module": 4
+    }
+  ],
+  "sources": [
+    {
+      "title": "India Code: official text of central Acts (Prevention of Corruption Act, Indian Contract Act, Arbitration Act)",
+      "url": "https://www.indiacode.nic.in/"
+    },
+    {
+      "title": "Central Vigilance Commission: integrity pact and vigilance guidance",
+      "url": "https://cvc.gov.in/"
+    },
+    {
+      "title": "MeitY: Digital Personal Data Protection Act, 2023 and DPDP Rules, 2025",
+      "url": "https://www.meity.gov.in/"
     }
   ],
   "assessment": {
@@ -60,79 +74,105 @@
     "passMarkPercent": 70,
     "questions": [
       {
-        "type": "MULTIPLE",
-        "text": "Which clauses should you find in every contract? Select all that apply.",
+        "type": "SINGLE",
+        "text": "Which clause sets a pre-agreed compensation for delay?",
         "options": [
-          "Scope",
-          "Warranty",
-          "Penalties or liquidated damages",
-          "The customer's office decor"
+          "Force majeure",
+          "Liquidated damages",
+          "Confidentiality",
+          "Governing law"
         ],
         "correct": [
-          "Scope",
-          "Warranty",
-          "Penalties or liquidated damages"
+          "Liquidated damages"
         ],
-        "points": 2
+        "points": 1,
+        "explanation": "Liquidated damages are a pre-agreed amount for a specific breach, usually delay."
       },
       {
         "type": "SINGLE",
-        "text": "We promised the customer a 3-year warranty, but the OEM gives 1 year. What is the effect?",
+        "text": "Under which section of the Indian Contract Act do courts allow reasonable compensation up to a stated penalty amount?",
         "options": [
-          "The 2-year gap is our risk",
-          "The customer gets only 1 year",
-          "The OEM must extend it automatically",
-          "Nothing"
+          "Section 10",
+          "Section 56",
+          "Section 74",
+          "Section 124"
         ],
         "correct": [
-          "The 2-year gap is our risk"
+          "Section 74"
         ],
-        "points": 1
+        "points": 1,
+        "explanation": "Section 74 deals with compensation for breach where a sum is named in the contract."
       },
       {
         "type": "TRUE_FALSE",
-        "text": "Unlimited liability is a normal term that does not need review.",
+        "text": "A customer requires a five-year warranty but the OEM gives three years. This gap should be identified and priced or negotiated before signing.",
         "options": [
           "True",
           "False"
         ],
         "correct": [
-          "False"
+          "True"
         ],
-        "points": 1
+        "points": 1,
+        "explanation": "Back-to-back alignment with the OEM avoids carrying unplanned risk."
+      },
+      {
+        "type": "MULTIPLE",
+        "text": "Which items should be tracked after a contract is signed?",
+        "options": [
+          "Delivery milestones",
+          "Bank guarantee expiry dates",
+          "Renewal notice dates",
+          "The colour of the contract cover"
+        ],
+        "correct": [
+          "Delivery milestones",
+          "Bank guarantee expiry dates",
+          "Renewal notice dates"
+        ],
+        "points": 1,
+        "explanation": "Dates and obligations must be tracked to avoid breaches and missed opportunities."
       },
       {
         "type": "SINGLE",
-        "text": "What does an obligation register track?",
+        "text": "A customer's PO arrives with terms including unlimited liability. What should you do?",
         "options": [
-          "Each contractual obligation, its owner, due date and evidence",
-          "Employee leave",
-          "Stock levels",
-          "Marketing campaigns"
+          "Accept it by email to secure the order",
+          "Follow the approval matrix and involve legal",
+          "Ignore the terms",
+          "Sign it yourself"
         ],
         "correct": [
-          "Each contractual obligation, its owner, due date and evidence"
+          "Follow the approval matrix and involve legal"
         ],
-        "points": 1
+        "points": 1,
+        "explanation": "Risky deviations need approval from the right authority."
+      },
+      {
+        "type": "TRUE_FALSE",
+        "text": "Customer-caused delays should be recorded in writing as they happen.",
+        "options": [
+          "True",
+          "False"
+        ],
+        "correct": [
+          "True"
+        ],
+        "points": 1,
+        "explanation": "Written records protect the company against unfair delay penalties."
       },
       {
         "type": "MATCHING",
         "text": "Match each clause to its purpose.",
         "options": [
-          "SLA=Response and resolution commitments",
-          "Liquidated damages=Amounts payable for delay",
-          "Acceptance=How the customer confirms the work is complete"
+          "Indemnity=Promise to cover certain losses",
+          "Limitation of liability=Cap on damages",
+          "Force majeure=Relief for events beyond control",
+          "Acceptance=Confirms deliverables are complete"
         ],
         "correct": [],
-        "points": 3
-      },
-      {
-        "type": "SHORT_ANSWER",
-        "text": "A customer PO says 'supplier to provide all other items required for a complete solution'. Explain the risk and what you would do.",
-        "options": [],
-        "correct": [],
-        "points": 4,
-        "explanation": "Model answer: the scope is open-ended, so we could be forced to supply unpriced items; do not accept as is; ask for a defined scope or a list of exclusions and refer it for approval."
+        "points": 1,
+        "explanation": "These clauses carry much of the risk in IT contracts."
       }
     ]
   }

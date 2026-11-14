@@ -29,29 +29,43 @@
       "position": 1,
       "title": "Reading an RFP and the compliance matrix",
       "type": "TEXT",
-      "body": "An RFP (request for proposal) asks vendors how they would solve a problem. An RFQ (request for quotation) asks for prices for something already specified. Both have strict rules: miss one and the response can be rejected without being read.\n\n## Read the whole document first\n\n- Note the **deadline**, the submission method and the format (page limits, file types, signed copies).\n- Find the **eligibility criteria** (turnover, certifications, past orders). If we do not meet them, raise it with your manager at once.\n- Note the **evaluation method**: lowest price, technical score, or a mix.\n- List every **pre-bid query** you want to raise, and the date they are due.\n\n## The compliance matrix\n\nA compliance matrix is a table with one row per requirement in the RFP:\n\n- the RFP clause number and text;\n- our response: **Complied**, **Partially complied** or **Not complied**;\n- a remark explaining how, or why not;\n- a reference to the page or datasheet that proves it.\n\nFill it honestly. Evaluators check claims against datasheets, and a false \"Complied\" can disqualify the bid or cause penalties later.",
+      "body": "Many large customers, especially government bodies, banks and big enterprises, buy through a formal request. A Request for Proposal (RFP) asks vendors to propose a solution. A Request for Quotation (RFQ) usually asks for prices on a defined list. A Request for Information (RFI) is an early, information-gathering step. Reading these documents carefully is the first step to winning.\n\n## How to read an RFP\n\n1. **Read the whole document first,** including annexures and the draft contract.\n2. **Note the key dates:** pre-bid meeting, query deadline, submission date and validity period.\n3. **Find the eligibility criteria:** turnover, experience, certifications and OEM authorisations. If we do not qualify, raise it immediately.\n4. **Understand the evaluation method:** lowest price (L1), quality and cost based selection (QCBS), or technical score.\n5. **List the deliverables and service levels (SLAs),** including penalties.\n\n## The compliance matrix\n\nA compliance matrix is a table that lists every requirement in the RFP and shows our response: Complied, Not complied, or Complied with deviation, with a reference to where the proof is in our proposal. Evaluators use it to score quickly. A clear, honest matrix makes their work easy and builds trust.\n\n## Key terms\n\n- **RFP / RFQ / RFI:** request for proposal, quotation or information.\n- **Compliance matrix:** a requirement-by-requirement table of our response.\n- **Deviation:** a point where our offer differs from what was requested.\n- **Bid validity:** how long our offer remains open for acceptance.\n\n## Real-world example\n\nA state university issues an RFP for campus networking. While building the compliance matrix, Farhan notices that the specification asks for a switch feature that only one manufacturer offers. He raises a pre-bid query asking the university to accept equivalent features. The university issues a corrigendum (an official change to the RFP) that broadens the specification. Without the careful reading, the team would have been non-compliant.\n\n## Common mistakes\n\n- Starting to write before reading the whole RFP.\n- Missing the query deadline or the eligibility criteria.\n- Marking \"Complied\" without checking that the product really meets the point.\n\n## Key takeaways\n\n- Read the full RFP, note dates, eligibility, evaluation and SLAs.\n- Build an honest compliance matrix with references to proof.\n- Use pre-bid queries to fix problems in the specification.",
       "module": 1
     },
     {
       "position": 2,
       "title": "Writing the technical proposal",
       "type": "TEXT",
-      "body": "The technical proposal explains our solution so that an evaluator who has never met us can score it highly.\n\n## A clear structure\n\n1. **Executive summary:** the customer's goal, our approach, and why it is the right choice, in one page.\n2. **Understanding of requirements:** show we have read and understood the RFP.\n3. **Proposed solution:** architecture diagram, then each component and why it was chosen.\n4. **Implementation plan:** phases, timeline, responsibilities.\n5. **Support and service levels.**\n6. **Compliance matrix and datasheets** (often as annexures).\n\n## Writing tips\n\n- Follow the order of the RFP so evaluators find answers quickly.\n- Use the customer's terms, not internal jargon.\n- One idea per paragraph; use tables for comparisons.\n- Every claim about a product should be backed by a datasheet.\n- Get a colleague to review it with fresh eyes.",
+      "body": "The technical proposal explains how we will meet the customer's requirements. Evaluators often read dozens of proposals, so yours must be clear, well organised and easy to score. Follow the structure the RFP asks for; if none is given, use a logical one.\n\n## A typical structure\n\n1. **Executive summary:** one or two pages on the customer's need, our solution and why we are the right partner. Many senior readers read only this.\n2. **Understanding of requirements:** show that we understood the problem.\n3. **Proposed solution:** architecture, diagrams, components and how they meet each requirement.\n4. **Implementation plan:** phases, timeline, milestones and responsibilities.\n5. **Support and SLAs:** how we will support the solution, response times and escalation.\n6. **Project team and experience:** relevant references and certifications.\n7. **Compliance matrix and annexures:** datasheets, OEM authorisation letters, certificates.\n\n## Writing clearly\n\n- Use short sentences and plain English. Avoid marketing language.\n- Use headings and numbering that match the RFP sections.\n- Use diagrams to explain architecture; a picture saves a page of text.\n- Answer exactly what is asked, then stop.\n- Proofread for errors and consistency: names, quantities and model numbers must match everywhere.\n\n## Key terms\n\n- **Executive summary:** a short overview for decision makers.\n- **SLA (service level agreement):** the measurable service we commit to, such as response and resolution times.\n- **Escalation matrix:** who the customer contacts at each level if an issue is not resolved.\n\n## Real-world example\n\nTwo companies bid for a hospital's data-centre project. One submits a 200-page document full of copied datasheets. The other submits a 60-page proposal with a clear executive summary, a diagram for each requirement, a realistic implementation plan, and a compliance matrix with page references. The evaluators score the second proposal higher on every technical criterion because they can find everything quickly.\n\n## Common mistakes\n\n- Copying another proposal without checking names and quantities.\n- Writing a long generic company introduction instead of addressing the need.\n- Mismatches between the technical proposal and the price bid.\n\n## Key takeaways\n\n- Follow the RFP's structure and make evaluators' work easy.\n- Lead with a strong executive summary and clear diagrams.\n- Check consistency between every section and the price bid.",
       "module": 2
     },
     {
       "position": 3,
       "title": "Bill of materials and assumptions",
       "type": "TEXT",
-      "body": "The bill of materials (BoM) lists every item we will supply: part number, description, quantity, and often unit price. Errors in the BoM become losses or disputes after the order.\n\n## Building a correct BoM\n\n- Start from the design, not from an old BoM.\n- Include everything needed for the solution to work: licences, power cords, rack kits, transceivers, cables, support contracts.\n- Check licence terms (per user, per device, per year) and support duration.\n- Confirm part numbers with the OEM or distributor configuration tool.\n- Note lead times for items that take long to arrive.\n\n## Assumptions\n\nWrite down what the price assumes, for example:\n\n- the customer provides rack space, power and cooling;\n- the site is ready on the agreed date;\n- civil and electrical work are excluded;\n- prices are valid for a stated number of days.\n\n> Clear assumptions protect both the customer and the company. Unstated assumptions become arguments.",
+      "body": "The bill of materials (BOM) turns the design into an orderable list. Errors in the BOM are expensive: a missing licence or cable can delay a project and wipe out the margin. Assumptions and exclusions protect both the customer and us by making the scope clear.\n\n## Building an accurate BOM\n\n- List every item: hardware, software licences, subscriptions, accessories, cables, rack kits, power cords and services.\n- Use the correct part numbers from the OEM or distributor price list, and check that they are current (not end of sale).\n- Check quantities against the design, such as one power cord per power supply.\n- Include support and warranty, with the right duration and service level.\n- Ask the OEM or distributor to validate complex configurations.\n\n## Writing assumptions and exclusions\n\n- **Assumptions** describe what we believe to be true, for example: \"The customer will provide rack space, power and cooling\" or \"Existing cabling is Cat 6 and in working condition\".\n- **Exclusions** state what is not included, for example: \"Civil and electrical work\", or \"Migration of data older than five years\".\n- **Customer responsibilities** list what the customer must provide, such as access, approvals and staff time.\n\nWrite them clearly, early in the commercial section, not in small print. Unclear scope is the most common source of disputes after the order.\n\n## Key terms\n\n- **End of sale (EoS):** the date after which an OEM no longer sells a product.\n- **Configuration validation:** OEM or distributor checking that a complex configuration is complete and supported.\n- **Scope creep:** unplanned additions to the work after the order.\n\n## Real-world example\n\nA proposal for 20 servers misses the rail kits and the second power supply for each server. The customer refuses to pay extra, saying the solution should have been complete. The company absorbs the cost, losing much of the margin. After this, the team adds a BOM checklist and asks the distributor to validate every server configuration before quoting.\n\n## Common mistakes\n\n- Forgetting accessories, licences or support.\n- Quoting products that are about to reach end of sale.\n- Leaving assumptions unwritten or hidden.\n\n## Key takeaways\n\n- Every item in the design must appear in the BOM with a current part number.\n- Validate complex configurations with the OEM or distributor.\n- Write assumptions, exclusions and customer responsibilities clearly.",
       "module": 3
     },
     {
       "position": 4,
       "title": "Company proposal templates",
       "type": "TEXT",
-      "body": "[PLACEHOLDER: The company will supply its proposal templates.]\n\nUntil the templates are available, use this checklist before any submission:\n\n- Every RFP requirement appears in the compliance matrix.\n- All mandatory forms are filled, signed and stamped as required.\n- Eligibility documents are attached and current.\n- The BoM matches the proposal text and the price schedule.\n- File names, formats and sizes match the instructions.\n- A second person has reviewed the whole response.\n- It is submitted before the deadline, with time to spare for upload problems.",
+      "body": "Templates help teams produce consistent, high-quality proposals quickly. This lesson explains what proposal templates usually contain and how to use them. Your administrator will add 3C's own templates and where to find them.\n\n> **[PLACEHOLDER]** Company proposal templates: the location of the latest proposal, compliance matrix, BOM and covering-letter templates, the brand guidelines and the review and approval steps before submission. The LMS administrator adds these details.\n\n## What proposal templates usually include\n\n- **Cover page and covering letter** in company branding.\n- **Standard sections:** company profile, certifications, quality and security policies, support model.\n- **Compliance matrix template** with columns for requirement, response, deviation and reference.\n- **BOM template** with columns for part number, description, quantity and notes.\n- **Standard terms:** warranty, payment, delivery and validity wording approved by finance and legal.\n\n## Using templates well\n\n- Always start from the latest version in the shared library, not an old copy on your laptop.\n- Replace every placeholder and sample text; search for words like \"XXX\" or \"Customer Name\" before submitting.\n- Keep standard legal and commercial wording unchanged unless approved.\n- Follow the review process: technical review, commercial review and final approval.\n\n## Key terms\n\n- **Template:** a pre-formatted document with standard content and placeholders.\n- **Version control:** keeping track of the latest approved version of a document.\n- **Bid review:** an internal check of a proposal before submission.\n\n## Real-world example\n\nA team submits a proposal in which the covering letter is addressed to a different customer, copied from an old file. The evaluator notices, and the company loses credibility. The company then makes it mandatory to use the latest template from the shared library and to run a search for old customer names during the final review.\n\n## Common mistakes\n\n- Using an outdated template with old certifications or addresses.\n- Leaving sample text or another customer's name in the document.\n- Changing legal wording without approval.\n\n## Key takeaways\n\n- Use the latest approved templates from the shared library.\n- Replace every placeholder and check for leftover text.\n- Follow the internal review and approval steps before submission.",
       "module": 4
+    }
+  ],
+  "sources": [
+    {
+      "title": "Central Public Procurement Portal (CPPP): tender documents and corrigenda",
+      "url": "https://eprocure.gov.in/"
+    },
+    {
+      "title": "Microsoft Learn: free role-based training paths",
+      "url": "https://learn.microsoft.com/en-us/training/"
+    },
+    {
+      "title": "AWS Skill Builder: cloud training",
+      "url": "https://skillbuilder.aws/"
     }
   ],
   "assessment": {
@@ -61,37 +75,82 @@
     "questions": [
       {
         "type": "SINGLE",
-        "text": "What is the difference between an RFP and an RFQ?",
+        "text": "What is a compliance matrix?",
         "options": [
-          "An RFP asks how you would solve a problem; an RFQ asks for prices for something already specified",
-          "They are the same",
-          "An RFQ is only for government buyers",
-          "An RFP never includes prices"
+          "A list of our past customers",
+          "A requirement-by-requirement table of our response",
+          "A price comparison",
+          "A project timeline"
         ],
         "correct": [
-          "An RFP asks how you would solve a problem; an RFQ asks for prices for something already specified"
+          "A requirement-by-requirement table of our response"
         ],
-        "points": 1
+        "points": 1,
+        "explanation": "Evaluators use the compliance matrix to score each requirement quickly."
       },
       {
-        "type": "MULTIPLE",
-        "text": "What does a compliance matrix row contain? Select all that apply.",
+        "type": "SINGLE",
+        "text": "An RFP specification seems to favour one manufacturer. What should you do?",
         "options": [
-          "The RFP clause",
-          "Complied, partially complied or not complied",
-          "A remark and a reference to proof",
-          "The competitor's price"
+          "Ignore it",
+          "Raise a pre-bid query asking to accept equivalent specifications",
+          "Quote that manufacturer only",
+          "Withdraw immediately"
         ],
         "correct": [
-          "The RFP clause",
-          "Complied, partially complied or not complied",
-          "A remark and a reference to proof"
+          "Raise a pre-bid query asking to accept equivalent specifications"
         ],
-        "points": 2
+        "points": 1,
+        "explanation": "Pre-bid queries are the formal way to ask the buyer to clarify or change the specification."
       },
       {
         "type": "TRUE_FALSE",
-        "text": "It is acceptable to mark a clause 'Complied' if the product nearly meets it.",
+        "text": "The executive summary may be the only part some senior evaluators read.",
+        "options": [
+          "True",
+          "False"
+        ],
+        "correct": [
+          "True"
+        ],
+        "points": 1,
+        "explanation": "That is why it must explain the need, the solution and our strengths in one or two pages."
+      },
+      {
+        "type": "MULTIPLE",
+        "text": "Which items are commonly missed in a BOM?",
+        "options": [
+          "Rail kits",
+          "Power cords",
+          "Software licences",
+          "The customer's company name"
+        ],
+        "correct": [
+          "Rail kits",
+          "Power cords",
+          "Software licences"
+        ],
+        "points": 1,
+        "explanation": "Accessories, licences and support are the most common omissions."
+      },
+      {
+        "type": "SINGLE",
+        "text": "'The customer will provide rack space, power and cooling' is an example of:",
+        "options": [
+          "An exclusion",
+          "An assumption or customer responsibility",
+          "A deviation",
+          "An SLA"
+        ],
+        "correct": [
+          "An assumption or customer responsibility"
+        ],
+        "points": 1,
+        "explanation": "It states what we expect the customer to provide."
+      },
+      {
+        "type": "TRUE_FALSE",
+        "text": "It is acceptable to quote a product that has reached end of sale if it is cheaper.",
         "options": [
           "True",
           "False"
@@ -100,44 +159,20 @@
           "False"
         ],
         "points": 1,
-        "explanation": "Evaluators check claims against datasheets. Use 'Partially complied' with a remark."
-      },
-      {
-        "type": "SINGLE",
-        "text": "Which item is most often forgotten in a BoM?",
-        "options": [
-          "The main switch",
-          "Licences, transceivers and support contracts",
-          "The customer's name",
-          "The proposal title"
-        ],
-        "correct": [
-          "Licences, transceivers and support contracts"
-        ],
-        "points": 1
-      },
-      {
-        "type": "SINGLE",
-        "text": "Why should the technical proposal follow the order of the RFP?",
-        "options": [
-          "It looks longer",
-          "Evaluators can find each answer quickly",
-          "It is required by law",
-          "It hides weak areas"
-        ],
-        "correct": [
-          "Evaluators can find each answer quickly"
-        ],
-        "points": 1
+        "explanation": "End-of-sale products may not be orderable or supportable; always check part numbers are current."
       },
       {
         "type": "FILL_BLANK",
-        "text": "A statement such as 'the customer provides rack space and power' is called an ____ in the proposal.",
+        "text": "An official change to an RFP issued by the buyer is called a ______.",
         "options": [
-          "assumption"
+          "corrigendum",
+          "Corrigendum",
+          "addendum",
+          "Addendum"
         ],
         "correct": [],
-        "points": 1
+        "points": 1,
+        "explanation": "Buyers issue a corrigendum or addendum to change dates, specifications or terms."
       }
     ]
   }

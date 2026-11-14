@@ -372,6 +372,10 @@ button:disabled { opacity: 0.55; cursor: not-allowed; }
 .lesson-text ul { list-style: disc; }
 .lesson-text ol { list-style: decimal; }
 .lesson-text li + li { margin-top: 4px; }
-.lesson-subhead { font-weight: 700; color: var(--brand-green); margin-top: 14px !important; }
+.lesson-subhead { font-size: 1.05rem; font-weight: 700; color: var(--brand-green); margin-top: 18px !important; padding-bottom: 4px; border-bottom: 1px solid var(--border); }
+.lesson-text a { color: var(--brand-teal); text-decoration: underline; overflow-wrap: anywhere; }
+.muted { color: var(--muted); }
+.course-sources li + li { margin-top: 6px; }
+.course-sources a { overflow-wrap: anywhere; }
 .lesson-note { background: var(--accent-soft); border-left: 4px solid var(--brand-teal); padding: 10px 14px; border-radius: 8px; }
 .lesson-text code { background: var(--surface-2); border: 1px solid var(--border); border-radius: 4px; padding: 0 4px; font-size: 0.9em; }

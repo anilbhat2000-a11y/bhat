@@ -29,29 +29,47 @@
       "position": 1,
       "title": "Company code of conduct",
       "type": "TEXT",
-      "body": "[PLACEHOLDER: The company will supply its Code of Conduct document.]\n\nUntil the company's own Code is uploaded, this lesson covers the principles almost every code shares:\n\n- **Act honestly and lawfully** in every dealing with customers, vendors, colleagues and government.\n- **Treat people with respect.** No harassment or discrimination.\n- **Protect company assets and information,** including customer data.\n- **Avoid conflicts of interest,** and declare any you have.\n- **Keep accurate records.** Never falsify documents, timesheets or reports.\n- **Speak up** if you see something wrong.\n\n> When the Code is supplied, read it in full and acknowledge it when asked. If a situation is not covered, ask: would I be comfortable if this appeared in the newspaper?",
+      "body": "A code of conduct describes how everyone in the company is expected to behave: with customers, partners, government officials and each other. It turns the company's values into everyday rules. Following it protects customers, the company's reputation and you personally.\n\n> **[PLACEHOLDER]** 3C IT Solutions & Telecoms India Limited code of conduct: the full policy text, the policy owner and where employees acknowledge it each year. The LMS administrator adds these details.\n\n## What a code of conduct usually covers\n\n- **Integrity:** honest dealings, accurate records and no bribery or corruption.\n- **Fair competition:** no agreements with competitors to fix prices or divide customers.\n- **Conflicts of interest:** declaring personal interests that could affect business decisions.\n- **Confidentiality:** protecting company, customer and partner information.\n- **Respectful workplace:** no harassment or discrimination. In India, the Sexual Harassment of Women at Workplace (Prevention, Prohibition and Redressal) Act, 2013 (POSH Act) requires employers with ten or more employees to set up an Internal Committee to handle complaints.\n- **Health and safety:** safe working practices at offices and customer sites.\n- **Use of company assets:** laptops, phones, vehicles and data used for business purposes.\n- **Speaking up:** how to raise concerns without fear of retaliation.\n\n## Applying the code: a quick test\n\nWhen you are unsure, ask yourself:\n\n- Is it legal and in line with company policy?\n- Would I be comfortable if it were reported in the newspaper or seen by my manager?\n- Would it damage trust with a customer or partner?\n\nIf the answer worries you, stop and ask your manager or the compliance team.\n\n## Key terms\n\n- **Code of conduct:** the company's rules for ethical behaviour.\n- **Internal Committee (IC):** the body required under the POSH Act to handle sexual harassment complaints.\n- **Retaliation:** punishing someone for raising a concern in good faith; not allowed.\n\n## Real-world example\n\nA customer's IT manager asks a salesperson to inflate a quotation so that the extra amount can be \"adjusted\" later for him. The salesperson recognises this as a request that breaks the code of conduct and possibly the law. She politely declines, informs her manager and the compliance team, and the company handles the account carefully from then on.\n\n## Common mistakes\n\n- Thinking the code applies only to senior staff.\n- Staying silent when you see a problem.\n- Assuming \"everyone does it\" makes something acceptable.\n\n## Key takeaways\n\n- The code of conduct applies to everyone, every day.\n- When unsure, use the quick test and ask before acting.\n- Speaking up in good faith is protected.",
       "module": 1
     },
     {
       "position": 2,
       "title": "Conflicts, gifts and anti-bribery",
       "type": "TEXT",
-      "body": "Sales and purchase roles face pressure from gifts, hospitality and conflicts of interest. Clear habits protect you and the company.\n\n## Conflicts of interest\n\nA conflict exists when your personal interest could affect, or look as though it affects, your work decisions. Examples:\n\n- a relative owns a vendor you select;\n- you hold shares in a competitor or supplier;\n- you do paid work for a customer outside your job.\n\nDeclare it to your manager in writing and step back from the decision.\n\n## Gifts and hospitality\n\n- Small, occasional, openly given courtesies may be acceptable within company limits [PLACEHOLDER: company gift limit].\n- Never accept cash, or anything given to influence a decision.\n- Never offer anything to a government official to win or speed up business.\n\n## Bribery\n\nOffering, giving, asking for or accepting a bribe is a crime in India, including through an agent. If anyone asks for a payment to \"help\" a deal, refuse and report it.",
+      "body": "Conflicts of interest, gifts and bribery are areas where good intentions can still lead to serious trouble. Indian law treats bribery very seriously, and companies can be held responsible for what their employees and agents do.\n\n## Conflicts of interest\n\nA conflict of interest exists when your personal interests could influence, or appear to influence, your work decisions. Examples:\n\n- A relative owns a company that wants to become our vendor.\n- You have a financial stake in a competitor or customer.\n- You take a second job with a partner or competitor.\n\nDeclare any potential conflict to your manager or the compliance team in writing, and step away from the related decision.\n\n## Gifts and hospitality\n\n- Small, occasional courtesies, such as a working lunch or a festival sweet box, may be acceptable within the company's limits.\n- Cash, gift cards, expensive gifts, travel or anything given to influence a decision are not acceptable.\n- Never offer anything of value to a government official without explicit approval; public servants are bound by strict conduct rules.\n- Record gifts given and received as the company policy requires.\n\n## Anti-bribery law in India\n\nThe **Prevention of Corruption Act, 1988**, as amended in 2018, makes it an offence to give or promise an undue advantage to a public servant. Under the amended Section 9, a commercial organisation can be held liable if a person associated with it, such as an employee or agent, gives a bribe to obtain or keep business. The organisation's defence is to show that it had adequate procedures in place to prevent such conduct. That is why companies have strict gift and hospitality rules.\n\n## Key terms\n\n- **Conflict of interest:** a personal interest that could affect business judgement.\n- **Undue advantage:** any gratification other than legal remuneration.\n- **Facilitation payment:** a small payment to speed up a routine action; these are bribes under Indian law.\n\n## Real-world example\n\nDuring a government tender, a vendor's agent offers to \"help\" by arranging a meeting with an evaluation committee member over an expensive dinner paid by the company. The bid manager refuses and reports it. Taking part could expose both the employee and the company to criminal liability under the Prevention of Corruption Act.\n\n## Common mistakes\n\n- Accepting expensive gifts because \"it would be rude to refuse\".\n- Not declaring a relative's business relationship.\n- Treating small \"speed money\" payments as harmless.\n\n## Key takeaways\n\n- Declare conflicts of interest and step away from related decisions.\n- Follow gift limits; never give anything to influence a decision.\n- Companies can be liable for bribes paid by employees or agents.",
       "module": 2
     },
     {
       "position": 3,
       "title": "Information security basics",
       "type": "TEXT",
-      "body": "Everyone handles information that must be protected.\n\n## Simple rules\n\n- Use strong passwords and multi-factor authentication; never share them.\n- Lock your screen when you step away.\n- Do not send customer or company data to personal email or messaging apps.\n- Be suspicious of unexpected links and attachments, even from known names.\n- Report a lost laptop or phone immediately.\n- Share documents only with people who need them.\n\n> Personal data about customers and employees also falls under data protection law. The intermediate course covers this in detail.",
+      "body": "Information security is everyone's responsibility. Most cyber attacks begin with a person, not a machine: a click on a phishing link, a reused password or a laptop left unlocked. Simple habits prevent most incidents.\n\n## Everyday security habits\n\n- **Strong passwords:** use long passphrases, a different one for each account, and a password manager if the company provides one.\n- **Multi-factor authentication (MFA):** turn it on wherever it is available.\n- **Phishing awareness:** check the sender, look for urgency or unusual requests, hover over links before clicking and never share passwords or one-time passwords (OTPs).\n- **Lock your screen** whenever you leave your desk (Windows key + L).\n- **Updates:** install system and software updates when prompted.\n- **Approved tools only:** store company data only in approved systems, not personal email or unapproved cloud storage.\n- **Clean desk:** do not leave customer documents or passwords on your desk.\n\n## Protecting customer information\n\nAs a system integrator, we often see customers' network diagrams, passwords and data. Treat this information as strictly confidential, share it only with those who need it, and delete it securely when a project ends.\n\n## Key terms\n\n- **Phishing:** a fraudulent message designed to trick you into revealing information or installing malware.\n- **MFA:** using two or more factors to log in, such as a password and a code from an app.\n- **Social engineering:** manipulating people into breaking security rules.\n- **Need to know:** sharing information only with people who need it for their work.\n\n## Real-world example\n\nAn accounts executive receives an email, apparently from the managing director, asking for an urgent payment to a new vendor before the end of the day. The email address is slightly different from the real one. She calls the managing director's office to check, and the request turns out to be fake. This type of fraud, known as business email compromise, has cost companies large sums.\n\n## Common mistakes\n\n- Reusing the same password across sites.\n- Approving MFA prompts you did not start.\n- Sending customer data to a personal email to work from home.\n\n## Key takeaways\n\n- Use strong, unique passwords and MFA.\n- Verify unusual requests through a separate, known channel.\n- Treat customer information as strictly confidential.",
       "module": 3
     },
     {
       "position": 4,
       "title": "Whistle-blower and grievance process",
       "type": "TEXT",
-      "body": "[PLACEHOLDER: The company will supply its whistle-blower and grievance process.]\n\nUntil then:\n\n- Raise concerns with your manager, HR or senior management.\n- If your concern involves your manager, go to the next level or to HR.\n- Raise concerns in good faith; you do not need proof, only an honest belief.\n- Retaliation against someone who raises a concern in good faith is not acceptable.\n\nWhen the company's process is supplied, it will list the contact points and how confidentiality is protected.",
+      "body": "A speak-up or whistle-blower process lets employees raise concerns about wrongdoing safely. A grievance process lets employees raise problems about their own working conditions. Both help the company find and fix problems early.\n\n> **[PLACEHOLDER]** Company whistle-blower and grievance process: how to report (email, phone line or portal), who receives reports, how confidentiality is protected and the expected response times. The LMS administrator adds these details.\n\n## Whistle-blowing versus grievance\n\n- **Whistle-blowing** is reporting suspected misconduct that affects the company or others, such as fraud, bribery, data misuse, safety violations or breaches of the code of conduct.\n- **A grievance** is a personal concern about your own employment, such as workload, pay, leave or treatment by a manager.\n\n## The legal background\n\nUnder Section 177 of the Companies Act, 2013, listed companies and certain other companies must establish a vigil mechanism for directors and employees to report genuine concerns, with safeguards against victimisation and, in appropriate cases, direct access to the chair of the audit committee. Even where the law does not require it, most well-run companies have one.\n\n## How to raise a concern well\n\n- Report facts: what happened, when, where and who was involved.\n- Provide any evidence you have, but do not investigate on your own.\n- Report in good faith; you do not need to be certain, only to have a reasonable concern.\n- Keep the matter confidential.\n\n## Key terms\n\n- **Vigil mechanism:** the formal whistle-blower channel required for certain companies.\n- **Good faith:** reporting honestly, believing the concern to be true.\n- **Victimisation:** unfair treatment of someone because they raised a concern.\n\n## Real-world example\n\nAn engineer notices that the same few vendors win every small purchase, often at higher prices, and learns that a purchase officer is related to one of them. He reports it through the speak-up channel with the details he has. An investigation confirms an undeclared conflict of interest. The company changes its purchase approvals, and the engineer's identity is kept confidential throughout.\n\n## Common mistakes\n\n- Staying silent because you are not completely sure.\n- Investigating on your own and collecting data you are not authorised to access.\n- Using the whistle-blower channel for a personal grievance, or the reverse.\n\n## Key takeaways\n\n- Report suspected misconduct through the speak-up channel; raise personal concerns through the grievance process.\n- Report facts in good faith; you do not need proof.\n- Retaliation against people who speak up is not allowed.",
       "module": 4
+    }
+  ],
+  "sources": [
+    {
+      "title": "India Code: official text of central Acts (Prevention of Corruption Act, Indian Contract Act, Arbitration Act)",
+      "url": "https://www.indiacode.nic.in/"
+    },
+    {
+      "title": "Ministry of Corporate Affairs: Companies Act 2013 (vigil mechanism, Section 177)",
+      "url": "https://www.mca.gov.in/"
+    },
+    {
+      "title": "CERT-In: incident reporting and the cyber security directions of 28 April 2022",
+      "url": "https://www.cert-in.org.in/"
+    },
+    {
+      "title": "SHe-Box: Ministry of Women and Child Development complaint portal under the POSH Act",
+      "url": "https://shebox.wcd.gov.in/"
     }
   ],
   "assessment": {
@@ -61,64 +79,67 @@
     "questions": [
       {
         "type": "SINGLE",
-        "text": "A relative owns a vendor you are evaluating. What should you do?",
+        "text": "A relative owns a company that wants to become our vendor. What should you do?",
         "options": [
-          "Declare it in writing and step back from the decision",
-          "Choose them, since you trust them",
-          "Keep it quiet",
-          "Reject them without explanation"
+          "Nothing",
+          "Declare the conflict in writing and step away from the decision",
+          "Approve the vendor quickly",
+          "Tell the vendor to use a different name"
         ],
         "correct": [
-          "Declare it in writing and step back from the decision"
+          "Declare the conflict in writing and step away from the decision"
         ],
-        "points": 1
+        "points": 1,
+        "explanation": "Conflicts of interest must be declared and the person should not take part in the decision."
       },
       {
         "type": "TRUE_FALSE",
-        "text": "Giving a small payment to a government official to speed up an approval is acceptable if it is customary.",
+        "text": "Under the Prevention of Corruption Act as amended in 2018, a company can be liable for a bribe paid by its employee or agent.",
         "options": [
           "True",
           "False"
         ],
         "correct": [
-          "False"
+          "True"
         ],
         "points": 1,
-        "explanation": "It is a bribe and a crime."
+        "explanation": "Section 9 makes commercial organisations liable unless they had adequate procedures to prevent bribery."
       },
       {
         "type": "MULTIPLE",
-        "text": "Which are good information security habits? Select all that apply.",
+        "text": "Which are signs of a phishing email?",
         "options": [
-          "Lock your screen when away",
-          "Report a lost laptop immediately",
-          "Use multi-factor authentication",
-          "Forward customer data to personal email to work from home"
+          "Unexpected urgency",
+          "A slightly different sender address",
+          "A request for passwords or OTPs",
+          "A meeting invite from your manager's correct address about an agreed meeting"
         ],
         "correct": [
-          "Lock your screen when away",
-          "Report a lost laptop immediately",
-          "Use multi-factor authentication"
+          "Unexpected urgency",
+          "A slightly different sender address",
+          "A request for passwords or OTPs"
         ],
-        "points": 2
+        "points": 1,
+        "explanation": "Urgency, look-alike addresses and requests for credentials are classic phishing signs."
       },
       {
         "type": "SINGLE",
-        "text": "A vendor offers you cash to approve their invoice faster. What should you do?",
+        "text": "You receive an urgent payment request from the 'managing director' by email. What should you do?",
         "options": [
-          "Refuse and report it",
-          "Accept a small amount",
-          "Ask for more",
-          "Ignore it and approve"
+          "Pay immediately",
+          "Verify by calling the managing director's office on a known number",
+          "Reply to the email asking if it is real",
+          "Forward it to the vendor"
         ],
         "correct": [
-          "Refuse and report it"
+          "Verify by calling the managing director's office on a known number"
         ],
-        "points": 1
+        "points": 1,
+        "explanation": "Verify through a separate, known channel. Replying to the email may reach the fraudster."
       },
       {
         "type": "TRUE_FALSE",
-        "text": "You need proof before you can raise a concern.",
+        "text": "You must be certain of wrongdoing before reporting it through the whistle-blower channel.",
         "options": [
           "True",
           "False"
@@ -127,16 +148,35 @@
           "False"
         ],
         "points": 1,
-        "explanation": "An honest belief, raised in good faith, is enough."
+        "explanation": "A reasonable concern raised in good faith is enough."
       },
       {
-        "type": "FILL_BLANK",
-        "text": "When your personal interest could affect a work decision, it is called a conflict of ____.",
+        "type": "SINGLE",
+        "text": "Under the POSH Act, which body handles sexual harassment complaints in a workplace with ten or more employees?",
         "options": [
-          "interest"
+          "The sales team",
+          "The Internal Committee",
+          "The IT helpdesk",
+          "The customer"
+        ],
+        "correct": [
+          "The Internal Committee"
+        ],
+        "points": 1,
+        "explanation": "The POSH Act requires an Internal Committee in workplaces with ten or more employees."
+      },
+      {
+        "type": "MATCHING",
+        "text": "Match each situation to the right channel or response.",
+        "options": [
+          "Suspected vendor fraud=Whistle-blower channel",
+          "Dispute about your leave=Grievance process",
+          "Offer of an expensive gift from a vendor=Decline and report under the gift policy",
+          "Suspicious payment email=Verify through a known channel"
         ],
         "correct": [],
-        "points": 1
+        "points": 1,
+        "explanation": "Using the right channel makes sure concerns reach the right people."
       }
     ]
   }

@@ -1,3 +1,4 @@
+import { createHash } from "node:crypto";
 import { readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import type { PrismaClient, Category } from "../../generated/prisma/client";
@@ -54,6 +55,8 @@ type CourseFile = {
   // Optional: modules with estimated minutes; each lesson names its module by number (1-based).
   modules?: { title: string; minutes: number }[];
   lessons: { position: number; title: string; type: "TEXT"; body: string; module?: number }[];
+  // Sources and further reading, shown on the course page.
+  sources?: { title: string; url: string }[];
   assessment: {
     title: string;
     level: "BASIC" | "INTERMEDIATE" | "ADVANCED";
@@ -65,7 +68,7 @@ type CourseFile = {
 export async function runSeed(
   db: PrismaClient,
   opts: { seedPassword: string | undefined; contentDir: string; bankDir?: string },
-): Promise<{ courses: number; banks: number }> {
+): Promise<{ courses: number; banks: number; updated: number }> {
   if (!opts.seedPassword || opts.seedPassword.length < 8) {
     throw new Error("Set SEED_PASSWORD (at least 8 characters) to create the demo accounts");
   }
@@ -96,9 +99,11 @@ export async function runSeed(
   }
 
   const files = readdirSync(opts.contentDir).filter((f) => f.endsWith(".json")).sort();
+  let updated = 0;
   for (const f of files) {
-    const course = JSON.parse(readFileSync(join(opts.contentDir, f), "utf8")) as CourseFile;
-    await loadCourse(db, course, f);
+    const text = readFileSync(join(opts.contentDir, f), "utf8");
+    const course = JSON.parse(text) as CourseFile;
+    if ((await loadCourse(db, course, f, createHash("sha256").update(text).digest("hex"))) === "updated") updated++;
   }
 
   const bankDir = opts.bankDir ?? join(opts.contentDir, "..", "question-banks");
@@ -107,7 +112,7 @@ export async function runSeed(
     const bank = JSON.parse(readFileSync(join(bankDir, f), "utf8")) as BankFile;
     await loadBank(db, bank, f);
   }
-  return { courses: files.length, banks: banks.length };
+  return { courses: files.length, banks: banks.length, updated };
 }
 
 // Turns the human-readable question format (correct answers as option text) into rows the
@@ -165,10 +170,17 @@ async function loadBank(db: PrismaClient, b: BankFile, file: string): Promise<vo
 
 // Loads one course with its lessons and completion check. Matched by subject and title,
 // so re-running the seed skips courses that already exist. Invalid content fails loudly.
-async function loadCourse(db: PrismaClient, c: CourseFile, file: string): Promise<void> {
+// Creates the course from its file, or refreshes it in place when the file has changed and
+// the course is still seed-managed (no admin has changed its lessons or modules).
+async function loadCourse(db: PrismaClient, c: CourseFile, file: string, hash: string): Promise<"created" | "updated" | "unchanged"> {
   const subject = await db.subject.findUnique({ where: { name: c.subject } });
   if (!subject) throw new Error(`${file}: unknown subject "${c.subject}"`);
-  if (await db.course.findFirst({ where: { subjectId: subject.id, title: c.title } })) return;
+  const existing = await db.course.findFirst({ where: { subjectId: subject.id, title: c.title } });
+  if (existing) {
+    if (existing.contentSource !== "seed" || existing.contentHash === hash) return "unchanged";
+    await syncCourse(db, existing.id, c, file, hash);
+    return "updated";
+  }
 
   const parsed = { questions: toQuestionRows(c.assessment.questions, file) };
   for (const l of c.lessons) {
@@ -185,6 +197,9 @@ async function loadCourse(db: PrismaClient, c: CourseFile, file: string): Promis
       level: c.level,
       status: "PUBLISHED",
       passMarkPercent: c.passMarkPercent,
+      contentSource: "seed",
+      contentHash: hash,
+      sources: c.sources ?? [],
       modules: c.modules ? { create: c.modules.map((m, i) => ({ position: i + 1, title: m.title, estimatedMinutes: m.minutes })) } : undefined,
       assessments: {
         create: {
@@ -218,4 +233,56 @@ async function loadCourse(db: PrismaClient, c: CourseFile, file: string): Promis
       moduleId: l.module !== undefined ? moduleId.get(l.module) ?? null : null,
     })),
   });
+  return "created";
+}
+
+// Refreshes a seed-managed course from its file. Modules, lessons and questions are matched
+// by position and updated in place, so learners' progress and past attempts keep pointing at
+// the same records; extra items in the file are added, and items beyond it are removed.
+async function syncCourse(db: PrismaClient, courseId: string, c: CourseFile, file: string, hash: string): Promise<void> {
+  for (const l of c.lessons) {
+    if (l.module !== undefined && !(c.modules && l.module >= 1 && l.module <= c.modules.length)) {
+      throw new Error(`${file}: lesson "${l.title}" names module ${l.module}, which does not exist`);
+    }
+  }
+  const questions = toQuestionRows(c.assessment.questions, file);
+  await db.$transaction(async (tx) => {
+    await tx.course.update({ where: { id: courseId }, data: { description: c.description, sources: c.sources ?? [], contentHash: hash } });
+
+    const modules = c.modules ?? [];
+    const moduleIds = new Map<number, string>();
+    for (const [i, m] of modules.entries()) {
+      const row = await tx.module.upsert({
+        where: { courseId_position: { courseId, position: i + 1 } },
+        update: { title: m.title, estimatedMinutes: m.minutes },
+        create: { courseId, position: i + 1, title: m.title, estimatedMinutes: m.minutes },
+      });
+      moduleIds.set(i + 1, row.id);
+    }
+    await tx.module.deleteMany({ where: { courseId, position: { gt: modules.length } } });
+
+    for (const l of c.lessons) {
+      const data = { title: l.title, type: l.type, body: l.body, moduleId: l.module !== undefined ? moduleIds.get(l.module) ?? null : null };
+      await tx.lesson.upsert({
+        where: { courseId_position: { courseId, position: l.position } },
+        update: data,
+        create: { courseId, position: l.position, ...data },
+      });
+    }
+    await tx.lesson.deleteMany({ where: { courseId, position: { gt: c.lessons.length } } });
+
+    const assessment = await tx.assessment.findFirst({ where: { courseId, cadence: "ONE_TIME" }, orderBy: { title: "asc" } });
+    if (assessment) {
+      await tx.assessment.update({ where: { id: assessment.id }, data: { title: c.assessment.title, passMarkPercent: c.assessment.passMarkPercent } });
+      for (const [i, q] of questions.entries()) {
+        const data = { type: q.type, text: q.text, options: q.options, correctOptionIds: q.correctOptionIds, points: q.points, scenario: q.scenario, explanation: q.explanation };
+        await tx.question.upsert({
+          where: { assessmentId_position: { assessmentId: assessment.id, position: i + 1 } },
+          update: data,
+          create: { assessmentId: assessment.id, position: i + 1, ...data },
+        });
+      }
+      await tx.question.deleteMany({ where: { assessmentId: assessment.id, position: { gt: questions.length } } });
+    }
+  }, { timeout: 30_000 });
 }

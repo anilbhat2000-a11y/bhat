@@ -55,3 +55,4 @@ blob-report/
 # deployment secrets and data
 /deploy/nginx/certs/
 /backups/
+__pycache__/

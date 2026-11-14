@@ -28,6 +28,14 @@ for mod in pkgutil.iter_modules(course_content.__path__):
         CONTENT[title] = body
 
 cat = json.load(open(os.path.join(ROOT, "content", "catalogue.json")))
+COURSE_DIR = os.path.join(ROOT, "content", "courses")
+# Courses that were written before the catalogue keep their title and file name, so the seed
+# recognises them in databases that already hold them.
+EXISTING = {}
+for name in os.listdir(COURSE_DIR):
+    if name.endswith(".json"):
+        EXISTING[json.load(open(os.path.join(COURSE_DIR, name)))["title"]] = name[:-5]
+
 written = 0
 for s in cat["subjects"]:
     for level in ("BASIC", "INTERMEDIATE", "ADVANCED"):
@@ -38,11 +46,17 @@ for s in cat["subjects"]:
         lessons, questions = data["lessons"], data["questions"]
         assert len(lessons) == len(c["modules"]), f'{c["title"]}: {len(lessons)} lessons for {len(c["modules"])} modules'
         assert len(questions) >= 6, f'{c["title"]}: at least 6 questions'
-        slug = re.sub(r"[^a-z0-9]+", "-", c["title"].lower()).strip("-")
+        for qn in questions:
+            assert qn.get("explanation"), f'{c["title"]}: every question needs an explanation ({qn["text"][:40]})'
+        sources = [{"title": t, "url": u} for t, u in data.get("sources", [])]
+        for src in sources:
+            assert src["url"].startswith("https://"), f'{c["title"]}: source links must be https ({src["url"]})'
+        title = c.get("existingCourse") or c["title"]
+        slug = EXISTING.get(title) or re.sub(r"[^a-z0-9]+", "-", title.lower()).strip("-")
         clean = lambda t: t.replace("[PLACEHOLDER] ", "")
         course = {
             "slug": slug,
-            "title": c["title"],
+            "title": title,
             "subject": s["subject"],
             "category": s["category"],
             "level": level,
@@ -53,9 +67,10 @@ for s in cat["subjects"]:
                 {"position": i + 1, "title": clean(m["title"]), "type": "TEXT", "body": lessons[i].strip(), "module": i + 1}
                 for i, m in enumerate(c["modules"])
             ],
+            "sources": sources,
             "assessment": {"title": f'{c["title"].split(":")[0]}: completion check', "level": level, "passMarkPercent": 70, "questions": questions},
         }
-        with open(os.path.join(ROOT, "content", "courses", f"{slug}.json"), "w") as f:
+        with open(os.path.join(COURSE_DIR, f"{slug}.json"), "w") as f:
             json.dump(course, f, indent=2, ensure_ascii=False)
             f.write("\n")
         written += 1

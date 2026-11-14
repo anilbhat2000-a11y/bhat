@@ -29,29 +29,47 @@
       "position": 1,
       "title": "Receivables and collections",
       "type": "TEXT",
-      "body": "Receivables are amounts customers owe us. Unpaid invoices tie up cash that the company needs to pay vendors and salaries.\n\n## The ageing report\n\nAn ageing report groups unpaid invoices by how long they are overdue: not yet due, 1 to 30 days, 31 to 60, 61 to 90, and over 90 days. The older the debt, the harder it is to collect.\n\n## A collection routine\n\n1. Before the due date: confirm the customer has the invoice and all supporting documents.\n2. On the due date: a polite reminder with a copy of the invoice.\n3. After the due date: a call to the accounts contact; find out what is blocking payment.\n4. Escalate: involve the account manager, then senior management, following company policy.\n\n## Common blockers\n\n- Missing delivery proof or installation sign-off.\n- Invoice not matching the customer's PO.\n- GSTIN or address errors.\n- Partial delivery disputes.\n\nFix the blocker; a reminder alone does not.",
+      "body": "Receivables are the amounts customers owe us for goods and services already delivered and invoiced. In an IT business with thin product margins, a sale is not complete until the money is received. Late payments tie up cash, increase borrowing costs and can turn a profitable deal into a loss.\n\n## Measuring receivables\n\n- **Ageing report:** shows outstanding invoices grouped by how long they have been due, for example 0–30, 31–60, 61–90 and over 90 days.\n- **Days Sales Outstanding (DSO):** a measure of how long customers take to pay on average. A simple formula is: receivables ÷ revenue for the period × number of days in the period.\n\n## A collections process that works\n\n1. **Before the invoice:** confirm the billing address, GSTIN, PO number and any documents the customer needs for payment.\n2. **On invoicing:** send the invoice promptly with all supporting documents, and confirm receipt.\n3. **Before the due date:** a polite reminder and a check that the invoice is approved in the customer's system.\n4. **After the due date:** follow up by phone and email, escalating step by step.\n5. **Serious delay:** involve sales and management, and consider holding further supplies according to policy.\n\n## Working with sales\n\nSales owns the customer relationship and can often unlock delayed payments by speaking to the right person. Share the ageing report with sales every week, and agree who will follow up on each overdue invoice.\n\n## Key terms\n\n- **Accounts receivable (AR):** money owed to us by customers.\n- **Ageing report:** outstanding invoices grouped by days overdue.\n- **DSO:** the average number of days customers take to pay.\n- **Bad debt:** an amount that is unlikely to be collected.\n\n## Real-world example\n\nA ₹25 lakh invoice is 60 days overdue. The collections executive learns that the customer's accounts team is waiting for a signed installation report, which the project team never sent. Once the report is shared, the invoice is approved and paid within a week. The team adds the installation report to the standard invoice pack for project sales.\n\n## Common mistakes\n\n- Starting follow-up only after the due date.\n- Sending invoices without the documents the customer needs.\n- Not involving sales when payments are seriously delayed.\n\n## Key takeaways\n\n- Cash is collected, not just invoiced; track the ageing report and DSO.\n- Follow a step-by-step collections process that begins before the due date.\n- Work closely with sales and the project team to remove payment blockers.",
       "module": 1
     },
     {
       "position": 2,
       "title": "Payables",
       "type": "TEXT",
-      "body": "Payables are amounts we owe vendors. Paying too early hurts our cash; paying late hurts our relationships and can stop supplies.\n\n## Managing payables\n\n- Record each approved invoice with its due date from the payment terms.\n- Plan payments weekly against cash available.\n- Pay only invoices that pass three-way matching (PO, GRN and invoice).\n- Take early-payment discounts only when they are worth more than the cash cost.\n\n## Controls\n\n- Separate duties: the person who approves an invoice should not be the one who releases payment.\n- Verify any change in vendor bank details independently.\n- Keep a record of every payment against its invoice.",
+      "body": "Payables are the amounts we owe our suppliers. Paying them correctly and on time keeps supply flowing, protects our relationship with distributors and avoids legal and tax problems.\n\n## A sound payables process\n\n1. Receive the vendor invoice and record it.\n2. Complete the three-way match with the PO and goods receipt note.\n3. Check GST details so that input tax credit can be claimed.\n4. Deduct tax at source (TDS) where income-tax law requires it.\n5. Get payment approval according to the approval matrix.\n6. Pay on the due date and send a payment advice to the vendor.\n\n## Paying micro and small enterprises on time\n\nUnder Section 15 of the MSMED Act, 2006, a buyer must pay a micro or small enterprise supplier within the agreed period, which cannot exceed **45 days** from acceptance of the goods or services; if there is no written agreement, the limit is 15 days. Late payment attracts compound interest at three times the bank rate notified by the RBI. Since the financial year 2023-24, Section 43B(h) of the Income-tax Act also disallows the expense deduction for such payments until they are actually paid, if they are paid late. Vendor records should show each supplier's MSME (Udyam) status.\n\n## Key terms\n\n- **Accounts payable (AP):** money we owe to suppliers.\n- **TDS:** tax deducted at source under the Income-tax Act on certain payments.\n- **Payment advice:** a note to the vendor listing the invoices paid and deductions.\n- **Days Payable Outstanding (DPO):** the average number of days we take to pay suppliers.\n\n## Real-world example\n\nA small cabling contractor registered as a micro enterprise has an invoice approved but unpaid for 70 days. The contractor files a complaint on the MSME Samadhaan portal. The company must pay interest, and the expense deduction for the year is affected. After this, the payables team adds an MSME flag to the vendor master and a weekly report of MSME invoices nearing 45 days.\n\n## Common mistakes\n\n- Paying before the three-way match is complete.\n- Ignoring MSME payment time limits.\n- Not sending a payment advice, which leads to reconciliation problems for the vendor.\n\n## Key takeaways\n\n- Match, check GST, apply TDS and approve before paying.\n- Pay micro and small enterprises within the legal limit of 45 days at most.\n- Clear payment advice helps vendors reconcile and avoids disputes.",
       "module": 2
     },
     {
       "position": 3,
       "title": "Bank and ledger reconciliation",
       "type": "TEXT",
-      "body": "Reconciliation proves that two records agree, and finds errors early.\n\n## Bank reconciliation\n\nCompare the company's cash book with the bank statement for the same period. Differences usually come from:\n\n- cheques issued but not yet presented;\n- deposits recorded but not yet credited by the bank;\n- bank charges and interest not yet recorded;\n- errors in either record.\n\nList each difference and explain it. Unexplained differences must be investigated.\n\n## Ledger reconciliations\n\n- **Customer accounts:** match our ledger with the customer's statement.\n- **Vendor accounts:** match our ledger with the vendor's statement.\n- **GST:** match tax on our books with the returns and with what suppliers have reported.\n\nDo reconciliations every month, not only at year end.\n\n> This module includes a practice lab: reconcile a sample cash book with a bank statement.",
+      "body": "Reconciliation means comparing two sets of records to check they agree, and explaining any differences. It catches errors, missing entries and fraud early. Accounts teams reconcile the bank, customer and vendor ledgers, and GST data regularly.\n\n## Bank reconciliation\n\nCompare the bank statement with the bank account in our books. Differences usually come from:\n\n- Cheques issued but not yet presented to the bank.\n- Deposits recorded in our books but not yet credited by the bank.\n- Bank charges or interest not yet recorded in our books.\n- Errors, such as an amount entered twice.\n\nThe result is a bank reconciliation statement that explains every difference.\n\n## Customer and vendor reconciliation\n\n- Send customers a statement of account regularly and ask them to confirm the balance.\n- Compare vendor statements with our ledger, and resolve missing invoices, payments or credit notes.\n- Agree differences in writing.\n\n## GST reconciliation\n\nCompare our purchase register with the input tax credit shown in the GST portal (GSTR-2B), so that credit is claimed only for invoices the supplier has reported. Also check that our sales register matches what we reported in GSTR-1.\n\n## Key terms\n\n- **Bank reconciliation statement (BRS):** a statement explaining differences between the bank statement and our books.\n- **Statement of account:** a list of invoices, payments and the balance for a customer or vendor.\n- **GSTR-2B:** an auto-drafted statement of input tax credit available, based on suppliers' filings.\n\n## Real-world example\n\nDuring the monthly vendor reconciliation, the accounts team finds that a distributor's statement shows ₹3 lakh more than our ledger. The difference is a credit note the distributor issued for returned goods, which our team had not recorded. Once it is recorded, the balances agree and the company avoids overpaying.\n\n## Common mistakes\n\n- Reconciling only at year end.\n- Leaving differences unexplained.\n- Claiming input credit for invoices that are not in GSTR-2B.\n\n## Key takeaways\n\n- Reconcile bank, customer, vendor and GST records regularly, usually monthly.\n- Explain and resolve every difference.\n- Claim input credit only for invoices reported by suppliers.",
       "module": 3
     },
     {
       "position": 4,
       "title": "Credit and debit notes",
       "type": "TEXT",
-      "body": "Not every invoice is final. Credit and debit notes adjust invoices that have already been issued.\n\n## Credit note\n\nIssued by the supplier to reduce the amount owed, for example when:\n\n- goods are returned;\n- the price was charged too high;\n- a discount is given after invoicing.\n\n## Debit note\n\nIssued to increase the amount owed, for example when the price was charged too low or extra quantity was supplied.\n\n## Rules of thumb\n\n- Always reference the original invoice.\n- Show the GST adjustment correctly.\n- GST law sets time limits for issuing credit notes that adjust tax; check with Accounts before issuing one for an old invoice.\n- Never \"fix\" an invoice by editing or deleting it after it has been issued.",
+      "body": "Credit notes and debit notes are the correct way to change the value of an invoice after it has been issued. Under GST, they are governed by Section 34 of the CGST Act and must contain prescribed details.\n\n## Credit notes\n\nA supplier issues a credit note when the value or tax on an invoice needs to go down, for example when:\n\n- Goods are returned by the customer.\n- The price charged was higher than agreed.\n- A discount is given after the sale, as agreed before or at the time of supply.\n- Goods or services were found to be deficient.\n\n**Time limit:** a credit note for a financial year must be declared in returns by **30 November** following the end of that financial year, or the date of filing the annual return, whichever is earlier.\n\n## Debit notes\n\nA supplier issues a debit note when the value or tax needs to go up, for example when:\n\n- The price charged was lower than agreed.\n- Additional quantity was supplied.\n\n## Good practice\n\n- Always link the note to the original invoice number and date.\n- Record the reason clearly.\n- Make sure the customer or vendor records the same note so that both ledgers and GST returns match.\n\n## Key terms\n\n- **Credit note:** a document that reduces the value or tax of an earlier invoice.\n- **Debit note:** a document that increases the value or tax of an earlier invoice.\n- **Section 34:** the CGST Act section that governs credit and debit notes.\n\n## Real-world example\n\nA customer returns four damaged monitors from an invoice of 20. The company issues a credit note for the four monitors, linked to the original invoice, with the reason \"goods returned: damaged in transit\". The customer reverses the matching input tax credit. Both sides' GST returns match, and the customer's next payment is for the correct balance.\n\n## Common mistakes\n\n- Issuing a new, lower invoice instead of a credit note.\n- Missing the 30 November deadline.\n- Not linking the note to the original invoice.\n\n## Key takeaways\n\n- Use credit notes to reduce, and debit notes to increase, an issued invoice's value.\n- Link each note to the original invoice and record the reason.\n- Declare credit notes before 30 November after the financial year ends, or the annual return date if earlier.",
       "module": 4
+    }
+  ],
+  "sources": [
+    {
+      "title": "CBIC GST: CGST Act, CGST Rules (including Rule 46 on tax invoices and Rule 138 on e-way bills) and notifications",
+      "url": "https://cbic-gst.gov.in/"
+    },
+    {
+      "title": "GST portal (GSTN): returns, GSTIN search and advisories",
+      "url": "https://www.gst.gov.in/"
+    },
+    {
+      "title": "MSME Samadhaan: delayed payment portal for micro and small enterprises",
+      "url": "https://samadhaan.msme.gov.in/"
+    },
+    {
+      "title": "Income Tax Department: Income-tax Act and TDS information",
+      "url": "https://www.incometax.gov.in/"
     }
   ],
   "assessment": {
@@ -63,80 +81,101 @@
         "type": "SINGLE",
         "text": "What does an ageing report show?",
         "options": [
-          "Unpaid invoices grouped by how long they are overdue",
           "Employee ages",
-          "Stock expiry dates",
-          "Vendor ratings"
+          "Outstanding invoices grouped by days overdue",
+          "Stock levels",
+          "Bank balances"
         ],
         "correct": [
-          "Unpaid invoices grouped by how long they are overdue"
+          "Outstanding invoices grouped by days overdue"
         ],
-        "points": 1
+        "points": 1,
+        "explanation": "The ageing report helps prioritise collections."
       },
       {
         "type": "SINGLE",
-        "text": "A customer has not paid because the installation sign-off is missing. What should you do?",
+        "text": "Under the MSMED Act, what is the longest payment period that can be agreed with a micro or small supplier?",
         "options": [
-          "Send more reminders",
-          "Get the sign-off to the customer",
-          "Write off the invoice",
-          "Stop supplying all customers"
+          "30 days",
+          "45 days",
+          "60 days",
+          "90 days"
         ],
         "correct": [
-          "Get the sign-off to the customer"
+          "45 days"
         ],
-        "points": 1
+        "points": 1,
+        "explanation": "Section 15 limits the agreed period to 45 days from acceptance; 15 days applies if there is no agreement."
       },
       {
         "type": "TRUE_FALSE",
-        "text": "The person who approves a vendor invoice should also be the person who releases its payment.",
+        "text": "Input tax credit should be claimed only for invoices that appear in GSTR-2B.",
         "options": [
           "True",
           "False"
         ],
         "correct": [
-          "False"
+          "True"
         ],
         "points": 1,
-        "explanation": "Separating these duties reduces the risk of fraud and error."
+        "explanation": "GSTR-2B reflects invoices the supplier has reported, which is a condition for credit."
+      },
+      {
+        "type": "SINGLE",
+        "text": "A customer returns damaged goods. Which document should the supplier issue?",
+        "options": [
+          "Debit note",
+          "Credit note",
+          "New invoice",
+          "Delivery challan"
+        ],
+        "correct": [
+          "Credit note"
+        ],
+        "points": 1,
+        "explanation": "A credit note reduces the value of the original invoice."
+      },
+      {
+        "type": "SINGLE",
+        "text": "By when must a credit note for a financial year be declared?",
+        "options": [
+          "31 March",
+          "30 September",
+          "30 November after the year ends, or the annual return date if earlier",
+          "Any time"
+        ],
+        "correct": [
+          "30 November after the year ends, or the annual return date if earlier"
+        ],
+        "points": 1,
+        "explanation": "This is the time limit in Section 34 of the CGST Act."
       },
       {
         "type": "MULTIPLE",
-        "text": "Which commonly cause differences in a bank reconciliation? Select all that apply.",
+        "text": "Which items commonly cause bank reconciliation differences?",
         "options": [
           "Cheques issued but not yet presented",
           "Bank charges not yet recorded",
           "Deposits not yet credited",
-          "The office being closed on Sunday"
+          "The company's GSTIN"
         ],
         "correct": [
           "Cheques issued but not yet presented",
           "Bank charges not yet recorded",
           "Deposits not yet credited"
         ],
-        "points": 2
+        "points": 1,
+        "explanation": "Timing differences and unrecorded bank entries are the usual causes."
       },
       {
-        "type": "MATCHING",
-        "text": "Match each note to when it is used.",
+        "type": "FILL_BLANK",
+        "text": "DSO stands for Days Sales ______.",
         "options": [
-          "Credit note=Reduce the amount owed, e.g. goods returned",
-          "Debit note=Increase the amount owed, e.g. price charged too low"
+          "Outstanding"
         ],
         "correct": [],
-        "points": 2
-      },
-      {
-        "type": "TRUE_FALSE",
-        "text": "An issued invoice with an error should be corrected by editing it in place.",
-        "options": [
-          "True",
-          "False"
-        ],
-        "correct": [
-          "False"
-        ],
-        "points": 1
+        "points": 1,
+        "explanation": "Days Sales Outstanding measures how long customers take to pay."
       }
     ]
   }

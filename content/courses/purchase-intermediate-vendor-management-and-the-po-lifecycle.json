@@ -29,29 +29,47 @@
       "position": 1,
       "title": "Vendor evaluation",
       "type": "TEXT",
-      "body": "Choosing the right vendor is about more than the lowest price. A cheap vendor who delivers late can cost a project penalty.\n\n## Evaluate on several factors\n\n- **Price:** total landed cost, including freight and taxes.\n- **Lead time:** how soon they can deliver, and how reliably.\n- **Authorisation:** are they an authorised distributor or partner of the OEM? Unauthorised sources can mean no warranty.\n- **Quality and track record:** past delivery performance, damage and return rates.\n- **Commercial terms:** credit period, payment terms, return policy.\n- **Compliance:** valid GSTIN, filing record, required documents.\n\n## A simple scorecard\n\nScore each factor (for example 1 to 5) and weight the factors that matter for the purchase. Keep the scorecard with the purchase record so the decision can be explained later.",
+      "body": "Vendors are an extension of our business. If a distributor delivers late or a service partner does poor work, our customer blames us. Vendor evaluation makes sure we choose partners who are reliable, compliant and good value.\n\n## What to evaluate\n\n- **Legal and tax status:** registered company details, GSTIN, PAN and bank details verified.\n- **Authorisation:** for OEM products, proof that the vendor is an authorised distributor or partner.\n- **Capability:** product range, stock levels, technical skills and geographic coverage.\n- **Commercials:** pricing, payment terms and credit offered.\n- **Quality and reliability:** past delivery performance, defect rates and references.\n- **Financial stability:** signs that the vendor will be able to deliver and support over time.\n- **Compliance:** willingness to follow our code of conduct and data protection requirements.\n\n## A simple scorecard\n\nMany companies use a weighted scorecard. For example: price 30%, delivery performance 25%, quality 20%, support 15% and compliance 10%. Each vendor is scored on a scale, and the weighted total helps compare them fairly. Scorecards should be reviewed regularly, not only at onboarding.\n\n## Key terms\n\n- **Vendor onboarding:** the process of verifying and registering a new vendor.\n- **Vendor scorecard:** a structured way of rating vendor performance.\n- **PAN:** Permanent Account Number issued by the Income Tax Department.\n- **Single-source risk:** dependence on only one vendor for an important item.\n\n## Real-world example\n\nA company relies on one distributor for a popular laptop brand. During a busy quarter, that distributor runs out of stock and three customer deliveries are delayed. The purchase team reviews its vendor list, onboards a second authorised distributor after checking its authorisation letter and GST registration, and splits orders between them. Future shortages are handled without delay.\n\n## Common mistakes\n\n- Onboarding vendors without checking authorisation or GST registration.\n- Choosing purely on price without considering delivery and support.\n- Evaluating vendors once and never reviewing performance.\n\n## Key takeaways\n\n- Evaluate vendors on legal status, authorisation, capability, commercials, quality and compliance.\n- Use a weighted scorecard and review it regularly.\n- Reduce single-source risk for critical items.",
       "module": 1
     },
     {
       "position": 2,
       "title": "PO tracking and follow-up",
       "type": "TEXT",
-      "body": "After a PO is released, follow it until it is closed.\n\n## Stages\n\n1. **Released:** sent to the vendor.\n2. **Acknowledged:** vendor confirms price, quantity and delivery date in writing.\n3. **In transit:** shipped; get the tracking details and documents.\n4. **Received:** goods checked and a GRN recorded.\n5. **Invoiced and matched:** invoice checked against PO and GRN.\n6. **Closed:** fully received, invoiced and paid.\n\n## Follow-up habits\n\n- Chase acknowledgement within a day or two.\n- Track committed delivery dates and warn the project team early about delays.\n- Keep all communication on email so there is a record.\n- Review open POs every week; old open POs hide problems.",
+      "body": "Sending a PO is not the end of the purchase process. Purchase must track every order until it is delivered, received and closed. Customers' projects depend on it, and late follow-up is one of the most common causes of delayed delivery.\n\n## The PO lifecycle\n\n1. **Created and approved** in the system.\n2. **Sent and acknowledged** by the vendor, with a confirmed delivery date.\n3. **In transit:** tracking shipment details, including e-way bills for goods above the threshold.\n4. **Received:** goods receipt note created; any shortage or damage recorded.\n5. **Invoiced and matched:** three-way match completed.\n6. **Closed:** all lines received, invoiced and paid.\n\n## Good follow-up habits\n\n- Ask for an order acknowledgement within one working day.\n- Track expected delivery dates in a shared sheet or the ERP.\n- Follow up before the due date, not after it is missed.\n- Tell sales and the project team early about any delay, with a revised date.\n- Escalate to the vendor's manager or the OEM if a delay threatens a customer commitment.\n\n## Key terms\n\n- **Open PO:** a PO that has not yet been fully received and closed.\n- **Expected date of delivery (EDD):** the date the vendor has committed to.\n- **Backorder:** items the vendor has accepted but cannot yet supply.\n- **ERP:** enterprise resource planning software used to manage purchase, stock and accounts.\n\n## Real-world example\n\nA PO for firewalls is acknowledged with a two-week delivery date. One week before the due date, the purchase executive checks with the distributor and learns that the OEM has a shortage and stock will arrive in five weeks. She informs the sales manager immediately. Sales speaks to the customer, who agrees to a phased delivery using a similar model available from stock. The customer appreciates the early warning.\n\n## Common mistakes\n\n- Assuming the vendor will deliver on time without checking.\n- Informing the project team only after the date is missed.\n- Leaving old POs open, which distorts stock and liability reports.\n\n## Key takeaways\n\n- Track every PO through its lifecycle until it is closed.\n- Follow up before due dates and share delays early.\n- Close completed POs and review open ones regularly.",
       "module": 2
     },
     {
       "position": 3,
       "title": "Amendments and cancellations",
       "type": "TEXT",
-      "body": "Orders change: customers change quantities, OEMs change part numbers, projects get delayed.\n\n## Amendments\n\n- Raise a formal PO amendment for any change in item, quantity, price or delivery terms.\n- Get it approved at the same level as the original PO (or higher if the value rises).\n- Send the amended PO to the vendor and get acknowledgement.\n\n## Cancellations\n\n- Check the vendor's cancellation terms first; some items (custom builds, licences) cannot be cancelled.\n- Cancel in writing and get written acceptance.\n- Record the reason and any charges.\n\n> Never agree a change only by phone. If it is not in writing, it did not happen.",
+      "body": "Changes are a normal part of business. A customer may change quantities, a product may be replaced by a new model, or a project may be cancelled. Changes to a PO must be handled formally, so that the vendor, our systems and our accounts all agree.\n\n## PO amendments\n\nAn amendment changes an existing PO, for example quantity, price, delivery date or part number. Good practice is:\n\n- Get the change approved internally, following the same approval limits as a new PO.\n- Issue a revised PO or a formal amendment with a revision number and date.\n- Ask the vendor to acknowledge the amendment in writing.\n- Update the ERP so that receipts and invoices match the new version.\n\n## PO cancellations\n\n- Check the vendor's terms first. Some items, especially customised or special-priced OEM products, are non-cancellable and non-returnable (NCNR).\n- Inform the vendor in writing as early as possible.\n- Agree any cancellation charges before confirming.\n- Close the PO in the system and inform accounts and sales.\n\n## Key terms\n\n- **Amendment:** a formal change to an existing PO.\n- **Revision number:** a number that identifies the latest version of a PO.\n- **NCNR:** non-cancellable, non-returnable; common for special-priced or configured items.\n- **Restocking fee:** a charge a vendor may apply for accepting returned goods.\n\n## Real-world example\n\nA customer reduces an order of 100 desktops to 80. The purchase executive checks the distributor's terms and finds that the desktops were ordered under special project pricing and are NCNR. She informs sales immediately. Sales negotiates with the customer to take the remaining 20 desktops in the next quarter. Because the issue was found early, the company avoided carrying unsold stock.\n\n## Common mistakes\n\n- Changing orders by phone without a revised PO.\n- Cancelling without checking NCNR terms.\n- Forgetting to update the ERP after a change.\n\n## Key takeaways\n\n- Treat amendments like new POs: approve, document and get acknowledgement.\n- Check cancellation terms, especially NCNR, before promising a customer anything.\n- Keep the ERP, the vendor and accounts in step.",
       "module": 3
     },
     {
       "position": 4,
       "title": "Vendor records",
       "type": "TEXT",
-      "body": "Vendor records must be accurate, or payments and tax credits go wrong.\n\n## What to keep for each vendor\n\n- Legal name, address and GSTIN as on the GST registration.\n- PAN and bank details, verified (for example with a cancelled cheque).\n- Contact persons for sales, logistics and accounts.\n- Authorisation certificates from OEMs, with expiry dates.\n- Agreements, credit terms and performance notes.\n\n## Keep it current\n\n- Verify bank detail changes by phone with a known contact before updating; fake \"change of bank account\" emails are a common fraud.\n- Review authorisations and documents at least once a year.\n- Deactivate vendors you no longer use.",
+      "body": "Accurate vendor records are the foundation of safe purchasing and payment. Errors in bank details or tax registration can lead to lost money, rejected tax credits or audit findings. A vendor master record must be created carefully and kept up to date.\n\n## What the vendor master holds\n\n- Legal name, address and contact details.\n- GSTIN and PAN, verified on the government portals.\n- Bank account details, verified with a cancelled cheque or bank letter.\n- MSME registration (Udyam), if applicable; payments to micro and small enterprises have legal time limits.\n- Authorisation letters and certificates, with expiry dates.\n- Agreed payment terms and credit limits.\n\n## Keeping records safe\n\n- Separate duties: the person who creates or edits vendor records should not be the person who approves payments.\n- Verify any change to bank details by calling the vendor on a known phone number, not one given in the change request.\n- Review records periodically and deactivate vendors that have not been used for a long time.\n- Store supporting documents securely.\n\n## Key terms\n\n- **Vendor master:** the central record of each vendor's details in the ERP.\n- **Udyam registration:** the registration for micro, small and medium enterprises in India.\n- **Segregation of duties:** dividing tasks so that no single person controls a whole transaction.\n\n## Real-world example\n\nAccounts receives an email, apparently from a regular distributor, asking to change its bank account. The purchase executive calls the distributor's finance contact on the number already in the vendor master. The distributor confirms that it sent no such request. The email was a fraud attempt. Because the company verifies bank changes by phone, no money was lost.\n\n## Common mistakes\n\n- Changing bank details based on an email alone.\n- Not checking the GSTIN status on the GST portal.\n- Allowing the same person to create vendors and approve payments.\n\n## Key takeaways\n\n- Verify GSTIN, PAN and bank details before a vendor is used.\n- Confirm any bank detail change by calling a known number.\n- Separate vendor creation from payment approval.",
       "module": 4
+    }
+  ],
+  "sources": [
+    {
+      "title": "CIPS (Chartered Institute of Procurement & Supply): procurement knowledge and standards",
+      "url": "https://www.cips.org/"
+    },
+    {
+      "title": "GST portal (Government of India): GSTIN search and taxpayer services",
+      "url": "https://www.gst.gov.in/"
+    },
+    {
+      "title": "Udyam Registration portal (Ministry of MSME)",
+      "url": "https://udyamregistration.gov.in/"
+    },
+    {
+      "title": "Ministry of Corporate Affairs: company master data",
+      "url": "https://www.mca.gov.in/"
     }
   ],
   "assessment": {
@@ -61,48 +79,55 @@
     "questions": [
       {
         "type": "MULTIPLE",
-        "text": "Which factors should be used to evaluate a vendor? Select all that apply.",
+        "text": "Which checks are part of vendor onboarding?",
         "options": [
-          "Lead time and reliability",
-          "OEM authorisation",
-          "Total landed cost",
-          "Whether they are a friend of the buyer"
+          "GSTIN and PAN verification",
+          "OEM authorisation letter",
+          "Bank details verification",
+          "The vendor's social media followers"
         ],
         "correct": [
-          "Lead time and reliability",
-          "OEM authorisation",
-          "Total landed cost"
+          "GSTIN and PAN verification",
+          "OEM authorisation letter",
+          "Bank details verification"
         ],
-        "points": 2
+        "points": 1,
+        "explanation": "Legal, tax, authorisation and bank checks protect the company."
       },
       {
         "type": "SINGLE",
-        "text": "Why does OEM authorisation matter?",
+        "text": "What does NCNR mean on a quotation?",
         "options": [
-          "Unauthorised sources may mean no warranty or support",
-          "It makes the price higher",
-          "It is only needed for government orders",
-          "It does not matter"
+          "New customer, new rate",
+          "Non-cancellable, non-returnable",
+          "No charge, no return",
+          "Not currently in stock"
         ],
         "correct": [
-          "Unauthorised sources may mean no warranty or support"
+          "Non-cancellable, non-returnable"
         ],
-        "points": 1
+        "points": 1,
+        "explanation": "NCNR items cannot be cancelled or returned once ordered, so changes are costly."
       },
       {
-        "type": "MATCHING",
-        "text": "Match each PO stage to what happens.",
+        "type": "SINGLE",
+        "text": "You receive an email asking to change a vendor's bank account. What should you do?",
         "options": [
-          "Acknowledged=Vendor confirms price, quantity and date",
-          "Received=Goods are checked and a GRN is recorded",
-          "Closed=Fully received, invoiced and paid"
+          "Update it immediately",
+          "Call the vendor on the number already in the vendor master",
+          "Reply to the email to confirm",
+          "Ignore all future emails"
         ],
-        "correct": [],
-        "points": 2
+        "correct": [
+          "Call the vendor on the number already in the vendor master"
+        ],
+        "points": 1,
+        "explanation": "Bank change requests are a common fraud. Verify using a known contact, not details in the request.",
+        "scenario": "The email looks like it comes from a regular distributor."
       },
       {
         "type": "TRUE_FALSE",
-        "text": "A change to a PO agreed on the phone does not need a written amendment.",
+        "text": "The same person should create vendor records and approve payments, so that responsibility is clear.",
         "options": [
           "True",
           "False"
@@ -110,30 +135,49 @@
         "correct": [
           "False"
         ],
-        "points": 1
+        "points": 1,
+        "explanation": "Segregation of duties requires these tasks to be done by different people."
       },
       {
         "type": "SINGLE",
-        "text": "A vendor emails asking to change their bank account. What should you do first?",
+        "text": "When should you tell the project team about a delivery delay?",
         "options": [
-          "Update it immediately",
-          "Verify by phone with a known contact before updating",
-          "Ignore all emails",
-          "Pay into both accounts"
+          "After the due date is missed",
+          "As soon as you learn about it",
+          "Only if the customer complains",
+          "At month end"
         ],
         "correct": [
-          "Verify by phone with a known contact before updating"
+          "As soon as you learn about it"
         ],
-        "points": 1
+        "points": 1,
+        "explanation": "Early warning lets sales and the project team plan with the customer."
       },
       {
-        "type": "FILL_BLANK",
-        "text": "The vendor's 15-character GST registration number is called the ____.",
+        "type": "TRUE_FALSE",
+        "text": "A PO amendment should follow the same approval limits as a new PO.",
         "options": [
-          "GSTIN"
+          "True",
+          "False"
+        ],
+        "correct": [
+          "True"
+        ],
+        "points": 1,
+        "explanation": "A change in value or terms carries the same risk as a new order."
+      },
+      {
+        "type": "MATCHING",
+        "text": "Match each PO stage to what happens.",
+        "options": [
+          "Acknowledged=Vendor confirms acceptance and date",
+          "Received=GRN created and checked",
+          "Matched=PO, GRN and invoice agree",
+          "Closed=All lines received, invoiced and paid"
         ],
         "correct": [],
-        "points": 1
+        "points": 1,
+        "explanation": "Tracking each stage keeps orders and accounts accurate."
       }
     ]
   }

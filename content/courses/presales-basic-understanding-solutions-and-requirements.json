@@ -29,29 +29,43 @@
       "position": 1,
       "title": "The presales role",
       "type": "TEXT",
-      "body": "Presales is the technical half of the sales team. The account manager owns the relationship and the commercial deal; the presales engineer makes sure that what we propose actually solves the customer's problem and can be delivered.\n\n## What presales does in a deal\n\n- Joins discovery meetings to understand the customer's environment and pain points.\n- Turns what the customer says into clear, written requirements.\n- Designs a solution and prepares the bill of materials (BoM).\n- Writes the technical parts of proposals and tender responses.\n- Runs demos and proofs of concept (POCs).\n- Hands the won deal over to the delivery team with everything they need.\n\n## Where presales joins the sales cycle\n\n1. **Qualification:** the account manager confirms there is a real opportunity.\n2. **Discovery:** presales joins to understand the technical situation.\n3. **Solution design and proposal:** presales leads.\n4. **Negotiation and closure:** presales supports with clarifications.\n5. **Handover:** presales briefs the project team.\n\n> A good presales engineer is trusted by the customer because they are honest about what a product can and cannot do.",
+      "body": "Presales is the technical partner of sales. A presales engineer, also called a solution architect or solutions consultant, understands what the customer needs and designs a solution that works, can be delivered, and can be sold profitably. Sales owns the relationship and the commercial deal; presales owns the technical answer.\n\n## What presales does\n\n- Joins discovery meetings to understand technical requirements.\n- Designs the solution and prepares the bill of materials (BOM).\n- Writes the technical parts of proposals and RFP responses.\n- Runs demonstrations and proofs of concept (POCs).\n- Answers technical questions from the customer's team.\n- Hands the design over to the delivery team after the order.\n\n## Working well with sales\n\nThe best results come when sales and presales work as one team. Agree before each meeting who leads which part. Share notes in the CRM. Presales should tell sales early if a requirement cannot be met, rather than hoping the issue will go away. Sales should bring presales in early, not the night before a submission.\n\n## Key terms\n\n- **Solution:** a combination of products and services that solves a business problem.\n- **Bill of materials (BOM):** the list of every product, licence and service, with quantities.\n- **Proof of concept (POC):** a small test that proves the solution works in the customer's environment.\n- **Deliverability:** whether our team can actually build and support what is proposed.\n\n## Real-world example\n\nA sales manager receives a request for \"a video-conferencing solution for the boardroom\". She brings in Anand from presales. In the meeting, Anand asks how many people sit in the room, how far the farthest seat is from the screen, which meeting platform the company uses, and whether the room echoes. He finds that the company uses Microsoft Teams, the room seats 18, and there is a glass wall. His design includes a certified Teams room kit, ceiling microphones suited to the room size and acoustic treatment. The customer sees a team that understands rooms, not just products.\n\n## Common mistakes\n\n- Presales designing without meeting the customer or seeing the site.\n- Over-designing: adding features the customer did not ask for and will not pay for.\n- Failing to check that the delivery team can implement and support the design.\n\n## Key takeaways\n\n- Presales owns the technical answer; sales owns the relationship and the deal.\n- Bring presales in early and agree roles before each meeting.\n- A good design is workable, deliverable and sized to the real need.",
       "module": 1
     },
     {
       "position": 2,
       "title": "Requirement gathering",
       "type": "TEXT",
-      "body": "A requirement is a statement of what the customer needs. Capture requirements in writing, in the customer's words where possible, and confirm them back.\n\n## Two kinds of requirement\n\n- **Functional:** what the solution must do. Example: \"Staff on all three floors must have Wi-Fi.\"\n- **Non-functional:** how well it must do it. Examples: availability (\"no single point of failure\"), performance (\"support 200 video calls\"), security, compliance, budget and timeline.\n\n## Questions that uncover requirements\n\n- What problem are you trying to solve, and why now?\n- What do you have today, and what is not working?\n- How many users, sites and devices? How will that grow in three years?\n- What must the solution connect to?\n- Who will run it after installation?\n- What does success look like, and how will you measure it?\n\n## Write it down\n\nKeep a simple requirement log: number, requirement, source (who said it), priority (must, should, could) and status. Send it to the customer to confirm. Many disputes later in a project come from requirements that were assumed but never written.",
+      "body": "Requirement gathering is the most important presales activity. A good design built on the wrong requirements still fails. Your job is to find out what the customer really needs, including the things they did not think to mention.\n\n## Types of requirements\n\n- **Business requirements:** the outcome the organisation wants. \"Branch staff must be able to bill customers even when the main link fails.\"\n- **Functional requirements:** what the solution must do. \"Automatic failover to a second internet link.\"\n- **Non-functional requirements:** how well it must do it, such as performance, availability, security, scalability and manageability. \"Failover in under one minute.\"\n- **Constraints:** limits we must work within, such as budget, existing equipment, space, power, policies and deadlines.\n\n## Techniques for gathering requirements\n\n1. **Interviews:** talk to IT staff, users and business owners separately; they see different problems.\n2. **Site survey:** visit the location to see space, power, cabling, cooling and access.\n3. **Documentation review:** network diagrams, asset lists, previous audit reports.\n4. **Questionnaires:** useful for many sites, such as a branch survey sheet.\n5. **Confirm in writing:** send a requirement summary and ask the customer to confirm it.\n\n## Key terms\n\n- **Non-functional requirement:** a quality the solution must have, such as availability or response time.\n- **Assumption:** something we believe to be true but have not confirmed.\n- **Scope:** what is included in, and excluded from, our solution.\n\n## Real-world example\n\nA college asks for Wi-Fi \"for the whole campus\". Through interviews, presales finds that students mainly need coverage in hostels and the library, while staff need secure access in the administrative block. The site survey reveals that some hostel blocks have no network cabling. The confirmed requirement document includes cabling work, which the college had not mentioned. Without it, the project would have stalled after the order.\n\n## Common mistakes\n\n- Accepting the first description of the need without asking why.\n- Forgetting non-functional requirements such as availability and security.\n- Not writing down assumptions, which later become disputes.\n\n## Key takeaways\n\n- Separate business, functional and non-functional requirements and constraints.\n- Use interviews, site surveys and documents; never rely on one source.\n- Confirm requirements and assumptions in writing before designing.",
       "module": 2
     },
     {
       "position": 3,
       "title": "From requirement to solution outline",
       "type": "TEXT",
-      "body": "Once requirements are clear, sketch a solution outline before choosing exact products.\n\n## Steps\n\n1. **Group the requirements** by area: network, compute, storage, security, end-user devices, services.\n2. **Choose an architecture** for each area. Example: \"two core switches in a redundant pair, access switches on each floor, wireless controller in the cloud\".\n3. **Map each requirement to a part of the design.** Every must-have requirement should be covered by something in the design.\n4. **List assumptions and exclusions.** Example: \"civil work and power cabling by the customer\".\n5. **Pick products** that fit, from approved OEMs (see the next lesson).\n6. **Add services:** installation, configuration, training, support.\n\n## Traceability\n\nA simple table with columns \"Requirement\" and \"How the solution meets it\" makes reviews quick and is often asked for in tenders. If a requirement is not met, say so and explain the alternative.\n\n> Never hide a gap. A gap found by the customer after the order costs far more trust and money than one explained in the proposal.",
+      "body": "Once the requirements are clear, presales turns them into a solution outline: a short description of the proposed design that the customer can understand and approve before a full proposal is written. An outline helps you check direction early and avoids rework.\n\n## What a solution outline contains\n\n- **Summary of requirements:** in the customer's words, so they recognise their problem.\n- **Proposed approach:** the design in plain language, with a simple diagram.\n- **Main components:** the categories of products and services, not yet every part number.\n- **Options:** where it helps, such as a standard and a high-availability option.\n- **Assumptions and exclusions:** what we have assumed and what is not included.\n- **Next steps:** what we need from the customer to finalise the design and price.\n\n## Good design principles\n\n- **Fit for purpose:** meet the requirements without unnecessary extras.\n- **Standard where possible:** use proven, supported designs and products from our OEM partners.\n- **Room to grow:** allow for reasonable growth, such as 20 to 30% more users.\n- **Supportable:** our team and the OEM can support it for its full life.\n- **Secure by design:** include security from the start, not as an afterthought.\n\n## Key terms\n\n- **High-level design (HLD):** an overview of the architecture and main components.\n- **Low-level design (LLD):** the detailed configuration, prepared later for implementation.\n- **Option:** an alternative design that trades cost against capability.\n\n## Real-world example\n\nFor a retail chain with 60 stores, presales prepares a two-page outline: each store gets a small firewall with two internet links, a managed switch and one Wi-Fi access point, all managed from a cloud dashboard. A diagram shows one typical store. Option B adds 4G backup for stores in areas with poor broadband. The customer's IT head approves Option B for 15 stores and the standard option for the rest, before any detailed pricing is done.\n\n## Common mistakes\n\n- Jumping straight to a 40-page proposal without agreeing direction.\n- Using jargon and part numbers that the customer cannot follow.\n- Hiding assumptions in small print.\n\n## Key takeaways\n\n- A short solution outline confirms direction before detailed work.\n- Design to the requirements, with room to grow, using standard supported components.\n- Make assumptions, exclusions and options visible.",
       "module": 3
     },
     {
       "position": 4,
       "title": "Company solution library tour",
       "type": "TEXT",
-      "body": "[PLACEHOLDER: The company will supply a tour of its solution library.]\n\nThis lesson will show where presales finds approved material. Until the company supplies it, ask your manager for:\n\n- the list of OEMs and distributors the company is authorised to sell;\n- approved datasheets, reference architectures and past proposals that can be reused;\n- the BoM and pricing tools used by the team;\n- the approval process for discounts and non-standard configurations.\n\n## Good habits with reference material\n\n- Always use the latest datasheet from the OEM. Specifications change between product versions.\n- Do not copy claims from old proposals without checking they are still true.\n- Keep customer names and prices out of reusable templates.",
+      "body": "Every presales engineer should know what the company has already built and delivered. Reusing proven designs saves time, reduces risk and gives customers confidence. This lesson explains how to use a solution library. Your administrator will add details of 3C's own library below.\n\n> **[PLACEHOLDER]** Company solution library: where reference designs, past proposals, BOM templates, case studies and OEM certifications are stored, and who maintains them. The LMS administrator adds these details.\n\n## What a solution library usually holds\n\n- **Reference designs:** tested architectures for common needs, such as a branch network or a meeting room.\n- **BOM templates:** standard parts lists that can be adjusted for quantity.\n- **Past proposals:** winning documents that can be reused with care.\n- **Case studies and references:** customers who have agreed to share their story or take a call.\n- **Certifications:** the OEM partner levels and engineer certifications the company holds, often required in tenders.\n\n## Using the library well\n\n- Start each new design by checking if a reference design exists.\n- Always adapt it to the customer's requirements; never copy blindly.\n- Remove any other customer's name and data from reused documents.\n- Add your new designs back to the library after a successful project.\n\n## Key terms\n\n- **Reference design:** a proven design that can be reused for similar requirements.\n- **Case study:** a short story of a customer problem, our solution and the result.\n- **Reference customer:** a customer willing to speak to prospects about their experience.\n\n## Real-world example\n\nDeepa is asked to design video conferencing for 25 meeting rooms at a new office. In the library she finds a reference design for small, medium and large rooms from an earlier project, with tested equipment lists and installation notes. She adapts the room counts, checks that the products are still current, and produces a design in a day instead of a week. She also finds that the earlier customer agreed to be a reference, which helps sales.\n\n## Common mistakes\n\n- Reusing a past proposal that still contains another customer's name.\n- Using a reference design with products that have reached end of sale.\n- Not sharing new designs with the rest of the team.\n\n## Key takeaways\n\n- Check the library before starting from a blank page.\n- Adapt, verify and anonymise anything you reuse.\n- Contribute your successful designs back to the library.",
       "module": 4
+    }
+  ],
+  "sources": [
+    {
+      "title": "Microsoft Learn: free role-based training paths",
+      "url": "https://learn.microsoft.com/en-us/training/"
+    },
+    {
+      "title": "AWS Skill Builder: cloud training",
+      "url": "https://skillbuilder.aws/"
+    },
+    {
+      "title": "Cisco Networking Academy: networking and security courses",
+      "url": "https://www.netacad.com/"
     }
   ],
   "assessment": {
@@ -61,32 +75,54 @@
     "questions": [
       {
         "type": "SINGLE",
-        "text": "What is the main job of presales in a deal?",
+        "text": "Who usually owns the technical solution in a sales opportunity?",
         "options": [
-          "Collecting payment",
-          "Making sure the proposed solution solves the customer's problem and can be delivered",
-          "Negotiating the final discount",
-          "Raising purchase orders"
+          "Sales",
+          "Presales",
+          "Finance",
+          "Logistics"
         ],
         "correct": [
-          "Making sure the proposed solution solves the customer's problem and can be delivered"
+          "Presales"
         ],
-        "points": 1
+        "points": 1,
+        "explanation": "Sales owns the relationship and commercial deal; presales owns the technical answer."
       },
       {
-        "type": "MATCHING",
-        "text": "Match each requirement to its type.",
+        "type": "SINGLE",
+        "text": "'Failover in under one minute' is an example of which type of requirement?",
         "options": [
-          "Wi-Fi on all floors=Functional",
-          "No single point of failure=Non-functional (availability)",
-          "Project finished by March=Non-functional (timeline)"
+          "Business requirement",
+          "Non-functional requirement",
+          "Constraint",
+          "Assumption"
         ],
-        "correct": [],
-        "points": 2
+        "correct": [
+          "Non-functional requirement"
+        ],
+        "points": 1,
+        "explanation": "It describes how well the solution must perform, which is a non-functional requirement."
+      },
+      {
+        "type": "MULTIPLE",
+        "text": "Which are good ways to gather requirements?",
+        "options": [
+          "Interviews with IT and users",
+          "Site survey",
+          "Reviewing existing network diagrams",
+          "Guessing from the customer's website"
+        ],
+        "correct": [
+          "Interviews with IT and users",
+          "Site survey",
+          "Reviewing existing network diagrams"
+        ],
+        "points": 1,
+        "explanation": "Use several sources and confirm the result in writing."
       },
       {
         "type": "TRUE_FALSE",
-        "text": "Requirements should be confirmed back to the customer in writing.",
+        "text": "A solution outline should be agreed with the customer before writing a full proposal.",
         "options": [
           "True",
           "False"
@@ -95,47 +131,48 @@
           "True"
         ],
         "points": 1,
-        "explanation": "Written, confirmed requirements prevent disputes later in the project."
-      },
-      {
-        "type": "MULTIPLE",
-        "text": "Which belong in a solution outline? Select all that apply.",
-        "options": [
-          "Assumptions and exclusions",
-          "Mapping of each requirement to the design",
-          "The salesperson's commission",
-          "Services such as installation and training"
-        ],
-        "correct": [
-          "Assumptions and exclusions",
-          "Mapping of each requirement to the design",
-          "Services such as installation and training"
-        ],
-        "points": 2
+        "explanation": "Agreeing direction early avoids rework and shows the customer you understood them."
       },
       {
         "type": "SINGLE",
-        "text": "A must-have requirement cannot be met by any approved product. What should presales do?",
+        "text": "What does BOM stand for?",
         "options": [
-          "Leave it out and hope it is not noticed",
-          "State the gap in the proposal and explain the alternative",
-          "Promise it will be added later",
-          "Withdraw from the deal immediately"
+          "Bill of materials",
+          "Board of management",
+          "Base operating model",
+          "Bundle of modules"
         ],
         "correct": [
-          "State the gap in the proposal and explain the alternative"
+          "Bill of materials"
         ],
-        "points": 1
+        "points": 1,
+        "explanation": "The BOM lists every product, licence and service with quantities."
       },
       {
-        "type": "FILL_BLANK",
-        "text": "The list of all items, quantities and part numbers in a proposal is called the bill of ____.",
+        "type": "TRUE_FALSE",
+        "text": "When reusing a past proposal, it is fine to leave the earlier customer's name in an appendix.",
         "options": [
-          "materials",
-          "material"
+          "True",
+          "False"
+        ],
+        "correct": [
+          "False"
+        ],
+        "points": 1,
+        "explanation": "Always remove other customers' names and data. It is a confidentiality breach otherwise."
+      },
+      {
+        "type": "MATCHING",
+        "text": "Match each term to its meaning.",
+        "options": [
+          "HLD=Overview of architecture and main components",
+          "LLD=Detailed configuration for implementation",
+          "POC=Small test that proves the solution works",
+          "Assumption=Believed true but not yet confirmed"
         ],
         "correct": [],
-        "points": 1
+        "points": 1,
+        "explanation": "These terms are used in every presales design and proposal."
       }
     ]
   }

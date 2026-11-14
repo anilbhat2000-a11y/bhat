@@ -11,6 +11,12 @@ import { canPublishLesson } from "./publish";
 import { parseLabChecklist } from "./labs";
 
 export type Result = { ok: true; id?: string } | { ok: false; error: string };
+
+// An admin changed this course's lessons or modules, so the seed must no longer refresh
+// its content (see Course.contentSource).
+export async function markCustomised(courseId: string): Promise<void> {
+  await prisma.course.updateMany({ where: { id: courseId, contentSource: { not: null } }, data: { contentSource: null } });
+}
 const HTTP_URL = /^https?:\/\/\S+$/i;
 
 // Content is authored by admins. Learners only read through getLessonFile.
@@ -130,6 +136,7 @@ export async function addLesson(
       }),
     (l) => ({ actorId: actor.id, action: "lesson.add", entityType: "Lesson", entityId: l.id, after: { courseId, type: input.type } }),
   );
+  await markCustomised(courseId);
   return { ok: true, id: lesson.id };
 }
 
@@ -175,6 +182,7 @@ export async function saveLessonFile(
         }),
       (l) => ({ actorId: actor.id, action: "lesson.upload", entityType: "Lesson", entityId: l.id, after: { courseId, type: input.type } }),
     );
+    await markCustomised(courseId);
     return { ok: true, id: lesson.id };
   } catch {
     return fail("Could not save the lesson. Nothing was stored.");
@@ -199,6 +207,7 @@ export async function reorderLessons(actor: SessionUser, courseId: string, order
     }
     await recordAudit(tx, { actorId: actor.id, action: "lesson.reorder", entityType: "Course", entityId: courseId, after: { order: orderedIds } });
   });
+  await markCustomised(courseId);
   return { ok: true, id: courseId };
 }
 
@@ -260,6 +269,7 @@ export async function attachCaption(
     return { ok: false, error: "Could not save the caption file. Nothing was stored." };
   }
   if (lesson.captionFileKey) await storage.delete(lesson.captionFileKey);
+  await markCustomised(lesson.courseId);
   return { ok: true, id: lessonId };
 }
 
@@ -286,5 +296,6 @@ export async function deleteLesson(actor: SessionUser, lessonId: string): Promis
     await tx.lesson.delete({ where: { id: lessonId } });
     await recordAudit(tx, { actorId: actor.id, action: "lesson.delete", entityType: "Lesson", entityId: lessonId, before: { title: lesson.title, courseId: lesson.courseId } });
   });
+  await markCustomised(lesson.courseId);
   return { ok: true, id: lessonId };
 }

@@ -29,29 +29,51 @@
       "position": 1,
       "title": "Multi-site delivery planning",
       "type": "TEXT",
-      "body": "Large projects, such as rolling out equipment to 50 branches, succeed or fail on logistics planning.\n\n## Build a delivery plan\n\n- List every site with address, contact, access times and any restrictions (lifts, loading bay, security passes).\n- Group sites by route or region.\n- Agree the delivery sequence with the project team, so installation engineers arrive after the goods.\n- Decide whether to ship directly from the distributor or through our warehouse (staging), for example to pre-configure devices.\n- Build a tracker: site, items, dispatch date, expected delivery, delivered, POD received.\n\n## Communicate\n\nConfirm each delivery with the site contact a day or two before. A delivery that arrives to a locked office is a wasted trip.",
+      "body": "Large IT projects often involve delivering to many sites, such as bank branches, schools, retail stores or government offices across several states. Multi-site delivery needs careful planning so that every site receives the right items, at the right time, with the right documents.\n\n## Planning steps\n\n1. **Build a site list** with full addresses, PIN codes, contact names, phone numbers, working hours and access rules.\n2. **Define the bill of materials per site,** so each site's kit is clear.\n3. **Group sites by region and route** to reduce transport costs.\n4. **Agree the delivery schedule** with the customer and the installation team, so that goods do not arrive weeks before engineers.\n5. **Prepare documents per site:** invoice or challan, e-way bill and packing list.\n6. **Track every delivery** and collect a POD from each site.\n\n## Kitting\n\nKitting means packing all the items for one site together, labelled with the site name or code. It prevents mix-ups and makes installation faster.\n\n## Key terms\n\n- **Site master:** the list of all delivery locations with their details.\n- **Kitting:** grouping all items for one site into one labelled kit.\n- **Milk run:** a planned route that delivers to several sites in one trip.\n- **Last-mile delivery:** the final step from a local hub to the site.\n\n## Real-world example\n\nA company must deliver network kits to 150 bank branches in five states within six weeks. The logistics team builds a site master, packs a labelled kit for each branch, and plans regional milk runs from three hubs. A daily tracker shows each branch's status. When a branch is closed for renovation, its kit is held at the hub and delivered later, instead of being lost in transit.\n\n## Common mistakes\n\n- Starting deliveries without a verified site list.\n- Sending goods long before the installation team is scheduled.\n- Mixing items for different sites in the same boxes.\n\n## Key takeaways\n\n- Build and verify a site master before dispatch.\n- Kit by site and align deliveries with installation schedules.\n- Track each site and collect a POD from every location.",
       "module": 1
     },
     {
       "position": 2,
       "title": "Transport and insurance",
       "type": "TEXT",
-      "body": "The right transport and insurance protect high-value equipment.\n\n## Choosing transport\n\n- **Courier or express:** small, urgent, high-value items; door to door.\n- **Part load:** medium consignments sharing a truck; cheaper, slower, more handling.\n- **Full truck load:** large consignments; fewer handling points, safer for big items.\n\nConsider value, fragility, distance, deadline and the site's ability to receive a large vehicle.\n\n## Transit insurance\n\n- Check whether goods are covered under the company's transit policy or the transporter's.\n- Make sure the declared value matches the invoice.\n- Know the claim procedure and time limits before something goes wrong.",
+      "body": "Choosing the right transport and protecting goods in transit are key logistics decisions. The cost, speed and risk of transport vary by mode, and the right insurance protects the company from losses.\n\n## Transport options\n\n- **Courier and express:** fast and trackable, good for small, urgent and high-value items.\n- **Part truck load (PTL):** goods share a vehicle with other consignments; economical for medium shipments.\n- **Full truck load (FTL):** a dedicated vehicle; best for large shipments and lower handling risk.\n- **Air freight:** fastest for long distances, but costly and with restrictions on items such as lithium batteries.\n\n## Transit risk and insurance\n\n- Goods in transit can be lost, stolen or damaged.\n- **Transit (marine inland) insurance** covers goods moving by road, rail or air within India. Many companies hold an open policy that covers all shipments up to a limit, declaring each shipment.\n- Check whether our policy or the transporter's covers the shipment, and what the transporter's liability is under the consignment note.\n- Declare correct values; under-declaring can reduce claim settlements.\n\n## Dangerous goods\n\nLithium batteries, found in laptops, UPS units and some devices, are classed as dangerous goods for air transport. Airlines and couriers follow strict rules on packing, labelling and quantity, based on IATA's Dangerous Goods Regulations. Check with the carrier before booking.\n\n## Key terms\n\n- **FTL / PTL:** full truck load and part truck load.\n- **Open policy:** an insurance policy covering many shipments over a period.\n- **Declared value:** the value of goods stated for transport and insurance.\n- **Dangerous goods:** items that can pose a risk in transport, such as lithium batteries.\n\n## Real-world example\n\nA company ships 300 laptops by part truck load to save money. The goods are handled at three hubs, and several boxes are damaged. For the next large order, the team compares the cost of FTL with the damage and delay costs from PTL, and switches to FTL for shipments above a set value.\n\n## Common mistakes\n\n- Choosing the cheapest mode without considering handling risk.\n- Shipping without confirming insurance cover.\n- Booking air freight for lithium batteries without following carrier rules.\n\n## Key takeaways\n\n- Match the transport mode to value, size, urgency and risk.\n- Confirm insurance cover and declare correct values.\n- Follow dangerous goods rules for lithium batteries.",
       "module": 2
     },
     {
       "position": 3,
       "title": "Inter-state movement",
       "type": "TEXT",
-      "body": "Moving goods between states adds tax and document requirements.\n\n## Points to check\n\n- The **e-way bill** must be generated before movement, with correct consignor and consignee GSTINs, value and vehicle details. Validity depends on distance; if a delay means it will expire, it must be extended in time.\n- **Sales to another state** carry IGST on the invoice.\n- **Transfers between our own branches in different states** are generally treated as supplies under GST and need a tax invoice and e-way bill.\n- Goods may be checked on the way; documents must be with the vehicle.\n\n> Rules on values, distances and validity are set by notification and can change. Logistics and Accounts maintain the current checklist.",
+      "body": "Moving goods between states adds tax and documentation requirements. Mistakes can lead to goods being detained, penalties and loss of input tax credit.\n\n## Rules to remember\n\n- **Tax type:** inter-state sales attract IGST. The invoice must show the place of supply with the name of the state.\n- **E-way bill:** required for inter-state movement when the consignment value exceeds ₹50,000, regardless of state-specific intra-state limits.\n- **Validity:** one day for every 200 km or part of it for normal cargo; the transporter must deliver within this time or the e-way bill must be extended.\n- **Branch transfers:** moving goods between our own registrations in different states is generally a taxable supply and needs a tax invoice.\n- **Bill-to ship-to:** when the buyer and the delivery location differ, the invoice and e-way bill must correctly show both.\n\n## During transit\n\n- The driver must carry the invoice or challan and the e-way bill number, physically or electronically.\n- Tax officers can intercept and verify goods. If documents are in order, the vehicle continues.\n- If a vehicle changes during transit, Part B of the e-way bill must be updated.\n\n## Key terms\n\n- **Place of supply:** the location that decides whether IGST or CGST plus SGST applies.\n- **Bill-to ship-to:** a transaction where the billing party and the delivery location differ.\n- **Part B update:** changing the vehicle details on an e-way bill.\n\n## Real-world example\n\nA company in Gujarat sells equipment to a customer whose head office is in Mumbai but asks for delivery to its plant in Madhya Pradesh. The logistics and accounts teams prepare a bill-to ship-to invoice and an e-way bill showing the Mumbai buyer and the Madhya Pradesh delivery address. The goods pass checkpoints smoothly, and the customer can claim its credit.\n\n## Common mistakes\n\n- Wrong place of supply on the invoice.\n- Not updating Part B when the vehicle changes.\n- Letting the e-way bill expire during delays.\n\n## Key takeaways\n\n- Inter-state movement means IGST, a correct place of supply and an e-way bill above ₹50,000.\n- Handle bill-to ship-to and branch transfers carefully.\n- Update and extend e-way bills when transit plans change.",
       "module": 3
     },
     {
       "position": 4,
       "title": "Delivery performance",
       "type": "TEXT",
-      "body": "Measure delivery performance so it can improve.\n\n## Useful measures\n\n- **On-time delivery:** deliveries made by the promised date ÷ total deliveries.\n- **Delivered complete:** deliveries with no shortage ÷ total.\n- **Damage rate:** deliveries with damage ÷ total.\n- **POD turnaround:** days from delivery to POD received by Accounts.\n- **Cost per delivery** by transport type and region.\n\n## Using the numbers\n\nReview monthly with transporters. Share the scores; move volume to the transporters who perform well; agree improvement plans with those who do not.",
+      "body": "Delivery performance shows how reliably we get goods to customers. Measuring it helps identify problems with vendors, transporters and our own processes, and shows customers that we take commitments seriously.\n\n## Key measures\n\n- **On-time delivery (OTD):** the percentage of deliveries made on or before the promised date.\n- **In-full delivery:** the percentage of deliveries with complete quantities.\n- **OTIF (on time, in full):** deliveries that are both on time and complete. This is the most demanding and most meaningful measure.\n- **Damage rate:** the percentage of shipments with damage.\n- **POD turnaround:** how quickly PODs are received after delivery.\n- **Order-to-delivery time:** the time from customer order to delivery.\n\n## Improving performance\n\n- Review missed deliveries every week and find the cause: vendor delay, stock error, transporter issue or wrong address.\n- Share transporter scorecards and move volume to better performers.\n- Improve promise accuracy: commit to dates you can meet.\n- Communicate delays early to customers with a revised date.\n\n## Key terms\n\n- **OTIF:** on time, in full.\n- **Root cause:** the underlying reason for a problem.\n- **Transporter scorecard:** a periodic rating of a transporter's performance.\n\n## Real-world example\n\nA company's OTIF is 78%. Weekly reviews show that most failures come from one transporter on southern routes and from incomplete addresses on orders. The team switches southern volume to another transporter and makes the PIN code and site contact mandatory fields in the sales order. Within three months, OTIF rises to 92%.\n\n## Common mistakes\n\n- Measuring only on-time delivery and ignoring incomplete shipments.\n- Reviewing performance without acting on causes.\n- Promising dates without checking stock and transport times.\n\n## Key takeaways\n\n- OTIF is the key measure of delivery reliability.\n- Review failures weekly and fix root causes.\n- Promise realistic dates and communicate delays early.",
       "module": 4
+    }
+  ],
+  "sources": [
+    {
+      "title": "GST e-way bill system",
+      "url": "https://ewaybillgst.gov.in/"
+    },
+    {
+      "title": "CBIC GST: CGST Rules (Rule 55 delivery challan, Rule 138 e-way bill) and Schedule I",
+      "url": "https://cbic-gst.gov.in/"
+    },
+    {
+      "title": "IRDAI: insurance regulator (marine and transit insurance guidance)",
+      "url": "https://irdai.gov.in/"
+    },
+    {
+      "title": "IATA: Dangerous Goods Regulations and lithium battery guidance",
+      "url": "https://www.iata.org/en/programs/cargo/dgr/"
+    },
+    {
+      "title": "Ministry of Road Transport and Highways: Carriage by Road Act, 2007 and rules",
+      "url": "https://morth.nic.in/"
     }
   ],
   "assessment": {
@@ -60,38 +82,38 @@
     "passMarkPercent": 70,
     "questions": [
       {
-        "type": "MULTIPLE",
-        "text": "What should a multi-site delivery plan record for each site? Select all that apply.",
+        "type": "SINGLE",
+        "text": "What is kitting in multi-site delivery?",
         "options": [
-          "Contact person and access times",
-          "Restrictions such as lifts or security passes",
-          "Expected delivery and POD status",
-          "The site's favourite colour"
+          "Buying spare parts",
+          "Packing all items for one site together, labelled by site",
+          "Hiring transporters",
+          "Insuring goods"
         ],
         "correct": [
-          "Contact person and access times",
-          "Restrictions such as lifts or security passes",
-          "Expected delivery and POD status"
+          "Packing all items for one site together, labelled by site"
         ],
-        "points": 2
+        "points": 1,
+        "explanation": "Kitting prevents mix-ups and speeds up installation."
       },
       {
         "type": "SINGLE",
-        "text": "Which transport mode is usually best for small, urgent, high-value items?",
+        "text": "Which measure shows deliveries that are both on time and complete?",
         "options": [
-          "Courier or express",
-          "Full truck load",
-          "Part load by rail",
-          "Postal parcel without tracking"
+          "OTD",
+          "OTIF",
+          "DSO",
+          "DPO"
         ],
         "correct": [
-          "Courier or express"
+          "OTIF"
         ],
-        "points": 1
+        "points": 1,
+        "explanation": "OTIF means on time, in full."
       },
       {
         "type": "TRUE_FALSE",
-        "text": "Transfers between our own branches in different states generally need a tax invoice and e-way bill.",
+        "text": "For inter-state movement of goods above ₹50,000, an e-way bill is required.",
         "options": [
           "True",
           "False"
@@ -99,44 +121,68 @@
         "correct": [
           "True"
         ],
-        "points": 1
+        "points": 1,
+        "explanation": "Rule 138 requires an e-way bill for inter-state movement above ₹50,000."
       },
       {
         "type": "SINGLE",
-        "text": "An e-way bill will expire before the delayed vehicle arrives. What should happen?",
+        "text": "A vehicle carrying goods breaks down and the goods move to another truck. What must be updated?",
         "options": [
-          "Extend it in time as the rules allow",
-          "Ignore it",
-          "Tear it up",
-          "Create a new invoice"
+          "The invoice number",
+          "Part B of the e-way bill",
+          "The customer's GSTIN",
+          "Nothing"
         ],
         "correct": [
-          "Extend it in time as the rules allow"
+          "Part B of the e-way bill"
         ],
-        "points": 1
+        "points": 1,
+        "explanation": "Part B holds the vehicle details and must be updated when the vehicle changes."
       },
       {
-        "type": "FILL_BLANK",
-        "text": "Deliveries made by the promised date divided by total deliveries is the on-____ delivery rate.",
+        "type": "MULTIPLE",
+        "text": "Which factors should guide the choice of transport mode?",
         "options": [
-          "time"
+          "Value of goods",
+          "Urgency",
+          "Handling risk",
+          "The colour of the boxes"
         ],
-        "correct": [],
-        "points": 1
+        "correct": [
+          "Value of goods",
+          "Urgency",
+          "Handling risk"
+        ],
+        "points": 1,
+        "explanation": "Value, size, urgency and risk decide the mode."
+      },
+      {
+        "type": "TRUE_FALSE",
+        "text": "Lithium batteries can be shipped by air without any special rules.",
+        "options": [
+          "True",
+          "False"
+        ],
+        "correct": [
+          "False"
+        ],
+        "points": 1,
+        "explanation": "They are dangerous goods for air transport and follow IATA rules."
       },
       {
         "type": "SINGLE",
-        "text": "Why should the declared value for transit insurance match the invoice?",
+        "text": "What is the main reason to build a verified site master before a multi-site rollout?",
         "options": [
-          "So a claim is paid at the right value",
           "To reduce GST",
-          "To speed up the truck",
-          "It does not matter"
+          "To make sure every site has a correct address, contact and access details",
+          "To choose colours",
+          "To skip PODs"
         ],
         "correct": [
-          "So a claim is paid at the right value"
+          "To make sure every site has a correct address, contact and access details"
         ],
-        "points": 1
+        "points": 1,
+        "explanation": "Wrong or incomplete site details are a common cause of failed deliveries."
       }
     ]
   }

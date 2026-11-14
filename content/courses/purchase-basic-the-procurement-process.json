@@ -29,29 +29,43 @@
       "position": 1,
       "title": "Procure-to-pay overview",
       "type": "TEXT",
-      "body": "Procure-to-pay (P2P) is the chain of steps from needing something to paying for it. In an IT solutions company, most purchases are made against a customer order, so mistakes affect delivery dates and margins directly.\n\n## The steps\n\n1. **Requirement:** sales or projects confirm what is needed (usually from the customer order and BoM).\n2. **Sourcing:** quotes from the OEM's authorised distributors or vendors.\n3. **Approval:** the purchase is approved at the right level.\n4. **Purchase order (PO):** a formal order sent to the vendor.\n5. **Order follow-up:** confirm price, quantity and delivery date.\n6. **Goods receipt:** goods are received and checked.\n7. **Invoice:** the vendor's invoice is checked.\n8. **Payment:** paid as per the agreed terms.\n\n> Buying before a customer order is confirmed (stock purchase) carries risk and usually needs extra approval.",
+      "body": "Procure-to-pay (P2P) is the complete process of buying goods and services, from identifying a need to paying the supplier. In an IT system-integration company, purchase is closely tied to sales: most purchases are made to fulfil a customer order, so speed and accuracy directly affect delivery and profit.\n\n## The procure-to-pay steps\n\n1. **Requirement:** a need is raised, usually from a confirmed sales order or for internal use.\n2. **Purchase requisition (PR):** an internal request describing what is needed, approved by the right person.\n3. **Sourcing:** getting quotations from authorised distributors or vendors and comparing them.\n4. **Purchase order (PO):** the formal order sent to the chosen vendor.\n5. **Goods or service receipt:** checking that what arrived matches the PO.\n6. **Invoice verification:** matching the vendor's invoice to the PO and receipt.\n7. **Payment:** paying the vendor according to agreed terms.\n\n## Why the process matters\n\n- It ensures we buy only what is needed and approved.\n- It gets the right price and terms, protecting the margin on the customer deal.\n- It creates a clear record for audits, tax and OEM compliance.\n- It prevents fraud, such as payments for goods never received.\n\n## Key terms\n\n- **Purchase requisition (PR):** an internal, approved request to buy.\n- **Purchase order (PO):** a legally binding order to a vendor, stating items, quantities, prices and terms.\n- **Goods receipt note (GRN):** a record that goods were received and checked.\n- **Lead time:** the time between placing an order and receiving the goods.\n\n## Real-world example\n\nSales confirms an order for 30 laptops for a customer. The purchase executive, Suresh, raises a PR linked to the sales order, gets quotes from two authorised distributors, and places a PO with the one offering the best price and the earliest delivery. When the laptops arrive, the stores team checks the quantity and serial numbers and creates a GRN. Accounts matches the distributor's invoice with the PO and GRN before releasing payment. Each step leaves a record.\n\n## Common mistakes\n\n- Placing orders by phone or chat without a PO.\n- Skipping the requisition and approval for \"urgent\" purchases.\n- Paying invoices before the goods are received and checked.\n\n## Key takeaways\n\n- Procure-to-pay runs from requirement to payment, with a record at every step.\n- Every purchase needs an approved requisition and a formal PO.\n- Receipt and invoice checks protect the company from paying for the wrong thing.",
       "module": 1
     },
     {
       "position": 2,
       "title": "Raising a PO",
       "type": "TEXT",
-      "body": "A purchase order is a legal document. Once the vendor accepts it, both sides are bound by its terms.\n\n## What a PO must contain\n\n- PO number and date.\n- Vendor name, address and GSTIN.\n- Our billing and delivery addresses, and GSTIN.\n- Item description, part number, quantity, unit price and tax.\n- Delivery date and place.\n- Payment terms (for example, 30 days from invoice).\n- Reference to the customer order or project, for tracking.\n- Any special terms: warranty start, installation, packing.\n\n## Common errors\n\n- Wrong or old part numbers.\n- Delivery address left as head office instead of the customer site.\n- Missing licence or support duration.\n- Price not matching the vendor's quote or the approved cost sheet.\n\nCheck the PO against the BoM and the quote before sending.",
+      "body": "A purchase order is a legal document. Once the vendor accepts it, it becomes a contract. A clear, complete PO prevents wrong deliveries, price disputes and payment delays.\n\n## What a PO must contain\n\n- PO number and date.\n- Our company's legal name, billing address, delivery address and GSTIN.\n- The vendor's legal name, address and GSTIN.\n- For each line: part number, description, quantity, unit price, taxes and total.\n- Delivery date and place, including any customer site details.\n- Payment terms, such as 30 days from invoice.\n- Warranty and support terms, where relevant.\n- Reference to the quotation and to our terms and conditions.\n- Authorised signature or system approval.\n\n## Getting it right\n\n- Copy part numbers exactly from the quotation, and check that they match the sales order.\n- Make sure the tax rate and place of supply are correct, as these affect GST.\n- For deliveries direct to a customer site, include the contact person and any access requirements.\n- Send the PO through the official channel and ask the vendor to acknowledge it.\n\n## Key terms\n\n- **GSTIN:** the 15-character Goods and Services Tax Identification Number of a registered business.\n- **Place of supply:** the location that decides whether CGST and SGST, or IGST, apply.\n- **Order acknowledgement:** the vendor's confirmation that it has accepted the PO.\n- **Drop shipment:** delivery directly from the vendor to our customer.\n\n## Real-world example\n\nA PO for network switches lists the wrong part number: a 24-port model instead of the 48-port model on the sales order. The distributor ships what the PO says. The mistake is discovered at the customer site, delaying the project by two weeks and adding return freight costs. After this, the team adds a check: the purchase executive compares every PO line with the sales order before sending.\n\n## Common mistakes\n\n- Wrong or incomplete part numbers.\n- Missing GSTIN or wrong delivery address.\n- Not getting an order acknowledgement from the vendor.\n\n## Key takeaways\n\n- A PO becomes a contract when accepted; treat it with care.\n- Include all mandatory details, especially part numbers, GSTINs, delivery and payment terms.\n- Check each PO against the quotation and the sales order before sending.",
       "module": 2
     },
     {
       "position": 3,
       "title": "Three-way match",
       "type": "TEXT",
-      "body": "Three-way matching protects the company from paying for goods it did not receive or at a price it did not agree.\n\n## The three documents\n\n1. **Purchase order:** what we ordered and at what price.\n2. **Goods receipt note (GRN):** what we actually received, recorded when goods arrive.\n3. **Vendor invoice:** what the vendor is charging.\n\nThe invoice is approved for payment only when quantity and price agree across all three.\n\n## When they do not match\n\n- **Short supply:** pay only for what was received; ask for the balance or a credit note.\n- **Price difference:** do not pay until the vendor corrects the invoice or an approved PO amendment exists.\n- **Wrong item:** reject and return; do not record it as received.\n\nRecord every mismatch and how it was resolved.",
+      "body": "Three-way match is a control used before paying a supplier. It compares three documents: the purchase order (what we ordered), the goods receipt note (what we received) and the supplier's invoice (what we are being asked to pay). Payment is released only when all three agree, within any allowed tolerance.\n\n## How three-way match works\n\n1. **PO vs invoice:** are the items, quantities and prices on the invoice the same as on the PO?\n2. **GRN vs invoice:** has the quantity invoiced actually been received and accepted?\n3. **Taxes and totals:** are the GST rate, HSN or SAC code and totals correct?\n\nIf everything matches, the invoice is approved for payment. If not, it is put on hold and the difference is resolved with the vendor or the internal team.\n\n## Common mismatches and what to do\n\n- **Price difference:** the vendor charged more than the PO price. Ask for a corrected invoice or a credit note.\n- **Quantity difference:** the invoice is for 10 units but only 8 were received. Pay for 8 or wait for the remaining delivery.\n- **Wrong tax:** for example IGST charged instead of CGST and SGST. Ask the vendor for a corrected invoice, because the wrong tax type can affect our input tax credit.\n- **Damaged goods:** record the damage on the GRN and raise a claim before payment.\n\n## Key terms\n\n- **Three-way match:** comparing PO, GRN and invoice before payment.\n- **Two-way match:** comparing only PO and invoice, often used for services.\n- **Tolerance:** a small allowed difference, such as rounding.\n- **Input tax credit (ITC):** GST paid on purchases that a business can set off against the GST it collects, if the conditions are met.\n\n## Real-world example\n\nAn invoice arrives for 50 UPS batteries. The GRN shows only 45 were received; five are still in transit. Accounts approves payment for 45 batteries and keeps the remaining amount on hold. When the last five arrive and a GRN is created, the balance is paid. The vendor is paid fairly and the company does not pay for goods it has not received.\n\n## Common mistakes\n\n- Paying invoices without checking the GRN.\n- Accepting invoices with the wrong tax type.\n- Not recording damage or shortage at the time of receipt.\n\n## Key takeaways\n\n- Three-way match compares PO, GRN and invoice before payment.\n- Resolve mismatches before paying, using corrected invoices or credit notes.\n- Accurate receipt records make the match possible.",
       "module": 3
     },
     {
       "position": 4,
       "title": "Company purchase policy",
       "type": "TEXT",
-      "body": "[PLACEHOLDER: The company will supply its purchase policy and approval levels.]\n\nThis lesson will cover the company's own rules. Ask Purchase or Finance for:\n\n- who can approve purchases of different values;\n- when more than one quote is required;\n- which vendors are on the approved list, and how a new vendor is added;\n- rules for stock purchases and advances to vendors.\n\nUntil then, never commit to a vendor verbally, and never split one purchase into smaller orders to avoid an approval level.",
+      "body": "Every company has a purchase policy that sets out who can buy what, how vendors are chosen and what approvals are needed. This lesson explains the topics such a policy normally covers. Your administrator will add 3C's own purchase policy below.\n\n> **[PLACEHOLDER]** Company purchase policy: approval limits by role, the number of quotations required by value, approved vendor rules, emergency purchase rules and the systems used. The LMS administrator adds these details.\n\n## What a purchase policy usually covers\n\n- **Approval limits:** the value each role can approve, for example a manager up to one amount and a director above it.\n- **Number of quotations:** for example, one quote for small purchases, three quotes above a set value.\n- **Approved vendor list:** buying only from vendors that have been evaluated and registered.\n- **Authorised channels:** buying OEM products only through authorised distributors, to protect warranty and support.\n- **Emergency purchases:** how to buy urgently while still recording approvals afterwards.\n- **Conflict of interest:** declaring any personal relationship with a vendor.\n- **Record keeping:** where quotations, POs and approvals are stored.\n\n## Why policies protect you\n\nFollowing the policy protects the company from overpaying and from fraud. It also protects you personally: if a purchase is questioned later, a complete record of quotations and approvals shows that you acted correctly.\n\n## Key terms\n\n- **Approved vendor list (AVL):** vendors the company has evaluated and allows purchases from.\n- **Delegation of authority:** the rules on who can approve which decisions and values.\n- **Conflict of interest:** a situation where personal interests could influence a business decision.\n\n## Real-world example\n\nA project manager asks purchase to buy cables from a local shop owned by a relative, because \"it is faster\". The purchase executive explains that the shop is not on the approved vendor list and that the relationship must be declared. The cables are bought from an approved vendor the next day. During the next audit, the clean record helps the company pass without comments.\n\n## Common mistakes\n\n- Splitting a purchase to stay under an approval limit.\n- Buying from unapproved or unauthorised sources.\n- Not declaring a personal relationship with a vendor.\n\n## Key takeaways\n\n- Learn the approval limits, quotation rules and approved vendors.\n- Buy OEM products only through authorised channels.\n- Keep complete records: they protect the company and you.",
       "module": 4
+    }
+  ],
+  "sources": [
+    {
+      "title": "CIPS (Chartered Institute of Procurement & Supply): procurement knowledge and standards",
+      "url": "https://www.cips.org/"
+    },
+    {
+      "title": "GST portal (Government of India): GSTIN search and taxpayer services",
+      "url": "https://www.gst.gov.in/"
+    },
+    {
+      "title": "CBIC GST: Acts, rules, notifications and circulars",
+      "url": "https://cbic-gst.gov.in/"
     }
   ],
   "assessment": {
@@ -61,32 +75,39 @@
     "questions": [
       {
         "type": "SINGLE",
-        "text": "What does 'procure-to-pay' describe?",
+        "text": "Which document is an internal, approved request to buy?",
         "options": [
-          "The steps from needing something to paying for it",
-          "The sales pipeline",
-          "The payroll process",
-          "A type of discount"
+          "Purchase order",
+          "Purchase requisition",
+          "Invoice",
+          "Goods receipt note"
         ],
         "correct": [
-          "The steps from needing something to paying for it"
+          "Purchase requisition"
         ],
-        "points": 1
+        "points": 1,
+        "explanation": "The requisition comes first; the PO is sent to the vendor after approval and sourcing."
       },
       {
-        "type": "MATCHING",
-        "text": "Match each document to its purpose in three-way matching.",
+        "type": "MULTIPLE",
+        "text": "Which documents are compared in a three-way match?",
         "options": [
-          "Purchase order=What we ordered and at what price",
-          "Goods receipt note=What we actually received",
-          "Vendor invoice=What the vendor is charging"
+          "Purchase order",
+          "Goods receipt note",
+          "Supplier invoice",
+          "Sales quotation"
         ],
-        "correct": [],
-        "points": 2
+        "correct": [
+          "Purchase order",
+          "Goods receipt note",
+          "Supplier invoice"
+        ],
+        "points": 1,
+        "explanation": "Three-way match compares what we ordered, what we received and what we are billed."
       },
       {
         "type": "TRUE_FALSE",
-        "text": "A PO becomes binding on both sides once the vendor accepts it.",
+        "text": "A PO becomes a binding contract once the vendor accepts it.",
         "options": [
           "True",
           "False"
@@ -94,41 +115,38 @@
         "correct": [
           "True"
         ],
-        "points": 1
-      },
-      {
-        "type": "MULTIPLE",
-        "text": "Which must a PO include? Select all that apply.",
-        "options": [
-          "Part number, quantity and price",
-          "Delivery address and date",
-          "Payment terms",
-          "The customer's personal phone number"
-        ],
-        "correct": [
-          "Part number, quantity and price",
-          "Delivery address and date",
-          "Payment terms"
-        ],
-        "points": 2
+        "points": 1,
+        "explanation": "That is why its details must be accurate and complete."
       },
       {
         "type": "SINGLE",
-        "text": "The vendor invoices for 10 units but only 8 were received. What should happen?",
+        "text": "An invoice is for 10 units but only 8 were received. What should accounts do?",
         "options": [
-          "Pay for 10 to keep the vendor happy",
-          "Pay for 8 and ask for the balance or a credit note",
-          "Pay nothing ever",
-          "Record 10 as received"
+          "Pay for 10",
+          "Pay for 8 and hold the balance until the rest arrive",
+          "Reject the vendor permanently",
+          "Pay nothing ever"
         ],
         "correct": [
-          "Pay for 8 and ask for the balance or a credit note"
+          "Pay for 8 and hold the balance until the rest arrive"
         ],
-        "points": 1
+        "points": 1,
+        "explanation": "Pay only for goods received and accepted."
+      },
+      {
+        "type": "FILL_BLANK",
+        "text": "A GSTIN has ______ characters.",
+        "options": [
+          "15",
+          "fifteen"
+        ],
+        "correct": [],
+        "points": 1,
+        "explanation": "The GST Identification Number has 15 characters, starting with the two-digit state code."
       },
       {
         "type": "TRUE_FALSE",
-        "text": "Splitting one purchase into smaller orders to avoid an approval level is acceptable if delivery is urgent.",
+        "text": "Splitting one purchase into smaller orders to avoid an approval limit is acceptable when the project is urgent.",
         "options": [
           "True",
           "False"
@@ -136,7 +154,21 @@
         "correct": [
           "False"
         ],
-        "points": 1
+        "points": 1,
+        "explanation": "Splitting orders bypasses controls. Use the emergency purchase process instead."
+      },
+      {
+        "type": "MATCHING",
+        "text": "Match each term to its meaning.",
+        "options": [
+          "GRN=Record that goods were received and checked",
+          "Lead time=Time from order to receipt",
+          "AVL=Vendors the company allows purchases from",
+          "ITC=GST on purchases that can be set off"
+        ],
+        "correct": [],
+        "points": 1,
+        "explanation": "These terms come up in every purchase transaction."
       }
     ]
   }

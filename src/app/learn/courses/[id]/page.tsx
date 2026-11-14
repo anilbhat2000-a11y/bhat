@@ -27,6 +27,20 @@ function ModerateButton({ courseId, postId, hidden }: { courseId: string; postId
   );
 }
 
+// Course sources are written by the seed or an admin; only well-formed https links are shown.
+function courseSources(value: unknown): { title: string; url: string }[] {
+  if (!Array.isArray(value)) return [];
+  return value.flatMap((v) => {
+    const title = typeof v?.title === "string" ? v.title.trim() : "";
+    const url = typeof v?.url === "string" ? v.url.trim() : "";
+    try {
+      return title && new URL(url).protocol === "https:" ? [{ title, url }] : [];
+    } catch {
+      return [];
+    }
+  });
+}
+
 function formatMinutes(m: number): string {
   const h = Math.floor(m / 60);
   return h > 0 ? `${h} h${m % 60 ? ` ${m % 60} min` : ""}` : `${m} min`;
@@ -144,6 +158,20 @@ export default async function LearnCoursePage({
       })}
       </section>
       ))}
+
+      {courseSources(course.sources).length > 0 ? (
+        <section id="sources" aria-labelledby="h-sources">
+          <h2 id="h-sources">Sources and further reading</h2>
+          <p className="muted">The facts in this course were checked against these official and standards sources. Rules and prices change, so check the latest version before you rely on a figure with a customer.</p>
+          <ul className="course-sources">
+            {courseSources(course.sources).map((s) => (
+              <li key={s.url}>
+                <a href={s.url} target="_blank" rel="noopener noreferrer">{s.title}</a>
+              </li>
+            ))}
+          </ul>
+        </section>
+      ) : null}
 
       {check && !archived ? (
         <section id="check" aria-labelledby="h-check">
