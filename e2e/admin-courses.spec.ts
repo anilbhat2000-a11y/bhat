@@ -37,7 +37,6 @@ test("a non-PDF file uploaded as a PDF lesson is refused with a clear reason", a
   await expect(page.getByRole("heading", { name: title })).toBeVisible();
 
   await page.fill("form[data-test=upload-lesson] input[name=title]", "Bad file");
-  await page.selectOption("form[data-test=upload-lesson] select[name=type]", "PDF");
   await page.setInputFiles("form[data-test=upload-lesson] input[type=file]", {
     name: "page.html",
     mimeType: "text/html",

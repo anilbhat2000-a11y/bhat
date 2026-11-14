@@ -18,9 +18,9 @@ test("a video streams in ranges, and its captions are served", async ({ page }) 
   await page.click("form[data-test=create-course] button[type=submit]");
   await expect(page.getByRole("heading", { name: title })).toBeVisible();
 
-  const video = Buffer.alloc(2000, 0x41);
+  // A minimal MP4 header ("ftyp" box) so the upload passes the file signature check.
+  const video = Buffer.concat([Buffer.from([0, 0, 0, 0x18]), Buffer.from("ftypmp42"), Buffer.alloc(1988, 0x41)]);
   await page.fill("form[data-test=upload-lesson] input[name=title]", title);
-  await page.selectOption("form[data-test=upload-lesson] select[name=type]", "VIDEO");
   await page.setInputFiles("form[data-test=upload-lesson] input[type=file]", { name: "clip.mp4", mimeType: "video/mp4", buffer: video });
   await page.click("form[data-test=upload-lesson] button[type=submit]");
   await expect(page.getByText("File uploaded")).toBeVisible();

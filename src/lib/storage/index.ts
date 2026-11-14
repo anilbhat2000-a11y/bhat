@@ -1,3 +1,4 @@
+import { FORMATS } from "./formats";
 import { createLocalStorage } from "./local";
 import type { FileStorage } from "./types";
 
@@ -10,6 +11,7 @@ export function defaultStorage(): FileStorage {
 }
 
 const MIME_BY_EXT: Record<string, string> = {
+  ...Object.fromEntries(FORMATS.map((f) => [f.ext, f.mime])),
   pdf: "application/pdf",
   mp4: "video/mp4",
   png: "image/png",

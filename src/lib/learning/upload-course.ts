@@ -14,7 +14,7 @@ export function titleFromFilename(filename: string, index: number): string {
   return t || `Part ${index + 1}`;
 }
 
-export type UploadedFile = { key: string; type: "PDF" | "VIDEO"; filename: string };
+export type UploadedFile = { key: string; filename: string };
 export type CourseUpload = {
   title: string; subjectId: string; level: Level; description: string;
   departments: string[]; publish: boolean; mandatory: boolean; dueAt: Date | null;
@@ -27,7 +27,7 @@ export async function createCourseFromFiles(
   actor: SessionUser, input: CourseUpload, files: UploadedFile[], storage: FileStorage,
 ): Promise<{ ok: true; id: string; message: string } | { ok: false; error: string }> {
   const discard = async (from = 0) => { for (const f of files.slice(from)) await storage.delete(f.key); };
-  if (files.length === 0) return { ok: false, error: "Choose at least one PDF or MP4 file" };
+  if (files.length === 0) return { ok: false, error: "Choose at least one file" };
   if (!input.title.trim()) {
     await discard();
     return { ok: false, error: "Give the course a title" };
@@ -50,7 +50,7 @@ export async function createCourseFromFiles(
   }
   const courseId = created.id;
   for (const [i, f] of files.entries()) {
-    const saved = await saveLessonFile(actor, courseId, { title: titleFromFilename(f.filename, i), type: f.type, key: f.key }, storage);
+    const saved = await saveLessonFile(actor, courseId, { title: titleFromFilename(f.filename, i), key: f.key, filename: f.filename }, storage);
     if (!saved.ok) {
       await discard(i + 1);
       return { ok: false, error: `The course was created, but "${f.filename}" could not be added: ${saved.error}` };

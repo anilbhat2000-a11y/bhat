@@ -212,5 +212,6 @@ Disconnect the server's internet (or block outbound traffic at the firewall) and
 | Sign-in shows "Invalid Server Actions request" in the app log | Nginx must pass the `Host` header with the port. Use the provided `deploy/nginx/lms.conf` unchanged. |
 | "Too many failed sign-in attempts" | Wait 15 minutes, or have an admin reset the password. |
 | No reminder emails | Check `SMTP_URL`, and `docker compose logs scheduler`. |
-| Uploads fail for large videos | The limit is `MAX_UPLOAD_MB_VIDEO` (default 500 MB). Nginx allows up to 550 MB. |
+| Uploads fail for large videos | The limit is `MAX_UPLOAD_MB_VIDEO` (default 500 MB). Nginx allows up to 4 GB on upload routes, for bulk uploads. |
+| A PowerPoint, Word, Excel, MOV or MKV lesson stays "converting" or shows "could not be converted" | The Docker image includes LibreOffice and ffmpeg. Check `docker compose logs app` for "lesson conversion failed". Very large or password-protected files cannot be converted; learners can still download the original. |
 | Backup container keeps restarting | `BACKUP_PASSPHRASE` is missing from `.env`. |

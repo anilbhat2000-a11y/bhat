@@ -84,6 +84,7 @@ export default async function CoursesPage({ searchParams }: { searchParams: Prom
         </div>
         <div className="page-actions">
           <a className="btn-outline" href="#new-course">New course</a>
+          <a className="btn-outline" href="/admin/courses/bulk">Bulk upload</a>
           <a className="btn" href="/admin/courses/upload">Upload a course</a>
         </div>
       </div>

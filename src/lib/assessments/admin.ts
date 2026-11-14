@@ -270,3 +270,31 @@ export async function updateAssessmentSettings(
   );
   return { ok: true, id };
 }
+
+// Adds questions to a course's completion check (its one-time assessment), creating and
+// publishing the check if the course has none yet. All rows are validated first; if any row
+// fails, nothing is added and every error is returned.
+export async function addCompletionCheckQuestions(
+  actor: SessionUser,
+  courseId: string,
+  rows: QuestionRow[],
+): Promise<{ ok: true; created: number; assessmentId: string } | { ok: false; errors: { row: number; reason: string }[] }> {
+  asAdmin(actor);
+  const parsed = parseQuestionRows(rows);
+  if (!parsed.ok) return parsed;
+  const course = await prisma.course.findUnique({ where: { id: courseId }, select: { title: true, subjectId: true, level: true, passMarkPercent: true } });
+  if (!course) return { ok: false, errors: [{ row: 0, reason: "Course not found" }] };
+  let assessment = await prisma.assessment.findFirst({ where: { courseId, cadence: "ONE_TIME" }, orderBy: { title: "asc" } });
+  if (!assessment) {
+    const made = await createAssessment(actor, {
+      subjectId: course.subjectId, title: `${course.title}: completion check`, cadence: "ONE_TIME",
+      level: course.level, passMarkPercent: course.passMarkPercent, courseId,
+    });
+    if (!made.ok || !made.id) return { ok: false, errors: [{ row: 0, reason: made.ok ? "Could not create the completion check" : made.error }] };
+    assessment = await prisma.assessment.findUniqueOrThrow({ where: { id: made.id } });
+  }
+  const imported = await importQuestions(actor, assessment.id, rows);
+  if (!imported.ok) return imported;
+  if (!assessment.published) await setAssessmentPublished(actor, assessment.id, true);
+  return { ok: true, created: imported.created, assessmentId: assessment.id };
+}

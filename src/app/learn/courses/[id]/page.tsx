@@ -14,6 +14,7 @@ import { threadsFor } from "../../../../lib/community/community";
 import { courseCheckFor } from "../../../../lib/learning/course-check";
 import { startCourseCheckAction } from "../../../actions/progress";
 import { LessonText } from "../../../../components/LessonText";
+import { formatLabel } from "../../../../lib/storage/formats";
 import { canSeeCourse } from "../../../../lib/learning/audience";
 import { addPostAction, setPostHiddenAction, submitFeedbackAction } from "../../../actions/community";
 
@@ -114,7 +115,23 @@ export default async function LearnCoursePage({
             ) : null}
             {l.type === "TEXT" ? <LessonText body={l.body ?? ""} /> : null}
             {l.type === "LINK" ? <p><a href={l.url ?? "#"} rel="noopener noreferrer">Open link</a></p> : null}
-            {l.type === "PDF" ? <p><a href={`/api/files/${l.id}`}>Open PDF</a></p> : null}
+            {l.type === "PDF" ? (
+              <div className="file-lesson">
+                <iframe src={`/api/files/${l.id}`} title={`${l.title} (document)`} className="pdf-frame" />
+                <p>
+                  <a href={`/api/files/${l.id}`} target="_blank" rel="noopener noreferrer">Open in a new tab</a>
+                  {l.sourceFileKey ? <> · <a href={`/api/files/${l.id}?original=1`}>Download the original {formatLabel(l.sourceFileKey)} file</a></> : null}
+                </p>
+              </div>
+            ) : null}
+            {l.type === "DOCUMENT" ? (
+              <div className="file-lesson card">
+                <p>{l.conversion === "PENDING"
+                  ? `This ${formatLabel(l.sourceFileKey ?? l.fileKey ?? "")} file is being prepared so you can read it here. Refresh the page in a minute, or download it now.`
+                  : `This is a ${formatLabel(l.sourceFileKey ?? l.fileKey ?? "")} file. Download it and open it on your computer.`}</p>
+                <p><a className="btn" href={`/api/files/${l.id}?original=1`}>Download {l.sourceFileName ?? "the file"}</a></p>
+              </div>
+            ) : null}
             {l.type === "LIVE_SESSION" && l.liveSession ? (
               <div>
                 <p><LocalTime iso={l.liveSession.startsAt.toISOString()} /> to <LocalTime iso={l.liveSession.endsAt.toISOString()} /></p>
@@ -146,6 +163,8 @@ export default async function LearnCoursePage({
                 src={`/api/files/${l.id}`}
                 startAt={positions.get(l.id) ?? 0}
                 captionsSrc={l.captionFileKey ? `/api/captions/${l.id}` : null}
+                downloadSrc={l.sourceFileKey ? `/api/files/${l.id}?original=1` : `/api/files/${l.id}`}
+                preparing={l.conversion === "PENDING"}
               />
             ) : null}
             {!done && !archived && l.type !== "LAB" && l.type !== "LIVE_SESSION" ? (

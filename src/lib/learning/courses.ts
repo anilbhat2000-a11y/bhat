@@ -5,6 +5,8 @@ import type { SessionUser } from "../auth/session";
 import { defaultStorage, mimeForKey } from "../storage";
 import type { FileStorage } from "../storage/types";
 import { validateUpload } from "../storage/validate";
+import { FORMATS, signatureMatches } from "../storage/formats";
+import { queueConversion } from "./conversions";
 import type { CourseStatus, Level, LessonType } from "../../generated/prisma/client";
 import { learnerCanOpen, setCourseArchived } from "./modules";
 import { recordAudit, writeWithAudit } from "../audit/record";
@@ -169,12 +171,15 @@ export async function uploadLessonFile(
   return saveLessonFile(actor, courseId, { title: input.title, type: input.type, key: checked.key }, storage);
 }
 
-// Records a lesson for a file that is already in storage under `key`. On any failure the
-// stored file is removed, so nothing is left behind without a lesson.
+// Records a lesson for a file that is already in storage under `key`. The lesson type comes
+// from the file: PDF and MP4 are shown as they are; PowerPoint, Word and Excel are converted
+// to PDF and MOV/MKV to MP4 in the background, keeping the original for download. The file's
+// first bytes must match its format. On any failure the stored file is removed, so nothing
+// is left behind without a lesson.
 export async function saveLessonFile(
   actor: SessionUser,
   courseId: string,
-  input: { title: string; type: "PDF" | "VIDEO"; key: string },
+  input: { title: string; type?: "PDF" | "VIDEO"; key: string; filename?: string },
   storage: FileStorage = defaultStorage(),
 ): Promise<Result> {
   asAdmin(actor);
@@ -184,16 +189,34 @@ export async function saveLessonFile(
   };
   if (!input.title.trim()) return fail("Title is required");
   if (!(await prisma.course.findUnique({ where: { id: courseId } }))) return fail("Course not found");
+  const ext = input.key.split(".").pop() ?? "";
+  const format = FORMATS.find((f) => f.ext === ext);
+  if (!format) return fail("This file type is not supported");
+  const head: Uint8Array[] = [];
+  try {
+    for await (const c of storage.stream(input.key, 0, 15)) head.push(c);
+  } catch {
+    return fail("The file could not be read. Nothing was stored.");
+  }
+  if (!signatureMatches(ext, Buffer.concat(head))) {
+    return fail(`The file does not look like a real ${format.label} file. Check it opens on your computer, then upload it again.`);
+  }
+  const convert = !!format.convertTo;
+  const type: LessonType = format.family === "PDF" ? "PDF" : format.family === "VIDEO" ? "VIDEO" : "DOCUMENT";
   try {
     const position = await nextPosition(courseId);
     const lesson = await writeWithAudit(
       (tx) =>
         tx.lesson.create({
-          data: { courseId, position, title: input.title.trim(), type: input.type as LessonType, fileKey: input.key },
+          data: {
+            courseId, position, title: input.title.trim(), type, fileKey: input.key,
+            ...(convert ? { sourceFileKey: input.key, sourceFileName: (input.filename ?? `${input.title.trim()}.${ext}`).slice(0, 200), conversion: "PENDING" } : {}),
+          },
         }),
-      (l) => ({ actorId: actor.id, action: "lesson.upload", entityType: "Lesson", entityId: l.id, after: { courseId, type: input.type } }),
+      (l) => ({ actorId: actor.id, action: "lesson.upload", entityType: "Lesson", entityId: l.id, after: { courseId, type, format: ext } }),
     );
     await markCustomised(courseId);
+    if (convert) queueConversion(lesson.id);
     return { ok: true, id: lesson.id };
   } catch {
     return fail("Could not save the lesson. Nothing was stored.");
@@ -228,11 +251,19 @@ export async function reorderLessons(actor: SessionUser, courseId: string, order
 export async function getLessonFile(
   actor: SessionUser,
   lessonId: string,
-): Promise<{ key: string; mime: string; title: string } | null> {
+  opts: { original?: boolean } = {},
+): Promise<{ key: string; mime: string; title: string; download: boolean } | null> {
   const lesson = await prisma.lesson.findUnique({ where: { id: lessonId }, include: { course: true } });
   if (!lesson || !lesson.fileKey) return null;
   if (!(await canReadCourse(actor, lesson.course))) return null;
-  return { key: lesson.fileKey, mime: mimeForKey(lesson.fileKey), title: lesson.title };
+  // The original upload (PowerPoint, Word, Excel, MOV, MKV) is always a download.
+  if (opts.original || lesson.type === "DOCUMENT") {
+    const key = lesson.sourceFileKey ?? lesson.fileKey;
+    const name = lesson.sourceFileName ?? `${lesson.title}.${key.split(".").pop()}`;
+    return { key, mime: mimeForKey(key), title: name, download: true };
+  }
+  const ext = lesson.fileKey.split(".").pop();
+  return { key: lesson.fileKey, mime: mimeForKey(lesson.fileKey), title: `${lesson.title}.${ext}`, download: false };
 }
 
 // The WebVTT captions of a video lesson, under the same access rule as the video.

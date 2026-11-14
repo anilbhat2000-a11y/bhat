@@ -36,7 +36,7 @@ describe("department-specific courses", () => {
   const deleted: string[] = [];
   const storage: FileStorage = {
     put: async () => {}, putStream: async () => {}, get: async () => Buffer.from(""), stat: async () => ({ size: 0 }),
-    delete: async (k) => { deleted.push(k); }, stream: async function* () {},
+    delete: async (k) => { deleted.push(k); }, stream: async function* () { yield Buffer.from("%PDF-1.4\n"); },
   };
 
   const mk = async (name: string, role: "ADMIN" | "EMPLOYEE", department?: string): Promise<SessionUser> => {
@@ -64,8 +64,8 @@ describe("department-specific courses", () => {
       title: `${tag} month-end`, subjectId, level: "BASIC", description: "", departments: [`${tag} Accounts`],
       publish: true, mandatory: true, dueAt: null,
     }, [
-      { key: "00000000-0000-4000-8000-000000000001.pdf", type: "PDF", filename: "01 Closing checklist.pdf" },
-      { key: "00000000-0000-4000-8000-000000000002.pdf", type: "PDF", filename: "02 Reconciliations.pdf" },
+      { key: "00000000-0000-4000-8000-000000000001.pdf", filename: "01 Closing checklist.pdf" },
+      { key: "00000000-0000-4000-8000-000000000002.pdf", filename: "02 Reconciliations.pdf" },
     ], storage);
     expect(r).toMatchObject({ ok: true });
     const course = await prisma.course.findUniqueOrThrow({ where: { id: r.ok ? r.id : "" }, include: { lessons: { orderBy: { position: "asc" } }, assignments: true } });
@@ -87,7 +87,7 @@ describe("department-specific courses", () => {
   it("refuses mandatory without departments, and removes the stored files", async () => {
     const before = deleted.length;
     const r = await createCourseFromFiles(admin, { title: `${tag} x`, subjectId, level: "BASIC", description: "", departments: [], publish: true, mandatory: true, dueAt: null },
-      [{ key: "00000000-0000-4000-8000-000000000003.pdf", type: "PDF", filename: "a.pdf" }], storage);
+      [{ key: "00000000-0000-4000-8000-000000000003.pdf", filename: "a.pdf" }], storage);
     expect(r).toMatchObject({ ok: false });
     expect(deleted.length).toBe(before + 1);
   });

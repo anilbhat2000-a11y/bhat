@@ -3,8 +3,10 @@ import type { ReadableStream as WebReadableStream } from "node:stream/web";
 import busboy from "busboy";
 import { currentUser } from "../../../../lib/auth/current-user";
 import { defaultStorage } from "../../../../lib/storage";
-import { sizeLimitBytes, validateUpload, type UploadKind } from "../../../../lib/storage/validate";
+import { sizeLimitBytes, validateLessonFile } from "../../../../lib/storage/validate";
 import { createCourseFromFiles, type UploadedFile } from "../../../../lib/learning/upload-course";
+import { parseQuestionFile } from "../../../../lib/import/question-files";
+import { addCompletionCheckQuestions } from "../../../../lib/assessments/admin";
 import type { Level } from "../../../../generated/prisma/client";
 
 const HARD_CEILING = 600 * 1024 * 1024;
@@ -45,6 +47,7 @@ export async function POST(request: Request): Promise<Response> {
   const files: UploadedFile[] = [];
   const writes: Promise<void>[] = [];
   let problem: string | null = null;
+  let questions: { name: string; data: Buffer } | null = null;
   const storage = defaultStorage();
 
   const parser = busboy({ headers: Object.fromEntries(request.headers), limits: { files: MAX_FILES, fields: 60, fieldSize: 4096, fileSize: HARD_CEILING } });
@@ -54,18 +57,31 @@ export async function POST(request: Request): Promise<Response> {
   });
   parser.on("filesLimit", () => { problem ??= `Upload at most ${MAX_FILES} files at a time`; });
   parser.on("file", (name, file, info) => {
+    // Optional questions file (Excel, CSV or Word): read into memory, at most 20 MB.
+    if (name === "questions" && info.filename && !problem) {
+      const chunks: Buffer[] = [];
+      let size = 0;
+      file.on("data", (c: Buffer) => {
+        size += c.length;
+        if (size <= 20 * MB) chunks.push(c);
+      });
+      file.on("end", () => {
+        if (size > 20 * MB) problem ??= "The questions file is too large (20 MB at most)";
+        else questions = { name: info.filename ?? "questions", data: Buffer.concat(chunks) };
+      });
+      return;
+    }
     if (name !== "files" || problem || !info.filename) {
       file.resume();
       return;
     }
-    const kind: UploadKind | null = info.mimeType === "application/pdf" ? "DOCUMENT" : info.mimeType === "video/mp4" ? "VIDEO" : null;
-    const checked = kind ? validateUpload({ filename: info.filename, mime: info.mimeType, sizeBytes: 0 }, kind) : null;
-    if (!kind || !checked || !checked.ok) {
-      problem = `"${info.filename}" is not a PDF or MP4 file`;
+    const checked = validateLessonFile({ filename: info.filename, mime: info.mimeType });
+    if (!checked.ok) {
+      problem = checked.reason;
       file.resume();
       return;
     }
-    const limit = sizeLimitBytes(kind);
+    const limit = sizeLimitBytes(checked.kind);
     let seen = 0;
     const meter = new Transform({
       transform(chunk: Buffer, _e, callback) {
@@ -78,7 +94,7 @@ export async function POST(request: Request): Promise<Response> {
         callback(null, chunk);
       },
     });
-    files.push({ key: checked.key, type: kind === "VIDEO" ? "VIDEO" : "PDF", filename: info.filename });
+    files.push({ key: checked.key, filename: info.filename });
     file.pipe(meter);
     writes.push(storage.putStream(checked.key, meter));
   });
@@ -94,6 +110,13 @@ export async function POST(request: Request): Promise<Response> {
     await Promise.all(writes);
   } catch {
     problem ??= "A file could not be stored. Nothing was stored.";
+  }
+  // Questions are checked before anything is created, so a mistake in them stops the upload.
+  let questionRows: Awaited<ReturnType<typeof parseQuestionFile>> | null = null;
+  const q = questions as { name: string; data: Buffer } | null;
+  if (!problem && q) {
+    questionRows = await parseQuestionFile(q.name, q.data);
+    if (!questionRows.ok) problem = `Questions file: ${questionRows.error}`;
   }
   if (problem) {
     for (const f of files) await storage.delete(f.key);
@@ -112,5 +135,12 @@ export async function POST(request: Request): Promise<Response> {
     dueAt: dueDate(fields.get("dueDate")),
   }, files, storage);
   if (!result.ok) return redirectTo(FORM, result.error, "error");
-  return redirectTo(`/admin/courses/${encodeURIComponent(result.id)}`, result.message, "notice");
+  let message = result.message;
+  if (questionRows?.ok) {
+    const added = await addCompletionCheckQuestions(actor, result.id, questionRows.rows);
+    message += added.ok
+      ? ` Added a completion check with ${added.created} questions.`
+      : ` The questions were not added: ${added.errors.slice(0, 3).map((e) => `${questionRows.ok ? questionRows.rows[e.row - 1]?.source ?? `row ${e.row}` : ""}: ${e.reason}`).join("; ")}. Fix the file and import it on the course's assessment page.`;
+  }
+  return redirectTo(`/admin/courses/${encodeURIComponent(result.id)}`, message, "notice");
 }

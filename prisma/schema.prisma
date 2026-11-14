@@ -39,6 +39,8 @@ enum LessonType {
   TEXT
   PDF
   VIDEO
+  // A file the browser cannot show (an Office file that could not be converted): download only.
+  DOCUMENT
   LINK
   LIVE_SESSION
   LAB
@@ -233,6 +235,13 @@ model Lesson {
   fileKey        String?    @map("file_key")
   captionFileKey String?    @map("caption_file_key")
   url            String?
+  // The file as uploaded, when it was converted for viewing in the browser (PowerPoint,
+  // Word or Excel to PDF; MOV or MKV to MP4). Learners can download the original.
+  sourceFileKey  String?    @map("source_file_key")
+  sourceFileName String?    @map("source_file_name")
+  // PENDING while a conversion waits or runs, DONE when fileKey holds the converted file,
+  // FAILED when it could not be converted (fileKey then still points at the original).
+  conversion     String?
 
   instructors LessonInstructor[]
   liveSession LiveSession?

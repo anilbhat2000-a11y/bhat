@@ -11,8 +11,17 @@ import { ScheduleSessionForm } from "../../../../components/ScheduleSessionForm"
 import { attachCaptionAction } from "../../../actions/courses";
 import { LessonReorder } from "../../../../components/LessonReorder";
 import { updateCourseAction } from "../../../actions/account";
+import { ACCEPT_ATTRIBUTE, FORMAT_LIST, formatLabel } from "../../../../lib/storage/formats";
+import { resumePendingConversions } from "../../../../lib/learning/conversions";
 import { assignCourseAction, unassignCourseAction } from "../../../actions/community";
 import { feedbackSummary } from "../../../../lib/community/community";
+
+function lessonTypeLabel(l: { type: string; captionFileKey: string | null; conversion: string | null; sourceFileKey: string | null }): string {
+  const from = l.sourceFileKey ? ` from ${formatLabel(l.sourceFileKey)}` : "";
+  const state = l.conversion === "PENDING" ? ", converting…" : l.conversion === "FAILED" ? ", could not be converted (download only)" : "";
+  const captions = l.type === "VIDEO" ? (l.captionFileKey ? ", captions added" : ", captions needed to publish") : "";
+  return `${l.type === "DOCUMENT" ? "Document" : l.type}${from}${state}${captions}`;
+}
 
 export default async function CoursePage({
   params,
@@ -33,6 +42,8 @@ export default async function CoursePage({
     },
   });
   if (!course) notFound();
+  // Picks up any conversion that stopped (for example after a restart); does not wait for it.
+  if (course.lessons.some((l) => l.conversion === "PENDING")) void resumePendingConversions(course.id);
   const [instructors, assignments, people, feedback] = await Promise.all([
     prisma.instructor.findMany({ where: { active: true }, orderBy: { name: "asc" } }),
     prisma.courseAssignment.findMany({ where: { courseId: course.id }, orderBy: { createdAt: "asc" } }),
@@ -189,7 +200,7 @@ export default async function CoursePage({
       <h2 id="lessons">Lessons</h2>
       <LessonReorder
         courseId={course.id}
-        lessons={course.lessons.map((l) => ({ id: l.id, title: l.title, type: l.type + (l.type === "VIDEO" ? (l.captionFileKey ? ", captions added" : ", captions needed to publish") : "") }))}
+        lessons={course.lessons.map((l) => ({ id: l.id, title: l.title, type: lessonTypeLabel(l) }))}
       />
 
       {course.modules.length > 0 && course.lessons.length > 0 ? (
@@ -258,17 +269,15 @@ export default async function CoursePage({
       ))}
 
       <h2 id="upload">Upload a file lesson</h2>
+      <p className="muted">Accepted: {FORMAT_LIST}. PowerPoint, Word and Excel files are converted to PDF so learners can read them in the browser, and MOV or MKV videos to MP4; learners can also download the original. Leave the title empty to use the file name.</p>
       <form data-test="upload-lesson" action="/api/upload/lesson" method="post" encType="multipart/form-data">
         <input type="hidden" name="courseId" value={course.id} />
-        <input aria-label="Title" name="title" placeholder="Title" required />{" "}
+        <input aria-label="Title" name="title" placeholder="Title (optional)" />{" "}
         {moduleSelect}{" "}
-        <select aria-label="Type" name="type" defaultValue="PDF">
-          <option value="PDF">PDF document</option>
-          <option value="VIDEO">Video (MP4)</option>
-        </select>{" "}
-        <input aria-label="File" name="file" type="file" accept="application/pdf,video/mp4" required />{" "}
+        <input aria-label="File" name="file" type="file" accept={ACCEPT_ATTRIBUTE} required />{" "}
         <button type="submit">Upload</button>
       </form>
+      <p><a href="/admin/courses/bulk">Bulk upload courses from Excel</a></p>
     </main>
   );
 }

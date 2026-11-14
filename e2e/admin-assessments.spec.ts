@@ -43,6 +43,7 @@ test("a question import with one bad row names the row and adds nothing", async 
     "SINGLE,Good question,A|B,1,1",
     "SINGLE,Bad question,A|B,9,1",
   ].join("\n");
+  await page.getByText("Or paste CSV text").click();
   await page.fill("form[data-test=import-questions] textarea[name=csv]", csv);
   await page.click("form[data-test=import-questions] button[type=submit]");
   await expect(page.locator("p[role=alert]")).toContainText("Row 2");

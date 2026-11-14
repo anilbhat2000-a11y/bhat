@@ -3,9 +3,10 @@ import { guardPortal } from "../../../../lib/auth/portal";
 import { notFound } from "next/navigation";
 import { prisma } from "../../../../lib/db/client";
 import {
-  addQuestionAction, importQuestionsAction, setAssignmentAction, setPublishedAction, resetAttemptsAction,
+  addQuestionAction, importQuestionsAction, importQuestionFileAction, setAssignmentAction, setPublishedAction, resetAttemptsAction,
 } from "../../../actions/assessments";
 import { deleteQuestionAction, updateSettingsAction } from "../../../actions/content";
+import { QUESTION_FILE_ACCEPT } from "../../../../lib/import/question-files";
 
 export default async function AssessmentPage({
   params,
@@ -117,7 +118,15 @@ export default async function AssessmentPage({
         <button type="submit">Add question</button>
       </form>
 
-      <h2 id="import">Import questions (CSV)</h2>
+      <h2 id="import">Import questions from a file</h2>
+      <p>Upload an <strong>Excel</strong> (.xlsx, .xls), <strong>CSV</strong> or <strong>Word</strong> (.docx, .doc) file. <a href="/api/templates/questions">Download the Excel questions template</a>, which explains every column, or <a href="/api/templates/questions-word">the Word example</a>.</p>
+      <form data-test="import-question-file" action={importQuestionFileAction} encType="multipart/form-data">
+        <input type="hidden" name="assessmentId" value={assessment.id} />
+        <input type="file" name="file" accept={QUESTION_FILE_ACCEPT} required aria-label="Questions file" />{" "}
+        <button type="submit">Import file</button>
+      </form>
+      <details>
+        <summary>Or paste CSV text</summary>
       <p>Columns: type, text, options, correct, points, and optionally scenario and explanation. Options and correct numbers are separated by |. Types: SINGLE, MULTIPLE, TRUE_FALSE, FILL_BLANK, MATCHING, SHORT_ANSWER.</p>
       <form data-test="import-questions" action={importQuestionsAction}>
         <input type="hidden" name="assessmentId" value={assessment.id} />
@@ -125,6 +134,7 @@ export default async function AssessmentPage({
         <br />
         <button type="submit">Import</button>
       </form>
+      </details>
 
       <h2 id="periods">Learner periods</h2>
       {periods.length === 0 ? <p>No one has an open period yet.</p> : (

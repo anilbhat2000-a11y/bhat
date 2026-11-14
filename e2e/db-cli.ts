@@ -49,6 +49,9 @@ async function main(): Promise<void> {
   } else if (command === "course-id") {
     const course = await prisma.course.findFirst({ where: { title: args[0] } });
     console.log(course?.id ?? "");
+  } else if (command === "check-id") {
+    const a = await prisma.assessment.findFirst({ where: { course: { title: args[0] }, cadence: "ONE_TIME" } });
+    console.log(a?.id ?? "");
   } else if (command === "set-active") {
     const [email, value] = args;
     await prisma.user.update({ where: { email }, data: { active: value === "true" } });

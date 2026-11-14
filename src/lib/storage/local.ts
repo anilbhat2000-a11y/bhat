@@ -5,7 +5,7 @@ import { pipeline } from "node:stream/promises";
 import type { FileStorage } from "./types";
 
 // Keys produced by validateUpload: a UUID plus one of the allowed extensions.
-const KEY_PATTERN = /^[0-9a-f-]{36}\.(pdf|mp4|png|jpg|vtt)$/;
+const KEY_PATTERN = /^[0-9a-f-]{36}\.(pdf|mp4|mov|mkv|png|jpg|vtt|pptx|ppt|docx|doc|xlsx|xls)$/;
 
 export function createLocalStorage(rootDir: string): FileStorage {
   const root = resolve(rootDir);

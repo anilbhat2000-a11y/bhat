@@ -14,7 +14,7 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
   const user = await currentUser();
   if (!user) return new Response("Not found", { status: 404 });
   const { id } = await params;
-  const file = await getLessonFile(user, id);
+  const file = await getLessonFile(user, id, { original: new URL(request.url).searchParams.get("original") === "1" });
   if (!file) return new Response("Not found", { status: 404 });
 
   const storage = defaultStorage();
@@ -22,7 +22,7 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
   const safeName = file.title.replace(/[^\w.-]+/g, "_") || "file";
   const common = {
     "content-type": file.mime,
-    "content-disposition": `inline; filename="${safeName}"`,
+    "content-disposition": `${file.download ? "attachment" : "inline"}; filename="${safeName}"`,
     "accept-ranges": "bytes",
     "cache-control": "private, no-store",
     "x-content-type-options": "nosniff",

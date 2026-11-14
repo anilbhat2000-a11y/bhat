@@ -28,6 +28,30 @@ For L&D and HR administrators. Sign in and open the **Admin portal** (`/admin`).
 - **Delete** shows what would be affected (lessons, learners who started or completed it, completion-check attempts, assignments and learning paths) and asks you to tick a box to confirm. A course that learners have started or been tested on cannot be deleted, because that would erase their records; the page offers **Archive** instead, which removes it from the catalogue and keeps every record. Restore an archived course with Modify. Every deletion is recorded in the audit log.
 - **New course** and **Upload a course** are at the top right.
 
+### Supported file formats
+
+Lesson files can be **PDF**, **PowerPoint** (.ppt, .pptx), **Word** (.doc, .docx), **Excel** (.xls, .xlsx) or **video** (.mp4, .mov, .mkv). Size limits: PDF 50 MB, PowerPoint, Word and Excel 100 MB, video 500 MB each (set in `.env` with `MAX_UPLOAD_MB_DOC`, `MAX_UPLOAD_MB_OFFICE` and `MAX_UPLOAD_MB_VIDEO`).
+
+- PDF and MP4 are shown as they are.
+- PowerPoint, Word and Excel files are **converted to PDF** in the background, so learners read them in the browser without Office. MOV and MKV videos are **converted to MP4** so they play in every browser. Learners can always download the original file.
+- Conversion usually takes a few seconds to a few minutes. Until it finishes, the course editor shows "converting…" and learners can download the file. If a file cannot be converted, it stays a download-only lesson and the editor says so.
+- Each file is checked when it is uploaded: a file renamed to look like another type (for example a web page saved as .pdf) is refused.
+
+Questions can be imported from **Excel** (.xlsx, .xls), **CSV** or **Word** (.docx, .doc). Download the Excel template or the Word example from an assessment's page; both explain the layout. Every row is checked first, and nothing is imported if any row has a mistake.
+
+### Bulk upload many courses
+
+**Admin portal → Courses → Bulk upload.**
+
+1. **Download the Excel template.** It has an Instructions sheet and four sheets to fill in:
+   - **Courses:** one row per course: a short code (C1, C2 …), title, subject (drop-down), level, description, departments, pass mark, Publish (Yes/No), Mandatory (Yes/No) and due date.
+   - **Modules** (optional): course code, module number, title, minutes.
+   - **Lessons:** one row per lesson in order: course code, module number, title, Type (File, Text or Link), and the file name, text or web address. Videos can name a .vtt captions file.
+   - **Questions** (optional): each course's completion check: course code, type, question, options, correct answer, points and explanation.
+2. **Upload** the workbook with the lesson files: select them all, or put them in one ZIP (up to 500 files). File names must match the File name column exactly.
+3. Everything is checked first. If anything is wrong (a missing file, an unknown subject, a question without enough options, a course title that already exists), **nothing is created** and the page lists every problem with its sheet and row. Fix them and upload again.
+4. When all is well, the page lists the courses created with their modules, lessons, questions and status. Courses marked Publish are published (unless a video still needs captions); courses marked Mandatory are assigned to their departments.
+
 ### Upload a course for your departments
 
 The quickest way to put your own training material in the portal. **Admin portal → Courses → Upload a course** (also on the admin home page under Quick actions).
@@ -35,7 +59,7 @@ The quickest way to put your own training material in the portal. **Admin portal
 1. Enter the course **title**, **subject**, **level** and a short **description**.
 2. **Which departments is it for?** Tick one or more departments, or type others separated by commas. Leave every box empty to show the course to everyone.
 3. **Publish now** makes it live straight away; otherwise it is saved as a draft for you to review. **Make it mandatory** assigns it to those departments (with an optional due date), so everyone in them sees it under Assigned courses and gets reminders.
-4. Choose your **files**: PDFs (up to 50 MB each) and MP4 videos (up to 500 MB each), up to 30 at a time. Each file becomes one lesson, and the file name becomes the lesson title, so name files in order, for example `01 Introduction.pdf`, `02 Process.pdf`.
+4. Choose your **files**: PDF, PowerPoint, Word, Excel, MP4, MOV or MKV, up to 30 at a time. Optionally add a **questions file** (Excel, CSV or Word) to create the course's completion check at the same time. Each file becomes one lesson, and the file name becomes the lesson title, so name files in order, for example `01 Introduction.pdf`, `02 Process.pdf`.
 5. Press **Upload and create course**. You then land on the course page, where you can rename and reorder lessons, add modules, text lessons and a completion check.
 
 Videos need a caption file before a course can be published, so a course with videos is saved as a draft; add the captions on the course page, then publish.
@@ -46,7 +70,7 @@ Videos need a caption file before a course can be published, so a course with vi
 2. **Add modules:** in the course, under **Modules**, add each module with a title and estimated minutes. Learners see the modules in order, with their times and the course total.
 3. **Add lessons:**
    - **Text, link, lab or live session:** fill in **Add a text, link, lab, or live session lesson** and choose the module. For a lab, write the instructions with one `- [ ] step` line per checklist item.
-   - **PDF or video:** use **Upload a file lesson**, choose the module, then the file. Videos must be MP4 (up to 500 MB). PDFs up to 50 MB.
+   - **A file (PDF, PowerPoint, Word, Excel or video):** use **Upload a file lesson**, choose the module, then the file. The lesson type follows the file; leave the title empty to use the file name. See *Supported file formats* above.
    - **Captions:** every video needs a WebVTT (`.vtt`) caption file before the course can be published, so deaf and hard-of-hearing staff can follow it.
 4. **Order:** drag lessons to reorder them. **Lesson modules** lets you move several lessons between modules at once; lessons are then grouped by module automatically. Learners complete lessons in order.
 5. **Completion rules** (in the course settings):

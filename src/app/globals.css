@@ -487,3 +487,9 @@ a.btn-outline:hover { background: var(--accent-soft); }
 @media (prefers-color-scheme: dark) {
   .level-basic, .level-intermediate, .level-advanced, .badge-draft { background: var(--surface-2); color: var(--text); }
 }
+
+/* ---------- File lessons ---------- */
+.pdf-frame { width: 100%; height: min(78vh, 760px); border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface); }
+.file-lesson p { margin-top: 8px; }
+.report-bad { border-left: 5px solid var(--danger); }
+.report-ok { border-left: 5px solid var(--ok); }

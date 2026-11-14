@@ -5,7 +5,8 @@ import { currentUser } from "../../../../lib/auth/current-user";
 import { saveLessonFile } from "../../../../lib/learning/courses";
 import { assignLessonModules } from "../../../../lib/learning/modules";
 import { defaultStorage } from "../../../../lib/storage";
-import { sizeLimitBytes, validateUpload, type UploadKind } from "../../../../lib/storage/validate";
+import { sizeLimitBytes, validateLessonFile, type UploadKind } from "../../../../lib/storage/validate";
+import { titleFromFilename } from "../../../../lib/learning/upload-course";
 
 // Hard ceiling for any upload, so a client cannot stream without end. The per-type limit
 // (PDF, video) is applied while the file is read.
@@ -47,6 +48,8 @@ export async function POST(request: Request): Promise<Response> {
   let courseTo = "/admin/courses";
   let problem: string | null = null;
   let tooLarge = false;
+  let kindSeen: UploadKind = "DOCUMENT";
+  let fileName = "";
   const storage = defaultStorage();
   const writes: Promise<void>[] = [];
 
@@ -70,21 +73,19 @@ export async function POST(request: Request): Promise<Response> {
       return;
     }
     courseTo = `/admin/courses/${encodeURIComponent(courseId)}`;
-    const kind: UploadKind | null = fields.get("type") === "VIDEO" ? "VIDEO" : fields.get("type") === "PDF" ? "DOCUMENT" : null;
-    if (!kind) {
-      problem = "Choose PDF or video for the lesson type";
-      file.resume();
-      return;
-    }
-    // The pre-check uses the declared type and name only; size is checked as bytes arrive.
-    const checked = validateUpload({ filename: info.filename ?? "", mime: info.mimeType, sizeBytes: 0 }, kind);
+    // The lesson type follows the file: PDF, video (MP4, MOV, MKV) or Office (PowerPoint,
+    // Word, Excel). The pre-check uses the name and declared type; size is checked as bytes
+    // arrive and the file's signature once it is stored.
+    const checked = validateLessonFile({ filename: info.filename ?? "", mime: info.mimeType });
     if (!checked.ok) {
       problem = checked.reason;
       file.resume();
       return;
     }
+    kindSeen = checked.kind;
+    fileName = info.filename ?? "";
     storedKey = checked.key;
-    const limit = sizeLimitBytes(kind);
+    const limit = sizeLimitBytes(checked.kind);
     let seen = 0;
     const meter = new Transform({
       transform(chunk: Buffer, _encoding, callback) {
@@ -125,14 +126,13 @@ export async function POST(request: Request): Promise<Response> {
   if (problem) return redirectTo(courseTo, problem, "error");
   if (!storedKey) return redirectTo(courseTo, "Choose a file to upload", "error");
   if (tooLarge) {
-    const kind = fields.get("type") === "VIDEO" ? "VIDEO" : "DOCUMENT";
-    return redirectTo(courseTo, `File is too large: the size limit is ${sizeLimitBytes(kind) / MB} MB`, "error");
+    return redirectTo(courseTo, `File is too large: the size limit is ${sizeLimitBytes(kindSeen) / MB} MB`, "error");
   }
 
   const result = await saveLessonFile(
     actor,
     fields.get("courseId") ?? "",
-    { title: fields.get("title") ?? "", type: fields.get("type") === "VIDEO" ? "VIDEO" : "PDF", key: storedKey },
+    { title: (fields.get("title") ?? "").trim() || titleFromFilename(fileName, 0), key: storedKey, filename: fileName },
     storage,
   );
   if (!result.ok) return redirectTo(courseTo, result.error, "error");
@@ -141,5 +141,5 @@ export async function POST(request: Request): Promise<Response> {
     const placed = await assignLessonModules(actor, fields.get("courseId") ?? "", { [result.id]: moduleId });
     if (!placed.ok) return redirectTo(courseTo, `File uploaded, but not placed in the module: ${placed.error}`, "error");
   }
-  return redirectTo(courseTo, "File uploaded", "notice");
+  return redirectTo(courseTo, /\.(pptx?|docx?|xlsx?|mov|mkv)$/i.test(fileName) ? "File uploaded. It is being converted for viewing in the browser; this can take a minute." : "File uploaded", "notice");
 }

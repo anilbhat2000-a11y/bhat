@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { requireSession } from "../../lib/auth/current-user";
+import { parseQuestionFile } from "../../lib/import/question-files";
 import { parseCsvRows } from "../../lib/import/csv";
 import type { QuestionRow } from "../../lib/import/questions";
 import {
@@ -115,4 +116,23 @@ export async function resetAttemptsAction(formData: FormData): Promise<void> {
   if (!result.ok) back(to, result.error, "error");
   revalidatePath(to);
   back(to, "Attempts reset", "notice");
+}
+
+// Imports questions from an uploaded Excel, CSV or Word file into an assessment.
+export async function importQuestionFileAction(formData: FormData): Promise<void> {
+  const actor = await requireSession();
+  const assessmentId = text(formData, "assessmentId");
+  const to = `/admin/assessments/${assessmentId}`;
+  const file = formData.get("file");
+  if (!(file instanceof File) || file.size === 0) back(to, "Choose an Excel, CSV or Word file", "error");
+  if (file.size > 20 * 1024 * 1024) back(to, "The questions file is too large (20 MB at most)", "error");
+  const parsed = await parseQuestionFile(file.name, Buffer.from(await file.arrayBuffer()));
+  if (!parsed.ok) back(to, parsed.error, "error");
+  const result = await importQuestions(actor, assessmentId, parsed.rows);
+  if (!result.ok) {
+    const shown = result.errors.slice(0, 5).map((e) => `${parsed.rows[e.row - 1]?.source ?? `Row ${e.row}`}: ${e.reason}`).join("; ");
+    back(to, `${shown}${result.errors.length > 5 ? ` (and ${result.errors.length - 5} more)` : ""}. Nothing was imported.`, "error");
+  }
+  revalidatePath(to);
+  back(to, `Imported ${result.created} questions from ${file.name}`, "notice");
 }
