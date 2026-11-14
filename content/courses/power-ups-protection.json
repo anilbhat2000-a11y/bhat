@@ -5,44 +5,175 @@
   "category": "TECHNICAL",
   "level": "BASIC",
   "passMarkPercent": 70,
-  "description": "UPS types, sizing by load and runtime, battery choices, and the questions that lead to a correct power protection proposal.",
+  "description": "Why IT needs clean power, UPS types, and earthing basics. You will be able to: explain common power-quality problems; compare offline, line-interactive and online UPS; explain why earthing matters for IT equipment; collect the load details for sizing.",
+  "modules": [
+    {
+      "title": "Power quality",
+      "minutes": 30
+    },
+    {
+      "title": "UPS types",
+      "minutes": 30
+    },
+    {
+      "title": "Earthing basics",
+      "minutes": 30
+    },
+    {
+      "title": "Load survey",
+      "minutes": 20
+    }
+  ],
   "lessons": [
     {
       "position": 1,
-      "title": "Why power protection matters",
+      "title": "Power quality",
       "type": "TEXT",
-      "body": "Power problems damage equipment and stop work. Common issues are:\n\n- **Outage:** complete loss of mains power.\n- **Sag and brownout:** voltage drops below normal.\n- **Surge and spike:** sudden voltage rises, often from lightning or switching loads.\n- **Noise and frequency variation:** disturbances that affect sensitive electronics.\n\nAn uninterruptible power supply (UPS) bridges short outages, filters disturbances, and allows safe shutdown or generator start."
+      "body": "IT equipment needs clean, stable power. In India, mains supply is nominally 230 V single-phase or about 400–415 V three-phase, at 50 Hz, but the real supply often varies. Power problems are a leading cause of equipment failure, data corruption and downtime.\n\n## Common power problems\n\n- **Outage (blackout):** complete loss of power.\n- **Sag (dip):** a short drop in voltage, often caused by large motors starting nearby.\n- **Swell:** a short rise in voltage.\n- **Transient (spike or surge):** a very short, high-voltage event, from lightning or switching of heavy loads.\n- **Under-voltage and over-voltage:** voltage that stays too low or too high for long periods.\n- **Frequency variation:** common when running on generators.\n- **Harmonics:** distortion of the voltage waveform, caused by non-linear loads such as computers and drives.\n- **Electrical noise:** interference from other equipment.\n\n## Effects on IT equipment\n\n- Sudden shutdowns that corrupt data and damage file systems.\n- Stress on power supplies that shortens equipment life.\n- Damage from surges, sometimes immediate and sometimes cumulative.\n- Unexplained reboots and errors that are hard to diagnose.\n\n## Key terms\n\n- **Power quality:** how close the supply is to an ideal, stable sine wave at the correct voltage and frequency.\n- **Sag / swell:** short-term voltage decrease / increase.\n- **Transient:** a very short, high-energy disturbance.\n- **Harmonics:** waveform distortion at multiples of the base frequency.\n\n## Real-world example\n\nA textile company's office near its factory reports frequent PC reboots every morning. A power quality analyser shows voltage sags each time large looms start. The SI installs line-interactive UPS units for the PCs and recommends separating the office supply from the factory loads. The reboots stop.\n\n## Common mistakes\n\n- Assuming outages are the only power problem.\n- Diagnosing reboots as software issues without checking power.\n- Ignoring harmonics from IT loads themselves.\n\n## Key takeaways\n\n- Power problems include outages, sags, swells, transients, harmonics and noise.\n- They cause data corruption, equipment damage and hard-to-diagnose faults.\n- Measure power quality before choosing a solution.",
+      "module": 1
     },
     {
       "position": 2,
       "title": "UPS types",
       "type": "TEXT",
-      "body": "The three main UPS types differ in how they protect the load:\n\n- **Offline (standby):** the load runs on mains and switches to battery when mains fails. Basic and low cost, with a short switchover time.\n- **Line-interactive:** regulates voltage without switching to battery for small dips. Common for small offices and branch sites.\n- **Online (double conversion):** the load always runs from the UPS, so it is fully isolated from mains disturbances. Used for critical servers and sensitive equipment.\n\nChoose the type by the sensitivity of the load and the importance of uninterrupted power."
+      "body": "A UPS (uninterruptible power supply) protects equipment from power problems and keeps it running for a time during outages, using batteries. The international standard IEC 62040-3 describes three main UPS topologies.\n\n## The three UPS types\n\n- **Passive standby (offline):** the load runs directly on mains; when mains fails, the UPS switches to its inverter. Simple and low cost, with a short transfer time. Suitable for individual PCs.\n- **Line-interactive:** like standby, but with an automatic voltage regulator that corrects sags and swells without using the battery. Good for small servers, network equipment and offices with fluctuating voltage.\n- **Double-conversion (online):** the incoming AC is converted to DC and back to clean AC continuously, so the load is always isolated from the mains. There is no transfer time. The standard choice for servers, data centres and critical loads.\n\n## UPS ratings\n\n- **kVA and kW:** kVA is apparent power; kW is real power. kW = kVA × power factor. Modern UPS units often have an output power factor of 0.9 or 1.0. Size by the load's kW and check both ratings.\n- **Backup time (runtime):** how long the UPS can support the load on battery; depends on battery capacity and load.\n- **Single-phase or three-phase:** larger UPS systems are usually three-phase.\n\n## Key terms\n\n- **Inverter:** converts DC from the battery to AC.\n- **Rectifier:** converts incoming AC to DC.\n- **Transfer time:** the time a standby or line-interactive UPS takes to switch to battery.\n- **Bypass:** a path that feeds the load from mains if the UPS faults or for maintenance.\n\n## Real-world example\n\nA customer buys line-interactive UPS units for its server room to save cost. The site is fed by a diesel generator during frequent outages, and the generator's frequency varies. The line-interactive UPS units keep switching to battery and drain them. The SI replaces them with an online double-conversion UPS that tolerates the generator supply and delivers stable output.\n\n## Common mistakes\n\n- Using standby UPS units for servers.\n- Sizing by kVA alone without checking kW.\n- Ignoring how the UPS behaves on generator power.\n\n## Key takeaways\n\n- Standby for PCs, line-interactive for small loads, online double-conversion for critical loads.\n- Check both kW and kVA ratings; kW = kVA × power factor.\n- Consider generator compatibility and backup time.",
+      "module": 2
     },
     {
       "position": 3,
-      "title": "Sizing: VA, watts, and runtime",
+      "title": "Earthing basics",
       "type": "TEXT",
-      "body": "UPS capacity is rated in volt-amperes (VA) and watts (W). The relationship depends on the power factor: watts = VA x power factor. Always check the power factor in the product specification.\n\nSizing steps:\n\n1. List every device to be protected and its power draw in watts.\n2. Add them up and add a margin for growth.\n3. Divide by the power factor to get the VA needed.\n4. Choose a runtime. Longer runtime needs more battery capacity.\n\nA UPS sized only for the current load will fail to meet expansion needs. Ask about planned additions."
+      "body": "Earthing (grounding) connects electrical systems and equipment to the earth. It protects people from electric shock, provides a safe path for fault currents and surges, and gives IT equipment a stable reference. Poor earthing is a common hidden cause of IT problems in Indian sites.\n\n## Why earthing matters\n\n- **Safety:** if a fault occurs, current flows to earth and protective devices trip, instead of passing through a person.\n- **Equipment protection:** surge protection devices need a good earth to divert surges.\n- **Stable operation:** a poor earth can cause a high voltage between neutral and earth, leading to errors, reboots and damaged equipment.\n\n## Key points for IT sites\n\n- Earthing design and installation should follow IS 3043, the Indian code of practice for earthing, and be done by qualified electrical contractors.\n- **Neutral-to-earth voltage** should be low; many IT equipment manufacturers ask for it to be below about 2 V at the equipment.\n- **Earth resistance** should be measured and kept low; data-centre specifications commonly target 1 ohm or less, as set by the design engineer.\n- Earth pits need maintenance, especially in dry seasons when resistance rises.\n- All IT equipment, racks and cable trays should be bonded to the same earth system.\n\n## Key terms\n\n- **Earthing:** connecting electrical systems to the ground for safety and stability.\n- **Neutral-to-earth voltage:** the voltage difference between neutral and earth; should be low.\n- **Earth pit:** the electrode installation in the ground.\n- **Bonding:** connecting metal parts together so they are at the same potential.\n\n## Real-world example\n\nAt a branch office, network switches fail repeatedly after storms. A site check finds a neutral-to-earth voltage of 9 V and an earth pit that has dried out. After a qualified electrician rebuilds the earth pit and bonds the racks properly, and surge protection is added, failures stop.\n\n## Common mistakes\n\n- Installing UPS and IT equipment without checking earthing.\n- Never testing earth resistance after installation.\n- Letting non-qualified people modify earthing.\n\n## Key takeaways\n\n- Earthing protects people and equipment and stabilises IT operation.\n- Follow IS 3043 and use qualified electricians.\n- Measure neutral-to-earth voltage and earth resistance, and maintain earth pits.",
+      "module": 3
     },
     {
       "position": 4,
-      "title": "Batteries, maintenance, and discovery questions",
+      "title": "Load survey",
       "type": "TEXT",
-      "body": "Batteries wear out and are usually the first component to need replacement. Sealed lead-acid (VRLA) batteries are common and cost less upfront. Lithium batteries last longer and are lighter, at a higher initial cost. Include battery replacement cycles in the total cost.\n\nDiscovery questions for a power proposal:\n\n- Which equipment must stay running, and for how long during an outage?\n- What is the total power draw of that equipment now, and what growth is expected?\n- Is there a generator, and how is it started?\n- When were the existing batteries last replaced and tested?\n- Who maintains the UPS, and under what contract?"
+      "body": "A load survey identifies all the equipment that needs power protection and how much power it uses. It is the starting point for sizing any UPS or power solution.\n\n## Steps in a load survey\n\n1. **List all equipment** to be protected: servers, storage, switches, firewalls, PCs, phones and cooling if needed.\n2. **Record power ratings:** from nameplates, datasheets or manufacturer power calculators. Nameplate ratings are usually maximums; real use is often lower.\n3. **Measure actual load:** with a clamp meter or power analyser, where equipment is already running.\n4. **Note critical loads:** which equipment must run during an outage and for how long.\n5. **Check the electrical supply:** single- or three-phase, voltage, earthing, existing distribution and breaker sizes.\n6. **Check the environment:** space for the UPS and batteries, floor loading, ventilation and temperature.\n7. **Ask about the future:** expected growth in equipment over the next three to five years.\n\n## Recording the survey\n\nA simple table lists each device, quantity, power per unit, total power and whether it is critical. Add photos of the electrical panel and the proposed UPS location.\n\n## Key terms\n\n- **Load survey:** a record of equipment and its power needs.\n- **Nameplate rating:** the maximum power shown on the equipment label.\n- **Clamp meter:** a tool that measures current without disconnecting wires.\n- **Critical load:** equipment that must stay powered during outages.\n\n## Real-world example\n\nA customer requests a 20 kVA UPS for its server room. The load survey with a power analyser shows an actual load of about 6 kW, with expected growth to 9 kW over three years. The SI proposes a 10 kVA/10 kW online UPS with expandable batteries. The customer saves money, and the UPS runs at an efficient load level.\n\n## Common mistakes\n\n- Adding up nameplate ratings and oversizing the UPS.\n- Forgetting future growth.\n- Not checking the UPS location, ventilation and floor loading.\n\n## Key takeaways\n\n- List and measure loads, identify critical equipment and check the supply.\n- Use measured load where possible, not just nameplate ratings.\n- Include growth, location and environment in the survey.",
+      "module": 4
+    }
+  ],
+  "sources": [
+    {
+      "title": "IEC: IEC 62040-3 UPS performance classification and IEC 61643 surge protective devices",
+      "url": "https://webstore.iec.ch/"
+    },
+    {
+      "title": "Bureau of Indian Standards: IS 3043 code of practice for earthing and other electrical standards",
+      "url": "https://www.bis.gov.in/"
+    },
+    {
+      "title": "Central Electricity Authority: safety and electricity supply regulations",
+      "url": "https://cea.nic.in/"
     }
   ],
   "assessment": {
-    "title": "Power Solutions: UPS and Power Protection: completion check",
-    "cadence": "ONE_TIME",
+    "title": "Power Solutions Basic: completion check",
     "level": "BASIC",
     "passMarkPercent": 70,
     "questions": [
-      { "position": 1, "type": "SINGLE", "text": "Which UPS type always runs the load from the UPS itself?", "options": ["Offline", "Line-interactive", "Online (double conversion)", "Passive"], "correct": ["Online (double conversion)"], "points": 1 },
-      { "position": 2, "type": "SINGLE", "text": "Which formula gives watts from VA?", "options": ["watts = VA / power factor", "watts = VA x power factor", "watts = VA + power factor", "watts = VA squared"], "correct": ["watts = VA x power factor"], "points": 1 },
-      { "position": 3, "type": "SINGLE", "text": "What is the usual first component to need replacement in a UPS?", "options": ["The cabinet", "The battery", "The display panel", "The cable"], "correct": ["The battery"], "points": 1 },
-      { "position": 4, "type": "MULTIPLE", "text": "Which are power disturbances a UPS can help with? (Select all that apply)", "options": ["Outage", "Sag and brownout", "Surge and spike", "Good, steady voltage"], "correct": ["Outage", "Sag and brownout", "Surge and spike"], "points": 2 },
-      { "position": 5, "type": "TRUE_FALSE", "text": "A UPS sized only for today's load is sufficient even when the customer plans to add equipment.", "options": ["True", "False"], "correct": ["False"], "points": 1 }
+      {
+        "type": "SINGLE",
+        "text": "Which UPS type continuously converts AC to DC and back, with no transfer time?",
+        "options": [
+          "Passive standby",
+          "Line-interactive",
+          "Double-conversion online",
+          "Generator"
+        ],
+        "correct": [
+          "Double-conversion online"
+        ],
+        "points": 1,
+        "explanation": "Online double-conversion UPS isolates the load from the mains all the time."
+      },
+      {
+        "type": "SINGLE",
+        "text": "A UPS is rated 10 kVA with a power factor of 0.9. What is its kW rating?",
+        "options": [
+          "10 kW",
+          "9 kW",
+          "11 kW",
+          "0.9 kW"
+        ],
+        "correct": [
+          "9 kW"
+        ],
+        "points": 1,
+        "explanation": "kW = kVA × power factor = 10 × 0.9 = 9 kW."
+      },
+      {
+        "type": "TRUE_FALSE",
+        "text": "A sag is a short drop in voltage, often caused by large motors starting.",
+        "options": [
+          "True",
+          "False"
+        ],
+        "correct": [
+          "True"
+        ],
+        "points": 1,
+        "explanation": "Starting motors draw large currents, causing voltage dips."
+      },
+      {
+        "type": "SINGLE",
+        "text": "Which Indian standard is the code of practice for earthing?",
+        "options": [
+          "IS 3043",
+          "IS 456",
+          "IS 1200",
+          "ISO 9001"
+        ],
+        "correct": [
+          "IS 3043"
+        ],
+        "points": 1,
+        "explanation": "IS 3043 is the BIS code of practice for earthing."
+      },
+      {
+        "type": "MULTIPLE",
+        "text": "What should a load survey record?",
+        "options": [
+          "Equipment and quantities",
+          "Power ratings and measured load",
+          "Critical loads and backup time",
+          "Employees' home addresses"
+        ],
+        "correct": [
+          "Equipment and quantities",
+          "Power ratings and measured load",
+          "Critical loads and backup time"
+        ],
+        "points": 1,
+        "explanation": "The survey captures what needs power, how much and for how long."
+      },
+      {
+        "type": "TRUE_FALSE",
+        "text": "Adding up nameplate ratings always gives the most accurate UPS size.",
+        "options": [
+          "True",
+          "False"
+        ],
+        "correct": [
+          "False"
+        ],
+        "points": 1,
+        "explanation": "Nameplate ratings are maximums; measured load is usually lower."
+      },
+      {
+        "type": "MATCHING",
+        "text": "Match each power problem to its description.",
+        "options": [
+          "Outage=Complete loss of power",
+          "Transient=Very short high-voltage spike",
+          "Swell=Short rise in voltage",
+          "Harmonics=Waveform distortion from non-linear loads"
+        ],
+        "correct": [],
+        "points": 1,
+        "explanation": "Each problem needs a different kind of protection."
+      }
     ]
   }
 }

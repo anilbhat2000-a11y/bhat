@@ -29,29 +29,51 @@
       "position": 1,
       "title": "Racks and layout",
       "type": "TEXT",
-      "body": "Racks hold servers, storage and network equipment. Good rack planning makes equipment easy to install, cool and maintain.\n\n## Rack basics\n\n- Height is measured in **rack units (U)**; 1U is 44.45 mm. A common full-height rack is 42U.\n- Common widths are 600 mm and 800 mm (wider racks give room for cabling); common depths are 1000 mm and 1200 mm (deep servers need deep racks).\n- Check the rack's load rating against the weight of the equipment.\n\n## Layout\n\n- Heavy equipment (UPS, storage) at the bottom.\n- Network switches often at the top, near cable entry.\n- Leave space for growth, typically 20% or more.\n- Plan cable management: vertical managers for power and data, kept separate.\n- Fit blanking panels in empty spaces so hot air cannot recirculate to the front.",
+      "body": "A well-organised data centre is easier to cool, safer to work in and quicker to troubleshoot. Rack layout and cable management are the foundation.\n\n## Hot aisle and cold aisle\n\nMost IT equipment takes in cool air at the front and blows hot air out of the back. Racks are therefore arranged in rows facing each other:\n\n- **Cold aisle:** the fronts of two rows face each other, and cool air is supplied here.\n- **Hot aisle:** the backs face each other, and hot air is collected here and returned to the cooling units.\n\n**Containment,** such as doors and roofs on the aisles, stops hot and cold air from mixing, improving cooling efficiency.\n\n## Rack layout good practice\n\n- Place heavy equipment, such as UPS units and storage, at the bottom.\n- Use **blanking panels** in empty rack spaces to stop hot air circulating back to the front.\n- Leave space for growth, typically 20 to 30% of rack units.\n- Label every device, cable and port.\n- Keep power and data cables separated, and route them neatly.\n\n## Space planning\n\nPlan for clearances in front of and behind racks for service access and airflow; ANSI/TIA-942 and manufacturer guidance give recommended clearances. Also check floor loading, as a fully loaded rack can weigh several hundred kilograms or more.\n\n## Key terms\n\n- **Hot aisle / cold aisle:** a layout that separates hot exhaust air from cool intake air.\n- **Containment:** physical barriers that keep hot and cold air apart.\n- **Blanking panel:** a cover for unused rack space.\n- **Floor loading:** the weight the floor can safely carry.\n\n## Real-world example\n\nA company's server room has racks facing the same direction, so hot air from one row blows into the front of the next. Despite powerful air conditioners, some servers run hot. An SI reorganises the racks into hot and cold aisles, adds blanking panels and partial containment. Temperatures at the server inlets drop, and the company can raise the air conditioner set point, saving energy.\n\n## Common mistakes\n\n- Racks facing the same direction.\n- Missing blanking panels.\n- Unlabelled cables and devices.\n\n## Key takeaways\n\n- Arrange racks in hot and cold aisles, ideally with containment.\n- Use blanking panels, label everything and leave room for growth.\n- Check clearances and floor loading.",
       "module": 1
     },
     {
       "position": 2,
       "title": "Cooling and power density",
       "type": "TEXT",
-      "body": "Every watt of power used by IT equipment becomes heat that must be removed.\n\n## Hot aisle / cold aisle\n\nRacks are placed in rows facing each other, so cold air enters the fronts from a **cold aisle** and hot air leaves the backs into a **hot aisle**. Mixing hot and cold air wastes cooling. Containment (doors or roofs over an aisle) improves this further.\n\n## Power density\n\nPower per rack is measured in kilowatts (kW). A rack of general servers may use a few kW; a rack of GPU servers can use many times more. Cooling must be designed for the real density, not an average.\n\n## Efficiency\n\n**PUE (power usage effectiveness)** = total facility power ÷ IT equipment power. A PUE of 2.0 means for every watt the IT uses, another watt goes on cooling, lighting and losses. Lower is better.",
+      "body": "Every watt of electricity used by IT equipment becomes heat that must be removed. As servers become more powerful, especially for AI, power and cooling design becomes critical.\n\n## Power density\n\nPower density is the power used per rack, measured in kilowatts (kW). Traditional enterprise racks often use a few kilowatts to around 10 kW. Racks with GPU servers for AI can need several tens of kilowatts or more. The cooling design must match the density.\n\n## Cooling options\n\n- **Room cooling:** precision air conditioning units around the room.\n- **In-row cooling:** cooling units placed between racks, close to the heat.\n- **Rear-door heat exchangers:** cooled doors on the back of racks.\n- **Liquid cooling:** direct-to-chip cold plates or immersion, increasingly used for high-density AI systems.\n\n## Temperature guidelines\n\nASHRAE's thermal guidelines recommend a server inlet air temperature range of 18 °C to 27 °C for most data-centre equipment. Measuring at the server inlet, not just the room thermostat, shows the real conditions.\n\n## Measuring efficiency\n\n**Power Usage Effectiveness (PUE),** defined by The Green Grid, is total facility power divided by IT equipment power. A PUE of 1.0 would mean every watt goes to IT equipment; real facilities are higher. Lower is better.\n\n## Key terms\n\n- **Power density:** kW per rack.\n- **PUE:** total facility power ÷ IT equipment power.\n- **Inlet temperature:** the temperature of air entering the equipment.\n- **Liquid cooling:** using liquid to remove heat directly from components.\n\n## Real-world example\n\nA research institute plans to add four GPU servers, each drawing around 6 kW, into one rack. Its server room was designed for about 5 kW per rack. The SI explains that the existing cooling cannot handle 24 kW in one rack and proposes either spreading the servers across racks with in-row cooling or adding a rear-door heat exchanger. The customer avoids overheating and expensive emergency fixes.\n\n## Common mistakes\n\n- Adding high-power servers without checking power and cooling capacity.\n- Measuring temperature only at the room thermostat.\n- Overcooling the room, wasting energy.\n\n## Key takeaways\n\n- Match cooling design to power density; AI racks need special attention.\n- ASHRAE recommends 18–27 °C at the server inlet.\n- PUE measures facility efficiency; lower is better.",
       "module": 2
     },
     {
       "position": 3,
       "title": "Monitoring and remote management",
       "type": "TEXT",
-      "body": "You cannot manage what you cannot see. Monitoring and remote management reduce downtime and site visits.\n\n## What to monitor\n\n- **Environment:** temperature and humidity at rack inlets, water leak sensors, door sensors.\n- **Power:** UPS status, battery health, PDU load per circuit.\n- **Equipment:** health and alerts from servers, storage and network devices.\n\n## Remote management\n\n- **Out-of-band management** controllers on servers (often called BMCs) allow power cycling, console access and firmware updates even when the operating system is down.\n- **Remote console servers** give access to network device consoles.\n- Keep management interfaces on a separate, secured network.\n\n> This module includes a lab: configure alerts for temperature, UPS and server health on sample equipment.",
+      "body": "Data centres need constant attention, but engineers cannot be everywhere. Monitoring and remote management tools let teams see problems early and fix many of them without visiting the site.\n\n## What to monitor\n\n- **Environment:** temperature, humidity, water leaks and smoke.\n- **Power:** UPS status, battery health, load and PDU usage per rack.\n- **IT equipment:** server health, storage capacity, network links and performance.\n- **Security:** door access, CCTV and alarms.\n\n## Remote management tools\n\n- **Out-of-band management:** controllers built into servers, such as those using IPMI or the DMTF Redfish standard, let administrators power on, reboot and troubleshoot servers even when the operating system is down.\n- **Intelligent PDUs:** measure power per outlet and allow remote power cycling.\n- **KVM over IP and console servers:** remote access to device consoles.\n- **DCIM (data centre infrastructure management):** software that brings together power, cooling, space and asset data.\n- **Network monitoring systems:** using protocols such as SNMP to collect device status and alerts.\n\n## Alerts and response\n\nMonitoring only helps if alerts reach the right people and someone acts. Define thresholds, escalation paths and response procedures, and test them.\n\n## Key terms\n\n- **Out-of-band management:** managing devices through a separate channel, independent of the main network or operating system.\n- **DCIM:** data centre infrastructure management software.\n- **SNMP:** a protocol used to monitor network devices.\n- **Threshold:** the value that triggers an alert.\n\n## Real-world example\n\nAt 2 a.m., a temperature sensor in a branch server room reports a rapid rise. The alert reaches the on-call engineer, who sees that one air conditioner has failed. He remotely shuts down non-critical test servers to reduce heat and calls the maintenance vendor. Critical systems stay up until the unit is repaired in the morning.\n\n## Common mistakes\n\n- Installing monitoring but not configuring alerts or escalation.\n- Not enabling out-of-band management on servers.\n- Too many alerts, causing important ones to be ignored.\n\n## Key takeaways\n\n- Monitor environment, power, IT equipment and security.\n- Use out-of-band management, intelligent PDUs and DCIM for remote control.\n- Configure sensible thresholds and tested escalation paths.",
       "module": 3
     },
     {
       "position": 4,
       "title": "Refresh planning",
       "type": "TEXT",
-      "body": "Server rooms age: equipment goes out of support, cooling cannot keep up, power is maxed out. A refresh needs planning.\n\n## Assess the current state\n\n- Inventory: equipment, age, warranty and end-of-support dates.\n- Power: current load versus UPS and circuit capacity.\n- Cooling: current heat load versus capacity, hot spots.\n- Space: free rack units and floor space.\n- Risks: single points of failure, unsupported equipment.\n\n## Plan the refresh\n\n- Prioritise by risk: unsupported and failing items first.\n- Consider consolidation, such as virtualisation, to reduce equipment.\n- Plan migration windows to avoid business disruption.\n- Size power, cooling and space for three to five years of growth.",
+      "body": "All infrastructure ages. Hardware wears out, software support ends and new requirements emerge. Refresh planning replaces equipment in a controlled way, before it becomes a risk.\n\n## When to refresh\n\n- **End of support:** once the manufacturer stops support and security updates.\n- **Warranty expiry:** extending support on old equipment can cost more than replacing it.\n- **Performance:** equipment can no longer meet business needs.\n- **Efficiency:** newer equipment can use far less power and space for the same work.\n- **Typical cycles:** many organisations refresh servers and storage every four to six years, and laptops every three to five years, but this varies.\n\n## Building a refresh plan\n\n1. **Inventory:** list all equipment with age, warranty and support dates.\n2. **Assess:** identify what is at risk or no longer meets needs.\n3. **Prioritise:** start with critical systems and unsupported equipment.\n4. **Budget:** spread refreshes over years to avoid large one-time spending.\n5. **Plan migrations:** schedule work to minimise disruption.\n6. **Dispose securely:** wipe or destroy data on old equipment and use authorised e-waste recyclers.\n\n## Key terms\n\n- **Refresh cycle:** the planned interval between replacements.\n- **Technical debt:** the growing cost and risk of keeping outdated systems.\n- **E-waste:** discarded electronic equipment, which in India must be handled under the E-Waste (Management) Rules.\n- **Data sanitisation:** securely erasing data before disposal.\n\n## Real-world example\n\nA hospital has storage systems that reach end of support next year and servers that are seven years old. The SI builds a three-year refresh plan: storage in year one, critical servers in year two and the remaining servers in year three. Each phase is budgeted in advance, migration windows are planned around hospital operations, and old disks are securely wiped and certified.\n\n## Common mistakes\n\n- Waiting for failures before replacing equipment.\n- Refreshing everything at once without budget planning.\n- Disposing of old equipment without wiping data.\n\n## Key takeaways\n\n- Refresh based on support dates, risk, performance and efficiency.\n- Build a phased, budgeted plan starting with critical systems.\n- Wipe data and use authorised e-waste recyclers.",
       "module": 4
+    }
+  ],
+  "sources": [
+    {
+      "title": "ASHRAE TC 9.9: thermal guidelines for data processing environments",
+      "url": "https://www.ashrae.org/"
+    },
+    {
+      "title": "The Green Grid: PUE and data centre efficiency metrics",
+      "url": "https://www.thegreengrid.org/"
+    },
+    {
+      "title": "TIA: ANSI/TIA-942 data centre infrastructure standard",
+      "url": "https://tiaonline.org/"
+    },
+    {
+      "title": "DMTF Redfish: standard API for server and infrastructure management",
+      "url": "https://www.dmtf.org/standards/redfish"
+    },
+    {
+      "title": "Ministry of Environment, Forest and Climate Change: E-Waste (Management) Rules",
+      "url": "https://moef.gov.in/"
     }
   ],
   "assessment": {
@@ -61,60 +83,52 @@
     "questions": [
       {
         "type": "SINGLE",
-        "text": "What is the height of one rack unit (1U)?",
+        "text": "In a hot aisle / cold aisle layout, where is cool air supplied?",
         "options": [
-          "44.45 mm",
-          "100 mm",
-          "1 inch",
-          "10 cm"
+          "To the hot aisle",
+          "To the cold aisle, where rack fronts face each other",
+          "To the ceiling only",
+          "To the cable trays"
         ],
         "correct": [
-          "44.45 mm"
-        ],
-        "points": 1
-      },
-      {
-        "type": "SINGLE",
-        "text": "Why fit blanking panels in empty rack spaces?",
-        "options": [
-          "To stop hot air recirculating to the front",
-          "To make the rack heavier",
-          "To hide labels",
-          "To reduce GST"
-        ],
-        "correct": [
-          "To stop hot air recirculating to the front"
-        ],
-        "points": 1
-      },
-      {
-        "type": "MATCHING",
-        "text": "Match each aisle to what flows through it.",
-        "options": [
-          "Cold aisle=Cool air entering equipment fronts",
-          "Hot aisle=Hot air leaving equipment backs"
-        ],
-        "correct": [],
-        "points": 2
-      },
-      {
-        "type": "SINGLE",
-        "text": "A facility uses 200 kW in total, and IT equipment uses 100 kW. What is the PUE?",
-        "options": [
-          "2.0",
-          "0.5",
-          "1.0",
-          "100"
-        ],
-        "correct": [
-          "2.0"
+          "To the cold aisle, where rack fronts face each other"
         ],
         "points": 1,
-        "explanation": "PUE = total facility power ÷ IT power = 200 ÷ 100."
+        "explanation": "Equipment takes cool air in at the front, so cool air goes to the cold aisle."
+      },
+      {
+        "type": "SINGLE",
+        "text": "What is the ASHRAE recommended inlet temperature range for most data-centre equipment?",
+        "options": [
+          "10–15 °C",
+          "18–27 °C",
+          "28–35 °C",
+          "0–10 °C"
+        ],
+        "correct": [
+          "18–27 °C"
+        ],
+        "points": 1,
+        "explanation": "ASHRAE TC 9.9 recommends 18 °C to 27 °C at the server inlet."
+      },
+      {
+        "type": "SINGLE",
+        "text": "How is PUE calculated?",
+        "options": [
+          "IT power ÷ total facility power",
+          "Total facility power ÷ IT equipment power",
+          "Cooling power ÷ IT power",
+          "Racks ÷ servers"
+        ],
+        "correct": [
+          "Total facility power ÷ IT equipment power"
+        ],
+        "points": 1,
+        "explanation": "PUE, defined by The Green Grid, is total facility power divided by IT power. Lower is better."
       },
       {
         "type": "TRUE_FALSE",
-        "text": "Out-of-band management lets you power-cycle a server even when its operating system is down.",
+        "text": "Blanking panels help stop hot air from circulating back to the front of the rack.",
         "options": [
           "True",
           "False"
@@ -122,16 +136,53 @@
         "correct": [
           "True"
         ],
-        "points": 1
+        "points": 1,
+        "explanation": "Empty rack spaces let hot exhaust air recirculate to equipment inlets."
       },
       {
-        "type": "FILL_BLANK",
-        "text": "A common full-height rack has ____ U of space.",
+        "type": "SINGLE",
+        "text": "Which tool lets administrators reboot a server when its operating system has crashed?",
         "options": [
-          "42"
+          "Word processor",
+          "Out-of-band management controller",
+          "Printer driver",
+          "Spreadsheet"
         ],
-        "correct": [],
-        "points": 1
+        "correct": [
+          "Out-of-band management controller"
+        ],
+        "points": 1,
+        "explanation": "Out-of-band controllers, using IPMI or Redfish, work independently of the operating system."
+      },
+      {
+        "type": "MULTIPLE",
+        "text": "Which are good reasons to refresh equipment?",
+        "options": [
+          "End of manufacturer support",
+          "Poor performance for current needs",
+          "Much better efficiency of new equipment",
+          "The equipment colour is outdated"
+        ],
+        "correct": [
+          "End of manufacturer support",
+          "Poor performance for current needs",
+          "Much better efficiency of new equipment"
+        ],
+        "points": 1,
+        "explanation": "Support, performance and efficiency drive refresh decisions."
+      },
+      {
+        "type": "TRUE_FALSE",
+        "text": "Old storage disks can be sent for recycling without wiping data if the company is reputable.",
+        "options": [
+          "True",
+          "False"
+        ],
+        "correct": [
+          "False"
+        ],
+        "points": 1,
+        "explanation": "Data must be securely erased or destroyed before disposal."
       }
     ]
   }

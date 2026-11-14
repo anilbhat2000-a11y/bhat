@@ -29,29 +29,43 @@
       "position": 1,
       "title": "Multi-stakeholder discovery",
       "type": "TEXT",
-      "body": "In an SI deal, several people influence the decision. Talking only to one of them is risky.\n\n## Who to meet\n\n- **Business leaders:** care about outcomes, cost and risk.\n- **IT head or CIO:** care about architecture, support and fit with existing systems.\n- **IT operations team:** care about how easy it is to run.\n- **Finance:** care about budget, payment terms and total cost.\n- **Procurement:** care about process, compliance and fair comparison.\n- **Users:** care about whether it makes their work easier.\n\n## Questions for discovery\n\n- What business problem are you solving, and what happens if you do nothing?\n- How do you measure success?\n- Who else is involved in the decision, and how will it be made?\n- What is the budget and timeline?\n- What have you tried before?\n\nRecord answers and confirm a summary by email.",
+      "body": "In system-integration deals, many people influence the decision. The IT team cares about technology and support, finance about cost and cash flow, business heads about outcomes, users about ease of use, and procurement about process and price. Discovery must cover all of them.\n\n## Who to talk to\n\n- **Economic buyer:** the person who controls the budget and gives final approval, often the CFO, CEO or a business head.\n- **Technical evaluators:** IT heads, architects and engineers who judge whether the solution works.\n- **Users:** the people who will use the solution every day.\n- **Procurement:** the team that manages vendor selection, negotiation and contracts.\n- **Champion:** someone inside who wants the project to succeed and helps you understand the organisation.\n\n## Running multi-stakeholder discovery\n\n1. Map the stakeholders and their roles early.\n2. Prepare different questions for each group, focusing on what they care about.\n3. Meet groups separately when possible; people speak more openly.\n4. Look for conflicting priorities, such as IT wanting the best technology and finance wanting the lowest cost.\n5. Summarise what you learned and confirm it with your champion.\n\n## Key terms\n\n- **Stakeholder:** anyone who affects or is affected by the decision.\n- **Economic buyer:** the person with final budget authority.\n- **Buying committee:** the group of people involved in a purchase decision.\n\n## Real-world example\n\nA salesperson meets only the IT manager of a manufacturing company and designs a high-end Wi-Fi solution for the plant. The proposal is rejected by the plant head, who wanted rugged handheld scanners to work on the shop floor, and by finance, whose budget was half the quoted amount. In the next attempt, the salesperson meets all three groups and proposes a design focused on the shop-floor scanners, phased to fit the budget. It is approved.\n\n## Common mistakes\n\n- Relying on a single contact.\n- Asking everyone the same questions.\n- Ignoring procurement until the end.\n\n## Key takeaways\n\n- Identify the economic buyer, evaluators, users, procurement and a champion.\n- Tailor questions to each group and meet them separately where possible.\n- Uncover and reconcile conflicting priorities.",
       "module": 1
     },
     {
       "position": 2,
       "title": "Problem-to-solution mapping",
       "type": "TEXT",
-      "body": "Customers describe problems, not products. Your job is to map each problem to the right practice areas.\n\n## Examples\n\n- \"Our branches lose connectivity often\": networking (SD-WAN, link redundancy), possibly power (UPS at branches).\n- \"We were hit by ransomware last year\": security (endpoint, email security, backup), server and storage (immutable backups).\n- \"Meetings with remote staff are painful\": audio-visual and collaboration.\n- \"Our server room overheats\": IT infrastructure (cooling, racks), power.\n\n## Use specialists\n\nOnce you see which areas are involved, bring in the presales specialist for each. A joint discovery session with the customer's IT team often uncovers more needs than separate meetings.",
+      "body": "Customers usually describe symptoms, not root causes. \"The network is slow\" might be caused by an overloaded internet link, poor Wi-Fi, an old server or a misconfigured application. Problem-to-solution mapping makes sure we solve the real problem.\n\n## A step-by-step approach\n\n1. **Capture the symptom** in the customer's words.\n2. **Ask for evidence:** when does it happen, where, for whom and how often?\n3. **Find the business impact:** lost time, lost sales, compliance risk or unhappy customers.\n4. **Investigate causes** with presales, using monitoring data, site visits and tests.\n5. **Map each cause to a solution option,** with cost and benefit.\n6. **Prioritise** with the customer: quick wins first, larger changes planned.\n\n## Building a problem map\n\nA simple table helps: one column for each problem, its impact, the likely cause, the proposed solution and the expected result. It keeps everyone focused on outcomes and makes the proposal easy to understand.\n\n## Key terms\n\n- **Symptom:** what the user notices.\n- **Root cause:** the underlying reason for the problem.\n- **Quick win:** a low-cost change that delivers visible improvement quickly.\n- **Problem map:** a table linking problems to impact, cause and solution.\n\n## Real-world example\n\nA retail chain complains that billing counters freeze at peak hours. The customer asks for new billing PCs. Discovery and a short monitoring exercise show that the PCs are fine; the store internet link is saturated by video streaming on the guest Wi-Fi. The SI proposes separating guest traffic and adding bandwidth limits. The fix costs a fraction of new PCs and solves the problem. The customer's trust leads to a larger store-network project later.\n\n## Common mistakes\n\n- Quoting exactly what the customer asked for without checking the cause.\n- Proposing large projects when a quick win would solve the immediate pain.\n- Not measuring the problem before and after.\n\n## Key takeaways\n\n- Separate symptoms from root causes.\n- Map each problem to impact, cause, solution and expected result.\n- Prioritise quick wins and plan larger changes.",
       "module": 2
     },
     {
       "position": 3,
       "title": "Cross-sell",
       "type": "TEXT",
-      "body": "Cross-selling means offering related solutions that genuinely help the customer.\n\n## Spot opportunities\n\n- New network: security, Wi-Fi, power protection for network racks.\n- New servers: storage, backup, virtualisation, UPS.\n- New office: structured cabling, Wi-Fi, AV, access control.\n- Any installation: support contract and managed services.\n\n## Do it well\n\n- Link every suggestion to a problem the customer mentioned.\n- Keep the main deal moving; do not overload it.\n- Propose phases if budget is tight.\n\n> Customers trust advisers who recommend what they need, and remember salespeople who pushed what they did not.",
+      "body": "Cross-selling means offering additional solutions to an existing customer. Done well, it solves more of the customer's problems and grows the account. Done badly, it feels like pushing products.\n\n## Natural cross-sell paths in IT\n\n- **Servers → backup, storage and UPS:** new servers need protection and power.\n- **Network → security and Wi-Fi:** new switches and links need firewalls and secure wireless.\n- **Laptops → endpoint security, device management and print:** every device needs protection and management.\n- **Video conferencing → network upgrades and room audio:** good meetings need reliable networks and acoustics.\n- **Any project → support and managed services:** every solution needs looking after.\n\n## How to cross-sell well\n\n- Start from the customer's goals and problems, not your target.\n- Use the installed base: what they have tells you what they will need.\n- Introduce practice specialists so that the customer gets expert advice.\n- Time it well: raise the topic when it is relevant, such as during a refresh or after an incident.\n- Show the benefit of one integrated solution and one point of accountability.\n\n## Key terms\n\n- **Cross-sell:** selling a different, related solution to an existing customer.\n- **Upsell:** selling a higher-value version of the same solution.\n- **Account penetration:** how much of the customer's IT spending we capture.\n\n## Real-world example\n\nAfter delivering 300 laptops to a consulting firm, the account manager asks how the firm handles lost devices and software updates. The IT head admits that updates are done manually and two lost laptops last year had no encryption. The account manager introduces the security practice, which proposes endpoint protection, disk encryption and device management. The firm signs a three-year subscription.\n\n## Common mistakes\n\n- Pitching unrelated products that do not match any need.\n- Cross-selling before the first project is delivered well.\n- Not involving the right specialists.\n\n## Key takeaways\n\n- Cross-sell from customer needs and the installed base.\n- Deliver the first project well before offering more.\n- Involve specialists and show the value of one integrated partner.",
       "module": 3
     },
     {
       "position": 4,
       "title": "Hand-over to presales",
       "type": "TEXT",
-      "body": "A clean handover to presales saves time and impresses the customer.\n\n## What to hand over\n\n- Customer background and the business problem in their words.\n- Stakeholders met, their roles and priorities.\n- Known requirements, constraints, budget and timeline.\n- Existing environment notes: brands, versions, sites.\n- Competition and the decision process.\n- Agreed next steps and dates.\n\n## Format\n\nUse the CRM opportunity record plus a short written summary. Introduce the presales engineer to the customer by email, with context, so they do not repeat questions already answered.",
+      "body": "When discovery is complete, sales hands the opportunity to presales for solution design. A good hand-over saves time, avoids repeated questions to the customer and leads to a better solution.\n\n## What to include in the hand-over\n\n- **Customer background:** business, size, locations and strategy.\n- **Stakeholders:** names, roles, priorities and our relationship with each.\n- **Business problem and impact:** in the customer's words, with numbers where possible.\n- **Requirements:** functional and non-functional, as far as known.\n- **Current environment:** existing equipment, vendors and contracts.\n- **Constraints:** budget range, timeline, policies and preferred brands.\n- **Competition:** who else is involved, if known.\n- **Next steps:** what the customer expects and by when.\n\n## Making the hand-over work\n\n- Use a standard hand-over template so nothing is missed.\n- Hold a short call to walk through it and answer questions.\n- Agree who will contact the customer for further technical discovery.\n- Keep the CRM opportunity updated with the same information.\n\n## Key terms\n\n- **Hand-over:** passing an opportunity's information from one team to another.\n- **Discovery notes:** the record of what was learned from the customer.\n- **Technical discovery:** detailed questions about the environment, led by presales.\n\n## Real-world example\n\nA salesperson passes an opportunity to presales with a one-line email: \"Customer needs a firewall, please quote.\" Presales calls the customer and asks questions the customer has already answered twice. The customer is annoyed. Next time, the salesperson uses the hand-over template, including the number of sites, internet links, users and the security incident that triggered the request. Presales designs a solution in two days without repeating questions.\n\n## Common mistakes\n\n- Handing over with too little information.\n- Presales and sales both contacting the customer with the same questions.\n- Not recording the hand-over in the CRM.\n\n## Key takeaways\n\n- Use a standard hand-over template covering business, stakeholders, problem, requirements and constraints.\n- Walk through it together and agree who contacts the customer.\n- Keep the CRM updated.",
       "module": 4
+    }
+  ],
+  "sources": [
+    {
+      "title": "Salesforce Trailhead: sales and CRM learning trails",
+      "url": "https://trailhead.salesforce.com/"
+    },
+    {
+      "title": "nasscom: Indian technology industry body and research",
+      "url": "https://nasscom.in/"
+    },
+    {
+      "title": "Microsoft Learn: free role-based training paths",
+      "url": "https://learn.microsoft.com/en-us/training/"
     }
   ],
   "assessment": {
@@ -60,49 +74,38 @@
     "passMarkPercent": 70,
     "questions": [
       {
-        "type": "MULTIPLE",
-        "text": "Who typically influences an SI purchase? Select all that apply.",
+        "type": "SINGLE",
+        "text": "Who is the economic buyer in a deal?",
         "options": [
-          "The IT head",
-          "Finance",
-          "Users",
-          "The delivery driver"
+          "The person who will use the solution",
+          "The person with final budget authority",
+          "The procurement clerk",
+          "Our presales engineer"
         ],
         "correct": [
-          "The IT head",
-          "Finance",
-          "Users"
+          "The person with final budget authority"
         ],
-        "points": 2
-      },
-      {
-        "type": "MATCHING",
-        "text": "Match each customer problem to a likely practice area.",
-        "options": [
-          "Branches lose connectivity=Networking",
-          "Ransomware attack last year=Security and backup",
-          "Remote meetings are painful=Audio-visual and collaboration"
-        ],
-        "correct": [],
-        "points": 3
+        "points": 1,
+        "explanation": "The economic buyer controls the budget and gives final approval."
       },
       {
         "type": "SINGLE",
-        "text": "What makes a cross-sell suggestion credible?",
+        "text": "A customer says 'the network is slow'. What is this?",
         "options": [
-          "It is linked to a problem the customer mentioned",
-          "It has the highest margin",
-          "It is the newest product",
-          "It is added without explanation"
+          "A root cause",
+          "A symptom",
+          "A solution",
+          "A requirement"
         ],
         "correct": [
-          "It is linked to a problem the customer mentioned"
+          "A symptom"
         ],
-        "points": 1
+        "points": 1,
+        "explanation": "Discovery must find the root cause behind the symptom."
       },
       {
         "type": "TRUE_FALSE",
-        "text": "The presales engineer should be introduced to the customer with context, so questions are not repeated.",
+        "text": "It is better to meet stakeholder groups separately where possible, because people speak more openly.",
         "options": [
           "True",
           "False"
@@ -110,29 +113,66 @@
         "correct": [
           "True"
         ],
-        "points": 1
+        "points": 1,
+        "explanation": "Separate meetings often reveal different priorities and concerns."
       },
       {
         "type": "SINGLE",
-        "text": "Which discovery question best reveals urgency?",
+        "text": "Which is the best example of cross-selling?",
         "options": [
-          "What happens if you do nothing?",
-          "What colour is your logo?",
-          "Do you like our brand?",
-          "How many floors does your building have?"
+          "Selling the same laptop at a higher price",
+          "Offering endpoint security and device management to a customer who bought laptops",
+          "Selling a customer's old servers",
+          "Reducing price to win a deal"
         ],
         "correct": [
-          "What happens if you do nothing?"
+          "Offering endpoint security and device management to a customer who bought laptops"
         ],
-        "points": 1
+        "points": 1,
+        "explanation": "Cross-selling offers related solutions that meet real needs."
       },
       {
-        "type": "SHORT_ANSWER",
-        "text": "A customer says 'our server room keeps overheating'. List the practice areas you would involve and the first questions you would ask.",
-        "options": [],
+        "type": "MULTIPLE",
+        "text": "What should a sales-to-presales hand-over include?",
+        "options": [
+          "Stakeholders and their priorities",
+          "The business problem and impact",
+          "Constraints such as budget and timeline",
+          "Only the customer's name"
+        ],
+        "correct": [
+          "Stakeholders and their priorities",
+          "The business problem and impact",
+          "Constraints such as budget and timeline"
+        ],
+        "points": 1,
+        "explanation": "A complete hand-over avoids repeated questions and leads to a better design."
+      },
+      {
+        "type": "TRUE_FALSE",
+        "text": "Quoting exactly what the customer asked for is always the best approach.",
+        "options": [
+          "True",
+          "False"
+        ],
+        "correct": [
+          "False"
+        ],
+        "points": 1,
+        "explanation": "The request may address a symptom. Check the root cause first."
+      },
+      {
+        "type": "MATCHING",
+        "text": "Match each term to its meaning.",
+        "options": [
+          "Upsell=Higher-value version of the same solution",
+          "Cross-sell=Related solution from another area",
+          "Quick win=Low-cost change with fast visible benefit",
+          "Champion=Insider who supports our solution"
+        ],
         "correct": [],
-        "points": 4,
-        "explanation": "Model answer: IT infrastructure (cooling, racks, airflow) and power (UPS, load); ask about room size, number of racks and kW load, current cooling, temperatures, growth plans and outages."
+        "points": 1,
+        "explanation": "These terms describe common account growth tactics."
       }
     ]
   }

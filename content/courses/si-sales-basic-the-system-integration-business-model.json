@@ -29,29 +29,43 @@
       "position": 1,
       "title": "The SI business model",
       "type": "TEXT",
-      "body": "A system integrator (SI) brings products from many manufacturers together with its own skills to deliver a working solution. Customers buy the outcome, such as a secure network or a working meeting room, not just boxes.\n\n## How an SI earns revenue\n\n- **Product resale:** margin on hardware and software from OEMs. Often competitive and thin.\n- **Professional services:** design, installation, configuration, migration, training. Higher margin; depends on skilled people.\n- **Support and AMC:** annual maintenance contracts and support renewals. Recurring revenue.\n- **Managed services:** running part of the customer's IT for a monthly fee. Long-term, recurring revenue.\n\n> A deal that is only product resale is easy to lose on price. A deal that includes services and support builds a long relationship.",
+      "body": "A system integrator (SI) brings together products from many manufacturers, adds its own design, installation and support skills, and delivers a working solution. The customer is not buying boxes; it is buying an outcome, such as a secure network for 50 branches, a video-conferencing setup that works first time, or a data centre that stays up.\n\n## How an SI earns money\n\n- **Product resale:** margin on hardware and software bought from OEMs through distributors. Margins are often thin because customers can compare prices easily.\n- **Professional services:** design, installation, configuration, migration and training. Margins are higher, but depend on skilled engineers and good project control.\n- **Support and annual maintenance contracts (AMC):** fixing problems and maintaining equipment for a yearly fee. This is recurring revenue.\n- **Managed services:** running part of the customer's IT, such as network monitoring or end-user support, for a monthly fee under service levels.\n\n## Why the mix matters\n\nA business built only on product resale is easy to undercut on price and has unpredictable revenue. Services and support raise margins, create recurring income and build long relationships that lead to future projects. Good SI salespeople look for ways to add services to every product deal.\n\n## Key terms\n\n- **System integrator (SI):** a company that combines products and services into a working solution.\n- **AMC:** annual maintenance contract.\n- **Recurring revenue:** income that repeats, such as monthly managed service fees.\n- **Attach rate:** the share of product deals that include services or support.\n\n## Real-world example\n\nTwo SIs sell the same firewall to a hospital at similar prices. The first only supplies the box. The second includes configuration to best practice, staff training and a three-year support contract with monthly health checks. A year later, the hospital needs a network upgrade; it calls the second SI, which already knows its environment and has earned its trust.\n\n## Common mistakes\n\n- Selling only products and competing on price alone.\n- Treating services as a free add-on instead of pricing them properly.\n- Forgetting support renewals, which are the easiest revenue to keep.\n\n## Key takeaways\n\n- An SI sells outcomes by combining products with its own skills.\n- Revenue comes from products, services, support and managed services.\n- Services and support improve margins and relationships.",
       "module": 1
     },
     {
       "position": 2,
       "title": "The solution lifecycle",
       "type": "TEXT",
-      "body": "Every solution goes through a lifecycle. An SI can add value, and earn revenue, at each stage.\n\n1. **Assess and plan:** understand the current state and the business goal.\n2. **Design:** architecture, bill of materials, implementation plan.\n3. **Build:** supply, install, configure, test, migrate.\n4. **Operate:** support, monitoring, managed services.\n5. **Optimise and refresh:** improvements, upgrades, and replacement at end of life.\n\n## Why it matters to sales\n\n- Customers in different stages need different conversations.\n- The operate stage creates the relationship that wins the next refresh.\n- Tracking install dates and end-of-support dates shows when to start the next conversation.",
+      "body": "Every IT solution goes through a lifecycle, from the first idea to replacement years later. An SI can add value at every stage. Knowing where a customer is in the lifecycle tells you what conversation to have.\n\n## The solution lifecycle\n\n1. **Assess and plan:** understand the current environment and business goals; identify gaps and risks.\n2. **Design:** create the architecture, bill of materials and implementation plan.\n3. **Build:** supply, install, configure, test and migrate.\n4. **Operate:** support, monitor and maintain the solution day to day.\n5. **Optimise:** improve performance, security and cost based on what is learned in operation.\n6. **Refresh:** replace the solution at end of life, which starts the cycle again.\n\n## Using the lifecycle in sales\n\n- **Track install dates and end-of-support dates** for each customer's equipment. OEMs announce end-of-sale and end-of-support dates; once support ends, the customer gets no security fixes.\n- **Start refresh conversations early,** typically 12 to 18 months before end of support, so that budgets can be planned.\n- **Use the operate stage** to understand the customer's pain points and spot new needs.\n\n## Key terms\n\n- **End of sale (EoS):** the date after which a product can no longer be bought.\n- **End of support (EoSL or LDoS):** the date after which the OEM no longer provides support or security fixes.\n- **Refresh:** replacing ageing equipment with current technology.\n- **Installed base:** equipment a customer already owns.\n\n## Real-world example\n\nA sales manager reviews an installed-base report and sees that a manufacturer's switches at a large school group reach end of support in 15 months. She meets the IT head, explains the security risk of unsupported switches, and offers a network assessment. The assessment leads to a phased refresh plan that the school group includes in its next annual budget. A competitor who arrives six months later finds the decision already made.\n\n## Common mistakes\n\n- Waiting for the customer to ask about a refresh.\n- Not keeping records of what each customer has and when it was installed.\n- Ignoring the operate stage, where trust and insight are built.\n\n## Key takeaways\n\n- The lifecycle runs from assess and design through build, operate, optimise and refresh.\n- Track install and end-of-support dates to time conversations.\n- Each stage is an opportunity to add value and revenue.",
       "module": 2
     },
     {
       "position": 3,
       "title": "Services and support",
       "type": "TEXT",
-      "body": "Services turn a product sale into a solution, and differentiate us from box sellers.\n\n## Services that add value\n\n- **Site survey and design:** prevents surprises later.\n- **Installation and configuration:** to best practice, documented.\n- **Migration:** moving data, users and services with minimal disruption.\n- **Training:** so the customer's team can run the solution.\n- **Support:** a single point of contact across several OEMs.\n\n## Selling services\n\n- Explain the risk the service removes: downtime, failed projects, unhappy users.\n- Price services clearly, with a defined scope and deliverables.\n- Include services in the first proposal; they are hard to add later.",
+      "body": "Services turn a product sale into a solution and set an SI apart from a box seller. They reduce the customer's risk and build the SI's long-term relationship with the customer.\n\n## Services an SI typically offers\n\n- **Site survey and design:** checking space, power, cabling and requirements before ordering.\n- **Installation and configuration:** to manufacturer best practice, with documentation.\n- **Migration:** moving data, users and services from old systems with minimal disruption.\n- **Testing and acceptance:** proving that the solution meets the agreed requirements.\n- **Training and hand-over:** making sure the customer's team can operate the solution.\n- **Support and AMC:** fixing faults and keeping equipment healthy, with defined response times.\n- **Managed services:** ongoing operation and monitoring under service levels.\n\n## Selling services well\n\n- Explain the risk each service removes: downtime, failed migrations, security gaps or unhappy users.\n- Define scope, deliverables and assumptions clearly in a statement of work.\n- Price services based on effort and skills, not as a percentage thrown in for free.\n- Include services in the first proposal, not as an afterthought.\n\n## Key terms\n\n- **Statement of work (SOW):** a document describing the services, deliverables, timeline and responsibilities.\n- **Service level agreement (SLA):** measurable commitments, such as response and resolution times.\n- **Response time:** how quickly support starts working on a problem.\n- **Resolution time:** how quickly the problem is fixed.\n\n## Real-world example\n\nA customer buys servers and virtualisation software and plans to install them itself. Halfway through, its team struggles with the storage configuration and the project is delayed by two months. For its next site, the customer asks the SI for a fixed-price installation and migration service with a clear SOW. The project finishes in three weeks, and the customer signs a support contract.\n\n## Common mistakes\n\n- Giving services away free to win the product deal.\n- Vague scope, leading to disputes about what was included.\n- Promising support levels the delivery team cannot meet.\n\n## Key takeaways\n\n- Services reduce customer risk and differentiate the SI.\n- Define scope in a statement of work and price services properly.\n- Promise only service levels the delivery team can deliver.",
       "module": 3
     },
     {
       "position": 4,
       "title": "Company practice areas",
       "type": "TEXT",
-      "body": "[PLACEHOLDER: The company will supply a description of its practice areas.]\n\nThis lesson will introduce the company's practices (for example networking, security, data centre, collaboration, power) and who leads each. Until then, list the areas you hear about in your first weeks and the subject matter experts for each, so you know whom to bring into a customer conversation.",
+      "body": "Each SI focuses on certain practice areas: groups of solutions where it has skills, OEM partnerships and references. Knowing the company's practice areas helps you spot opportunities and bring in the right specialists. Your administrator will add 3C's practice areas below.\n\n> **[PLACEHOLDER]** Company practice areas: the solution areas 3C offers, the OEM partners and certifications for each, the practice heads and reference customers. The LMS administrator adds these details.\n\n## Typical SI practice areas\n\n- **Networking:** LAN, Wi-Fi, WAN, SD-WAN and structured cabling.\n- **Data centre:** servers, storage, virtualisation, backup and disaster recovery.\n- **Security:** firewalls, endpoint protection, identity and security operations.\n- **Collaboration and audio-visual:** video conferencing, meeting rooms and displays.\n- **Power and infrastructure:** UPS, batteries, precision cooling and racks.\n- **Cloud:** migration, hybrid cloud and managed cloud services.\n- **End-user computing and print:** laptops, desktops, printers and managed print.\n- **HPC and AI:** high-performance and GPU computing.\n\n## Cross-selling across practices\n\nCustomers rarely need only one thing. A customer refreshing its servers may also need backup, a UPS upgrade and network changes. A good SI salesperson understands every practice well enough to spot needs and introduce the right specialist.\n\n## Key terms\n\n- **Practice area:** a group of related solutions with dedicated skills and partners.\n- **Practice head:** the leader responsible for a practice's skills and offerings.\n- **Cross-selling:** selling additional solutions from other practices to an existing customer.\n\n## Real-world example\n\nDuring a video-conferencing project, a salesperson notices that the customer's meeting rooms frequently lose network connectivity. She brings in the networking practice, which finds ageing access switches and poor Wi-Fi coverage. The customer approves a network upgrade that makes the video rooms reliable. The relationship grows from one practice to two.\n\n## Common mistakes\n\n- Knowing only one practice area and missing other needs.\n- Promising capabilities the company does not have.\n- Not involving practice specialists early enough.\n\n## Key takeaways\n\n- Learn the company's practice areas, partners and references.\n- Look for needs across practices in every account.\n- Bring in practice specialists early.",
       "module": 4
+    }
+  ],
+  "sources": [
+    {
+      "title": "PeopleCert: ITIL 4 service management framework and certification",
+      "url": "https://www.peoplecert.org/"
+    },
+    {
+      "title": "nasscom: Indian technology industry body and research",
+      "url": "https://nasscom.in/"
+    },
+    {
+      "title": "Microsoft Learn: free role-based training paths",
+      "url": "https://learn.microsoft.com/en-us/training/"
     }
   ],
   "assessment": {
@@ -60,33 +74,41 @@
     "passMarkPercent": 70,
     "questions": [
       {
-        "type": "SINGLE",
-        "text": "What does a system integrator sell?",
+        "type": "MULTIPLE",
+        "text": "Which are revenue streams for a system integrator?",
         "options": [
-          "A working outcome built from several products and its own skills",
-          "Only boxes at the lowest price",
-          "Only software licences",
-          "Office furniture"
+          "Product resale",
+          "Professional services",
+          "Support and AMC",
+          "Managed services"
         ],
         "correct": [
-          "A working outcome built from several products and its own skills"
+          "Product resale",
+          "Professional services",
+          "Support and AMC",
+          "Managed services"
         ],
-        "points": 1
+        "points": 1,
+        "explanation": "An SI earns from all four; services and support bring higher margins and recurring revenue."
       },
       {
-        "type": "MATCHING",
-        "text": "Match each revenue stream to its description.",
+        "type": "SINGLE",
+        "text": "When should a refresh conversation usually start?",
         "options": [
-          "Product resale=Margin on OEM hardware and software",
-          "Professional services=Design, installation and configuration",
-          "Managed services=Running part of the customer's IT for a monthly fee"
+          "After support has ended",
+          "12 to 18 months before end of support",
+          "Only when the customer asks",
+          "On the day of failure"
         ],
-        "correct": [],
-        "points": 3
+        "correct": [
+          "12 to 18 months before end of support"
+        ],
+        "points": 1,
+        "explanation": "Starting early lets the customer plan budget and avoids running unsupported equipment."
       },
       {
         "type": "TRUE_FALSE",
-        "text": "Support and managed services provide recurring revenue.",
+        "text": "After an OEM's end-of-support date, the product no longer receives security fixes.",
         "options": [
           "True",
           "False"
@@ -94,45 +116,64 @@
         "correct": [
           "True"
         ],
-        "points": 1
+        "points": 1,
+        "explanation": "Unsupported equipment is a security and reliability risk."
       },
       {
         "type": "SINGLE",
-        "text": "Which lifecycle stage builds the relationship that often wins the next refresh?",
+        "text": "What document describes services, deliverables and responsibilities?",
         "options": [
-          "Operate",
-          "Design",
-          "Assess",
-          "Build"
+          "Purchase order",
+          "Statement of work",
+          "Delivery challan",
+          "Packing list"
         ],
         "correct": [
-          "Operate"
+          "Statement of work"
         ],
-        "points": 1
+        "points": 1,
+        "explanation": "A statement of work (SOW) defines the scope of services."
       },
       {
         "type": "SINGLE",
-        "text": "When should services be included in a proposal?",
+        "text": "Why do services matter to an SI?",
         "options": [
-          "In the first proposal",
-          "Only after the customer complains",
-          "Never",
-          "After delivery"
+          "They are always free",
+          "They raise margins and build long-term relationships",
+          "They replace the need for products",
+          "They avoid GST"
         ],
         "correct": [
-          "In the first proposal"
+          "They raise margins and build long-term relationships"
         ],
-        "points": 1
+        "points": 1,
+        "explanation": "Services differentiate the SI and generate repeat business."
       },
       {
-        "type": "FILL_BLANK",
-        "text": "A yearly contract to maintain and support installed equipment is often called an ____.",
+        "type": "TRUE_FALSE",
+        "text": "Giving installation free to win a product deal is good practice because services are not valuable.",
         "options": [
-          "AMC",
-          "annual maintenance contract"
+          "True",
+          "False"
+        ],
+        "correct": [
+          "False"
+        ],
+        "points": 1,
+        "explanation": "Services carry cost and value; price them properly with a clear scope."
+      },
+      {
+        "type": "MATCHING",
+        "text": "Match each lifecycle stage to its activity.",
+        "options": [
+          "Design=Architecture and bill of materials",
+          "Build=Install, configure and migrate",
+          "Operate=Support and monitoring",
+          "Refresh=Replace at end of life"
         ],
         "correct": [],
-        "points": 1
+        "points": 1,
+        "explanation": "Knowing the stage tells you what conversation to have."
       }
     ]
   }

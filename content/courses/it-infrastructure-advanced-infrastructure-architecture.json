@@ -29,29 +29,51 @@
       "position": 1,
       "title": "High availability design",
       "type": "TEXT",
-      "body": "High availability means critical services keep running when a component fails.\n\n## Remove single points of failure\n\nA single point of failure (SPOF) is any part whose failure stops the service. Look at every layer:\n\n- **Power:** dual power supplies fed from separate PDUs and UPSs.\n- **Network:** two core switches, two uplinks, two internet links from different providers.\n- **Compute:** clusters so workloads move if a host fails.\n- **Storage:** redundant controllers, RAID, replication.\n- **Facilities:** cooling redundancy.\n\n## Redundancy levels\n\n- **N:** exactly enough capacity, no spare.\n- **N+1:** one extra unit beyond what is needed.\n- **2N:** a complete duplicate system.\n\nMatch the level to the business cost of downtime. Not every service needs 2N.",
+      "body": "High availability (HA) means designing infrastructure so that services keep running when components fail. Every component eventually fails; HA design accepts this and removes single points of failure where the business needs it.\n\n## Understanding availability\n\nAvailability is usually expressed as a percentage of time a service is up. Each extra \"nine\" cuts allowed downtime sharply:\n\n- **99.9%:** about 8.8 hours of downtime per year.\n- **99.99%:** about 53 minutes per year.\n- **99.999%:** about 5 minutes per year.\n\nHigher availability costs more, so it should match the business impact of downtime.\n\n## Redundancy patterns\n\n- **N:** exactly the capacity needed, no spare.\n- **N+1:** one extra component, so one failure can be tolerated.\n- **2N:** a fully duplicated system, so an entire path can fail.\n- **Clustering:** two or more servers running a service, with automatic failover.\n- **Load balancing:** spreading traffic across several servers so that one failure does not stop the service.\n\n## Designing for HA\n\n- Identify critical services and their availability targets.\n- Map every component in the path: power, network, servers, storage and applications.\n- Remove single points of failure where the target requires it: dual power supplies, dual switches, redundant links and clustered servers.\n- Test failover regularly; untested redundancy often fails when needed.\n\nData-centre facilities are often classified by the Uptime Institute's Tier system (Tier I to IV) or ANSI/TIA-942 ratings, which describe redundancy and maintainability of power and cooling.\n\n## Key terms\n\n- **Single point of failure (SPOF):** a component whose failure stops the service.\n- **Failover:** automatic switch to a standby component.\n- **N+1 / 2N:** redundancy levels.\n- **Concurrently maintainable:** able to maintain any component without shutting down the service.\n\n## Real-world example\n\nA bank's core network has two firewalls, but both are connected to the same switch, and that switch has a single power supply. When the switch's power supply fails, the \"redundant\" firewalls are both unreachable. The SI's redesign adds a second switch, connects each firewall to both switches and uses dual-power-supply switches on separate PDUs.\n\n## Common mistakes\n\n- Duplicating one component while leaving a single point of failure elsewhere in the path.\n- Designing for \"five nines\" when the business needs less.\n- Never testing failover.\n\n## Key takeaways\n\n- Each extra nine of availability cuts downtime sharply and raises cost.\n- Use N+1, 2N, clustering and load balancing to remove single points of failure.\n- Check the whole path and test failover.",
       "module": 1
     },
     {
       "position": 2,
       "title": "Capacity planning",
       "type": "TEXT",
-      "body": "Capacity planning makes sure infrastructure keeps up with growth without large over-investment.\n\n## Measure current use\n\n- Compute: CPU and memory utilisation, at peak, not average.\n- Storage: used capacity, growth per month, performance (IOPS, latency).\n- Network: link utilisation at peak.\n- Power and cooling: load versus capacity.\n\n## Project forward\n\n- Use the business plan: new staff, sites, applications.\n- Apply growth rates from history.\n- Keep headroom: a common target is to stay below about 70 to 80% of capacity at peak.\n\n## Plan purchases\n\nBuy in steps aligned to growth, and design so capacity can be added without redesign, for example spare slots, scalable storage and modular UPS.\n\n> This module includes a lab: size compute and storage for a sample company's three-year plan.",
+      "body": "Capacity planning makes sure infrastructure can handle current and future demand without wasting money on unused resources.\n\n## What to plan for\n\n- **Compute:** CPU and memory for servers and virtual machines.\n- **Storage:** capacity in terabytes and performance in input/output operations per second (IOPS) and latency.\n- **Network:** bandwidth on links and switch ports.\n- **Facilities:** rack space, power and cooling.\n- **Licences:** software licensed by core, user or capacity.\n\n## A practical process\n\n1. **Measure current usage:** use monitoring data over weeks or months, including peaks.\n2. **Understand growth:** ask the business about new users, sites, applications and data growth.\n3. **Forecast:** project usage over the planning period, often three to five years.\n4. **Set headroom:** plan to stay below thresholds, such as 70 to 80% utilisation, to allow for peaks and failures.\n5. **Plan for failure:** in an N+1 cluster, the remaining hosts must carry the load when one fails.\n6. **Review regularly:** compare forecasts with actual usage and adjust.\n\n## Key terms\n\n- **Utilisation:** the share of capacity in use.\n- **Headroom:** spare capacity kept for peaks and growth.\n- **IOPS:** input/output operations per second, a storage performance measure.\n- **Latency:** the delay in responding to a request.\n\n## Real-world example\n\nA company sizes a three-host virtualisation cluster at 85% average CPU use. When one host fails, the remaining two cannot carry the load, and applications slow to a crawl. A proper plan would have sized the cluster so that two hosts could run all workloads, keeping each host near 60% in normal operation.\n\n## Common mistakes\n\n- Sizing for average use and ignoring peaks.\n- Forgetting the load after a component failure.\n- Not including data growth in storage plans.\n\n## Key takeaways\n\n- Plan compute, storage, network, facilities and licences together.\n- Use real usage data, business growth and sensible headroom.\n- Size for failure scenarios, not just normal operation.",
       "module": 2
     },
     {
       "position": 3,
       "title": "Operations and lifecycle",
       "type": "TEXT",
-      "body": "Infrastructure must be run well for its whole life.\n\n## Operations\n\n- **Monitoring and alerting** with clear owners for each alert.\n- **Change management:** plan, approve, test and record changes.\n- **Patching and firmware:** a regular schedule, tested first.\n- **Backups:** scheduled, monitored, and restore-tested.\n- **Documentation:** kept current as changes are made.\n\n## Lifecycle\n\n- Track **end-of-sale** and **end-of-support** dates from OEMs for every product.\n- Plan replacements before support ends; unsupported equipment gets no security fixes.\n- Securely wipe or destroy storage before disposing of equipment.",
+      "body": "Infrastructure must be operated well throughout its life. Strong operations processes keep services stable, secure and efficient, and make problems easier to solve.\n\n## Core operations processes\n\nMany organisations follow IT service management practices such as ITIL 4:\n\n- **Incident management:** restoring service quickly when something breaks.\n- **Problem management:** finding and removing the root cause of repeated incidents.\n- **Change management:** assessing, approving and scheduling changes to reduce risk.\n- **Configuration management:** keeping accurate records of systems and how they connect.\n- **Capacity and availability management:** making sure services meet demand and targets.\n\n## Lifecycle tasks\n\n- **Patching:** applying security and bug fixes on a regular schedule.\n- **Firmware updates:** keeping hardware firmware current and supported.\n- **Backup and restore testing:** proving data can be recovered.\n- **Health checks:** periodic reviews of logs, performance and capacity.\n- **Documentation:** updating diagrams and records after every change.\n\n## Key terms\n\n- **Incident:** an unplanned interruption or reduction in service quality.\n- **Problem:** the underlying cause of one or more incidents.\n- **Change advisory board (CAB):** a group that reviews significant changes.\n- **CMDB:** configuration management database.\n\n## Real-world example\n\nA customer suffers network outages every few weeks, each fixed by rebooting a switch. Incident management restores service each time, but nobody investigates. When the SI takes over managed services, problem management finds a firmware bug, and the vendor's fix is applied through a planned change. The outages stop.\n\n## Common mistakes\n\n- Fixing incidents without finding root causes.\n- Making changes without approval, testing or rollback plans.\n- Letting documentation fall out of date.\n\n## Key takeaways\n\n- Incident, problem, change and configuration management are core operations processes.\n- Patch, update firmware, test restores and run health checks regularly.\n- Keep documentation current after every change.",
       "module": 3
     },
     {
       "position": 4,
       "title": "Architecture documentation",
       "type": "TEXT",
-      "body": "Good documentation lets someone else run, fix and extend the infrastructure.\n\n## A handover pack contains\n\n- High-level architecture diagram and the design rationale.\n- Network diagrams, IP address plan and VLANs.\n- Rack layouts and cable schedules.\n- Equipment inventory with serial numbers, warranty and support details.\n- Configuration backups and standard settings.\n- Credentials handed over securely, not in the document.\n- Operating procedures: start-up, shutdown, backup, restore, escalation.\n- Test results from commissioning.\n\n## Keep it alive\n\nAssign an owner to update documentation with every change. Outdated documents are worse than none, because people trust them.",
+      "body": "Architecture documentation records how infrastructure is designed and why. It allows teams to build, operate, troubleshoot and change systems safely, and it is essential when staff change or when auditors ask questions.\n\n## Key documents\n\n- **High-level design (HLD):** the overall architecture, major components, how they connect and the reasons for key decisions.\n- **Low-level design (LLD):** detailed configurations, IP addresses, VLANs, port maps, firmware versions and settings.\n- **Network and rack diagrams:** physical and logical views.\n- **Inventory:** every device with model, serial number, location and support dates.\n- **Runbooks:** step-by-step procedures for common tasks and incidents.\n- **Disaster recovery plan:** how to recover services after a major failure.\n\n## Good documentation practice\n\n- Use consistent templates and naming.\n- Record decisions and the reasons behind them, not just the result.\n- Keep documents in a shared, version-controlled location.\n- Update documents as part of every change.\n- Review them at least yearly.\n\n## Key terms\n\n- **HLD / LLD:** high-level and low-level design.\n- **Runbook:** a documented procedure for an operational task.\n- **Architecture decision record:** a short note explaining a design choice and its reasons.\n\n## Real-world example\n\nA company's only network engineer leaves suddenly. There are no diagrams or configuration backups. When a core switch fails, it takes the replacement team two days to work out the VLANs and routing. After the recovery, the SI produces an HLD, LLD, diagrams and runbooks, and configures automatic configuration backups. The next failure is fixed in an hour.\n\n## Common mistakes\n\n- Relying on one person's memory.\n- Creating documents at handover and never updating them.\n- Recording what was built but not why.\n\n## Key takeaways\n\n- Maintain HLD, LLD, diagrams, inventory, runbooks and DR plans.\n- Record decisions and reasons, and update documents with every change.\n- Store documentation centrally with version control.",
       "module": 4
+    }
+  ],
+  "sources": [
+    {
+      "title": "Uptime Institute: Tier Classification System for data centres",
+      "url": "https://uptimeinstitute.com/tiers"
+    },
+    {
+      "title": "TIA: ANSI/TIA-942 data centre infrastructure standard",
+      "url": "https://tiaonline.org/"
+    },
+    {
+      "title": "PeopleCert: ITIL 4 service management framework",
+      "url": "https://www.peoplecert.org/"
+    },
+    {
+      "title": "Microsoft Learn: free role-based training paths",
+      "url": "https://learn.microsoft.com/en-us/training/"
+    },
+    {
+      "title": "AWS Skill Builder: cloud training",
+      "url": "https://skillbuilder.aws/"
     }
   ],
   "assessment": {
@@ -61,78 +83,101 @@
     "questions": [
       {
         "type": "SINGLE",
-        "text": "What is a single point of failure?",
+        "text": "About how much downtime per year does 99.99% availability allow?",
         "options": [
-          "A component whose failure stops the service",
-          "A spare part",
-          "A backup tape",
-          "A redundant switch"
+          "8.8 hours",
+          "53 minutes",
+          "5 minutes",
+          "3.6 days"
         ],
         "correct": [
-          "A component whose failure stops the service"
+          "53 minutes"
         ],
-        "points": 1
+        "points": 1,
+        "explanation": "99.99% allows roughly 52.6 minutes of downtime per year."
       },
       {
-        "type": "MATCHING",
-        "text": "Match each redundancy level to its meaning.",
+        "type": "SINGLE",
+        "text": "What does N+1 redundancy mean?",
         "options": [
-          "N=Exactly enough capacity",
-          "N+1=One extra unit beyond what is needed",
-          "2N=A complete duplicate system"
+          "No spare capacity",
+          "One extra component so one failure can be tolerated",
+          "Two complete systems",
+          "One fewer component"
         ],
-        "correct": [],
-        "points": 3
+        "correct": [
+          "One extra component so one failure can be tolerated"
+        ],
+        "points": 1,
+        "explanation": "N+1 adds one spare component beyond what is needed."
       },
       {
         "type": "TRUE_FALSE",
-        "text": "Capacity planning should be based on average utilisation, not peak.",
+        "text": "In a three-host N+1 cluster, the remaining two hosts must be able to run all workloads if one fails.",
         "options": [
           "True",
           "False"
         ],
         "correct": [
-          "False"
+          "True"
         ],
-        "points": 1
-      },
-      {
-        "type": "MULTIPLE",
-        "text": "Which belong in a handover pack? Select all that apply.",
-        "options": [
-          "IP address plan and VLANs",
-          "Rack layouts and cable schedules",
-          "Equipment inventory with warranty details",
-          "Passwords written in the document"
-        ],
-        "correct": [
-          "IP address plan and VLANs",
-          "Rack layouts and cable schedules",
-          "Equipment inventory with warranty details"
-        ],
-        "points": 2
+        "points": 1,
+        "explanation": "Capacity planning must include failure scenarios."
       },
       {
         "type": "SINGLE",
-        "text": "Why replace equipment before its end-of-support date?",
+        "text": "Which process finds and removes the root cause of repeated incidents?",
         "options": [
-          "Unsupported equipment gets no security fixes or repairs",
-          "It changes colour",
-          "It becomes heavier",
-          "It is required by GST"
+          "Incident management",
+          "Problem management",
+          "Change management",
+          "Procurement"
         ],
         "correct": [
-          "Unsupported equipment gets no security fixes or repairs"
+          "Problem management"
         ],
-        "points": 1
+        "points": 1,
+        "explanation": "Incident management restores service; problem management removes causes."
+      },
+      {
+        "type": "MULTIPLE",
+        "text": "Which belong in a low-level design?",
+        "options": [
+          "IP addresses and VLANs",
+          "Port maps",
+          "Firmware versions",
+          "The company's sales targets"
+        ],
+        "correct": [
+          "IP addresses and VLANs",
+          "Port maps",
+          "Firmware versions"
+        ],
+        "points": 1,
+        "explanation": "The LLD holds detailed configuration information."
+      },
+      {
+        "type": "SINGLE",
+        "text": "What is a single point of failure?",
+        "options": [
+          "A component whose failure stops the service",
+          "A spare part",
+          "A backup tape",
+          "A monitoring alert"
+        ],
+        "correct": [
+          "A component whose failure stops the service"
+        ],
+        "points": 1,
+        "explanation": "HA design removes single points of failure where the business needs it."
       },
       {
         "type": "SHORT_ANSWER",
-        "text": "A customer's file server, core switch and internet link each exist only once. Describe how you would remove the single points of failure.",
+        "text": "In two or three sentences, explain why failover should be tested regularly.",
         "options": [],
         "correct": [],
-        "points": 4,
-        "explanation": "Model answer: cluster or replicate the file server (or move to redundant storage), add a second core switch with redundant links, and add a second internet link from a different provider with failover; also check power redundancy."
+        "points": 1,
+        "explanation": "Redundant components can be misconfigured or fail silently, so untested failover often does not work when needed. Regular tests prove that services actually switch over and reveal problems before a real outage."
       }
     ]
   }

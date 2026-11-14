@@ -29,29 +29,47 @@
       "position": 1,
       "title": "SD-WAN design",
       "type": "TEXT",
-      "body": "SD-WAN (software-defined WAN) connects branches over several kinds of link and steers traffic by policy from a central controller.\n\n## Key ideas\n\n- **Multiple transports:** MPLS, broadband internet, 4G/5G, used together.\n- **Overlay:** encrypted tunnels between sites run over any transport.\n- **Application-aware routing:** traffic is steered by application and link quality, for example video calls on the link with the lowest loss and jitter.\n- **Central orchestration:** policies set once and pushed to all sites.\n- **Zero-touch provisioning:** a branch device configures itself when connected.\n\n## Design steps\n\n1. List sites, users, applications and current links.\n2. Classify applications by priority and sensitivity to loss and delay.\n3. Choose at least two diverse links for important sites.\n4. Decide where internet traffic breaks out (locally, or through a central or cloud security service).\n5. Plan the hub sites and redundancy for controllers and hubs.\n\n> This module includes a lab: design the SD-WAN policies for a sample 20-branch company.",
+      "body": "SD-WAN (software-defined WAN) uses software and central management to combine multiple WAN and internet links into one intelligent, secure network. It has become the standard approach for organisations with many branches.\n\n## What SD-WAN does\n\n- **Uses multiple links together:** broadband, ILL, MPLS and 4G/5G.\n- **Application-aware routing:** sends each application over the best link based on real-time measurements of latency, jitter and loss.\n- **Automatic failover:** moves traffic when a link degrades or fails, often without users noticing.\n- **Central orchestration:** configure policies once and apply them to all sites.\n- **Zero-touch provisioning:** new branch devices configure themselves when connected.\n- **Built-in security:** encrypted overlay tunnels and often integrated firewall features.\n\nMEF, an industry body, has published a standard for SD-WAN services (MEF 70) that defines common terms and service attributes.\n\n## Designing SD-WAN\n\n1. Identify sites, links and applications, and their priorities.\n2. Define policies: which applications are critical, which can use cheaper links.\n3. Plan the topology: hub-and-spoke through data centres, full mesh, or direct cloud access.\n4. Integrate security: local internet breakout with firewall or cloud security services.\n5. Plan migration from the current WAN in phases, starting with a pilot.\n\n## Key terms\n\n- **Overlay:** the virtual network of tunnels built over physical links.\n- **Underlay:** the physical links and transport networks.\n- **Orchestrator:** the central management system for SD-WAN.\n- **Local breakout:** sending internet and cloud traffic directly from the branch.\n\n## Real-world example\n\nA retail chain uses MPLS for 150 stores and routes all internet traffic through head office. Cloud applications are slow and MPLS costs are high. The SI deploys SD-WAN with broadband and 4G at each store, local breakout to approved cloud applications and MPLS kept only at large stores. Application performance improves and WAN costs fall.\n\n## Common mistakes\n\n- Deploying SD-WAN without defining application policies.\n- Local internet breakout without proper security.\n- Migrating all sites at once without a pilot.\n\n## Key takeaways\n\n- SD-WAN combines links with application-aware routing and central management.\n- Design policies, topology, security and migration carefully.\n- Start with a pilot and migrate in phases.",
       "module": 1
     },
     {
       "position": 2,
       "title": "Campus architecture",
       "type": "TEXT",
-      "body": "A campus network connects users and devices within a site or group of buildings.\n\n## Hierarchy\n\n- **Access layer:** switches that connect users, phones, access points.\n- **Distribution layer:** aggregates access switches and applies policy.\n- **Core layer:** fast, highly available backbone.\n\nSmaller sites often combine core and distribution (**collapsed core**). Data centres often use a **spine-leaf** design for predictable east-west traffic.\n\n## Resilience\n\n- Dual uplinks from access to distribution or core.\n- Redundant core switches, using stacking or multi-chassis link aggregation.\n- A first-hop redundancy protocol (such as VRRP) for default gateways.\n- A dynamic routing protocol (such as OSPF) between layers for fast reconvergence.\n- Power redundancy for core devices, and PoE budgets for access switches.",
+      "body": "A campus network connects users and devices across buildings, such as an office park, university or hospital. Its architecture decides how well it scales, how resilient it is and how easy it is to manage.\n\n## Campus design models\n\n- **Three-tier:** access layer (connects users), distribution layer (aggregates access switches and applies policy) and core layer (fast backbone between distribution blocks and the data centre). Suited to large campuses.\n- **Collapsed core:** combines core and distribution in one layer. Suited to small and medium campuses.\n- **Spine-leaf:** used mainly in data centres, where every leaf switch connects to every spine switch, giving predictable performance.\n\n## Design principles\n\n- **Modularity:** build repeatable blocks, such as one block per building.\n- **Redundancy:** dual uplinks from access to distribution, redundant core switches and power supplies.\n- **Segmentation:** VLANs and routing between them with access control.\n- **Capacity:** uplinks sized for traffic growth, such as 10 Gbps or higher between layers.\n- **Management:** central management, monitoring and configuration backups.\n- **Wireless integration:** design Wi-Fi and wired networks together.\n\n## Key terms\n\n- **Access layer:** where users and devices connect.\n- **Distribution layer:** aggregates access switches and enforces policy.\n- **Core layer:** the high-speed backbone.\n- **Spine-leaf:** a data-centre topology with predictable paths.\n\n## Real-world example\n\nA hospital grows from one building to four, each added with its own small network linked by single cables. A failure in one link isolates an entire building, including operating theatres. The SI redesigns the campus with a redundant core in two buildings, dual fibre links from each building's distribution switches, and standard building blocks. A later fibre cut causes no outage.\n\n## Common mistakes\n\n- Growing the network building by building without an overall architecture.\n- Single uplinks between layers.\n- Inconsistent configurations across buildings.\n\n## Key takeaways\n\n- Choose three-tier, collapsed core or spine-leaf based on scale and use.\n- Build modular, redundant and segmented designs.\n- Manage the campus centrally with consistent configurations.",
       "module": 2
     },
     {
       "position": 3,
       "title": "Network and security",
       "type": "TEXT",
-      "body": "Network design and security design are now the same conversation.\n\n## Building security into the network\n\n- **Segmentation:** separate users, guests, servers, IoT and management traffic with VLANs and routing policies, so an infection cannot spread freely.\n- **Network access control (NAC):** authenticate devices and users before they get access, commonly with 802.1X, and place them in the right segment.\n- **Firewall zones:** control traffic between segments and to the internet.\n- **Secure management:** a separate management network, strong authentication, logging of changes.\n- **Zero trust principles:** never trust by network location alone; verify each user and device.\n\nAgree the security policy with the customer's security team before the design is finalised.",
+      "body": "Network and security are inseparable. The network can enforce security policies, contain threats and give visibility into what is happening.\n\n## Security built into the network\n\n- **Segmentation:** separate users, servers, IoT devices and guests into zones, with rules controlling traffic between them. If one device is compromised, the attacker cannot easily move to others.\n- **Network access control (NAC) and 802.1X:** authenticate devices and users before they connect, and place them in the right segment.\n- **Firewalls:** at the internet edge, between internal zones and in the data centre.\n- **Secure remote access:** VPN or zero trust network access for remote users.\n- **Secure management:** separate management network, strong authentication and logging of administrative changes.\n\n## Zero trust\n\nZero trust is a security model that assumes no user or device is trusted by default, even inside the network. Every access request is verified based on identity, device health and context. NIST Special Publication 800-207 describes zero trust architecture. Network segmentation and strong identity are key building blocks.\n\n## Key terms\n\n- **Segmentation:** dividing the network into zones with controlled traffic between them.\n- **802.1X:** a standard for port-based network access control.\n- **Lateral movement:** an attacker moving from one compromised system to others.\n- **Zero trust:** never trust by default; always verify.\n\n## Real-world example\n\nRansomware enters a manufacturing company through a phishing email on an office PC. Because the office network, plant control systems and servers are in separate segments with strict firewall rules, the ransomware cannot reach the plant. Production continues while the office PCs are cleaned. A competitor with a flat network suffers a week-long shutdown.\n\n## Common mistakes\n\n- Flat networks where every device can reach every other.\n- Shared administrator passwords on network devices.\n- No logging of configuration changes.\n\n## Key takeaways\n\n- Segmentation limits the spread of attacks.\n- Use NAC and 802.1X, firewalls between zones and secure management.\n- Zero trust verifies every access request; NIST SP 800-207 describes the model.",
       "module": 3
     },
     {
       "position": 4,
       "title": "Monitoring and operations",
       "type": "TEXT",
-      "body": "A network is only as good as its operations.\n\n## Monitoring\n\n- **SNMP** for device health and interface statistics.\n- **Flow data** (such as NetFlow or IPFIX) for who is using bandwidth and for what.\n- **Syslog** for events and errors, sent to a central server.\n- Alerts with clear owners and escalation.\n\n## Operations practice\n\n- Automated configuration backups, kept off the devices.\n- Change management with rollback plans.\n- Regular software updates, tested first.\n- Up-to-date diagrams and IP plans.\n- Capacity reviews of WAN and uplinks.",
+      "body": "Networks must be monitored and operated well to stay reliable. Good monitoring finds problems before users report them and gives evidence for capacity planning.\n\n## What to monitor\n\n- **Device health:** CPU, memory, temperature, power supplies and fans.\n- **Interfaces:** utilisation, errors and drops.\n- **Links:** latency, jitter, packet loss and availability.\n- **Wi-Fi:** client numbers, signal quality and interference.\n- **Traffic flows:** which applications and users consume bandwidth.\n\n## Tools and protocols\n\n- **SNMP:** collects device status and statistics.\n- **Syslog:** collects device logs centrally.\n- **Flow data (NetFlow, IPFIX, sFlow):** shows who is talking to whom and how much.\n- **Streaming telemetry:** modern, high-frequency data from devices.\n- **Configuration management:** automatic backups of device configurations and change tracking.\n\n## Operations practices\n\n- Define alert thresholds and escalation paths.\n- Maintain an up-to-date inventory and network diagrams.\n- Patch network operating systems regularly to fix security vulnerabilities.\n- Use change management for configuration changes, with rollback plans.\n- Review capacity reports monthly and plan upgrades early.\n\n## Key terms\n\n- **SNMP:** Simple Network Management Protocol.\n- **Syslog:** a standard for sending log messages.\n- **NetFlow / IPFIX:** flow-based traffic reporting.\n- **Configuration backup:** a saved copy of a device's settings.\n\n## Real-world example\n\nUsers at a regional office complain of slow applications every afternoon. Flow data shows that a backup job copying files to head office starts at 2 p.m. and fills the WAN link. The operations team reschedules the backup to night hours and applies QoS. The complaints stop, and the monitoring data supports a future link upgrade.\n\n## Common mistakes\n\n- Monitoring only whether devices are up.\n- No configuration backups.\n- Ignoring network operating system security updates.\n\n## Key takeaways\n\n- Monitor health, interfaces, links, Wi-Fi and traffic flows.\n- Use SNMP, syslog, flow data and configuration backups.\n- Patch, manage changes and plan capacity from monitoring data.",
       "module": 4
+    }
+  ],
+  "sources": [
+    {
+      "title": "MEF: SD-WAN service standard (MEF 70) and definitions",
+      "url": "https://www.mef.net/"
+    },
+    {
+      "title": "NIST SP 800-207: Zero Trust Architecture",
+      "url": "https://csrc.nist.gov/pubs/sp/800/207/final"
+    },
+    {
+      "title": "IEEE 802 LAN/MAN Standards Committee: Ethernet (802.3), VLANs (802.1Q) and Wi-Fi (802.11)",
+      "url": "https://www.ieee802.org/"
+    },
+    {
+      "title": "Cisco Networking Academy: networking and security courses",
+      "url": "https://www.netacad.com/"
     }
   ],
   "assessment": {
@@ -63,78 +81,99 @@
         "type": "SINGLE",
         "text": "What does application-aware routing in SD-WAN do?",
         "options": [
-          "Steers traffic by application and link quality",
-          "Blocks all applications",
-          "Uses only one link",
-          "Removes the need for security"
+          "Sends all traffic over MPLS",
+          "Sends each application over the best link based on real-time measurements",
+          "Blocks all cloud traffic",
+          "Replaces switches"
         ],
         "correct": [
-          "Steers traffic by application and link quality"
+          "Sends each application over the best link based on real-time measurements"
         ],
-        "points": 1
-      },
-      {
-        "type": "MULTIPLE",
-        "text": "Which are features of SD-WAN? Select all that apply.",
-        "options": [
-          "Multiple transports used together",
-          "Central orchestration",
-          "Zero-touch provisioning",
-          "Manual configuration of every branch by hand only"
-        ],
-        "correct": [
-          "Multiple transports used together",
-          "Central orchestration",
-          "Zero-touch provisioning"
-        ],
-        "points": 2
-      },
-      {
-        "type": "MATCHING",
-        "text": "Match each campus layer to its role.",
-        "options": [
-          "Access=Connects users and devices",
-          "Distribution=Aggregates access switches and applies policy",
-          "Core=Fast, highly available backbone"
-        ],
-        "correct": [],
-        "points": 3
+        "points": 1,
+        "explanation": "SD-WAN measures links and steers applications accordingly."
       },
       {
         "type": "SINGLE",
-        "text": "What is network segmentation for?",
+        "text": "In SD-WAN, what is the 'underlay'?",
         "options": [
-          "Limiting how far an infection or attack can spread",
-          "Making cables shorter",
-          "Increasing printer speed",
-          "Avoiding IP addresses"
+          "The central orchestrator",
+          "The physical links and transport networks",
+          "The encrypted tunnels",
+          "The user interface"
         ],
         "correct": [
-          "Limiting how far an infection or attack can spread"
+          "The physical links and transport networks"
         ],
-        "points": 1
+        "points": 1,
+        "explanation": "The overlay of tunnels runs over the physical underlay."
       },
       {
-        "type": "FILL_BLANK",
-        "text": "A standard commonly used for network access control that authenticates devices before giving access is 802.____.",
+        "type": "SINGLE",
+        "text": "Which topology is used mainly in data centres, with every leaf connected to every spine?",
         "options": [
-          "1X",
-          "1x"
+          "Three-tier",
+          "Collapsed core",
+          "Spine-leaf",
+          "Ring"
         ],
-        "correct": [],
-        "points": 1
+        "correct": [
+          "Spine-leaf"
+        ],
+        "points": 1,
+        "explanation": "Spine-leaf gives predictable paths in data centres."
       },
       {
         "type": "TRUE_FALSE",
-        "text": "Configuration backups should be stored only on the devices themselves.",
+        "text": "Network segmentation helps stop ransomware from spreading from office PCs to plant systems.",
         "options": [
           "True",
           "False"
         ],
         "correct": [
-          "False"
+          "True"
         ],
-        "points": 1
+        "points": 1,
+        "explanation": "Segmentation limits lateral movement."
+      },
+      {
+        "type": "SINGLE",
+        "text": "Which NIST publication describes zero trust architecture?",
+        "options": [
+          "SP 800-53",
+          "SP 800-207",
+          "SP 800-145",
+          "CSF 2.0"
+        ],
+        "correct": [
+          "SP 800-207"
+        ],
+        "points": 1,
+        "explanation": "NIST SP 800-207 is the zero trust architecture publication."
+      },
+      {
+        "type": "MULTIPLE",
+        "text": "Which protocols or data sources help network monitoring?",
+        "options": [
+          "SNMP",
+          "Syslog",
+          "NetFlow/IPFIX",
+          "HDCP"
+        ],
+        "correct": [
+          "SNMP",
+          "Syslog",
+          "NetFlow/IPFIX"
+        ],
+        "points": 1,
+        "explanation": "HDCP is video content protection, not monitoring."
+      },
+      {
+        "type": "SHORT_ANSWER",
+        "text": "In two or three sentences, explain why an SD-WAN migration should start with a pilot.",
+        "options": [],
+        "correct": [],
+        "points": 1,
+        "explanation": "A pilot tests policies, links, security and applications on a few sites before wider rollout. Problems can be fixed with little impact, and the design becomes a proven template for the remaining sites."
       }
     ]
   }

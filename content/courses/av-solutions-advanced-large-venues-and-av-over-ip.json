@@ -29,29 +29,47 @@
       "position": 1,
       "title": "Large venues and acoustics",
       "type": "TEXT",
-      "body": "Auditoriums, halls and large training spaces need careful audio design.\n\n## Acoustics first\n\n- **Reverberation:** sound reflecting around the room. Too much makes speech unclear.\n- **Intelligibility:** whether speech can be understood, often measured with the speech transmission index (STI).\n- Acoustic treatment (absorbers, diffusers) may be needed before choosing speakers.\n\n## Sound reinforcement\n\n- **Line array or column speakers** project sound evenly over long distances.\n- **Delay speakers** cover rear seats, time-aligned so sound arrives together.\n- Design for even coverage and enough level above background noise, without feedback.\n\n## Design tools\n\nAcoustic modelling software predicts coverage and intelligibility before installation. Validate with measurements during commissioning.",
+      "body": "Auditoriums, convention halls and large training centres bring special AV challenges: long distances, large audiences and difficult acoustics. Speech must be intelligible to every seat.\n\n## Acoustics in large spaces\n\n- Large rooms often have long reverberation times, which blur speech.\n- **Speech intelligibility** can be measured using the Speech Transmission Index (STI), defined in IEC 60268-16. Higher values mean clearer speech.\n- Acoustic treatment, such as absorptive panels and diffusers, is often needed alongside the sound system.\n\n## Sound system design\n\n- **Line arrays and column speakers** project sound evenly over long distances while reducing reflections from walls and ceilings.\n- **Delay speakers** cover rear seats, with signal delay so sound arrives in sync with the main speakers.\n- **Zoning** lets different areas receive different audio levels or content.\n- **Acoustic modelling software** predicts coverage and intelligibility before installation.\n\n## Other large-venue needs\n\n- Large projection or LED walls sized for the farthest seats.\n- Multiple wireless microphones with careful frequency planning.\n- Recording and streaming for remote audiences.\n- Assistive listening systems for people with hearing impairments.\n\n## Key terms\n\n- **STI:** Speech Transmission Index, a measure of speech intelligibility.\n- **Line array:** a speaker system that projects sound over long distances.\n- **Delay speaker:** a speaker with timed delay to cover distant seats.\n- **Assistive listening:** systems such as induction loops that help people with hearing aids.\n\n## Real-world example\n\nA university auditorium has powerful speakers, but students at the back cannot understand lectures. Acoustic measurements show long reverberation and poor coverage. The SI installs column speakers aimed at the audience, delay speakers for the rear rows and acoustic panels on the back wall. Measured intelligibility improves, and complaints stop.\n\n## Common mistakes\n\n- Adding louder speakers instead of fixing coverage and acoustics.\n- Not modelling the room before design.\n- Forgetting assistive listening.\n\n## Key takeaways\n\n- Large venues need both acoustic treatment and well-designed sound systems.\n- Use line arrays, column and delay speakers to achieve even coverage.\n- Measure and model intelligibility, for example with STI.",
       "module": 1
     },
     {
       "position": 2,
       "title": "Video walls and command centres",
       "type": "TEXT",
-      "body": "Video walls and command centres display large amounts of information, often around the clock.\n\n## Video wall technologies\n\n- **LCD video walls:** tiled displays with narrow bezels; cost-effective; small seams between panels.\n- **Direct-view LED:** seamless and very bright. **Pixel pitch** (distance between pixels, in mm) sets the closest comfortable viewing distance: a smaller pitch suits closer viewing and costs more.\n\n## Command and control centres\n\n- **Video wall controllers** place many sources (cameras, dashboards, maps) in flexible layouts.\n- Operators need ergonomic consoles and sightlines to the wall.\n- Equipment must suit 24/7 use; plan redundancy for controllers and power.\n- Consider heat, noise and maintenance access behind the wall.",
+      "body": "Video walls display large amounts of information to many viewers. Command and control centres, such as network operations centres, traffic control rooms and security monitoring rooms, rely on them around the clock.\n\n## Video wall technologies\n\n- **LCD video walls:** multiple narrow-bezel displays tiled together; cost-effective with high resolution, but with visible seams.\n- **Direct-view LED:** seamless, bright and flexible in size. **Pixel pitch** (the distance between pixels, in millimetres) decides how close viewers can sit; smaller pitch gives a sharper image at short distances.\n- **Rear-projection cubes:** used in some older control rooms; largely replaced by LCD and LED.\n\n## Control room design\n\n- **24x7 rated displays** designed for continuous operation.\n- **Video wall processors** that show many sources in flexible layouts.\n- **Operator consoles** with ergonomic layout, so operators can see both their screens and the wall.\n- **Redundancy:** redundant power supplies, processors and signal paths for critical operations.\n- **Ergonomics:** viewing angles, distances and lighting designed for long shifts.\n\n## Key terms\n\n- **Pixel pitch:** distance between LED pixel centres, in millimetres.\n- **Bezel:** the frame around a display; narrow bezels reduce seams.\n- **Video wall processor:** a device that arranges multiple sources on the wall.\n- **NOC / SOC:** network or security operations centre.\n\n## Real-world example\n\nA city's traffic control centre needs to show 60 camera feeds, maps and alerts. The SI designs a direct-view LED wall with a fine pixel pitch suited to the operators' seating distance, a redundant video wall processor and 24x7 operator workstations. Operators can rearrange layouts during incidents, and the system stays up during component failures.\n\n## Common mistakes\n\n- Using standard displays for 24x7 use.\n- Choosing pixel pitch without considering viewing distance.\n- No redundancy in critical control rooms.\n\n## Key takeaways\n\n- Choose LCD or LED walls based on seams, brightness, budget and viewing distance.\n- Use 24x7 displays, processors and redundancy for control rooms.\n- Design consoles and ergonomics for long shifts.",
       "module": 2
     },
     {
       "position": 3,
       "title": "AV over IP",
       "type": "TEXT",
-      "body": "AV over IP sends audio and video across a standard network instead of dedicated cables and matrix switchers.\n\n## Common technologies\n\n- **Audio:** Dante is widely used for networked audio.\n- **Video:** several approaches exist, for example NDI, SDVoE and IPMX, with different trade-offs between bandwidth, latency and compression.\n\n## Network requirements\n\n- **Bandwidth:** uncompressed or lightly compressed video can need very high bandwidth; plan switch capacity accordingly.\n- **Multicast:** one source to many displays; needs IGMP snooping and a querier configured on the switches.\n- **Quality of service (QoS):** prioritise audio and clock traffic.\n- **Clock synchronisation:** many systems use PTP; switches must support it properly.\n- **Separation:** a dedicated AV network or VLAN, agreed with the customer's network team.\n\n> Involve the network team from the start. Most AV-over-IP problems are network configuration problems.",
+      "body": "AV over IP sends audio and video over standard Ethernet networks instead of dedicated AV cables and switchers. It scales easily, uses familiar network infrastructure and supports flexible routing.\n\n## Why AV over IP\n\n- **Scalability:** add endpoints by adding network ports.\n- **Flexibility:** route any source to any destination across a building or campus.\n- **Distance:** limited only by the network, not cable length.\n- **Convergence:** AV and IT share infrastructure and management.\n\n## Common technologies and standards\n\n- **Dante:** widely used for networked audio, by Audinate.\n- **SMPTE ST 2110:** standards for professional media over IP, common in broadcast.\n- **IPMX:** an open set of standards, based on ST 2110 and promoted by AIMS, for professional AV over IP.\n- **SDVoE and NDI:** other approaches for video over IP, with different bandwidth and latency trade-offs.\n\n## Network requirements\n\n- **Bandwidth:** uncompressed 4K video can need around 10 Gbps; compressed formats need far less.\n- **Multicast:** one source sent to many receivers efficiently, managed with IGMP snooping on switches.\n- **Quality of service (QoS):** prioritising time-sensitive traffic.\n- **Latency and synchronisation:** Precision Time Protocol (PTP) keeps devices in time in some systems.\n- **Separation:** dedicated VLANs or networks for AV traffic.\n\n## Key terms\n\n- **Multicast:** sending one stream to many receivers.\n- **IGMP snooping:** a switch feature that sends multicast only where it is needed.\n- **Latency:** delay between source and display.\n- **PTP:** Precision Time Protocol, for clock synchronisation.\n\n## Real-world example\n\nA corporate campus wants to send presentations from any meeting room to any display, including the canteen and lobby. Instead of a large matrix switcher with long cable runs, the SI deploys AV over IP encoders and decoders on a dedicated network with multicast and IGMP snooping configured. New displays are added simply by connecting a decoder to a network port.\n\n## Common mistakes\n\n- Running AV over IP on a network not designed for multicast.\n- Underestimating bandwidth for high-resolution video.\n- Not involving the IT network team early.\n\n## Key takeaways\n\n- AV over IP brings scalability and flexibility using Ethernet networks.\n- Know the main technologies: Dante, ST 2110, IPMX, SDVoE and NDI.\n- Design the network for bandwidth, multicast, QoS and timing.",
       "module": 3
     },
     {
       "position": 4,
       "title": "Managed AV services",
       "type": "TEXT",
-      "body": "Managed AV services keep rooms working and users confident.\n\n## Typical services\n\n- **Remote monitoring** of rooms and devices, with alerts before users report problems.\n- **Preventive maintenance:** scheduled checks, firmware updates, cleaning.\n- **Help desk and on-site support** with defined response times.\n- **Usage reporting:** which rooms are used, and how much; helps plan future spaces.\n- **User training and adoption** support.\n\n## Defining the service\n\nAgree the rooms and devices in scope, service hours, response and resolution times, reporting, and how new rooms are added. Price per room or per device, per month.",
+      "body": "Managed AV services keep meeting rooms and AV systems working day after day. As organisations depend on video meetings, AV downtime directly affects business.\n\n## What managed AV includes\n\n- **Remote monitoring:** checking device health, room usage and call quality from a central platform.\n- **Proactive maintenance:** firmware updates, health checks and fixing issues before users notice.\n- **Helpdesk and remote support:** a single number for users with AV problems.\n- **On-site support:** engineers for hardware faults, with defined response times.\n- **Usage reporting:** which rooms are used, how often and for what, to guide future investment.\n- **Lifecycle management:** tracking warranties and planning refreshes.\n\n## Designing the service\n\n- Define coverage: which rooms, devices and hours.\n- Set SLAs: response and resolution times by priority, such as boardrooms first.\n- Choose monitoring tools that support the installed devices.\n- Agree reporting and review meetings.\n- Price per room or per device, by service level.\n\n## Key terms\n\n- **Proactive support:** fixing issues before users report them.\n- **Room utilisation:** how often rooms are used.\n- **Priority level:** classification of incidents by business impact.\n\n## Real-world example\n\nA company's executive boardroom fails just before a quarterly results call because a firmware update on the conferencing system was applied automatically and reset settings. Under a new managed AV service, updates are tested and scheduled, rooms are monitored every morning and boardroom issues get a 30-minute response. Critical meetings run without disruption.\n\n## Common mistakes\n\n- Relying only on users to report problems.\n- Uncontrolled firmware updates.\n- No usage data to guide investment.\n\n## Key takeaways\n\n- Managed AV combines monitoring, maintenance, support and reporting.\n- Define coverage, SLAs and priorities clearly.\n- Use utilisation data to plan future rooms and refreshes.",
       "module": 4
+    }
+  ],
+  "sources": [
+    {
+      "title": "AVIXA: audiovisual industry standards (DISCAS display sizing, ANSI/AVIXA 10:2013 performance verification)",
+      "url": "https://www.avixa.org/"
+    },
+    {
+      "title": "AIMS: Alliance for IP Media Solutions (SMPTE ST 2110 and IPMX)",
+      "url": "https://www.aimsalliance.org/"
+    },
+    {
+      "title": "Audinate: Dante audio networking",
+      "url": "https://www.getdante.com/"
+    },
+    {
+      "title": "IEC: IEC 60268-16 speech transmission index",
+      "url": "https://webstore.iec.ch/"
     }
   ],
   "assessment": {
@@ -61,62 +79,37 @@
     "questions": [
       {
         "type": "SINGLE",
-        "text": "What does too much reverberation do in an auditorium?",
+        "text": "Which measure is used for speech intelligibility, defined in IEC 60268-16?",
         "options": [
-          "Makes speech unclear",
-          "Makes the room cooler",
-          "Improves intelligibility",
-          "Has no effect"
+          "PUE",
+          "STI",
+          "IOPS",
+          "DSO"
         ],
         "correct": [
-          "Makes speech unclear"
+          "STI"
         ],
-        "points": 1
+        "points": 1,
+        "explanation": "The Speech Transmission Index measures how intelligible speech is."
       },
       {
         "type": "SINGLE",
-        "text": "For a direct-view LED wall viewed from close up, which pixel pitch is better?",
+        "text": "For a direct-view LED wall, what does a smaller pixel pitch allow?",
         "options": [
-          "A smaller pixel pitch",
-          "A larger pixel pitch",
-          "Pixel pitch does not matter",
-          "The largest available"
+          "Cheaper installation",
+          "Sharper images at shorter viewing distances",
+          "Lower brightness",
+          "No need for power"
         ],
         "correct": [
-          "A smaller pixel pitch"
+          "Sharper images at shorter viewing distances"
         ],
-        "points": 1
-      },
-      {
-        "type": "MULTIPLE",
-        "text": "Which network features does AV over IP often need? Select all that apply.",
-        "options": [
-          "Multicast with IGMP snooping",
-          "Quality of service",
-          "Clock synchronisation such as PTP",
-          "Turning off all switches at night"
-        ],
-        "correct": [
-          "Multicast with IGMP snooping",
-          "Quality of service",
-          "Clock synchronisation such as PTP"
-        ],
-        "points": 2
-      },
-      {
-        "type": "MATCHING",
-        "text": "Match each technology to its use.",
-        "options": [
-          "Dante=Networked audio",
-          "Video wall controller=Arranges many sources on a wall",
-          "Delay speakers=Cover rear seats in a large hall"
-        ],
-        "correct": [],
-        "points": 3
+        "points": 1,
+        "explanation": "Pixel pitch decides the closest comfortable viewing distance."
       },
       {
         "type": "TRUE_FALSE",
-        "text": "Most AV-over-IP problems turn out to be network configuration problems.",
+        "text": "AV over IP networks should be designed for multicast, often using IGMP snooping.",
         "options": [
           "True",
           "False"
@@ -124,16 +117,61 @@
         "correct": [
           "True"
         ],
-        "points": 1
+        "points": 1,
+        "explanation": "Multicast sends one stream to many receivers efficiently."
       },
       {
-        "type": "FILL_BLANK",
-        "text": "The distance between pixels on an LED display, in millimetres, is called the pixel ____.",
+        "type": "MULTIPLE",
+        "text": "Which are AV-over-IP technologies or standards?",
         "options": [
-          "pitch"
+          "Dante",
+          "SMPTE ST 2110",
+          "IPMX",
+          "RS-232"
         ],
+        "correct": [
+          "Dante",
+          "SMPTE ST 2110",
+          "IPMX"
+        ],
+        "points": 1,
+        "explanation": "RS-232 is a serial control method, not AV over IP."
+      },
+      {
+        "type": "SINGLE",
+        "text": "What do delay speakers do in a large venue?",
+        "options": [
+          "Make sound louder at the front",
+          "Cover rear seats with sound timed to arrive with the main speakers",
+          "Record lectures",
+          "Cool the amplifiers"
+        ],
+        "correct": [
+          "Cover rear seats with sound timed to arrive with the main speakers"
+        ],
+        "points": 1,
+        "explanation": "The delay keeps sound in sync for listeners far from the main speakers."
+      },
+      {
+        "type": "TRUE_FALSE",
+        "text": "Standard consumer displays are suitable for 24x7 control rooms.",
+        "options": [
+          "True",
+          "False"
+        ],
+        "correct": [
+          "False"
+        ],
+        "points": 1,
+        "explanation": "Control rooms need displays rated for continuous operation."
+      },
+      {
+        "type": "SHORT_ANSWER",
+        "text": "In two or three sentences, explain one benefit of managed AV services for a company.",
+        "options": [],
         "correct": [],
-        "points": 1
+        "points": 1,
+        "explanation": "Example: proactive monitoring and maintenance find and fix room problems before meetings, reducing disruption. Usage reports also show which rooms are used, guiding future investment."
       }
     ]
   }

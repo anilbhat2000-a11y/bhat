@@ -29,29 +29,43 @@
       "position": 1,
       "title": "Displays and projection",
       "type": "TEXT",
-      "body": "Choosing the right display starts with the room and the content.\n\n## Display types\n\n- **Flat panels (LCD/LED TVs and professional displays):** bright, simple, for small and medium rooms. Professional displays are built for long daily use.\n- **Interactive flat panels:** touch displays for training rooms and collaboration.\n- **Projectors:** large images at lower cost; need light control. Brightness is measured in lumens; brighter rooms need more.\n- **LED video walls:** very large, bright and seamless; for large venues and lobbies.\n\n## Size\n\nA common rule of thumb: the farthest viewer should be no more than about six times the image height away for general content, and closer for detailed content such as spreadsheets. Check text is readable from the back row.\n\n## Other checks\n\n- Ambient light and windows.\n- Mounting: wall strength, height, viewing angles.\n- Inputs: HDMI, USB-C, network.",
+      "body": "Displays are the most visible part of any AV solution. Choosing the right type and size makes content easy to read; choosing wrongly frustrates every meeting.\n\n## Display types\n\n- **Flat-panel displays (LCD/LED-backlit):** the most common choice for meeting rooms; bright, sharp and simple. Commercial models are designed for long daily use.\n- **Interactive flat panels:** touch-enabled displays for classrooms and collaboration, often with built-in whiteboard software.\n- **Projectors:** produce very large images at lower cost; brightness is measured in lumens. Laser projectors last longer than lamp models.\n- **Direct-view LED walls:** built from LED tiles, seamless and very bright, used in lobbies, auditoriums and control rooms.\n\n## Choosing the right size\n\nThe farthest viewer must be able to read the content. AVIXA's DISCAS standard (Display Image Size for 2D Content in Audiovisual Systems) gives a method based on viewing distance and the type of content. A long-used rule of thumb is that for detailed content, such as spreadsheets, the farthest viewer should sit no more than about **six times the image height** away, and for basic presentations about **eight times**.\n\n## Brightness and environment\n\n- Flat panels are rated in nits (candelas per square metre); projectors in lumens.\n- Rooms with windows or bright lights need brighter displays or light control, such as blinds.\n- Commercial displays rated for many hours per day are better suited to business use than consumer TVs.\n\n## Key terms\n\n- **Nits:** a unit of display brightness.\n- **Lumens:** a unit of projector light output.\n- **DISCAS:** the AVIXA standard for calculating display size.\n- **Commercial display:** a display designed for extended business use, with suitable warranty.\n\n## Real-world example\n\nA company installs a 55-inch TV in a 14-seat boardroom. Directors at the far end cannot read the financial spreadsheets. An SI measures the room and calculates, using the viewing distance to the farthest seat, that the content needs a much larger image. It proposes an 86-inch commercial display, and later a second display for the far end. Meetings become far more productive.\n\n## Common mistakes\n\n- Choosing displays by price rather than viewing distance.\n- Using consumer TVs for all-day business use.\n- Ignoring windows and lighting.\n\n## Key takeaways\n\n- Choose display type based on room size, use and environment.\n- Size displays from the farthest viewer's distance, using DISCAS or the six-to-eight-times rule of thumb.\n- Use commercial displays and plan for ambient light.",
       "module": 1
     },
     {
       "position": 2,
       "title": "Audio basics",
       "type": "TEXT",
-      "body": "In a meeting room, poor audio ruins a call faster than poor video.\n\n## Microphones\n\n- **Ceiling microphones and arrays:** clean tables, cover the whole room.\n- **Table (boundary) microphones:** good pickup close to participants.\n- **Gooseneck microphones:** for boardrooms and podiums.\n- **Wireless handheld and lapel microphones:** for presenters and training.\n\n## Speakers\n\nCeiling or wall speakers spread sound evenly; small rooms may use speakers in the video bar.\n\n## Digital signal processors (DSP)\n\nA DSP mixes and processes audio. Its most important job in conferencing is **acoustic echo cancellation (AEC)**: it stops remote participants hearing their own voices back. It also handles gain control and noise reduction.\n\n## The room matters\n\nHard surfaces such as glass and bare walls cause echo. Soft furnishings and acoustic panels help more than expensive equipment.",
+      "body": "In meetings, poor audio is worse than poor video. If people cannot hear clearly, the meeting fails. Good audio depends on the right microphones, speakers, processing and room acoustics.\n\n## Microphones\n\n- **Table microphones:** placed on the table near participants; good pickup but can clutter the table.\n- **Ceiling microphones:** discreet, often using beamforming to focus on talkers.\n- **Wireless handheld and lapel microphones:** for presenters and town halls.\n- **Built-in microphones** in video bars: suitable for small rooms.\n\n## Speakers and processing\n\n- **Speakers** must cover the room evenly so everyone hears remote participants clearly.\n- **Digital signal processors (DSPs)** mix microphones, control levels and remove problems.\n- **Acoustic echo cancellation (AEC)** stops remote participants from hearing their own voices echo back.\n- **Noise reduction** reduces background sounds such as air conditioning.\n\n## Room acoustics\n\nHard surfaces such as glass, concrete and bare walls reflect sound, causing echo and reverberation that make speech unclear. **Reverberation time (RT60)** is how long sound takes to decay by 60 decibels. Meeting rooms work best with short reverberation times. Acoustic panels, carpets and curtains help.\n\n## Key terms\n\n- **Beamforming:** using an array of microphones to focus on a talker's direction.\n- **DSP:** digital signal processor.\n- **AEC:** acoustic echo cancellation.\n- **RT60:** reverberation time, the time for sound to decay by 60 dB.\n\n## Real-world example\n\nA new glass-walled meeting room has an expensive camera and display, but remote participants complain of echo and muffled voices. An SI measures a long reverberation time, adds acoustic panels and a ceiling microphone array with AEC, and tunes the DSP. Remote participants now hear everyone clearly.\n\n## Common mistakes\n\n- Spending on cameras and displays but not on audio.\n- Ignoring room acoustics.\n- Poorly placed microphones far from talkers.\n\n## Key takeaways\n\n- Audio quality decides whether a meeting works.\n- Use suitable microphones, speakers, DSP and echo cancellation.\n- Treat room acoustics, especially in rooms with hard surfaces.",
       "module": 2
     },
     {
       "position": 3,
       "title": "Conferencing rooms",
       "type": "TEXT",
-      "body": "Conferencing rooms come in a few common types.\n\n- **Huddle rooms (2 to 6 people):** an all-in-one video bar with camera, microphones and speakers, plus one display.\n- **Small and medium rooms (6 to 12):** video bar or separate camera, with extra microphones; one or two displays.\n- **Boardrooms (12+):** multiple cameras or a tracking camera, ceiling or table microphones, DSP, and two displays.\n- **Training rooms:** presenter microphones, cameras on the presenter and audience, and interactive displays.\n\n## Platform choice\n\n- **Native room systems** run a meeting platform directly (such as Microsoft Teams Rooms or Zoom Rooms): one-touch join, consistent experience.\n- **Bring your own device (BYOD):** users connect their laptops to the room's camera and audio by USB; flexible across platforms.\n\nAsk which platforms the customer uses before designing.",
+      "body": "Video conferencing connects people across offices and cities. A good conferencing room starts a meeting with one touch, shows everyone clearly and sounds natural.\n\n## Types of rooms\n\n- **Huddle rooms:** two to six people, often with an all-in-one video bar.\n- **Medium meeting rooms:** six to twelve people, with a camera, microphones, speakers and one or two displays.\n- **Boardrooms:** large tables, multiple cameras, ceiling microphones and premium audio.\n- **Training rooms and town halls:** presenter-focused, with audience microphones and large displays.\n\n## Platform choices\n\nMost organisations standardise on a platform such as Microsoft Teams, Zoom, Google Meet or Webex.\n\n- **Dedicated room systems,** such as Microsoft Teams Rooms or Zoom Rooms, provide one-touch join from a touch panel. Manufacturers certify devices for these platforms.\n- **BYOD / BYOM (bring your own device or meeting):** users connect their laptop to the room's camera, microphones and display, often via USB. Flexible for organisations using several platforms.\n\n## Design basics\n\n- **Camera placement:** at or near eye level, usually below or above the display, covering all seats.\n- **Display placement:** comfortable viewing height and distance.\n- **Network:** wired connections and sufficient bandwidth, with quality of service where possible.\n- **Content sharing:** wireless or wired sharing from laptops.\n\n## Key terms\n\n- **Video bar:** an all-in-one device with camera, microphones and speakers.\n- **Certified device:** hardware tested and approved for a conferencing platform.\n- **BYOD / BYOM:** using the user's own laptop or meeting platform in the room.\n- **Touch panel:** the room controller used to start and manage meetings.\n\n## Real-world example\n\nA company standardised on Microsoft Teams but has meeting rooms with mixed, uncertified equipment. Meetings start late while staff struggle with cables and settings. An SI installs certified Teams Rooms systems with touch panels. Meetings now start with one tap, and support calls drop sharply.\n\n## Common mistakes\n\n- Mixing uncertified devices that do not work well together.\n- Placing cameras too high or off to one side.\n- Relying on Wi-Fi for room systems.\n\n## Key takeaways\n\n- Match the room design to room size and use.\n- Choose dedicated certified systems or BYOD based on the platforms used.\n- Place cameras and displays correctly and use a wired network.",
       "module": 3
     },
     {
       "position": 4,
       "title": "Site survey",
       "type": "TEXT",
-      "body": "A site survey prevents surprises during installation.\n\n## What to record\n\n- Room dimensions, ceiling height and type, and photos of every wall.\n- Windows, lighting and acoustics: hard surfaces, echo.\n- Furniture layout and seating capacity.\n- Power points and network points, and where new ones are needed.\n- Wall construction for mounting displays.\n- Cable routes and containment.\n- How the room is used: meetings, training, presentations, recording.\n\n## After the survey\n\nProduce a short survey report with a sketch of the room and the proposed equipment positions. Confirm it with the customer before finalising the design.\n\n> This module includes a lab: complete a survey of a sample room using the checklist.",
+      "body": "A site survey is the foundation of every AV project. It reveals the room's real conditions and prevents surprises during installation.\n\n## What to check\n\n- **Room dimensions:** length, width and ceiling height; seating layout and the farthest viewing distance.\n- **Walls and ceilings:** construction type, ability to support displays, and ceiling space for microphones and speakers.\n- **Acoustics:** hard surfaces, windows, background noise from air conditioning or traffic.\n- **Lighting:** windows, blinds and light levels on the display wall.\n- **Power:** socket locations and capacity.\n- **Network:** data points, switch ports, bandwidth and Wi-Fi coverage.\n- **Cable paths:** routes between table, wall and equipment location.\n- **Furniture:** table size and where table boxes or cable cut-outs are possible.\n- **Usage:** how the room is used, by whom, and which platforms.\n\n## Recording the survey\n\n- Take photos of every wall, the ceiling and the floor boxes.\n- Draw a simple room sketch with dimensions.\n- Note any civil, electrical or furniture work needed and who will do it.\n- Confirm findings with the customer before finalising the design.\n\n## Key terms\n\n- **Site survey:** an on-site inspection before design and installation.\n- **Floor box / table box:** connection points in the floor or table for power and signals.\n- **Civil work:** construction work such as chasing walls or false ceiling changes.\n\n## Real-world example\n\nAn AV design specifies a large display on a wall that the survey shows is a thin partition. Without the survey, the installation team would have arrived with a standard wall mount. Instead, the design includes a floor-supported stand, and the project proceeds without delay or damage.\n\n## Common mistakes\n\n- Designing from floor plans alone.\n- Not checking power and network points.\n- Forgetting to note civil or furniture work and who is responsible.\n\n## Key takeaways\n\n- Survey every room before design.\n- Check dimensions, structure, acoustics, lighting, power, network and cable paths.\n- Record photos and sketches, and confirm responsibilities in writing.",
       "module": 4
+    }
+  ],
+  "sources": [
+    {
+      "title": "AVIXA: audiovisual industry standards (DISCAS display sizing, ANSI/AVIXA 10:2013 performance verification)",
+      "url": "https://www.avixa.org/"
+    },
+    {
+      "title": "Microsoft Learn: Microsoft Teams Rooms planning and certified devices",
+      "url": "https://learn.microsoft.com/en-us/microsoftteams/rooms/"
+    },
+    {
+      "title": "Zoom: Zoom Rooms hardware and setup",
+      "url": "https://www.zoom.com/"
     }
   ],
   "assessment": {
@@ -61,46 +75,37 @@
     "questions": [
       {
         "type": "SINGLE",
-        "text": "Which display is best for a large lobby needing a very large, bright, seamless image?",
+        "text": "Which AVIXA standard helps calculate display size?",
         "options": [
-          "LED video wall",
-          "Small TV",
-          "Interactive panel",
-          "Laptop screen"
+          "RT60",
+          "DISCAS",
+          "HDCP",
+          "PoE"
         ],
         "correct": [
-          "LED video wall"
+          "DISCAS"
         ],
-        "points": 1
+        "points": 1,
+        "explanation": "DISCAS is AVIXA's Display Image Size for 2D Content in Audiovisual Systems standard."
       },
       {
         "type": "SINGLE",
-        "text": "What is the most important job of a DSP in a conferencing room?",
+        "text": "Projector brightness is measured in:",
         "options": [
-          "Acoustic echo cancellation",
-          "Making the display brighter",
-          "Recording attendance",
-          "Charging laptops"
+          "Nits",
+          "Lumens",
+          "Decibels",
+          "Watts"
         ],
         "correct": [
-          "Acoustic echo cancellation"
+          "Lumens"
         ],
-        "points": 1
-      },
-      {
-        "type": "MATCHING",
-        "text": "Match each room type to a typical setup.",
-        "options": [
-          "Huddle room=All-in-one video bar and one display",
-          "Boardroom=Multiple cameras, ceiling or table mics and a DSP",
-          "Training room=Presenter mics, audience cameras and interactive displays"
-        ],
-        "correct": [],
-        "points": 3
+        "points": 1,
+        "explanation": "Projectors are rated in lumens; flat panels in nits."
       },
       {
         "type": "TRUE_FALSE",
-        "text": "Hard surfaces such as glass walls can cause echo in a meeting room.",
+        "text": "Acoustic echo cancellation stops remote participants hearing their own voices echo back.",
         "options": [
           "True",
           "False"
@@ -108,33 +113,66 @@
         "correct": [
           "True"
         ],
-        "points": 1
+        "points": 1,
+        "explanation": "AEC removes the remote audio picked up by the room microphones."
       },
       {
-        "type": "FILL_BLANK",
-        "text": "Projector brightness is measured in ____.",
+        "type": "SINGLE",
+        "text": "A glass-walled room has echo. What helps most?",
         "options": [
-          "lumens",
-          "lumen"
+          "A brighter display",
+          "Acoustic treatment and proper microphones with AEC",
+          "A bigger table",
+          "More chairs"
         ],
-        "correct": [],
-        "points": 1
+        "correct": [
+          "Acoustic treatment and proper microphones with AEC"
+        ],
+        "points": 1,
+        "explanation": "Hard surfaces cause reverberation; treatment and good audio processing fix it."
       },
       {
         "type": "MULTIPLE",
-        "text": "What should a site survey record? Select all that apply.",
+        "text": "What should a site survey check?",
         "options": [
-          "Room dimensions and photos",
+          "Wall structure",
           "Power and network points",
-          "Wall construction for mounting",
-          "The CEO's favourite film"
+          "Lighting and windows",
+          "The customer's share price"
         ],
         "correct": [
-          "Room dimensions and photos",
+          "Wall structure",
           "Power and network points",
-          "Wall construction for mounting"
+          "Lighting and windows"
         ],
-        "points": 2
+        "points": 1,
+        "explanation": "Physical conditions decide the design."
+      },
+      {
+        "type": "TRUE_FALSE",
+        "text": "Room conferencing systems should rely on Wi-Fi rather than wired network connections.",
+        "options": [
+          "True",
+          "False"
+        ],
+        "correct": [
+          "False"
+        ],
+        "points": 1,
+        "explanation": "Wired connections are more reliable for room systems."
+      },
+      {
+        "type": "MATCHING",
+        "text": "Match each term to its meaning.",
+        "options": [
+          "Video bar=All-in-one camera, microphones and speakers",
+          "DSP=Processes and mixes audio",
+          "Beamforming=Microphone array focusing on talkers",
+          "BYOD=Using the user's own laptop in the room"
+        ],
+        "correct": [],
+        "points": 1,
+        "explanation": "These are basic AV terms."
       }
     ]
   }

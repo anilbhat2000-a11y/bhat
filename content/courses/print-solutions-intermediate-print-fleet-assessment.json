@@ -29,29 +29,43 @@
       "position": 1,
       "title": "Fleet assessment",
       "type": "TEXT",
-      "body": "A print fleet assessment shows what a customer has, how it is used and what it costs, before proposing changes.\n\n## Collect data\n\n- **Inventory:** every printer, copier and MFP: model, age, location, connection.\n- **Volumes:** monthly pages per device, mono and colour, from meter reads or monitoring software.\n- **Users:** how many people use each device.\n- **Costs:** consumables, service contracts, paper, and staff time spent on printer issues.\n- **Pain points:** breakdowns, slow devices, security concerns.\n\n## Methods\n\n- Install monitoring software for a few weeks to collect accurate volumes.\n- Walk the site to find local desktop printers that are not on the network.\n- Interview a sample of users and the IT team.\n\n> This module includes a lab: build a fleet inventory and volume table for a sample office.",
+      "body": "A print fleet assessment is a study of an organisation's printers, copiers and scanners: what they have, how they are used and what they cost. Most organisations do not know how much they spend on printing until they measure it.\n\n## What a fleet assessment covers\n\n- **Inventory:** every device, with make, model, age, location and connection type.\n- **Usage:** pages printed per device per month, colour versus mono, simplex versus duplex.\n- **Costs:** consumables, service, leases, power and staff time spent on printer issues.\n- **User needs:** which departments need what functions, such as scanning or A3.\n- **Workflows:** which business processes depend on printing.\n- **Security:** how confidential documents are printed and collected.\n\n## How data is collected\n\n- **Network discovery tools** read page counters and status from networked devices using protocols such as SNMP.\n- **Software agents** can capture print jobs from PCs, including locally connected printers.\n- **Walk-around surveys** find devices that are not networked.\n- **Interviews and questionnaires** capture user needs and pain points.\n- **Invoices and purchase records** show consumable and service spending.\n\n## Key terms\n\n- **Fleet:** all the print devices in an organisation.\n- **Page counter:** a device's record of pages printed.\n- **Device-to-user ratio:** number of users per device.\n- **Print audit:** another name for a fleet assessment.\n\n## Real-world example\n\nA company believes it has about 50 printers. A fleet assessment finds 140 devices, including many personal desktop printers bought on expense claims. Total annual print spending, including consumables bought locally, is three times what finance estimated. The findings make a strong case for a planned print strategy.\n\n## Common mistakes\n\n- Counting only networked printers.\n- Ignoring consumables bought outside central purchasing.\n- Not asking users about their needs.\n\n## Key takeaways\n\n- A fleet assessment measures devices, usage, costs, needs, workflows and security.\n- Combine network discovery, agents, walk-arounds, interviews and invoices.\n- Most organisations underestimate their fleet size and print costs.",
       "module": 1
     },
     {
       "position": 2,
       "title": "Cost analysis",
       "type": "TEXT",
-      "body": "Most customers underestimate what printing costs them.\n\n## Cost per page\n\nCost per page = (consumables + service + device cost spread over its life + power) ÷ pages printed.\n\nExample: a printer costs ₹3,000 a month in toner, ₹1,000 in service, and ₹1,000 a month in depreciation, and prints 10,000 pages: ₹5,000 ÷ 10,000 = ₹0.50 per page.\n\n## What drives cost up\n\n- Many small desktop printers with expensive cartridges.\n- Colour printing where mono would do.\n- Old devices with high service costs.\n- No control over who prints what.\n\nPresent current costs per device and in total; it becomes the baseline for the savings in your proposal.",
+      "body": "Once the fleet data is collected, cost analysis shows where money is going and where it can be saved. It turns raw data into a business case.\n\n## Calculating current costs\n\n- **Consumables:** toner, ink, drums and maintenance parts.\n- **Service:** contracts, repairs and call-out charges.\n- **Hardware:** purchase or lease costs spread over device life.\n- **Paper:** pages printed multiplied by paper cost.\n- **Power:** device energy use.\n- **Hidden costs:** IT staff time on printer problems, user downtime and wasted prints.\n\n## Useful measures\n\n- **Cost per page** by device and by department.\n- **Total annual print spend.**\n- **Utilisation:** monthly pages compared with each device's recommended volume.\n- **Colour share:** the percentage of pages printed in colour.\n- **Duplex share:** the percentage printed double-sided.\n\n## Finding savings\n\n- **Over-utilised devices** break down often and should be replaced with larger ones.\n- **Under-utilised devices** cost money for little use and can be removed or consolidated.\n- **Expensive personal printers** can be replaced by shared, lower-cost devices.\n- **Colour policies,** such as defaulting to mono, can reduce costs.\n- **Duplex by default** saves paper.\n\n## Key terms\n\n- **Utilisation:** how much a device is used compared with its design volume.\n- **Consolidation:** reducing the number of devices by sharing.\n- **Hidden cost:** a cost not shown in purchase records, such as staff time.\n\n## Real-world example\n\nA cost analysis shows that 30 personal inkjet printers in one office cost about ₹4 per page, while a shared mono laser MFP would cost well under ₹1 per page. Colour makes up 40% of pages, mostly for internal emails. Replacing personal printers with shared MFPs and setting mono as the default reduces annual print costs significantly, as shown in the business case.\n\n## Common mistakes\n\n- Counting only hardware costs.\n- Ignoring hidden costs such as IT time.\n- Recommending changes without measuring utilisation.\n\n## Key takeaways\n\n- Include consumables, service, hardware, paper, power and hidden costs.\n- Measure cost per page, utilisation, colour share and duplex share.\n- Target over-used, under-used and expensive personal devices.",
       "module": 2
     },
     {
       "position": 3,
       "title": "Right-sizing",
       "type": "TEXT",
-      "body": "Right-sizing means having the right devices, in the right places, for the real volumes.\n\n## Principles\n\n- **Consolidate** many small printers into fewer shared MFPs where users are close together.\n- **Match duty cycle to volume:** a device's recommended monthly volume should comfortably cover its actual use.\n- **Ratio of users to devices:** shared MFPs commonly serve a team or a floor section; balance convenience against cost.\n- **Keep specialist devices** where needed (labels, wide format, secure areas).\n- **Default to mono and duplex** printing.\n\n## The proposal\n\nShow the current state, the future state, the cost difference and the implementation plan, including how users will be trained.",
+      "body": "Right-sizing means designing a print fleet with the right number and type of devices in the right places. It balances cost, convenience and productivity.\n\n## Right-sizing principles\n\n- **Match devices to workloads:** place higher-capacity devices where volumes are high.\n- **Consolidate:** replace many small personal printers with fewer shared MFPs.\n- **Reasonable walking distance:** users should not have to walk too far; plan locations by floor and department.\n- **Keep exceptions where justified:** for example, a printer at a reception desk or for confidential HR work.\n- **Standardise models:** fewer models means simpler support and consumables.\n- **Plan for change:** allow for growth, office moves and remote work.\n\n## A practical process\n\n1. Map current devices and volumes on floor plans.\n2. Define target ratios and locations by department.\n3. Propose a future fleet with device models and locations.\n4. Calculate future costs and savings.\n5. Agree exceptions with department heads.\n6. Plan the transition: install new devices, train users, then remove old devices.\n\n## Key terms\n\n- **Right-sizing:** matching the fleet to actual needs.\n- **Future-state fleet:** the planned fleet after changes.\n- **Exception:** a justified departure from standard design.\n\n## Real-world example\n\nA university library has 12 small printers scattered across floors, often out of toner. Students queue at the few that work. The right-sized design uses three high-capacity MFPs with card-based secure release, placed near study areas on each floor, and one colour MFP. Queues shrink, costs fall and staff no longer refill twelve printers.\n\n## Common mistakes\n\n- Removing too many devices and frustrating users.\n- No consultation with departments.\n- Removing old devices before new ones are working.\n\n## Key takeaways\n\n- Right-size by matching devices to workloads and locations.\n- Consolidate, standardise and keep justified exceptions.\n- Plan the transition carefully with user training.",
       "module": 3
     },
     {
       "position": 4,
       "title": "Secure printing",
       "type": "TEXT",
-      "body": "Printed documents and printers themselves are security risks.\n\n## Common risks\n\n- Confidential documents left in output trays.\n- Devices storing copies of scanned or printed documents on internal drives.\n- Default administrator passwords and open management ports.\n- Scan-to-email used to send data outside the company.\n\n## Controls\n\n- **Secure print release (pull printing):** jobs are held until the user authenticates at the device with a card or PIN.\n- **Device hardening:** change default passwords, disable unused protocols, keep firmware current.\n- **Encryption** of stored data, and secure wiping when devices are removed.\n- **Audit logs** of who printed, copied or scanned what.",
+      "body": "Printers are networked computers with storage, operating systems and access to sensitive documents. They are often overlooked in security planning, making them an easy target and a source of data leaks.\n\n## Printer security risks\n\n- **Documents left in output trays** for anyone to pick up.\n- **Stored data** on device hard drives or memory, including scanned and printed documents.\n- **Unpatched firmware** with known vulnerabilities.\n- **Default passwords** on admin interfaces.\n- **Open network services** that attackers can use.\n- **Scan-to-email misuse** sending documents outside the company.\n\n## Security measures\n\n- **Secure (pull) printing:** jobs are held until the user authenticates at the device with a PIN or ID card.\n- **User authentication** for copying, scanning and printing.\n- **Encrypted storage and secure wipe,** including when devices are returned or disposed of.\n- **Firmware updates** applied regularly.\n- **Change default passwords** and disable unused services.\n- **Network segmentation:** put printers in their own VLAN with controlled access.\n- **Audit logs:** record who printed, copied or scanned what.\n\n## Key terms\n\n- **Pull printing / follow-me printing:** print jobs released at any device after authentication.\n- **Firmware:** the device's built-in software.\n- **Secure wipe:** erasing stored data so it cannot be recovered.\n\n## Real-world example\n\nA hospital returns leased MFPs at the end of the contract without wiping their hard drives. The drives contain thousands of scanned patient records. When this is discovered, the hospital faces a serious data protection problem. Its new print contract includes encrypted drives, secure wipe certificates at return and secure release for all patient documents.\n\n## Common mistakes\n\n- Treating printers as simple office equipment, not computers.\n- Leaving default admin passwords.\n- Returning or disposing of devices without wiping data.\n\n## Key takeaways\n\n- Printers store and handle sensitive data and must be secured.\n- Use secure release, authentication, encryption, firmware updates and segmentation.\n- Wipe devices securely before return or disposal.",
       "module": 4
+    }
+  ],
+  "sources": [
+    {
+      "title": "NIST: guidance on securing networked devices such as printers (Cybersecurity Framework)",
+      "url": "https://www.nist.gov/cyberframework"
+    },
+    {
+      "title": "ISO: ISO/IEC 19752 and 19798 (toner yield) and ISO/IEC 24711 (ink yield) test methods",
+      "url": "https://www.iso.org/"
+    },
+    {
+      "title": "Central Pollution Control Board: E-Waste (Management) Rules and authorised recyclers",
+      "url": "https://cpcb.nic.in/"
     }
   ],
   "assessment": {
@@ -61,37 +75,82 @@
     "questions": [
       {
         "type": "MULTIPLE",
-        "text": "What should a print fleet assessment collect? Select all that apply.",
+        "text": "What does a print fleet assessment cover?",
         "options": [
-          "Device inventory and age",
-          "Monthly page volumes",
-          "Consumable and service costs",
-          "Staff birthdays"
+          "Inventory of devices",
+          "Usage and costs",
+          "User needs",
+          "Employees' salaries"
         ],
         "correct": [
-          "Device inventory and age",
-          "Monthly page volumes",
-          "Consumable and service costs"
+          "Inventory of devices",
+          "Usage and costs",
+          "User needs"
         ],
-        "points": 2
+        "points": 1,
+        "explanation": "It measures devices, usage, costs, needs, workflows and security."
       },
       {
         "type": "SINGLE",
-        "text": "A printer costs ₹5,000 a month in total and prints 10,000 pages. What is the cost per page?",
+        "text": "Which protocol do discovery tools commonly use to read printer page counters?",
         "options": [
-          "₹0.50",
-          "₹5",
-          "₹0.05",
-          "₹50"
+          "SNMP",
+          "HDMI",
+          "DHCP",
+          "SMTP"
         ],
         "correct": [
-          "₹0.50"
+          "SNMP"
         ],
-        "points": 1
+        "points": 1,
+        "explanation": "SNMP reads counters and status from networked devices."
       },
       {
         "type": "TRUE_FALSE",
-        "text": "A device's recommended monthly volume should comfortably cover its actual use.",
+        "text": "Most organisations accurately know how much they spend on printing.",
+        "options": [
+          "True",
+          "False"
+        ],
+        "correct": [
+          "False"
+        ],
+        "points": 1,
+        "explanation": "Fleet assessments usually reveal much higher spend than expected."
+      },
+      {
+        "type": "SINGLE",
+        "text": "A device prints far more than its recommended volume and breaks down often. What should be done?",
+        "options": [
+          "Leave it",
+          "Replace it with a device sized for the workload",
+          "Turn off duplex",
+          "Buy more paper"
+        ],
+        "correct": [
+          "Replace it with a device sized for the workload"
+        ],
+        "points": 1,
+        "explanation": "Over-utilised devices should be right-sized."
+      },
+      {
+        "type": "SINGLE",
+        "text": "What is pull printing?",
+        "options": [
+          "Printing from a phone",
+          "Jobs held until the user authenticates at the device",
+          "Printing in colour only",
+          "Printing without a network"
+        ],
+        "correct": [
+          "Jobs held until the user authenticates at the device"
+        ],
+        "points": 1,
+        "explanation": "Pull printing prevents documents being left in trays."
+      },
+      {
+        "type": "TRUE_FALSE",
+        "text": "Leased MFPs should have their storage securely wiped before being returned.",
         "options": [
           "True",
           "False"
@@ -99,46 +158,21 @@
         "correct": [
           "True"
         ],
-        "points": 1
+        "points": 1,
+        "explanation": "Device storage can hold copies of sensitive documents."
       },
       {
-        "type": "SINGLE",
-        "text": "What does secure print release do?",
+        "type": "MATCHING",
+        "text": "Match each finding to the right action.",
         "options": [
-          "Holds jobs until the user authenticates at the device",
-          "Prints faster",
-          "Removes toner",
-          "Prints in colour by default"
-        ],
-        "correct": [
-          "Holds jobs until the user authenticates at the device"
-        ],
-        "points": 1
-      },
-      {
-        "type": "MULTIPLE",
-        "text": "Which reduce printing cost? Select all that apply.",
-        "options": [
-          "Consolidating desktop printers into shared MFPs",
-          "Defaulting to mono and duplex",
-          "Replacing old high-service devices",
-          "Printing every email in colour"
-        ],
-        "correct": [
-          "Consolidating desktop printers into shared MFPs",
-          "Defaulting to mono and duplex",
-          "Replacing old high-service devices"
-        ],
-        "points": 2
-      },
-      {
-        "type": "FILL_BLANK",
-        "text": "Printing on both sides of the paper is called ____ printing.",
-        "options": [
-          "duplex"
+          "Over-utilised device=Replace with a larger device",
+          "Under-utilised device=Remove or consolidate",
+          "High colour share for internal emails=Set mono as default",
+          "Documents left in trays=Introduce secure release"
         ],
         "correct": [],
-        "points": 1
+        "points": 1,
+        "explanation": "Each finding has a typical right-sizing action."
       }
     ]
   }

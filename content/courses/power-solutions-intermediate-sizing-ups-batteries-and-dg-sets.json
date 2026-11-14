@@ -29,29 +29,47 @@
       "position": 1,
       "title": "UPS sizing",
       "type": "TEXT",
-      "body": "UPS sizing starts with an accurate list of the loads it must support.\n\n## Steps\n\n1. **List every load** with its power in watts (W). Use measured values or nameplate figures; nameplate figures are maximums and usually overstate real use.\n2. **Add them up** to get the total load in watts.\n3. **Allow for growth,** often 20 to 25% for future equipment.\n4. **Avoid running near full load:** a common practice is to keep a UPS below about 80% of its rating in normal use.\n5. **Convert to VA if needed:** UPS ratings are given in VA and watts. Watts = VA × power factor. Modern online UPSs often have an output power factor of 0.9 or 1.0; check the datasheet.\n\n## Example\n\nLoads total 4,000 W. With 25% growth: 5,000 W. Keeping below 80%: 5,000 ÷ 0.8 = 6,250 W. A UPS rated at least about 6.25 kW (for example a 10 kVA unit with 0.9 power factor gives 9 kW) is suitable.\n\n> This module includes a lab: size a UPS for a sample server room load list.",
+      "body": "Sizing a UPS correctly ensures it can carry the load safely, run efficiently and allow for growth. Undersizing causes overloads and shutdowns; oversizing wastes money and can reduce efficiency.\n\n## Step-by-step UPS sizing\n\n1. **Total the load in kW** from the load survey, using measured values where available.\n2. **Add growth,** typically 20 to 30% for expected expansion.\n3. **Allow headroom,** so the UPS normally runs at no more than about 80% of its rating.\n4. **Check kVA as well as kW,** using the UPS's output power factor.\n5. **Choose phase:** single-phase for small loads; three-phase for larger systems.\n6. **Consider redundancy:** an N+1 modular UPS allows one module to fail without losing the load.\n\n## Example\n\nMeasured load: 12 kW. Growth of 25%: 15 kW. For an 80% loading limit: 15 ÷ 0.8 = 18.75 kW. A 20 kVA UPS with a 1.0 output power factor (20 kW) is suitable. With a 0.9 power factor, a 20 kVA UPS gives 18 kW, which is just short, so the next size up would be chosen.\n\n## Other considerations\n\n- **Inrush current:** some loads draw high current at start-up.\n- **Efficiency:** check efficiency at the expected load level; it affects running costs and heat.\n- **Input requirements:** cable and breaker sizes for the UPS input.\n- **Physical size and weight:** space and floor loading, especially for batteries.\n\n## Key terms\n\n- **Headroom:** spare capacity above the expected load.\n- **Modular UPS:** a UPS built from power modules that can be added or replaced.\n- **Efficiency:** output power divided by input power.\n- **Inrush current:** a brief high current when equipment starts.\n\n## Real-world example\n\nA company buys a UPS sized exactly to its current 8 kW load. A year later, new servers push the load to 9.5 kW and the UPS goes into overload during a test, transferring to bypass. A proper sizing with growth and headroom would have chosen a larger or modular UPS that could be expanded.\n\n## Common mistakes\n\n- Sizing without growth or headroom.\n- Checking kVA but not kW.\n- Ignoring input electrical requirements.\n\n## Key takeaways\n\n- Size from measured kW, add growth and keep loading near 80% or less.\n- Check both kW and kVA, and consider modular N+1 designs.\n- Check efficiency, inrush and electrical input requirements.",
       "module": 1
     },
     {
       "position": 2,
       "title": "Battery sizing",
       "type": "TEXT",
-      "body": "Battery backup time depends on the load, the battery capacity, and the UPS efficiency.\n\n## A first estimate\n\nBackup time (hours) ≈ (battery bank voltage × ampere-hours × UPS efficiency) ÷ load in watts.\n\nExample: a 192 V battery bank (16 batteries of 12 V) of 26 Ah, UPS efficiency 0.9, load 3,000 W:\n(192 × 26 × 0.9) ÷ 3,000 ≈ 1.5 hours in theory.\n\n## Why real sizing differs\n\n- Batteries deliver less capacity at high discharge rates; manufacturers publish **discharge tables** that must be used for final sizing.\n- Capacity falls with **age** and **temperature**; sizing usually adds a margin for end of life.\n- Battery rooms should be kept near the recommended temperature (often around 25 °C) to protect life.\n\nAlways confirm the final battery configuration using the UPS and battery manufacturer's sizing tools.",
+      "body": "Batteries provide the backup time in a UPS system. Choosing and sizing batteries correctly, and keeping them in the right conditions, decides whether the UPS actually works during an outage.\n\n## Battery types\n\n- **VRLA (valve-regulated lead-acid):** the most common UPS battery; sealed and maintenance-free in the sense that no water is added, but still needing checks. Available in different design lives, such as 5-year and 10-year types.\n- **Lithium-ion:** smaller and lighter, longer life and more tolerant of higher temperatures, with a higher upfront cost. Uses a battery management system (BMS) for safety.\n\n## Sizing for backup time\n\nBackup time depends on the load, the battery capacity and the UPS's DC voltage. A simplified calculation is:\n\n- Battery energy needed (Wh) ≈ load (W) × backup time (hours) ÷ inverter efficiency.\n- Add allowances for battery ageing and temperature, commonly around 25%.\n- Manufacturers publish discharge tables showing how long each battery model supports a given load; use them, or the manufacturer's sizing tool, for the final choice.\n\n## Temperature and life\n\nBattery life drops sharply at high temperatures. For VRLA batteries, a widely used rule of thumb is that life roughly halves for every 8 to 10 °C above 25 °C. Batteries should be kept in a cool, ventilated space, not in a hot electrical room.\n\n## Key terms\n\n- **VRLA:** valve-regulated lead-acid battery.\n- **Ah (ampere-hour):** a measure of battery capacity.\n- **Design life:** the manufacturer's expected life under ideal conditions.\n- **BMS:** battery management system, which monitors and protects lithium-ion cells.\n\n## Real-world example\n\nA branch office's UPS batteries are installed in a room that reaches 40 °C in summer. Rated as 5-year batteries, they fail after about 18 months and the UPS shuts down during the next outage. The SI moves the batteries to an air-conditioned space and adds battery monitoring. The replacement batteries last as expected.\n\n## Common mistakes\n\n- Placing batteries in hot rooms.\n- Sizing without ageing and temperature allowances.\n- Never testing battery backup time.\n\n## Key takeaways\n\n- VRLA is common; lithium-ion offers longer life and smaller size at higher cost.\n- Size from load, backup time and efficiency, with allowances, using manufacturer tables.\n- Keep batteries near 25 °C to protect their life.",
       "module": 2
     },
     {
       "position": 3,
       "title": "DG sets with UPS",
       "type": "TEXT",
-      "body": "A diesel generator (DG) set takes over during long power cuts, with the UPS bridging the gap until the generator starts.\n\n## Sizing a DG to work with a UPS\n\n- The DG must supply the UPS input, including **battery recharging**, plus any other loads on the generator (cooling, lighting).\n- UPSs can draw current in ways that stress small generators. A common rule of thumb sizes the DG at around **1.5 to 2 times** the UPS rating; follow the UPS manufacturer's recommendation.\n- Check generator compatibility with the UPS (frequency tolerance, synchronisation, harmonic handling).\n\n## Change-over\n\nAn automatic transfer switch or AMF panel starts the generator and switches the load when mains fails, and switches back when it returns. Test this regularly under load.",
+      "body": "For long outages, a UPS alone is not enough; a diesel generator (DG set) provides power for hours or days. The UPS bridges the gap until the generator starts and stabilises, typically within a minute or less.\n\n## How DG and UPS work together\n\n1. Mains fails; the UPS supports the load from its batteries.\n2. The automatic mains failure (AMF) panel starts the generator.\n3. After the generator stabilises, the automatic transfer switch (ATS) connects it to the load panel.\n4. The UPS runs from generator power and recharges its batteries.\n5. When mains returns, the ATS switches back and the generator shuts down after cooling.\n\n## Sizing a DG set for UPS loads\n\n- A UPS presents a non-linear load and may draw extra power to recharge batteries, so generators are usually sized larger than the UPS rating. A common rule of thumb is **1.5 to 2 times** the UPS kVA rating, depending on UPS input technology; follow the UPS and generator manufacturers' guidance.\n- Include other loads on the generator, such as cooling and lighting.\n- Check the generator's ability to handle step loads.\n\n## Regulations and environment\n\nIn India, DG sets must meet emission and noise norms set by the Central Pollution Control Board; the **CPCB IV+** norms apply to new gensets up to 800 kW from July 2023. Installation needs proper ventilation, exhaust, fuel storage and acoustic enclosures, and may need local approvals.\n\n## Key terms\n\n- **AMF panel:** automatic mains failure panel that starts the generator.\n- **ATS:** automatic transfer switch between mains and generator.\n- **Step load:** a sudden increase in load on the generator.\n- **CPCB IV+:** current emission norms for diesel gensets in India.\n\n## Real-world example\n\nA hospital's 100 kVA UPS is supported by a 100 kVA generator. During a long outage, the generator struggles when the UPS starts recharging its batteries at the same time as the cooling compressors start, and the supply becomes unstable. The redesign adds a larger generator and staggers load transfer, giving a stable supply.\n\n## Common mistakes\n\n- Sizing the generator equal to the UPS rating.\n- Forgetting other loads such as cooling.\n- Not testing the full UPS–generator sequence.\n\n## Key takeaways\n\n- The UPS bridges the gap; the generator supports long outages.\n- Size generators larger than the UPS, often 1.5 to 2 times, following manufacturer guidance.\n- Meet CPCB norms and test the complete changeover sequence.",
       "module": 3
     },
     {
       "position": 4,
       "title": "Power conditioning",
       "type": "TEXT",
-      "body": "Not every power problem is a full outage. Power conditioning protects sensitive equipment from poor-quality supply.\n\n## Common problems and solutions\n\n- **Voltage fluctuations:** servo-controlled voltage stabilisers keep voltage steady for loads without a UPS.\n- **Surges and spikes:** surge protection devices at the distribution board and point of use.\n- **Electrical noise and neutral-to-earth voltage:** isolation transformers.\n- **Harmonics:** generated by many non-linear loads; can overheat neutral conductors; filters or correctly rated equipment may be needed.\n\n## Earthing\n\nA proper earthing system is essential for safety and equipment protection. Have the earth resistance measured and kept within the limits the electrical consultant specifies, and check it periodically.",
+      "body": "Power conditioning improves the quality of power reaching equipment. It works alongside UPS systems, and in some cases is used for loads that do not need battery backup.\n\n## Power conditioning devices\n\n- **Servo voltage stabilisers:** correct long-term under- and over-voltage using a motor-driven transformer; common in India where supply voltage varies widely.\n- **Isolation transformers:** separate the load from the supply, reduce electrical noise and can create a clean neutral-to-earth reference near the equipment. K-rated transformers handle harmonic loads.\n- **Surge protection devices (SPDs):** divert surges to earth; installed in stages at the main panel, sub-distribution and equipment. IEC 61643 covers SPDs.\n- **Harmonic filters:** reduce harmonic distortion caused by non-linear loads; IEEE 519 gives recommended harmonic limits.\n- **Automatic voltage regulators (AVR):** built into line-interactive UPS units for small loads.\n\n## Choosing the right solution\n\n- Measure power quality first with an analyser to identify the actual problems.\n- Use stabilisers for long-term voltage variation, SPDs for surges, isolation transformers for noise and neutral-earth issues, and filters for harmonics.\n- Coordinate with the UPS design so that devices do not conflict.\n\n## Key terms\n\n- **Servo stabiliser:** corrects voltage using a motor-driven variable transformer.\n- **Isolation transformer:** separates load and supply electrically.\n- **SPD:** surge protection device.\n- **THD:** total harmonic distortion, a measure of waveform distortion.\n\n## Real-world example\n\nA factory's control room PCs suffer frequent damage after lightning storms. The site has a UPS but no surge protection at the main panel. The SI installs coordinated SPDs at the main panel and distribution boards, checks the earthing and adds an isolation transformer for the control room. Storm-related failures stop.\n\n## Common mistakes\n\n- Relying on a UPS alone to handle all power problems.\n- Installing SPDs without a good earth.\n- Choosing solutions without measuring the problem.\n\n## Key takeaways\n\n- Power conditioning includes stabilisers, isolation transformers, SPDs and harmonic filters.\n- Match each device to the measured problem.\n- Coordinate conditioning devices with the UPS and earthing design.",
       "module": 4
+    }
+  ],
+  "sources": [
+    {
+      "title": "Central Pollution Control Board: emission norms for diesel generator sets (CPCB IV+)",
+      "url": "https://cpcb.nic.in/"
+    },
+    {
+      "title": "IEC: IEC 62040-3 UPS performance classification and IEC 61643 surge protective devices",
+      "url": "https://webstore.iec.ch/"
+    },
+    {
+      "title": "IEEE Standards Association: IEEE 1188 (VRLA battery maintenance) and IEEE 519 (harmonics)",
+      "url": "https://standards.ieee.org/"
+    },
+    {
+      "title": "Bureau of Indian Standards: IS 3043 code of practice for earthing and other electrical standards",
+      "url": "https://www.bis.gov.in/"
     }
   ],
   "assessment": {
@@ -61,80 +79,105 @@
     "questions": [
       {
         "type": "SINGLE",
-        "text": "UPS output is 10 kVA with a power factor of 0.9. What is the output in watts?",
+        "text": "Measured load is 12 kW, growth is 25% and the UPS should run at no more than 80%. What capacity is needed?",
         "options": [
-          "9,000 W",
-          "10,000 W",
-          "11,111 W",
-          "900 W"
+          "12 kW",
+          "15 kW",
+          "18.75 kW",
+          "24 kW"
         ],
         "correct": [
-          "9,000 W"
+          "18.75 kW"
         ],
         "points": 1,
-        "explanation": "Watts = VA × power factor = 10,000 × 0.9."
-      },
-      {
-        "type": "SINGLE",
-        "text": "Loads total 4,000 W. With 25% growth and an 80% loading limit, what minimum UPS capacity is needed?",
-        "options": [
-          "6,250 W",
-          "5,000 W",
-          "4,000 W",
-          "3,200 W"
-        ],
-        "correct": [
-          "6,250 W"
-        ],
-        "points": 1,
-        "explanation": "4,000 × 1.25 = 5,000; 5,000 ÷ 0.8 = 6,250 W."
+        "explanation": "12 × 1.25 = 15 kW; 15 ÷ 0.8 = 18.75 kW."
       },
       {
         "type": "TRUE_FALSE",
-        "text": "The simple battery backup formula is enough for final sizing; discharge tables are not needed.",
+        "text": "For VRLA batteries, life roughly halves for every 8 to 10 °C above 25 °C.",
         "options": [
           "True",
           "False"
         ],
         "correct": [
-          "False"
+          "True"
         ],
         "points": 1,
-        "explanation": "Real capacity depends on discharge rate, age and temperature; use the manufacturer's tables."
+        "explanation": "High temperatures sharply reduce battery life."
       },
       {
         "type": "SINGLE",
-        "text": "A common rule of thumb for sizing a DG set to support a UPS is:",
+        "text": "What does an ATS do?",
         "options": [
-          "About 1.5 to 2 times the UPS rating",
-          "Exactly the UPS rating",
+          "Starts the UPS",
+          "Switches the load between mains and generator",
+          "Measures harmonics",
+          "Charges batteries"
+        ],
+        "correct": [
+          "Switches the load between mains and generator"
+        ],
+        "points": 1,
+        "explanation": "The automatic transfer switch moves the load to generator power and back."
+      },
+      {
+        "type": "SINGLE",
+        "text": "A common rule of thumb for sizing a generator supporting a UPS is:",
+        "options": [
+          "Equal to the UPS rating",
           "Half the UPS rating",
+          "About 1.5 to 2 times the UPS rating",
           "Ten times the UPS rating"
         ],
         "correct": [
           "About 1.5 to 2 times the UPS rating"
         ],
-        "points": 1
+        "points": 1,
+        "explanation": "UPS input characteristics and battery recharge need extra generator capacity."
       },
       {
-        "type": "MATCHING",
-        "text": "Match each power problem to a solution.",
+        "type": "SINGLE",
+        "text": "Which device is used mainly to divert lightning and switching surges?",
         "options": [
-          "Voltage fluctuations=Servo-controlled stabiliser",
-          "Surges and spikes=Surge protection devices",
-          "Electrical noise=Isolation transformer"
+          "Servo stabiliser",
+          "Surge protection device",
+          "Harmonic filter",
+          "ATS"
         ],
-        "correct": [],
-        "points": 3
+        "correct": [
+          "Surge protection device"
+        ],
+        "points": 1,
+        "explanation": "SPDs divert surges to earth and need good earthing."
+      },
+      {
+        "type": "MULTIPLE",
+        "text": "Which are advantages of lithium-ion UPS batteries over VRLA?",
+        "options": [
+          "Longer life",
+          "Smaller and lighter",
+          "Better tolerance of higher temperatures",
+          "Always lower upfront cost"
+        ],
+        "correct": [
+          "Longer life",
+          "Smaller and lighter",
+          "Better tolerance of higher temperatures"
+        ],
+        "points": 1,
+        "explanation": "Lithium-ion usually costs more upfront but lasts longer."
       },
       {
         "type": "FILL_BLANK",
-        "text": "The switch that changes the load from mains to generator automatically is called an automatic ____ switch.",
+        "text": "The current emission norms for new diesel gensets up to 800 kW in India are called CPCB ______.",
         "options": [
-          "transfer"
+          "IV+",
+          "IV plus",
+          "4+"
         ],
         "correct": [],
-        "points": 1
+        "points": 1,
+        "explanation": "CPCB IV+ norms apply from July 2023."
       }
     ]
   }

@@ -29,29 +29,47 @@
       "position": 1,
       "title": "Redundant architectures",
       "type": "TEXT",
-      "body": "Critical sites need power designs that survive component failures and allow maintenance without shutdown.\n\n## Common architectures\n\n- **N:** one UPS sized for the load. Any failure or maintenance affects the load (unless bypassed to raw mains).\n- **N+1:** enough UPS modules for the load plus one spare, often in a parallel or modular system. One module can fail or be serviced.\n- **2N:** two completely independent power paths (A and B), each able to carry the full load. Dual-corded equipment draws from both.\n\n## Choosing\n\nMatch the architecture to the cost of downtime. A branch office may be fine with N; a primary data centre often needs 2N for critical loads. Remember that redundancy is only as good as its weakest shared part, such as a single distribution board.",
+      "body": "Critical facilities such as data centres, hospitals and control rooms need power systems that keep running when components fail or are maintained. Redundant architectures remove single points of failure.\n\n## Common architectures\n\n- **N:** capacity equal to the load, with no redundancy. A single failure causes an outage.\n- **N+1:** one extra UPS module or unit beyond what the load needs. One component can fail or be serviced without losing the load.\n- **2N:** two completely independent power paths (A and B), each able to carry the full load. A whole path can fail.\n- **2N+1 / distributed redundant:** further variations for very high availability.\n\n## Making redundancy effective\n\n- **Dual-corded equipment:** servers and switches with two power supplies, each connected to a different path.\n- **Static transfer switches (STS):** for single-corded loads, switching quickly between two sources.\n- **Separate distribution:** A and B paths with separate panels, breakers and cables.\n- **Maintenance bypass:** allows UPS maintenance without shutting down the load.\n- **Concurrent maintainability:** any component can be maintained without an outage, a key feature of the Uptime Institute's Tier III.\n\n## Key terms\n\n- **2N:** fully duplicated power paths.\n- **Dual-corded:** equipment with two power inputs.\n- **STS:** static transfer switch.\n- **Concurrently maintainable:** maintainable without shutting down the load.\n\n## Real-world example\n\nA data centre installs two UPS systems in a \"2N\" design, but both feed a single distribution panel. When the panel's main breaker trips, both UPS systems are cut off from the load. The redesign gives each UPS its own distribution path down to separate rack PDUs, and dual-corded servers connect to both. The next panel fault affects only one path.\n\n## Common mistakes\n\n- Duplicating UPS units but sharing distribution.\n- Connecting both power supplies of a server to the same PDU.\n- No maintenance bypass.\n\n## Key takeaways\n\n- N+1 tolerates one component failure; 2N tolerates a whole path failure.\n- Redundancy must extend from source to equipment.\n- Use dual-corded equipment, STS for single-corded loads and maintenance bypasses.",
       "module": 1
     },
     {
       "position": 2,
       "title": "Distribution and PDUs",
       "type": "TEXT",
-      "body": "Power must reach every device reliably, and be measured.\n\n## Distribution\n\n- Separate circuits for each rack or row, sized for the load with margin.\n- **A and B feeds:** two PDUs per rack, each from a different UPS or path, so dual-power-supply equipment survives the loss of one.\n- Balance load across phases in three-phase systems.\n\n## Rack PDUs\n\n- **Basic:** distribution only.\n- **Metered:** show total current, so circuits are not overloaded.\n- **Monitored / switched:** per-outlet measurement and remote on/off control.\n\n## Monitoring\n\nMonitor UPS, PDUs and circuits centrally. Watch that each feed of a 2N design stays below half its capacity; otherwise, losing one feed overloads the other.",
+      "body": "Power distribution carries power from UPS systems to individual equipment. Good distribution design keeps power reliable, safe, measurable and easy to manage.\n\n## Distribution layers\n\n- **Main and sub-distribution panels:** breakers that feed UPS inputs and outputs.\n- **Power distribution units (PDUs) in racks:** strips that deliver power to equipment.\n- **Busway or overhead power track:** flexible distribution above racks in larger data centres.\n\n## Types of rack PDUs\n\n- **Basic:** distribute power only.\n- **Metered:** show total current, helping prevent overloads.\n- **Monitored:** report power usage remotely.\n- **Switched:** allow remote power cycling of individual outlets.\n- **Three-phase PDUs:** deliver more power for high-density racks.\n\n## Design good practice\n\n- **A and B feeds:** two PDUs per rack, fed from different paths.\n- **Load balancing:** spread loads across phases and circuits.\n- **2N loading rule:** in a 2N design, each feed should normally carry no more than 50% of its capacity, so that it can take the full load if the other fails.\n- **Labelling:** label every PDU, circuit and outlet with its source.\n- **Breaker coordination:** make sure a fault trips the nearest breaker, not the main one.\n\n## Key terms\n\n- **PDU:** power distribution unit.\n- **Phase balancing:** spreading load evenly across three phases.\n- **Busway:** an overhead power distribution system.\n- **Selective coordination:** arranging breakers so that only the nearest one trips.\n\n## Real-world example\n\nEach of a company's racks has A and B PDUs, but both are loaded to 70%. When the A feed's UPS is taken down for maintenance, the B PDUs try to carry 140% of their capacity, and breakers trip. Monitoring would have shown that each feed must stay below 50% in a 2N design.\n\n## Common mistakes\n\n- Loading A and B feeds above 50% each.\n- Unbalanced phases.\n- Unlabelled circuits and PDUs.\n\n## Key takeaways\n\n- Choose PDUs with metering or monitoring for visibility.\n- In 2N designs, keep each feed at or below 50% loading.\n- Balance phases, label everything and coordinate breakers.",
       "module": 2
     },
     {
       "position": 3,
       "title": "Power and cooling together",
       "type": "TEXT",
-      "body": "Power and cooling must be designed together. Every kilowatt of IT load becomes heat that the cooling system must remove.\n\n## Points to coordinate\n\n- Cooling equipment needs power too, and often must be on generator, and for critical sites even on UPS, so cooling continues during an outage.\n- Rising power density per rack needs matching cooling capacity at the rack, not just in the room.\n- Redundancy levels should match: an N+1 cooling system behind a 2N power system leaves cooling as the weak point.\n\n## Efficiency\n\n- Higher UPS load and efficient modes reduce losses.\n- Containment and correct temperature set points reduce cooling energy.\n- Track **PUE** (total facility power ÷ IT power) to measure overall efficiency.",
+      "body": "Power and cooling are closely linked. Every watt delivered to IT equipment becomes heat that the cooling system must remove. Designing them together prevents overheating and wasted energy.\n\n## The link between power and cooling\n\n- **Heat load:** almost all power used by IT equipment turns into heat. A rack drawing 10 kW produces about 10 kW of heat.\n- **UPS and distribution losses:** also produce heat that must be cooled.\n- **Cooling power:** cooling systems themselves need power, often a significant share of facility energy.\n- **Cooling on UPS:** during an outage, if cooling stops while IT continues on UPS, temperatures rise quickly in high-density rooms. Critical cooling components, such as fans and controls, may need UPS support.\n\n## Design considerations\n\n- Match cooling capacity and redundancy to the power design; a 2N power system with N cooling is only as resilient as its cooling.\n- Plan for power density increases, especially from GPU servers.\n- Use containment and efficient cooling to reduce cooling energy.\n- Track Power Usage Effectiveness (PUE) as a measure of overall efficiency.\n\n## Key terms\n\n- **Heat load:** the amount of heat the cooling system must remove.\n- **Thermal ride-through:** how long a room stays within safe temperatures when cooling stops.\n- **PUE:** total facility power ÷ IT power.\n\n## Real-world example\n\nA data centre's UPS keeps servers running during an outage, but the chillers stop until the generator starts. In two minutes, inlet temperatures rise sharply in the high-density rows. The design is updated to put chilled-water pumps and computer room air handler fans on UPS, and to add thermal storage so cooling continues while the generator starts.\n\n## Common mistakes\n\n- Designing power redundancy without matching cooling redundancy.\n- Forgetting cooling during the outage-to-generator gap.\n- Adding high-density racks without checking cooling capacity.\n\n## Key takeaways\n\n- IT power becomes heat; power and cooling must be designed together.\n- Match cooling redundancy to power redundancy.\n- Plan cooling support during outages for high-density rooms.",
       "module": 3
     },
     {
       "position": 4,
       "title": "Maintenance planning",
       "type": "TEXT",
-      "body": "Power systems need maintenance; resilient designs allow it without shutting down the load.\n\n## Maintenance practice\n\n- Follow the manufacturer's schedule for UPS, batteries and generators.\n- Test batteries regularly and replace them before end of life.\n- Run generators on load periodically, not just idle.\n- Use **maintenance bypass** switches so a UPS can be serviced while the load stays powered.\n\n## Planning a maintenance window\n\n1. Confirm the redundant path is healthy before starting.\n2. Inform stakeholders and agree the window.\n3. Follow a written procedure (method statement), step by step.\n4. Have a rollback plan.\n5. Record what was done and the readings taken.",
+      "body": "Even well-designed power systems fail if they are not maintained. A structured maintenance plan keeps UPS systems, batteries, generators and distribution reliable.\n\n## What to maintain\n\n- **UPS systems:** periodic inspection, cleaning, firmware updates, fan and capacitor replacement as recommended by the manufacturer.\n- **Batteries:** regular checks of voltage, internal resistance or impedance, temperature and connections. Guidance such as IEEE 1188 describes maintenance and testing for VRLA batteries. Replace batteries before end of life.\n- **Generators:** weekly or monthly test runs, load bank tests, fuel quality checks, filter changes and coolant checks.\n- **ATS and switchgear:** functional testing and tightening of connections.\n- **Distribution:** thermal imaging to find loose or overheating connections.\n\n## Planning and records\n\n- Create a maintenance calendar with the manufacturer's recommended intervals.\n- Use annual maintenance contracts with qualified service providers.\n- Record every test, measurement and repair.\n- Schedule maintenance in low-risk windows and use maintenance bypass procedures.\n- Test the full outage sequence: mains failure, UPS on battery, generator start, transfer and return.\n\n## Key terms\n\n- **Load bank test:** testing a generator with an artificial load.\n- **Battery impedance test:** measuring internal resistance to identify weak batteries.\n- **Thermal imaging:** using an infrared camera to find hot spots.\n- **Preventive maintenance:** scheduled maintenance to prevent failures.\n\n## Real-world example\n\nDuring an annual thermal imaging survey, an engineer finds a breaker connection running far hotter than others. Tightening the connection prevents a likely fire or outage. A battery impedance test the same week identifies three weak batteries in a string, which are replaced before they cause a UPS failure during an outage.\n\n## Common mistakes\n\n- Running generators without load during tests.\n- Ignoring battery replacement schedules.\n- Keeping no records of maintenance results.\n\n## Key takeaways\n\n- Maintain UPS, batteries, generators, ATS and distribution on a planned schedule.\n- Use tests such as battery impedance, load bank and thermal imaging.\n- Record results and test the full outage sequence.",
       "module": 4
+    }
+  ],
+  "sources": [
+    {
+      "title": "Uptime Institute: Tier Classification System",
+      "url": "https://uptimeinstitute.com/tiers"
+    },
+    {
+      "title": "IEEE Standards Association: IEEE 1188 (VRLA battery maintenance) and IEEE 519 (harmonics)",
+      "url": "https://standards.ieee.org/"
+    },
+    {
+      "title": "IEC: IEC 62040-3 UPS performance classification and IEC 61643 surge protective devices",
+      "url": "https://webstore.iec.ch/"
+    },
+    {
+      "title": "Bureau of Indian Standards: IS 3043 code of practice for earthing and other electrical standards",
+      "url": "https://www.bis.gov.in/"
     }
   ],
   "assessment": {
@@ -60,47 +78,83 @@
     "passMarkPercent": 70,
     "questions": [
       {
-        "type": "MATCHING",
-        "text": "Match each architecture to its description.",
+        "type": "SINGLE",
+        "text": "Which architecture provides two independent power paths, each able to carry the full load?",
         "options": [
-          "N=One UPS sized for the load",
-          "N+1=Enough modules for the load plus one spare",
-          "2N=Two independent power paths, each carrying the full load"
+          "N",
+          "N+1",
+          "2N",
+          "Single UPS"
         ],
-        "correct": [],
-        "points": 3
+        "correct": [
+          "2N"
+        ],
+        "points": 1,
+        "explanation": "2N duplicates the whole power path."
       },
       {
         "type": "SINGLE",
-        "text": "In a 2N design, why must each feed stay below half its capacity?",
+        "text": "In a 2N design, what is the maximum normal loading of each feed?",
         "options": [
-          "So that losing one feed does not overload the other",
-          "To save paper",
-          "Because GST requires it",
-          "It does not matter"
+          "25%",
+          "50%",
+          "80%",
+          "100%"
         ],
         "correct": [
-          "So that losing one feed does not overload the other"
+          "50%"
         ],
-        "points": 1
-      },
-      {
-        "type": "SINGLE",
-        "text": "Which rack PDU type allows remote on/off control of individual outlets?",
-        "options": [
-          "Switched",
-          "Basic",
-          "Metered",
-          "Passive"
-        ],
-        "correct": [
-          "Switched"
-        ],
-        "points": 1
+        "points": 1,
+        "explanation": "Each feed must be able to take the full load if the other fails."
       },
       {
         "type": "TRUE_FALSE",
-        "text": "Cooling equipment may need to be on generator or UPS so cooling continues during an outage.",
+        "text": "A dual-corded server should connect both power supplies to the same PDU.",
+        "options": [
+          "True",
+          "False"
+        ],
+        "correct": [
+          "False"
+        ],
+        "points": 1,
+        "explanation": "Each supply should connect to a different power path."
+      },
+      {
+        "type": "SINGLE",
+        "text": "What device switches single-corded loads quickly between two sources?",
+        "options": [
+          "Static transfer switch",
+          "Servo stabiliser",
+          "Load bank",
+          "Clamp meter"
+        ],
+        "correct": [
+          "Static transfer switch"
+        ],
+        "points": 1,
+        "explanation": "An STS gives single-corded equipment access to two sources."
+      },
+      {
+        "type": "MULTIPLE",
+        "text": "Which maintenance activities help prevent power failures?",
+        "options": [
+          "Battery impedance testing",
+          "Generator load bank tests",
+          "Thermal imaging of connections",
+          "Removing earthing"
+        ],
+        "correct": [
+          "Battery impedance testing",
+          "Generator load bank tests",
+          "Thermal imaging of connections"
+        ],
+        "points": 1,
+        "explanation": "These tests find weaknesses before they cause outages."
+      },
+      {
+        "type": "TRUE_FALSE",
+        "text": "Almost all power used by IT equipment turns into heat that must be removed.",
         "options": [
           "True",
           "False"
@@ -108,32 +162,16 @@
         "correct": [
           "True"
         ],
-        "points": 1
+        "points": 1,
+        "explanation": "That is why power and cooling must be designed together."
       },
       {
-        "type": "MULTIPLE",
-        "text": "Which belong in planning a power maintenance window? Select all that apply.",
-        "options": [
-          "Confirm the redundant path is healthy",
-          "Follow a written method statement",
-          "Have a rollback plan",
-          "Skip informing stakeholders to save time"
-        ],
-        "correct": [
-          "Confirm the redundant path is healthy",
-          "Follow a written method statement",
-          "Have a rollback plan"
-        ],
-        "points": 2
-      },
-      {
-        "type": "FILL_BLANK",
-        "text": "A switch that keeps the load powered while a UPS is serviced is a maintenance ____ switch.",
-        "options": [
-          "bypass"
-        ],
+        "type": "SHORT_ANSWER",
+        "text": "In two or three sentences, explain why a 2N UPS design can still fail if distribution is shared.",
+        "options": [],
         "correct": [],
-        "points": 1
+        "points": 1,
+        "explanation": "If both UPS systems feed one panel or one PDU, a fault in that shared component cuts power from both paths. Redundancy must continue from the source to the equipment."
       }
     ]
   }

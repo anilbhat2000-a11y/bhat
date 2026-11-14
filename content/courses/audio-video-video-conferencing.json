@@ -5,44 +5,175 @@
   "category": "TECHNICAL",
   "level": "INTERMEDIATE",
   "passMarkPercent": 70,
-  "description": "Components of a meeting room, room types, acoustics, network requirements, and how to run a site survey for a video conferencing setup.",
+  "description": "Designing and integrating conferencing rooms with control and signal distribution. You will be able to: design a meeting room from requirements; plan signal distribution and switching; specify control systems; commission and test a room.",
+  "modules": [
+    {
+      "title": "Room design",
+      "minutes": 45
+    },
+    {
+      "title": "Signal distribution",
+      "minutes": 45
+    },
+    {
+      "title": "Control systems",
+      "minutes": 30
+    },
+    {
+      "title": "Commissioning",
+      "minutes": 30
+    }
+  ],
   "lessons": [
     {
       "position": 1,
-      "title": "Components of a video conferencing system",
+      "title": "Room design",
       "type": "TEXT",
-      "body": "A video conferencing room needs these parts to work together:\n\n- **Camera:** captures the room. Framing and zoom matter more than resolution alone.\n- **Microphones:** capture speech from every seat. Ceiling or table arrays suit most rooms.\n- **Speakers:** play remote audio clearly, usually with echo cancellation.\n- **Display:** shows remote participants and shared content.\n- **Codec or conferencing unit:** encodes and decodes the call, and connects to the network or cloud service.\n- **Control:** a touch panel or remote to start calls and manage devices.\n\nA weak microphone or poor acoustics damages a call more than a low-resolution camera."
+      "body": "An integrated room brings displays, cameras, audio, control and conferencing together into one system that is simple to use. Good room design starts with how people will use the room.\n\n## Start with use cases\n\n- Who uses the room and for what: board meetings, training, client presentations or hybrid collaboration?\n- How many people in the room and remotely?\n- What content is shared: slides, spreadsheets, video or whiteboards?\n- Which conferencing platforms are used?\n\n## Design elements\n\n- **Sightlines:** every participant should see the display and be seen by the camera.\n- **Display size and position:** based on the farthest viewer and content type.\n- **Camera coverage:** a field of view that covers all seats, with framing that follows talkers where useful.\n- **Microphone coverage:** every seat within effective pickup range.\n- **Speaker coverage:** even sound across the room.\n- **Lighting:** faces evenly lit for the camera, without glare on displays.\n- **Equipment location:** a rack or cabinet with ventilation and access for service.\n\n## Equity in hybrid meetings\n\nModern design aims for \"meeting equity\": remote participants should see and hear as well as those in the room. Front-of-room cameras at eye level, multiple displays and good audio all help.\n\n## Key terms\n\n- **Sightline:** the line of view between a participant and the display or camera.\n- **Field of view:** the area a camera can capture.\n- **Meeting equity:** equal experience for remote and in-room participants.\n- **Speaker tracking:** camera framing that follows the person speaking.\n\n## Real-world example\n\nA training room designed only for in-room sessions is now used for hybrid classes. Remote learners cannot see the whiteboard or hear questions from the audience. The SI adds a second camera for the whiteboard, ceiling microphones covering the audience and a confidence display for the trainer showing remote participants. Feedback from remote learners improves sharply.\n\n## Common mistakes\n\n- Designing equipment lists before understanding use cases.\n- Ignoring lighting for the camera.\n- Forgetting remote participants in hybrid rooms.\n\n## Key takeaways\n\n- Start with use cases and users.\n- Design sightlines, displays, cameras, audio, lighting and equipment locations together.\n- Aim for meeting equity in hybrid rooms.",
+      "module": 1
     },
     {
       "position": 2,
-      "title": "Room types and acoustics",
+      "title": "Signal distribution",
       "type": "TEXT",
-      "body": "Rooms are usually grouped by size and purpose:\n\n- **Huddle room:** two to four people, a single screen and a small camera.\n- **Medium room:** six to ten people, with ceiling or table microphones.\n- **Boardroom:** larger groups, with multiple cameras and a stronger audio design.\n\nAcoustics affect clarity. Hard surfaces, such as glass walls and bare floors, create echo. Soft furnishings, ceiling tiles, and correct microphone placement reduce it. Recommend acoustic treatment when a room has hard surfaces."
+      "body": "Signal distribution moves video, audio and control signals between sources, such as laptops and room PCs, and destinations, such as displays and speakers. Reliable distribution is what makes the room \"just work\".\n\n## Common technologies\n\n- **HDMI:** the standard connection for video and audio over short distances. Long passive HDMI cables are unreliable.\n- **USB:** connects cameras and microphones to laptops or room PCs, important for BYOD rooms; USB has distance limits without extenders.\n- **HDBaseT:** sends uncompressed video, audio, control, Ethernet and power over a single category cable, up to 100 metres.\n- **Matrix switchers:** route any input to any output in larger rooms.\n- **Presentation switchers and scalers:** select sources and adjust resolution to suit the display.\n- **Wireless presentation:** share content from laptops without cables.\n\n## Important concepts\n\n- **HDCP:** high-bandwidth digital content protection; protected content will not display if any device in the chain does not support it.\n- **EDID:** information a display sends to a source about the resolutions it supports. EDID management prevents blank screens and wrong resolutions.\n- **Resolution and bandwidth:** higher resolutions such as 4K need more bandwidth; every device in the chain must support it.\n\n## Key terms\n\n- **Source / destination:** where a signal comes from and where it goes.\n- **Extender:** a transmitter and receiver pair that carries signals over longer distances.\n- **HDCP:** content protection on digital video links.\n- **EDID:** display capability information shared with sources.\n\n## Real-world example\n\nIn a boardroom, laptops connected at the table sometimes show nothing on the display. Investigation finds that the extender does not handle EDID correctly with certain laptops. The SI adds EDID management on the switcher and replaces the extenders with HDBaseT models certified for the required resolution. The problem disappears.\n\n## Common mistakes\n\n- Long passive HDMI cables.\n- Ignoring EDID and HDCP compatibility.\n- Mixing devices that do not support the same resolution.\n\n## Key takeaways\n\n- Use HDMI for short runs, HDBaseT or AV over IP for longer runs.\n- Manage EDID and check HDCP compatibility.\n- Every device in the chain must support the required resolution.",
+      "module": 2
     },
     {
       "position": 3,
-      "title": "Network and power requirements",
+      "title": "Control systems",
       "type": "TEXT",
-      "body": "Video calls need reliable bandwidth in both directions. Bandwidth per call depends on the resolution and the number of participants, and the vendor's sizing guide should be used for each design. Plan for:\n\n- Enough upload and download capacity at the site, with headroom for other users.\n- Quality of service (QoS) settings that prioritise real-time traffic.\n- Power outlets and cabling for each device, with a UPS for the conferencing system where outages would disrupt key meetings.\n\nConfirm these requirements before quoting, not after installation."
+      "body": "A control system lets users operate the whole room from one simple interface. Without it, users face multiple remote controls and settings, and meetings start late.\n\n## What control systems do\n\n- Power displays and projectors on and off.\n- Select sources, such as a laptop or the room PC.\n- Adjust volume and mute microphones.\n- Start and join video calls.\n- Control lights, blinds and screens.\n- Turn the room off at the end of the day.\n\n## Components\n\n- **Touch panel:** the user interface on the table or wall.\n- **Control processor:** the \"brain\" that sends commands to devices.\n- **Control methods:** IP (network), RS-232 (serial), IR (infrared) and relays, depending on the device.\n- **Programming:** software that defines what each button does.\n\n## Designing the user interface\n\n- Keep it simple: the most common tasks on the first screen.\n- Use clear words and icons, such as \"Share laptop\" and \"Start meeting\".\n- Provide automatic actions, such as switching on when a laptop is connected.\n- Standardise the interface across all rooms, so users know what to expect.\n\n## Key terms\n\n- **Control processor:** a device that runs the room's control program.\n- **RS-232:** a serial control method used by many AV devices.\n- **IR:** infrared control, like a TV remote.\n- **Scheduling panel:** a display outside the room showing bookings.\n\n## Real-world example\n\nA company has 30 meeting rooms with different equipment and remote controls. Users regularly call the IT helpdesk to switch on displays. The SI installs touch panels with a standard interface in every room, programmed so that rooms switch on when someone enters and off after meetings. Helpdesk calls about meeting rooms fall dramatically.\n\n## Common mistakes\n\n- Overcomplicated interfaces with too many options.\n- Different interfaces in every room.\n- No automatic power-off, wasting energy.\n\n## Key takeaways\n\n- Control systems make rooms simple and reliable to use.\n- Use IP, RS-232, IR or relays depending on devices.\n- Keep the interface simple and standard across rooms.",
+      "module": 3
     },
     {
       "position": 4,
-      "title": "Running a site survey",
+      "title": "Commissioning",
       "type": "TEXT",
-      "body": "A site survey captures the facts needed for a correct design:\n\n- Room dimensions, seating layout, and where the screen and camera will sit.\n- Existing wall, ceiling, and cabling routes.\n- Lighting, windows, and noise sources.\n- Network points and available bandwidth.\n- Users' typical meeting size and the platform they use.\n\nUse the survey to write a design that the customer can approve. Changes found during installation cost more than changes found during the survey."
+      "body": "Commissioning is the process of testing and verifying that an AV system works as designed before it is handed over. It catches problems before users find them.\n\n## Commissioning steps\n\n1. **Check the installation:** equipment mounted securely, cables labelled and managed, ventilation adequate.\n2. **Test every signal path:** each source to each display, at the right resolution.\n3. **Test audio:** microphone coverage, speaker coverage, levels, echo cancellation and noise.\n4. **Test conferencing:** calls on each supported platform, including content sharing.\n5. **Test control:** every button and automation on the touch panel.\n6. **Verify performance:** against the design and agreed requirements.\n7. **Document:** as-built drawings, settings, passwords and test results.\n8. **Train users and hand over.**\n\n## Standards\n\nANSI/AVIXA 10:2013, Audiovisual Systems Performance Verification, provides a framework of tests for verifying AV systems against their requirements. Using a standard checklist makes commissioning consistent and defensible.\n\n## Key terms\n\n- **Commissioning:** testing and verifying a system before handover.\n- **As-built documentation:** records of the system as actually installed.\n- **Acceptance:** the customer's formal confirmation that the system meets requirements.\n- **Punch list:** a list of small issues to fix before final acceptance.\n\n## Real-world example\n\nDuring commissioning of a boardroom, the team tests a call from every seat. Two seats at the end of the table are not picked up clearly by the microphones. The team adjusts the microphone array coverage and DSP settings before handover. Without the test, the chairperson would have discovered the problem in the first board meeting.\n\n## Common mistakes\n\n- Handing over without testing every signal path and seat.\n- No documentation of settings and passwords.\n- Skipping user training.\n\n## Key takeaways\n\n- Commission systematically: installation, signals, audio, conferencing and control.\n- Use a standard checklist, such as one based on ANSI/AVIXA 10:2013.\n- Document, train and obtain formal acceptance.",
+      "module": 4
+    }
+  ],
+  "sources": [
+    {
+      "title": "AVIXA: audiovisual industry standards (DISCAS display sizing, ANSI/AVIXA 10:2013 performance verification)",
+      "url": "https://www.avixa.org/"
+    },
+    {
+      "title": "HDBaseT Alliance: HDBaseT technology",
+      "url": "https://hdbaset.org/"
+    },
+    {
+      "title": "Microsoft Learn: Microsoft Teams Rooms planning and certified devices",
+      "url": "https://learn.microsoft.com/en-us/microsoftteams/rooms/"
     }
   ],
   "assessment": {
-    "title": "Audio Video and Video Conferencing: completion check",
-    "cadence": "ONE_TIME",
+    "title": "AV Solutions Intermediate: completion check",
     "level": "INTERMEDIATE",
     "passMarkPercent": 70,
     "questions": [
-      { "position": 1, "type": "SINGLE", "text": "Which component most affects how clearly a remote participant hears the room?", "options": ["Microphones", "Display brightness", "Room colour", "Cable length only"], "correct": ["Microphones"], "points": 1 },
-      { "position": 2, "type": "SINGLE", "text": "Which room type suits two to four people?", "options": ["Huddle room", "Boardroom", "Auditorium", "Server room"], "correct": ["Huddle room"], "points": 1 },
-      { "position": 3, "type": "SINGLE", "text": "What causes echo in a meeting room?", "options": ["Soft furnishings", "Hard reflective surfaces", "Ceiling tiles", "Correct microphone placement"], "correct": ["Hard reflective surfaces"], "points": 1 },
-      { "position": 4, "type": "MULTIPLE", "text": "Which should be checked in a video conferencing site survey? (Select all that apply)", "options": ["Room dimensions and seating layout", "Network points and bandwidth", "Brand of the coffee machine", "Lighting and noise sources"], "correct": ["Room dimensions and seating layout", "Network points and bandwidth", "Lighting and noise sources"], "points": 2 },
-      { "position": 5, "type": "TRUE_FALSE", "text": "Bandwidth for a video call should be confirmed with the vendor's sizing guide before quoting.", "options": ["True", "False"], "correct": ["True"], "points": 1 }
+      {
+        "type": "SINGLE",
+        "text": "What is HDBaseT used for?",
+        "options": [
+          "Wireless audio",
+          "Sending video, audio, control, Ethernet and power over one category cable up to 100 m",
+          "Cooling displays",
+          "Booking rooms"
+        ],
+        "correct": [
+          "Sending video, audio, control, Ethernet and power over one category cable up to 100 m"
+        ],
+        "points": 1,
+        "explanation": "HDBaseT extends signals over category cable up to 100 metres."
+      },
+      {
+        "type": "SINGLE",
+        "text": "A laptop shows no image because the display and source disagree on resolution. Which concept is most likely involved?",
+        "options": [
+          "RT60",
+          "EDID",
+          "PUE",
+          "DSO"
+        ],
+        "correct": [
+          "EDID"
+        ],
+        "points": 1,
+        "explanation": "EDID tells the source what the display supports; poor EDID handling causes blank screens."
+      },
+      {
+        "type": "TRUE_FALSE",
+        "text": "Protected content may not display if any device in the chain does not support HDCP.",
+        "options": [
+          "True",
+          "False"
+        ],
+        "correct": [
+          "True"
+        ],
+        "points": 1,
+        "explanation": "HDCP must be supported end to end."
+      },
+      {
+        "type": "MULTIPLE",
+        "text": "What can a room control system do?",
+        "options": [
+          "Select sources",
+          "Adjust volume and mute microphones",
+          "Start calls",
+          "Write proposals"
+        ],
+        "correct": [
+          "Select sources",
+          "Adjust volume and mute microphones",
+          "Start calls"
+        ],
+        "points": 1,
+        "explanation": "Control systems operate the room's devices from one interface."
+      },
+      {
+        "type": "SINGLE",
+        "text": "Which standard provides a framework for verifying AV system performance?",
+        "options": [
+          "ANSI/AVIXA 10:2013",
+          "ISO 9001",
+          "IEEE 802.11",
+          "TIA-942"
+        ],
+        "correct": [
+          "ANSI/AVIXA 10:2013"
+        ],
+        "points": 1,
+        "explanation": "ANSI/AVIXA 10:2013 covers audiovisual systems performance verification."
+      },
+      {
+        "type": "TRUE_FALSE",
+        "text": "Meeting equity means remote participants should see and hear as well as people in the room.",
+        "options": [
+          "True",
+          "False"
+        ],
+        "correct": [
+          "True"
+        ],
+        "points": 1,
+        "explanation": "Hybrid room design aims for equal experience."
+      },
+      {
+        "type": "MATCHING",
+        "text": "Match each control method to its description.",
+        "options": [
+          "IP=Commands over the network",
+          "RS-232=Serial cable control",
+          "IR=Infrared like a TV remote",
+          "Relay=Simple contact closure for screens or blinds"
+        ],
+        "correct": [],
+        "points": 1,
+        "explanation": "Different devices accept different control methods."
+      }
     ]
   }
 }

@@ -5,44 +5,181 @@
   "category": "TECHNICAL",
   "level": "BASIC",
   "passMarkPercent": 70,
-  "description": "LAN, WAN, switching, routing, wireless, and leased-line connectivity, with the discovery questions that shape a networking proposal.",
+  "description": "How networks are built: switching, routing, Wi-Fi and cabling. You will be able to: explain the role of switches, routers and access points; describe IP addressing and subnets; explain structured cabling standards; gather requirements for a branch network.",
+  "modules": [
+    {
+      "title": "Network building blocks",
+      "minutes": 30
+    },
+    {
+      "title": "IP addressing",
+      "minutes": 45
+    },
+    {
+      "title": "Structured cabling",
+      "minutes": 30
+    },
+    {
+      "title": "Branch requirements",
+      "minutes": 20
+    }
+  ],
   "lessons": [
     {
       "position": 1,
-      "title": "LAN, WAN, and the building blocks",
+      "title": "Network building blocks",
       "type": "TEXT",
-      "body": "A local area network (LAN) connects devices within one site, such as an office or a branch. A wide area network (WAN) connects sites that are far apart, using service providers' links.\n\nThe main devices are:\n\n- **Switch:** connects devices inside a LAN and forwards traffic to the right port.\n- **Router:** connects different networks, including the LAN to the internet or to other sites.\n- **Access point:** provides wireless connectivity.\n- **Firewall:** controls traffic between networks for security (see Cyber Security Fundamentals)."
+      "body": "A network connects devices so they can share information and services. Every business, from a small office to a large campus, depends on its network. Understanding the main building blocks helps you design, sell and support network solutions.\n\n## Main network devices\n\n- **Switch:** connects devices within a local network (LAN), sending traffic only to the port where the destination device is.\n- **Router:** connects different networks together, such as the office LAN and the internet, and decides the best path for traffic.\n- **Firewall:** controls traffic between networks based on security rules.\n- **Wireless access point (AP):** connects Wi-Fi devices to the wired network.\n- **Wireless controller or cloud management:** manages many access points centrally.\n\n## LAN and WAN\n\n- **LAN (local area network):** a network within a building or campus, usually owned by the organisation.\n- **WAN (wide area network):** connects networks across cities or countries, usually using links from telecom providers.\n- **Internet:** the global network of networks, reached through an internet service provider (ISP).\n\n## The layered model\n\nNetworking is often explained using the **OSI model**, with seven layers: physical, data link, network, transport, session, presentation and application. In practice, the simpler **TCP/IP model** is widely used. Knowing layers helps in troubleshooting: is the problem a cable (physical), an address (network) or an application?\n\n## Key terms\n\n- **Switch:** forwards traffic within a LAN using MAC addresses.\n- **Router:** forwards traffic between networks using IP addresses.\n- **MAC address:** a hardware address for a network interface.\n- **ISP:** internet service provider.\n\n## Real-world example\n\nA small office connects all its PCs to a cheap unmanaged switch and a consumer router. As it grows to 60 staff, the network becomes slow and unreliable, with no way to separate guest and staff traffic. An SI installs managed switches, a business firewall and centrally managed access points, with separate networks for staff, guests and printers. Problems drop and the office can grow safely.\n\n## Common mistakes\n\n- Using consumer equipment in growing businesses.\n- Confusing switches and routers.\n- Troubleshooting applications before checking basic connectivity.\n\n## Key takeaways\n\n- Switches connect devices in a LAN; routers connect networks; firewalls enforce security.\n- LANs are local; WANs connect sites; the internet is reached through ISPs.\n- Layered models help in design and troubleshooting.",
+      "module": 1
     },
     {
       "position": 2,
-      "title": "Switching, VLANs, and routing",
+      "title": "IP addressing",
       "type": "TEXT",
-      "body": "A VLAN (virtual LAN) splits one physical switch into separate logical networks. Staff, guests, and servers can be kept apart, which improves security and performance.\n\nRouting moves traffic between networks using IP addresses. A static route is set by hand. A dynamic routing protocol lets routers share routes automatically.\n\nWhen planning a LAN, decide how many users and devices each segment needs, and which services must be separated."
+      "body": "Every device on an IP network needs an address. IP addressing is how devices find each other, and a good addressing plan makes networks easier to manage and grow.\n\n## IPv4 basics\n\n- An **IPv4 address** is 32 bits, written as four numbers from 0 to 255, such as 192.168.10.25.\n- A **subnet mask** or **prefix length** shows which part is the network and which part is the host. For example, /24 (255.255.255.0) gives 256 addresses, of which 254 can be used by devices.\n- The **default gateway** is the router address that devices use to reach other networks.\n\n## Private and public addresses\n\nRFC 1918 reserves three ranges for private networks, which are not routed on the internet:\n\n- 10.0.0.0/8\n- 172.16.0.0/12\n- 192.168.0.0/16\n\nOrganisations use private addresses internally and **NAT (network address translation)** on the firewall or router to reach the internet with public addresses.\n\n## IPv6\n\n**IPv6** addresses are 128 bits, written in hexadecimal, such as 2001:db8::1. IPv6 provides a vast number of addresses and is increasingly used by ISPs and mobile networks.\n\n## Address planning\n\n- Use separate subnets for different groups: staff, servers, printers, voice, guests and management.\n- Leave room for growth in each subnet.\n- Document the plan in an IP address management (IPAM) tool or spreadsheet.\n- Use DHCP for user devices and fixed addresses for servers and network devices.\n\n## Key terms\n\n- **Subnet:** a logical division of an IP network.\n- **Prefix length:** the number of network bits, such as /24.\n- **NAT:** translation between private and public addresses.\n- **IPAM:** IP address management.\n\n## Real-world example\n\nTwo companies merge and both use 192.168.1.0/24 at their head offices. When they connect the networks, devices with the same addresses conflict. The SI renumbers one company into a 10.x.x.x plan with separate subnets per site and function, documented in an IPAM tool. Future sites slot neatly into the plan.\n\n## Common mistakes\n\n- Using one flat subnet for everything.\n- No documentation of addresses.\n- Choosing overlapping private ranges across sites.\n\n## Key takeaways\n\n- IPv4 uses 32-bit addresses; a /24 subnet has 254 usable host addresses.\n- Use RFC 1918 private ranges internally with NAT to the internet.\n- Plan, segment and document addresses for growth.",
+      "module": 2
     },
     {
       "position": 3,
-      "title": "Wireless and connectivity links",
+      "title": "Structured cabling",
       "type": "TEXT",
-      "body": "Wireless access points give mobility but share radio capacity. Plan coverage with a site survey, and count devices per access point, not only users.\n\nFor WAN connectivity, common options are:\n\n- **Broadband:** shared, lower cost, and variable speed.\n- **Leased line:** a dedicated link with a committed bandwidth and a service level, usually at a higher cost.\n- **Redundant links:** a second connection from a different provider, with automatic failover.\n\nFor branch offices, a redundant link is often more valuable than a faster single link."
+      "body": "Structured cabling is the organised system of cables, connectors and patch panels that carries network traffic in a building. It is the foundation of the network and often lasts longer than any active equipment.\n\n## Components\n\n- **Horizontal cabling:** from the network rack to each work area outlet, usually copper twisted-pair cable.\n- **Backbone cabling:** between racks and floors, often fibre.\n- **Patch panels:** terminate cables in the rack.\n- **Patch cords:** short cables from patch panels to switches and from outlets to devices.\n- **Information outlets:** wall or floor sockets at desks.\n\n## Standards and distances\n\nCabling standards such as ANSI/TIA-568 and ISO/IEC 11801 define performance and installation rules. For twisted-pair copper:\n\n- The **permanent link** (fixed cable) should be no longer than **90 metres**, and the full **channel**, including patch cords, no longer than **100 metres**.\n- **Cat 6** supports 1 Gbps everywhere and 10 Gbps over shorter distances (about 55 metres); **Cat 6A** supports 10 Gbps up to 100 metres.\n\nFor fibre:\n\n- **Multimode fibre** (such as OM3 or OM4) is used for shorter distances within buildings.\n- **Single-mode fibre** (such as OS2) is used for long distances and campus or city links.\n\n## Power over Ethernet\n\nPoE delivers power over the network cable to access points, IP phones and cameras. IEEE standards include 802.3af (up to 15.4 W at the switch port), 802.3at (up to 30 W) and 802.3bt (up to 60 W or 90 W).\n\n## Key terms\n\n- **Permanent link / channel:** the fixed cable / the full path including patch cords.\n- **Patch panel:** a panel where cables terminate in the rack.\n- **Multimode / single-mode fibre:** short-distance / long-distance fibre types.\n- **PoE:** power delivered over Ethernet cable.\n\n## Real-world example\n\nA company installs cheap, unbranded cable without testing. Some desks get only 100 Mbps and Wi-Fi access points keep rebooting because of poor PoE delivery. Testing with a certification tester shows many failed links. The SI re-cables with certified Cat 6A, tests every link and provides test reports. Speeds and reliability improve, and the cabling will support future upgrades.\n\n## Common mistakes\n\n- Exceeding the 90 m / 100 m copper limits.\n- Not testing and certifying installed cabling.\n- Mixing cable categories and poor labelling.\n\n## Key takeaways\n\n- Structured cabling is a long-term foundation; follow TIA-568 or ISO/IEC 11801.\n- Copper: 90 m permanent link, 100 m channel; Cat 6A for 10 Gbps at 100 m.\n- Use fibre for backbones and long distances, and certify all links.",
+      "module": 3
     },
     {
       "position": 4,
-      "title": "Discovery questions for networking projects",
+      "title": "Branch requirements",
       "type": "TEXT",
-      "body": "Before proposing equipment, ask:\n\n- How many users and devices are at each site, and how is that expected to grow?\n- Which applications are critical, and what happens when the network is down?\n- What is the current internet or WAN link, its cost, and its uptime?\n- Who supports the network today, and how quickly must problems be resolved?\n- Are there security or guest access rules to follow?\n\nThe answers determine the design. Equipment without a design basis tends to be undersized or overpriced."
+      "body": "Branch offices, such as bank branches, retail stores and regional offices, need reliable connectivity to the head office, data centre and cloud. Branch networks must be simple, secure, centrally managed and affordable across many sites.\n\n## Typical branch requirements\n\n- **Number of users and devices:** PCs, printers, phones, cameras and IoT devices.\n- **Applications:** core business systems, cloud applications, voice and video.\n- **Connectivity:** primary and backup links, such as broadband, internet leased line, MPLS or 4G/5G.\n- **Availability:** what happens if the link fails, and how quickly service must be restored.\n- **Security:** firewall, secure Wi-Fi, separate guest access and protection of payment systems where relevant.\n- **Management:** remote management, as branches rarely have IT staff.\n- **Power:** UPS for network equipment, so the branch stays connected during short outages.\n\n## A typical branch design\n\n- A branch firewall or SD-WAN device with two internet or WAN links.\n- A managed PoE switch for devices, phones and access points.\n- One or more centrally managed access points.\n- A small UPS for the network equipment.\n- Central monitoring and configuration from the head office or a cloud dashboard.\n\n## Key terms\n\n- **Internet leased line (ILL):** a dedicated internet connection with symmetric speed and service levels.\n- **MPLS:** a private WAN service from a telecom provider.\n- **Zero-touch provisioning:** devices configure themselves automatically when connected.\n- **Dual WAN:** two links for resilience.\n\n## Real-world example\n\nA pharmacy chain with 200 stores loses billing when its single broadband link fails. The SI designs a standard store kit: an SD-WAN firewall with broadband plus 4G backup, a PoE switch, one access point and a small UPS. Devices are pre-configured to install themselves at each store. Billing continues during link failures, and IT manages all stores from one dashboard.\n\n## Common mistakes\n\n- A single link for business-critical branches.\n- Different equipment and configurations at every branch.\n- No UPS for network equipment.\n\n## Key takeaways\n\n- Gather branch requirements: users, applications, links, availability, security and management.\n- Use a standard, centrally managed branch design.\n- Provide backup connectivity and UPS power for critical branches.",
+      "module": 4
+    }
+  ],
+  "sources": [
+    {
+      "title": "IEEE 802 LAN/MAN Standards Committee: Ethernet (802.3), VLANs (802.1Q) and Wi-Fi (802.11)",
+      "url": "https://www.ieee802.org/"
+    },
+    {
+      "title": "IETF RFC 1918: Address Allocation for Private Internets",
+      "url": "https://www.rfc-editor.org/rfc/rfc1918"
+    },
+    {
+      "title": "TIA: ANSI/TIA-568 structured cabling standards",
+      "url": "https://tiaonline.org/"
+    },
+    {
+      "title": "Cisco Networking Academy: networking and security courses",
+      "url": "https://www.netacad.com/"
     }
   ],
   "assessment": {
-    "title": "Networking Fundamentals: completion check",
-    "cadence": "ONE_TIME",
+    "title": "Networking Basic: completion check",
     "level": "BASIC",
     "passMarkPercent": 70,
     "questions": [
-      { "position": 1, "type": "SINGLE", "text": "Which network connects sites that are far apart?", "options": ["LAN", "WAN", "VLAN", "PAN"], "correct": ["WAN"], "points": 1 },
-      { "position": 2, "type": "SINGLE", "text": "What does a VLAN do?", "options": ["Connects two sites over the internet", "Splits one switch into separate logical networks", "Replaces the firewall", "Provides wireless coverage"], "correct": ["Splits one switch into separate logical networks"], "points": 1 },
-      { "position": 3, "type": "SINGLE", "text": "Which connectivity option gives committed bandwidth and a service level?", "options": ["Shared broadband", "Leased line", "Wi-Fi hotspot", "Dial-up"], "correct": ["Leased line"], "points": 1 },
-      { "position": 4, "type": "MULTIPLE", "text": "Which are good discovery questions for a networking project? (Select all that apply)", "options": ["How many users are at each site?", "Which applications are critical?", "What colour is the office?", "What is the current link's cost and uptime?"], "correct": ["How many users are at each site?", "Which applications are critical?", "What is the current link's cost and uptime?"], "points": 2 },
-      { "position": 5, "type": "TRUE_FALSE", "text": "A redundant link from a second provider can provide automatic failover for branch offices.", "options": ["True", "False"], "correct": ["True"], "points": 1 }
+      {
+        "type": "SINGLE",
+        "text": "Which device connects different networks and chooses paths using IP addresses?",
+        "options": [
+          "Switch",
+          "Router",
+          "Patch panel",
+          "Access point"
+        ],
+        "correct": [
+          "Router"
+        ],
+        "points": 1,
+        "explanation": "Routers forward traffic between networks."
+      },
+      {
+        "type": "SINGLE",
+        "text": "How many usable host addresses are in a /24 IPv4 subnet?",
+        "options": [
+          "24",
+          "254",
+          "256",
+          "1024"
+        ],
+        "correct": [
+          "254"
+        ],
+        "points": 1,
+        "explanation": "A /24 has 256 addresses; the network and broadcast addresses are not used by hosts."
+      },
+      {
+        "type": "MULTIPLE",
+        "text": "Which ranges are private under RFC 1918?",
+        "options": [
+          "10.0.0.0/8",
+          "172.16.0.0/12",
+          "192.168.0.0/16",
+          "8.8.8.0/24"
+        ],
+        "correct": [
+          "10.0.0.0/8",
+          "172.16.0.0/12",
+          "192.168.0.0/16"
+        ],
+        "points": 1,
+        "explanation": "These three ranges are reserved for private networks."
+      },
+      {
+        "type": "SINGLE",
+        "text": "What is the maximum length of a twisted-pair copper channel, including patch cords?",
+        "options": [
+          "50 m",
+          "90 m",
+          "100 m",
+          "500 m"
+        ],
+        "correct": [
+          "100 m"
+        ],
+        "points": 1,
+        "explanation": "The permanent link is up to 90 m; the full channel up to 100 m."
+      },
+      {
+        "type": "SINGLE",
+        "text": "Which cable category supports 10 Gbps up to 100 metres?",
+        "options": [
+          "Cat 5e",
+          "Cat 6",
+          "Cat 6A",
+          "Telephone cable"
+        ],
+        "correct": [
+          "Cat 6A"
+        ],
+        "points": 1,
+        "explanation": "Cat 6 supports 10 Gbps only over shorter distances."
+      },
+      {
+        "type": "TRUE_FALSE",
+        "text": "IEEE 802.3bt PoE can deliver up to 90 W at the switch port.",
+        "options": [
+          "True",
+          "False"
+        ],
+        "correct": [
+          "True"
+        ],
+        "points": 1,
+        "explanation": "802.3bt supports up to 60 W or 90 W, depending on type."
+      },
+      {
+        "type": "MATCHING",
+        "text": "Match each term to its meaning.",
+        "options": [
+          "NAT=Translates private and public addresses",
+          "ILL=Dedicated internet link with symmetric speed",
+          "Single-mode fibre=Long-distance fibre",
+          "Default gateway=Router used to reach other networks"
+        ],
+        "correct": [],
+        "points": 1,
+        "explanation": "These terms come up in every network design."
+      }
     ]
   }
 }

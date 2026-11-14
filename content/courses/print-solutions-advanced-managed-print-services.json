@@ -29,29 +29,43 @@
       "position": 1,
       "title": "MPS scope and SLAs",
       "type": "TEXT",
-      "body": "Managed print services (MPS) mean we take responsibility for the customer's printing: devices, supplies, service and reporting, for a predictable charge.\n\n## Define the scope\n\n- Which devices and locations are covered, including existing devices taken over.\n- What is included: consumables (often everything except paper), service, parts, monitoring, help desk.\n- What is excluded: paper, user errors, damage, specialist devices.\n\n## Service levels\n\n- Response time and fix time for breakdowns, by location.\n- Consumables delivered before they run out.\n- Device uptime targets.\n- Regular service reviews.\n\nClear scope and service levels avoid disputes during the contract.",
+      "body": "Managed print services (MPS) mean an outside provider takes responsibility for an organisation's print fleet: devices, consumables, service, monitoring and optimisation, usually for a predictable fee. MPS turns printing from a scattered cost into a managed service.\n\n## What MPS usually includes\n\n- **Assessment and design:** fleet assessment and right-sizing.\n- **Devices:** supply of new devices or management of existing ones.\n- **Consumables:** automatic supply based on remote monitoring.\n- **Service and maintenance:** preventive maintenance and repairs, with response times.\n- **Helpdesk:** a single point of contact for print issues.\n- **Software:** secure release, accounting and mobile printing.\n- **Reporting and optimisation:** regular reviews and recommendations.\n\n## Service level agreements\n\nSLAs define the service standards, such as:\n\n- **Response time:** how quickly an engineer responds to a fault, often four or eight business hours depending on location and priority.\n- **Fix time:** how quickly the device is working again.\n- **Uptime:** the percentage of time devices are available.\n- **Consumable delivery:** supplies arrive before devices run out.\n- **Reporting:** monthly or quarterly reports and reviews.\n\nService credits may apply when SLAs are missed.\n\n## Key terms\n\n- **MPS:** managed print services.\n- **SLA:** service level agreement.\n- **Service credit:** a fee reduction for missed SLAs.\n- **Scope:** the devices, locations and services covered.\n\n## Real-world example\n\nA company with offices in five cities manages printers through local dealers, each with different terms and response times. Under a single MPS contract, all devices are monitored centrally, toner arrives automatically and faults have a four-hour response in metro cities and next business day elsewhere. The company receives one monthly bill and one quarterly report.\n\n## Common mistakes\n\n- Vague scope that leaves some devices uncovered.\n- SLAs that do not match locations, such as four-hour response in remote towns.\n- No regular reviews after the contract starts.\n\n## Key takeaways\n\n- MPS covers assessment, devices, consumables, service, software and reporting.\n- Define scope and realistic SLAs by location and priority.\n- Review performance regularly against SLAs.",
       "module": 1
     },
     {
       "position": 2,
       "title": "Commercial models",
       "type": "TEXT",
-      "body": "MPS can be priced in several ways.\n\n## Common models\n\n- **Cost per page (click charge):** a rate per mono page and a higher rate per colour page, billed from meter readings.\n- **Fixed fee plus pages:** a monthly fee covering devices and a page allowance, with an overage rate.\n- **Minimum volume commitment:** the customer pays for at least a set number of pages.\n\n## Pricing carefully\n\n- Build the rate from real costs: device finance, consumables at expected coverage, service visits, monitoring, margin.\n- Check volume assumptions against the fleet assessment.\n- State what happens if volumes rise or fall significantly.\n\n[PLACEHOLDER: the company's pricing rules, margin targets and approval levels for MPS deals.]",
+      "body": "MPS contracts use different commercial models. Choosing the right one depends on the customer's budget style, volume stability and appetite for risk.\n\n## Common commercial models\n\n- **Cost per page (CPP or \"click charge\"):** the customer pays a fixed rate for each page printed, covering consumables and service. Hardware may be bought or leased separately.\n- **All-inclusive CPP:** hardware, consumables and service included in a higher per-page rate.\n- **Fixed monthly fee with included volume:** a fixed fee covers a set number of pages, with a rate for extra pages.\n- **Per-device fee:** a monthly fee per device, plus page charges.\n- **Hybrid:** combinations suited to the customer's fleet.\n\nRates are usually different for mono and colour pages, and may vary by device type.\n\n## Factors in pricing\n\n- Expected monthly volumes by device and colour mix.\n- Device costs and contract length, often three to five years.\n- Consumable costs and yields.\n- Service costs, including travel to remote locations.\n- Minimum volume commitments.\n- Financing costs if hardware is included.\n\n## Key terms\n\n- **Click charge:** a per-page charge, named after the meter \"click\".\n- **Minimum volume commitment:** the minimum pages the customer pays for.\n- **Overage:** pages above the included volume.\n- **Contract term:** the length of the agreement.\n\n## Real-world example\n\nAn MPS provider prices a contract assuming 200,000 pages a month. After the customer moves many processes to digital forms, volume falls to 100,000 pages. With no minimum volume commitment, the provider's revenue halves while device costs remain. In its next contract, the provider includes a minimum volume and a review clause to adjust rates if volumes change significantly.\n\n## Common mistakes\n\n- Pricing without reliable volume data.\n- No minimum commitment or review clause.\n- Same rate for mono and colour pages.\n\n## Key takeaways\n\n- Common models: cost per page, all-inclusive, fixed fee with volume, per-device fee and hybrids.\n- Price from real volumes, costs and contract length.\n- Include minimum volumes and review clauses to manage volume changes.",
       "module": 2
     },
     {
       "position": 3,
       "title": "Monitoring and auto-supply",
       "type": "TEXT",
-      "body": "Good MPS runs on data from the devices.\n\n## Monitoring\n\n- Software collects meter readings, toner levels and error alerts automatically from every device.\n- Meter readings feed billing directly, removing manual reads and disputes.\n- Error alerts let the service team respond before users call.\n\n## Automatic supplies\n\n- Toner is shipped when the level falls below a threshold, timed to arrive before it runs out.\n- Track toner yield against expected coverage; very low yields can indicate a fault or waste.\n\n> Agree with the customer's IT team how the monitoring software connects to devices, and what data leaves their network.",
+      "body": "Remote monitoring is the engine of managed print. It lets providers see device status, supply levels and page counts across the whole fleet, and act before users notice problems.\n\n## What monitoring provides\n\n- **Meter readings:** automatic page counts for billing, without manual readings.\n- **Supply levels:** toner and ink levels, used to trigger automatic orders.\n- **Alerts:** paper jams, errors and service needs.\n- **Device health:** usage trends that show when maintenance is needed.\n- **Usage data:** for optimisation and reporting.\n\n## Automatic supply replenishment\n\n1. Monitoring software reads toner levels from each device.\n2. When a level falls below a threshold, an order is created automatically.\n3. The consumable is shipped to the device location, timed to arrive before it runs out.\n4. Delivery is tracked and the old cartridge is collected for recycling.\n\n## Monitoring considerations\n\n- Monitoring agents collect data over the network, typically using SNMP, and send it securely to the provider.\n- Agree with the customer's IT team what data is collected and how it is transmitted.\n- Cover non-networked devices with manual readings or USB agents where needed.\n\n## Key terms\n\n- **Remote monitoring:** collecting device data over the network.\n- **Automatic replenishment:** ordering supplies based on monitored levels.\n- **Threshold:** the level that triggers an order or alert.\n- **Monitoring agent:** software that collects and sends device data.\n\n## Real-world example\n\nBefore MPS, a customer's staff called the helpdesk every time toner ran out, and devices stood idle for days waiting for supplies. After monitoring and automatic replenishment start, toner arrives a few days before it runs out. Toner-related calls fall almost to zero, and devices are rarely idle.\n\n## Common mistakes\n\n- Thresholds set too low, so toner arrives late.\n- Monitoring agents installed without the IT team's security approval.\n- Ignoring non-networked devices.\n\n## Key takeaways\n\n- Monitoring provides meter readings, supply levels, alerts and usage data.\n- Automatic replenishment sends supplies before devices run out.\n- Agree data collection and security with the customer's IT team.",
       "module": 3
     },
     {
       "position": 4,
       "title": "Service reporting",
       "type": "TEXT",
-      "body": "Regular reporting shows the customer the value of the service and spots improvements.\n\n## A monthly or quarterly report\n\n- Total pages, mono and colour, by device and department.\n- Cost against the baseline from the original assessment.\n- Service performance: tickets, response and fix times, against SLAs.\n- Device uptime and problem devices.\n- Recommendations: move, replace or remove devices; adjust policies.\n\n## The review meeting\n\nWalk through the report with the customer, agree actions, and record them. Customers who see continuous improvement renew.",
+      "body": "Regular reporting shows the value of managed print services and guides continuous improvement. Without it, customers cannot see what they are paying for.\n\n## What to report\n\n- **Volumes:** pages by device, department and colour, with trends.\n- **Costs:** monthly spend and cost per page.\n- **SLA performance:** response and fix times, uptime and consumable delivery.\n- **Incidents:** number and types of faults, and repeat issues.\n- **Utilisation:** over- and under-used devices.\n- **Environmental impact:** paper saved through duplex and reduced printing.\n- **Recommendations:** actions to improve cost, service or security.\n\n## Running service reviews\n\n- Hold quarterly business reviews with the customer's stakeholders.\n- Compare performance with SLAs and previous periods.\n- Discuss issues openly and agree actions with owners and dates.\n- Plan changes, such as moving devices or updating policies.\n\n## Key terms\n\n- **Quarterly business review (QBR):** a regular meeting to review service performance.\n- **Trend:** how a measure changes over time.\n- **Continuous improvement:** ongoing changes to improve service.\n\n## Real-world example\n\nA quarterly report shows that one department's colour printing has doubled. Investigation finds that a new marketing team prints draft brochures repeatedly. The provider recommends a colour policy and a dedicated device with a lower colour cost per page. The next quarter, colour costs fall, and the customer sees MPS as a partner, not just a supplier.\n\n## Common mistakes\n\n- Sending raw data without insights.\n- Reviewing only when problems arise.\n- No action tracking from reviews.\n\n## Key takeaways\n\n- Report volumes, costs, SLAs, incidents, utilisation and environmental impact.\n- Hold regular reviews with clear actions.\n- Use reporting to drive continuous improvement.",
       "module": 4
+    }
+  ],
+  "sources": [
+    {
+      "title": "ISO: ISO/IEC 19752 and 19798 (toner yield) and ISO/IEC 24711 (ink yield) test methods",
+      "url": "https://www.iso.org/"
+    },
+    {
+      "title": "NIST: guidance on securing networked devices such as printers (Cybersecurity Framework)",
+      "url": "https://www.nist.gov/cyberframework"
+    },
+    {
+      "title": "Central Pollution Control Board: E-Waste (Management) Rules and authorised recyclers",
+      "url": "https://cpcb.nic.in/"
     }
   ],
   "assessment": {
@@ -60,33 +74,40 @@
     "passMarkPercent": 70,
     "questions": [
       {
-        "type": "SINGLE",
-        "text": "What is typically excluded from MPS consumables?",
+        "type": "MULTIPLE",
+        "text": "What does a managed print service usually include?",
         "options": [
-          "Paper",
-          "Toner",
-          "Drums",
-          "Service parts"
+          "Consumables supplied automatically",
+          "Service and maintenance",
+          "Reporting and optimisation",
+          "Payroll processing"
         ],
         "correct": [
-          "Paper"
+          "Consumables supplied automatically",
+          "Service and maintenance",
+          "Reporting and optimisation"
         ],
-        "points": 1
+        "points": 1,
+        "explanation": "MPS manages the full print fleet as a service."
       },
       {
-        "type": "MATCHING",
-        "text": "Match each MPS pricing model to its description.",
+        "type": "SINGLE",
+        "text": "What is a 'click charge'?",
         "options": [
-          "Cost per page=A rate per mono page and a higher rate per colour page",
-          "Fixed fee plus pages=A monthly fee with a page allowance and overage rate",
-          "Minimum volume commitment=Customer pays for at least a set number of pages"
+          "A fee for each mouse click",
+          "A per-page charge for printing",
+          "An installation charge",
+          "A late payment fee"
         ],
-        "correct": [],
-        "points": 3
+        "correct": [
+          "A per-page charge for printing"
+        ],
+        "points": 1,
+        "explanation": "Click charges are per-page rates, usually different for mono and colour."
       },
       {
         "type": "TRUE_FALSE",
-        "text": "Automatic meter readings can feed billing directly and reduce disputes.",
+        "text": "A minimum volume commitment protects the provider if printing volumes fall sharply.",
         "options": [
           "True",
           "False"
@@ -94,45 +115,59 @@
         "correct": [
           "True"
         ],
-        "points": 1
+        "points": 1,
+        "explanation": "It ensures a base level of revenue to cover fixed costs."
       },
       {
         "type": "SINGLE",
-        "text": "Why track toner yield against expected coverage?",
+        "text": "How is automatic toner replenishment triggered?",
         "options": [
-          "Very low yields can indicate a fault or waste",
-          "To make toner cheaper",
-          "Because GST requires it",
-          "It has no purpose"
+          "When users complain",
+          "When monitored toner levels fall below a threshold",
+          "Once a year",
+          "When the device is replaced"
         ],
         "correct": [
-          "Very low yields can indicate a fault or waste"
+          "When monitored toner levels fall below a threshold"
         ],
-        "points": 1
+        "points": 1,
+        "explanation": "Monitoring triggers orders before devices run out."
       },
       {
-        "type": "MULTIPLE",
-        "text": "What belongs in an MPS service report? Select all that apply.",
+        "type": "SINGLE",
+        "text": "What is the purpose of a quarterly business review in MPS?",
         "options": [
-          "Pages by device and department",
-          "Cost against baseline",
-          "Service performance against SLAs",
-          "The account manager's lunch preferences"
+          "To change the logo",
+          "To review performance against SLAs and agree improvements",
+          "To sell new devices only",
+          "To collect payment"
         ],
         "correct": [
-          "Pages by device and department",
-          "Cost against baseline",
-          "Service performance against SLAs"
+          "To review performance against SLAs and agree improvements"
         ],
-        "points": 2
+        "points": 1,
+        "explanation": "Reviews drive continuous improvement."
+      },
+      {
+        "type": "TRUE_FALSE",
+        "text": "A four-hour response SLA is always realistic for every location, including remote towns.",
+        "options": [
+          "True",
+          "False"
+        ],
+        "correct": [
+          "False"
+        ],
+        "points": 1,
+        "explanation": "SLAs should match locations and priorities."
       },
       {
         "type": "SHORT_ANSWER",
-        "text": "A customer's print volume falls by 40% after a move to digital workflows. Explain how this affects an MPS contract and what you would discuss.",
+        "text": "In two or three sentences, explain how remote monitoring benefits both the customer and the MPS provider.",
         "options": [],
         "correct": [],
-        "points": 4,
-        "explanation": "Model answer: revenue under cost-per-page falls and a minimum commitment may apply; review the fleet (remove or consolidate devices), revisit the volume assumptions and pricing, and agree a revised plan in the service review."
+        "points": 1,
+        "explanation": "The customer gets supplies before devices run out and faster fault response. The provider gets accurate billing data, lower service costs and insight for optimisation."
       }
     ]
   }

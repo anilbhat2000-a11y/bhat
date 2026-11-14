@@ -5,44 +5,179 @@
   "category": "TECHNICAL",
   "level": "BASIC",
   "passMarkPercent": 70,
-  "description": "Printer and multifunction device types, cost per page, consumables, managed print services, and secure printing.",
+  "description": "Printer and MFP types, consumables and choosing the right device. You will be able to: compare laser, inkjet and MFP devices; explain duty cycle and cost per page; recommend a device for an office; plan consumable supply.",
+  "modules": [
+    {
+      "title": "Device types",
+      "minutes": 30
+    },
+    {
+      "title": "Duty cycle and cost per page",
+      "minutes": 30
+    },
+    {
+      "title": "Choosing a device",
+      "minutes": 20
+    },
+    {
+      "title": "Consumables",
+      "minutes": 20
+    }
+  ],
   "lessons": [
     {
       "position": 1,
-      "title": "Printer and multifunction device types",
+      "title": "Device types",
       "type": "TEXT",
-      "body": "Printers are chosen by volume, quality, and use:\n\n- **Laser:** fast, good for high-volume text, lower cost per page at scale.\n- **Inkjet:** lower upfront cost, suited to low to medium volume and colour work.\n- **Multifunction device (MFD):** combines print, copy, scan, and fax in one unit, common in offices.\n- **Large format:** plotters and wide-format printers for drawings and posters.\n\nA device chosen for the wrong volume will cost more to run and will need replacing sooner."
+      "body": "Printing remains important in Indian businesses, from invoices and delivery challans to contracts, reports and labels. Choosing the right device type for each need saves money and frustration.\n\n## Main device types\n\n- **Laser printers (mono and colour):** fast, sharp text and low cost per page at higher volumes. The most common office choice.\n- **Business inkjet printers:** lower power use and good colour; suitable for small offices and moderate volumes.\n- **Multifunction printers (MFPs):** print, copy, scan and sometimes fax in one device. They replace separate printers, copiers and scanners.\n- **A4 and A3 devices:** A4 devices handle standard pages; A3 devices also print larger sheets for drawings and spreadsheets.\n- **Production printers:** very high volumes for print rooms and publishers.\n- **Specialist printers:** label printers for logistics, receipt printers for retail and dot-matrix printers for multi-part stationery, still used in some billing and government offices.\n\n## Matching device to need\n\n- **Volume:** how many pages per month?\n- **Colour:** is colour essential, or occasional?\n- **Paper size:** A4 only, or A3 as well?\n- **Functions:** copy, scan to email or folder, duplex (double-sided) printing?\n- **Users:** individual or shared by a team?\n- **Security:** confidential documents needing secure release?\n\n## Key terms\n\n- **MFP:** multifunction printer.\n- **Duplex:** printing on both sides of the paper.\n- **A3 / A4:** paper sizes; A3 is twice the size of A4.\n- **Dot-matrix:** an impact printer that can print multi-part forms.\n\n## Real-world example\n\nA logistics office uses inkjet printers for hundreds of delivery documents a day. Cartridges run out constantly and the cost is high. The SI replaces them with two shared mono laser MFPs for documents and a thermal label printer for shipment labels. Costs drop and staff stop waiting for cartridge changes.\n\n## Common mistakes\n\n- Choosing devices by purchase price instead of running cost and volume.\n- Buying colour devices for users who print only black text.\n- Ignoring specialist needs such as labels or multi-part forms.\n\n## Key takeaways\n\n- Know the main types: laser, inkjet, MFP, A3/A4, production and specialist printers.\n- Match devices to volume, colour, paper size, functions, users and security.\n- Running cost matters more than purchase price.",
+      "module": 1
     },
     {
       "position": 2,
-      "title": "Cost per page and consumables",
+      "title": "Duty cycle and cost per page",
       "type": "TEXT",
-      "body": "The true cost of printing is the cost per page, not the purchase price. Cost per page includes toner or ink, drums, paper, service, and power, divided by the number of pages printed.\n\nConsumables such as toner, drums, and fuser units are the main recurring cost. Compare yields (pages per cartridge) using the same standard, and include original versus refilled consumables in the comparison, with their warranty implications."
+      "body": "Two numbers decide whether a printer suits a workload and what it will really cost: duty cycle and cost per page.\n\n## Duty cycle and recommended volume\n\n- **Maximum duty cycle:** the most pages a device can print in a month without damage, as stated by the manufacturer. It is a stress limit, not a target.\n- **Recommended monthly print volume:** the range the device is designed to handle regularly. It is much lower than the maximum duty cycle.\n\nRunning a printer near its maximum duty cycle every month leads to frequent breakdowns and shorter life. Choose devices whose recommended volume matches the expected workload.\n\n## Cost per page\n\nCost per page (CPP) is the running cost of each printed page, mainly consumables. A simple calculation is:\n\n- Cost per page = consumable price ÷ rated page yield.\n- For example, a toner cartridge costing ₹6,000 with a rated yield of 6,000 pages costs about ₹1 per page in toner.\n- Add other consumables, such as drums, fusers and maintenance kits, and paper and power for a full picture.\n\n**Page yields** are measured using ISO/IEC standards: ISO/IEC 19752 for monochrome toner, ISO/IEC 19798 for colour toner and ISO/IEC 24711 for inkjet. These use a standard test page at about 5% coverage, so real yields vary with what is printed.\n\n## Key terms\n\n- **Duty cycle:** maximum pages per month the device can handle.\n- **Recommended monthly volume:** the regular workload the device is designed for.\n- **Page yield:** pages a consumable produces under standard test conditions.\n- **Coverage:** the share of the page covered with toner or ink.\n\n## Real-world example\n\nA company buys low-cost desktop printers for a department printing 8,000 pages a month on one device. The printer's recommended volume is 1,500 pages a month, and its cartridges are small and expensive per page. It breaks down every few months. The SI replaces it with a mid-range MFP designed for that volume, with high-yield toner. Breakdowns stop and cost per page falls by more than half.\n\n## Common mistakes\n\n- Comparing printers by maximum duty cycle instead of recommended volume.\n- Ignoring cost per page when choosing devices.\n- Assuming real yields always match rated yields.\n\n## Key takeaways\n\n- Choose devices by recommended monthly volume, not maximum duty cycle.\n- Cost per page = consumable price ÷ rated yield, plus other consumables.\n- Yields follow ISO/IEC test standards at about 5% coverage.",
+      "module": 2
     },
     {
       "position": 3,
-      "title": "Managed print services",
+      "title": "Choosing a device",
       "type": "TEXT",
-      "body": "A managed print service (MPS) is a contract to manage the customer's printing fleet. The supplier assesses the current fleet, right-sizes devices, supplies consumables, and reports usage and cost.\n\nMPS suits customers with many devices, dispersed sites, or rising print costs. The sales conversation starts with an assessment of current devices, volumes, and costs, then proposes a fleet plan with a clear service level and a monthly report."
+      "body": "Choosing a printer means balancing upfront cost, running cost, features, reliability and support. A structured approach avoids common buying mistakes.\n\n## A step-by-step selection\n\n1. **Understand the workload:** monthly volume, colour share, paper sizes and peak times.\n2. **List required functions:** scanning, copying, duplex, finishing (stapling, hole punch), fax.\n3. **Consider users and location:** how many users share it and how far they walk.\n4. **Check connectivity:** network, Wi-Fi, mobile printing and integration with document systems.\n5. **Check security features:** secure release, user authentication, encrypted storage and firmware updates.\n6. **Compare total cost of ownership:** device price, consumables, service and power over three to five years.\n7. **Check service and support:** local service availability, response times and parts.\n\n## Other considerations\n\n- **Energy efficiency:** labels such as ENERGY STAR indicate efficient imaging equipment.\n- **Indian compliance:** many electronics products sold in India must be registered with the Bureau of Indian Standards under its compulsory registration scheme.\n- **Genuine consumables and warranty:** using non-genuine supplies can affect the manufacturer's warranty terms; check the policy.\n\n## Key terms\n\n- **Finishing:** post-print functions such as stapling and folding.\n- **Secure release:** printing that waits until the user authenticates at the device.\n- **TCO:** total cost of ownership.\n- **Compulsory registration:** the BIS scheme requiring certain electronics to be registered before sale.\n\n## Real-world example\n\nA law firm buys printers based on the lowest device price. Within a year, the cost of small, expensive cartridges exceeds the device price several times, and confidential documents are often left in output trays. The SI recommends shared A3 MFPs with high-yield toner, secure release by staff ID card and a service contract. Three-year costs are lower and confidentiality improves.\n\n## Common mistakes\n\n- Choosing on device price alone.\n- Ignoring security features for confidential work.\n- No check of local service and parts availability.\n\n## Key takeaways\n\n- Start with workload and functions, then users, connectivity and security.\n- Compare total cost of ownership over three to five years.\n- Check efficiency, compliance, warranty and local support.",
+      "module": 3
     },
     {
       "position": 4,
-      "title": "Secure printing and discovery questions",
+      "title": "Consumables",
       "type": "TEXT",
-      "body": "Printers store documents and can be a security weak point. Secure printing options include user authentication at the device (so jobs print only when the user is present), encrypted storage, and disabling unused network ports and services.\n\nDiscovery questions:\n\n- How many pages are printed each month, per device and per department?\n- What is the current cost per page, including consumables and service?\n- Which documents are confidential, and who collects printouts?\n- How are devices serviced today, and how quickly are faults resolved?"
+      "body": "Consumables such as toner, ink, drums and paper are the largest ongoing cost of printing. Managing them well saves money, prevents downtime and reduces waste.\n\n## Types of consumables\n\n- **Toner cartridges** for laser devices, often available in standard and high-yield versions.\n- **Ink cartridges or tanks** for inkjet devices.\n- **Drums or imaging units,** which may be separate from the toner and have their own yield.\n- **Maintenance parts,** such as fusers, transfer belts and rollers, replaced at set intervals.\n- **Paper,** which should match the device's specification for weight and quality.\n\n## Managing consumables\n\n- **Standardise devices** so fewer consumable types are needed.\n- **Choose high-yield options** where volume justifies them.\n- **Track levels remotely** using device monitoring, rather than waiting for \"toner empty\" messages.\n- **Keep a small, rotated stock** for critical devices.\n- **Store correctly:** cool, dry and away from direct sunlight.\n- **Recycle responsibly:** use manufacturer take-back programmes or authorised recyclers under India's E-Waste (Management) Rules.\n\n## Genuine versus compatible\n\nCompatible or refilled consumables may cost less but can vary in quality and yield, and some manufacturers' warranties exclude damage caused by non-genuine supplies. Evaluate the total cost, including print quality, failures and warranty impact.\n\n## Key terms\n\n- **High-yield cartridge:** a larger cartridge with a lower cost per page.\n- **Imaging unit / drum:** the component that transfers the image to paper.\n- **Take-back programme:** a manufacturer scheme to collect used consumables.\n- **Fuser:** the part that bonds toner to paper using heat.\n\n## Real-world example\n\nA company with 40 different printer models keeps over 60 types of cartridges in stock, many expiring unused, while urgent needs still go unmet. The SI standardises on four models, sets up remote monitoring of toner levels and automatic ordering. Stock types fall to eight, waste drops and devices rarely run out.\n\n## Common mistakes\n\n- Too many device models, requiring many consumable types.\n- Ordering only after cartridges run empty.\n- Discarding used cartridges as general waste.\n\n## Key takeaways\n\n- Consumables are the biggest ongoing print cost.\n- Standardise, use high-yield options and monitor levels remotely.\n- Store correctly and recycle through authorised channels.",
+      "module": 4
+    }
+  ],
+  "sources": [
+    {
+      "title": "ISO: ISO/IEC 19752 and 19798 (toner yield) and ISO/IEC 24711 (ink yield) test methods",
+      "url": "https://www.iso.org/"
+    },
+    {
+      "title": "ENERGY STAR: imaging equipment efficiency specifications",
+      "url": "https://www.energystar.gov/"
+    },
+    {
+      "title": "Bureau of Indian Standards: compulsory registration for IT and electronics products",
+      "url": "https://www.bis.gov.in/"
+    },
+    {
+      "title": "Central Pollution Control Board: E-Waste (Management) Rules and authorised recyclers",
+      "url": "https://cpcb.nic.in/"
     }
   ],
   "assessment": {
-    "title": "Print Solutions: completion check",
-    "cadence": "ONE_TIME",
+    "title": "Print Solutions Basic: completion check",
     "level": "BASIC",
     "passMarkPercent": 70,
     "questions": [
-      { "position": 1, "type": "SINGLE", "text": "Which device combines print, copy, scan, and fax?", "options": ["Plotter", "Multifunction device", "Inkjet printer", "Label printer"], "correct": ["Multifunction device"], "points": 1 },
-      { "position": 2, "type": "SINGLE", "text": "What does cost per page include?", "options": ["Only the purchase price", "Consumables, service, paper, and power divided by pages printed", "Only paper", "Only the warranty length"], "correct": ["Consumables, service, paper, and power divided by pages printed"], "points": 1 },
-      { "position": 3, "type": "SINGLE", "text": "What is a managed print service?", "options": ["Free printing for staff", "A contract to manage the customer's printing fleet", "A type of paper", "A printer repair course"], "correct": ["A contract to manage the customer's printing fleet"], "points": 1 },
-      { "position": 4, "type": "MULTIPLE", "text": "Which are valid secure printing measures? (Select all that apply)", "options": ["User authentication at the device", "Leaving unused network ports open", "Encrypted storage", "Disabling unused services"], "correct": ["User authentication at the device", "Encrypted storage", "Disabling unused services"], "points": 2 },
-      { "position": 5, "type": "TRUE_FALSE", "text": "The purchase price of a printer is the best measure of its true cost.", "options": ["True", "False"], "correct": ["False"], "points": 1 }
+      {
+        "type": "SINGLE",
+        "text": "What is the main reason to choose a printer by recommended monthly volume rather than maximum duty cycle?",
+        "options": [
+          "Maximum duty cycle is a stress limit, not a regular workload",
+          "Duty cycle is a marketing term with no meaning",
+          "Recommended volume is always higher",
+          "It affects GST"
+        ],
+        "correct": [
+          "Maximum duty cycle is a stress limit, not a regular workload"
+        ],
+        "points": 1,
+        "explanation": "Running near the maximum duty cycle causes breakdowns and short device life."
+      },
+      {
+        "type": "SINGLE",
+        "text": "A toner cartridge costs ₹6,000 and has a rated yield of 6,000 pages. What is the toner cost per page?",
+        "options": [
+          "₹0.10",
+          "₹1",
+          "₹6",
+          "₹60"
+        ],
+        "correct": [
+          "₹1"
+        ],
+        "points": 1,
+        "explanation": "₹6,000 ÷ 6,000 pages = ₹1 per page."
+      },
+      {
+        "type": "SINGLE",
+        "text": "Which standard is used to measure monochrome toner yield?",
+        "options": [
+          "ISO/IEC 19752",
+          "ISO 9001",
+          "IEEE 802.3",
+          "IS 3043"
+        ],
+        "correct": [
+          "ISO/IEC 19752"
+        ],
+        "points": 1,
+        "explanation": "ISO/IEC 19752 is the monochrome toner yield test method."
+      },
+      {
+        "type": "TRUE_FALSE",
+        "text": "Rated page yields are measured at about 5% page coverage, so real yields vary with what is printed.",
+        "options": [
+          "True",
+          "False"
+        ],
+        "correct": [
+          "True"
+        ],
+        "points": 1,
+        "explanation": "Pages with more coverage use more toner or ink."
+      },
+      {
+        "type": "MULTIPLE",
+        "text": "What are functions of an MFP?",
+        "options": [
+          "Print",
+          "Copy",
+          "Scan",
+          "Run the payroll"
+        ],
+        "correct": [
+          "Print",
+          "Copy",
+          "Scan"
+        ],
+        "points": 1,
+        "explanation": "MFPs combine printing, copying, scanning and sometimes fax."
+      },
+      {
+        "type": "TRUE_FALSE",
+        "text": "Used toner cartridges should be recycled through take-back programmes or authorised recyclers.",
+        "options": [
+          "True",
+          "False"
+        ],
+        "correct": [
+          "True"
+        ],
+        "points": 1,
+        "explanation": "India's E-Waste (Management) Rules govern disposal of electronic waste."
+      },
+      {
+        "type": "MATCHING",
+        "text": "Match each term to its meaning.",
+        "options": [
+          "Duplex=Printing on both sides",
+          "Secure release=Print waits until user authenticates",
+          "High-yield=Larger cartridge with lower cost per page",
+          "Fuser=Bonds toner to paper using heat"
+        ],
+        "correct": [],
+        "points": 1,
+        "explanation": "These terms are used when comparing printers."
+      }
     ]
   }
 }

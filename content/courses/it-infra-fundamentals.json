@@ -5,44 +5,177 @@
   "category": "TECHNICAL",
   "level": "BASIC",
   "passMarkPercent": 70,
-  "description": "The building blocks of a business IT environment, the on-premise, cloud, and hybrid choices, and how endpoint and infrastructure deals are shaped by lifecycle and support.",
+  "description": "Desktops, servers, networks, storage and data centres: what they are and how they fit together. You will be able to: name the components of a typical enterprise IT setup; explain how end-user, data-centre and network layers connect; read a simple infrastructure diagram; ask the right questions in an infrastructure discovery.",
+  "modules": [
+    {
+      "title": "End-user computing",
+      "minutes": 30
+    },
+    {
+      "title": "Data-centre components",
+      "minutes": 30
+    },
+    {
+      "title": "How it connects",
+      "minutes": 30
+    },
+    {
+      "title": "Discovery questions",
+      "minutes": 20
+    }
+  ],
   "lessons": [
     {
       "position": 1,
-      "title": "Components of an IT infrastructure",
+      "title": "End-user computing",
       "type": "TEXT",
-      "body": "IT infrastructure is the set of hardware, software, and services that let an organisation run its applications. The main components are:\n\n- **Compute:** servers and desktops or laptops that run applications.\n- **Storage:** where data is kept (covered in the Server and Storage course).\n- **Network:** switches, routers, and wireless access that connect everything (see Networking Fundamentals).\n- **Power and cooling:** UPS units and air conditioning that keep equipment running.\n- **Management and security:** monitoring tools, backup, and access control.\n\nA weak link in any of these affects the whole business, so a sound design considers them together."
+      "body": "IT infrastructure is everything an organisation needs to run its applications and serve its users: devices, networks, servers, storage, power and the software that manages them. It is easiest to understand in layers, starting with what users touch every day: end-user computing.\n\n## End-user computing (EUC)\n\n- **Desktops and laptops:** the main work devices. Business models offer longer support, manageability features and better build quality than consumer models.\n- **Thin clients:** simple devices that connect to applications or desktops running on central servers.\n- **Mobile devices:** smartphones and tablets used for email, approvals and field work.\n- **Peripherals:** monitors, docking stations, headsets, keyboards and webcams.\n- **Printers and scanners:** often shared on the network.\n\n## Managing end-user devices\n\nOrganisations with hundreds of devices need tools and processes to keep them secure and working:\n\n- **Operating system and software updates** pushed centrally.\n- **Endpoint security** to protect against malware.\n- **Device management** (often called unified endpoint management, UEM) to enforce policies, deploy software and wipe lost devices.\n- **Asset management** to track who has which device and when its warranty ends.\n\n## Key terms\n\n- **Endpoint:** any device that connects to the network, such as a laptop or phone.\n- **Thin client:** a lightweight device that runs applications from a central server.\n- **UEM:** unified endpoint management, a tool to manage many device types from one console.\n- **Asset register:** a record of devices, users, locations and warranty dates.\n\n## Real-world example\n\nAn insurance company with 800 employees buys laptops in small batches from different suppliers over several years. It ends up with eight models, no central updates and no record of warranty dates. An SI proposes standardising on two models, enrolling all devices in a UEM tool and building an asset register. Support calls fall, and the company can now plan refreshes by warranty date.\n\n## Common mistakes\n\n- Buying consumer devices for business use.\n- No central management of updates and security.\n- No asset register, so warranty and refresh dates are unknown.\n\n## Key takeaways\n\n- End-user computing includes devices, peripherals and printers.\n- Central management keeps devices secure and up to date.\n- Standardise models and keep an asset register.",
+      "module": 1
     },
     {
       "position": 2,
-      "title": "On-premise, cloud, and hybrid",
+      "title": "Data-centre components",
       "type": "TEXT",
-      "body": "Organisations choose where to run workloads:\n\n- **On-premise:** equipment owned and housed by the company. Full control, but the company carries capital cost and upkeep.\n- **Cloud:** services rented from a provider. Flexible and quick to scale, with running costs that depend on usage.\n- **Hybrid:** a mix, for example core systems on-premise and collaboration tools in the cloud.\n\nThe right choice depends on data rules, latency needs, budget pattern, and the skills available in-house. Ask these questions before recommending a model."
+      "body": "Behind every application is a data centre or server room: a protected space with servers, storage, network equipment, power and cooling. Even when organisations use the cloud, many still run some systems on their own premises.\n\n## The main data-centre components\n\n- **Servers:** computers that run applications and services. They come as rack, tower or blade servers.\n- **Storage:** systems that store data, such as disk arrays, NAS and SAN.\n- **Network equipment:** switches, routers and firewalls that connect servers to each other, to users and to the internet.\n- **Racks:** standard 19-inch frames that hold equipment. Height is measured in rack units (U); 1U is 1.75 inches (44.45 mm). A common rack is 42U.\n- **Power:** UPS systems, batteries, power distribution units (PDUs) and often a diesel generator.\n- **Cooling:** air conditioning designed for IT equipment, such as precision air conditioning.\n- **Physical security and monitoring:** access control, CCTV, fire detection and suppression, and environmental sensors.\n\n## Virtualisation\n\nMost organisations no longer run one application per physical server. Virtualisation lets one physical server host many virtual machines, using resources more efficiently and making recovery easier.\n\n## Key terms\n\n- **Rack unit (U):** a standard height of 1.75 inches (44.45 mm) for rack equipment.\n- **PDU:** power distribution unit, which distributes power to equipment in a rack.\n- **Virtual machine (VM):** a software-based computer running on a physical host.\n- **Server room:** a smaller version of a data centre, common in branch offices and smaller companies.\n\n## Real-world example\n\nA manufacturing company keeps its servers in an office storeroom with a household air conditioner. During a summer power cut, the UPS keeps the servers running, but the air conditioner stops and the room overheats. Two servers shut down to protect themselves, and production planning stops for a day. The SI's proposal includes a proper rack, precision cooling on UPS-backed power, and temperature monitoring with alerts.\n\n## Common mistakes\n\n- Treating the server room as a storeroom.\n- Protecting servers with a UPS but not the cooling.\n- No environmental monitoring.\n\n## Key takeaways\n\n- A data centre combines servers, storage, network, racks, power, cooling and security.\n- Rack space is measured in units of 1.75 inches; a common rack is 42U.\n- Power and cooling are as important as the IT equipment itself.",
+      "module": 2
     },
     {
       "position": 3,
-      "title": "The infrastructure lifecycle",
+      "title": "How it connects",
       "type": "TEXT",
-      "body": "Infrastructure has a lifecycle: planning, procurement, deployment, support, and refresh. Each stage creates a sales opportunity:\n\n- **Planning:** a site survey or capacity review.\n- **Procurement:** the right product, warranty, and delivery schedule.\n- **Deployment:** installation, configuration, and testing.\n- **Support:** service contracts and response times.\n- **Refresh:** replacing equipment before it fails or falls out of support.\n\nA customer who has a support contract and a refresh plan is easier to serve and renew than one who buys hardware only once."
+      "body": "Infrastructure components only deliver value when they work together. Understanding how users reach applications helps you design solutions, troubleshoot problems and explain them to customers.\n\n## The path from user to application\n\n1. A user's laptop connects to the **access network**, by cable to a switch or by Wi-Fi to an access point.\n2. Access switches connect to **distribution and core switches** that carry traffic across the building or campus.\n3. Traffic to internal applications goes to the **data centre network**, through a firewall, to the servers.\n4. Servers read and write data on **storage** over a storage network or the data-centre network.\n5. Traffic to the internet or cloud leaves through a **firewall and internet link**.\n6. Branch offices connect over the **WAN**, such as MPLS, internet VPN or SD-WAN.\n\n## Supporting services\n\n- **DNS:** turns names, such as erp.company.local, into IP addresses.\n- **DHCP:** gives devices their IP address automatically.\n- **Directory services:** such as Active Directory or Entra ID, which manage users, passwords and permissions.\n- **Time synchronisation (NTP):** keeps clocks accurate, which matters for logs and security.\n\n## Key terms\n\n- **LAN:** local area network within a building or campus.\n- **WAN:** wide area network connecting sites.\n- **DNS:** domain name system.\n- **DHCP:** dynamic host configuration protocol.\n\n## Real-world example\n\nUsers at a branch complain that the ERP is \"down\". The server team sees the ERP running normally. Following the path from the user, the support engineer finds that the branch's internet VPN link is up but DNS requests are failing because a firewall rule was changed. Fixing the rule restores access. Understanding the full path turned a vague complaint into a quick fix.\n\n## Common mistakes\n\n- Assuming a problem lies in the application without checking the path.\n- Forgetting supporting services such as DNS and time synchronisation.\n- Designing one layer without considering how it connects to the others.\n\n## Key takeaways\n\n- Users reach applications through access, core, data-centre and WAN networks.\n- DNS, DHCP, directory and time services are essential supporting services.\n- Follow the path end to end when designing or troubleshooting.",
+      "module": 3
     },
     {
       "position": 4,
-      "title": "Service levels and warranty basics",
+      "title": "Discovery questions",
       "type": "TEXT",
-      "body": "A service level agreement (SLA) defines what the supplier promises: response time, resolution time, and uptime. Warranty covers defects within a stated period. Support contracts, such as annual maintenance contracts (AMC), extend or replace warranty cover.\n\nWhen discussing these terms, state exactly what is covered, what is excluded, and how the customer raises a request. Vague promises create disputes later."
+      "body": "Good discovery questions help you understand a customer's infrastructure, its problems and its plans. They also show the customer that you understand their world.\n\n## Questions about the current environment\n\n- How many users, sites and devices do you support?\n- Where do your main applications run: on-premises, in the cloud or both?\n- How old are your servers, storage and network equipment, and when does support end?\n- How are your devices managed and secured today?\n- What does your server room or data centre look like: power, cooling and space?\n\n## Questions about problems and risks\n\n- What are the most common complaints from users?\n- When did you last have a major outage, and what did it cost?\n- How do you back up data, and when did you last test a restore?\n- Which systems would hurt the business most if they stopped?\n\n## Questions about plans\n\n- What business changes are coming: new offices, growth, acquisitions or new applications?\n- Are there compliance or audit requirements you must meet?\n- What is your budget cycle, and who approves infrastructure spending?\n\n## Key terms\n\n- **Discovery:** structured questioning to understand needs and context.\n- **Critical system:** an application whose failure seriously affects the business.\n- **Restore test:** a check that backed-up data can actually be recovered.\n\n## Real-world example\n\nDuring discovery, an SI asks a school group when it last tested a backup restore. The IT head admits it has never been tested. A trial restore fails because the backup job had been silently excluding the student database for months. The customer immediately asks for a backup assessment, which leads to a new backup and storage solution.\n\n## Common mistakes\n\n- Asking only about products the customer wants to buy.\n- Not asking about outages, backups and critical systems.\n- Forgetting to ask about budget cycles and approvers.\n\n## Key takeaways\n\n- Ask about the current environment, problems and plans.\n- Questions about outages, backups and critical systems uncover real needs.\n- Understand the budget cycle and decision makers.",
+      "module": 4
+    }
+  ],
+  "sources": [
+    {
+      "title": "Microsoft Learn: free role-based training paths",
+      "url": "https://learn.microsoft.com/en-us/training/"
+    },
+    {
+      "title": "Cisco Networking Academy: networking and security courses",
+      "url": "https://www.netacad.com/"
+    },
+    {
+      "title": "TIA: ANSI/TIA-942 data centre infrastructure standard",
+      "url": "https://tiaonline.org/"
     }
   ],
   "assessment": {
-    "title": "IT Infrastructure Fundamentals: completion check",
-    "cadence": "ONE_TIME",
+    "title": "IT Infrastructure Basic: completion check",
     "level": "BASIC",
     "passMarkPercent": 70,
     "questions": [
-      { "position": 1, "type": "SINGLE", "text": "Which component runs applications for users?", "options": ["Compute", "Cooling", "Backup only", "Firewall rules"], "correct": ["Compute"], "points": 1 },
-      { "position": 2, "type": "SINGLE", "text": "Which model means equipment is owned and housed by the company?", "options": ["Cloud", "On-premise", "Hybrid", "Managed print"], "correct": ["On-premise"], "points": 1 },
-      { "position": 3, "type": "SINGLE", "text": "What does an SLA define?", "options": ["The product colour", "The supplier's response time, resolution time, and uptime", "The price list", "The customer's staff count"], "correct": ["The supplier's response time, resolution time, and uptime"], "points": 1 },
-      { "position": 4, "type": "MULTIPLE", "text": "Which stages belong to the infrastructure lifecycle? (Select all that apply)", "options": ["Planning", "Refresh", "Marketing campaign", "Deployment"], "correct": ["Planning", "Refresh", "Deployment"], "points": 2 },
-      { "position": 5, "type": "TRUE_FALSE", "text": "Warranty and an annual maintenance contract (AMC) are the same thing.", "options": ["True", "False"], "correct": ["False"], "points": 1 }
+      {
+        "type": "SINGLE",
+        "text": "What is the height of one rack unit (1U)?",
+        "options": [
+          "1 inch",
+          "1.75 inches (44.45 mm)",
+          "2 inches",
+          "19 inches"
+        ],
+        "correct": [
+          "1.75 inches (44.45 mm)"
+        ],
+        "points": 1,
+        "explanation": "1U is 1.75 inches. 19 inches is the standard rack width."
+      },
+      {
+        "type": "SINGLE",
+        "text": "Which service turns names into IP addresses?",
+        "options": [
+          "DHCP",
+          "DNS",
+          "NTP",
+          "UPS"
+        ],
+        "correct": [
+          "DNS"
+        ],
+        "points": 1,
+        "explanation": "DNS resolves names to IP addresses."
+      },
+      {
+        "type": "TRUE_FALSE",
+        "text": "Protecting servers with a UPS is enough; cooling does not need backup power.",
+        "options": [
+          "True",
+          "False"
+        ],
+        "correct": [
+          "False"
+        ],
+        "points": 1,
+        "explanation": "Without cooling, servers overheat even if they have power."
+      },
+      {
+        "type": "MULTIPLE",
+        "text": "Which are part of end-user computing?",
+        "options": [
+          "Laptops",
+          "Thin clients",
+          "Docking stations",
+          "Core switches"
+        ],
+        "correct": [
+          "Laptops",
+          "Thin clients",
+          "Docking stations"
+        ],
+        "points": 1,
+        "explanation": "Core switches are network infrastructure, not end-user computing."
+      },
+      {
+        "type": "SINGLE",
+        "text": "What does UEM help an organisation do?",
+        "options": [
+          "Cool the data centre",
+          "Manage and secure many device types from one console",
+          "Design cabling",
+          "Issue invoices"
+        ],
+        "correct": [
+          "Manage and secure many device types from one console"
+        ],
+        "points": 1,
+        "explanation": "Unified endpoint management enforces policies, deploys software and protects lost devices."
+      },
+      {
+        "type": "SINGLE",
+        "text": "Which question best uncovers backup risk?",
+        "options": [
+          "What colour are your racks?",
+          "When did you last test a restore?",
+          "How many monitors do you have?",
+          "Who is your favourite vendor?"
+        ],
+        "correct": [
+          "When did you last test a restore?"
+        ],
+        "points": 1,
+        "explanation": "Untested backups often fail when needed."
+      },
+      {
+        "type": "MATCHING",
+        "text": "Match each term to its meaning.",
+        "options": [
+          "LAN=Network within a building or campus",
+          "WAN=Network connecting sites",
+          "DHCP=Gives devices IP addresses automatically",
+          "VM=Software-based computer on a physical host"
+        ],
+        "correct": [],
+        "points": 1,
+        "explanation": "These are basic infrastructure terms."
+      }
     ]
   }
 }

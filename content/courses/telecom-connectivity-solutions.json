@@ -5,44 +5,181 @@
   "category": "TECHNICAL",
   "level": "INTERMEDIATE",
   "passMarkPercent": 70,
-  "description": "Leased lines, broadband, internet links, IP telephony and EPABX, service level metrics, and how to structure telecom contracts.",
+  "description": "VLANs, routing protocols, wireless design and WAN connectivity. You will be able to: design VLANs and inter-VLAN routing; choose between static and dynamic routing; plan Wi-Fi coverage and capacity; compare WAN links: MPLS, broadband and leased lines.",
+  "modules": [
+    {
+      "title": "VLANs and switching design",
+      "minutes": 45
+    },
+    {
+      "title": "Routing",
+      "minutes": 45
+    },
+    {
+      "title": "Wi-Fi design",
+      "minutes": 45
+    },
+    {
+      "title": "WAN connectivity",
+      "minutes": 30
+    }
+  ],
   "lessons": [
     {
       "position": 1,
-      "title": "Connectivity options for business",
+      "title": "VLANs and switching design",
       "type": "TEXT",
-      "body": "Business connectivity options include:\n\n- **Broadband:** shared access at lower cost, with variable speed. Suits small offices and non-critical use.\n- **Leased line:** a dedicated link with committed bandwidth, symmetric speeds, and a service level. Suits head offices, data centres, and critical branches.\n- **Fibre and wireless links:** physical or radio links for specific site needs.\n\nThe choice depends on how much bandwidth is needed, whether speed must be guaranteed, and the cost of downtime."
+      "body": "Modern LANs use managed switches and VLANs to separate traffic, improve security and control performance. Good switching design keeps networks fast, stable and easy to manage.\n\n## VLANs\n\nA **VLAN (virtual LAN)** splits one physical switch network into separate logical networks. IEEE 802.1Q defines how VLAN tags are added to Ethernet frames.\n\n- **Access ports** carry one VLAN to a device, such as a PC.\n- **Trunk ports** carry multiple VLANs between switches, or to access points and servers.\n- Traffic between VLANs must pass through a router or Layer 3 switch, where it can be controlled.\n\nTypical VLANs include staff, servers, voice, printers, CCTV, guests and network management.\n\n## Resilience in switching\n\n- **Spanning Tree Protocol (STP / RSTP):** prevents loops when switches are connected with redundant links.\n- **Link aggregation (LACP, IEEE 802.1AX):** combines several links into one logical link for more bandwidth and resilience.\n- **Stacking or multi-chassis link aggregation:** lets two switches act as one for redundancy.\n\n## Other switching features\n\n- **Quality of Service (QoS):** prioritises voice and video traffic.\n- **Port security and 802.1X:** control which devices can connect.\n- **PoE budget:** total power the switch can supply to PoE devices.\n\n## Key terms\n\n- **VLAN:** a logical network on shared switches.\n- **Trunk:** a link carrying multiple VLANs.\n- **STP:** a protocol that prevents switching loops.\n- **Layer 3 switch:** a switch that can also route between VLANs.\n\n## Real-world example\n\nAn office has one flat network for 300 devices, including CCTV cameras that send continuous video. Broadcast traffic and camera streams slow down PCs, and anyone can reach the camera recorder. The SI creates separate VLANs for staff, CCTV, voice and guests, routes between them on a Layer 3 core switch with access rules, and applies QoS for voice. Performance and security both improve.\n\n## Common mistakes\n\n- One flat network for all devices.\n- Redundant links without spanning tree or link aggregation, causing loops.\n- Exceeding the switch's PoE budget.\n\n## Key takeaways\n\n- Use VLANs to separate traffic, with routing and rules between them.\n- Use STP, link aggregation and stacking for resilience.\n- Apply QoS and check the PoE budget.",
+      "module": 1
     },
     {
       "position": 2,
-      "title": "Service level metrics",
+      "title": "Routing",
       "type": "TEXT",
-      "body": "Telecom contracts are judged by measurable service levels:\n\n- **Uptime:** the percentage of time the service is available, for example 99.9 percent.\n- **Mean time to repair (MTTR):** the average time to restore service after a fault.\n- **Latency and packet loss:** important for voice and video.\n- **Committed bandwidth:** the speed guaranteed, as opposed to best effort.\n\nAn uptime figure must be read with its measurement period. A percentage over a month allows more downtime than the same percentage over a day, so compare like with like."
+      "body": "Routing moves traffic between networks: between VLANs, between sites and to the internet. Routers and Layer 3 switches use routing tables to decide where to send each packet.\n\n## Types of routing\n\n- **Static routing:** routes configured manually. Simple and predictable for small networks, but does not adapt to failures automatically.\n- **Dynamic routing:** routers exchange information and adapt to changes.\n  - **OSPF (Open Shortest Path First):** a common interior routing protocol for enterprise networks.\n  - **BGP (Border Gateway Protocol):** the routing protocol of the internet, also used by enterprises with multiple ISPs or in large WANs.\n\n## Key routing concepts\n\n- **Default route:** where traffic goes when there is no more specific route, usually towards the internet.\n- **Route preference:** when several routes exist, the router picks the most specific match first, then the most preferred source.\n- **First-hop redundancy:** protocols such as VRRP give devices a virtual default gateway that survives a router failure.\n- **Route summarisation:** advertising one larger route instead of many small ones, making networks simpler and more stable.\n\n## Key terms\n\n- **Routing table:** the router's list of known networks and paths.\n- **OSPF:** an interior dynamic routing protocol.\n- **BGP:** the internet's routing protocol.\n- **VRRP:** Virtual Router Redundancy Protocol.\n\n## Real-world example\n\nA company with 30 sites uses static routes. When a link fails, engineers must change routes manually at several sites, causing hours of outage. The SI introduces OSPF across the WAN and VRRP at the head office core, so traffic reroutes automatically within seconds when a link or router fails.\n\n## Common mistakes\n\n- Static routes in large networks that need to adapt.\n- A single default gateway with no redundancy.\n- Poor address planning that prevents summarisation.\n\n## Key takeaways\n\n- Static routing suits small networks; OSPF and BGP suit larger ones.\n- Use first-hop redundancy to protect the default gateway.\n- Good address planning enables route summarisation and stability.",
+      "module": 2
     },
     {
       "position": 3,
-      "title": "IP telephony and EPABX",
+      "title": "Wi-Fi design",
       "type": "TEXT",
-      "body": "An EPABX (private branch exchange) is an on-site telephone system. IP telephony carries voice over the data network, using the same switches and internet link as other traffic.\n\nWhen moving voice to IP, plan for:\n\n- Enough bandwidth per call, with quality of service (QoS) set to prioritise voice.\n- Power backup for phones and network equipment, so calls still work during an outage.\n- Number porting and emergency calling requirements, which must be confirmed with the service provider.\n- Handsets, extensions, and call routing for each site."
+      "body": "Users expect Wi-Fi to work everywhere, for laptops, phones, voice calls and video. Good Wi-Fi depends on careful design, not just on buying more access points.\n\n## Wi-Fi standards\n\nThe Wi-Fi Alliance uses generation names for IEEE 802.11 standards:\n\n- **Wi-Fi 5:** 802.11ac, 5 GHz.\n- **Wi-Fi 6:** 802.11ax, 2.4 and 5 GHz, with better efficiency in busy environments.\n- **Wi-Fi 6E:** Wi-Fi 6 extended into the 6 GHz band, where national rules permit.\n- **Wi-Fi 7:** 802.11be, with wider channels and multi-link operation.\n\n## Design principles\n\n- **Design for capacity, not just coverage:** count users and devices per area and their applications.\n- **Signal strength:** voice and video often need a signal of about -67 dBm or better in all areas.\n- **Channel planning:** in 2.4 GHz, use only non-overlapping channels 1, 6 and 11; use 5 GHz (and 6 GHz where available) for most clients.\n- **Access point placement:** ceilings, away from metal obstructions; consider wall materials such as concrete and glass.\n- **Site survey:** predictive surveys using floor plans and software, plus on-site validation surveys.\n- **Security:** WPA3 where supported, 802.1X for staff, and a separate, isolated guest network.\n\n## Key terms\n\n- **dBm:** a unit of signal strength; values closer to zero are stronger.\n- **Channel:** a frequency range used by an access point.\n- **Co-channel interference:** access points on the same channel interfering with each other.\n- **WPA3:** the current Wi-Fi security standard.\n\n## Real-world example\n\nA college installs many access points at maximum power, all on default channels. Students complain of slow Wi-Fi despite strong signal bars. A survey finds heavy co-channel interference. The SI reduces power, assigns channels properly, disables unnecessary 2.4 GHz radios and adds access points in lecture halls based on student numbers. Speeds improve without much new hardware.\n\n## Common mistakes\n\n- Designing only for coverage.\n- All access points at maximum power on the same channels.\n- No validation survey after installation.\n\n## Key takeaways\n\n- Know Wi-Fi 6, 6E and 7, and design for capacity as well as coverage.\n- Aim for about -67 dBm for voice and video, and plan channels carefully.\n- Survey before and after installation and secure staff and guest access.",
+      "module": 3
     },
     {
       "position": 4,
-      "title": "Structuring telecom contracts and discovery",
+      "title": "WAN connectivity",
       "type": "TEXT",
-      "body": "Telecom contracts run for fixed terms, usually one to three years. Check the start date, early termination charges, price escalation clauses, service credits for missed service levels, and the process for raising faults.\n\nDiscovery questions:\n\n- Which sites need connectivity, and what bandwidth does each use at peak?\n- What does downtime cost per hour at each site?\n- What is the current contract term, cost, and renewal date?\n- Is voice on a traditional EPABX, and is it planned to move to IP?\n- Which service levels must the contract guarantee?"
+      "body": "WAN connectivity links branches, data centres and cloud services. The right mix of links balances cost, performance and reliability.\n\n## Common WAN and internet options in India\n\n- **Broadband (fibre to the premises):** affordable and fast, usually best-effort with shared capacity.\n- **Internet leased line (ILL):** dedicated, symmetric bandwidth with service level agreements.\n- **MPLS:** private WAN from a telecom provider, with predictable performance and SLAs; higher cost.\n- **4G/5G:** wireless links, useful as backup or for temporary sites.\n- **Point-to-point links:** dedicated links between two sites, by fibre or radio.\n\nTelecom and internet services in India are provided by operators licensed by the Department of Telecommunications.\n\n## Choosing links\n\n- Critical sites: two diverse links from different providers, using different physical paths where possible.\n- Cloud-heavy organisations: direct internet access at branches rather than routing all traffic through head office.\n- Voice and video: links with low latency, jitter and packet loss.\n- Cost: balance premium links with affordable broadband using SD-WAN.\n\n## Measuring link quality\n\n- **Bandwidth:** capacity of the link.\n- **Latency:** delay, measured in milliseconds.\n- **Jitter:** variation in delay; important for voice and video.\n- **Packet loss:** percentage of packets lost.\n\n## Key terms\n\n- **Diverse links:** links that use different providers or physical paths.\n- **SLA:** service level agreement on availability and repair time.\n- **Latency / jitter / packet loss:** measures of link quality.\n- **Last mile:** the final connection from the provider to the customer site.\n\n## Real-world example\n\nA logistics company buys two links for each warehouse from the same provider, assuming they are redundant. A single fibre cut on the road outside takes both down, because they share the same last-mile cable. For the redesign, the SI chooses a second provider using a different path, and adds 4G as a third backup.\n\n## Common mistakes\n\n- Two links from the same provider on the same path.\n- Ignoring latency and jitter for voice and video.\n- Backhauling all cloud traffic through head office.\n\n## Key takeaways\n\n- Choose from broadband, ILL, MPLS, 4G/5G and point-to-point links.\n- Use diverse providers and paths for critical sites.\n- Measure bandwidth, latency, jitter and packet loss.",
+      "module": 4
+    }
+  ],
+  "sources": [
+    {
+      "title": "IEEE 802 LAN/MAN Standards Committee: Ethernet (802.3), VLANs (802.1Q) and Wi-Fi (802.11)",
+      "url": "https://www.ieee802.org/"
+    },
+    {
+      "title": "Wi-Fi Alliance: Wi-Fi 6, 6E and 7 certification",
+      "url": "https://www.wi-fi.org/"
+    },
+    {
+      "title": "Cisco Networking Academy: networking and security courses",
+      "url": "https://www.netacad.com/"
+    },
+    {
+      "title": "Department of Telecommunications: licensing and spectrum rules in India",
+      "url": "https://dot.gov.in/"
     }
   ],
   "assessment": {
-    "title": "Telecom and Connectivity Solutions: completion check",
-    "cadence": "ONE_TIME",
+    "title": "Networking Intermediate: completion check",
     "level": "INTERMEDIATE",
     "passMarkPercent": 70,
     "questions": [
-      { "position": 1, "type": "SINGLE", "text": "Which link gives committed bandwidth and a service level?", "options": ["Shared broadband", "Leased line", "Dial-up", "Public Wi-Fi"], "correct": ["Leased line"], "points": 1 },
-      { "position": 2, "type": "SINGLE", "text": "What does MTTR measure?", "options": ["Monthly bandwidth use", "Average time to restore service after a fault", "Number of phone extensions", "Contract length"], "correct": ["Average time to restore service after a fault"], "points": 1 },
-      { "position": 3, "type": "SINGLE", "text": "Why must an uptime figure be read with its measurement period?", "options": ["Longer periods allow more downtime for the same percentage", "The period sets the price", "It has no effect", "Shorter periods are always worse"], "correct": ["Longer periods allow more downtime for the same percentage"], "points": 1 },
-      { "position": 4, "type": "MULTIPLE", "text": "Which should be planned when moving voice to IP telephony? (Select all that apply)", "options": ["Bandwidth per call with QoS for voice", "Power backup for phones and network equipment", "Printer toner levels", "Emergency calling requirements"], "correct": ["Bandwidth per call with QoS for voice", "Power backup for phones and network equipment", "Emergency calling requirements"], "points": 2 },
-      { "position": 5, "type": "TRUE_FALSE", "text": "Early termination charges and price escalation clauses are worth checking in a telecom contract.", "options": ["True", "False"], "correct": ["True"], "points": 1 }
+      {
+        "type": "SINGLE",
+        "text": "Which standard defines VLAN tagging?",
+        "options": [
+          "IEEE 802.11",
+          "IEEE 802.1Q",
+          "IEEE 802.3af",
+          "RFC 1918"
+        ],
+        "correct": [
+          "IEEE 802.1Q"
+        ],
+        "points": 1,
+        "explanation": "802.1Q adds VLAN tags to Ethernet frames."
+      },
+      {
+        "type": "SINGLE",
+        "text": "Which protocol prevents loops in a switched network with redundant links?",
+        "options": [
+          "OSPF",
+          "STP/RSTP",
+          "BGP",
+          "DHCP"
+        ],
+        "correct": [
+          "STP/RSTP"
+        ],
+        "points": 1,
+        "explanation": "Spanning tree blocks redundant paths to prevent loops."
+      },
+      {
+        "type": "SINGLE",
+        "text": "Which is the routing protocol of the internet?",
+        "options": [
+          "OSPF",
+          "RIP",
+          "BGP",
+          "VRRP"
+        ],
+        "correct": [
+          "BGP"
+        ],
+        "points": 1,
+        "explanation": "BGP exchanges routes between networks on the internet."
+      },
+      {
+        "type": "MULTIPLE",
+        "text": "Which 2.4 GHz channels do not overlap?",
+        "options": [
+          "1",
+          "6",
+          "11",
+          "3"
+        ],
+        "correct": [
+          "1",
+          "6",
+          "11"
+        ],
+        "points": 1,
+        "explanation": "Channels 1, 6 and 11 are the non-overlapping set."
+      },
+      {
+        "type": "SINGLE",
+        "text": "What signal strength is commonly targeted for voice and video over Wi-Fi?",
+        "options": [
+          "-90 dBm",
+          "-80 dBm",
+          "-67 dBm or better",
+          "0 dBm"
+        ],
+        "correct": [
+          "-67 dBm or better"
+        ],
+        "points": 1,
+        "explanation": "-67 dBm is a widely used design target for voice-grade Wi-Fi."
+      },
+      {
+        "type": "TRUE_FALSE",
+        "text": "Two links from the same provider on the same physical path give full redundancy.",
+        "options": [
+          "True",
+          "False"
+        ],
+        "correct": [
+          "False"
+        ],
+        "points": 1,
+        "explanation": "A single cable cut or provider fault can take both down."
+      },
+      {
+        "type": "MATCHING",
+        "text": "Match each Wi-Fi generation to its standard.",
+        "options": [
+          "Wi-Fi 5=802.11ac",
+          "Wi-Fi 6=802.11ax",
+          "Wi-Fi 7=802.11be",
+          "Wi-Fi 6E=802.11ax in 6 GHz"
+        ],
+        "correct": [],
+        "points": 1,
+        "explanation": "The Wi-Fi Alliance uses generation names for IEEE 802.11 standards."
+      }
     ]
   }
 }
