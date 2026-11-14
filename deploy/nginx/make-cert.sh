@@ -15,9 +15,13 @@ mkdir -p "$dir"
 san="DNS:${host}"
 [ -n "$ip" ] && san="${san},IP:${ip}"
 
+# On Windows (Git Bash, MSYS2), stop the shell rewriting "/CN=..." into a Windows path.
+# Harmless on Linux.
+export MSYS_NO_PATHCONV=1 MSYS2_ARG_CONV_EXCL='*'
+
 openssl req -x509 -newkey rsa:2048 -sha256 -days 825 -nodes \
   -keyout "$dir/lms.key" -out "$dir/lms.crt" \
-  -subj "/CN=${host}/O=3C IT Solutions and Telecoms India Ltd" \
+  -subj "/CN=${host}/O=3C IT SOLUTIONS & TELECOMS INDIA LIMITED" \
   -addext "subjectAltName=${san}"
 chmod 600 "$dir/lms.key"
 echo "Wrote $dir/lms.crt and $dir/lms.key (valid 825 days)."
