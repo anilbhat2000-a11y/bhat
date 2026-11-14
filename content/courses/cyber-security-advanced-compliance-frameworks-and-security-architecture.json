@@ -29,29 +29,55 @@
       "position": 1,
       "title": "Frameworks",
       "type": "TEXT",
-      "body": "Frameworks give a structured way to build and measure a security programme. Customers often ask which framework a solution supports.\n\n## ISO/IEC 27001\n\nAn international standard for an **information security management system (ISMS)**. Organisations can be certified. It requires risk assessment and treatment, with a reference set of controls in Annex A (in the 2022 version, grouped into organisational, people, physical and technological controls).\n\n## NIST Cybersecurity Framework (CSF)\n\nA widely used framework organised into functions. Version 2.0 has six: **Govern, Identify, Protect, Detect, Respond, Recover**. Useful for describing maturity and planning improvements.\n\n## Indian context\n\nSector regulators (for example in banking and insurance) and CERT-In directions add specific requirements, such as incident reporting and log retention. Check which apply to each customer.",
+      "body": "Security frameworks give organisations a structured way to manage cyber risk. Customers, regulators and auditors increasingly expect organisations to follow a recognised framework.\n\n## Major frameworks and standards\n\n- **NIST Cybersecurity Framework (CSF) 2.0:** published by the US National Institute of Standards and Technology on 26 February 2024. It organises cyber security outcomes into six functions: **Govern, Identify, Protect, Detect, Respond and Recover.** CSF 2.0 added \"Govern\" to emphasise leadership, risk strategy and supply chain risk. It is voluntary and widely used worldwide.\n- **ISO/IEC 27001:2022:** the international standard for an information security management system (ISMS), against which organisations can be certified. Its Annex A lists **93 controls** grouped into four themes: organisational (37), people (8), physical (14) and technological (34). The transition period from the 2013 version ended on 31 October 2025.\n- **CIS Critical Security Controls:** a prioritised set of 18 controls with implementation groups, practical for organisations starting out.\n- **PCI DSS:** required for organisations that store, process or transmit payment card data; version 4.0 and its update 4.0.1 are current.\n\n## Indian regulatory context\n\n- **CERT-In directions (2022):** incident reporting within six hours, log retention for 180 days and time synchronisation.\n- **Digital Personal Data Protection Act, 2023** and the DPDP Rules, 2025: reasonable security safeguards and breach notification.\n- **Sector regulators:** RBI for banks and payment companies, SEBI for market entities (including its cyber security and cyber resilience framework) and IRDAI for insurers issue their own cyber security requirements.\n\n## Key terms\n\n- **ISMS:** information security management system.\n- **Control:** a measure that reduces risk.\n- **Certification:** independent confirmation that an organisation meets a standard such as ISO/IEC 27001.\n- **Framework:** a structured set of guidelines and outcomes.\n\n## Real-world example\n\nA mid-sized IT services company wants to bid for a bank's managed services contract. The bank requires ISO/IEC 27001 certification and alignment with RBI's expectations for outsourced service providers. The company uses NIST CSF 2.0 to assess its overall maturity, builds an ISMS, implements the required Annex A controls and achieves certification within a year, allowing it to bid.\n\n## Common mistakes\n\n- Treating certification as a one-time project.\n- Choosing a framework without considering customer and regulatory needs.\n- Copying policies without implementing them.\n\n## Key takeaways\n\n- NIST CSF 2.0 has six functions: Govern, Identify, Protect, Detect, Respond, Recover.\n- ISO/IEC 27001:2022 has 93 Annex A controls in four themes and supports certification.\n- Indian organisations must also meet CERT-In, DPDP and sector regulator requirements.",
       "module": 1
     },
     {
       "position": 2,
       "title": "Gap assessment",
       "type": "TEXT",
-      "body": "A gap assessment compares a customer's current security against a framework or policy and lists what is missing.\n\n## Steps\n\n1. **Agree the scope:** sites, systems, business units, and the framework to use.\n2. **Collect evidence:** policies, configurations, interviews, tool reports.\n3. **Assess each control:** in place, partially in place, or missing, with evidence.\n4. **Rate the risk** of each gap: likelihood and impact.\n5. **Recommend actions** with priorities, effort and cost.\n\n## Presenting results\n\nA heat map of gaps by risk, plus a prioritised action list, is easy for leaders to act on. The action list becomes the roadmap, and often the next projects.\n\n> This module includes a lab: assess a sample company against a short list of controls.",
+      "body": "A gap assessment compares an organisation's current security against a target, such as a framework, a regulation or a customer requirement. It shows what is missing and what to prioritise.\n\n## Running a gap assessment\n\n1. **Define scope:** which business units, systems and locations are included.\n2. **Choose the reference:** for example NIST CSF 2.0, ISO/IEC 27001:2022 Annex A, CIS Controls or a regulator's requirements.\n3. **Collect evidence:** policies, configurations, interviews, technical scans and logs.\n4. **Rate each control or outcome:** for example not implemented, partially implemented or fully implemented, or a maturity score.\n5. **Identify gaps and risks:** what is missing and how it could be exploited.\n6. **Prioritise:** by risk to the business, regulatory deadlines and effort.\n7. **Report:** a clear summary for leadership and a detailed list for technical teams.\n\n## Evidence matters\n\nA policy that exists on paper but is not followed is still a gap. Good assessments check what actually happens, for example by sampling user access reviews, patch records or backup restore tests.\n\n## Key terms\n\n- **Gap assessment:** comparison of current state against a target.\n- **Maturity level:** a rating of how well a capability is established and managed.\n- **Evidence:** proof that a control operates, such as records or configurations.\n- **Risk rating:** a combination of likelihood and impact.\n\n## Real-world example\n\nA school group asks for help after a ransomware scare. A gap assessment against the CIS Controls finds that asset inventory, MFA, patching and offline backups are all weak, while it has a modern firewall. The report shows that spending on MFA and backups first would reduce the most risk for the least cost. Leadership approves a phased plan.\n\n## Common mistakes\n\n- Assessing policies without checking whether they are followed.\n- Producing a long list of gaps with no prioritisation.\n- Not involving business owners in rating risks.\n\n## Key takeaways\n\n- Compare current state to a chosen framework or requirement using evidence.\n- Prioritise gaps by risk, deadlines and effort.\n- Report clearly for both leadership and technical teams.",
       "module": 2
     },
     {
       "position": 3,
       "title": "Security architecture",
       "type": "TEXT",
-      "body": "Defence in depth means layering controls so that no single failure exposes critical assets.\n\n## Layers to design\n\n- **Identity:** single sign-on, MFA everywhere, privileged access management for admin accounts.\n- **Endpoint:** EDR on laptops and servers, device encryption, patch management.\n- **Network:** segmentation, next-generation firewalls, secure remote access.\n- **Email and web:** filtering, sandboxing, DNS security.\n- **Data:** classification, data loss prevention, encryption.\n- **Backup and recovery:** immutable or offline copies, tested restores.\n- **Detection and response:** central logging (SIEM), monitoring by a SOC, incident response plans.\n\n## Zero trust\n\nVerify every user, device and request; give least privilege; assume breach and limit blast radius.",
+      "body": "Security architecture is the design of security controls across an organisation's systems, so they work together to protect what matters most. Modern architecture assumes that attackers may already be inside.\n\n## Key architectural principles\n\n- **Zero trust:** never trust by default; verify every user, device and request based on identity, device health and context. NIST SP 800-207 describes zero trust architecture.\n- **Identity as the new perimeter:** strong identity management, single sign-on, MFA and least privilege, as users work from anywhere.\n- **Segmentation:** separate networks and workloads so that one compromise does not spread.\n- **Defence in depth:** multiple layers of controls.\n- **Secure by design:** build security into systems from the start.\n- **Resilience:** plan to detect, respond and recover, not just to prevent.\n\n## Common architectural building blocks\n\n- **Identity and access management (IAM)** with privileged access management (PAM) for administrators.\n- **Secure access service edge (SASE)** or security service edge (SSE): cloud-delivered security for users wherever they are.\n- **Network segmentation and micro-segmentation** in data centres and cloud.\n- **Endpoint security with EDR.**\n- **Data protection:** classification, encryption and data loss prevention.\n- **Security monitoring:** SIEM and SOC.\n- **Backup and recovery:** immutable and offline copies.\n\n## Key terms\n\n- **PAM:** privileged access management for administrator accounts.\n- **SASE / SSE:** cloud-delivered network and security services.\n- **Micro-segmentation:** fine-grained segmentation between individual workloads.\n- **Secure by design:** security built in from the start.\n\n## Real-world example\n\nA company's staff work from offices, home and customer sites. All traffic is sent back to head office through a VPN, causing slow cloud applications and gaps in protection. The SI designs an architecture with single sign-on and phishing-resistant MFA, a cloud-delivered SSE service for web and application access, EDR on all endpoints and PAM for administrators. Security improves and users get faster access.\n\n## Common mistakes\n\n- Relying on the network perimeter alone.\n- Leaving administrator accounts unmanaged.\n- Adding tools that do not work together.\n\n## Key takeaways\n\n- Design around zero trust, identity, segmentation, defence in depth and resilience.\n- Use IAM and PAM, SASE/SSE, EDR, data protection, monitoring and resilient backups.\n- Make controls work together as one architecture.",
       "module": 3
     },
     {
       "position": 4,
       "title": "Security roadmaps",
       "type": "TEXT",
-      "body": "A security roadmap turns gap findings into a funded plan over one to three years.\n\n## Building the roadmap\n\n- **Quick wins first:** MFA, patching, backup protection; low cost, high risk reduction.\n- **Foundations next:** identity, endpoint detection, logging.\n- **Maturity later:** advanced detection, automation, data protection programmes.\n\n## For each item\n\nState the risk it reduces, the cost, the effort, the owner and the timeline. Group items into phases aligned with budget cycles.\n\n## Review\n\nRe-assess at least yearly; threats, business and regulations change. A roadmap is also a sales plan: each phase is a project we can propose.",
+      "body": "A security roadmap turns assessment findings and architecture goals into a practical plan over time. It helps leadership fund security in stages and track progress.\n\n## Building a roadmap\n\n1. **Start from risks and gaps:** use the gap assessment and business priorities.\n2. **Group work into initiatives:** such as identity and MFA, endpoint security, backup resilience, security monitoring and awareness.\n3. **Prioritise:** quick wins and high-risk items first, regulatory deadlines next, then longer-term improvements.\n4. **Phase the work:** for example 0–3 months, 3–12 months and 12–24 months.\n5. **Estimate cost and effort:** including people, technology and services.\n6. **Define measures of success:** such as MFA coverage, patching times and restore test results.\n7. **Assign owners and governance:** regular reviews with leadership.\n\n## Example quick wins\n\n- MFA for email and remote access.\n- Removing local administrator rights.\n- Offline or immutable backups and restore tests.\n- Patching internet-facing systems.\n- Phishing awareness training.\n\n## Communicating with leadership\n\n- Explain risks in business terms: downtime, fines, lost customers and reputation.\n- Show how each initiative reduces specific risks.\n- Report progress with simple measures and a red/amber/green status.\n\n## Key terms\n\n- **Roadmap:** a time-phased plan of initiatives.\n- **Quick win:** a low-effort, high-impact improvement.\n- **Key risk indicator:** a measure showing the level of a specific risk.\n- **Governance:** the oversight and decision-making structure.\n\n## Real-world example\n\nAfter a gap assessment, a healthcare company's roadmap starts with MFA, immutable backups and patching of internet-facing systems in the first quarter. Year one adds EDR with a managed SOC, and year two focuses on segmentation and data protection to support DPDP obligations. Quarterly reviews with the board show steady progress, and the budget is approved year after year.\n\n## Common mistakes\n\n- A roadmap that is a shopping list of products.\n- No owners or measures of success.\n- Ignoring quick wins while planning large projects.\n\n## Key takeaways\n\n- Build the roadmap from risks and gaps, grouped into initiatives.\n- Prioritise quick wins, high risks and regulatory deadlines, then phase the rest.\n- Assign owners, measure progress and report in business terms.",
       "module": 4
+    }
+  ],
+  "sources": [
+    {
+      "title": "NIST Cybersecurity Framework (CSF) 2.0",
+      "url": "https://www.nist.gov/cyberframework"
+    },
+    {
+      "title": "ISO/IEC 27001:2022: information security management systems",
+      "url": "https://www.iso.org/standard/27001"
+    },
+    {
+      "title": "CIS Critical Security Controls",
+      "url": "https://www.cisecurity.org/controls"
+    },
+    {
+      "title": "NIST SP 800-207: Zero Trust Architecture",
+      "url": "https://csrc.nist.gov/pubs/sp/800/207/final"
+    },
+    {
+      "title": "CERT-In: incident reporting, advisories and the cyber security directions of 28 April 2022",
+      "url": "https://www.cert-in.org.in/"
+    },
+    {
+      "title": "MeitY: Digital Personal Data Protection Act, 2023 and Rules",
+      "url": "https://www.meity.gov.in/"
     }
   ],
   "assessment": {
@@ -61,78 +87,106 @@
     "questions": [
       {
         "type": "SINGLE",
-        "text": "What does ISO/IEC 27001 specify?",
+        "text": "Which function was added in NIST CSF 2.0?",
         "options": [
-          "An information security management system",
-          "A cable standard",
-          "A GST rule",
-          "A UPS rating"
+          "Identify",
+          "Protect",
+          "Govern",
+          "Recover"
         ],
         "correct": [
-          "An information security management system"
+          "Govern"
         ],
-        "points": 1
+        "points": 1,
+        "explanation": "CSF 2.0 (February 2024) added Govern to the original five functions."
       },
       {
         "type": "MULTIPLE",
-        "text": "Which are functions of NIST CSF 2.0? Select all that apply.",
+        "text": "Which are the six functions of NIST CSF 2.0?",
         "options": [
           "Govern",
+          "Identify",
+          "Protect",
           "Detect",
-          "Recover",
-          "Advertise"
+          "Respond",
+          "Recover"
         ],
         "correct": [
           "Govern",
+          "Identify",
+          "Protect",
           "Detect",
+          "Respond",
           "Recover"
         ],
-        "points": 2
+        "points": 1,
+        "explanation": "All six are CSF 2.0 functions."
       },
       {
         "type": "SINGLE",
-        "text": "What is the output of a gap assessment?",
+        "text": "How many Annex A controls does ISO/IEC 27001:2022 contain?",
         "options": [
-          "Missing controls rated by risk, with recommended actions",
-          "A firewall configuration",
-          "An invoice",
-          "A network diagram only"
+          "114",
+          "93",
+          "18",
+          "64"
         ],
         "correct": [
-          "Missing controls rated by risk, with recommended actions"
+          "93"
         ],
-        "points": 1
+        "points": 1,
+        "explanation": "The 2022 version has 93 controls in four themes; the 2013 version had 114."
       },
       {
         "type": "TRUE_FALSE",
-        "text": "Zero trust means trusting every device on the internal network.",
+        "text": "A gap assessment should check whether policies are actually followed, not just whether they exist.",
         "options": [
           "True",
           "False"
         ],
         "correct": [
-          "False"
+          "True"
         ],
-        "points": 1
+        "points": 1,
+        "explanation": "Evidence of operation matters more than documents."
       },
       {
-        "type": "MATCHING",
-        "text": "Match each control to its layer.",
+        "type": "SINGLE",
+        "text": "Which NIST publication describes zero trust architecture?",
         "options": [
-          "Privileged access management=Identity",
-          "EDR=Endpoint",
-          "SIEM and SOC=Detection and response"
+          "SP 800-207",
+          "SP 800-63B",
+          "SP 800-145",
+          "SP 800-34"
         ],
-        "correct": [],
-        "points": 3
+        "correct": [
+          "SP 800-207"
+        ],
+        "points": 1,
+        "explanation": "SP 800-207 defines zero trust architecture."
+      },
+      {
+        "type": "SINGLE",
+        "text": "Which is a typical security roadmap quick win?",
+        "options": [
+          "Rebuilding the whole data centre",
+          "Enabling MFA for email and remote access",
+          "Replacing every laptop",
+          "Changing the company logo"
+        ],
+        "correct": [
+          "Enabling MFA for email and remote access"
+        ],
+        "points": 1,
+        "explanation": "MFA is low effort and blocks many attacks."
       },
       {
         "type": "SHORT_ANSWER",
-        "text": "A customer with a limited budget asks what to do first after a gap assessment. What would you recommend and why?",
+        "text": "In two or three sentences, explain why Indian organisations need more than an international framework to be compliant.",
         "options": [],
         "correct": [],
-        "points": 4,
-        "explanation": "Model answer: quick wins with high risk reduction and low cost: MFA everywhere, patching critical systems, protecting and testing backups, and email security; then build foundations in later phases."
+        "points": 1,
+        "explanation": "International frameworks such as ISO/IEC 27001 and NIST CSF guide good practice, but Indian law adds specific duties. These include CERT-In's six-hour reporting and 180-day log retention, the DPDP Act's safeguards and breach notice, and sector regulators' rules."
       }
     ]
   }

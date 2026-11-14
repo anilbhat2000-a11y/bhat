@@ -29,29 +29,51 @@
       "position": 1,
       "title": "Cluster sizing",
       "type": "TEXT",
-      "body": "GPU sizing starts from the workload: the model size, whether it is training or inference, and the required speed.\n\n## Memory first\n\nA model must fit in GPU memory. A rough guide for inference: each parameter needs about 2 bytes at 16-bit precision. A 7-billion-parameter model therefore needs about 14 GB for its weights alone, plus memory for the context and batch. Lower precision (quantisation) reduces this.\n\nTraining needs much more memory per parameter than inference, because gradients and optimiser states are stored too; large models are spread across many GPUs.\n\n## Throughput\n\n- For inference: requests per second and response time targets decide how many GPUs.\n- For training: dataset size, model size and the time allowed decide the GPU count.\n\n## Validate\n\nUse OEM and software vendor sizing guides, and benchmark with the customer's real workload when possible. State every assumption in the sizing.\n\n> This module includes a lab: size GPUs for a sample inference workload.",
+      "body": "Cluster sizing turns workload requirements into a specific number of GPUs, servers and supporting infrastructure. Good sizing balances performance, cost and future growth.\n\n## Sizing for training\n\n- **Model size and precision:** decide GPU memory needs, including model weights, optimiser states and activations, which can be several times the size of the weights.\n- **Dataset size and number of training runs:** determine total compute needed.\n- **Target time to train:** how quickly results are needed; more GPUs shorten time if the software scales well.\n- **Scaling efficiency:** adding GPUs rarely gives perfectly linear speed-up; communication overhead grows.\n- **Benchmarks:** MLPerf Training results from MLCommons help compare systems on standard tasks.\n\n## Sizing for inference\n\n- **Model memory:** the model must fit in GPU memory, plus memory for the key-value cache that grows with conversation length and concurrent users in language models.\n- **Throughput:** requests or tokens per second needed at peak.\n- **Latency:** time to first token and time per token for interactive applications.\n- **Concurrency:** number of simultaneous users.\n- **Benchmarks and tests:** MLPerf Inference results and, best of all, tests with the customer's own model and prompts.\n\n## Sizing for HPC\n\n- Application scaling behaviour, memory per core, and input/output patterns.\n- Licence costs for commercial software, which may be per core.\n\n## Key terms\n\n- **Scaling efficiency:** how well performance grows as resources are added.\n- **Key-value (KV) cache:** memory used by language models during inference to store context.\n- **Throughput / latency:** volume of work per second / time per response.\n- **MLPerf:** industry benchmarks from MLCommons.\n\n## Real-world example\n\nA customer wants an internal chatbot for 2,000 employees, with up to 200 using it at the same time. The SI tests the chosen model on candidate GPUs, measuring tokens per second and latency at different concurrency levels. Results show that two servers with four GPUs each meet the peak load with headroom, while one larger server would struggle at peak. The sizing is based on measured data, not guesswork.\n\n## Common mistakes\n\n- Sizing training memory using only model weights.\n- Sizing inference for average users instead of peak concurrency.\n- Relying on vendor marketing numbers instead of tests.\n\n## Key takeaways\n\n- Training sizing depends on model, data, time to train and scaling efficiency.\n- Inference sizing depends on memory, KV cache, throughput, latency and concurrency.\n- Use benchmarks such as MLPerf and test with the customer's own workload.",
       "module": 1
     },
     {
       "position": 2,
       "title": "Network and storage design",
       "type": "TEXT",
-      "body": "GPUs are only fast if data reaches them fast enough.\n\n## Networking\n\n- **Inside a server:** high-speed GPU-to-GPU links connect the GPUs in one node.\n- **Between servers:** low-latency, high-bandwidth fabrics such as InfiniBand or RDMA over Ethernet (RoCE) for multi-node training.\n- Separate networks are common for compute traffic, storage traffic and management.\n\n## Storage\n\n- Training reads large datasets repeatedly; slow storage leaves GPUs idle.\n- **Parallel file systems** spread data across many storage servers so all nodes can read at high speed.\n- Use tiers: fast flash for active datasets, cheaper capacity storage for archives.\n\n## Facilities\n\nGPU servers draw a lot of power and produce a lot of heat; check rack power density and cooling (often liquid cooling for dense deployments).",
+      "body": "Network and storage design for AI and HPC must match the compute design. An unbalanced design wastes expensive GPUs.\n\n## Network design steps\n\n1. **Choose the fabric:** InfiniBand or high-performance Ethernet with RoCE, based on scale, skills, existing standards and budget.\n2. **Bandwidth per GPU:** large training clusters commonly use 400 Gbps or more per GPU for the compute fabric.\n3. **Topology:** non-blocking fat-tree or rail-optimised designs for training; inference clusters can often use simpler designs.\n4. **Separate networks:** compute, storage, in-band management and out-of-band management.\n5. **Cabling and optics:** plan transceivers, cable types and lengths, which are a significant part of the cost.\n6. **Growth:** design the fabric so more nodes can be added without rebuilding.\n\n## Storage design steps\n\n1. **Capacity:** datasets, checkpoints, models, and results, with growth.\n2. **Throughput:** enough read bandwidth to keep GPUs busy, and write bandwidth for checkpoints.\n3. **Tiers:** high-performance parallel file system on NVMe for active work; capacity or object storage for archives.\n4. **Data protection:** backups or replicas for important datasets and models.\n5. **Access:** support for the protocols and tools users need.\n\n## Key terms\n\n- **Fat-tree:** a non-blocking network topology common in clusters.\n- **Rail-optimised:** a design where each GPU position connects to its own network \"rail\".\n- **Oversubscription:** when total possible traffic exceeds uplink capacity.\n- **Object storage:** scalable storage accessed through APIs, suited to archives and datasets.\n\n## Real-world example\n\nA design for a 32-node GPU training cluster originally includes an oversubscribed Ethernet network to save money. Simulations of the planned training jobs show that communication time would double. The SI revises the design to a non-blocking rail-optimised fabric and adds a parallel file system sized for checkpoint bursts. The higher network cost is justified by much shorter training times.\n\n## Common mistakes\n\n- Oversubscribed fabrics for training.\n- Forgetting optics and cabling costs.\n- Sizing storage capacity but not throughput.\n\n## Key takeaways\n\n- Choose the fabric and bandwidth per GPU, with non-blocking topology for training.\n- Separate compute, storage and management networks.\n- Size storage for both capacity and throughput, with tiers and protection.",
       "module": 2
     },
     {
       "position": 3,
       "title": "Software stack and scheduling",
       "type": "TEXT",
-      "body": "Hardware is useless without a working software stack.\n\n## Layers\n\n- **Operating system and drivers:** a supported Linux distribution and GPU drivers.\n- **GPU computing libraries** from the GPU vendor.\n- **Containers:** package frameworks and dependencies consistently.\n- **Frameworks:** such as PyTorch or TensorFlow for training and inference.\n- **Orchestration and scheduling:** an HPC scheduler (such as Slurm) or Kubernetes to share the cluster between users and jobs.\n- **Monitoring:** GPU utilisation, temperatures, job status.\n\n## Sharing the cluster\n\nDefine how users submit jobs, how GPUs are allocated, quotas, and priorities. Poor scheduling wastes expensive GPU time.",
+      "body": "Hardware alone does not make a usable AI or HPC platform. The software stack and job scheduling let users run work reliably, share resources fairly and keep the system secure.\n\n## The software stack\n\n- **Operating system:** usually Linux distributions supported by the hardware vendors.\n- **Drivers and libraries:** GPU drivers, CUDA or ROCm, communication libraries and math libraries.\n- **Containers:** packaging software and dependencies so they run consistently, using tools such as Docker-compatible runtimes or Apptainer in HPC.\n- **Frameworks:** PyTorch, TensorFlow and JAX for AI; MPI-based applications for HPC.\n- **Model serving:** inference servers that handle requests, batching and scaling.\n- **MLOps tools:** experiment tracking, model registries and deployment pipelines.\n\n## Scheduling and orchestration\n\n- **Slurm:** a widely used open-source workload manager for HPC and AI training clusters. It queues jobs, allocates GPUs and enforces fair-share policies.\n- **Kubernetes:** a container orchestration platform common for inference and MLOps, with GPU support through device plugins and operators.\n- **Policies:** quotas, priorities and fair-share rules so that one user or project does not monopolise the cluster.\n\n## Operations\n\n- Monitor GPU utilisation, temperatures, errors and job efficiency.\n- Keep drivers and firmware updated in tested combinations.\n- Manage user access, secure data and log activity.\n\n## Key terms\n\n- **Container:** a packaged application with its dependencies.\n- **Slurm:** an HPC and AI workload manager.\n- **Kubernetes:** a container orchestration platform.\n- **MLOps:** practices for deploying and operating ML models reliably.\n\n## Real-world example\n\nA university's GPU servers are shared by booking time on a spreadsheet. Some users hold GPUs for days without using them, while others wait. The SI deploys Slurm with fair-share policies and containerised software environments. GPU utilisation rises sharply, waiting times fall, and researchers stop fighting over machines.\n\n## Common mistakes\n\n- Installing software directly on hosts, causing version conflicts.\n- No scheduler or fair-share policies.\n- Not monitoring GPU utilisation.\n\n## Key takeaways\n\n- The stack includes OS, drivers, libraries, containers, frameworks, serving and MLOps.\n- Use Slurm for batch training and HPC, Kubernetes for inference and MLOps.\n- Monitor utilisation and enforce fair sharing.",
       "module": 3
     },
     {
       "position": 4,
       "title": "Presenting a sizing",
       "type": "TEXT",
-      "body": "A sizing is a recommendation the customer will spend a lot of money on. Present it clearly and honestly.\n\n## Structure\n\n1. **Workload summary:** what the customer wants to run, in their words.\n2. **Assumptions:** model sizes, precision, users, dataset sizes, growth.\n3. **Recommended configuration:** servers, GPUs, network, storage, software.\n4. **Expected performance** and how it was estimated.\n5. **Facilities requirements:** power, cooling, space.\n6. **Options:** a smaller starting point and how to scale.\n7. **Risks and next steps:** for example, a proof of concept to validate performance.\n\n## Be honest\n\nIf performance depends on assumptions not yet confirmed, say so and propose how to confirm them.\n\n> This module includes a live session: present a sizing to a mock customer panel.",
+      "body": "An AI or HPC sizing proposal involves large investments. Presenting it clearly helps the customer understand what they are buying, why and what alternatives exist.\n\n## What to include\n\n- **Business goals and workloads:** what the customer wants to achieve and the workloads analysed.\n- **Assumptions:** model sizes, users, datasets, growth and performance targets.\n- **Sizing method:** how the numbers were calculated, including benchmark or test results.\n- **Proposed architecture:** compute, network, storage, software stack and management, with a diagram.\n- **Facilities:** power, cooling and space needs, and any upgrades required.\n- **Options:** for example on-premises, colocation, cloud or hybrid; or different GPU models.\n- **Costs:** capital and operating costs over several years, including power, support and staff.\n- **Risks and mitigations:** supply lead times, skills, software compatibility and facility readiness.\n- **Roadmap:** phases for deployment and growth.\n\n## Presenting well\n\n- Lead with goals and results, not part numbers.\n- Explain assumptions openly and show how changes would affect the size.\n- Compare options fairly, including cloud versus on-premises total cost.\n- Offer a pilot or proof of concept to validate the sizing.\n\n## Key terms\n\n- **Assumption register:** a list of assumptions behind a design.\n- **Sensitivity analysis:** showing how results change when assumptions change.\n- **Lead time:** time from order to delivery, which can be long for high-demand GPUs.\n\n## Real-world example\n\nAn SI presents an AI platform proposal to a research institute's board. It shows three options: buy and host on-premises with facility upgrades, host in a colocation centre, or use cloud GPUs. The five-year cost comparison shows on-premises is cheapest at high utilisation, but cloud is better if usage stays low. The board chooses colocation with a phased build, starting with a pilot to confirm usage.\n\n## Common mistakes\n\n- Hiding assumptions or presenting only one option.\n- Ignoring facility upgrade costs and lead times.\n- Overloading the presentation with technical details.\n\n## Key takeaways\n\n- Present goals, assumptions, method, architecture, facilities, options, costs, risks and roadmap.\n- Be open about assumptions and show sensitivity.\n- Compare deployment options fairly and offer a pilot.",
       "module": 4
+    }
+  ],
+  "sources": [
+    {
+      "title": "MLCommons: MLPerf training and inference benchmarks",
+      "url": "https://mlcommons.org/"
+    },
+    {
+      "title": "Slurm Workload Manager documentation (SchedMD)",
+      "url": "https://slurm.schedmd.com/"
+    },
+    {
+      "title": "TOP500: list of the world's most powerful supercomputers (HPL benchmark)",
+      "url": "https://www.top500.org/"
+    },
+    {
+      "title": "NVIDIA Deep Learning Institute: AI and accelerated computing training",
+      "url": "https://www.nvidia.com/en-us/training/"
+    },
+    {
+      "title": "AWS Skill Builder: cloud training",
+      "url": "https://skillbuilder.aws/"
     }
   ],
   "assessment": {
@@ -61,22 +83,37 @@
     "questions": [
       {
         "type": "SINGLE",
-        "text": "At 16-bit precision, roughly how much GPU memory do the weights of a 7-billion-parameter model need?",
+        "text": "When sizing GPU memory for training, what must be included beyond model weights?",
         "options": [
-          "About 14 GB",
-          "About 1 GB",
-          "About 140 GB",
-          "About 7 MB"
+          "Nothing else",
+          "Optimiser states and activations",
+          "Only the dataset size",
+          "Printer memory"
         ],
         "correct": [
-          "About 14 GB"
+          "Optimiser states and activations"
         ],
         "points": 1,
-        "explanation": "About 2 bytes per parameter × 7 billion ≈ 14 GB."
+        "explanation": "Training memory can be several times the size of the weights."
+      },
+      {
+        "type": "SINGLE",
+        "text": "Which industry benchmark suite is published by MLCommons?",
+        "options": [
+          "TOP500",
+          "MLPerf",
+          "SPECpower",
+          "PUE"
+        ],
+        "correct": [
+          "MLPerf"
+        ],
+        "points": 1,
+        "explanation": "MLPerf covers training and inference benchmarks."
       },
       {
         "type": "TRUE_FALSE",
-        "text": "Training a model needs more memory per parameter than running inference.",
+        "text": "Inference sizing should be based on peak concurrent users, not average usage.",
         "options": [
           "True",
           "False"
@@ -84,56 +121,61 @@
         "correct": [
           "True"
         ],
-        "points": 1
-      },
-      {
-        "type": "MULTIPLE",
-        "text": "Which are used to connect GPU servers for multi-node training? Select all that apply.",
-        "options": [
-          "InfiniBand",
-          "RDMA over Ethernet (RoCE)",
-          "Low-latency high-bandwidth fabrics",
-          "A USB hub"
-        ],
-        "correct": [
-          "InfiniBand",
-          "RDMA over Ethernet (RoCE)",
-          "Low-latency high-bandwidth fabrics"
-        ],
-        "points": 2
+        "points": 1,
+        "explanation": "Peaks decide whether users get acceptable response times."
       },
       {
         "type": "SINGLE",
-        "text": "Why do AI training clusters often use parallel file systems?",
+        "text": "Which tool is widely used to schedule jobs on HPC and AI training clusters?",
         "options": [
-          "So all nodes can read large datasets at high speed",
-          "To print faster",
-          "To avoid using networks",
-          "Because they are the cheapest storage"
+          "Slurm",
+          "Excel",
+          "DHCP",
+          "SNMP"
         ],
         "correct": [
-          "So all nodes can read large datasets at high speed"
+          "Slurm"
         ],
-        "points": 1
+        "points": 1,
+        "explanation": "Slurm is a widely used open-source workload manager."
       },
       {
-        "type": "MATCHING",
-        "text": "Match each software layer to its role.",
+        "type": "MULTIPLE",
+        "text": "Which should a sizing proposal include?",
         "options": [
-          "Containers=Package frameworks and dependencies consistently",
-          "Scheduler or Kubernetes=Share the cluster between users and jobs",
-          "Frameworks=Train and run models"
+          "Assumptions",
+          "Facility requirements",
+          "Options such as cloud or on-premises",
+          "Only part numbers"
         ],
-        "correct": [],
-        "points": 3
+        "correct": [
+          "Assumptions",
+          "Facility requirements",
+          "Options such as cloud or on-premises"
+        ],
+        "points": 1,
+        "explanation": "Part numbers alone do not explain value, risk or alternatives."
+      },
+      {
+        "type": "TRUE_FALSE",
+        "text": "Oversubscribed networks are ideal for large-scale training clusters.",
+        "options": [
+          "True",
+          "False"
+        ],
+        "correct": [
+          "False"
+        ],
+        "points": 1,
+        "explanation": "Training needs non-blocking or low-oversubscription fabrics."
       },
       {
         "type": "SHORT_ANSWER",
-        "text": "A customer wants to run an internal chatbot for 500 employees on-premise. List the information you need before sizing, and explain why.",
+        "text": "In two or three sentences, explain why testing with the customer's own model is better than relying on marketing figures.",
         "options": [],
         "correct": [],
-        "points": 4,
-        "explanation": "Model answer: model choice and size and precision (memory), expected concurrent users and response time (throughput), document volume for retrieval (storage), data residency needs, growth, and facilities limits (power and cooling)."
+        "points": 1,
+        "explanation": "Real performance depends on the specific model, precision, prompts and concurrency. Testing measures actual throughput and latency, so the sizing is based on evidence and avoids over- or under-buying."
       }
     ]
   }

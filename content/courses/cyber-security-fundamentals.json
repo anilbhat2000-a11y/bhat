@@ -5,44 +5,185 @@
   "category": "TECHNICAL",
   "level": "INTERMEDIATE",
   "passMarkPercent": 70,
-  "description": "Core security principles, common threats, next-generation firewalls, and how to qualify and position security solutions for a business.",
+  "description": "Configuring and selling firewalls and endpoint security, and how a SOC works. You will be able to: design firewall policies for a branch; compare EDR and traditional antivirus; explain SOC roles and the incident lifecycle; read basic security logs.",
+  "modules": [
+    {
+      "title": "Firewall policy design",
+      "minutes": 45
+    },
+    {
+      "title": "Endpoint and EDR",
+      "minutes": 30
+    },
+    {
+      "title": "SOC basics",
+      "minutes": 45
+    },
+    {
+      "title": "Log reading",
+      "minutes": 30
+    }
+  ],
   "lessons": [
     {
       "position": 1,
-      "title": "Core principles: confidentiality, integrity, availability",
+      "title": "Firewall policy design",
       "type": "TEXT",
-      "body": "Security aims to protect three properties, often called the CIA triad:\n\n- **Confidentiality:** only authorised people see the data.\n- **Integrity:** data is accurate and not changed without permission.\n- **Availability:** systems and data are accessible when needed.\n\nEvery security product or service supports one or more of these. A useful sales question is which property the customer is most worried about: a data leak, a tampered record, or an outage."
+      "body": "A firewall controls traffic between networks based on rules. A well-designed rule set lets legitimate business traffic through and blocks everything else. A badly managed rule set grows into hundreds of unclear rules that open hidden holes.\n\n## Firewall types\n\n- **Stateful firewalls:** track connections and allow return traffic automatically.\n- **Next-generation firewalls (NGFW):** add application awareness, user identity, intrusion prevention, URL filtering and malware inspection.\n- **Web application firewalls (WAF):** protect web applications from attacks such as SQL injection.\n- **Cloud firewalls and security groups:** control traffic in cloud environments.\n\n## Principles of good policy design\n\n- **Default deny:** block everything not explicitly allowed.\n- **Least privilege:** allow only the specific sources, destinations, applications and ports needed.\n- **Zones:** group networks by trust level, such as internet, DMZ, users, servers and management.\n- **Clear documentation:** every rule has an owner, a business reason and, where possible, an expiry date.\n- **Logging:** log allowed and denied traffic on important rules.\n- **Change control:** request, review, approve and test rule changes.\n- **Regular review:** remove unused, duplicate and overly broad rules.\n\n## Key terms\n\n- **NGFW:** next-generation firewall.\n- **DMZ:** a zone for public-facing servers, separated from internal networks.\n- **Rule base:** the ordered list of firewall rules.\n- **Any-any rule:** a rule allowing all traffic, which should be avoided.\n\n## Real-world example\n\nDuring a security review, an SI finds a firewall rule allowing \"any\" source on the internet to reach a server on remote desktop (RDP). It was added years ago for a vendor's temporary support access and never removed. Attackers had been trying passwords on it for months. The rule is removed, vendor access moves to a secure remote-access solution with MFA, and every rule now has an owner and review date.\n\n## Common mistakes\n\n- Broad \"any\" rules added for convenience.\n- Temporary rules that are never removed.\n- No logging or review of the rule base.\n\n## Key takeaways\n\n- Use default deny and least privilege, organised by zones.\n- Document an owner and reason for every rule, and control changes.\n- Review the rule base regularly and remove unused rules.",
+      "module": 1
     },
     {
       "position": 2,
-      "title": "Common threats",
+      "title": "Endpoint and EDR",
       "type": "TEXT",
-      "body": "Threats that business customers face most often include:\n\n- **Phishing:** deceptive emails or messages that trick users into revealing credentials or opening malware.\n- **Ransomware:** malware that encrypts data and demands payment.\n- **Unpatched systems:** known vulnerabilities left open.\n- **Weak access control:** shared or default passwords and no multi-factor authentication.\n- **Insider mistakes:** accidental data sharing or misconfiguration.\n\nNo single control stops all of these. Plan layers."
+      "body": "Endpoints, such as laptops, desktops and servers, are where most attacks land. Traditional antivirus that matches known malware signatures is no longer enough. Endpoint detection and response (EDR) adds behaviour monitoring, investigation and response.\n\n## Endpoint protection layers\n\n- **Next-generation antivirus (NGAV):** blocks known and unknown malware using signatures, behaviour analysis and machine learning.\n- **EDR:** continuously records endpoint activity, such as processes, files, network connections and registry changes, detects suspicious behaviour and lets analysts investigate and respond remotely.\n- **XDR (extended detection and response):** combines data from endpoints, email, identity, network and cloud for broader detection.\n- **MDR (managed detection and response):** a service where an outside team monitors and responds to alerts around the clock.\n\n## Supporting controls\n\n- **Patch management:** apply operating system and application updates quickly, especially for actively exploited vulnerabilities.\n- **Application control:** allow only approved applications to run.\n- **Disk encryption:** protect data on lost or stolen devices.\n- **Remove local administrator rights** from standard users.\n- **Device management:** enforce policies and configurations.\n\n## What EDR response looks like\n\nWhen EDR detects ransomware-like behaviour, such as a process rapidly encrypting files, it can kill the process, isolate the device from the network and alert analysts, who can then investigate the root cause.\n\n## Key terms\n\n- **EDR:** endpoint detection and response.\n- **XDR:** extended detection and response across multiple data sources.\n- **MDR:** managed detection and response service.\n- **Isolation:** cutting a device off from the network while keeping it reachable for investigation.\n\n## Real-world example\n\nAn employee opens a malicious attachment. The NGAV does not recognise the file, but EDR notices it launching PowerShell to download further code and contacting an unknown server. EDR isolates the laptop automatically and alerts the MDR team at 11 p.m. The team confirms the attack, cleans the device and blocks the attacker's server across the company before any other device is affected.\n\n## Common mistakes\n\n- Relying on traditional antivirus alone.\n- Deploying EDR but nobody watching the alerts.\n- Leaving users with local administrator rights.\n\n## Key takeaways\n\n- EDR monitors behaviour and enables investigation and response.\n- XDR adds wider visibility; MDR provides 24x7 monitoring.\n- Combine EDR with patching, application control, encryption and least privilege.",
+      "module": 2
     },
     {
       "position": 3,
-      "title": "Defence in depth and next-generation firewalls",
+      "title": "SOC basics",
       "type": "TEXT",
-      "body": "Defence in depth means several overlapping controls, so one failure does not expose everything. Typical layers are the network perimeter, endpoints, email, identity, and backup.\n\nA next-generation firewall (NGFW) goes beyond blocking ports. Typical features include intrusion prevention (IPS), application control, web filtering, inspection of encrypted traffic, and VPN for remote access. Firewalls such as those in the company's Fortinet range are an example of this category.\n\nA firewall is only as good as its policy. Ask who maintains the rules, how often they are reviewed, and whether logs are monitored."
+      "body": "A security operations centre (SOC) is the team, processes and technology that monitor an organisation's security around the clock, detect threats and respond to incidents. Many organisations build their own SOC; others use a managed SOC from a service provider.\n\n## SOC tools\n\n- **SIEM (security information and event management):** collects logs from firewalls, servers, endpoints, cloud and applications, correlates them and raises alerts.\n- **SOAR (security orchestration, automation and response):** automates repetitive response steps, such as blocking an IP address or disabling an account.\n- **EDR/XDR:** endpoint and extended detection data.\n- **Threat intelligence:** information about current attacker tools, techniques and indicators.\n\n## SOC roles\n\n- **Level 1 analysts:** monitor alerts, triage them and escalate real incidents.\n- **Level 2 analysts:** investigate incidents in depth and lead containment.\n- **Level 3 / threat hunters:** search proactively for hidden threats and handle complex incidents.\n- **SOC manager:** runs operations, reporting and improvement.\n\n## Frameworks used in SOCs\n\nThe **MITRE ATT&CK** framework is a widely used knowledge base of attacker tactics and techniques. SOCs use it to map detections, find gaps and describe attacks in a common language.\n\n## Key metrics\n\n- **Mean time to detect (MTTD):** how long until an attack is detected.\n- **Mean time to respond (MTTR):** how long until it is contained.\n- **False positive rate:** how many alerts turn out to be harmless.\n\n## Key terms\n\n- **SIEM:** central log collection and correlation.\n- **SOAR:** automation of response workflows.\n- **Triage:** quickly deciding whether an alert is real and how urgent it is.\n- **MITRE ATT&CK:** a framework of attacker tactics and techniques.\n\n## Real-world example\n\nA SIEM correlates three events: a user's login from an unusual country, followed minutes later by a login from the user's usual city, and a new mailbox forwarding rule. Individually, each might be ignored. Together, they trigger a high-priority alert. A Level 1 analyst escalates, and Level 2 confirms account compromise, disables the account, removes the rule and resets credentials within 20 minutes.\n\n## Common mistakes\n\n- Collecting logs without useful detection rules.\n- Too many low-value alerts, causing alert fatigue.\n- No clear escalation and response procedures.\n\n## Key takeaways\n\n- A SOC combines people, processes and tools such as SIEM, SOAR and EDR.\n- Analysts work in levels from triage to deep investigation and hunting.\n- Use MITRE ATT&CK and measure detection and response times.",
+      "module": 3
     },
     {
       "position": 4,
-      "title": "Qualifying and positioning security",
+      "title": "Log reading",
       "type": "TEXT",
-      "body": "Security purchases are often driven by risk, compliance, or a recent incident. Ask:\n\n- Has the business had a security incident or near miss in the past year?\n- Which regulations or customer contracts require specific controls?\n- Who owns security decisions, and what is the budget?\n- What is the current backup and recovery plan, and when was it last tested?\n\nAvoid fear-based selling with claims you cannot back up. Link each control to a risk the customer has named, and to a standard such as ISO 27001 where it applies."
+      "body": "Logs are records of what happens on systems and networks. Reading them is a core skill for security and operations staff: logs show who did what, when and from where.\n\n## Common log sources\n\n- **Windows Security event log:** logons, account changes and privilege use.\n- **Linux logs:** for example authentication logs in /var/log (such as auth.log or secure, depending on the distribution).\n- **Firewall logs:** allowed and denied connections, with source, destination, port and action.\n- **Web server and proxy logs:** requests, response codes and user agents.\n- **Cloud and email audit logs:** sign-ins, configuration changes and mail rules.\n\n## Useful Windows event IDs\n\n- **4624:** an account successfully logged on.\n- **4625:** an account failed to log on.\n- **4720:** a user account was created.\n- **4672:** special privileges were assigned to a new logon (often an administrator).\n- **4740:** a user account was locked out.\n\n## What to look for\n\n- Many failed logins followed by a success (possible password guessing).\n- Logins at unusual times or from unusual locations.\n- New administrator accounts or privilege changes.\n- Firewall logs showing internal devices connecting to unknown external addresses.\n- Large data transfers out of the network.\n\n## Good practice\n\n- Synchronise clocks on all systems with NTP; the CERT-In directions require organisations to connect to NTP servers of the National Informatics Centre or the National Physical Laboratory, or servers traceable to them.\n- Keep logs long enough; CERT-In requires ICT system logs to be retained for 180 days within India.\n- Centralise logs in a SIEM or log server.\n\n## Key terms\n\n- **Event ID:** a number identifying the type of Windows event.\n- **Brute-force attack:** trying many passwords to guess the right one.\n- **Log retention:** how long logs are kept.\n\n## Real-world example\n\nAn analyst reviewing a server's logs sees 2,000 event 4625 failed logins for the \"administrator\" account from one external IP address over an hour, followed by a single 4624 successful logon. This pattern suggests a successful brute-force attack. The analyst escalates immediately, the account is disabled, the source is blocked and the exposed remote access service is closed.\n\n## Common mistakes\n\n- Not collecting logs centrally.\n- Clocks out of sync, making timelines confusing.\n- Deleting logs too soon.\n\n## Key takeaways\n\n- Know the main log sources and key Windows event IDs (4624, 4625, 4720, 4672).\n- Look for failed-then-successful logins, unusual times and new privileges.\n- Synchronise time, centralise logs and keep them for at least 180 days.",
+      "module": 4
+    }
+  ],
+  "sources": [
+    {
+      "title": "MITRE ATT&CK: knowledge base of adversary tactics and techniques",
+      "url": "https://attack.mitre.org/"
+    },
+    {
+      "title": "CERT-In: incident reporting, advisories and the cyber security directions of 28 April 2022",
+      "url": "https://www.cert-in.org.in/"
+    },
+    {
+      "title": "CIS Critical Security Controls",
+      "url": "https://www.cisecurity.org/controls"
+    },
+    {
+      "title": "Cisco Networking Academy: networking and security courses",
+      "url": "https://www.netacad.com/"
+    },
+    {
+      "title": "Microsoft Learn: free role-based training paths",
+      "url": "https://learn.microsoft.com/en-us/training/"
     }
   ],
   "assessment": {
-    "title": "Cyber Security Fundamentals: completion check",
-    "cadence": "ONE_TIME",
+    "title": "Cyber Security Intermediate: completion check",
     "level": "INTERMEDIATE",
     "passMarkPercent": 70,
     "questions": [
-      { "position": 1, "type": "SINGLE", "text": "Which CIA property is about data being accurate and unchanged without permission?", "options": ["Confidentiality", "Integrity", "Availability", "Redundancy"], "correct": ["Integrity"], "points": 1 },
-      { "position": 2, "type": "SINGLE", "text": "Which threat encrypts data and demands payment?", "options": ["Phishing", "Ransomware", "Unpatched systems", "Insider mistake"], "correct": ["Ransomware"], "points": 1 },
-      { "position": 3, "type": "SINGLE", "text": "What does defence in depth mean?", "options": ["One very strong control", "Several overlapping controls so one failure does not expose everything", "Buying the most expensive firewall", "Turning off logs"], "correct": ["Several overlapping controls so one failure does not expose everything"], "points": 1 },
-      { "position": 4, "type": "MULTIPLE", "text": "Which are typical features of a next-generation firewall? (Select all that apply)", "options": ["Intrusion prevention (IPS)", "Application control", "Paper printing", "VPN for remote access"], "correct": ["Intrusion prevention (IPS)", "Application control", "VPN for remote access"], "points": 2 },
-      { "position": 5, "type": "TRUE_FALSE", "text": "A single security control is enough to stop all common threats.", "options": ["True", "False"], "correct": ["False"], "points": 1 }
+      {
+        "type": "SINGLE",
+        "text": "What does 'default deny' mean in firewall design?",
+        "options": [
+          "Allow everything unless blocked",
+          "Block everything not explicitly allowed",
+          "Deny only internet traffic",
+          "Turn off the firewall at night"
+        ],
+        "correct": [
+          "Block everything not explicitly allowed"
+        ],
+        "points": 1,
+        "explanation": "Default deny means only explicitly allowed traffic passes."
+      },
+      {
+        "type": "SINGLE",
+        "text": "Which tool collects and correlates logs from many systems?",
+        "options": [
+          "EDR",
+          "SIEM",
+          "UPS",
+          "DHCP"
+        ],
+        "correct": [
+          "SIEM"
+        ],
+        "points": 1,
+        "explanation": "A SIEM centralises and correlates logs to raise alerts."
+      },
+      {
+        "type": "SINGLE",
+        "text": "Which Windows event ID records a failed logon?",
+        "options": [
+          "4624",
+          "4625",
+          "4720",
+          "4672"
+        ],
+        "correct": [
+          "4625"
+        ],
+        "points": 1,
+        "explanation": "4625 is a failed logon; 4624 is a successful logon."
+      },
+      {
+        "type": "TRUE_FALSE",
+        "text": "EDR can isolate an infected laptop from the network automatically.",
+        "options": [
+          "True",
+          "False"
+        ],
+        "correct": [
+          "True"
+        ],
+        "points": 1,
+        "explanation": "Isolation stops spread while keeping the device reachable for investigation."
+      },
+      {
+        "type": "MULTIPLE",
+        "text": "Which log patterns suggest a possible attack?",
+        "options": [
+          "Many failed logins followed by a success",
+          "A new administrator account created at 3 a.m.",
+          "Internal device connecting to an unknown external address",
+          "A user logging in at the usual time from the office"
+        ],
+        "correct": [
+          "Many failed logins followed by a success",
+          "A new administrator account created at 3 a.m.",
+          "Internal device connecting to an unknown external address"
+        ],
+        "points": 1,
+        "explanation": "Normal logins are expected; the other patterns need investigation."
+      },
+      {
+        "type": "SINGLE",
+        "text": "What is the MITRE ATT&CK framework?",
+        "options": [
+          "A firewall brand",
+          "A knowledge base of attacker tactics and techniques",
+          "A backup method",
+          "A password standard"
+        ],
+        "correct": [
+          "A knowledge base of attacker tactics and techniques"
+        ],
+        "points": 1,
+        "explanation": "SOCs use ATT&CK to map detections and describe attacks."
+      },
+      {
+        "type": "MATCHING",
+        "text": "Match each term to its meaning.",
+        "options": [
+          "MDR=Outside team monitors and responds 24x7",
+          "SOAR=Automates response workflows",
+          "DMZ=Zone for public-facing servers",
+          "MTTD=Average time to detect an attack"
+        ],
+        "correct": [],
+        "points": 1,
+        "explanation": "These are common SOC and security terms."
+      }
     ]
   }
 }

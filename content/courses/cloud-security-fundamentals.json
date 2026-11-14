@@ -5,44 +5,185 @@
   "category": "TECHNICAL",
   "level": "INTERMEDIATE",
   "passMarkPercent": 70,
-  "description": "Secure identities, data, network access, and configuration in the cloud, and understand the shared responsibility model that governs all of it.",
+  "description": "Planning migrations and keeping cloud costs under control. You will be able to: assess workloads for migration; choose a migration strategy (rehost, refactor and others); estimate and monitor cloud cost; secure a cloud tenancy.",
+  "modules": [
+    {
+      "title": "Workload assessment",
+      "minutes": 45
+    },
+    {
+      "title": "Migration strategies",
+      "minutes": 45
+    },
+    {
+      "title": "Cost management",
+      "minutes": 45
+    },
+    {
+      "title": "Cloud security basics",
+      "minutes": 30
+    }
+  ],
   "lessons": [
     {
       "position": 1,
-      "title": "Shared responsibility in practice",
+      "title": "Workload assessment",
       "type": "TEXT",
-      "body": "The cloud provider secures the underlying platform: data centres, hardware, and core services. The customer secures what they build and store in it: identities, data, access settings, and application configuration.\n\nThe split changes with the service model. In infrastructure services the customer manages more, including the operating system. In software services the provider manages more, but the customer still controls who has access and what data they store. Most cloud breaches come from customer-side configuration, not from failures in the provider's platform."
+      "body": "Before moving to the cloud, each application and server must be assessed. A workload assessment shows what you have, how it is used, how it connects to other systems and which migration approach fits.\n\n## What to assess\n\n- **Inventory:** servers, applications, databases, storage and their owners.\n- **Performance:** CPU, memory, storage and network usage over time, including peaks.\n- **Dependencies:** which systems talk to each other; migrating one without its dependencies can break both.\n- **Licensing:** whether software licences can move to the cloud and at what cost.\n- **Data:** size, sensitivity, residency requirements and growth.\n- **Business criticality:** how important the workload is, and acceptable downtime during migration.\n- **Technical fit:** operating system versions, supported platforms and any special hardware.\n\n## Tools and methods\n\n- **Discovery tools** from cloud providers and third parties collect inventory, performance and dependency data.\n- **Interviews** with application owners reveal business requirements and constraints.\n- **Grouping into migration waves:** related applications move together.\n\n## Key terms\n\n- **Workload:** an application or set of resources serving a business purpose.\n- **Dependency mapping:** identifying connections between systems.\n- **Migration wave:** a group of workloads moved together.\n- **Rightsizing:** matching cloud resources to actual usage.\n\n## Real-world example\n\nA company plans to move its ERP application server to the cloud, leaving the database on-premises. Dependency mapping shows thousands of queries per minute between the two. Running them across a WAN link would slow the ERP badly. The assessment groups the application and database into the same migration wave, avoiding a performance disaster.\n\n## Common mistakes\n\n- Sizing cloud servers to match old hardware instead of actual usage.\n- Ignoring dependencies between systems.\n- Discovering licensing restrictions after migration.\n\n## Key takeaways\n\n- Assess inventory, performance, dependencies, licensing, data and criticality.\n- Use discovery tools and interviews, and group workloads into waves.\n- Rightsize based on measured usage.",
+      "module": 1
     },
     {
       "position": 2,
-      "title": "Identity and access management",
+      "title": "Migration strategies",
       "type": "TEXT",
-      "body": "Identity is the new security perimeter in the cloud. Core practices:\n\n- **Least privilege:** give each user and service only the permissions they need.\n- **Multi-factor authentication (MFA):** require a second factor for all administrator and remote access.\n- **Avoid long-lived keys:** prefer temporary credentials, and rotate any key that must exist.\n- **Review access regularly:** remove accounts of people who have left or changed role.\n\nShared or default administrator accounts are a common cause of compromise. Each person should have their own named account."
+      "body": "Not every workload should move to the cloud in the same way. AWS describes seven common migration strategies, often called the **7 Rs**, which are widely used across the industry.\n\n## The 7 Rs\n\n- **Retire:** switch off applications that are no longer needed.\n- **Retain:** keep the application where it is for now, for example because of regulations or recent investment.\n- **Rehost (\"lift and shift\"):** move the application to cloud virtual machines with minimal changes. Fastest, but gains fewer cloud benefits.\n- **Relocate:** move a whole virtualised environment to the cloud at the hypervisor level, for example a VMware environment to a cloud-hosted VMware service.\n- **Replatform (\"lift and reshape\"):** make small changes to use cloud services, such as moving a database to a managed database service.\n- **Repurchase:** replace the application with a SaaS product, such as moving from an on-premises CRM to a SaaS CRM.\n- **Refactor (re-architect):** redesign the application to be cloud-native, for scale and agility. The most effort and the most benefit.\n\n## Choosing a strategy\n\n- Business value and urgency of the application.\n- Technical condition and supportability.\n- Cost and effort of change.\n- Skills available.\n- Data residency and compliance.\n\n## Key terms\n\n- **Lift and shift:** rehosting with minimal change.\n- **Cloud-native:** designed to use cloud services such as managed databases, containers and serverless.\n- **Managed service:** a cloud service the provider operates, such as a managed database.\n\n## Real-world example\n\nA company with 120 applications runs an assessment. It finds 15 unused applications to retire, 10 to retain due to regulatory and hardware constraints, 60 to rehost quickly, 20 to replatform onto managed databases, 10 to repurchase as SaaS and 5 customer-facing applications to refactor over time. Different strategies for different workloads let the company move quickly while focusing deep work where it adds most value.\n\n## Common mistakes\n\n- Using one strategy for every application.\n- Rehosting and never optimising afterwards.\n- Refactoring applications that add little business value.\n\n## Key takeaways\n\n- The 7 Rs are retire, retain, rehost, relocate, replatform, repurchase and refactor.\n- Choose per workload based on value, condition, cost, skills and compliance.\n- Plan to optimise after migration.",
+      "module": 2
     },
     {
       "position": 3,
-      "title": "Data protection and encryption",
+      "title": "Cost management",
       "type": "TEXT",
-      "body": "Protect data at rest (stored) and in transit (moving). Most cloud platforms offer encryption at rest, and encryption in transit uses TLS. The key question is who controls the encryption keys. Options include provider-managed keys, customer-managed keys, and keys held in a dedicated key management service.\n\nClassify data before deciding how to protect it. Public marketing material needs less protection than customer records or financial data. Restrict storage buckets and databases from public access unless there is a documented reason."
+      "body": "Cloud costs can grow quickly if not managed. Pay-as-you-go pricing gives flexibility, but every running resource costs money. Cloud cost management, often called **FinOps**, brings finance, technology and business teams together to get the most value from cloud spending.\n\n## Common causes of overspending\n\n- Resources left running when not needed, such as test servers at night.\n- Oversized virtual machines and databases.\n- Unattached storage volumes and old snapshots.\n- Data transfer (egress) charges for moving data out of the cloud.\n- Lack of ownership: no one knows who created a resource or why.\n\n## Cost management practices\n\n- **Tagging:** label every resource with owner, project and environment.\n- **Budgets and alerts:** set spending limits and alerts per team or project.\n- **Rightsizing:** match resources to actual usage.\n- **Scheduling:** shut down non-production resources outside working hours.\n- **Commitment discounts:** reserved instances or savings plans for steady workloads.\n- **Storage tiering:** move rarely used data to cheaper storage classes.\n- **Regular reviews:** monthly cost reviews with resource owners.\n\n## The FinOps approach\n\nThe FinOps Foundation describes an iterative cycle of **inform** (visibility and allocation), **optimise** (reduce waste and improve rates) and **operate** (continuous improvement and governance).\n\n## Key terms\n\n- **FinOps:** cloud financial management that brings finance and engineering together.\n- **Egress:** data transferred out of a cloud provider's network, which is often charged.\n- **Reserved instances / savings plans:** discounts in return for usage commitments.\n- **Showback / chargeback:** showing or charging cloud costs to the teams that use them.\n\n## Real-world example\n\nA company's cloud bill doubles in six months. A FinOps review finds development servers running 24x7, large virtual machines using 10% of their CPU, and terabytes of old snapshots. By scheduling development servers, rightsizing and cleaning up storage, the company cuts its monthly bill by about a third. Commitment discounts for steady production workloads save more.\n\n## Common mistakes\n\n- No tagging, so costs cannot be allocated.\n- Ignoring egress charges in designs.\n- Buying commitments before rightsizing.\n\n## Key takeaways\n\n- Cloud costs need active management; common waste comes from idle and oversized resources.\n- Use tagging, budgets, rightsizing, scheduling, commitments and storage tiering.\n- Follow the FinOps cycle: inform, optimise, operate.",
+      "module": 3
     },
     {
       "position": 4,
-      "title": "Logging, monitoring, and misconfiguration",
+      "title": "Cloud security basics",
       "type": "TEXT",
-      "body": "Cloud environments change quickly, so visibility matters. Turn on audit logging for all accounts, keep logs in a protected location, and review alerts for unusual sign-ins, new administrator roles, and changes to security settings.\n\nMisconfiguration is the most common cloud weakness: a storage bucket left public, a security group open to the internet, or logging turned off. Automated configuration checks can find these issues continuously, and each finding should have an owner and a deadline."
+      "body": "Cloud security builds on the shared responsibility model. The customer must secure identities, configurations, data and workloads in the cloud. Most cloud breaches come from mistakes in these areas, not from failures of the provider's infrastructure.\n\n## Core cloud security practices\n\n- **Identity and access management (IAM):** use individual accounts, MFA for all users and especially administrators, least-privilege roles and no shared credentials. Protect the root or global administrator account and use it rarely.\n- **Configuration management:** use secure baselines and policies, such as blocking public storage by default. Cloud security posture management (CSPM) tools detect misconfigurations.\n- **Network security:** use virtual networks, security groups and firewalls; limit public exposure; use private connectivity for sensitive systems.\n- **Data protection:** encrypt data at rest and in transit, manage keys carefully and classify sensitive data.\n- **Logging and monitoring:** enable audit logs for all accounts and send them to a central SIEM.\n- **Workload protection:** patch virtual machines, scan container images and protect workloads with endpoint security.\n- **Backup:** protect against deletion and ransomware with separate, immutable backups.\n\n## Frameworks for cloud security\n\nThe Cloud Security Alliance publishes the Cloud Controls Matrix, and providers publish well-architected and security benchmark guidance. ISO/IEC 27017 gives guidance on information security controls for cloud services.\n\n## Key terms\n\n- **IAM:** identity and access management.\n- **CSPM:** cloud security posture management.\n- **Encryption at rest / in transit:** protecting stored data / data moving across networks.\n- **Security group:** a virtual firewall for cloud resources.\n\n## Real-world example\n\nAn attacker finds cloud access keys accidentally published in a developer's public code repository. Within hours, the attacker starts expensive virtual machines for cryptocurrency mining. The company's billing alert and CSPM tool flag the unusual activity, and the security team revokes the keys and removes the machines. The company then moves to short-lived credentials and scans repositories for secrets.\n\n## Common mistakes\n\n- No MFA on administrator accounts.\n- Access keys stored in code.\n- Audit logging not enabled.\n\n## Key takeaways\n\n- Secure identities with MFA and least privilege, and protect administrator accounts.\n- Prevent and detect misconfigurations; encrypt data and enable logging.\n- Protect workloads and keep immutable backups.",
+      "module": 4
+    }
+  ],
+  "sources": [
+    {
+      "title": "AWS Prescriptive Guidance: migration strategies (the 7 Rs)",
+      "url": "https://docs.aws.amazon.com/prescriptive-guidance/latest/large-migration-guide/migration-strategies.html"
+    },
+    {
+      "title": "FinOps Foundation: cloud financial management framework",
+      "url": "https://www.finops.org/"
+    },
+    {
+      "title": "Cloud Security Alliance: cloud security guidance and Cloud Controls Matrix",
+      "url": "https://cloudsecurityalliance.org/"
+    },
+    {
+      "title": "AWS: Shared Responsibility Model",
+      "url": "https://aws.amazon.com/compliance/shared-responsibility-model/"
+    },
+    {
+      "title": "Microsoft Cloud Adoption Framework for Azure",
+      "url": "https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/"
     }
   ],
   "assessment": {
-    "title": "Cloud Security Fundamentals: completion check",
-    "cadence": "ONE_TIME",
+    "title": "Cloud Intermediate: completion check",
     "level": "INTERMEDIATE",
     "passMarkPercent": 70,
     "questions": [
-      { "position": 1, "type": "SINGLE", "text": "Under shared responsibility, who is usually responsible for access settings and data a customer stores in the cloud?", "options": ["The provider entirely", "The customer", "No one", "The internet carrier"], "correct": ["The customer"], "points": 1 },
-      { "position": 2, "type": "SINGLE", "text": "What does least privilege mean?", "options": ["Giving everyone administrator rights", "Giving each user and service only the permissions they need", "Sharing one account across a team", "Turning off authentication"], "correct": ["Giving each user and service only the permissions they need"], "points": 1 },
-      { "position": 3, "type": "SINGLE", "text": "Which practice is a common cause of cloud compromise?", "options": ["Named accounts with MFA", "Shared or default administrator accounts", "Regular access reviews", "Audit logging"], "correct": ["Shared or default administrator accounts"], "points": 1 },
-      { "position": 4, "type": "MULTIPLE", "text": "Which are common cloud misconfigurations? (Select all that apply)", "options": ["A storage bucket left public without reason", "Logging turned off", "MFA required for administrators", "A security group open to the whole internet"], "correct": ["A storage bucket left public without reason", "Logging turned off", "A security group open to the whole internet"], "points": 2 },
-      { "position": 5, "type": "TRUE_FALSE", "text": "Data should be classified before deciding how to protect it.", "options": ["True", "False"], "correct": ["True"], "points": 1 }
+      {
+        "type": "SINGLE",
+        "text": "Which migration strategy moves an application to cloud VMs with minimal change?",
+        "options": [
+          "Refactor",
+          "Rehost",
+          "Repurchase",
+          "Retire"
+        ],
+        "correct": [
+          "Rehost"
+        ],
+        "points": 1,
+        "explanation": "Rehosting is 'lift and shift'."
+      },
+      {
+        "type": "SINGLE",
+        "text": "Replacing an on-premises CRM with a SaaS CRM is which strategy?",
+        "options": [
+          "Rehost",
+          "Replatform",
+          "Repurchase",
+          "Retain"
+        ],
+        "correct": [
+          "Repurchase"
+        ],
+        "points": 1,
+        "explanation": "Repurchase means moving to a different product, often SaaS."
+      },
+      {
+        "type": "TRUE_FALSE",
+        "text": "Dependency mapping helps avoid splitting tightly connected systems across locations.",
+        "options": [
+          "True",
+          "False"
+        ],
+        "correct": [
+          "True"
+        ],
+        "points": 1,
+        "explanation": "Moving one system without its dependencies can cause serious performance problems."
+      },
+      {
+        "type": "MULTIPLE",
+        "text": "Which practices reduce cloud costs?",
+        "options": [
+          "Rightsizing",
+          "Scheduling non-production resources",
+          "Tagging resources by owner",
+          "Leaving test servers running 24x7"
+        ],
+        "correct": [
+          "Rightsizing",
+          "Scheduling non-production resources",
+          "Tagging resources by owner"
+        ],
+        "points": 1,
+        "explanation": "Idle resources are a common cause of waste."
+      },
+      {
+        "type": "SINGLE",
+        "text": "What are egress charges?",
+        "options": [
+          "Charges for data transferred out of the cloud",
+          "Charges for creating accounts",
+          "Import duties",
+          "Charges for MFA"
+        ],
+        "correct": [
+          "Charges for data transferred out of the cloud"
+        ],
+        "points": 1,
+        "explanation": "Egress charges should be considered in designs."
+      },
+      {
+        "type": "SINGLE",
+        "text": "Which tool detects cloud misconfigurations such as public storage?",
+        "options": [
+          "CSPM",
+          "UPS",
+          "DHCP",
+          "HDMI"
+        ],
+        "correct": [
+          "CSPM"
+        ],
+        "points": 1,
+        "explanation": "Cloud security posture management tools find risky settings."
+      },
+      {
+        "type": "MATCHING",
+        "text": "Match each FinOps phase to its focus.",
+        "options": [
+          "Inform=Visibility and cost allocation",
+          "Optimise=Reduce waste and improve rates",
+          "Operate=Continuous improvement and governance",
+          "Tagging=Labelling resources by owner and project"
+        ],
+        "correct": [],
+        "points": 1,
+        "explanation": "FinOps is an iterative cycle supported by practices such as tagging."
+      }
     ]
   }
 }

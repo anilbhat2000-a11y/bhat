@@ -5,44 +5,183 @@
   "category": "TECHNICAL",
   "level": "INTERMEDIATE",
   "passMarkPercent": 70,
-  "description": "What high-performance computing, AI, and machine learning need from infrastructure, how to qualify these workloads, and how to avoid overpromising.",
+  "description": "GPU servers, storage and networking for training and inference. You will be able to: explain why GPUs suit AI workloads; compare training and inference infrastructure; specify storage and networking for AI; plan power and cooling for GPU servers.",
+  "modules": [
+    {
+      "title": "GPUs and accelerators",
+      "minutes": 45
+    },
+    {
+      "title": "Training and inference",
+      "minutes": 30
+    },
+    {
+      "title": "Storage and networking for AI",
+      "minutes": 45
+    },
+    {
+      "title": "Power and cooling",
+      "minutes": 30
+    }
+  ],
   "lessons": [
     {
       "position": 1,
-      "title": "What HPC, AI, and ML workloads need",
+      "title": "GPUs and accelerators",
       "type": "TEXT",
-      "body": "High-performance computing (HPC) runs large calculations by combining many processors in a cluster. AI and machine learning (ML) training is often similar: it needs many parallel processors, usually graphics processing units (GPUs), and large volumes of data.\n\nThe main infrastructure needs are:\n\n- **Compute:** many CPUs or GPUs, connected closely enough to share work.\n- **Memory and storage:** fast storage that can feed data to the processors without delay.\n- **Network:** high-speed, low-latency links between nodes.\n- **Power and cooling:** dense racks draw and generate a lot of heat.\n\nA design that is strong on compute but weak on storage or networking will run slowly."
+      "body": "GPUs (graphics processing units) are the engine of modern AI. Their thousands of cores perform many calculations in parallel, which suits the matrix mathematics used in neural networks.\n\n## Why GPUs for AI\n\n- **Parallelism:** thousands of cores working at once.\n- **Tensor cores / matrix engines:** specialised units for AI calculations.\n- **High-bandwidth memory (HBM):** very fast memory attached to the GPU, essential for large models.\n- **Software ecosystem:** platforms such as NVIDIA CUDA and AMD ROCm, used by frameworks such as PyTorch and TensorFlow.\n\n## Important GPU specifications\n\n- **GPU memory capacity:** decides how large a model fits on each GPU. For example, model weights in 16-bit precision need about 2 bytes per parameter, so a 70-billion-parameter model needs roughly 140 GB just for its weights, before other memory needs.\n- **Memory bandwidth:** how fast data moves to the cores.\n- **Compute performance:** at different precisions such as FP32, FP16, BF16 and FP8; lower precision is faster and uses less memory.\n- **GPU-to-GPU interconnect:** high-speed links such as NVIDIA NVLink connect GPUs inside a server.\n- **Power:** high-end data-centre GPUs can draw several hundred watts to over a kilowatt each.\n\n## Other accelerators\n\nOther options include AMD Instinct GPUs, Intel Gaudi accelerators and cloud-specific chips. The right choice depends on software support, performance, availability and cost.\n\n## Key terms\n\n- **GPU:** graphics processing unit, used as a parallel accelerator.\n- **HBM:** high-bandwidth memory.\n- **Precision:** the number format used, such as FP16 or FP8.\n- **CUDA / ROCm:** GPU software platforms from NVIDIA / AMD.\n\n## Real-world example\n\nA company wants to run a 70-billion-parameter open-source language model internally. It plans to buy one GPU with 48 GB of memory. The SI explains that the model's weights alone need about 140 GB in 16-bit precision. Options include several larger-memory GPUs connected with a high-speed interconnect, a quantised version of the model using lower precision, or a smaller model. The customer chooses a quantised model on two GPUs after testing accuracy.\n\n## Common mistakes\n\n- Choosing GPUs by compute speed alone, ignoring memory.\n- Ignoring software support for non-mainstream accelerators.\n- Underestimating power needs.\n\n## Key takeaways\n\n- GPUs suit AI because of parallelism, tensor cores and high-bandwidth memory.\n- GPU memory decides model size; about 2 bytes per parameter at 16-bit precision.\n- Consider precision, interconnect, software support and power.",
+      "module": 1
     },
     {
       "position": 2,
       "title": "Training and inference",
       "type": "TEXT",
-      "body": "AI work has two phases:\n\n- **Training:** the model learns from data. This is compute-heavy and often runs for hours or days.\n- **Inference:** the trained model is used to make predictions. It needs less compute per request but must respond quickly and reliably.\n\nBuy-or-build decisions depend on which phase the customer needs. Many customers start with inference on an existing model rather than training their own."
+      "body": "AI workloads fall into two broad types, with very different infrastructure needs: training and inference. Understanding the difference is essential for sizing.\n\n## Training\n\n- **What it is:** teaching a model from data, which may take hours to months.\n- **Needs:** many GPUs working together, very fast GPU-to-GPU and node-to-node networking, high-throughput storage to feed data, and large power and cooling capacity.\n- **Fine-tuning:** adapting an existing model to a specific task with less data and computing than training from scratch.\n- **Pattern:** runs as large batch jobs, often scheduled.\n\n## Inference\n\n- **What it is:** using a trained model to answer requests.\n- **Needs:** enough GPU memory to hold the model, enough throughput for the number of users, and low latency for interactive use.\n- **Pattern:** runs continuously, often with variable demand during the day.\n- **Optimisations:** quantisation (lower precision), batching of requests and efficient serving software.\n\n## Key differences\n\n- Training is usually the bigger short-term investment for model builders; inference often becomes the bigger long-term cost for organisations using models at scale.\n- Many enterprises fine-tune or use existing models and focus on inference infrastructure.\n- Inference may run at the edge, close to where data is created, such as in factories or stores.\n\n## Key terms\n\n- **Fine-tuning:** adapting a pre-trained model to a specific task.\n- **Quantisation:** using lower-precision numbers to reduce memory and increase speed.\n- **Batching:** processing several requests together for efficiency.\n- **Latency:** time to respond to a request.\n\n## Real-world example\n\nA bank wants an internal assistant for 5,000 employees. It does not need to train a model from scratch. The SI proposes fine-tuning an existing open model on internal documents using a short GPU cluster job, then serving the model on inference servers sized for peak concurrent users, with quantisation and batching. The project costs far less than building training infrastructure.\n\n## Common mistakes\n\n- Buying training-scale infrastructure for an inference-only need.\n- Sizing inference for average load instead of peaks.\n- Ignoring latency requirements.\n\n## Key takeaways\n\n- Training needs many connected GPUs, fast networks and storage; inference needs memory, throughput and low latency.\n- Many enterprises fine-tune existing models and focus on inference.\n- Use quantisation and batching to make inference efficient.",
+      "module": 2
     },
     {
       "position": 3,
-      "title": "Qualifying an AI or HPC opportunity",
+      "title": "Storage and networking for AI",
       "type": "TEXT",
-      "body": "Before proposing hardware, ask:\n\n- What problem should the workload solve, and how will success be measured?\n- What data is available, where is it stored, and how clean is it?\n- Is the workload training, inference, simulation, or analytics?\n- What are the performance targets and the time limit for results?\n- Who will run and maintain the environment, and what skills exist today?\n- What are the power, cooling, and rack space constraints?\n\nIf the answers are unclear, propose a short assessment or proof of concept before a large purchase."
+      "body": "GPUs are only as fast as the data and communication that feed them. Storage and networking are often the hidden bottlenecks in AI and HPC clusters.\n\n## Networking for AI\n\n- **Within a server:** GPU-to-GPU links such as NVLink.\n- **Between servers:** high-bandwidth, low-latency fabrics, typically 400 Gbps or more per GPU in large training clusters.\n- **InfiniBand:** a high-performance interconnect widely used in HPC and AI training.\n- **Ethernet with RoCE (RDMA over Converged Ethernet):** an Ethernet-based option that supports remote direct memory access; industry groups such as the Ultra Ethernet Consortium are developing Ethernet for AI and HPC.\n- **Topology:** non-blocking or low-oversubscription designs, such as fat-tree or rail-optimised layouts, so all GPUs can communicate at full speed.\n- **Separate networks:** compute fabric, storage network and management network are often separated.\n\n## Storage for AI\n\n- **High throughput:** training reads large datasets repeatedly; slow storage leaves GPUs idle.\n- **Parallel file systems:** such as Lustre, IBM Storage Scale and other high-performance file platforms, let many nodes read data at once.\n- **NVMe flash:** fast local or shared storage for active data.\n- **Tiering:** fast storage for active datasets and cheaper capacity storage or object storage for archives.\n- **Checkpointing:** training jobs save checkpoints regularly; storage must absorb these large writes quickly.\n\n## Key terms\n\n- **InfiniBand:** a high-performance, low-latency interconnect.\n- **RDMA / RoCE:** remote direct memory access / RDMA over Ethernet.\n- **Parallel file system:** shared storage designed for many simultaneous clients.\n- **Checkpoint:** a saved state of a training job for recovery.\n\n## Real-world example\n\nA research lab buys eight powerful GPU servers but connects them with a standard 10 Gbps network and a single NAS. GPU utilisation stays low because the GPUs wait for data and for each other. After the SI adds a 400 Gbps compute fabric and a parallel file system on NVMe, training jobs finish several times faster on the same GPUs.\n\n## Common mistakes\n\n- Spending on GPUs but not on network and storage.\n- Using oversubscribed networks for training clusters.\n- No plan for checkpoint storage.\n\n## Key takeaways\n\n- Use high-bandwidth, low-latency fabrics such as InfiniBand or RoCE Ethernet.\n- Use parallel file systems and NVMe to keep GPUs fed.\n- Separate compute, storage and management networks.",
+      "module": 3
     },
     {
       "position": 4,
-      "title": "Avoiding overpromising",
+      "title": "Power and cooling",
       "type": "TEXT",
-      "body": "AI projects often fail because expectations are unrealistic. Do not promise specific model accuracy or speed-up figures without a benchmark on the customer's own workload. Be clear about:\n\n- Which parts of the solution are standard and which need customisation.\n- The skills and time needed to build and operate the solution.\n- The ongoing costs of power, cooling, support, and upgrades.\n\nAn honest scope builds trust. A pilot that meets a clear target is a stronger outcome than a large purchase that does not."
+      "body": "AI servers use far more power than traditional servers. A single 8-GPU training server can draw around 10 kW, and racks of such servers can exceed 40 kW or much more. Power and cooling often decide whether an AI project can be deployed at all.\n\n## Power considerations\n\n- **Server power:** check the manufacturer's maximum power, not just typical figures. For example, NVIDIA specifies a maximum of about 10.2 kW for a DGX H100 system.\n- **Rack power:** traditional data centres often support 5 to 10 kW per rack; AI racks may need several times more.\n- **Electrical infrastructure:** UPS capacity, distribution, three-phase rack PDUs and generator capacity.\n- **Redundancy:** decide which AI workloads need full power redundancy; some training clusters accept less redundancy to reduce cost.\n\n## Cooling options\n\n- **Air cooling:** possible for moderate densities with good containment.\n- **Rear-door heat exchangers:** remove heat at the rack.\n- **Direct liquid cooling (DLC):** cold plates on GPUs and CPUs carry heat away with liquid; increasingly standard for high-end AI servers.\n- **Immersion cooling:** servers submerged in special fluid.\n- ASHRAE's TC 9.9 publishes guidance for liquid-cooled IT equipment as well as air-cooled environments.\n\n## Planning steps\n\n1. Get exact power and cooling specifications for the chosen servers.\n2. Check current facility capacity: power per rack, total power, cooling and floor loading.\n3. Choose a cooling approach and plan facility upgrades.\n4. Consider colocation or cloud if the site cannot support the density.\n\n## Key terms\n\n- **Rack density:** power per rack, in kW.\n- **Direct liquid cooling:** liquid-cooled cold plates on components.\n- **Colocation:** renting space, power and cooling in a third-party data centre.\n\n## Real-world example\n\nA company orders four 8-GPU servers and plans to put them in its existing server room, designed for 6 kW per rack. Each server needs about 10 kW. The SI flags the problem before delivery and arranges space in a colocation data centre that supports high-density racks with liquid cooling. The servers go live on time without overheating.\n\n## Common mistakes\n\n- Ordering AI servers before checking facility capacity.\n- Using typical rather than maximum power figures.\n- Assuming air cooling will always be enough.\n\n## Key takeaways\n\n- AI servers can draw around 10 kW each; racks may exceed 40 kW.\n- Check power, cooling and floor loading before ordering.\n- Plan for liquid cooling or colocation where needed.",
+      "module": 4
+    }
+  ],
+  "sources": [
+    {
+      "title": "NVIDIA Deep Learning Institute: AI and accelerated computing training",
+      "url": "https://www.nvidia.com/en-us/training/"
+    },
+    {
+      "title": "MLCommons: MLPerf training and inference benchmarks",
+      "url": "https://mlcommons.org/"
+    },
+    {
+      "title": "Ultra Ethernet Consortium: Ethernet for AI and HPC",
+      "url": "https://ultraethernet.org/"
+    },
+    {
+      "title": "ASHRAE TC 9.9: thermal guidelines including liquid cooling",
+      "url": "https://www.ashrae.org/"
+    },
+    {
+      "title": "PyTorch: open-source machine learning framework",
+      "url": "https://pytorch.org/"
     }
   ],
   "assessment": {
-    "title": "HPC, AI and ML Infrastructure Essentials: completion check",
-    "cadence": "ONE_TIME",
+    "title": "HPC, AI and ML Intermediate: completion check",
     "level": "INTERMEDIATE",
     "passMarkPercent": 70,
     "questions": [
-      { "position": 1, "type": "SINGLE", "text": "Which processors are commonly used for parallel AI training?", "options": ["Graphics processing units (GPUs)", "Printers", "Switches only", "UPS units"], "correct": ["Graphics processing units (GPUs)"], "points": 1 },
-      { "position": 2, "type": "SINGLE", "text": "Which phase makes predictions with a trained model?", "options": ["Training", "Inference", "Backup", "Cabling"], "correct": ["Inference"], "points": 1 },
-      { "position": 3, "type": "SINGLE", "text": "What should you do when a customer asks for a guaranteed model accuracy figure?", "options": ["Promise it to close the deal", "Benchmark on the customer's own workload before promising", "Quote the highest number you have seen", "Refuse to discuss performance"], "correct": ["Benchmark on the customer's own workload before promising"], "points": 1 },
-      { "position": 4, "type": "MULTIPLE", "text": "Which infrastructure needs are central to HPC and AI? (Select all that apply)", "options": ["High-speed, low-latency networking", "Fast storage to feed data to processors", "Power and cooling for dense racks", "A single printer"], "correct": ["High-speed, low-latency networking", "Fast storage to feed data to processors", "Power and cooling for dense racks"], "points": 2 },
-      { "position": 5, "type": "TRUE_FALSE", "text": "Proposing a short proof of concept is reasonable when the workload requirements are unclear.", "options": ["True", "False"], "correct": ["True"], "points": 1 }
+      {
+        "type": "SINGLE",
+        "text": "About how much memory do the weights of a 70-billion-parameter model need at 16-bit precision?",
+        "options": [
+          "14 GB",
+          "70 GB",
+          "140 GB",
+          "700 GB"
+        ],
+        "correct": [
+          "140 GB"
+        ],
+        "points": 1,
+        "explanation": "16-bit precision uses about 2 bytes per parameter: 70 billion × 2 bytes ≈ 140 GB."
+      },
+      {
+        "type": "SINGLE",
+        "text": "Which workload usually needs many connected GPUs, very fast networking and high-throughput storage?",
+        "options": [
+          "Inference for a few users",
+          "Large-scale training",
+          "Email",
+          "Printing"
+        ],
+        "correct": [
+          "Large-scale training"
+        ],
+        "points": 1,
+        "explanation": "Training large models is the most demanding workload."
+      },
+      {
+        "type": "TRUE_FALSE",
+        "text": "Quantisation uses lower-precision numbers to reduce memory use and speed up inference.",
+        "options": [
+          "True",
+          "False"
+        ],
+        "correct": [
+          "True"
+        ],
+        "points": 1,
+        "explanation": "Accuracy should be tested after quantisation."
+      },
+      {
+        "type": "MULTIPLE",
+        "text": "Which are high-performance networking options for AI clusters?",
+        "options": [
+          "InfiniBand",
+          "Ethernet with RoCE",
+          "NVLink within a server",
+          "Serial RS-232"
+        ],
+        "correct": [
+          "InfiniBand",
+          "Ethernet with RoCE",
+          "NVLink within a server"
+        ],
+        "points": 1,
+        "explanation": "RS-232 is a slow serial control link."
+      },
+      {
+        "type": "SINGLE",
+        "text": "About how much maximum power can a single 8-GPU training server such as a DGX H100 draw?",
+        "options": [
+          "500 W",
+          "2 kW",
+          "About 10 kW",
+          "100 kW"
+        ],
+        "correct": [
+          "About 10 kW"
+        ],
+        "points": 1,
+        "explanation": "NVIDIA specifies about 10.2 kW maximum for a DGX H100."
+      },
+      {
+        "type": "TRUE_FALSE",
+        "text": "Slow storage can leave expensive GPUs idle during training.",
+        "options": [
+          "True",
+          "False"
+        ],
+        "correct": [
+          "True"
+        ],
+        "points": 1,
+        "explanation": "Storage must feed data fast enough to keep GPUs busy."
+      },
+      {
+        "type": "MATCHING",
+        "text": "Match each term to its meaning.",
+        "options": [
+          "HBM=Fast memory attached to the GPU",
+          "Fine-tuning=Adapting a pre-trained model",
+          "Checkpoint=Saved training state",
+          "DLC=Liquid-cooled cold plates on components"
+        ],
+        "correct": [],
+        "points": 1,
+        "explanation": "These terms appear in every AI infrastructure design."
+      }
     ]
   }
 }

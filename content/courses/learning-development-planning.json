@@ -11,25 +11,25 @@
       "position": 1,
       "title": "Training needs analysis",
       "type": "TEXT",
-      "body": "Training should answer a real performance problem. A training needs analysis looks at three levels:\n\n- **Organisation:** what the business needs to achieve in the next year.\n- **Role:** what skills and knowledge each role requires.\n- **Individual:** where each person's current performance falls short.\n\nUse several sources: performance reviews, manager input, assessment results, customer feedback, and the team's own view. If a problem is caused by process, tools, or incentives rather than skill, training alone will not fix it."
+      "body": "A training needs analysis (TNA) finds the gap between the skills people have and the skills the business needs. Without it, training is often chosen because it is popular or available, not because it solves a real problem.\n\n## Three levels of analysis\n\n- **Organisational level:** what the business strategy requires. For example, a move into cloud services needs cloud-skilled presales and engineers.\n- **Role or task level:** the skills and knowledge each role needs to perform well.\n- **Individual level:** each person's current skills compared with what their role requires.\n\n## Methods for finding needs\n\n- **Business data:** sales results, customer satisfaction, project delays, audit findings and support ticket trends.\n- **Skill assessments:** tests, practical tasks and certification status.\n- **Performance reviews and manager input.**\n- **Surveys and interviews** with employees and customers.\n- **Observation** of people at work.\n\n## Is training the answer?\n\nNot every performance problem is a skills problem. Poor processes, unclear goals, missing tools or low motivation may be the real cause. A good TNA checks these before recommending training.\n\n## Key terms\n\n- **Training needs analysis (TNA):** a structured study of skill gaps.\n- **Skill gap:** the difference between current and required skills.\n- **Competency framework:** a defined set of skills and behaviours for each role.\n\n## Real-world example\n\nA company's support team takes too long to resolve network tickets. Managers ask for a general networking course. A TNA reviews ticket data and finds that most delays involve one type of firewall the team rarely sees, and that the knowledge base has no runbooks for it. The solution is a focused firewall workshop plus new runbooks, delivered at lower cost and with better results than a general course.\n\n## Common mistakes\n\n- Choosing training before identifying the problem.\n- Assuming every performance issue needs training.\n- Ignoring business data.\n\n## Key takeaways\n\n- Analyse needs at organisational, role and individual levels.\n- Use business data, assessments, reviews, surveys and observation.\n- Check whether training is really the right solution."
     },
     {
       "position": 2,
       "title": "Writing learning objectives",
       "type": "TEXT",
-      "body": "A learning objective states what the learner will be able to do afterwards, in observable terms. Compare:\n\n- Weak: 'Understand negotiation.'\n- Better: 'Prepare a negotiation plan with a target, an opening position, and a walk-away point, and use it in a practice role-play.'\n\nGood objectives make it clear what to teach, how to practise it, and how to check it. They also make it easier to choose the right format."
+      "body": "Learning objectives describe what learners will be able to do after the training. Clear objectives guide course design, help learners focus and make it possible to measure success.\n\n## Writing good objectives\n\nGood objectives are specific and measurable. Many organisations use the **SMART** guide: Specific, Measurable, Achievable, Relevant and Time-bound.\n\n- **Weak:** \"Understand firewalls.\"\n- **Strong:** \"By the end of the course, configure a firewall policy that allows only approved traffic between two network zones, without errors, in a lab.\"\n\n## Using action verbs\n\nBloom's taxonomy, revised in 2001, describes levels of thinking from simple to complex: **remember, understand, apply, analyse, evaluate and create.** Choose verbs that match the level you need:\n\n- Remember: list, define, identify.\n- Understand: explain, describe, summarise.\n- Apply: configure, calculate, demonstrate.\n- Analyse: compare, troubleshoot, diagnose.\n- Evaluate: recommend, justify, assess.\n- Create: design, plan, build.\n\nAvoid vague verbs such as \"know\", \"understand\" or \"be aware of\" in final objectives, because they cannot be measured directly.\n\n## Linking objectives to assessment\n\nEach objective should have a matching assessment. If the objective is \"configure\", the assessment should involve configuring, not just answering multiple-choice questions about it.\n\n## Key terms\n\n- **Learning objective:** a statement of what learners will be able to do.\n- **SMART:** Specific, Measurable, Achievable, Relevant, Time-bound.\n- **Bloom's taxonomy:** a framework of thinking levels for writing objectives.\n\n## Real-world example\n\nA presales course originally had the objective \"learn about RFPs\". It is rewritten to \"build a compliance matrix for a sample RFP, correctly marking each requirement and referencing evidence\". The course now includes a practical exercise, and managers see better RFP responses from participants.\n\n## Common mistakes\n\n- Vague objectives that cannot be measured.\n- Objectives that do not match the assessment.\n- Too many objectives for the time available.\n\n## Key takeaways\n\n- Write specific, measurable objectives using SMART and action verbs.\n- Use Bloom's levels to choose the right verb.\n- Match each objective to an assessment."
     },
     {
       "position": 3,
       "title": "Blended and experiential learning",
       "type": "TEXT",
-      "body": "Adults learn most when they practise on the job, with feedback. A widely used planning guide, sometimes called 70-20-10, suggests that most learning comes from experience on the job, some from working with others such as coaching and peer feedback, and a smaller part from formal courses. The split is a rule of thumb, not a measured law, so use it as a starting point.\n\nA blended programme might combine:\n\n- A short instructor-led session to introduce the skill.\n- Hands-on practice, such as a lab, role-play, or live exercise.\n- Coaching from a manager over the following weeks.\n- A short assessment to check learning."
+      "body": "People learn in many ways: courses, practice, colleagues and real work. Blended learning combines different methods to build skills more effectively than any single method alone.\n\n## Learning methods\n\n- **E-learning:** self-paced online courses, such as those on the company LMS.\n- **Instructor-led training:** in person or virtual, useful for discussion and practice.\n- **Hands-on labs:** practising technical skills in safe environments.\n- **On-the-job learning:** real tasks with guidance, such as shadowing an experienced engineer.\n- **Coaching and mentoring:** personal guidance from managers or senior colleagues.\n- **Peer learning:** learning circles, knowledge-sharing sessions and communities.\n- **Microlearning:** short lessons or videos for quick reference.\n\n## The 70-20-10 guideline\n\nA widely cited guideline, which originated in research associated with the Center for Creative Leadership, suggests that much development comes from challenging experiences (about 70%), a significant part from relationships with others (about 20%) and a smaller part from formal courses (about 10%). The percentages are a guide, not a rule, but the message is clear: formal training works best when combined with practice and support.\n\n## Designing a blended programme\n\n1. Start with the learning objectives.\n2. Choose methods that suit each objective: knowledge through e-learning, skills through labs and practice, behaviours through coaching.\n3. Sequence the programme: prepare, learn, practise, apply and review.\n4. Involve managers to support practice on the job.\n\n## Key terms\n\n- **Blended learning:** combining several learning methods.\n- **Experiential learning:** learning by doing and reflecting.\n- **70-20-10:** a guideline on sources of development.\n- **Microlearning:** short, focused learning units.\n\n## Real-world example\n\nA company trains new account managers with a two-day classroom course, but many struggle in their first customer meetings. The redesigned programme combines e-learning on products, role-play workshops, shadowing senior account managers for a month and weekly coaching. New account managers reach their first targets faster.\n\n## Common mistakes\n\n- Relying only on classroom training.\n- No opportunity to practise new skills.\n- Managers not involved in supporting learning.\n\n## Key takeaways\n\n- Combine e-learning, instructor-led training, labs, on-the-job learning, coaching and peer learning.\n- Use 70-20-10 as a guide: practice and relationships matter as much as courses.\n- Design from objectives and involve managers."
     },
     {
       "position": 4,
       "title": "Measuring impact",
       "type": "TEXT",
-      "body": "The Kirkpatrick model describes four levels of evaluation:\n\n1. **Reaction:** did participants find the training relevant and well delivered?\n2. **Learning:** did they gain the knowledge or skill, as measured by an assessment?\n3. **Behaviour:** are they applying it at work, as observed by their manager?\n4. **Results:** did the business outcome improve, such as fewer errors, faster deals, or higher retention?\n\nMost programmes measure only the first level. Plan at least levels two and three from the start, by setting the assessment and the manager observation before the course runs."
+      "body": "Measuring the impact of training shows whether it worked and whether it was worth the investment. The most widely used approach is the **Kirkpatrick Model,** which evaluates training at four levels.\n\n## The four Kirkpatrick levels\n\n1. **Reaction:** did participants find the training useful and engaging? Measured with feedback forms.\n2. **Learning:** did they gain the intended knowledge and skills? Measured with assessments, tests and practical tasks.\n3. **Behaviour:** do they apply what they learned on the job? Measured through observation, manager feedback and work data, typically weeks or months later.\n4. **Results:** did the training improve business outcomes, such as sales, customer satisfaction, quality or fewer incidents?\n\nSome practitioners add a fifth level, **return on investment (ROI),** associated with the Phillips ROI Methodology, comparing the monetary benefit of training with its cost.\n\n## Making measurement practical\n\n- Decide how you will measure results before designing the training.\n- Collect baseline data before the training, so you can compare.\n- Use data the business already tracks, such as ticket resolution times or win rates.\n- Involve managers in observing behaviour change.\n- Report results clearly, including what did not work.\n\n## Key terms\n\n- **Kirkpatrick Model:** a four-level framework for evaluating training.\n- **Baseline:** performance measured before training.\n- **ROI:** return on investment.\n- **Behaviour change:** applying new skills at work.\n\n## Real-world example\n\nA company runs troubleshooting training for support engineers. Feedback scores are high (level 1) and test scores improve (level 2). Three months later, managers confirm engineers use the new troubleshooting method (level 3), and average ticket resolution time falls compared with the baseline (level 4). The results justify extending the programme to other teams.\n\n## Common mistakes\n\n- Measuring only participant satisfaction.\n- No baseline data before training.\n- Not involving managers in follow-up.\n\n## Key takeaways\n\n- Use Kirkpatrick's four levels: reaction, learning, behaviour and results.\n- Plan measurement before training and collect baselines.\n- Link training to business data and report honestly."
     }
   ],
   "assessment": {
@@ -38,11 +38,125 @@
     "level": "INTERMEDIATE",
     "passMarkPercent": 70,
     "questions": [
-      { "position": 1, "type": "SINGLE", "text": "What is the first thing a training needs analysis should establish?", "options": ["The training budget", "The performance problem that training must solve", "The trainer's favourite topic", "The course length"], "correct": ["The performance problem that training must solve"], "points": 1 },
-      { "position": 2, "type": "SINGLE", "text": "Which learning objective is most observable and measurable?", "options": ["Understand negotiation", "Know the company values", "Prepare a negotiation plan with a walk-away point and use it in a role-play", "Be aware of the market"], "correct": ["Prepare a negotiation plan with a walk-away point and use it in a role-play"], "points": 1 },
-      { "position": 3, "type": "SINGLE", "text": "In the Kirkpatrick model, what does the Behaviour level measure?", "options": ["Whether participants enjoyed the course", "Whether participants gained knowledge in a test", "Whether participants apply the learning at work", "Whether the business results improved"], "correct": ["Whether participants apply the learning at work"], "points": 1 },
-      { "position": 4, "type": "MULTIPLE", "text": "Which sources are useful for a training needs analysis? (Select all that apply)", "options": ["Performance reviews", "Manager input", "Customer feedback", "The course room's furniture"], "correct": ["Performance reviews", "Manager input", "Customer feedback"], "points": 2 },
-      { "position": 5, "type": "TRUE_FALSE", "text": "If a performance problem is caused by an unclear process, training alone is likely to fix it.", "options": ["True", "False"], "correct": ["False"], "points": 1 }
+      {
+        "type": "SINGLE",
+        "text": "What does a training needs analysis identify?",
+        "options": [
+          "The cheapest course",
+          "The gap between current and required skills",
+          "The trainer's availability",
+          "The training room size"
+        ],
+        "correct": [
+          "The gap between current and required skills"
+        ],
+        "points": 1,
+        "explanation": "TNA links training to real skill gaps."
+      },
+      {
+        "type": "SINGLE",
+        "text": "Which is the best learning objective?",
+        "options": [
+          "Understand firewalls",
+          "Know about RFPs",
+          "Configure a firewall policy between two zones without errors in a lab",
+          "Be aware of security"
+        ],
+        "correct": [
+          "Configure a firewall policy between two zones without errors in a lab"
+        ],
+        "points": 1,
+        "explanation": "Good objectives are specific and measurable."
+      },
+      {
+        "type": "MULTIPLE",
+        "text": "Which are levels of the Kirkpatrick Model?",
+        "options": [
+          "Reaction",
+          "Learning",
+          "Behaviour",
+          "Results",
+          "Attendance"
+        ],
+        "correct": [
+          "Reaction",
+          "Learning",
+          "Behaviour",
+          "Results"
+        ],
+        "points": 1,
+        "explanation": "Attendance is not a Kirkpatrick level."
+      },
+      {
+        "type": "TRUE_FALSE",
+        "text": "Every performance problem should be solved with training.",
+        "options": [
+          "True",
+          "False"
+        ],
+        "correct": [
+          "False"
+        ],
+        "points": 1,
+        "explanation": "Processes, tools, goals or motivation may be the real cause."
+      },
+      {
+        "type": "SINGLE",
+        "text": "In the 70-20-10 guideline, where does the largest share of development come from?",
+        "options": [
+          "Formal courses",
+          "Relationships",
+          "Challenging experiences and practice",
+          "Reading manuals"
+        ],
+        "correct": [
+          "Challenging experiences and practice"
+        ],
+        "points": 1,
+        "explanation": "About 70% is attributed to experience; the numbers are a guide."
+      },
+      {
+        "type": "SINGLE",
+        "text": "Which Bloom's taxonomy level does 'design a network' belong to?",
+        "options": [
+          "Remember",
+          "Understand",
+          "Create",
+          "Apply"
+        ],
+        "correct": [
+          "Create"
+        ],
+        "points": 1,
+        "explanation": "Design, plan and build are 'create' verbs."
+      },
+      {
+        "type": "MATCHING",
+        "text": "Match each Kirkpatrick level to how it is measured.",
+        "options": [
+          "Reaction=Feedback forms",
+          "Learning=Tests and practical tasks",
+          "Behaviour=Observation on the job",
+          "Results=Business outcomes"
+        ],
+        "correct": [],
+        "points": 1,
+        "explanation": "Each level needs different evidence."
+      }
     ]
-  }
+  },
+  "sources": [
+    {
+      "title": "Kirkpatrick Partners: the Kirkpatrick Model of training evaluation",
+      "url": "https://www.kirkpatrickpartners.com/"
+    },
+    {
+      "title": "ATD (Association for Talent Development): learning and development resources",
+      "url": "https://www.td.org/"
+    },
+    {
+      "title": "Center for Creative Leadership: leadership development research",
+      "url": "https://www.ccl.org/"
+    }
+  ]
 }

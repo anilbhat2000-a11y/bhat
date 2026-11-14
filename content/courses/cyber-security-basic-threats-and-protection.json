@@ -29,29 +29,47 @@
       "position": 1,
       "title": "Threat landscape",
       "type": "TEXT",
-      "body": "Most attacks on companies start with people, not technology.\n\n## Common threats\n\n- **Phishing:** emails or messages that trick you into clicking a link, opening an attachment or giving a password. Look for urgency, unexpected requests and mismatched sender addresses.\n- **Ransomware:** malware that encrypts files and demands payment. Often arrives through phishing or unpatched systems.\n- **Business email compromise:** criminals impersonate a manager or vendor to request payments or bank detail changes.\n- **Credential theft:** stolen or reused passwords used to log in as you.\n- **Insider risk:** data taken or damaged by someone inside, deliberately or by mistake.\n\n> If an email asks you to act urgently, pay, change bank details or log in, stop and verify through another channel.",
+      "body": "Cyber threats affect organisations of every size. Attackers want money, data or disruption, and they often target people and small mistakes rather than advanced technical weaknesses. Understanding the main threats is the first step to defending against them.\n\n## Common threats\n\n- **Phishing:** fake emails, messages or calls that trick people into clicking links, opening attachments or sharing passwords and OTPs.\n- **Ransomware:** malware that encrypts files and demands payment, often also stealing data and threatening to publish it.\n- **Business email compromise (BEC):** criminals impersonate executives or suppliers to request urgent payments or bank detail changes.\n- **Malware:** harmful software such as viruses, trojans and spyware.\n- **Credential attacks:** using stolen or guessed passwords to log in, often from data breaches at other sites.\n- **Denial of service (DoS/DDoS):** flooding a service with traffic so that it becomes unavailable.\n- **Insider threats:** employees or contractors misusing access, deliberately or by accident.\n- **Supply chain attacks:** compromising a supplier or software update to reach its customers.\n\n## Why attacks succeed\n\n- Unpatched software with known vulnerabilities.\n- Weak or reused passwords without multi-factor authentication.\n- Users who are not trained to spot phishing.\n- Too many people with administrator rights.\n- No tested backups, so ransomware has more impact.\n\n## Key terms\n\n- **Vulnerability:** a weakness that can be exploited.\n- **Exploit:** a method of taking advantage of a vulnerability.\n- **Malware:** malicious software.\n- **Attack surface:** all the points where an attacker could try to get in.\n\n## Real-world example\n\nA mid-sized manufacturer receives an email that appears to come from a regular supplier, with an \"updated invoice\" attachment. An accounts clerk opens it, and malware installs silently. Over the next week, attackers move through the network and then launch ransomware on a Friday night. Because backups were connected to the same network, they are encrypted too. Recovery takes weeks. Training, patching, MFA and offline backups would each have reduced the damage.\n\n## Common mistakes\n\n- Thinking \"we are too small to be targeted\".\n- Relying only on antivirus.\n- Keeping backups online and reachable by attackers.\n\n## Key takeaways\n\n- Phishing, ransomware, BEC and credential attacks are the most common threats.\n- Attacks usually exploit unpatched systems, weak passwords and untrained users.\n- Every organisation is a target.",
       "module": 1
     },
     {
       "position": 2,
       "title": "Layers of protection",
       "type": "TEXT",
-      "body": "No single product stops every attack. Security works in layers, so that if one fails, another catches the threat.\n\n## The main layers\n\n- **Firewall:** controls traffic between the internet and the company network, and between internal segments.\n- **Email security:** filters spam, phishing and malicious attachments.\n- **Endpoint protection:** on laptops and servers, detects and blocks malware; modern tools (EDR) also detect suspicious behaviour.\n- **Patching:** updates close the holes attackers use.\n- **Backups:** kept separate and tested, so data can be restored after ransomware.\n- **Access control:** each person gets only the access they need.\n- **People:** trained staff who spot and report attacks.\n\nThese are also the building blocks of most security solutions we sell.",
+      "body": "No single security product can stop every attack. Defence in depth uses several layers of protection, so that if one layer fails, others still stand between the attacker and the organisation's data.\n\n## The layers of protection\n\n- **People:** security awareness training, clear policies and a culture of reporting.\n- **Identity:** strong passwords, multi-factor authentication and least-privilege access.\n- **Endpoint:** endpoint protection or EDR, patching and device management on laptops, desktops and servers.\n- **Network:** firewalls, segmentation and secure Wi-Fi.\n- **Email and web:** filtering of malicious emails, links and websites.\n- **Applications:** secure configuration and regular updates.\n- **Data:** encryption, access controls and data loss prevention.\n- **Backup and recovery:** regular, tested backups, with at least one copy offline or immutable.\n- **Monitoring and response:** detecting suspicious activity and responding quickly.\n\n## The 3-2-1 backup rule\n\nA widely recommended practice is to keep at least **three** copies of important data, on **two** different types of media, with **one** copy off-site or offline. Many organisations now add an immutable copy that cannot be changed or deleted, to resist ransomware.\n\n## Key terms\n\n- **Defence in depth:** multiple layers of security controls.\n- **Least privilege:** giving users only the access they need.\n- **EDR:** endpoint detection and response.\n- **Immutable backup:** a backup that cannot be altered or deleted for a set period.\n\n## Real-world example\n\nAn employee at a logistics company clicks a phishing link and enters her password on a fake login page. The attacker tries to log in but is stopped by MFA. The suspicious attempt is flagged by monitoring, and the security team resets the password and reminds staff about the phishing campaign. One layer (the user) failed, but two others (MFA and monitoring) stopped the attack.\n\n## Common mistakes\n\n- Relying on one product, such as a firewall, to stop everything.\n- Giving everyone administrator rights.\n- Never testing backup restores.\n\n## Key takeaways\n\n- Use multiple layers: people, identity, endpoint, network, email, data, backup and monitoring.\n- Follow the 3-2-1 backup rule with an offline or immutable copy.\n- Assume one layer may fail; design so others still protect you.",
       "module": 2
     },
     {
       "position": 3,
       "title": "Passwords and MFA",
       "type": "TEXT",
-      "body": "Passwords are still the main lock on most accounts.\n\n## Good passwords\n\n- Long: a passphrase of several words is strong and easy to remember.\n- Unique: never reuse a work password anywhere else.\n- Stored in an approved password manager, not on paper or in a spreadsheet.\n\n## Multi-factor authentication (MFA)\n\nMFA asks for something more than a password, such as a code from an app or a security key. Even if a password is stolen, the attacker cannot log in without the second factor.\n\n- Turn on MFA wherever it is offered.\n- Never approve an MFA prompt you did not start; it means someone has your password. Report it.",
+      "body": "Passwords remain the most common way people log in, and stolen passwords are one of the most common ways attackers get in. Strong password practices and multi-factor authentication (MFA) block most account takeovers.\n\n## Good password practice\n\nModern guidance, such as NIST Special Publication 800-63B, focuses on making passwords hard to guess and easy to use:\n\n- **Length matters more than complexity:** long passphrases are stronger and easier to remember than short, complex passwords.\n- **Use a unique password for every account,** so a breach at one site does not expose others.\n- **Use a password manager** to generate and store passwords.\n- **Check passwords against lists of known breached passwords.**\n- **Avoid forced periodic changes** unless there is evidence of compromise; frequent forced changes lead to weaker, predictable passwords.\n- **Never share passwords** or write them where others can see them.\n\n## Multi-factor authentication\n\nMFA requires two or more types of evidence:\n\n- Something you **know:** a password or PIN.\n- Something you **have:** a phone app, hardware key or smart card.\n- Something you **are:** a fingerprint or face.\n\nSome MFA methods are stronger than others. SMS codes are better than nothing but can be intercepted. Authenticator apps are stronger. **Phishing-resistant MFA,** such as FIDO2 security keys and passkeys, is the strongest, because it cannot be tricked into working on a fake website.\n\n## MFA fatigue\n\nAttackers who have a password sometimes send repeated MFA push requests, hoping the user will approve one to stop the alerts. Never approve an MFA prompt you did not start; report it.\n\n## Key terms\n\n- **Passphrase:** a long password made of several words.\n- **Password manager:** software that stores and generates passwords securely.\n- **MFA:** multi-factor authentication.\n- **Passkey:** a phishing-resistant credential based on FIDO standards.\n\n## Real-world example\n\nAn employee reuses his work password on a shopping website that is later breached. Attackers try the leaked email and password on the company's email system. Because MFA is enabled, the login fails. The security team sees the attempt, forces a password reset, and the employee starts using a password manager.\n\n## Common mistakes\n\n- Reusing passwords across sites.\n- Approving unexpected MFA prompts.\n- Relying only on SMS codes for high-risk accounts.\n\n## Key takeaways\n\n- Use long, unique passwords and a password manager.\n- Turn on MFA everywhere, preferring authenticator apps or passkeys.\n- Never approve an MFA prompt you did not start.",
       "module": 3
     },
     {
       "position": 4,
       "title": "Reporting incidents",
       "type": "TEXT",
-      "body": "Fast reporting limits the damage of an incident.\n\n## Report immediately if\n\n- you clicked a suspicious link or opened a suspicious attachment;\n- you entered your password on a page you now doubt;\n- you see unexpected MFA prompts;\n- your device behaves strangely, or files become unreadable;\n- you lose a laptop, phone or storage device.\n\n## How\n\nReport to IT and your manager at once [PLACEHOLDER: company IT security contact]. Do not try to fix it alone, and do not switch off an infected device unless told to; disconnect it from the network instead.\n\n> In India, organisations must report certain cyber incidents to CERT-In within short time limits. Your quick report helps the company meet that duty.",
+      "body": "Quick reporting is one of the most effective security controls. The sooner a suspected incident is reported, the sooner it can be contained, and the less damage it causes.\n\n## What to report\n\n- Suspicious emails, especially ones you clicked or replied to.\n- Unusual computer behaviour: pop-ups, slowness, files you cannot open, or programs starting on their own.\n- Lost or stolen laptops, phones or ID cards.\n- Unexpected MFA prompts or password reset emails.\n- Requests for payments or bank detail changes that seem unusual.\n- Accidentally sending sensitive data to the wrong person.\n\n## How to report\n\n1. Report immediately to the IT helpdesk or security team using the company's reporting channel.\n2. Describe what happened, when, and what you clicked or entered.\n3. Follow instructions, such as disconnecting from the network. Do not turn off the device unless told to, as this can destroy evidence.\n4. Do not try to investigate or fix the problem yourself.\n5. Do not delete the suspicious email; the security team may need it.\n\n## Why speed matters\n\nIn India, the CERT-In directions of 28 April 2022 require organisations to report specified cyber security incidents to CERT-In within **six hours** of noticing them. The company can meet this only if employees report quickly.\n\n## Key terms\n\n- **Security incident:** an event that may compromise the confidentiality, integrity or availability of information.\n- **Containment:** limiting the spread of an incident.\n- **CERT-In:** the Indian Computer Emergency Response Team.\n\n## Real-world example\n\nA sales executive realises, an hour after clicking a link, that the \"shared document\" login page looked odd. She reports it immediately and admits she entered her password. The security team resets her password, revokes active sessions and checks for suspicious activity. They find the attacker had already set up an email forwarding rule to send her emails outside the company, and remove it within minutes. Her quick report prevented a much bigger breach.\n\n## Common mistakes\n\n- Staying silent out of embarrassment.\n- Waiting to see if anything bad happens.\n- Deleting evidence or trying to fix it yourself.\n\n## Key takeaways\n\n- Report suspicious events immediately, even if unsure.\n- Describe what happened and follow instructions; do not investigate yourself.\n- Quick reporting helps meet the CERT-In six-hour reporting requirement.",
       "module": 4
+    }
+  ],
+  "sources": [
+    {
+      "title": "CERT-In: incident reporting, advisories and the cyber security directions of 28 April 2022",
+      "url": "https://www.cert-in.org.in/"
+    },
+    {
+      "title": "CISA: Secure Our World (phishing, MFA and passwords guidance)",
+      "url": "https://www.cisa.gov/secure-our-world"
+    },
+    {
+      "title": "NIST SP 800-63B: Digital Identity Guidelines (authentication and passwords)",
+      "url": "https://pages.nist.gov/800-63-4/"
+    },
+    {
+      "title": "FIDO Alliance: passkeys and phishing-resistant authentication",
+      "url": "https://fidoalliance.org/"
     }
   ],
   "assessment": {
@@ -61,79 +79,106 @@
     "questions": [
       {
         "type": "SINGLE",
-        "text": "An email from your 'manager' urgently asks you to change a vendor's bank details. What should you do?",
+        "text": "An email from a 'supplier' asks you to urgently pay to a new bank account. What type of attack might this be?",
         "options": [
-          "Verify through another channel before acting",
-          "Change them immediately",
-          "Reply asking for more urgency",
-          "Forward it to the vendor"
+          "DDoS",
+          "Business email compromise",
+          "Patching",
+          "Backup"
         ],
         "correct": [
-          "Verify through another channel before acting"
+          "Business email compromise"
         ],
-        "points": 1
+        "points": 1,
+        "explanation": "BEC impersonates executives or suppliers to redirect payments."
       },
       {
-        "type": "MATCHING",
-        "text": "Match each threat to its description.",
+        "type": "SINGLE",
+        "text": "What does the 3-2-1 backup rule recommend?",
         "options": [
-          "Phishing=Tricks you into clicking or giving a password",
-          "Ransomware=Encrypts files and demands payment",
-          "Business email compromise=Impersonates a manager or vendor to request payments"
+          "3 passwords, 2 users, 1 server",
+          "3 copies, 2 media types, 1 off-site or offline",
+          "Backups every 3 hours, 2 days, 1 week",
+          "3 firewalls, 2 switches, 1 router"
         ],
-        "correct": [],
-        "points": 3
+        "correct": [
+          "3 copies, 2 media types, 1 off-site or offline"
+        ],
+        "points": 1,
+        "explanation": "The rule protects against single failures and ransomware."
+      },
+      {
+        "type": "MULTIPLE",
+        "text": "Which are good password practices?",
+        "options": [
+          "Long passphrases",
+          "Unique passwords for each account",
+          "Using a password manager",
+          "Sharing passwords with trusted colleagues"
+        ],
+        "correct": [
+          "Long passphrases",
+          "Unique passwords for each account",
+          "Using a password manager"
+        ],
+        "points": 1,
+        "explanation": "Passwords must never be shared."
+      },
+      {
+        "type": "SINGLE",
+        "text": "Which MFA method is phishing-resistant?",
+        "options": [
+          "SMS code",
+          "Email code",
+          "FIDO2 security key or passkey",
+          "Security question"
+        ],
+        "correct": [
+          "FIDO2 security key or passkey"
+        ],
+        "points": 1,
+        "explanation": "FIDO2 credentials work only with the genuine website."
       },
       {
         "type": "TRUE_FALSE",
-        "text": "Security works best in layers, so that if one control fails another catches the threat.",
+        "text": "You should approve an unexpected MFA prompt to stop the notifications.",
         "options": [
           "True",
           "False"
         ],
         "correct": [
-          "True"
+          "False"
         ],
-        "points": 1
+        "points": 1,
+        "explanation": "Unexpected prompts can mean an attacker has your password. Deny and report."
       },
       {
         "type": "SINGLE",
-        "text": "You receive an MFA prompt you did not start. What does it mean?",
+        "text": "Within how many hours must specified incidents be reported to CERT-In?",
         "options": [
-          "Someone may have your password; report it",
-          "The system is testing you; approve it",
-          "Nothing; ignore it forever",
-          "Your phone needs charging"
+          "2",
+          "6",
+          "24",
+          "72"
         ],
         "correct": [
-          "Someone may have your password; report it"
+          "6"
         ],
-        "points": 1
+        "points": 1,
+        "explanation": "The CERT-In directions of 28 April 2022 set a six-hour reporting window."
       },
       {
-        "type": "MULTIPLE",
-        "text": "Which should be reported to IT immediately? Select all that apply.",
+        "type": "TRUE_FALSE",
+        "text": "If you suspect your laptop has malware, you should delete the suspicious email and try to fix it yourself before telling anyone.",
         "options": [
-          "Clicking a suspicious link",
-          "Losing a company laptop",
-          "Files suddenly becoming unreadable",
-          "A colleague's birthday"
+          "True",
+          "False"
         ],
         "correct": [
-          "Clicking a suspicious link",
-          "Losing a company laptop",
-          "Files suddenly becoming unreadable"
+          "False"
         ],
-        "points": 2
-      },
-      {
-        "type": "FILL_BLANK",
-        "text": "Asking for a code from an app in addition to a password is called multi-factor ____.",
-        "options": [
-          "authentication"
-        ],
-        "correct": [],
-        "points": 1
+        "points": 1,
+        "explanation": "Report immediately and keep evidence."
       }
     ]
   }

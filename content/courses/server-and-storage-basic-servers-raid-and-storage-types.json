@@ -29,29 +29,43 @@
       "position": 1,
       "title": "Server form factors",
       "type": "TEXT",
-      "body": "Servers come in three main shapes.\n\n- **Tower servers:** look like desktop PCs; for small offices without a rack. Quiet and simple, but take floor space.\n- **Rack servers:** fit standard 19-inch racks, measured in rack units (1U, 2U and so on). The most common choice in server rooms and data centres.\n- **Blade servers:** thin servers sharing power, cooling and networking in a chassis. Dense; suited to larger deployments.\n\n## Choosing\n\n- Number of servers now and later.\n- Space, power and cooling available.\n- Expansion needs: drives, memory, GPUs, network cards.\n- Management: remote management controllers on each server.",
+      "body": "A server is a computer designed to provide services, such as applications, databases, files or email, to many users. Servers are built for reliability, manageability and continuous operation, unlike desktop PCs.\n\n## Server form factors\n\n- **Tower servers:** look like large desktop PCs. Suitable for small offices without racks.\n- **Rack servers:** mounted in standard 19-inch racks, measured in rack units (1U = 1.75 inches). 1U and 2U servers are the most common in data centres.\n- **Blade servers:** thin servers that slide into a shared chassis providing power, cooling and networking. Dense and easier to cable.\n- **Multi-node and high-density servers:** several server nodes in one chassis, used for virtualisation, HPC and hyperconverged systems.\n\n## Key server components\n\n- **Processors (CPUs):** one or two sockets, each with many cores.\n- **Memory (RAM):** server memory uses error-correcting code (ECC) to detect and fix memory errors.\n- **Storage drives:** hard disk drives (HDDs) for capacity, solid-state drives (SSDs) for speed; NVMe SSDs are the fastest.\n- **RAID controller:** protects data across multiple drives.\n- **Network interfaces:** often multiple ports at 10, 25 Gbps or faster.\n- **Redundant power supplies and fans:** keep the server running if one fails.\n- **Out-of-band management:** a built-in management controller that allows remote power control, monitoring and console access, often supporting standards such as Redfish.\n\n## Key terms\n\n- **Form factor:** the physical shape and size of a server.\n- **ECC memory:** memory that detects and corrects errors.\n- **NVMe:** a fast interface for SSDs.\n- **Hot-swap:** replacing a component, such as a drive or power supply, without shutting down.\n\n## Real-world example\n\nA growing accounting firm runs its file shares and accounting software on a desktop PC in a cupboard. When the PC's single drive fails, the firm loses two days of work. An SI replaces it with a small tower server with redundant power supplies, ECC memory, mirrored drives and remote management, plus a backup solution. Later failures of a drive or power supply cause no downtime.\n\n## Common mistakes\n\n- Using desktop PCs as servers.\n- Single power supplies and drives for important systems.\n- Not enabling remote management.\n\n## Key takeaways\n\n- Choose tower, rack, blade or multi-node servers based on space and scale.\n- Servers use ECC memory, redundant components and remote management for reliability.\n- Match drives to need: HDD for capacity, SSD and NVMe for speed.",
       "module": 1
     },
     {
       "position": 2,
       "title": "RAID",
       "type": "TEXT",
-      "body": "RAID combines several drives to improve resilience, performance or both.\n\n## Common levels\n\n- **RAID 0 (striping):** fast, but no protection; one drive failure loses everything.\n- **RAID 1 (mirroring):** two copies; survives one drive failure; 50% usable capacity.\n- **RAID 5 (single parity):** survives one drive failure; usable capacity is (number of drives − 1).\n- **RAID 6 (double parity):** survives two drive failures; usable capacity is (number of drives − 2).\n- **RAID 10 (mirroring + striping):** fast and resilient; 50% usable capacity.\n\n## Example\n\nSix 4 TB drives: RAID 5 gives 20 TB usable; RAID 6 gives 16 TB; RAID 10 gives 12 TB.\n\n> RAID is not a backup. It protects against drive failure, not against deletion, corruption or ransomware.",
+      "body": "RAID (redundant array of independent disks) combines several drives so that data survives a drive failure, improves performance, or both. It is a basic building block of server and storage reliability.\n\n## Common RAID levels\n\n- **RAID 0 (striping):** data spread across drives for speed. **No protection;** if one drive fails, all data is lost.\n- **RAID 1 (mirroring):** data copied to two drives. Survives one drive failure; usable capacity is half.\n- **RAID 5 (single parity):** data and parity spread across at least three drives. Survives one drive failure. Usable capacity is (number of drives − 1) × drive size.\n- **RAID 6 (double parity):** at least four drives. Survives two drive failures. Usable capacity is (number of drives − 2) × drive size.\n- **RAID 10 (mirror + stripe):** at least four drives. Fast and resilient; usable capacity is half.\n\n## Choosing a RAID level\n\n- **Large HDDs:** rebuilding a failed large drive can take many hours or days, during which another failure in RAID 5 would lose data. RAID 6 is often preferred for large HDD arrays.\n- **Databases and write-heavy workloads:** RAID 10 offers good write performance.\n- **Hot spares:** spare drives that automatically replace a failed drive and start the rebuild.\n\n## RAID is not backup\n\nRAID protects against drive failure. It does **not** protect against accidental deletion, ransomware, corruption or the loss of the whole server. Backups are still essential.\n\n## Key terms\n\n- **Striping:** spreading data across drives.\n- **Mirroring:** keeping identical copies on two drives.\n- **Parity:** calculated data used to rebuild lost information.\n- **Rebuild:** recreating data on a replacement drive.\n\n## Real-world example\n\nA file server uses RAID 5 with six 12 TB hard drives. One drive fails, and during the long rebuild, a second drive fails. All data on the array is lost, and the last backup is a week old. The redesign uses RAID 6 with a hot spare and daily backups, so two drive failures can be tolerated and recovery points are recent.\n\n## Common mistakes\n\n- Using RAID 0 for important data.\n- RAID 5 on large HDDs without considering rebuild risk.\n- Treating RAID as a substitute for backup.\n\n## Key takeaways\n\n- RAID 1, 5, 6 and 10 protect against drive failures; RAID 0 does not.\n- Consider rebuild times and choose RAID 6 or RAID 10 where appropriate.\n- RAID is never a replacement for backup.",
       "module": 2
     },
     {
       "position": 3,
       "title": "DAS, NAS and SAN",
       "type": "TEXT",
-      "body": "Storage can be connected to servers in three main ways.\n\n## DAS: direct-attached storage\n\nDrives inside or cabled directly to one server. Simple and fast, but not easily shared.\n\n## NAS: network-attached storage\n\nA storage device on the network that shares **files** (for example over SMB or NFS). Good for shared folders, home directories and file archives.\n\n## SAN: storage area network\n\nA dedicated network giving servers access to **blocks** of storage, as if they were local disks (for example over Fibre Channel or iSCSI). Used for databases and virtualisation clusters that need shared, high-performance storage.\n\n## Choosing\n\nAsk what is stored (files or application data), how many servers need it, the performance needed, and the growth expected.",
+      "body": "Storage can be attached to servers in different ways. Choosing between DAS, NAS, SAN and object storage depends on how data is shared, the performance needed and the scale.\n\n## The main storage types\n\n- **DAS (direct-attached storage):** drives inside the server or in an enclosure connected directly to it. Simple and fast, but not easily shared between servers.\n- **NAS (network-attached storage):** a storage device that shares files over the network using file protocols such as **SMB** (common with Windows) and **NFS** (common with Linux). Good for file shares and home directories.\n- **SAN (storage area network):** provides **block storage** to servers over a dedicated network, using **Fibre Channel**, **iSCSI** over Ethernet, or newer **NVMe over Fabrics**. The server sees the storage as its own disk. Used for databases and virtualisation clusters.\n- **Object storage:** stores data as objects with metadata, accessed through APIs such as the S3-compatible API. Scales to very large capacities; used for backups, archives, media and data lakes.\n\n## File, block and object\n\n- **File storage:** organised in folders and files; shared through NAS.\n- **Block storage:** raw volumes presented to servers; delivered through SAN or DAS.\n- **Object storage:** flat namespace of objects with metadata; accessed through APIs.\n\n## Key terms\n\n- **SMB / NFS:** file-sharing protocols.\n- **iSCSI:** block storage over IP networks.\n- **Fibre Channel:** a dedicated high-speed storage network technology.\n- **LUN:** a logical unit number, a block volume presented to a server.\n\n## Real-world example\n\nAn architecture firm stores large drawing files on each designer's PC and emails them back and forth. Versions get lost. The SI installs a NAS with SMB shares, snapshots and backup. For the firm's virtualised servers, it later adds iSCSI block storage. Each type of data now sits on the right kind of storage.\n\n## Common mistakes\n\n- Using DAS when several servers need shared storage.\n- Running databases on slow file shares.\n- Ignoring object storage for large backup and archive needs.\n\n## Key takeaways\n\n- DAS is direct, NAS shares files, SAN provides block storage, object storage scales with APIs.\n- Match storage type to how data is used and shared.\n- Know the protocols: SMB, NFS, iSCSI, Fibre Channel, NVMe-oF and S3.",
       "module": 3
     },
     {
       "position": 4,
       "title": "Refresh requirements",
       "type": "TEXT",
-      "body": "A server refresh starts with understanding what exists and what is needed.\n\n## Collect requirements\n\n- Current servers: age, warranty and support status, utilisation of CPU, memory and storage.\n- Applications: what runs where, and their performance needs.\n- Growth: users, data and new applications expected over three to five years.\n- Availability: which systems cannot go down.\n- Constraints: rack space, power, cooling, budget.\n\n## Opportunities\n\n- Consolidate many old servers onto fewer new ones with virtualisation.\n- Right-size storage with the right RAID level and room for growth.\n- Add backup and DR if they are missing.\n\n> This module includes a lab: collect refresh requirements using a sample checklist.",
+      "body": "Server and storage refresh projects are common opportunities. Gathering the right requirements ensures the new system fits current needs and future growth.\n\n## Requirements to gather\n\n- **Workloads:** which applications and databases will run, and how critical they are.\n- **Performance:** CPU, memory and storage performance, measured from current systems where possible: IOPS, throughput and latency.\n- **Capacity:** current data size, growth rate and retention needs.\n- **Availability:** acceptable downtime and the need for clustering or redundancy.\n- **Backup and recovery:** RPO and RTO targets.\n- **Virtualisation:** current platform, licensing and plans.\n- **Facilities:** rack space, power, cooling and network ports.\n- **Support:** warranty length, response times and on-site support.\n- **Licensing:** operating system, database and virtualisation licences, which may be per core.\n- **Budget and timeline.**\n\n## Measuring current systems\n\nUse monitoring tools or assessment software to collect performance data over at least a few weeks, including month-end or peak periods. Real data prevents both under- and over-sizing.\n\n## Key terms\n\n- **IOPS:** input/output operations per second.\n- **Throughput:** data transferred per second, such as MB/s.\n- **Latency:** time to complete an input/output operation, usually in milliseconds.\n- **Per-core licensing:** software priced by the number of processor cores.\n\n## Real-world example\n\nA customer asks for new servers with \"the most cores available\". Assessment data shows modest CPU use, but the database licence is priced per core. A server with fewer, faster cores meets the performance need and saves a large amount in licence costs. The SI's recommendation saves more on software than the cost of the hardware.\n\n## Common mistakes\n\n- Sizing without measuring current performance.\n- Ignoring per-core software licensing.\n- Forgetting facility and support requirements.\n\n## Key takeaways\n\n- Gather workload, performance, capacity, availability, backup, facilities, support and licensing requirements.\n- Measure current systems over a representative period.\n- Consider software licensing when choosing processors.",
       "module": 4
+    }
+  ],
+  "sources": [
+    {
+      "title": "SNIA (Storage Networking Industry Association): storage dictionary and education",
+      "url": "https://www.snia.org/"
+    },
+    {
+      "title": "DMTF Redfish: standard API for server management",
+      "url": "https://www.dmtf.org/standards/redfish"
+    },
+    {
+      "title": "Microsoft Learn: free role-based training paths",
+      "url": "https://learn.microsoft.com/en-us/training/"
     }
   ],
   "assessment": {
@@ -61,47 +75,37 @@
     "questions": [
       {
         "type": "SINGLE",
-        "text": "Which server form factor is the most common in server rooms with racks?",
+        "text": "Which RAID level provides no protection against drive failure?",
         "options": [
-          "Rack server",
-          "Tower server",
-          "Laptop",
-          "Blade-only phone"
+          "RAID 0",
+          "RAID 1",
+          "RAID 5",
+          "RAID 6"
         ],
         "correct": [
-          "Rack server"
+          "RAID 0"
         ],
-        "points": 1
-      },
-      {
-        "type": "MATCHING",
-        "text": "Match each RAID level to its property.",
-        "options": [
-          "RAID 0=Fast but no protection",
-          "RAID 1=Mirroring with 50% usable capacity",
-          "RAID 6=Survives two drive failures"
-        ],
-        "correct": [],
-        "points": 3
+        "points": 1,
+        "explanation": "RAID 0 stripes data without redundancy."
       },
       {
         "type": "SINGLE",
-        "text": "Six 4 TB drives in RAID 5 give how much usable capacity?",
+        "text": "Six 12 TB drives in RAID 6 give how much usable capacity?",
         "options": [
-          "20 TB",
-          "24 TB",
-          "16 TB",
-          "12 TB"
+          "72 TB",
+          "60 TB",
+          "48 TB",
+          "36 TB"
         ],
         "correct": [
-          "20 TB"
+          "48 TB"
         ],
         "points": 1,
-        "explanation": "(6 − 1) × 4 TB = 20 TB."
+        "explanation": "RAID 6 usable capacity is (6 − 2) × 12 TB = 48 TB."
       },
       {
         "type": "TRUE_FALSE",
-        "text": "RAID is a backup.",
+        "text": "RAID protects against accidental deletion and ransomware.",
         "options": [
           "True",
           "False"
@@ -110,29 +114,67 @@
           "False"
         ],
         "points": 1,
-        "explanation": "RAID protects against drive failure, not deletion, corruption or ransomware."
+        "explanation": "RAID protects only against drive failure; backups are still needed."
+      },
+      {
+        "type": "SINGLE",
+        "text": "Which storage type shares files over the network using SMB or NFS?",
+        "options": [
+          "DAS",
+          "NAS",
+          "SAN",
+          "Tape"
+        ],
+        "correct": [
+          "NAS"
+        ],
+        "points": 1,
+        "explanation": "NAS provides file storage over the network."
+      },
+      {
+        "type": "MULTIPLE",
+        "text": "Which are block storage protocols?",
+        "options": [
+          "iSCSI",
+          "Fibre Channel",
+          "NVMe over Fabrics",
+          "SMB"
+        ],
+        "correct": [
+          "iSCSI",
+          "Fibre Channel",
+          "NVMe over Fabrics"
+        ],
+        "points": 1,
+        "explanation": "SMB is a file protocol."
+      },
+      {
+        "type": "SINGLE",
+        "text": "What does ECC memory do?",
+        "options": [
+          "Increases screen brightness",
+          "Detects and corrects memory errors",
+          "Cools the CPU",
+          "Encrypts the disk"
+        ],
+        "correct": [
+          "Detects and corrects memory errors"
+        ],
+        "points": 1,
+        "explanation": "ECC improves server reliability."
       },
       {
         "type": "MATCHING",
-        "text": "Match each storage type to what it provides.",
+        "text": "Match each RAID level to its description.",
         "options": [
-          "NAS=Shared files over the network",
-          "SAN=Block storage over a dedicated network",
-          "DAS=Drives attached to one server"
+          "RAID 1=Mirroring",
+          "RAID 5=Single parity, survives one failure",
+          "RAID 6=Double parity, survives two failures",
+          "RAID 10=Mirroring plus striping"
         ],
         "correct": [],
-        "points": 3
-      },
-      {
-        "type": "FILL_BLANK",
-        "text": "Running many virtual servers on fewer physical servers is called server ____.",
-        "options": [
-          "consolidation",
-          "virtualisation",
-          "virtualization"
-        ],
-        "correct": [],
-        "points": 1
+        "points": 1,
+        "explanation": "Each level balances protection, capacity and performance differently."
       }
     ]
   }

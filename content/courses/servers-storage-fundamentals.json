@@ -5,44 +5,181 @@
   "category": "TECHNICAL",
   "level": "INTERMEDIATE",
   "passMarkPercent": 70,
-  "description": "Server form factors, key components, storage types, RAID, backup and disaster recovery, and how to size and quote server and storage systems.",
+  "description": "Virtualisation platforms, backup design and recovery objectives. You will be able to: explain hypervisors and virtual machines; size hosts for a virtual environment; design backup with the 3-2-1 rule; set RPO and RTO with a customer.",
+  "modules": [
+    {
+      "title": "Virtualisation",
+      "minutes": 45
+    },
+    {
+      "title": "Host sizing",
+      "minutes": 45
+    },
+    {
+      "title": "Backup design",
+      "minutes": 45
+    },
+    {
+      "title": "RPO and RTO",
+      "minutes": 20
+    }
+  ],
   "lessons": [
     {
       "position": 1,
-      "title": "Server form factors and key components",
+      "title": "Virtualisation",
       "type": "TEXT",
-      "body": "Servers come in several form factors:\n\n- **Tower:** a standalone unit for small offices.\n- **Rack:** mounted in a standard cabinet, common in server rooms and data centres.\n- **Blade:** many compact servers sharing one chassis for power and cooling.\n\nKey components are the processor (CPU), memory (RAM), storage, network interfaces, and power supplies. Redundant power supplies and fans keep a server running when one part fails. Sizing starts with the workloads each server must run."
+      "body": "Virtualisation lets one physical server run many virtual machines (VMs), each with its own operating system and applications. It is the foundation of most modern data centres and private clouds.\n\n## How virtualisation works\n\n- A **hypervisor** runs on the physical server (the host) and shares its CPU, memory, storage and network among VMs.\n- **Type 1 (bare-metal) hypervisors** run directly on the hardware, such as VMware ESXi, Microsoft Hyper-V, KVM-based platforms and Nutanix AHV. These are used in data centres.\n- **Type 2 hypervisors** run on top of a desktop operating system and are used mainly for testing.\n\n## Benefits\n\n- **Consolidation:** fewer physical servers, saving space, power and cost.\n- **Flexibility:** VMs can be created, copied and moved quickly.\n- **High availability:** if a host fails, VMs restart on another host in the cluster.\n- **Live migration:** move running VMs between hosts for maintenance without downtime.\n- **Snapshots:** capture a VM's state before changes.\n\n## Platform choices\n\nOrganisations choose platforms based on features, skills, licensing and cost. Licensing changes in the market, such as VMware's move to subscription bundles after Broadcom completed its acquisition in November 2023, have led many customers to review their options. Compare total cost and migration effort carefully.\n\n## Key terms\n\n- **Hypervisor:** software that runs virtual machines.\n- **Host:** a physical server running a hypervisor.\n- **Cluster:** a group of hosts managed together for availability and resource sharing.\n- **Live migration:** moving a running VM between hosts.\n\n## Real-world example\n\nA hospital runs 25 applications on 25 ageing physical servers. Each failure means downtime while hardware is repaired. The SI consolidates them onto a three-host virtualisation cluster with shared storage and high availability. When a host later fails, its VMs restart automatically on the other hosts within minutes.\n\n## Common mistakes\n\n- Keeping snapshots for weeks, which slows VMs and fills storage.\n- Building a cluster without spare capacity for a host failure.\n- Ignoring licensing costs when choosing a platform.\n\n## Key takeaways\n\n- Type 1 hypervisors run many VMs on one host, with clusters for availability.\n- Virtualisation brings consolidation, flexibility, HA and live migration.\n- Compare platforms on features, skills, licensing and total cost.",
+      "module": 1
     },
     {
       "position": 2,
-      "title": "Storage types: DAS, NAS, and SAN",
+      "title": "Host sizing",
       "type": "TEXT",
-      "body": "Storage is connected in different ways:\n\n- **Direct-attached storage (DAS):** disks connected directly to one server. Simple, but not shared.\n- **Network-attached storage (NAS):** a file-level storage device on the network, shared by many users. Common for file sharing.\n- **Storage area network (SAN):** block-level storage on a dedicated network, used by servers for databases and virtual machines that need low latency.\n\nChoose by how many systems must share the data and what performance they need."
+      "body": "Host sizing decides how many physical servers a virtualisation cluster needs and how powerful they should be. Good sizing gives enough performance with room for failures and growth.\n\n## What to size\n\n- **CPU:** total physical cores needed. Virtual CPUs (vCPUs) can be overcommitted, meaning more vCPUs than physical cores, because most VMs do not use their CPUs fully. A common starting ratio for general workloads is up to about 4 vCPUs per physical core, lower for demanding workloads.\n- **Memory:** usually the first limit. Plan for the total memory VMs actually need, with little or no overcommitment for production.\n- **Storage:** capacity and performance (IOPS, latency) for all VMs.\n- **Network:** bandwidth for VM traffic, storage traffic and live migration.\n\n## Sizing steps\n\n1. Collect performance data from current servers or VMs, including peaks.\n2. Add growth for the planning period, typically three to five years.\n3. Add headroom, so hosts normally run below about 70 to 80% utilisation.\n4. Apply **N+1:** add one host's worth of capacity so the cluster can lose a host and still run all VMs.\n5. Check licensing, as many platforms and operating systems are licensed per core or per host.\n\n## Key terms\n\n- **vCPU:** a virtual CPU assigned to a VM.\n- **Overcommitment:** allocating more virtual resources than physical resources.\n- **N+1:** one extra host for failover.\n- **Headroom:** spare capacity for peaks and growth.\n\n## Real-world example\n\nA company needs 512 GB of RAM for its VMs, with 25% growth over three years, giving 640 GB. The SI proposes three hosts with 384 GB each, a total of 1,152 GB. If one host fails, the remaining two provide 768 GB, enough for all VMs with headroom. A design with two hosts of 384 GB would not survive a host failure.\n\n## Common mistakes\n\n- Forgetting N+1 capacity.\n- Overcommitting memory heavily in production.\n- Ignoring per-core licensing in CPU choices.\n\n## Key takeaways\n\n- Size CPU, memory, storage and network from real data with growth and headroom.\n- Memory is often the first limit; avoid heavy memory overcommitment.\n- Always include N+1 capacity and consider licensing.",
+      "module": 2
     },
     {
       "position": 3,
-      "title": "RAID, backup, and disaster recovery",
+      "title": "Backup design",
       "type": "TEXT",
-      "body": "RAID combines disks for performance or redundancy. RAID 1 mirrors data across two disks. RAID 5 and RAID 6 spread data and parity across disks, and survive one or two disk failures respectively.\n\nRAID is not backup. A deleted file or a ransomware attack is copied across the RAID set. Backup keeps separate copies at defined points in time, and must be tested by restoring it. Disaster recovery adds a copy at another site, with a defined recovery time objective (RTO) and recovery point objective (RPO)."
+      "body": "Backups are the last line of defence against data loss from hardware failure, human error, ransomware, corruption and disasters. A good backup design protects data reliably and allows fast, tested recovery.\n\n## Backup types\n\n- **Full backup:** a complete copy of all selected data.\n- **Incremental backup:** only data changed since the last backup of any type; fast to run, but restores need several backups.\n- **Differential backup:** data changed since the last full backup.\n- **Synthetic full:** a full backup assembled from previous backups, reducing load on production systems.\n\n## Design principles\n\n- **3-2-1 rule:** at least three copies of data, on two different types of media, with one copy off-site. Many organisations extend this with an immutable or offline copy and verified restores.\n- **Immutability:** backup copies that cannot be changed or deleted for a set period, protecting against ransomware.\n- **Application-consistent backups:** coordinate with databases and applications so backups can be restored cleanly.\n- **Retention:** how long backups are kept, based on business, legal and regulatory needs.\n- **Encryption:** protect backup data at rest and in transit.\n- **Separation:** backup systems with separate credentials and, ideally, separate network access from production.\n\n## Key terms\n\n- **Retention policy:** rules for how long backups are kept.\n- **Immutable backup:** a backup that cannot be altered or deleted for a set period.\n- **Backup window:** the time available to run backups without affecting users.\n- **Application-consistent:** captured in a state the application can recover from.\n\n## Real-world example\n\nRansomware encrypts a company's file servers and tries to delete backups using a stolen administrator account. The company's backups are stored on an immutable repository with separate credentials, plus a weekly off-site copy. The attackers cannot delete them, and the company restores its file servers within a day without paying a ransom.\n\n## Common mistakes\n\n- Backups on the same system or credentials as production.\n- No immutable or offline copy.\n- Backing up databases without application consistency.\n\n## Key takeaways\n\n- Use full, incremental, differential and synthetic full backups appropriately.\n- Follow the 3-2-1 rule with immutable or offline copies.\n- Use application-consistent backups, encryption, retention policies and separation.",
+      "module": 3
     },
     {
       "position": 4,
-      "title": "Sizing and quoting",
+      "title": "RPO and RTO",
       "type": "TEXT",
-      "body": "Before quoting, confirm:\n\n- The applications to run, their CPU and memory needs, and expected growth.\n- Storage capacity needed now and in three to five years, and the growth rate.\n- Backup and recovery requirements, including RTO and RPO.\n- Power, cooling, and rack space available.\n- Warranty and support levels required.\n\nQuote the configuration with its warranty, support, and installation. A server quoted without a backup plan is an incomplete proposal."
+      "body": "RPO and RTO are the two numbers that drive backup and disaster recovery design. They translate business needs into technical requirements.\n\n## Definitions\n\n- **RPO (recovery point objective):** the maximum amount of data, measured in time, that the business can afford to lose. An RPO of 24 hours means losing up to a day of data is acceptable; an RPO of 15 minutes needs much more frequent protection.\n- **RTO (recovery time objective):** the maximum time allowed to restore a service after a disruption.\n\n## How they shape design\n\n- **RPO of 24 hours:** daily backups may be enough.\n- **RPO of minutes:** frequent snapshots, continuous data protection or replication.\n- **RPO near zero:** synchronous replication.\n- **RTO of days:** restore from backup to new hardware.\n- **RTO of hours:** ready-to-use recovery infrastructure and fast restore technology.\n- **RTO of minutes:** standby systems with automated failover.\n\nShorter RPOs and RTOs cost more, so set them per application based on business impact. A business impact analysis (BIA) helps decide them.\n\n## Testing\n\nRegular restore tests confirm that backups work and that the RTO can actually be met. Record how long restores take and fix any gaps.\n\n## Key terms\n\n- **RPO:** maximum acceptable data loss, in time.\n- **RTO:** maximum acceptable time to restore service.\n- **Business impact analysis (BIA):** assessment of the impact of disruptions on business functions.\n- **Continuous data protection (CDP):** capturing every change for very low RPO.\n\n## Real-world example\n\nA company's ERP has daily backups at midnight. A storage failure at 5 p.m. loses 17 hours of transactions, including the day's sales orders. Management says the acceptable loss is no more than one hour. The redesign adds hourly snapshots and replication to a second storage system, meeting a one-hour RPO for the ERP while less critical systems keep daily backups.\n\n## Common mistakes\n\n- Setting the same RPO and RTO for every system.\n- Never measuring actual restore times.\n- Choosing technology before agreeing targets with the business.\n\n## Key takeaways\n\n- RPO is about data loss; RTO is about downtime.\n- Set targets per application through a business impact analysis.\n- Design technology to meet the targets and test restores regularly.",
+      "module": 4
+    }
+  ],
+  "sources": [
+    {
+      "title": "CISA: StopRansomware guide (backup and recovery practices)",
+      "url": "https://www.cisa.gov/stopransomware"
+    },
+    {
+      "title": "SNIA (Storage Networking Industry Association): storage dictionary and education",
+      "url": "https://www.snia.org/"
+    },
+    {
+      "title": "NIST SP 800-34 Rev. 1: Contingency Planning Guide for Federal Information Systems",
+      "url": "https://csrc.nist.gov/pubs/sp/800/34/r1/upd1/final"
+    },
+    {
+      "title": "Microsoft Learn: free role-based training paths",
+      "url": "https://learn.microsoft.com/en-us/training/"
     }
   ],
   "assessment": {
-    "title": "Server and Storage Fundamentals: completion check",
-    "cadence": "ONE_TIME",
+    "title": "Server and Storage Intermediate: completion check",
     "level": "INTERMEDIATE",
     "passMarkPercent": 70,
     "questions": [
-      { "position": 1, "type": "SINGLE", "text": "Which storage type is a shared file-level device on the network?", "options": ["DAS", "NAS", "SAN", "RAM"], "correct": ["NAS"], "points": 1 },
-      { "position": 2, "type": "SINGLE", "text": "Which RAID level mirrors data across two disks?", "options": ["RAID 0", "RAID 1", "RAID 5", "RAID 6"], "correct": ["RAID 1"], "points": 1 },
-      { "position": 3, "type": "SINGLE", "text": "What does RTO describe?", "options": ["How much data may be lost", "How quickly service must be restored after a disaster", "The number of server cores", "The warranty period"], "correct": ["How quickly service must be restored after a disaster"], "points": 1 },
-      { "position": 4, "type": "MULTIPLE", "text": "Which statements about RAID and backup are correct? (Select all that apply)", "options": ["RAID is a substitute for backup", "Backup keeps separate copies at defined points in time", "A backup should be tested by restoring it", "RAID protects against accidental deletion"], "correct": ["Backup keeps separate copies at defined points in time", "A backup should be tested by restoring it"], "points": 2 },
-      { "position": 5, "type": "TRUE_FALSE", "text": "A server quoted without a backup or recovery plan is a complete proposal.", "options": ["True", "False"], "correct": ["False"], "points": 1 }
+      {
+        "type": "SINGLE",
+        "text": "Which type of hypervisor runs directly on server hardware?",
+        "options": [
+          "Type 1 (bare-metal)",
+          "Type 2",
+          "A web browser",
+          "A RAID controller"
+        ],
+        "correct": [
+          "Type 1 (bare-metal)"
+        ],
+        "points": 1,
+        "explanation": "Type 1 hypervisors are used in data centres."
+      },
+      {
+        "type": "SINGLE",
+        "text": "A cluster needs 640 GB of RAM for its VMs. Which design survives one host failure?",
+        "options": [
+          "Two hosts with 384 GB each",
+          "Three hosts with 384 GB each",
+          "One host with 768 GB",
+          "Two hosts with 256 GB each"
+        ],
+        "correct": [
+          "Three hosts with 384 GB each"
+        ],
+        "points": 1,
+        "explanation": "With one host down, two hosts give 768 GB, which is more than 640 GB."
+      },
+      {
+        "type": "SINGLE",
+        "text": "What does RPO measure?",
+        "options": [
+          "Maximum downtime",
+          "Maximum acceptable data loss, in time",
+          "Backup storage cost",
+          "Number of VMs"
+        ],
+        "correct": [
+          "Maximum acceptable data loss, in time"
+        ],
+        "points": 1,
+        "explanation": "RTO measures downtime; RPO measures data loss."
+      },
+      {
+        "type": "TRUE_FALSE",
+        "text": "Immutable backups help protect against ransomware deleting backup copies.",
+        "options": [
+          "True",
+          "False"
+        ],
+        "correct": [
+          "True"
+        ],
+        "points": 1,
+        "explanation": "Immutable copies cannot be changed or deleted during their retention period."
+      },
+      {
+        "type": "SINGLE",
+        "text": "Which backup type copies only data changed since the last backup of any type?",
+        "options": [
+          "Full",
+          "Incremental",
+          "Differential",
+          "Synthetic full"
+        ],
+        "correct": [
+          "Incremental"
+        ],
+        "points": 1,
+        "explanation": "Differential copies changes since the last full backup."
+      },
+      {
+        "type": "MULTIPLE",
+        "text": "Which are good backup design practices?",
+        "options": [
+          "3-2-1 rule",
+          "Separate backup credentials",
+          "Application-consistent backups",
+          "Storing all backups on the production server"
+        ],
+        "correct": [
+          "3-2-1 rule",
+          "Separate backup credentials",
+          "Application-consistent backups"
+        ],
+        "points": 1,
+        "explanation": "Backups on the production server are lost with it."
+      },
+      {
+        "type": "MATCHING",
+        "text": "Match each target to a suitable approach.",
+        "options": [
+          "RPO of 24 hours=Daily backup",
+          "RPO near zero=Synchronous replication",
+          "RTO of minutes=Standby systems with automated failover",
+          "RTO of days=Restore to new hardware"
+        ],
+        "correct": [],
+        "points": 1,
+        "explanation": "Tighter targets need more advanced and costly designs."
+      }
     ]
   }
 }

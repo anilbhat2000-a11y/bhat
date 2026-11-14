@@ -29,29 +29,47 @@
       "position": 1,
       "title": "Storage architecture",
       "type": "TEXT",
-      "body": "Not all data needs the same speed or cost of storage. Tiering puts each kind of data on the right media.\n\n## Typical tiers\n\n- **Performance tier:** all-flash (NVMe or SSD) for databases and busy virtual machines.\n- **Capacity tier:** large hard drives for file shares and less active data.\n- **Archive tier:** the lowest cost per terabyte for data rarely accessed, such as object storage, tape or cloud archive.\n\n## Design points\n\n- Measure workload needs: IOPS, throughput, latency, capacity.\n- Use automated tiering or policies where the storage supports them.\n- Plan data protection per tier: snapshots, replication, backup.\n- Design controllers, paths and power for redundancy.",
+      "body": "Enterprise storage architecture balances performance, capacity, resilience and cost across many workloads. Modern storage systems offer features that make them more efficient and easier to protect.\n\n## Storage system types\n\n- **All-flash arrays:** use only SSDs, often NVMe, for high performance and low latency. Common for databases and virtualisation.\n- **Hybrid arrays:** combine SSDs and HDDs, using flash for hot data and disks for capacity.\n- **Scale-out storage:** add nodes to grow capacity and performance together, common for file and object storage.\n- **Software-defined storage:** storage services running on standard servers.\n\n## Efficiency and data services\n\n- **Thin provisioning:** allocate capacity as it is used, not in advance.\n- **Deduplication and compression:** reduce the space needed, especially for virtual machines and backups.\n- **Snapshots:** point-in-time copies for quick recovery.\n- **Replication:** copies data to another system or site.\n- **Quality of service (QoS):** limits or guarantees performance for specific workloads.\n- **Encryption:** protects data at rest.\n\n## Designing for performance\n\n- Understand workload patterns: random or sequential, read or write, block size.\n- Measure **IOPS, throughput and latency** requirements.\n- Use storage tiers: fast flash for active data, capacity storage for less-used data, object storage or tape for archive.\n\n## Key terms\n\n- **Thin provisioning:** allocating storage on demand.\n- **Deduplication:** storing identical data blocks only once.\n- **Data reduction ratio:** how much space efficiency features save, such as 3:1.\n- **Tiering:** placing data on different storage types by importance and use.\n\n## Real-world example\n\nA bank's core database runs on an ageing hybrid array, and month-end processing takes 14 hours. Analysis shows high random-read latency. The SI moves the database to an NVMe all-flash array, keeps file shares and archives on capacity storage, and enables QoS to protect the database. Month-end processing drops to under five hours.\n\n## Common mistakes\n\n- Planning on optimistic data reduction ratios.\n- Mixing critical and bulk workloads without QoS.\n- Ignoring latency in favour of capacity.\n\n## Key takeaways\n\n- Choose all-flash, hybrid, scale-out or software-defined storage based on workload needs.\n- Use thin provisioning, data reduction, snapshots, replication, QoS and encryption.\n- Design tiers and measure IOPS, throughput and latency.",
       "module": 1
     },
     {
       "position": 2,
       "title": "Replication and DR",
       "type": "TEXT",
-      "body": "Disaster recovery protects against losing a whole site or system, not just a drive.\n\n## Replication\n\n- **Synchronous:** each write is confirmed at both sites before completing. Zero data loss, but needs short distances and low latency.\n- **Asynchronous:** writes are sent to the second site shortly after. Works over long distances; a small amount of data may be lost.\n\n## DR site options\n\n- A second company site.\n- A colocation data centre.\n- The cloud, as a DR target.\n\n## Objectives\n\nSet an **RPO** (acceptable data loss) and **RTO** (acceptable downtime) for each application with the business. They drive the replication method and the cost.\n\n## Backups still matter\n\nReplication copies mistakes and ransomware too. Keep backups following the **3-2-1 rule**: three copies, on two types of media, one off-site, with at least one copy immutable or offline.",
+      "body": "Replication copies data to another storage system or site, so that services can continue if the primary site fails. Disaster recovery (DR) uses replication and backups to restore services after major disruptions.\n\n## Types of replication\n\n- **Synchronous replication:** each write is confirmed only after it is stored at both sites. This gives an RPO of zero, but adds latency, so it is limited to sites close together, typically within tens of kilometres, depending on the network and the vendor's supported latency.\n- **Asynchronous replication:** writes are confirmed at the primary site and copied to the secondary site shortly afterwards. RPO is seconds to minutes, and it works over long distances.\n- **Application-level replication:** databases and applications replicate their own data, such as database log shipping or availability groups.\n\n## DR site options\n\n- **Hot site:** fully equipped and running, ready to take over quickly.\n- **Warm site:** equipment in place but needing some setup before use.\n- **Cold site:** space and power only; equipment must be installed.\n- **Cloud DR / DRaaS:** replicating systems to a cloud provider and starting them there when needed.\n\n## Designing DR\n\n1. Identify critical applications and their RPO and RTO.\n2. Choose replication methods and DR site types to meet them.\n3. Plan the network, DNS and user access for failover.\n4. Document runbooks for failover and failback.\n5. Test regularly.\n\n## Key terms\n\n- **Synchronous / asynchronous replication:** confirmed at both sites / copied after confirmation.\n- **Failover / failback:** switching to the DR site / returning to the primary site.\n- **DRaaS:** disaster recovery as a service.\n- **Runbook:** step-by-step procedure.\n\n## Real-world example\n\nA financial services firm in Mumbai uses synchronous replication to a second data centre in the same metro area for its trading systems, giving zero data loss. It also uses asynchronous replication to a DR site in another region, hundreds of kilometres away, to protect against a regional disaster. Each method is chosen to match distance and RPO needs.\n\n## Common mistakes\n\n- Trying synchronous replication over long distances.\n- Forgetting network and DNS changes needed for failover.\n- No failback plan.\n\n## Key takeaways\n\n- Synchronous replication gives zero RPO over short distances; asynchronous works over long distances with small data loss.\n- Choose hot, warm, cold or cloud DR sites based on RTO and cost.\n- Plan network, runbooks, failover and failback.",
       "module": 2
     },
     {
       "position": 3,
       "title": "DR testing",
       "type": "TEXT",
-      "body": "A DR plan that has never been tested is a hope, not a plan.\n\n## Types of test\n\n- **Tabletop:** walk through the plan on paper with the team.\n- **Component test:** restore a single server or database.\n- **Failover test:** switch selected services to the DR site.\n- **Full test:** run the business from the DR site for a period.\n\n## Running a test\n\n1. Agree scope, success criteria and a rollback plan.\n2. Inform stakeholders.\n3. Follow the runbook step by step and record times.\n4. Compare achieved RPO and RTO with the targets.\n5. Fix the gaps found and update the plan.\n\nTest at least yearly, and after major changes.\n\n> This module includes a lab: run a restore test and record the achieved recovery time.",
+      "body": "A disaster recovery plan that has never been tested is only a hope. DR testing proves that systems, people and procedures work, and reveals problems while there is still time to fix them.\n\n## Types of DR tests\n\n- **Tabletop exercise:** the team walks through a disaster scenario in a meeting, checking roles, decisions and communication. Low cost and no system impact.\n- **Walkthrough or checklist test:** reviewing runbooks step by step to confirm they are complete and current.\n- **Partial failover test:** recovering selected systems at the DR site, often in an isolated network.\n- **Full failover test:** switching production to the DR site and running from it, then failing back. Highest confidence, highest effort.\n\n## Planning a test\n\n1. Define scope, objectives and success criteria, such as meeting RTO and RPO.\n2. Get business approval and choose a low-risk time.\n3. Prepare runbooks, contacts and a rollback plan.\n4. Run the test and record times and issues.\n5. Review results, update plans and fix gaps.\n\n## Frameworks and standards\n\n- **NIST SP 800-34** provides guidance on contingency planning, including testing, training and exercises.\n- **ISO 22301** specifies requirements for business continuity management systems, including exercising and testing.\n- Many regulators, especially in banking, expect regular DR drills with documented results.\n\n## Key terms\n\n- **Tabletop exercise:** a discussion-based scenario walkthrough.\n- **Failover test:** actually switching systems to the DR site.\n- **Success criteria:** measurable targets that define a successful test.\n- **Lessons learned:** improvements identified after a test.\n\n## Real-world example\n\nDuring its first full DR test, a company finds that its applications start at the DR site but users cannot reach them, because DNS records still point to the primary site and a firewall rule is missing. The test takes six hours instead of the planned two. The team updates the runbook and automates DNS changes. The next test meets the two-hour RTO.\n\n## Common mistakes\n\n- Never testing, or testing only backups, not full recovery.\n- Not involving business users in tests.\n- Not updating plans after tests.\n\n## Key takeaways\n\n- Use tabletop, walkthrough, partial and full failover tests.\n- Plan tests with success criteria, record results and fix gaps.\n- Follow guidance such as NIST SP 800-34 and ISO 22301, and regulator expectations.",
       "module": 3
     },
     {
       "position": 4,
       "title": "HCI and software-defined storage",
       "type": "TEXT",
-      "body": "Newer architectures simplify infrastructure by moving storage functions into software.\n\n## Hyper-converged infrastructure (HCI)\n\nCompute, storage and virtualisation combined in standard servers (nodes). Each node contributes its local drives to a shared, software-defined storage pool. Scale by adding nodes.\n\n- **Strengths:** simple to deploy and manage, scales in steps, fewer separate systems.\n- **Considerations:** compute and storage grow together; licensing models vary; check performance for demanding workloads.\n\n## Software-defined storage (SDS)\n\nStorage software running on standard servers, providing block, file or object storage without proprietary arrays.\n\n## Choosing\n\nCompare traditional SAN, HCI and SDS on workload fit, growth pattern, skills, total cost and vendor support.",
+      "body": "Hyperconverged infrastructure (HCI) combines compute, storage and virtualisation in standard server nodes managed as one system. Software-defined storage (SDS) is the technology that pools the drives in those servers into shared storage.\n\n## How HCI works\n\n- Each node contains CPUs, memory and drives.\n- Software pools the drives across nodes into a shared, resilient storage layer, typically by keeping multiple copies or erasure-coded data across nodes.\n- A hypervisor runs VMs on the same nodes.\n- Capacity and performance grow by adding nodes.\n- Management is unified in one console.\n\nExamples include Nutanix, VMware vSAN-based systems and Microsoft's Azure Local (formerly Azure Stack HCI).\n\n## Benefits\n\n- **Simplicity:** no separate SAN to design and manage.\n- **Scale-out growth:** add nodes as needs grow.\n- **Smaller footprint:** fewer components and less rack space.\n- **Good fit for remote and branch sites:** small clusters with central management.\n\n## Considerations\n\n- **Scaling together:** compute and storage grow together; some platforms offer storage-only or compute-only nodes.\n- **Resilience settings:** decide how many node or drive failures the cluster must tolerate.\n- **Network:** fast, redundant networking between nodes is essential, as storage traffic flows over it.\n- **Licensing:** compare HCI software licensing and hypervisor costs.\n\n## Software-defined storage beyond HCI\n\nSDS can also run as standalone storage clusters on standard servers, such as Ceph for block, file and object storage.\n\n## Key terms\n\n- **HCI:** hyperconverged infrastructure.\n- **SDS:** software-defined storage.\n- **Erasure coding:** data protection that uses less capacity than full copies.\n- **Node:** a server in an HCI cluster.\n\n## Real-world example\n\nA retail chain has small server rooms in 30 regional offices, each with ageing servers and separate storage. The SI deploys small three-node HCI clusters at each site, managed from head office, with replication to the central data centre. Remote site management becomes simpler, and failed nodes are replaced without downtime.\n\n## Common mistakes\n\n- Under-sizing the network between HCI nodes.\n- Ignoring how resilience settings reduce usable capacity.\n- Choosing HCI when storage needs vastly exceed compute needs, without considering storage-only options.\n\n## Key takeaways\n\n- HCI combines compute, storage and virtualisation in scale-out nodes with unified management.\n- It simplifies operations, especially at branch and remote sites.\n- Plan network, resilience settings, scaling balance and licensing.",
       "module": 4
+    }
+  ],
+  "sources": [
+    {
+      "title": "NIST SP 800-34 Rev. 1: Contingency Planning Guide for Federal Information Systems",
+      "url": "https://csrc.nist.gov/pubs/sp/800/34/r1/upd1/final"
+    },
+    {
+      "title": "ISO 22301: business continuity management systems",
+      "url": "https://www.iso.org/standard/75106.html"
+    },
+    {
+      "title": "SNIA (Storage Networking Industry Association): storage dictionary and education",
+      "url": "https://www.snia.org/"
+    },
+    {
+      "title": "CISA: StopRansomware guide (backup and recovery practices)",
+      "url": "https://www.cisa.gov/stopransomware"
     }
   ],
   "assessment": {
@@ -61,79 +79,101 @@
     "questions": [
       {
         "type": "SINGLE",
-        "text": "Which tier suits a busy database?",
+        "text": "Which replication type gives an RPO of zero but is limited by distance?",
         "options": [
-          "Performance tier (all-flash)",
-          "Archive tier (tape)",
-          "Capacity tier (large HDDs)",
-          "USB drives"
+          "Asynchronous",
+          "Synchronous",
+          "Tape backup",
+          "Snapshot"
         ],
         "correct": [
-          "Performance tier (all-flash)"
+          "Synchronous"
         ],
-        "points": 1
-      },
-      {
-        "type": "MATCHING",
-        "text": "Match each replication type to its property.",
-        "options": [
-          "Synchronous=Zero data loss, short distances",
-          "Asynchronous=Long distances, a little data may be lost"
-        ],
-        "correct": [],
-        "points": 2
+        "points": 1,
+        "explanation": "Writes are confirmed at both sites, which adds latency over distance."
       },
       {
         "type": "SINGLE",
-        "text": "What does the 3-2-1 backup rule mean?",
+        "text": "Which DR test type involves only a discussion of a scenario?",
         "options": [
-          "Three copies, two media types, one off-site",
-          "Three servers, two racks, one switch",
-          "Back up three times a day",
-          "Keep backups for 321 days"
+          "Full failover",
+          "Partial failover",
+          "Tabletop exercise",
+          "Live migration"
         ],
         "correct": [
-          "Three copies, two media types, one off-site"
+          "Tabletop exercise"
         ],
-        "points": 1
+        "points": 1,
+        "explanation": "Tabletop exercises test roles and decisions without touching systems."
       },
       {
         "type": "TRUE_FALSE",
-        "text": "Replication alone protects against ransomware because it copies data to another site.",
+        "text": "A DR plan that has never been tested should be considered unproven.",
         "options": [
           "True",
           "False"
         ],
         "correct": [
-          "False"
+          "True"
         ],
         "points": 1,
-        "explanation": "Replication copies the encrypted data too; immutable or offline backups are needed."
+        "explanation": "Testing reveals gaps in systems, procedures and people."
       },
       {
         "type": "MULTIPLE",
-        "text": "Which are types of DR test? Select all that apply.",
+        "text": "Which are storage efficiency features?",
         "options": [
-          "Tabletop",
-          "Failover test",
-          "Full test",
-          "Guessing"
+          "Thin provisioning",
+          "Deduplication",
+          "Compression",
+          "RAID 0"
         ],
         "correct": [
-          "Tabletop",
-          "Failover test",
-          "Full test"
+          "Thin provisioning",
+          "Deduplication",
+          "Compression"
         ],
-        "points": 2
+        "points": 1,
+        "explanation": "RAID 0 adds speed without protection; it is not an efficiency feature."
       },
       {
-        "type": "FILL_BLANK",
-        "text": "Infrastructure that combines compute, storage and virtualisation in standard server nodes is called hyper-____ infrastructure.",
+        "type": "SINGLE",
+        "text": "Which standard specifies requirements for business continuity management systems?",
         "options": [
-          "converged"
+          "ISO 22301",
+          "ISO 9001",
+          "IEEE 802.11",
+          "IS 3043"
         ],
+        "correct": [
+          "ISO 22301"
+        ],
+        "points": 1,
+        "explanation": "ISO 22301 covers business continuity management systems."
+      },
+      {
+        "type": "SINGLE",
+        "text": "What does HCI combine?",
+        "options": [
+          "Printing and scanning",
+          "Compute, storage and virtualisation in standard nodes",
+          "Power and cooling",
+          "Sales and presales"
+        ],
+        "correct": [
+          "Compute, storage and virtualisation in standard nodes"
+        ],
+        "points": 1,
+        "explanation": "HCI uses software-defined storage across server nodes."
+      },
+      {
+        "type": "SHORT_ANSWER",
+        "text": "In two or three sentences, explain why a DR test might fail even if data was replicated successfully.",
+        "options": [],
         "correct": [],
-        "points": 1
+        "points": 1,
+        "explanation": "Applications also need working networks, DNS, firewall rules, identity services and up-to-date runbooks at the DR site. If any of these are missing, users cannot reach recovered systems, so the RTO is missed."
       }
     ]
   }

@@ -29,29 +29,51 @@
       "position": 1,
       "title": "Hybrid design",
       "type": "TEXT",
-      "body": "Hybrid cloud combines on-premise infrastructure with one or more public clouds, connected and managed as one.\n\n## Why hybrid\n\n- Some workloads must stay on-premise (latency, data residency, legacy systems).\n- Others benefit from cloud scale and services.\n- Disaster recovery to the cloud avoids a second data centre.\n\n## Connectivity\n\n- **Site-to-site VPN** over the internet: quick and low-cost.\n- **Dedicated private connections** offered by cloud providers: predictable performance for heavy or critical traffic.\n- Plan IP addressing so on-premise and cloud ranges do not overlap.\n\n## Identity and management\n\nUse one identity system across both, and consistent monitoring, security policies and automation, so hybrid does not become two separate worlds.",
+      "body": "Most large organisations run a hybrid environment: some workloads in their own data centres, some in one or more public clouds, and many SaaS applications. Hybrid architecture makes these environments work together securely and efficiently.\n\n## Why hybrid\n\n- Regulatory or data residency requirements for some systems.\n- Low-latency needs close to users or equipment, such as factories.\n- Recent investment in on-premises infrastructure.\n- Gradual migration over several years.\n- Using the cloud for burst capacity, backup or disaster recovery.\n\n## Key design areas\n\n- **Connectivity:** site-to-site VPNs or private connections such as AWS Direct Connect, Azure ExpressRoute and Google Cloud Interconnect, sized for traffic and with redundancy.\n- **Identity:** a single identity system with federation and single sign-on across on-premises, cloud and SaaS.\n- **Network design:** consistent IP addressing without overlaps, DNS that works across environments, and segmentation.\n- **Security:** consistent policies, firewalls, monitoring and logging across all environments.\n- **Management:** tools that manage on-premises and cloud resources together, such as hybrid management services from cloud providers.\n- **Data placement:** deciding where each type of data lives, considering latency, cost and compliance.\n\n## Key terms\n\n- **Hybrid cloud:** a combination of on-premises and cloud environments working together.\n- **Private connectivity:** dedicated links between a data centre and a cloud provider.\n- **Federation:** trusting identities across systems.\n- **Latency:** the delay in network communication.\n\n## Real-world example\n\nA manufacturer keeps its plant control systems on-premises for low latency and safety, while moving analytics and its customer portal to the public cloud. The SI designs redundant private connections to the cloud, single sign-on for all users, consistent firewall policies and central monitoring. Plant data flows to cloud analytics without exposing control systems to the internet.\n\n## Common mistakes\n\n- Overlapping IP ranges between on-premises and cloud.\n- Separate identity systems for each environment.\n- A single connection with no redundancy.\n\n## Key takeaways\n\n- Hybrid suits regulation, latency, existing investment and gradual migration.\n- Design connectivity, identity, network, security, management and data placement together.\n- Avoid overlapping addresses and build redundant connections.",
       "module": 1
     },
     {
       "position": 2,
       "title": "Governance",
       "type": "TEXT",
-      "body": "Without governance, cloud environments become expensive and insecure quickly.\n\n## A landing zone\n\nBefore workloads move, set up a foundation: account or subscription structure, networking, identity, logging and security baselines.\n\n## Policies\n\n- **Tagging:** every resource tagged with owner, project and environment, so costs can be allocated.\n- **Guardrails:** policies that block risky settings, such as public storage or unapproved regions.\n- **Least privilege:** roles with only the permissions needed.\n- **Budgets and alerts** for each project.\n\n## Cost management\n\nReview costs monthly: right-size instances, remove idle resources, use reserved capacity for steady workloads, and schedule non-production systems to switch off out of hours.",
+      "body": "Cloud governance sets the rules for how an organisation uses the cloud, so that it stays secure, compliant and cost-effective as usage grows. Without governance, cloud environments quickly become hard to control.\n\n## Elements of cloud governance\n\n- **Account and subscription structure:** separate accounts or subscriptions for production, development and different business units.\n- **Policies and guardrails:** automated rules that prevent risky actions, such as creating public storage or using unapproved regions.\n- **Identity and access:** roles, approvals and regular access reviews.\n- **Cost governance:** budgets, tagging rules and cost reviews.\n- **Security and compliance baselines:** required configurations, logging and encryption.\n- **Resource standards:** naming conventions, approved services and approved images.\n- **Change and release management:** controlled deployment, often using infrastructure as code.\n\n## Frameworks\n\nCloud providers publish adoption and architecture frameworks that include governance guidance:\n\n- **Microsoft Cloud Adoption Framework** and the **Azure Well-Architected Framework.**\n- **AWS Cloud Adoption Framework** and the **AWS Well-Architected Framework,** whose pillars include operational excellence, security, reliability, performance efficiency, cost optimisation and sustainability.\n\n## Key terms\n\n- **Guardrail:** an automated control that prevents or detects non-compliant actions.\n- **Infrastructure as code (IaC):** defining infrastructure in code templates for consistent deployment.\n- **Landing zone:** a governed, pre-configured cloud environment.\n- **Access review:** a periodic check that users still need their access.\n\n## Real-world example\n\nA company lets each team create cloud resources freely. After a year, it has hundreds of untagged resources, several public storage buckets and costs it cannot allocate. The SI builds a landing zone with separate accounts per environment, policies that block public storage and enforce tags, and infrastructure-as-code templates. New projects now start secure and visible by default.\n\n## Common mistakes\n\n- Adding governance only after problems occur.\n- Manual checks instead of automated guardrails.\n- One account for everything.\n\n## Key takeaways\n\n- Governance covers structure, policies, identity, cost, security baselines and standards.\n- Use automated guardrails and infrastructure as code.\n- Use provider adoption and well-architected frameworks as guides.",
       "module": 2
     },
     {
       "position": 3,
       "title": "Cloud backup and DR",
       "type": "TEXT",
-      "body": "Cloud makes backup and disaster recovery (DR) more affordable, but it must be designed.\n\n## Definitions\n\n- **RPO (recovery point objective):** how much data loss is acceptable, measured in time.\n- **RTO (recovery time objective):** how quickly service must be restored.\n\n## Patterns\n\n- **Backup to cloud:** low cost; slower restore.\n- **Pilot light:** core systems replicated and ready; others started when needed.\n- **Warm standby:** a smaller copy running, scaled up in a disaster.\n- **Active-active:** full capacity in two places; highest cost and fastest recovery.\n\n## Protect the backups\n\nUse immutable or separately secured backup copies, so ransomware that reaches production cannot delete them. Test restores regularly.\n\n> This module includes a lab: design DR for a sample application to meet a given RPO and RTO.",
+      "body": "Data in the cloud still needs backup and disaster recovery (DR). Cloud providers make infrastructure resilient, but they do not automatically protect customers from accidental deletion, ransomware, misconfiguration or regional outages.\n\n## Key concepts\n\n- **RPO (recovery point objective):** the maximum acceptable data loss, measured in time. An RPO of 15 minutes means losing at most 15 minutes of data.\n- **RTO (recovery time objective):** the maximum acceptable time to restore service.\n- These targets come from business requirements and drive the design and cost.\n\n## Cloud backup and DR options\n\n- **Backups to cloud storage:** off-site copies of on-premises data.\n- **Cloud-native backups:** snapshots and backup services for cloud workloads, copied to another region or account.\n- **Immutable backups:** copies that cannot be changed or deleted for a set period, protecting against ransomware.\n- **SaaS backup:** many SaaS providers keep data for limited periods; third-party backup protects email, files and CRM data.\n- **DR to cloud (DRaaS):** replicating on-premises systems to the cloud and starting them there if the main site fails.\n- **Multi-region designs:** running critical cloud workloads across regions.\n\n## Testing\n\nA backup or DR plan is only proven by testing. Run regular restore tests and DR drills, record results and fix problems found.\n\n## Key terms\n\n- **RPO / RTO:** recovery point and recovery time objectives.\n- **DRaaS:** disaster recovery as a service.\n- **Snapshot:** a point-in-time copy of a disk or volume.\n- **Cross-region replication:** copying data to another cloud region.\n\n## Real-world example\n\nA company's administrator account is compromised, and the attacker deletes production databases and their snapshots in the same cloud account. Fortunately, the company also copies backups to a separate account with immutable retention. It restores within hours. Its new design keeps backups in an isolated account with separate credentials as standard.\n\n## Common mistakes\n\n- Assuming the provider backs up customer data automatically.\n- Keeping backups in the same account and region as production.\n- Never testing restores or DR failover.\n\n## Key takeaways\n\n- Define RPO and RTO from business needs.\n- Use isolated, immutable, cross-region backups, including for SaaS data.\n- Test restores and DR regularly.",
       "module": 3
     },
     {
       "position": 4,
       "title": "Managed cloud services",
       "type": "TEXT",
-      "body": "Managed cloud services mean we operate the customer's cloud environment for them.\n\n## Typical scope\n\n- Monitoring and incident response, around the clock.\n- Patching, backup and DR management.\n- Security baseline enforcement and reviews.\n- Cost optimisation reports and actions.\n- Change requests within agreed limits.\n\n## Agree clearly\n\n- Which accounts, subscriptions and workloads are covered.\n- Responsibilities versus the cloud provider's shared responsibility model.\n- Service levels and reporting.\n- Pricing: per resource, per workload, or a percentage of cloud spend.",
+      "body": "Managed cloud services mean a partner operates an organisation's cloud environment: monitoring, security, cost optimisation and support. Many organisations lack the skills or staff to run cloud environments around the clock.\n\n## What managed cloud services cover\n\n- **Monitoring and incident response:** 24x7 monitoring of performance, availability and alerts.\n- **Operations:** patching, backups, scaling and configuration changes.\n- **Security:** posture management, threat detection, identity reviews and compliance reporting.\n- **Cost optimisation:** regular FinOps reviews, rightsizing and commitment management.\n- **Governance:** maintaining landing zones, policies and standards.\n- **Support:** a service desk and escalation to the cloud provider.\n- **Advisory:** architecture reviews and roadmap planning.\n\n## Designing the service\n\n- Define scope: which accounts, workloads and services.\n- Agree responsibilities with a RACI chart: who is responsible, accountable, consulted and informed.\n- Set SLAs for response, resolution and availability.\n- Agree reporting and regular reviews.\n- Price by environment size, number of resources or a percentage of cloud spend, depending on the model.\n\n## Key terms\n\n- **Managed service provider (MSP):** a partner that operates services for customers.\n- **RACI:** a matrix defining roles and responsibilities.\n- **Well-architected review:** a structured review of a cloud workload against best practices.\n\n## Real-world example\n\nA retail company's small IT team migrated its e-commerce platform to the cloud but struggles with night-time alerts and rising costs. A managed cloud service provides 24x7 monitoring, monthly cost reviews and quarterly well-architected reviews. Outages are resolved faster, and cost optimisation pays for much of the service.\n\n## Common mistakes\n\n- Unclear responsibilities between customer and provider.\n- No cost optimisation in the service.\n- SLAs that do not match business needs.\n\n## Key takeaways\n\n- Managed cloud services cover monitoring, operations, security, cost, governance and support.\n- Define scope, a RACI, SLAs and reporting clearly.\n- Cost optimisation and regular reviews show the service's value.",
       "module": 4
+    }
+  ],
+  "sources": [
+    {
+      "title": "Microsoft Cloud Adoption Framework for Azure",
+      "url": "https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/"
+    },
+    {
+      "title": "AWS Well-Architected Framework",
+      "url": "https://aws.amazon.com/architecture/well-architected/"
+    },
+    {
+      "title": "FinOps Foundation: cloud financial management framework",
+      "url": "https://www.finops.org/"
+    },
+    {
+      "title": "NIST SP 800-145: The NIST Definition of Cloud Computing",
+      "url": "https://csrc.nist.gov/pubs/sp/800/145/final"
+    },
+    {
+      "title": "AWS Skill Builder: cloud training",
+      "url": "https://skillbuilder.aws/"
     }
   ],
   "assessment": {
@@ -61,61 +83,82 @@
     "questions": [
       {
         "type": "SINGLE",
-        "text": "Why should on-premise and cloud IP ranges not overlap?",
+        "text": "What does RPO measure?",
         "options": [
-          "Overlapping ranges cannot be routed between each other cleanly",
-          "To reduce cost",
-          "Because GST requires it",
-          "It does not matter"
+          "Maximum acceptable downtime",
+          "Maximum acceptable data loss, measured in time",
+          "Cloud cost per month",
+          "Number of regions"
         ],
         "correct": [
-          "Overlapping ranges cannot be routed between each other cleanly"
+          "Maximum acceptable data loss, measured in time"
         ],
-        "points": 1
-      },
-      {
-        "type": "MATCHING",
-        "text": "Match each term to its meaning.",
-        "options": [
-          "RPO=How much data loss is acceptable",
-          "RTO=How quickly service must be restored"
-        ],
-        "correct": [],
-        "points": 2
-      },
-      {
-        "type": "SINGLE",
-        "text": "Which DR pattern has full capacity running in two places?",
-        "options": [
-          "Active-active",
-          "Backup to cloud",
-          "Pilot light",
-          "Warm standby"
-        ],
-        "correct": [
-          "Active-active"
-        ],
-        "points": 1
-      },
-      {
-        "type": "MULTIPLE",
-        "text": "Which are good cloud governance practices? Select all that apply.",
-        "options": [
-          "Tag resources with owner and project",
-          "Guardrails that block public storage",
-          "Budgets and alerts per project",
-          "Giving everyone administrator rights"
-        ],
-        "correct": [
-          "Tag resources with owner and project",
-          "Guardrails that block public storage",
-          "Budgets and alerts per project"
-        ],
-        "points": 2
+        "points": 1,
+        "explanation": "RPO is the recovery point objective; RTO is the time to restore service."
       },
       {
         "type": "TRUE_FALSE",
-        "text": "Backups should be protected so that ransomware reaching production cannot delete them.",
+        "text": "Keeping backups in the same cloud account as production fully protects against a compromised administrator account.",
+        "options": [
+          "True",
+          "False"
+        ],
+        "correct": [
+          "False"
+        ],
+        "points": 1,
+        "explanation": "Isolated accounts and immutable backups are needed."
+      },
+      {
+        "type": "MULTIPLE",
+        "text": "Which are key hybrid design areas?",
+        "options": [
+          "Connectivity",
+          "Identity",
+          "Non-overlapping IP addressing",
+          "Ignoring security policies"
+        ],
+        "correct": [
+          "Connectivity",
+          "Identity",
+          "Non-overlapping IP addressing"
+        ],
+        "points": 1,
+        "explanation": "Consistent security is also essential."
+      },
+      {
+        "type": "SINGLE",
+        "text": "What is a cloud guardrail?",
+        "options": [
+          "A physical barrier",
+          "An automated control that prevents or detects non-compliant actions",
+          "A type of firewall cable",
+          "A billing invoice"
+        ],
+        "correct": [
+          "An automated control that prevents or detects non-compliant actions"
+        ],
+        "points": 1,
+        "explanation": "Guardrails enforce governance automatically."
+      },
+      {
+        "type": "SINGLE",
+        "text": "What does a RACI chart define?",
+        "options": [
+          "Network speeds",
+          "Who is responsible, accountable, consulted and informed",
+          "Cloud regions",
+          "Backup retention"
+        ],
+        "correct": [
+          "Who is responsible, accountable, consulted and informed"
+        ],
+        "points": 1,
+        "explanation": "A RACI clarifies roles in managed services."
+      },
+      {
+        "type": "TRUE_FALSE",
+        "text": "SaaS providers may keep deleted data only for limited periods, so third-party SaaS backup can be needed.",
         "options": [
           "True",
           "False"
@@ -123,16 +166,16 @@
         "correct": [
           "True"
         ],
-        "points": 1
+        "points": 1,
+        "explanation": "Customers remain responsible for their data in SaaS."
       },
       {
-        "type": "FILL_BLANK",
-        "text": "The foundation of accounts, networking, identity and security set up before workloads move to cloud is called a landing ____.",
-        "options": [
-          "zone"
-        ],
+        "type": "SHORT_ANSWER",
+        "text": "In two or three sentences, explain why infrastructure as code helps cloud governance.",
+        "options": [],
         "correct": [],
-        "points": 1
+        "points": 1,
+        "explanation": "Infrastructure as code defines resources in reviewed templates, so every deployment follows the same approved, secure configuration. Changes are tracked and repeatable, reducing manual errors and drift."
       }
     ]
   }

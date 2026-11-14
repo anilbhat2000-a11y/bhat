@@ -21,11 +21,27 @@ def lower_first(text):
 
 
 CONTENT = {}
+EXTRA = {}  # courses outside the catalogue: {existing course title: {lessons, questions, sources}}
 for mod in pkgutil.iter_modules(course_content.__path__):
     m = importlib.import_module(f"course_content.{mod.name}")
     for title, body in getattr(m, "COURSES", {}).items():
         assert title not in CONTENT, f"duplicate content for {title}"
         CONTENT[title] = body
+    for title, body in getattr(m, "EXTRA", {}).items():
+        assert title not in EXTRA, f"duplicate extra content for {title}"
+        EXTRA[title] = body
+
+
+def check(title, data):
+    assert len(data["questions"]) >= 6, f"{title}: at least 6 questions"
+    for qn in data["questions"]:
+        assert qn.get("explanation"), f"{title}: every question needs an explanation ({qn['text'][:40]})"
+        assert not any("|" in o for o in qn["options"]), f"{title}: options cannot contain |"
+    sources = [{"title": t, "url": u} for t, u in data.get("sources", [])]
+    assert sources, f"{title}: list at least one source"
+    for src in sources:
+        assert src["url"].startswith("https://"), f"{title}: source links must be https ({src['url']})"
+    return sources
 
 cat = json.load(open(os.path.join(ROOT, "content", "catalogue.json")))
 COURSE_DIR = os.path.join(ROOT, "content", "courses")
@@ -45,12 +61,7 @@ for s in cat["subjects"]:
         data = CONTENT.pop(c["title"])
         lessons, questions = data["lessons"], data["questions"]
         assert len(lessons) == len(c["modules"]), f'{c["title"]}: {len(lessons)} lessons for {len(c["modules"])} modules'
-        assert len(questions) >= 6, f'{c["title"]}: at least 6 questions'
-        for qn in questions:
-            assert qn.get("explanation"), f'{c["title"]}: every question needs an explanation ({qn["text"][:40]})'
-        sources = [{"title": t, "url": u} for t, u in data.get("sources", [])]
-        for src in sources:
-            assert src["url"].startswith("https://"), f'{c["title"]}: source links must be https ({src["url"]})'
+        sources = check(c["title"], data)
         title = c.get("existingCourse") or c["title"]
         slug = EXISTING.get(title) or re.sub(r"[^a-z0-9]+", "-", title.lower()).strip("-")
         clean = lambda t: t.replace("[PLACEHOLDER] ", "")
@@ -74,6 +85,23 @@ for s in cat["subjects"]:
             json.dump(course, f, indent=2, ensure_ascii=False)
             f.write("\n")
         written += 1
+
+# Courses outside the catalogue keep their file's title, slug, level and lesson titles; only
+# the lesson text, the completion-check questions and the sources are replaced.
+for title, data in EXTRA.items():
+    slug = EXISTING.get(title)
+    assert slug, f"extra content for a course file that does not exist: {title}"
+    path = os.path.join(COURSE_DIR, f"{slug}.json")
+    course = json.load(open(path))
+    assert len(data["lessons"]) == len(course["lessons"]), f'{title}: {len(data["lessons"])} lessons for {len(course["lessons"])}'
+    course["sources"] = check(title, data)
+    for lesson, body in zip(course["lessons"], data["lessons"]):
+        lesson["body"] = body.strip()
+    course["assessment"]["questions"] = data["questions"]
+    with open(path, "w") as f:
+        json.dump(course, f, indent=2, ensure_ascii=False)
+        f.write("\n")
+    written += 1
 
 assert not CONTENT, f"content for titles not in the catalogue: {list(CONTENT)}"
 print(f"wrote {written} course files")

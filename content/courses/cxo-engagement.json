@@ -11,25 +11,25 @@
       "position": 1,
       "title": "What CXOs care about",
       "type": "TEXT",
-      "body": "Each executive looks at a purchase differently:\n\n- **CEO:** growth, competitiveness, and risk to the business.\n- **CFO:** cost, return on investment, cash flow, and budget control.\n- **CIO or CTO:** reliability, security, integration, and the team's capacity to run it.\n- **COO:** continuity of operations and service levels.\n\nBefore you meet a CXO, research their priorities from public statements, annual reports, and your existing contacts. Then frame your offer around their concern, not your product."
+      "body": "CXO is a common short form for senior executives: the CEO (chief executive officer), CFO (chief financial officer), CIO (chief information officer), COO (chief operating officer), CISO (chief information security officer) and others. They approve the largest IT investments, so understanding what each of them cares about helps you speak to their priorities.\n\n## What each executive usually cares about\n\n- **CEO:** growth, competitive position, customers, reputation and the long-term strategy.\n- **CFO:** cost, cash flow, return on investment, risk and predictable spending.\n- **CIO:** reliability, security, simplicity, skills and how IT supports the business strategy.\n- **COO:** efficiency, uptime of operations, productivity and quality.\n- **CISO:** cyber risk, regulatory compliance and incident readiness.\n\n## Common concerns across executives\n\n- \"Why now?\" What happens if we do nothing?\n- \"What is the risk?\" Of acting and of not acting.\n- \"How will we know it worked?\" Measurable outcomes.\n- \"Can we trust this partner?\" Experience, references and follow-through.\n\n## Key terms\n\n- **CXO:** a senior executive such as CEO, CFO or CIO.\n- **Business priority:** a goal the organisation has committed to, such as expansion or cost reduction.\n- **Annual report:** a company's yearly publication of results and strategy; listed companies publish them, and filings are available through the Ministry of Corporate Affairs.\n\n## Real-world example\n\nBefore meeting a manufacturer's CFO, an account manager reads the annual report and finds that the company plans to cut operating costs by a set percentage over two years. Instead of presenting a server catalogue, she explains how consolidating three ageing server rooms could reduce power and support costs, with a clear payback. The CFO asks for a detailed proposal.\n\n## Common mistakes\n\n- Using the same message for every executive.\n- Talking about technical features to business leaders.\n- Not researching the company before the meeting.\n\n## Key takeaways\n\n- Each executive has different priorities; tailor your message.\n- All executives ask why now, what the risk is and how success will be measured.\n- Research the business before you meet."
     },
     {
       "position": 2,
       "title": "Earning executive time",
       "type": "TEXT",
-      "body": "Executives give time to people who respect their time. To earn it:\n\n- Request a specific, short meeting with a clear purpose: 'I would like 20 minutes to share how two peer companies reduced outage costs.'\n- Bring something useful even if they do not buy: a relevant insight, a benchmark, or an introduction.\n- Involve your champion. A request from a trusted internal sponsor is more likely to be accepted.\n\nDo not send long decks ahead of the meeting unless asked. A one-page summary is usually enough."
+      "body": "Senior executives have very little time. To earn a meeting, you need a reason that matters to them, an introduction they trust and a clear idea of what you will offer in return for their time.\n\n## Ways to earn executive time\n\n- **Through your champion:** ask the person who supports you inside the account to introduce you, explaining why the meeting is worth the executive's time.\n- **Through peer relationships:** your own senior leaders or OEM executives can request meetings with their counterparts.\n- **Through insight:** offer something valuable, such as a benchmark from similar organisations, an assessment result or an industry trend.\n- **Through events:** executive round tables, OEM briefings and industry forums.\n\n## Asking for the meeting\n\n- Keep the request short: who you are, why it matters to them, what you will cover and how long it will take.\n- Link it to a known priority: \"You mentioned expanding to ten new branches this year; we have helped similar banks open branches faster with a standard IT design.\"\n- Ask for a specific, short slot, such as 20 or 30 minutes.\n\n## Key terms\n\n- **Champion:** a person inside the customer who supports your solution and helps you navigate.\n- **Executive sponsor:** a senior leader on our side who builds a peer relationship with the customer's executive.\n- **Insight:** a useful, evidence-based observation the customer did not have before.\n\n## Real-world example\n\nA salesperson has tried for months to meet a hospital group's CEO without success. After completing a network assessment, the salesperson shares a one-page summary with the CIO showing that outages had affected patient billing. The CIO invites the CEO to a 30-minute briefing on the findings. Insight, delivered through a trusted internal contact, opened the door.\n\n## Common mistakes\n\n- Asking for \"an introductory meeting\" with no clear value.\n- Going around your contacts in a way that damages trust.\n- Asking for an hour when 20 minutes would do.\n\n## Key takeaways\n\n- Earn executive time through champions, peer relationships, insight and events.\n- Link every request to a known business priority.\n- Keep requests short and specific."
     },
     {
       "position": 3,
       "title": "The executive briefing and business case",
       "type": "TEXT",
-      "body": "An executive briefing should take about three minutes to read or present:\n\n1. **The issue:** one sentence on the business problem, in the executive's terms.\n2. **The cost of inaction:** the money, risk, or lost opportunity if nothing changes.\n3. **The recommendation:** what you propose, and why it is the best option.\n4. **The return:** expected benefits in financial or risk terms, with stated assumptions.\n5. **The decision needed:** what you need from them, and by when.\n\nAvoid technical jargon. If a technical detail matters, put it in an appendix for the technical team."
+      "body": "An executive briefing is a short, focused meeting where you present a business case to senior leaders. It must be clear, credible and end with a decision or next step.\n\n## Structure of an executive briefing\n\n1. **The situation:** a short summary of the business issue, in the executive's words.\n2. **The impact:** what the issue costs today in money, risk or lost opportunity.\n3. **The recommendation:** the outcome you propose, in one or two sentences.\n4. **The business case:** investment, expected benefits, payback period and key assumptions.\n5. **Risks and how they will be managed.**\n6. **The ask:** the specific decision you want.\n\n## Building the business case\n\n- Use the customer's own figures wherever possible, such as downtime hours or staff costs.\n- Show total cost of ownership over several years, not just purchase price.\n- Calculate return on investment (ROI) and payback period clearly.\n- Keep assumptions conservative and visible.\n\n## Presenting\n\n- Lead with a one-page summary; keep technical detail in an appendix.\n- Rehearse and agree who speaks when.\n- Answer questions directly and honestly.\n\n## Key terms\n\n- **Business case:** the financial and strategic justification for an investment.\n- **ROI:** return on investment.\n- **Payback period:** time for benefits to repay the investment.\n- **The ask:** the decision you request.\n\n## Real-world example\n\nA team presents a branch connectivity upgrade to a bank's executive committee. Their first slide shows that link failures stopped transactions at branches for a total of many hours last year, the proposed solution, a payback period of under two years using the bank's own figures, and the request: approve a pilot in 30 branches. The committee approves in the meeting.\n\n## Common mistakes\n\n- Opening with company history.\n- Business cases built on numbers the customer does not recognise.\n- No clear request at the end.\n\n## Key takeaways\n\n- Structure: situation, impact, recommendation, business case, risks and ask.\n- Use the customer's numbers and conservative assumptions.\n- Keep it short and end with a clear decision request."
     },
     {
       "position": 4,
       "title": "Following through with senior leaders",
       "type": "TEXT",
-      "body": "After a senior meeting, send a short written summary within one working day. Include the agreed next steps, owners, and dates. If you promised something, deliver it or explain the change.\n\nSenior relationships are built over time through consistency. Share relevant updates briefly and only when they matter to that executive. Never use an executive relationship to bypass the buyer's process. Respect the procurement and approval steps, even when a senior leader is supportive."
+      "body": "An executive meeting is only valuable if you follow through. Executives remember who delivered what they promised. Strong follow-through turns one meeting into a long-term relationship.\n\n## After the meeting\n\n- **Send a short summary within a day:** what was discussed, decisions made, actions with owners and dates.\n- **Deliver every promised item on time,** such as a proposal, a reference call or a workshop.\n- **Keep your internal contacts informed;** never surprise the people who introduced you.\n\n## Building the relationship\n\n- **Regular, valuable contact:** share relevant insights, industry news or results, not just sales updates.\n- **Executive business reviews:** for key accounts, hold quarterly or half-yearly reviews covering delivered value, issues and plans.\n- **Peer relationships:** your company's leaders meet the customer's leaders regularly.\n- **Honesty when things go wrong:** inform the executive early about major problems, with a plan to fix them.\n\n## Measuring success\n\nTrack whether executive relationships lead to faster decisions, larger strategic projects and long-term renewals.\n\n## Key terms\n\n- **Executive business review:** a periodic meeting with senior customer leaders to review value and plans.\n- **Follow-through:** completing the actions you committed to.\n- **Relationship map:** a record of stakeholders and the strength of each relationship.\n\n## Real-world example\n\nAfter a CIO meeting, an account manager sends a summary the next morning and delivers the promised reference contact within two days. Three months later, during a project delay caused by a supplier, he calls the CIO before the CIO hears about it elsewhere, explains the recovery plan and keeps her updated weekly. The CIO later tells colleagues that this transparency is why the company won the next large project.\n\n## Common mistakes\n\n- No written summary after the meeting.\n- Contacting executives only when you want an order.\n- Hiding problems until they become serious.\n\n## Key takeaways\n\n- Send a summary within a day and deliver every promise on time.\n- Build the relationship with valuable, regular contact and executive reviews.\n- Share bad news early with a plan."
     }
   ],
   "assessment": {
@@ -38,11 +38,121 @@
     "level": "ADVANCED",
     "passMarkPercent": 70,
     "questions": [
-      { "position": 1, "type": "SINGLE", "text": "Which concern most often matters most to a CFO?", "options": ["Brand design", "Cost, return on investment, and budget control", "Individual software features", "Office layout"], "correct": ["Cost, return on investment, and budget control"], "points": 1 },
-      { "position": 2, "type": "SINGLE", "text": "How long should a typical executive briefing take to read or present?", "options": ["About three minutes", "About one hour", "About a full day", "No time limit"], "correct": ["About three minutes"], "points": 1 },
-      { "position": 3, "type": "SINGLE", "text": "What should follow a senior meeting?", "options": ["Nothing, unless they call", "A short written summary with next steps, owners, and dates", "A long technical deck", "A discount offer"], "correct": ["A short written summary with next steps, owners, and dates"], "points": 1 },
-      { "position": 4, "type": "MULTIPLE", "text": "Which belong in an executive briefing? (Select all that apply)", "options": ["The issue in the executive's terms", "The cost of inaction", "Dense technical specifications", "The decision needed and by when"], "correct": ["The issue in the executive's terms", "The cost of inaction", "The decision needed and by when"], "points": 2 },
-      { "position": 5, "type": "TRUE_FALSE", "text": "You may use a senior leader's support to skip the buyer's procurement and approval steps.", "options": ["True", "False"], "correct": ["False"], "points": 1 }
+      {
+        "type": "SINGLE",
+        "text": "Which executive is most focused on cost, cash flow and return on investment?",
+        "options": [
+          "CEO",
+          "CFO",
+          "CISO",
+          "COO"
+        ],
+        "correct": [
+          "CFO"
+        ],
+        "points": 1,
+        "explanation": "The chief financial officer focuses on financial outcomes and risk."
+      },
+      {
+        "type": "MULTIPLE",
+        "text": "Which questions do executives commonly ask?",
+        "options": [
+          "Why now?",
+          "What is the risk?",
+          "How will we know it worked?",
+          "Which cable category do you use?"
+        ],
+        "correct": [
+          "Why now?",
+          "What is the risk?",
+          "How will we know it worked?"
+        ],
+        "points": 1,
+        "explanation": "Executives focus on timing, risk and measurable outcomes."
+      },
+      {
+        "type": "SINGLE",
+        "text": "What is the best way to earn time with a CEO?",
+        "options": [
+          "Send a product catalogue",
+          "Offer a valuable insight linked to a known priority, through a trusted contact",
+          "Call repeatedly",
+          "Ask for a two-hour introduction"
+        ],
+        "correct": [
+          "Offer a valuable insight linked to a known priority, through a trusted contact"
+        ],
+        "points": 1,
+        "explanation": "Insight and trusted introductions open executive doors."
+      },
+      {
+        "type": "TRUE_FALSE",
+        "text": "An executive briefing should end with a clear, specific request.",
+        "options": [
+          "True",
+          "False"
+        ],
+        "correct": [
+          "True"
+        ],
+        "points": 1,
+        "explanation": "Executives need to know the decision you want."
+      },
+      {
+        "type": "SINGLE",
+        "text": "When should you send a summary after an executive meeting?",
+        "options": [
+          "Within a day",
+          "After a month",
+          "Only if asked",
+          "Never"
+        ],
+        "correct": [
+          "Within a day"
+        ],
+        "points": 1,
+        "explanation": "A prompt summary confirms decisions and actions."
+      },
+      {
+        "type": "TRUE_FALSE",
+        "text": "Problems in a project should be hidden from the executive until they are fixed.",
+        "options": [
+          "True",
+          "False"
+        ],
+        "correct": [
+          "False"
+        ],
+        "points": 1,
+        "explanation": "Sharing bad news early, with a plan, builds trust."
+      },
+      {
+        "type": "MATCHING",
+        "text": "Match each executive to a typical priority.",
+        "options": [
+          "CEO=Growth and strategy",
+          "CIO=Reliable, secure IT that supports the business",
+          "COO=Operational efficiency and uptime",
+          "CISO=Cyber risk and compliance"
+        ],
+        "correct": [],
+        "points": 1,
+        "explanation": "Tailor your message to each executive's priorities."
+      }
     ]
-  }
+  },
+  "sources": [
+    {
+      "title": "Ministry of Corporate Affairs: company filings and annual reports",
+      "url": "https://www.mca.gov.in/"
+    },
+    {
+      "title": "Salesforce Trailhead: sales and CRM learning trails",
+      "url": "https://trailhead.salesforce.com/"
+    },
+    {
+      "title": "HubSpot Academy: sales and inbound courses",
+      "url": "https://academy.hubspot.com/"
+    }
+  ]
 }

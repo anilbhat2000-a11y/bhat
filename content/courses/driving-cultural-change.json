@@ -11,25 +11,25 @@
       "position": 1,
       "title": "Why culture change is hard",
       "type": "TEXT",
-      "body": "Culture is the set of shared behaviours and beliefs that shape how work gets done. It changes only when people change what they do every day. Announcements alone rarely shift behaviour.\n\nCulture change usually fails for three reasons: leaders do not model the new behaviour, the old incentives still reward the old behaviour, and no one is given the skills to act differently. Address all three from the start."
+      "body": "Culture is \"the way we do things here\": the shared values, beliefs and habits that shape how people behave. Changing culture is hard because habits are strong, people fear losing what they value, and change often competes with daily pressures.\n\n## Why change fails\n\n- **No clear reason:** people do not understand why change is needed.\n- **Mixed messages:** leaders say one thing but do another.\n- **Fear and loss:** people worry about status, skills or job security.\n- **Too much at once:** many initiatives compete for attention.\n- **No reinforcement:** old habits return when attention moves on.\n- **Systems unchanged:** targets, rewards and processes still support the old ways.\n\n## What successful change needs\n\n- A compelling, clearly communicated reason.\n- Visible, consistent leadership behaviour.\n- Involvement of people affected by the change.\n- Support to learn new skills.\n- Alignment of systems, such as goals, rewards and processes.\n- Patience and reinforcement over time.\n\n## Key terms\n\n- **Organisational culture:** shared values, beliefs and behaviours.\n- **Change management:** a structured approach to helping people adopt change.\n- **Resistance:** reluctance to accept change, often driven by fear or loss.\n\n## Real-world example\n\nA company wants to move from selling products to selling solutions and services. It announces the strategy, but sales targets and incentives still reward product revenue only. Salespeople keep selling boxes. Only when incentives are changed to reward services and recurring revenue, and leaders celebrate solution wins, does behaviour begin to change.\n\n## Common mistakes\n\n- Announcing change without explaining why.\n- Leaders not modelling the new behaviour.\n- Leaving old systems and incentives in place.\n\n## Key takeaways\n\n- Culture change is hard because habits, fears and systems resist it.\n- Success needs a clear reason, consistent leadership, involvement, skills and aligned systems.\n- Reinforce change over time."
     },
     {
       "position": 2,
       "title": "The ADKAR model for individual change",
       "type": "TEXT",
-      "body": "ADKAR describes the five steps an individual needs to change, in order:\n\n1. **Awareness:** understanding why the change is needed.\n2. **Desire:** wanting to take part in it.\n3. **Knowledge:** knowing how to change.\n4. **Ability:** being able to perform the new behaviour in practice.\n5. **Reinforcement:** having the change sustained by recognition and consequences.\n\nUse ADKAR to diagnose where people are stuck. A team that understands the change but lacks the ability needs practice, not more messages."
+      "body": "The **ADKAR model,** developed by Jeff Hiatt and published by Prosci, describes the five outcomes each individual needs to achieve for a change to succeed. Organisations change only when individuals change.\n\n## The five ADKAR elements\n\n1. **Awareness** of the need for change: why it is happening.\n2. **Desire** to support and take part in the change: personal motivation.\n3. **Knowledge** of how to change: what to do differently.\n4. **Ability** to implement the change: skills and behaviours in practice.\n5. **Reinforcement** to sustain the change: recognition, rewards and follow-up.\n\n## Using ADKAR\n\n- **Diagnose where people are stuck:** for example, a team may understand the change (awareness) but not want it (desire).\n- **Choose the right action for each stage:**\n  - Awareness: clear communication from leaders about the business reasons.\n  - Desire: involve people, address concerns and explain personal benefits.\n  - Knowledge: training and information.\n  - Ability: practice, coaching and time to build skills.\n  - Reinforcement: recognition, measurement and celebrating success.\n\n## Key terms\n\n- **ADKAR:** Awareness, Desire, Knowledge, Ability, Reinforcement.\n- **Barrier point:** the first ADKAR element where a person is stuck.\n- **Change sponsor:** a senior leader who champions the change.\n\n## Real-world example\n\nA company introduces a new CRM. Training is delivered (knowledge), but usage stays low. An ADKAR assessment shows that salespeople do not see why the CRM matters to them (desire). Leaders explain how CRM data will help forecasting and reduce reporting work, managers use CRM data in every review, and top users are recognised. Usage rises sharply.\n\n## Common mistakes\n\n- Jumping straight to training without building awareness and desire.\n- Treating everyone as being at the same stage.\n- No reinforcement after launch.\n\n## Key takeaways\n\n- ADKAR: Awareness, Desire, Knowledge, Ability, Reinforcement.\n- Find each person's barrier point and act on it.\n- Training alone is not enough without awareness, desire and reinforcement."
     },
     {
       "position": 3,
       "title": "Kotter's steps for organisational change",
       "type": "TEXT",
-      "body": "John Kotter's eight steps for leading change are:\n\n1. Create a sense of urgency.\n2. Build a guiding coalition.\n3. Form a strategic vision.\n4. Communicate the vision.\n5. Remove obstacles to action.\n6. Create short-term wins.\n7. Build on the change.\n8. Anchor the change in the culture.\n\nSkipping early steps, especially urgency and the guiding coalition, is a common reason change programmes stall. Use the steps as a checklist, not a strict sequence."
+      "body": "While ADKAR focuses on individuals, **John Kotter's eight-step process,** first described in his book *Leading Change* (1996), focuses on leading change across an organisation.\n\n## Kotter's eight steps\n\n1. **Create a sense of urgency:** help people see why change is needed now.\n2. **Build a guiding coalition:** form a group of influential leaders to drive the change.\n3. **Form a strategic vision:** describe the future clearly and simply.\n4. **Communicate the vision:** repeatedly, through many channels, with leaders modelling it.\n5. **Remove barriers and empower action:** change structures, systems and processes that block progress.\n6. **Generate short-term wins:** achieve and celebrate visible early successes.\n7. **Sustain acceleration:** use credibility from early wins to drive further change.\n8. **Anchor the change in culture:** connect new behaviours to success and make them part of how things are done.\n\n## Using the steps in practice\n\n- The steps are a guide, not a rigid sequence; several may happen at once.\n- Short-term wins are especially important for building momentum and silencing doubters.\n- Anchoring takes time; declaring victory too early is a common cause of failure.\n\n## Key terms\n\n- **Sense of urgency:** shared understanding that change is needed now.\n- **Guiding coalition:** leaders who drive the change together.\n- **Short-term win:** a visible early success.\n- **Anchoring:** making change part of the culture.\n\n## Real-world example\n\nA company wants to become customer-centric after losing two major accounts. Leaders share customer feedback widely to create urgency, form a cross-department coalition, and set a vision of \"every customer issue owned and resolved\". They remove a barrier by giving support engineers authority to issue small service credits, celebrate early improvements in customer satisfaction, and eventually build customer metrics into everyone's goals.\n\n## Common mistakes\n\n- Skipping urgency, so people see no reason to change.\n- Communicating the vision once and stopping.\n- Declaring victory too early.\n\n## Key takeaways\n\n- Kotter's eight steps guide organisation-wide change.\n- Urgency, a guiding coalition, a clear vision and short-term wins build momentum.\n- Anchor change in culture and avoid declaring victory too early."
     },
     {
       "position": 4,
       "title": "Linking learning to business results",
       "type": "TEXT",
-      "body": "Start from the business result, then work back to the learning. For example: 'Reduce deal cycle time by 15 percent over two quarters.' Then identify the behaviours that drive it, the training that builds them, and the measures that show whether they happen.\n\nTrack three kinds of measure: leading indicators (such as coaching sessions held), behaviour indicators (such as use of the discovery framework in deal reviews), and results (such as cycle time and win rate). Review them each quarter, and stop activities that do not move the results."
+      "body": "Learning and culture programmes must show business value to earn ongoing support. Linking learning to measurable business results makes the case clear and helps focus effort where it matters.\n\n## Starting from business results\n\n- Begin with the business goal: higher win rates, faster project delivery, better customer satisfaction, fewer security incidents or lower attrition.\n- Identify the behaviours that drive that result.\n- Design learning and culture initiatives to build those behaviours.\n- Agree the measures before starting.\n\n## Measuring results\n\n- Use the Kirkpatrick levels: reaction, learning, behaviour and results.\n- Collect baseline data before the programme.\n- Compare results over time, and where possible with a group that did not take part.\n- Combine numbers with stories, such as customer feedback or examples of new behaviour.\n\n## Communicating results\n\n- Report in business language: revenue, cost, risk, customer and employee outcomes.\n- Be honest about what worked and what did not.\n- Share success stories to build momentum.\n\n## Key terms\n\n- **Business result:** a measurable organisational outcome.\n- **Leading indicator:** an early measure that predicts results, such as CRM usage before win rates improve.\n- **Lagging indicator:** a measure of the final outcome, such as revenue.\n- **Comparison group:** a group that did not take part, used to estimate impact.\n\n## Real-world example\n\nA company runs a consultative selling programme for its sales team. It measures participants' use of discovery questions in CRM notes (behaviour, a leading indicator) and their win rates over the next two quarters (results, a lagging indicator), compared with a group that will be trained later. The trained group shows higher win rates, and leadership funds the programme for the whole team.\n\n## Common mistakes\n\n- Measuring only attendance and satisfaction.\n- No baseline or comparison.\n- Reporting in training jargon rather than business terms.\n\n## Key takeaways\n\n- Start from business goals and the behaviours that drive them.\n- Measure with baselines, leading and lagging indicators, and comparisons.\n- Report results in business language, honestly."
     }
   ],
   "assessment": {
@@ -38,11 +38,125 @@
     "level": "ADVANCED",
     "passMarkPercent": 70,
     "questions": [
-      { "position": 1, "type": "SINGLE", "text": "What does the 'A' in ADKAR stand for?", "options": ["Action", "Awareness", "Alignment", "Assessment"], "correct": ["Awareness"], "points": 1 },
-      { "position": 2, "type": "SINGLE", "text": "In ADKAR, what comes immediately after Desire?", "options": ["Awareness", "Knowledge", "Reinforcement", "Ability"], "correct": ["Knowledge"], "points": 1 },
-      { "position": 3, "type": "SINGLE", "text": "Which Kotter step is a common reason change programmes stall when skipped?", "options": ["Creating a sense of urgency", "Choosing a logo", "Printing a handbook", "Renaming the office"], "correct": ["Creating a sense of urgency"], "points": 1 },
-      { "position": 4, "type": "MULTIPLE", "text": "Which are common reasons culture change fails? (Select all that apply)", "options": ["Leaders do not model the new behaviour", "Old incentives still reward the old behaviour", "People are not given the skills to act differently", "The company has a clear, measurable goal"], "correct": ["Leaders do not model the new behaviour", "Old incentives still reward the old behaviour", "People are not given the skills to act differently"], "points": 2 },
-      { "position": 5, "type": "TRUE_FALSE", "text": "Start from the business result, then work back to the learning needed to achieve it.", "options": ["True", "False"], "correct": ["True"], "points": 1 }
+      {
+        "type": "SINGLE",
+        "text": "What does ADKAR stand for?",
+        "options": [
+          "Awareness, Desire, Knowledge, Ability, Reinforcement",
+          "Action, Decision, Knowledge, Assessment, Review",
+          "Analyse, Design, Kickoff, Act, Repeat",
+          "Attitude, Drive, Knowledge, Aptitude, Results"
+        ],
+        "correct": [
+          "Awareness, Desire, Knowledge, Ability, Reinforcement"
+        ],
+        "points": 1,
+        "explanation": "ADKAR describes the outcomes each individual needs for change."
+      },
+      {
+        "type": "SINGLE",
+        "text": "What is the first step in Kotter's eight-step process?",
+        "options": [
+          "Generate short-term wins",
+          "Create a sense of urgency",
+          "Anchor the change in culture",
+          "Hire consultants"
+        ],
+        "correct": [
+          "Create a sense of urgency"
+        ],
+        "points": 1,
+        "explanation": "Urgency helps people see why change is needed now."
+      },
+      {
+        "type": "TRUE_FALSE",
+        "text": "Training alone is enough for change if people lack the desire to change.",
+        "options": [
+          "True",
+          "False"
+        ],
+        "correct": [
+          "False"
+        ],
+        "points": 1,
+        "explanation": "ADKAR shows awareness and desire must come before knowledge and ability."
+      },
+      {
+        "type": "MULTIPLE",
+        "text": "Which are common reasons change fails?",
+        "options": [
+          "No clear reason for change",
+          "Leaders not modelling new behaviour",
+          "Old incentives left in place",
+          "Celebrating short-term wins"
+        ],
+        "correct": [
+          "No clear reason for change",
+          "Leaders not modelling new behaviour",
+          "Old incentives left in place"
+        ],
+        "points": 1,
+        "explanation": "Short-term wins help change succeed."
+      },
+      {
+        "type": "SINGLE",
+        "text": "Which is a leading indicator for a consultative selling programme?",
+        "options": [
+          "Annual revenue",
+          "Use of discovery questions in CRM notes",
+          "Office rent",
+          "Number of chairs"
+        ],
+        "correct": [
+          "Use of discovery questions in CRM notes"
+        ],
+        "points": 1,
+        "explanation": "Behaviour measures predict later results such as win rates."
+      },
+      {
+        "type": "TRUE_FALSE",
+        "text": "Declaring victory too early is a common cause of change failure.",
+        "options": [
+          "True",
+          "False"
+        ],
+        "correct": [
+          "True"
+        ],
+        "points": 1,
+        "explanation": "Kotter warns that change must be anchored in culture first."
+      },
+      {
+        "type": "MATCHING",
+        "text": "Match each ADKAR element to a supporting action.",
+        "options": [
+          "Awareness=Leaders explain the business reasons",
+          "Desire=Involve people and address concerns",
+          "Knowledge=Training and information",
+          "Reinforcement=Recognition and follow-up"
+        ],
+        "correct": [],
+        "points": 1,
+        "explanation": "Each stage needs a different kind of support."
+      }
     ]
-  }
+  },
+  "sources": [
+    {
+      "title": "Prosci: the ADKAR model of change",
+      "url": "https://www.prosci.com/methodology/adkar"
+    },
+    {
+      "title": "Kotter Inc.: the 8-step process for leading change",
+      "url": "https://www.kotterinc.com/methodology/8-steps/"
+    },
+    {
+      "title": "Kirkpatrick Partners: the Kirkpatrick Model of training evaluation",
+      "url": "https://www.kirkpatrickpartners.com/"
+    },
+    {
+      "title": "SHRM: HR knowledge and toolkits",
+      "url": "https://www.shrm.org/"
+    }
+  ]
 }

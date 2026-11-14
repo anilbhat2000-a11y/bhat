@@ -11,25 +11,25 @@
       "position": 1,
       "title": "What an objection really is",
       "type": "TEXT",
-      "body": "An objection is a buyer's concern, not a rejection. Most objections are requests for more information, reassurance, or a better fit.\n\nCommon types in enterprise IT sales:\n\n- **Price:** 'This is more than the other quote.'\n- **Need:** 'We do not need this right now.'\n- **Timing:** 'Ask us again next financial year.'\n- **Trust:** 'We have had bad experiences with this type of vendor.'\n- **Authority:** 'I need to check with someone else first.'\n- **Competitor:** 'Another vendor offered a better deal.'\n\nIdentify which type you are hearing. Each type needs a different response."
+      "body": "An objection is a concern a customer raises about moving forward. It is not a rejection. Often it means the customer is interested but needs more information, reassurance or a better fit.\n\n## Types of objections\n\n- **Price:** \"It is too expensive.\" Often means the value is unclear, or the comparison is unfair.\n- **Need:** \"We do not need this.\" The problem or its cost may not be clear yet.\n- **Timing:** \"Not now.\" There may be budget cycles, other priorities or a project freeze.\n- **Trust:** \"We have never worked with you.\" The customer needs proof and reassurance.\n- **Status quo:** \"Our current vendor is fine.\" Change feels risky.\n- **Authority:** \"I need to check with my boss.\" Other people are involved in the decision.\n\n## Finding the real concern\n\nThe first objection is not always the real one. A customer who says \"it is too expensive\" may actually be worried about implementation risk or may not have the budget this quarter. Asking gentle, open questions helps uncover what is really stopping them.\n\n## Key terms\n\n- **Objection:** a concern raised about moving forward.\n- **Real objection:** the underlying concern behind what is said.\n- **Status quo bias:** the tendency to prefer the current situation.\n\n## Real-world example\n\nA customer says a proposed backup solution is too expensive. The salesperson asks what they are comparing it with. The customer admits that the real concern is that their previous backup project failed and they fear another failure. The salesperson offers a reference visit to a similar customer and a phased rollout with a pilot. The price objection disappears.\n\n## Common mistakes\n\n- Treating every objection as a price problem.\n- Arguing instead of asking questions.\n- Giving up after the first objection.\n\n## Key takeaways\n\n- Objections are concerns, not rejections.\n- Know the common types: price, need, timing, trust, status quo and authority.\n- Ask questions to find the real concern."
     },
     {
       "position": 2,
       "title": "The LAER method",
       "type": "TEXT",
-      "body": "Use this four-step method:\n\n1. **Listen:** let the customer finish. Do not interrupt or start defending.\n2. **Acknowledge:** 'That is a fair concern about the installation timeline.'\n3. **Explore:** ask what sits behind the concern. 'What would a successful installation look like for your team?'\n4. **Respond:** answer the real concern with evidence, a trade-off, or a reframe.\n\nThe explore step matters most. Many objections turn out to be about something else, such as a risk to someone's reputation. Respond only when you understand the concern."
+      "body": "LAER is a simple, widely taught method for handling objections: **Listen, Acknowledge, Explore, Respond.** It keeps the conversation calm and focused on the customer's real concern.\n\n## The four steps\n\n1. **Listen:** let the customer finish without interrupting. Take notes. Show you are paying attention.\n2. **Acknowledge:** show that you understand and that the concern is reasonable. \"That is a fair concern; many customers ask the same.\" Acknowledging is not agreeing.\n3. **Explore:** ask open questions to understand the real issue. \"Can you tell me more about what worries you?\" \"What are you comparing this with?\"\n4. **Respond:** answer the real concern with facts, options or proof, then check that it is resolved. \"Does that address your concern?\"\n\n## Why it works\n\n- Listening and acknowledging reduce tension and show respect.\n- Exploring prevents you from answering the wrong question.\n- Checking at the end confirms whether the concern is really resolved or whether there is another one.\n\n## Key terms\n\n- **LAER:** Listen, Acknowledge, Explore, Respond.\n- **Open question:** a question that cannot be answered with yes or no.\n- **Confirmation question:** a question that checks the concern is resolved.\n\n## Real-world example\n\nAn IT head says: \"Your support response time is too slow.\" The salesperson listens fully, acknowledges that response time matters for critical systems, and explores which systems are most critical and what response time they need. It turns out only the core switches need a four-hour response; other equipment is fine with next-business-day support. The salesperson responds with a mixed support plan that meets the need at a reasonable cost, and confirms the IT head is satisfied.\n\n## Common mistakes\n\n- Interrupting to defend immediately.\n- Skipping the explore step and answering the wrong concern.\n- Not checking whether the concern is resolved.\n\n## Key takeaways\n\n- Use LAER: Listen, Acknowledge, Explore, Respond.\n- Acknowledging shows understanding without agreeing.\n- Always check that the concern is resolved."
     },
     {
       "position": 3,
       "title": "Responding with evidence and reframing",
       "type": "TEXT",
-      "body": "Useful responses include:\n\n- **Feel, felt, found:** 'I understand how you feel. Other customers felt the same. They found that the first quarter cost more but the next three were lower.'\n- **Reframe:** change the comparison. 'You are comparing a one-off price. Let us compare the three-year cost of downtime.'\n- **Evidence:** a reference customer, a trial, a measurable pilot, or a published warranty term.\n\nDo not make claims you cannot support. If you do not know the answer, say so and commit to a date for the answer."
+      "body": "Once you understand the real concern, you need a strong response. The best responses use evidence or reframe the concern in a way that helps the customer see the bigger picture.\n\n## Responding with evidence\n\n- **References and case studies:** customers similar to them who succeeded with our solution.\n- **Data:** performance test results, uptime statistics or total cost of ownership comparisons.\n- **Demonstrations and pilots:** let the customer see the solution working.\n- **Certifications and partnerships:** OEM partner levels, engineer certifications and quality standards.\n- **Guarantees within policy:** service level commitments written into the contract.\n\n## Reframing\n\nReframing helps the customer look at the concern from a different angle:\n\n- **Price to cost of ownership:** \"The purchase price is higher, but over five years, including support and downtime, the total cost is lower.\"\n- **Cost to risk:** \"What would one day of downtime cost compared with the investment?\"\n- **Change to opportunity:** \"Staying with the current setup means continuing with the outages we discussed.\"\n\n## Key terms\n\n- **Evidence:** facts that support your response.\n- **Reframing:** presenting a concern from a different perspective.\n- **Total cost of ownership (TCO):** all costs over the life of a solution.\n\n## Real-world example\n\nA CFO objects that a proposed firewall is more expensive than the current vendor's renewal. The salesperson shares a TCO comparison: the new firewall includes features that replace two other subscriptions, and the support covers all branches. Over three years, the total cost is lower. She adds a reference from a similar company. The CFO approves.\n\n## Common mistakes\n\n- Responding with opinions instead of evidence.\n- Reframing in a way that dismisses the customer's concern.\n- Overloading the customer with too much data.\n\n## Key takeaways\n\n- Use references, data, demos, certifications and contract commitments as evidence.\n- Reframe price as total cost, cost as risk and change as opportunity.\n- Keep responses clear and respectful."
     },
     {
       "position": 4,
       "title": "When to concede and how to record objections",
       "type": "TEXT",
-      "body": "Some objections deserve a concession. Concede only in exchange for something: 'If we reduce the price, can you commit to a three-year term?' Never give a concession for nothing. Trade, do not give.\n\nRecord every objection in the CRM with its type, the response given, and whether it was resolved. Patterns across many deals show which objections your team handles poorly, and which need better marketing, product changes, or pricing rules."
+      "body": "Not every objection can or should be overcome. Sometimes conceding a point builds trust and leads to a better long-term relationship. Recording objections helps the whole team improve.\n\n## When to concede\n\n- **The objection is valid:** our solution genuinely does not meet a requirement. Say so honestly and suggest alternatives if possible.\n- **The cost of winning is too high:** meeting the demand would push the deal below our margin floor or add unacceptable risk.\n- **A small concession unlocks a big agreement:** for example, adding a training session to close a large deal.\n\nWhen you concede, do so clearly and, where possible, get something in return.\n\n## When to walk away\n\nIf the customer's requirements, price or terms fall outside what we can deliver profitably and safely, it is better to decline politely than to win a deal that loses money or damages our reputation.\n\n## Recording objections\n\n- Record significant objections and how they were handled in the CRM.\n- Share common objections with sales, presales and marketing teams.\n- Build a shared library of proven responses, references and evidence.\n- Review lost deals to learn which objections were not resolved.\n\n## Key terms\n\n- **Concession:** giving something up to reach agreement.\n- **Margin floor:** the minimum acceptable margin.\n- **Objection library:** a shared collection of common objections and good responses.\n\n## Real-world example\n\nA customer insists on a feature our proposed product does not have. Instead of claiming it does, the salesperson admits the gap and suggests a third-party add-on that meets the need. The customer appreciates the honesty. Months later, when a larger project comes up, the customer invites the company first because \"they told us the truth.\"\n\n## Common mistakes\n\n- Claiming capabilities the solution does not have.\n- Winning deals below margin to avoid losing.\n- Not recording objections, so the team keeps facing the same ones unprepared.\n\n## Key takeaways\n\n- Concede honestly when objections are valid or the cost of winning is too high.\n- Walk away from deals that cannot be delivered profitably and safely.\n- Record objections and build a shared library of responses."
     }
   ],
   "assessment": {
@@ -38,11 +38,121 @@
     "level": "INTERMEDIATE",
     "passMarkPercent": 70,
     "questions": [
-      { "position": 1, "type": "SINGLE", "text": "What is the first step of the LAER method?", "options": ["Respond", "Explore", "Listen", "Acknowledge"], "correct": ["Listen"], "points": 1 },
-      { "position": 2, "type": "SINGLE", "text": "An objection that says 'ask us again next financial year' is most likely which type?", "options": ["Price", "Need", "Timing", "Authority"], "correct": ["Timing"], "points": 1 },
-      { "position": 3, "type": "SINGLE", "text": "Why should you explore the concern before responding?", "options": ["To delay the decision", "Because the stated objection often hides the real concern", "To avoid answering", "To make the customer talk longer about price"], "correct": ["Because the stated objection often hides the real concern"], "points": 1 },
-      { "position": 4, "type": "MULTIPLE", "text": "Which are good practice when handling objections? (Select all that apply)", "options": ["Making claims you cannot support", "Acknowledging a fair concern", "Recording the objection and the response", "Conceding a price cut without asking for anything in return"], "correct": ["Acknowledging a fair concern", "Recording the objection and the response"], "points": 2 },
-      { "position": 5, "type": "TRUE_FALSE", "text": "A concession should be given freely to keep the customer happy.", "options": ["True", "False"], "correct": ["False"], "points": 1 }
+      {
+        "type": "SINGLE",
+        "text": "What does an objection usually mean?",
+        "options": [
+          "The customer has rejected you",
+          "The customer has a concern that needs to be understood",
+          "The deal is lost",
+          "The price must be cut"
+        ],
+        "correct": [
+          "The customer has a concern that needs to be understood"
+        ],
+        "points": 1,
+        "explanation": "Objections are concerns, often from interested customers."
+      },
+      {
+        "type": "SINGLE",
+        "text": "What does LAER stand for?",
+        "options": [
+          "Listen, Acknowledge, Explore, Respond",
+          "Learn, Ask, Explain, Repeat",
+          "Lower, Agree, Exit, Return",
+          "Listen, Argue, Explain, Resolve"
+        ],
+        "correct": [
+          "Listen, Acknowledge, Explore, Respond"
+        ],
+        "points": 1,
+        "explanation": "LAER is a structured method for handling objections."
+      },
+      {
+        "type": "TRUE_FALSE",
+        "text": "Acknowledging a concern means agreeing with it.",
+        "options": [
+          "True",
+          "False"
+        ],
+        "correct": [
+          "False"
+        ],
+        "points": 1,
+        "explanation": "Acknowledging shows understanding, not agreement."
+      },
+      {
+        "type": "SINGLE",
+        "text": "Which is an example of reframing?",
+        "options": [
+          "'Our price is final'",
+          "'Over five years, including support and downtime, the total cost is lower'",
+          "'Everyone buys from us'",
+          "'You are wrong'"
+        ],
+        "correct": [
+          "'Over five years, including support and downtime, the total cost is lower'"
+        ],
+        "points": 1,
+        "explanation": "Reframing moves the focus from purchase price to total cost."
+      },
+      {
+        "type": "MULTIPLE",
+        "text": "Which are good forms of evidence?",
+        "options": [
+          "Reference customers",
+          "TCO comparisons",
+          "Pilot results",
+          "Personal opinions"
+        ],
+        "correct": [
+          "Reference customers",
+          "TCO comparisons",
+          "Pilot results"
+        ],
+        "points": 1,
+        "explanation": "Evidence must be factual and verifiable."
+      },
+      {
+        "type": "TRUE_FALSE",
+        "text": "If a solution lacks a required feature, you should admit it honestly.",
+        "options": [
+          "True",
+          "False"
+        ],
+        "correct": [
+          "True"
+        ],
+        "points": 1,
+        "explanation": "Honesty builds long-term trust."
+      },
+      {
+        "type": "MATCHING",
+        "text": "Match each objection type to an example.",
+        "options": [
+          "Price=It is too expensive",
+          "Timing=Not this quarter",
+          "Trust=We have never worked with you",
+          "Status quo=Our current vendor is fine"
+        ],
+        "correct": [],
+        "points": 1,
+        "explanation": "Recognising the type helps choose a response."
+      }
     ]
-  }
+  },
+  "sources": [
+    {
+      "title": "Salesforce Trailhead: sales and CRM learning trails",
+      "url": "https://trailhead.salesforce.com/"
+    },
+    {
+      "title": "HubSpot Academy: sales and inbound courses",
+      "url": "https://academy.hubspot.com/"
+    },
+    {
+      "title": "Harvard Program on Negotiation: negotiation skills articles",
+      "url": "https://www.pon.harvard.edu/"
+    }
+  ]
 }

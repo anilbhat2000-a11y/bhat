@@ -5,44 +5,189 @@
   "category": "TECHNICAL",
   "level": "BASIC",
   "passMarkPercent": 70,
-  "description": "Cloud service models, deployment models, shared responsibility, cost models, migration approaches, and how to position cloud for business customers.",
+  "description": "Cloud service and deployment models, and where cloud fits. You will be able to: compare IaaS, PaaS and SaaS; compare public, private and hybrid cloud; explain the shared responsibility model; identify good first workloads for cloud.",
+  "modules": [
+    {
+      "title": "Service models",
+      "minutes": 30
+    },
+    {
+      "title": "Deployment models",
+      "minutes": 30
+    },
+    {
+      "title": "Shared responsibility",
+      "minutes": 20
+    },
+    {
+      "title": "First workloads",
+      "minutes": 20
+    }
+  ],
   "lessons": [
     {
       "position": 1,
-      "title": "Service models: IaaS, PaaS, SaaS",
+      "title": "Service models",
       "type": "TEXT",
-      "body": "Cloud services are grouped by how much the provider manages:\n\n- **Infrastructure as a Service (IaaS):** virtual machines, storage, and networks. The customer manages the operating system and applications.\n- **Platform as a Service (PaaS):** a platform for building and running applications. The customer manages the code and data.\n- **Software as a Service (SaaS):** a finished application, such as email or collaboration tools, used through a browser.\n\nThe more the provider manages, the less the customer runs, but the less control they have."
+      "body": "Cloud computing means using computing resources, such as servers, storage, databases and software, over the internet, paying for what you use instead of buying and running everything yourself. The US National Institute of Standards and Technology (NIST) defines cloud computing in SP 800-145, and its definition is widely used.\n\n## Five essential characteristics (NIST)\n\n- **On-demand self-service:** users can provision resources themselves, without waiting for the provider.\n- **Broad network access:** services are available over the network from many types of devices.\n- **Resource pooling:** the provider serves many customers from shared resources.\n- **Rapid elasticity:** resources can scale up and down quickly.\n- **Measured service:** usage is measured, and customers pay for what they use.\n\n## Three service models\n\n- **IaaS (Infrastructure as a Service):** virtual servers, storage and networks. The customer manages the operating system, applications and data. Examples include virtual machines from AWS, Microsoft Azure and Google Cloud.\n- **PaaS (Platform as a Service):** a platform for building and running applications, such as managed databases and application hosting. The provider manages the underlying servers and operating systems.\n- **SaaS (Software as a Service):** complete applications delivered over the internet, such as Microsoft 365, Google Workspace, Salesforce or Zoho. The customer simply uses the software.\n\n## Key terms\n\n- **Cloud service provider (CSP):** a company that offers cloud services.\n- **Virtual machine (VM):** a software-based server.\n- **Elasticity:** scaling resources up and down with demand.\n- **Pay-as-you-go:** paying based on actual usage.\n\n## Real-world example\n\nAn online education startup expects huge traffic during exam results week but low traffic the rest of the year. Buying servers for the peak would leave them idle most of the year. Using IaaS and PaaS, the startup scales up automatically during results week and back down afterwards, paying only for what it uses. Its email and documents run on a SaaS suite, with no servers to manage.\n\n## Common mistakes\n\n- Assuming the cloud is always cheaper, regardless of how it is used.\n- Confusing IaaS, PaaS and SaaS responsibilities.\n- Leaving resources running when they are not needed.\n\n## Key takeaways\n\n- NIST defines five essential characteristics of cloud computing.\n- IaaS gives infrastructure, PaaS gives a platform, SaaS gives complete applications.\n- The cloud's value comes from elasticity and paying for what you use.",
+      "module": 1
     },
     {
       "position": 2,
-      "title": "Deployment models and shared responsibility",
+      "title": "Deployment models",
       "type": "TEXT",
-      "body": "Deployment models are:\n\n- **Public cloud:** shared infrastructure run by a provider.\n- **Private cloud:** infrastructure dedicated to one organisation, on-premise or hosted.\n- **Hybrid cloud:** a combination of the two, connected and managed together.\n\nShared responsibility means the provider secures the cloud platform, while the customer secures what they put in it: data, identities, access settings, and configuration. Most cloud security incidents come from customer-side configuration, not provider failure."
+      "body": "Deployment models describe who uses the cloud infrastructure and where it runs. NIST SP 800-145 defines four deployment models.\n\n## The four deployment models\n\n- **Public cloud:** infrastructure owned and operated by a provider and shared by many customers. Examples: AWS, Microsoft Azure, Google Cloud and Oracle Cloud, many of which have regions in India.\n- **Private cloud:** infrastructure used by one organisation, either in its own data centre or hosted by a provider.\n- **Community cloud:** shared by organisations with common needs, such as government departments.\n- **Hybrid cloud:** a combination of two or more models, connected so that data and applications can move between them.\n\nMany organisations also use **multi-cloud,** meaning services from more than one public cloud provider.\n\n## Choosing a model\n\n- **Regulation and data residency:** some data must stay in India or in specific facilities. For example, the RBI has required since 2018 that payment system data be stored only in India.\n- **Government workloads:** Indian government bodies generally use cloud service providers empanelled by MeitY.\n- **Performance and latency:** some applications need to run close to users or equipment.\n- **Existing investment:** recent on-premises investments may continue alongside the cloud.\n- **Skills and operations:** the organisation's ability to manage each environment.\n\n## Key terms\n\n- **Region:** a geographic area where a provider has data centres.\n- **Data residency:** where data is physically stored.\n- **Multi-cloud:** using more than one public cloud provider.\n- **Empanelment:** approval of providers for government use.\n\n## Real-world example\n\nA private bank wants to use the cloud for its mobile app and analytics. Payment data must remain in India under RBI rules, and some core systems must stay in its own data centre. The SI designs a hybrid model: public cloud services in Indian regions for the app and analytics, connected securely to the bank's private data centre for core banking.\n\n## Common mistakes\n\n- Ignoring data residency rules.\n- Assuming one model fits every workload.\n- Using multiple clouds without the skills to manage them.\n\n## Key takeaways\n\n- NIST defines public, private, community and hybrid deployment models.\n- Regulation, data residency, performance and skills guide the choice.\n- Hybrid and multi-cloud are common in large organisations.",
+      "module": 2
     },
     {
       "position": 3,
-      "title": "Cost models and migration approaches",
+      "title": "Shared responsibility",
       "type": "TEXT",
-      "body": "Cloud is usually paid as an operating cost that depends on use, rather than a one-off capital purchase. Costs can rise quickly if usage is not monitored, so plan budgets and set alerts.\n\nCommon migration approaches are:\n\n1. **Rehost:** move the application as it is (lift and shift). Quick, with limited change.\n2. **Replatform:** make small changes to use a managed service.\n3. **Refactor:** redesign the application for the cloud. Most effort, most benefit.\n\nChoose the approach by the application's age, its criticality, and the team's skills."
+      "body": "Moving to the cloud does not move all responsibility to the provider. The **shared responsibility model** explains who secures and manages what. Misunderstanding it is a leading cause of cloud security incidents.\n\n## How responsibility is shared\n\n- **The provider** is responsible for the security **of** the cloud: physical data centres, hardware, networking and the virtualisation layer.\n- **The customer** is responsible for security **in** the cloud: their data, user accounts and access, configurations and, depending on the service model, operating systems and applications.\n\n## Responsibility by service model\n\n- **IaaS:** the customer manages the operating system, patching, applications, data, identities and network settings such as firewall rules.\n- **PaaS:** the provider manages the operating system and platform; the customer manages applications, data, identities and configuration.\n- **SaaS:** the provider manages almost everything; the customer still manages users, access, data and settings such as sharing permissions.\n\nIn every model, the customer is always responsible for its **data, identities and access.**\n\n## Common customer responsibilities\n\n- Strong identity controls and MFA, especially for administrator accounts.\n- Correct configuration of storage, networks and permissions.\n- Encryption and key management choices.\n- Backup of data, including SaaS data where the provider does not guarantee recovery.\n- Logging and monitoring.\n\n## Key terms\n\n- **Shared responsibility model:** division of security duties between provider and customer.\n- **Misconfiguration:** an incorrect setting, such as public access to private data.\n- **Root / global administrator:** the most powerful cloud account.\n\n## Real-world example\n\nA company stores customer documents in cloud object storage and accidentally sets the bucket to public. A security researcher finds it and reports it. The cloud provider's infrastructure worked perfectly; the exposure was entirely due to the customer's configuration. The company adds policies that block public storage by default and enables configuration monitoring.\n\n## Common mistakes\n\n- Assuming the provider backs up and secures everything.\n- No MFA on administrator accounts.\n- Leaving storage or databases publicly accessible.\n\n## Key takeaways\n\n- The provider secures the cloud; the customer secures what it puts in the cloud.\n- Responsibilities shift with IaaS, PaaS and SaaS, but data, identity and access always stay with the customer.\n- Configuration, identity and backup are critical customer duties.",
+      "module": 3
     },
     {
       "position": 4,
-      "title": "Positioning cloud for business customers",
+      "title": "First workloads",
       "type": "TEXT",
-      "body": "Business customers often ask whether cloud is cheaper. The honest answer depends on usage patterns, data rules, and skills. Good questions include:\n\n- Which applications are in use, and which are most important to the business?\n- Where is the data, and what rules apply to it?\n- How much capacity is needed at peak and in normal periods?\n- Who manages the environment today, and how much time do they spend on it?\n\nPosition cloud as a way to meet a specific need, with a clear cost comparison and an exit plan."
+      "body": "Organisations usually start their cloud journey with workloads that offer clear benefits and low risk. Good first workloads build skills and confidence before moving critical systems.\n\n## Common first workloads\n\n- **Email and collaboration (SaaS):** moving to Microsoft 365 or Google Workspace.\n- **Backup and archive:** storing backup copies in the cloud for off-site protection.\n- **Disaster recovery:** using the cloud as a recovery site.\n- **Development and test environments:** created and deleted as needed.\n- **Websites and customer portals:** benefiting from scalability.\n- **File sharing:** replacing old file servers with cloud storage.\n\n## Assessing a first workload\n\n- **Business benefit:** cost, agility, resilience or user experience.\n- **Risk:** how critical the workload is and what happens if something goes wrong.\n- **Dependencies:** what other systems it connects to.\n- **Data sensitivity and residency:** whether the data can be stored in the chosen cloud region.\n- **Skills:** whether the team can operate it.\n\n## Building foundations\n\nEven for the first workload, set up basic foundations: account structure, identity and MFA, network design, security baselines, cost monitoring and tagging. Cloud providers' adoption frameworks, such as the Microsoft Cloud Adoption Framework and the AWS Cloud Adoption Framework, describe these foundations, often called a **landing zone**.\n\n## Key terms\n\n- **Landing zone:** a pre-configured, secure cloud environment ready for workloads.\n- **Pilot:** a small first deployment to learn and prove value.\n- **Tagging:** labelling cloud resources for cost and ownership tracking.\n\n## Real-world example\n\nA manufacturing company is cautious about the cloud. Its SI suggests starting with cloud backup of its on-premises servers and moving email to a SaaS suite. Within six months, the company has off-site backups it can restore from, no email server to maintain, and staff skilled in cloud administration. It then plans to move its development environments.\n\n## Common mistakes\n\n- Starting with the most critical, complex system.\n- Skipping foundations such as identity and cost monitoring.\n- Not training staff before go-live.\n\n## Key takeaways\n\n- Start with beneficial, lower-risk workloads such as SaaS email, backup and DR.\n- Assess benefit, risk, dependencies, data and skills.\n- Build a secure landing zone even for the first workload.",
+      "module": 4
+    }
+  ],
+  "sources": [
+    {
+      "title": "NIST SP 800-145: The NIST Definition of Cloud Computing",
+      "url": "https://csrc.nist.gov/pubs/sp/800/145/final"
+    },
+    {
+      "title": "AWS: Shared Responsibility Model",
+      "url": "https://aws.amazon.com/compliance/shared-responsibility-model/"
+    },
+    {
+      "title": "Microsoft Learn: shared responsibility in the cloud",
+      "url": "https://learn.microsoft.com/en-us/azure/security/fundamentals/shared-responsibility"
+    },
+    {
+      "title": "MeitY: cloud service provider empanelment for government (MeghRaj)",
+      "url": "https://www.meity.gov.in/"
+    },
+    {
+      "title": "Microsoft Learn: free role-based training paths",
+      "url": "https://learn.microsoft.com/en-us/training/"
+    },
+    {
+      "title": "AWS Skill Builder: cloud training",
+      "url": "https://skillbuilder.aws/"
     }
   ],
   "assessment": {
-    "title": "Cloud Solutions Fundamentals: completion check",
-    "cadence": "ONE_TIME",
+    "title": "Cloud Basic: completion check",
     "level": "BASIC",
     "passMarkPercent": 70,
     "questions": [
-      { "position": 1, "type": "SINGLE", "text": "Which model provides a finished application used through a browser?", "options": ["IaaS", "PaaS", "SaaS", "On-premise"], "correct": ["SaaS"], "points": 1 },
-      { "position": 2, "type": "SINGLE", "text": "Under shared responsibility, who secures the data and access settings a customer puts in the cloud?", "options": ["The provider entirely", "The customer", "Nobody", "The network carrier"], "correct": ["The customer"], "points": 1 },
-      { "position": 3, "type": "SINGLE", "text": "Which migration approach moves an application with little change?", "options": ["Rehost", "Refactor", "Replatform with new features", "Rewrite in another language"], "correct": ["Rehost"], "points": 1 },
-      { "position": 4, "type": "MULTIPLE", "text": "Which are deployment models? (Select all that apply)", "options": ["Public cloud", "Private cloud", "Hybrid cloud", "Paper cloud"], "correct": ["Public cloud", "Private cloud", "Hybrid cloud"], "points": 2 },
-      { "position": 5, "type": "TRUE_FALSE", "text": "Cloud costs stay low automatically, so usage monitoring is not needed.", "options": ["True", "False"], "correct": ["False"], "points": 1 }
+      {
+        "type": "SINGLE",
+        "text": "Which NIST publication defines cloud computing?",
+        "options": [
+          "SP 800-53",
+          "SP 800-145",
+          "SP 800-207",
+          "SP 800-63B"
+        ],
+        "correct": [
+          "SP 800-145"
+        ],
+        "points": 1,
+        "explanation": "SP 800-145 is The NIST Definition of Cloud Computing."
+      },
+      {
+        "type": "MULTIPLE",
+        "text": "Which are NIST's essential characteristics of cloud computing?",
+        "options": [
+          "On-demand self-service",
+          "Rapid elasticity",
+          "Measured service",
+          "Unlimited free storage"
+        ],
+        "correct": [
+          "On-demand self-service",
+          "Rapid elasticity",
+          "Measured service"
+        ],
+        "points": 1,
+        "explanation": "The five are on-demand self-service, broad network access, resource pooling, rapid elasticity and measured service."
+      },
+      {
+        "type": "SINGLE",
+        "text": "Microsoft 365 is an example of:",
+        "options": [
+          "IaaS",
+          "PaaS",
+          "SaaS",
+          "On-premises software"
+        ],
+        "correct": [
+          "SaaS"
+        ],
+        "points": 1,
+        "explanation": "It is a complete application delivered over the internet."
+      },
+      {
+        "type": "TRUE_FALSE",
+        "text": "Under the shared responsibility model, the customer is always responsible for its data, identities and access.",
+        "options": [
+          "True",
+          "False"
+        ],
+        "correct": [
+          "True"
+        ],
+        "points": 1,
+        "explanation": "This stays with the customer in IaaS, PaaS and SaaS."
+      },
+      {
+        "type": "SINGLE",
+        "text": "A company accidentally makes a cloud storage bucket public. Whose responsibility was this?",
+        "options": [
+          "The cloud provider",
+          "The customer",
+          "The ISP",
+          "Nobody"
+        ],
+        "correct": [
+          "The customer"
+        ],
+        "points": 1,
+        "explanation": "Configuration of resources in the cloud is the customer's responsibility."
+      },
+      {
+        "type": "SINGLE",
+        "text": "Which is usually a good first cloud workload?",
+        "options": [
+          "The core banking system",
+          "Cloud backup or SaaS email",
+          "The plant control system",
+          "All systems at once"
+        ],
+        "correct": [
+          "Cloud backup or SaaS email"
+        ],
+        "points": 1,
+        "explanation": "Lower-risk, high-benefit workloads build skills first."
+      },
+      {
+        "type": "MATCHING",
+        "text": "Match each service model to who manages the operating system.",
+        "options": [
+          "IaaS=Customer manages the OS",
+          "PaaS=Provider manages the OS",
+          "SaaS=Provider manages almost everything",
+          "On-premises=Customer manages everything"
+        ],
+        "correct": [],
+        "points": 1,
+        "explanation": "Responsibility shifts towards the provider from IaaS to SaaS."
+      }
     ]
   }
 }

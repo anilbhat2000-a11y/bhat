@@ -11,25 +11,25 @@
       "position": 1,
       "title": "Why people leave",
       "type": "TEXT",
-      "body": "People usually leave for a combination of reasons. Common ones include:\n\n- **Manager relationship:** the strongest single driver of whether people stay.\n- **Career growth:** no visible next step or chance to learn.\n- **Pay and benefits:** important, but rarely the only reason.\n- **Workload and burnout:** sustained overwork.\n- **Purpose and recognition:** not seeing how the work matters, or not being thanked for it.\n\nLook at attrition by team, manager, tenure, and role. Patterns usually point to a specific fixable cause."
+      "body": "Every resignation costs the company: recruitment, training, lost customer knowledge and pressure on remaining staff. In IT services, where skilled engineers and account managers are in high demand, retention is a business priority. Understanding why people leave is the first step.\n\n## Common reasons people leave\n\n- **Their manager:** poor relationships, little support or recognition. Gallup's research finds that managers account for most of the variation in team engagement.\n- **Lack of growth:** no clear career path, learning opportunities or promotions.\n- **Pay and benefits:** below market or perceived as unfair.\n- **Workload and work-life balance:** constant overtime, travel or unrealistic targets.\n- **Lack of recognition:** good work goes unnoticed.\n- **Culture and values:** poor teamwork, unfair treatment or misalignment with values.\n- **Better offers:** competitors actively recruit skilled staff.\n\n## Measuring turnover\n\n- **Attrition rate:** the number of leavers in a period divided by average headcount, as a percentage.\n- **Regretted attrition:** leavers the company wanted to keep.\n- **Early attrition:** people who leave within their first year, often a sign of hiring or onboarding problems.\n\n## Key terms\n\n- **Attrition:** employees leaving the organisation.\n- **Regretted attrition:** losing people you wanted to keep.\n- **Engagement:** employees' commitment and enthusiasm for their work.\n\n## Real-world example\n\nA company loses several presales engineers in six months. Exit interviews show that most felt stuck: no certification support and no path to architect roles. The company introduces a certification budget and a clear technical career ladder. Regretted attrition in presales falls the following year.\n\n## Common mistakes\n\n- Assuming pay is the only reason people leave.\n- Measuring only total attrition, not regretted or early attrition.\n- Ignoring the role of managers.\n\n## Key takeaways\n\n- People leave for many reasons; managers and growth are among the most important.\n- Track total, regretted and early attrition.\n- Use data to find patterns and act on them."
     },
     {
       "position": 2,
       "title": "Stay interviews and exit interviews",
       "type": "TEXT",
-      "body": "A stay interview is a conversation with a current employee, held before any resignation, to learn what keeps them and what could make them leave. Useful questions include: 'What keeps you here?' 'What would make you consider leaving?' 'What would you change about your role if you could?'\n\nAn exit interview is held when someone resigns. It is most useful when the person is candid, so hold it with someone outside their reporting line, and let them know their answers will be used to improve things, not to judge them. Record the reasons in a consistent format so patterns can be analysed."
+      "body": "Stay interviews and exit interviews are two simple tools for understanding what keeps people and what drives them away. Stay interviews are held while employees are still with the company; exit interviews are held when they leave.\n\n## Stay interviews\n\nA stay interview is a one-to-one conversation between a manager and a valued employee to understand what keeps them and what might make them leave. Useful questions include:\n\n- What do you enjoy most about your work?\n- What would make your job better?\n- What would tempt you to leave?\n- What skills would you like to develop?\n- How can I support you better?\n\nAct on what you hear and follow up. A stay interview without action can harm trust.\n\n## Exit interviews\n\nAn exit interview gathers feedback from employees who are leaving.\n\n- Conduct it through HR or a neutral person, so the employee speaks openly.\n- Ask about reasons for leaving, the manager, growth, workload and what could have changed their decision.\n- Look for patterns across many exits, not just individual stories.\n- Keep responses confidential and handle personal data responsibly.\n\n## Key terms\n\n- **Stay interview:** a conversation to understand why valued employees stay.\n- **Exit interview:** feedback gathered from leaving employees.\n- **Pattern analysis:** looking for common themes across many responses.\n\n## Real-world example\n\nA team lead holds stay interviews with her five best engineers. Three say they want exposure to cloud projects. She arranges for them to join a cloud migration project and supports their certification. All three are still with the company two years later, while a similar team without such conversations loses two engineers to cloud-focused competitors.\n\n## Common mistakes\n\n- Holding exit interviews only, after it is too late.\n- Not acting on stay interview feedback.\n- Treating exit interview data as individual complaints rather than patterns.\n\n## Key takeaways\n\n- Use stay interviews to learn what keeps valued employees, and act on it.\n- Use exit interviews, run neutrally, to find patterns.\n- Keep feedback confidential and follow up with action."
     },
     {
       "position": 3,
       "title": "Career paths and development",
       "type": "TEXT",
-      "body": "Employees stay when they can see where their career could go. A career path shows the roles a person can move to, the skills each role needs, and the steps to get there.\n\nPractical steps:\n\n- Agree on a development plan with each employee at least once a year.\n- Offer stretch assignments, mentoring, and access to learning.\n- Make internal moves visible, and prefer internal candidates for open roles where they are ready.\n\nDevelopment conversations are more useful when they are regular and specific, not only at review time."
+      "body": "People stay where they can see a future. Clear career paths and real development opportunities are among the strongest drivers of retention, especially for skilled IT professionals.\n\n## Building career paths\n\n- **Define levels** for each job family, such as engineer, senior engineer, lead and architect, with the skills and responsibilities expected at each level.\n- **Offer more than one path:** a management path and a technical or specialist path, so experts can grow without becoming people managers.\n- **Make criteria transparent,** so employees know what they need to progress.\n- **Allow lateral moves,** such as from support to presales, to broaden skills.\n\n## Development opportunities\n\n- **Certifications:** OEM and industry certifications, such as networking, cloud and security credentials, valued by both employees and customers.\n- **Stretch assignments:** challenging projects that build new skills.\n- **Mentoring and coaching:** pairing employees with experienced colleagues.\n- **Internal learning:** courses on the company LMS, lunch-and-learn sessions and knowledge sharing.\n- **Individual development plans (IDPs):** agreed goals and actions reviewed regularly with the manager.\n\n## Key terms\n\n- **Career path:** a sequence of roles and levels an employee can progress through.\n- **Dual career ladder:** parallel management and technical paths.\n- **Individual development plan (IDP):** a personal plan for skill growth.\n- **Stretch assignment:** a task beyond current comfort that builds skills.\n\n## Real-world example\n\nA company's best network engineer resigns because the only promotion available is to a manager role he does not want. The company introduces a dual career ladder with principal engineer and architect roles at senior pay levels. Several strong engineers who had been considering leaving decide to stay and progress on the technical path.\n\n## Common mistakes\n\n- Only offering management as a route to promotion.\n- Vague or secret promotion criteria.\n- Development plans that are written once and never reviewed.\n\n## Key takeaways\n\n- Define clear levels and transparent criteria, with management and technical paths.\n- Offer certifications, stretch assignments, mentoring and IDPs.\n- Review development plans regularly."
     },
     {
       "position": 4,
       "title": "Recognition that works",
       "type": "TEXT",
-      "body": "Recognition is most effective when it is specific, timely, and linked to behaviour. 'Thank you for the handover notes, they saved the team a day' means more than a general 'good job'.\n\nAvoid assuming that one reward suits everyone. Some people value public thanks, others value time off, learning, or a conversation with senior leaders. Ask what each person values, and check whether recognition is applied fairly across teams."
+      "body": "Recognition means noticing and appreciating good work. It costs little but has a strong effect on motivation and retention. The most effective recognition is specific, timely and genuine.\n\n## Principles of good recognition\n\n- **Specific:** say exactly what the person did and why it mattered. \"Your quick fix of the core switch kept the hospital's billing running during peak hours.\"\n- **Timely:** recognise soon after the achievement, not months later.\n- **Genuine:** sincere appreciation, not routine praise.\n- **Fair:** recognise contributions across the team, including quieter and behind-the-scenes work.\n- **Personal:** some people prefer public praise; others prefer a private thank-you.\n\n## Forms of recognition\n\n- **Everyday appreciation:** a thank-you in person, by message or in a team meeting.\n- **Peer recognition:** colleagues recognising each other, for example through a simple recognition channel.\n- **Formal awards:** quarterly or annual awards for outstanding contribution.\n- **Customer feedback:** sharing praise from customers with the team and leadership.\n- **Growth opportunities:** high-profile projects or learning opportunities as recognition.\n- **Financial rewards:** bonuses or spot awards, following company policy.\n\n## Key terms\n\n- **Recognition:** acknowledging an employee's contribution.\n- **Peer recognition:** recognition given by colleagues.\n- **Spot award:** an immediate reward for a specific achievement.\n\n## Real-world example\n\nA customer emails the account manager praising a field engineer who stayed late to complete an installation before a product launch. The account manager forwards it to the engineer's manager, who shares it in the team meeting and copies the company head. The engineer later says this recognition meant more to him than a small bonus.\n\n## Common mistakes\n\n- Generic praise such as \"good job, everyone\".\n- Recognising only the most visible people.\n- Waiting for annual reviews to recognise good work.\n\n## Key takeaways\n\n- Make recognition specific, timely, genuine, fair and personal.\n- Use everyday appreciation, peer recognition, awards and customer feedback.\n- Recognition is low-cost and strongly supports retention."
     }
   ],
   "assessment": {
@@ -38,11 +38,121 @@
     "level": "INTERMEDIATE",
     "passMarkPercent": 70,
     "questions": [
-      { "position": 1, "type": "SINGLE", "text": "Which is often the strongest single driver of whether people stay?", "options": ["Office location", "Relationship with their manager", "The company logo", "Annual holiday count only"], "correct": ["Relationship with their manager"], "points": 1 },
-      { "position": 2, "type": "SINGLE", "text": "When is a stay interview held?", "options": ["After a resignation", "Before any resignation, with a current employee", "Only during the annual review", "At the company's party"], "correct": ["Before any resignation, with a current employee"], "points": 1 },
-      { "position": 3, "type": "SINGLE", "text": "Why is it useful to hold an exit interview outside the person's reporting line?", "options": ["So the interviewer can avoid work", "So the person can be more candid", "So the manager can hire faster", "So the salary can be lowered"], "correct": ["So the person can be more candid"], "points": 1 },
-      { "position": 4, "type": "MULTIPLE", "text": "Which practices support retention? (Select all that apply)", "options": ["Annual development plans", "Visible career paths", "Specific, timely recognition", "Ignoring patterns in exit reasons"], "correct": ["Annual development plans", "Visible career paths", "Specific, timely recognition"], "points": 2 },
-      { "position": 5, "type": "TRUE_FALSE", "text": "Recognition works best when it is linked to specific behaviour.", "options": ["True", "False"], "correct": ["True"], "points": 1 }
+      {
+        "type": "SINGLE",
+        "text": "Which factor does research consistently link strongly to employee engagement and retention?",
+        "options": [
+          "Office colour",
+          "The employee's manager",
+          "The company logo",
+          "Parking space"
+        ],
+        "correct": [
+          "The employee's manager"
+        ],
+        "points": 1,
+        "explanation": "Gallup finds managers account for most of the variation in team engagement."
+      },
+      {
+        "type": "SINGLE",
+        "text": "What is a stay interview?",
+        "options": [
+          "An interview with a leaving employee",
+          "A conversation with a valued employee about what keeps them",
+          "A job interview for a new hire",
+          "A disciplinary meeting"
+        ],
+        "correct": [
+          "A conversation with a valued employee about what keeps them"
+        ],
+        "points": 1,
+        "explanation": "Stay interviews help prevent regretted attrition."
+      },
+      {
+        "type": "TRUE_FALSE",
+        "text": "A dual career ladder lets experts grow without becoming people managers.",
+        "options": [
+          "True",
+          "False"
+        ],
+        "correct": [
+          "True"
+        ],
+        "points": 1,
+        "explanation": "Technical and management paths run in parallel."
+      },
+      {
+        "type": "MULTIPLE",
+        "text": "Which make recognition effective?",
+        "options": [
+          "Specific",
+          "Timely",
+          "Genuine",
+          "Delayed until the annual review"
+        ],
+        "correct": [
+          "Specific",
+          "Timely",
+          "Genuine"
+        ],
+        "points": 1,
+        "explanation": "Recognition should be soon after the achievement."
+      },
+      {
+        "type": "SINGLE",
+        "text": "What does 'regretted attrition' mean?",
+        "options": [
+          "All leavers",
+          "Leavers the company wanted to keep",
+          "Retirements only",
+          "New hires"
+        ],
+        "correct": [
+          "Leavers the company wanted to keep"
+        ],
+        "points": 1,
+        "explanation": "It focuses on losing valued people."
+      },
+      {
+        "type": "TRUE_FALSE",
+        "text": "Holding stay interviews without acting on the feedback can harm trust.",
+        "options": [
+          "True",
+          "False"
+        ],
+        "correct": [
+          "True"
+        ],
+        "points": 1,
+        "explanation": "Employees expect follow-up when they share concerns."
+      },
+      {
+        "type": "MATCHING",
+        "text": "Match each term to its meaning.",
+        "options": [
+          "IDP=Personal plan for skill growth",
+          "Early attrition=Leaving within the first year",
+          "Stretch assignment=Challenging task that builds skills",
+          "Spot award=Immediate reward for an achievement"
+        ],
+        "correct": [],
+        "points": 1,
+        "explanation": "These are common retention terms."
+      }
     ]
-  }
+  },
+  "sources": [
+    {
+      "title": "Gallup: workplace engagement and manager research",
+      "url": "https://www.gallup.com/workplace/"
+    },
+    {
+      "title": "SHRM: HR knowledge and toolkits",
+      "url": "https://www.shrm.org/"
+    },
+    {
+      "title": "Center for Creative Leadership: leadership development research",
+      "url": "https://www.ccl.org/"
+    }
+  ]
 }
