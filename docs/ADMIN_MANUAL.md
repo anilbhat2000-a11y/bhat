@@ -137,7 +137,7 @@ The scheduler runs every hour. Learners get an email 3 days before an assessment
 
 ## 9. Before go-live checklist
 
-- [ ] Real admin accounts created; demo accounts deactivated.
+- [ ] Real admin accounts created; demo accounts deactivated (`INSTALL.md` §6: `create-admin`, then `deactivate-demo`).
 - [ ] Users imported, with departments and managers.
 - [ ] Placeholder content replaced with company-approved material (search for `[PLACEHOLDER]`).
 - [ ] SMTP tested: a reminder arrives.

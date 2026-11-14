@@ -107,7 +107,23 @@ To also create draft course shells for every catalogue course that is not in the
 docker compose exec app npx tsx prisma/seed-catalogue.ts
 ```
 
-Open `https://lms.3cit.local` and sign in as `admin@3c.example` with the demo password. **Before go-live, create real admin accounts and deactivate the demo accounts** (Admin portal → Users).
+Open `https://lms.3cit.local` and sign in as `admin@3c.example` with the demo password to look around.
+
+### Before go-live: real admin, then deactivate the demo accounts
+
+1. Create a real admin account (the password, at least 12 characters, is read from `ADMIN_PASSWORD` so it does not appear in the command):
+
+   ```bash
+   docker compose exec -e ADMIN_PASSWORD='choose-a-strong-password' app npx tsx prisma/create-admin.ts "Full Name" name@company.in
+   ```
+
+2. Deactivate all six demo accounts and sign them out:
+
+   ```bash
+   docker compose exec app npx tsx prisma/deactivate-demo.ts
+   ```
+
+   The command refuses if no real admin is active, so nobody is locked out of the admin portal. Re-running the seed later does not reactivate the demo accounts. Their records stay in the database and can be reactivated from Admin portal → Users if ever needed.
 
 ## 7. Backups
 

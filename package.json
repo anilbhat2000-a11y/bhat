@@ -11,7 +11,9 @@
     "db:migrate": "prisma migrate deploy",
     "db:seed": "tsx prisma/seed.ts",
     "db:seed-catalogue": "tsx prisma/seed-catalogue.ts",
-    "catalogue:docs": "python3 scripts/build-catalogue.py && tsx scripts/render-catalogue.ts"
+    "catalogue:docs": "python3 scripts/build-catalogue.py && tsx scripts/render-catalogue.ts",
+    "db:create-admin": "tsx prisma/create-admin.ts",
+    "db:deactivate-demo": "tsx prisma/deactivate-demo.ts"
   },
   "dependencies": {
     "@prisma/adapter-pg": "7.10.1",

@@ -82,7 +82,9 @@ export async function runSeed(
     const fields = { name: u.name, role: u.role, department: u.department, jobTitle: u.jobTitle };
     const row = await db.user.upsert({
       where: { email: u.email },
-      update: { ...fields, active: true },
+      // Never reactivates: once the demo accounts are deactivated, re-running the seed
+      // (for example to load new content) leaves them off.
+      update: fields,
       create: { ...fields, email: u.email, passwordHash },
     });
     ids.set(u.email, row.id);

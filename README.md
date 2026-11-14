@@ -71,7 +71,15 @@ Open http://localhost:3000. Set `COOKIE_SECURE=false` in `.env` for plain HTTP o
 
 ### Demo accounts
 
-The seed creates 3 departments and 6 accounts, all using the `SEED_PASSWORD` you chose. **Deactivate them before real use.**
+The seed creates 3 departments and 6 accounts, all using the `SEED_PASSWORD` you chose. **Before real use, create a real admin and deactivate them:**
+
+```bash
+ADMIN_PASSWORD='choose-a-strong-password' npm run db:create-admin -- "Full Name" name@company.in
+```
+
+```bash
+npm run db:deactivate-demo
+```
 
 | Email | Role | Department | Reports to |
 | --- | --- | --- | --- |
@@ -96,6 +104,8 @@ npm run db:seed-catalogue
 | `npm run test:e2e` | End-to-end tests (builds and starts the app) |
 | `npm run db:seed` | Subjects, sample courses, question banks, demo accounts |
 | `npm run db:seed-catalogue` | Draft course shells for the catalogue |
+| `npm run db:create-admin` | Create a real admin account |
+| `npm run db:deactivate-demo` | Deactivate the six demo accounts (needs a real admin first) |
 | `npm run catalogue:docs` | Rebuilds `content/catalogue.json` and `docs/CATALOGUE.md` |
 | `node scripts/load-test.mjs` | Load test (see `docs/TESTING.md`) |
 
