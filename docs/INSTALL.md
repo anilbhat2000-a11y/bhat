@@ -13,6 +13,12 @@ This guide installs the LMS on one company server. After installation, the LMS n
 | Network | A fixed LAN IP address and a DNS name, for example `lms.3cit.local` | Open TCP 80 and 443 to staff networks and the VPN. |
 | Email | The company SMTP server | For reminders. The LMS works without it, but sends no email. |
 
+## 1a. Windows Server or Windows 10/11
+
+1. Install **Docker Desktop** (with the WSL 2 backend) and **Git for Windows**. Git for Windows also provides **Git Bash**, which has `openssl` for the certificate step.
+2. Run every command below from inside the LMS folder (for example `C:\lms`), never from `C:\Windows\system32`. Otherwise Docker answers `no configuration file provided: not found`.
+3. Copy files with `copy` instead of `cp` in PowerShell, and run `deploy/nginx/make-cert.sh` in **Git Bash**.
+
 ## 2. Get the software onto the server
 
 **If the server has internet access during installation:**
