@@ -14,6 +14,7 @@ import { threadsFor } from "../../../../lib/community/community";
 import { courseCheckFor } from "../../../../lib/learning/course-check";
 import { startCourseCheckAction } from "../../../actions/progress";
 import { LessonText } from "../../../../components/LessonText";
+import { canSeeCourse } from "../../../../lib/learning/audience";
 import { addPostAction, setPostHiddenAction, submitFeedbackAction } from "../../../actions/community";
 
 function ModerateButton({ courseId, postId, hidden }: { courseId: string; postId: string; hidden: boolean }) {
@@ -65,7 +66,7 @@ export default async function LearnCoursePage({
       progress: { where: { userId: user.id } },
     },
   });
-  if (!course || !learnerCanOpen(course.status, course.progress.length > 0)) notFound();
+  if (!course || !learnerCanOpen(course.status, course.progress.length > 0) || !(await canSeeCourse(user, course.id))) notFound();
   const archived = course.status === "ARCHIVED";
   const groups = groupByModule(course.lessons, course.modules);
   const minutes = totalMinutes(course.modules);

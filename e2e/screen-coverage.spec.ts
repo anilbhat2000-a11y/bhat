@@ -60,8 +60,10 @@ test("a live session is booked, and shows on the learner's home page", async ({ 
   await page.click("form[data-test=add-lesson] button[type=submit]");
   await expect(page.getByText("Lesson added")).toBeVisible();
   const schedule = page.locator(`form:has(input[name=lessonId][value="${runDb(["lesson-id", lessonTitle])}"])`);
-  await schedule.locator("input[name=startsAt]").fill("2030-06-01T10:00");
-  await schedule.locator("input[name=endsAt]").fill("2030-06-01T11:00");
+  // Tomorrow, so it sorts ahead of sessions left by earlier runs (the home page shows the next 10).
+  const day = new Date(Date.now() + 86_400_000).toISOString().slice(0, 10);
+  await schedule.locator("input[name=startsAt]").fill(`${day}T10:00`);
+  await schedule.locator("input[name=endsAt]").fill(`${day}T11:00`);
   await schedule.locator("input[name=meetingUrl]").fill("https://meet.example.test/session");
   await schedule.locator("button:has-text('Save session')").click();
   await expect(page.getByText("Session scheduled")).toBeVisible();

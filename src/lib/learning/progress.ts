@@ -1,3 +1,4 @@
+import { canSeeCourse, hiddenCourseIds } from "./audience";
 import { prisma } from "../db/client";
 import type { SessionUser } from "../auth/session";
 
@@ -43,6 +44,8 @@ export async function completeLesson(actor: SessionUser, lessonId: string): Prom
   if (lesson?.type === "LIVE_SESSION") {
     return { ok: false, error: "This lesson is completed when your attendance is recorded" };
   }
+  const target = await prisma.lesson.findUnique({ where: { id: lessonId }, select: { courseId: true } });
+  if (target && !(await canSeeCourse(actor, target.courseId))) return { ok: false, error: "This lesson is not available" };
   return completeLessonForUser(actor.id, lessonId);
 }
 
@@ -144,8 +147,9 @@ export async function lastLessonFor(userId: string, courseId: string): Promise<s
 
 // Published courses only, grouped by category, each with the learner's progress.
 export async function listCatalogue(user: SessionUser) {
+  const hidden = await hiddenCourseIds(user);
   const courses = await prisma.course.findMany({
-    where: { status: "PUBLISHED" },
+    where: { status: "PUBLISHED", id: { notIn: [...hidden] } },
     include: { subject: true, lessons: { select: { id: true } }, progress: { where: { userId: user.id } } },
     orderBy: [{ subject: { name: "asc" } }, { title: "asc" }],
   });

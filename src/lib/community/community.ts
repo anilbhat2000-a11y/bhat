@@ -1,3 +1,4 @@
+import { hiddenCourseIds } from "../learning/audience";
 import { prisma } from "../db/client";
 import { AuthError, requireRole } from "../auth/guards";
 import type { SessionUser } from "../auth/session";
@@ -146,7 +147,8 @@ export async function search(actor: SessionUser, term: string, take = 20) {
   // Prisma passes the value to LIKE as is, so % and _ would act as wildcards; escape them
   // (and the escape character) so they match literally.
   const contains = { contains: q.replace(/[\\%_]/g, (c) => `\\${c}`), mode: "insensitive" as const };
-  const published = actor.role === "ADMIN" ? {} : { status: "PUBLISHED" as const };
+  const hidden = [...(await hiddenCourseIds(actor))];
+  const published = actor.role === "ADMIN" ? {} : { status: "PUBLISHED" as const, id: { notIn: hidden } };
   const [courses, lessons, questions] = await Promise.all([
     prisma.course.findMany({
       where: { ...published, OR: [{ title: contains }, { description: contains }, { subject: { name: contains } }] },

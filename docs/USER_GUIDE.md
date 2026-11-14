@@ -21,13 +21,14 @@ The LMS works on desktop, tablet and phone browsers.
 - **Announcements** from L&D.
 - **Remedial training**, if you failed an assessment (see below).
 - **Upcoming live sessions** you registered for.
-- **Assigned courses** with their status and a countdown to the due date.
+- **My learning paths**: each path assigned to you, with a progress bar (courses done out of the total) and the due date.
+- **Assigned courses** with their status and a countdown to the due date, including the courses in your learning paths.
 - **Assessments to do**, with a countdown to each due date.
 - **My progress by subject**, with a progress bar for each subject and level you have started.
 - **Recommended for you**: courses in subjects where your scores are below the pass mark.
 - **My certificates**, with download and verification links.
 
-Use the search box to find courses and lessons.
+Use the search box to find courses and lessons. Some courses are made for particular departments; you see those for your own department, plus any assigned to you.
 
 ### Taking a course
 
@@ -75,6 +76,10 @@ Passing an assessment gives you a certificate for that subject and level, usuall
 ## For managers
 
 Open the **Manager portal** (`/manager`). You see everyone in your reporting line, directly and indirectly, and no one else.
+
+- **Dashboard** (your home page) shows your team's learning: team members and how many were active, learning paths your team is on and completed, courses in progress and completed, and certificates. Choose a period and press **Show**. Below it, **Due soon**, **Overdue** and **Completed** list each person's assigned courses, and **Recent activity** shows what your team finished.
+- **Learning paths** lists the company's learning paths. Choose a team member and an optional due date, then **Assign path**. Each path shows who in your team is on it and how far they have got.
+- **Certificates** lists your team's certificates, with search and a **Verify** link for each.
 
 - **My team** lists each person with their progress. Click a name for the full record:
   - assigned courses and their status, and a form to **make a course mandatory** for that person with a due date;

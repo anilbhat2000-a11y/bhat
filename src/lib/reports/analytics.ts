@@ -3,7 +3,7 @@ import type { SessionUser } from "../auth/session";
 import type { Cadence, Level } from "../../generated/prisma/client";
 import { scopeFor } from "./queries";
 import { certsBySubject, latestPerPerson } from "./aggregate";
-import { resolveAssignments } from "../learning/assignments";
+import { allAssignmentRefs, resolveAssignments } from "../learning/assignments";
 
 // Dashboard analytics (brief section 7). The loader reads the rows a viewer may see once;
 // every view is then a pure function of those rows, so the numbers are easy to test against
@@ -312,7 +312,7 @@ export async function loadRows(viewer: SessionUser, opts: { onlyUserId?: string 
     }),
     prisma.certification.findMany({ where: { userId: userIdIn }, select: { userId: true, level: true, issuedAt: true, expiresAt: true, subject: { select: { name: true } } } }),
   ]);
-  const assignments = await prisma.courseAssignment.findMany({ where: { course: { status: "PUBLISHED" } } });
+  const assignments = await allAssignmentRefs();
   return {
     users: users.map((u) => ({ id: u.id, name: u.name, department: u.department ?? "", location: u.location ?? "" })),
     courses: courses.map((c) => ({ id: c.id, title: c.title, subject: c.subject.name, level: c.level, lessonCount: c._count.lessons })),

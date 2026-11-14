@@ -22,6 +22,20 @@ For L&D and HR administrators. Sign in and open the **Admin portal** (`/admin`).
 
 **Admin portal → Courses**
 
+### Upload a course for your departments
+
+The quickest way to put your own training material in the portal. **Admin portal → Courses → Upload a course** (also on the admin home page under Quick actions).
+
+1. Enter the course **title**, **subject**, **level** and a short **description**.
+2. **Which departments is it for?** Tick one or more departments, or type others separated by commas. Leave every box empty to show the course to everyone.
+3. **Publish now** makes it live straight away; otherwise it is saved as a draft for you to review. **Make it mandatory** assigns it to those departments (with an optional due date), so everyone in them sees it under Assigned courses and gets reminders.
+4. Choose your **files**: PDFs (up to 50 MB each) and MP4 videos (up to 500 MB each), up to 30 at a time. Each file becomes one lesson, and the file name becomes the lesson title, so name files in order, for example `01 Introduction.pdf`, `02 Process.pdf`.
+5. Press **Upload and create course**. You then land on the course page, where you can rename and reorder lessons, add modules, text lessons and a completion check.
+
+Videos need a caption file before a course can be published, so a course with videos is saved as a draft; add the captions on the course page, then publish.
+
+**Department-specific courses:** a course that lists departments is shown only to people in those departments, in the catalogue and in search. Someone outside them still sees it if it is assigned to them (directly or in a learning path), or if they had already started it. Change the departments at any time on the course page under **Who is this course for?** The course list can be filtered by department.
+
 1. **Create a course:** subject, title, description, level (Basic, Intermediate, Advanced) and pass mark. New courses are drafts and are hidden from learners.
 2. **Add modules:** in the course, under **Modules**, add each module with a title and estimated minutes. Learners see the modules in order, with their times and the course total.
 3. **Add lessons:**
@@ -54,6 +68,19 @@ Add an optional due date. Learners see assigned courses with a countdown on thei
 **Content updates and your own changes:** when a new version of the portal brings updated course text, re-running the seed updates those courses in place and learners keep their progress. Once you change a course's lessons or modules in the portal, that course is yours: later seed runs leave it untouched. A one-time assessment linked to a course is that course's **completion check**: learners open it from the course page once every lesson is done, with no assignment needed. Assign it only if you want a due date.
 
 **Catalogue shells:** `docs/CATALOGUE.md` lists all 51 planned courses with modules and the content to supply. If the catalogue seed was run, these exist as draft courses with their modules, ready for lessons.
+
+### Learning paths
+
+**Admin portal → Learning paths.** A learning path is a set of courses in a planned order, assigned as one unit, such as a new joiner's first month or an engineer's track.
+
+1. **Create a learning path.** First choose **what type of training** you want to create (sales enablement, soft skills, customer solutions, process and workflow, compliance, onboarding, technical skills, leadership), then how to start:
+   - **Start from a ready-made path** (recommended): 14 paths built from this portal's courses, matched to the training types you chose. **Use this path** makes your own copy, which you can change. Ready-made paths themselves cannot be edited or assigned.
+   - **Build a custom path:** name it and tick any courses, including the ones you uploaded.
+2. On the path's page, change the **order** (↑ ↓), **add** or **remove** courses, and edit the name, description and training type.
+3. **Assign** the path to a person, a department or a job title, with an optional due date. Each course in the path then appears on the learner's home page with that due date, and the usual reminders are sent (3 days before, on the day, and when overdue). Department and job-title assignments include people who join later.
+4. **Progress** shows everyone on the path: courses done, a progress bar, due date and status (not started, in progress, overdue, completed). A person completes a path when they finish every published course in it.
+
+Managers can assign paths to people in their own team from the manager portal.
 
 ## 4. Assessments
 
@@ -109,9 +136,13 @@ The retake unlocks once both are done. The learner sees the plan on their home p
 
 ## 5. Certificates
 
+**Admin portal → Certificates** shows the number of courses assigned, the people with assigned courses, valid certificates and those expiring in the next 90 days, then every issued certificate. Filter by **period**, search by subject, person or department, and **Download PDF** for any certificate. Certificates are free: this is an in-house portal, so there is nothing to buy or allocate.
+
 A certificate is issued automatically when a learner passes. It shows the name, subject, level, issue and expiry dates, a 12-character verification code, and a QR code. Anyone can check a certificate at `/verify/<code>` or by scanning the QR code; the page shows only the name, subject, level and dates, never scores. Validity is set per subject. Set `PUBLIC_BASE_URL` in `.env` so QR codes carry the right address.
 
 ## 6. Dashboards and reports
+
+**Admin home: Your LMS dashboard.** Choose a **period** and press **Show**. Four cards: **Team members** (people on the portal and those active in the period), **Learning paths** (paths created and paths completed), **Course completions** (courses in progress and completed) and **Certificates** (issued in the period and valid today), each with a link to the detail. Below, **Due soon** (assigned learning due in the next 14 days), **Overdue** and **Completed** list each person and course; **Recent activity** shows course completions, certificates and passed assessments. Managers see the same dashboard for their own team on their home page.
 
 **Admin portal → Dashboard.** Filter by **level**, **department**, **location** and **period** (last 7 days, 30 days, 12 months, or all time), then **Apply filters**. The period applies to the date of each event (certificate issued, course completed, attempt submitted). Overdue work and the expiry forecast are always as of today. Only active users are counted.
 

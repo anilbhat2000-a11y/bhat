@@ -7,6 +7,7 @@ import { LocalTime } from "../../components/LocalTime";
 import { openRemedialsFor } from "../../lib/assessments/remedial";
 import { loadRows, recommendations, subjectProgress, weakTopics } from "../../lib/reports/analytics";
 import { assignedCoursesFor } from "../../lib/learning/assignments";
+import { learnerPaths } from "../../lib/learning/paths";
 import { announcementsFor } from "../../lib/community/community";
 
 // "in 3 days", "in 5 hours", "overdue by 2 days": a countdown to the due time.
@@ -43,7 +44,7 @@ export default async function LearnHome() {
   const progress = subjectProgress(mine.courses, mine.progress);
   const weak = weakTopics(mine.attempts);
   const suggested = recommendations(weak, mine.courses, mine.progress);
-  const [assigned, announcements] = await Promise.all([assignedCoursesFor(user.id, now), announcementsFor(user)]);
+  const [assigned, announcements, paths] = await Promise.all([assignedCoursesFor(user.id, now), announcementsFor(user), learnerPaths(user.id)]);
   const certificates = await prisma.certification.findMany({
     where: { userId: user.id, expiresAt: { gt: now } },
     include: { subject: true },
@@ -101,6 +102,22 @@ export default async function LearnHome() {
           ))}
         </ul>
       )}
+      {paths.length > 0 ? (
+        <section aria-labelledby="h-paths">
+          <h2 id="h-paths">My learning paths</h2>
+          <div className="card-grid">
+            {paths.map((p) => (
+              <section key={p.id} className="choice-card" aria-label={p.title}>
+                <h3>{p.title}</h3>
+                {p.description ? <p>{p.description}</p> : null}
+                <p><progress max={100} value={p.percent} aria-label={`${p.title} progress`} /> {p.done} of {p.total} courses done</p>
+                <p><small>{p.completed ? "Completed" : p.dueAt ? countdown(p.dueAt, now) : "No due date"}</small></p>
+              </section>
+            ))}
+          </div>
+          <p><small>The courses in each path are listed under Assigned courses below.</small></p>
+        </section>
+      ) : null}
       <h2>Assigned courses</h2>
       {assigned.length === 0 ? <p>No courses assigned to you.</p> : (
         <ul>

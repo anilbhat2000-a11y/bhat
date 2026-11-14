@@ -2,7 +2,7 @@ import { prisma } from "../db/client";
 import { periodKeyFor } from "../assessments/periods";
 import type { Mailer } from "./mailer";
 import { overdueByManager, remindersDue, type ReminderType } from "./reminders";
-import { resolveAssignments } from "../learning/assignments";
+import { allAssignmentRefs, resolveAssignments } from "../learning/assignments";
 
 const SUBJECT: Record<ReminderType, (title: string) => string> = {
   DUE_SOON: (t) => `Due in a few days: ${t}`,
@@ -106,15 +106,16 @@ const COURSE_SUBJECT: Record<ReminderType, (title: string) => string> = {
 // Assigned courses with a due date that the learner has not finished get the same three
 // reminders as assessments (3 days before, on the day, overdue), each sent once.
 async function sendCourseReminders(now: Date, mailer: Mailer, sentKeys: Set<string>): Promise<number> {
-  const assignments = await prisma.courseAssignment.findMany({ where: { dueAt: { not: null }, course: { status: "PUBLISHED" } }, include: { course: { select: { title: true } } } });
+  const assignments = (await allAssignmentRefs()).filter((a) => a.dueAt);
   if (assignments.length === 0) return 0;
+  const titles = await prisma.course.findMany({ where: { id: { in: [...new Set(assignments.map((a) => a.courseId))] } }, select: { id: true, title: true } });
   const users = await prisma.user.findMany({ where: { active: true }, select: { id: true, email: true, department: true, jobTitle: true } });
   const assigned = resolveAssignments(users, assignments);
   const done = new Set((await prisma.courseProgress.findMany({ where: { completedAt: { not: null } }, select: { userId: true, courseId: true } })).map((p) => `${p.userId}|${p.courseId}`));
   const open = assigned.filter((a) => a.dueAt && !done.has(`${a.userId}|${a.courseId}`));
   const due = remindersDue(open.map((a) => ({ id: `course:${a.userId}:${a.courseId}`, userId: a.userId, dueAt: a.dueAt as Date, status: "OPEN" as const })), now, sentKeys);
   const email = new Map(users.map((u) => [u.id, u.email]));
-  const title = new Map(assignments.map((a) => [a.courseId, a.course.title]));
+  const title = new Map(titles.map((c) => [c.id, c.title]));
   const dueAt = new Map(open.map((a) => [`course:${a.userId}:${a.courseId}`, a.dueAt as Date]));
   let sent = 0;
   for (const r of due) {

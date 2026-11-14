@@ -55,7 +55,7 @@ export default async function CoursePage({
   return (
     <main className="page">
       <h1>{course.title}</h1>
-      <p>Status: {STATUS_LABEL[course.status]}</p>
+      <p>Status: {STATUS_LABEL[course.status]}. For: {course.departments.length === 0 ? "everyone" : course.departments.join(", ")}.</p>
       <nav className="subnav" aria-label="Sections on this page"><a href="#assignments">Assignments</a><a href="#feedback">Feedback</a><a href="#modules">Modules</a><a href="#lessons">Lessons</a><a href="#add-lesson">Add lesson</a><a href="#upload">Upload file</a></nav>
       {error ? <p role="alert">{error}</p> : null}
       {notice ? <p role="status">{notice}</p> : null}
@@ -80,6 +80,16 @@ export default async function CoursePage({
           <small id="video-rule-help"> 0 means no rule. Skipping ahead does not count as watched.</small>
           <br />
           <label><input name="requireAssessmentPass" type="checkbox" defaultChecked={course.requireAssessmentPass} /> The course is complete only after its assessment is passed</label>
+        </fieldset>
+        <fieldset>
+          <legend>Who is this course for?</legend>
+          <small className="fieldset-help">Leave every box empty to show the course to everyone. Tick departments to show it only to them (people outside can still take it if it is assigned to them).</small>
+          <div className="check-grid">
+            {[...new Set([...departments, ...course.departments])].sort().map((d) => (
+              <label key={d}><input type="checkbox" name="department" value={d} defaultChecked={course.departments.includes(d)} /> {d}</label>
+            ))}
+          </div>
+          <label>Other departments (comma-separated) <input name="otherDepartments" aria-label="Other departments" /></label>
         </fieldset>
         <button type="submit">Save course</button>
       </form>

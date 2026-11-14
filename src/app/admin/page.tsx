@@ -4,22 +4,30 @@ import { guardPortal } from "../../lib/auth/portal";
 import { prisma } from "../../lib/db/client";
 import { Icon } from "../../components/Icon";
 import type { IconName } from "../../components/nav";
+import { LmsDashboard, parseTab } from "../../components/LmsDashboard";
+import { lmsDashboard, parseDuration } from "../../lib/reports/lms-dashboard";
 
 const SHORTCUTS: { href: string; icon: IconName; title: string; text: string }[] = [
+  { href: "/admin/courses/upload", icon: "book", title: "Upload a course", text: "Your own PDFs and videos, for chosen departments" },
+  { href: "/admin/paths/new", icon: "list", title: "Create a learning path", text: "Ready-made or custom, then assign it" },
   { href: "/admin/users", icon: "users", title: "Users", text: "Add people, import a CSV, set managers" },
   { href: "/admin/courses", icon: "book", title: "Courses", text: "Build courses, modules and lessons" },
   { href: "/admin/assessments", icon: "check", title: "Assessments", text: "Weekly, monthly and annual tests" },
   { href: "/admin/grading", icon: "inbox", title: "Grading queue", text: "Mark short answers" },
-  { href: "/admin/dashboard", icon: "chart", title: "Dashboard", text: "Certifications, completion, pass rates" },
+  { href: "/admin/dashboard", icon: "chart", title: "Reports", text: "Certifications, completion, pass rates" },
+  { href: "/admin/certificates", icon: "award", title: "Certificates", text: "Issued certificates, search and download" },
   { href: "/admin/announcements", icon: "megaphone", title: "Announcements", text: "Tell staff about new courses" },
   { href: "/admin/audit", icon: "shield", title: "Audit log", text: "Every change, who and when" },
   { href: "/learn/search", icon: "search", title: "Search", text: "Courses, lessons and questions" },
 ];
 
-export default async function AdminHome() {
+export default async function AdminHome({ searchParams }: { searchParams: Promise<{ duration?: string; tab?: string }> }) {
   await connection();
   const user = await guardPortal(["ADMIN"]);
+  const sp = await searchParams;
+  const duration = parseDuration(sp.duration);
   const now = new Date();
+  const dashboard = await lmsDashboard(user, duration, now);
   const [people, courses, assessments, waiting, overdue, certified] = await Promise.all([
     prisma.user.count({ where: { active: true } }),
     prisma.course.count({ where: { status: "PUBLISHED" } }),
@@ -42,6 +50,10 @@ export default async function AdminHome() {
       <h1>Welcome, {user.name.split(" ")[0]}</h1>
       <p>Here is the state of learning across the company today.</p>
 
+      <LmsDashboard data={dashboard} duration={duration} tab={parseTab(sp.tab)} basePath="/admin" scopeLabel="Your LMS dashboard"
+        links={{ invite: "/admin/users", paths: "/admin/paths", courses: "/admin/dashboard", certificates: "/admin/certificates", assign: "/admin/paths/new" }} />
+
+      <h2>At a glance</h2>
       <section aria-label="Key figures" className="tiles">
         {stats.map((s) => (
           <Link key={s.label} href={s.href} className={`tile tile-link ${s.tone}`} style={{ flexDirection: "column", gap: 0 }}>

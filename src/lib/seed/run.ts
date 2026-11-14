@@ -1,7 +1,7 @@
 import { createHash } from "node:crypto";
-import { readdirSync, readFileSync } from "node:fs";
+import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
-import type { PrismaClient, Category } from "../../generated/prisma/client";
+import type { PrismaClient, Category, TrainingGoal } from "../../generated/prisma/client";
 import { hashPassword } from "../auth/password";
 import { parseQuestionRows } from "../import/questions";
 import { slugify } from "../admin/users";
@@ -67,7 +67,7 @@ type CourseFile = {
 
 export async function runSeed(
   db: PrismaClient,
-  opts: { seedPassword: string | undefined; contentDir: string; bankDir?: string },
+  opts: { seedPassword: string | undefined; contentDir: string; bankDir?: string; pathsFile?: string },
 ): Promise<{ courses: number; banks: number; updated: number }> {
   if (!opts.seedPassword || opts.seedPassword.length < 8) {
     throw new Error("Set SEED_PASSWORD (at least 8 characters) to create the demo accounts");
@@ -112,6 +112,8 @@ export async function runSeed(
     const bank = JSON.parse(readFileSync(join(bankDir, f), "utf8")) as BankFile;
     await loadBank(db, bank, f);
   }
+  const pathsFile = opts.pathsFile ?? join(opts.contentDir, "..", "learning-paths.json");
+  if (existsSync(pathsFile)) await loadPathTemplates(db, JSON.parse(readFileSync(pathsFile, "utf8")) as PathTemplate[]);
   return { courses: files.length, banks: banks.length, updated };
 }
 
@@ -285,4 +287,26 @@ async function syncCourse(db: PrismaClient, courseId: string, c: CourseFile, fil
       await tx.question.deleteMany({ where: { assessmentId: assessment.id, position: { gt: questions.length } } });
     }
   }, { timeout: 30_000 });
+}
+
+type PathTemplate = { key: string; title: string; description: string; goals: string[]; courses: string[] };
+
+// Ready-made learning paths. They are kept in step with the file on every run (title,
+// goals and course list); admins never edit them directly, they use a copy.
+async function loadPathTemplates(db: PrismaClient, templates: PathTemplate[]): Promise<void> {
+  for (const t of templates) {
+    const courses = await db.course.findMany({ where: { title: { in: t.courses } }, select: { id: true, title: true } });
+    const byTitle = new Map(courses.map((c) => [c.title, c.id]));
+    const ids = t.courses.map((title) => byTitle.get(title)).filter((id): id is string => !!id);
+    const goals = t.goals as TrainingGoal[];
+    await db.$transaction(async (tx) => {
+      const path = await tx.learningPath.upsert({
+        where: { templateKey: t.key },
+        update: { title: t.title, description: t.description, goals, isTemplate: true },
+        create: { templateKey: t.key, title: t.title, description: t.description, goals, isTemplate: true },
+      });
+      await tx.learningPathCourse.deleteMany({ where: { pathId: path.id } });
+      await tx.learningPathCourse.createMany({ data: ids.map((courseId, i) => ({ pathId: path.id, courseId, position: i + 1 })) });
+    });
+  }
 }

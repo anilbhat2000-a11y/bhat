@@ -1,0 +1,213 @@
+[
+  {
+    "key": "new-sales-hire",
+    "title": "New sales hire: first 30 days",
+    "description": "A planned first month for new account managers: our sales process, how presales works, the SI business model, company policies and the infrastructure we sell.",
+    "goals": [
+      "ONBOARDING",
+      "SALES_ENABLEMENT"
+    ],
+    "courses": [
+      "Fundamentals of Enterprise Sales",
+      "Presales Basic: Understanding Solutions and Requirements",
+      "SI Sales Basic: The System Integration Business Model",
+      "Compliance Basic: Code of Conduct and Company Policies",
+      "IT Infrastructure Fundamentals"
+    ]
+  },
+  {
+    "key": "consultative-seller",
+    "title": "Consultative selling and negotiation",
+    "description": "Move from quoting products to solving business problems: discovery, objections, negotiation and executive conversations.",
+    "goals": [
+      "SALES_ENABLEMENT",
+      "SOFT_SKILLS"
+    ],
+    "courses": [
+      "Consultative Sales",
+      "SI Sales Intermediate: Customer Discovery",
+      "Objection Handling",
+      "Negotiation Skills",
+      "CXO Engagement"
+    ]
+  },
+  {
+    "key": "key-account-leader",
+    "title": "Key account leadership",
+    "description": "For senior account managers who own strategic customers: account planning, solution selling and engaging senior leaders.",
+    "goals": [
+      "SALES_ENABLEMENT",
+      "LEADERSHIP"
+    ],
+    "courses": [
+      "Key Account Management",
+      "SI Sales Advanced: Solution-based Selling",
+      "CXO Engagement"
+    ]
+  },
+  {
+    "key": "government-sales",
+    "title": "Government sales specialist",
+    "description": "Selling to government and PSUs: GeM, tenders, bid security, procurement rules and bid documentation.",
+    "goals": [
+      "SALES_ENABLEMENT",
+      "COMPLIANCE"
+    ],
+    "courses": [
+      "Government Sales Basic: GeM Portal and Government Buyers",
+      "Government Sales Intermediate: Tenders, EMD and Bank Guarantees",
+      "Government Sales Advanced: Procurement Rules and Bid Documentation"
+    ]
+  },
+  {
+    "key": "compliance-essentials",
+    "title": "Compliance essentials for everyone",
+    "description": "The policies and laws every employee must know: code of conduct, data protection, contracts and basic cyber safety.",
+    "goals": [
+      "COMPLIANCE",
+      "ONBOARDING"
+    ],
+    "courses": [
+      "Compliance Basic: Code of Conduct and Company Policies",
+      "Cyber Security Basic: Threats and Protection",
+      "Compliance Intermediate: Data Protection and Statutory Requirements",
+      "Compliance Advanced: Contract Compliance"
+    ]
+  },
+  {
+    "key": "order-to-cash",
+    "title": "Order to cash: purchase, logistics and accounts",
+    "description": "How an order flows through the company: purchase orders, dispatch, invoicing, GST and collections.",
+    "goals": [
+      "PROCESS_WORKFLOW",
+      "ONBOARDING"
+    ],
+    "courses": [
+      "Purchase Basic: The Procurement Process",
+      "Logistics Basic: Dispatch and Documentation",
+      "Accounts Basic: Billing, Invoicing and GST",
+      "Purchase Intermediate: Vendor Management and the PO Lifecycle",
+      "Accounts Intermediate: Receivables, Payables and Reconciliation"
+    ]
+  },
+  {
+    "key": "network-engineer",
+    "title": "Network engineer track",
+    "description": "From LAN basics to SD-WAN and network security, for field and support engineers.",
+    "goals": [
+      "TECHNICAL_SKILLS"
+    ],
+    "courses": [
+      "Networking Fundamentals",
+      "Telecom and Connectivity Solutions",
+      "Cyber Security Fundamentals",
+      "Networking Advanced: SD-WAN and Network Architecture"
+    ]
+  },
+  {
+    "key": "datacentre-engineer",
+    "title": "Data centre engineer track",
+    "description": "Servers, storage, power and facilities: everything needed to build and run a reliable data centre or server room.",
+    "goals": [
+      "TECHNICAL_SKILLS"
+    ],
+    "courses": [
+      "IT Infrastructure Fundamentals",
+      "Server and Storage Basic: Servers, RAID and Storage Types",
+      "Power Solutions: UPS and Power Protection",
+      "Server and Storage Fundamentals",
+      "IT Infrastructure Intermediate: Data Centre and Facilities",
+      "Power Solutions Intermediate: Sizing UPS, Batteries and DG Sets"
+    ]
+  },
+  {
+    "key": "cloud-security-engineer",
+    "title": "Cloud and security engineer track",
+    "description": "Cloud models, migration, cloud security and modern security operations, ending with certification preparation.",
+    "goals": [
+      "TECHNICAL_SKILLS"
+    ],
+    "courses": [
+      "Cloud Solutions Fundamentals",
+      "Cyber Security Basic: Threats and Protection",
+      "Cloud Security Fundamentals",
+      "Cyber Security Fundamentals",
+      "Cloud Certification Preparation",
+      "Security Certification Preparation"
+    ]
+  },
+  {
+    "key": "presales-architect",
+    "title": "Presales to solution architect",
+    "description": "Grow from presales engineer to solution architect: requirements, proposals, POCs and infrastructure architecture.",
+    "goals": [
+      "CUSTOMER_ENABLEMENT",
+      "TECHNICAL_SKILLS"
+    ],
+    "courses": [
+      "Presales Basic: Understanding Solutions and Requirements",
+      "Presales Intermediate: RFP/RFQ Responses and Technical Proposals",
+      "Presales Advanced: Demos, POCs and Solution Design",
+      "IT Infrastructure Advanced: Infrastructure Architecture"
+    ]
+  },
+  {
+    "key": "workplace-solutions",
+    "title": "Workplace solutions: AV and print",
+    "description": "Advise customers on meeting rooms, video conferencing, printers and managed print.",
+    "goals": [
+      "CUSTOMER_ENABLEMENT"
+    ],
+    "courses": [
+      "AV Solutions Basic: Displays, Audio and Conferencing",
+      "Audio Video and Video Conferencing Solutions",
+      "Print Solutions",
+      "Print Solutions Intermediate: Print Fleet Assessment",
+      "Print Solutions Advanced: Managed Print Services"
+    ]
+  },
+  {
+    "key": "new-manager",
+    "title": "New people manager",
+    "description": "For engineers and sales staff stepping into team lead roles: learning circles, retention, developing people and leading change.",
+    "goals": [
+      "LEADERSHIP",
+      "SOFT_SKILLS"
+    ],
+    "courses": [
+      "Manager Learning Circles",
+      "Employee Retention Strategies",
+      "Learning and Development Planning",
+      "Driving Cultural Change and Business Results"
+    ]
+  },
+  {
+    "key": "data-literacy",
+    "title": "Working with data",
+    "description": "Make better decisions with data: metrics, charts, dashboards and presenting insights.",
+    "goals": [
+      "SOFT_SKILLS",
+      "PROCESS_WORKFLOW"
+    ],
+    "courses": [
+      "Data-Driven Decision Making",
+      "Data Visualization Fundamentals",
+      "Analytics Platforms Essentials",
+      "Sharing Data Insights: Storytelling for Decisions"
+    ]
+  },
+  {
+    "key": "hiring-and-onboarding",
+    "title": "Hiring and onboarding for HR",
+    "description": "Recruit well and onboard new joiners: role definition, structured interviews, learning plans and data protection.",
+    "goals": [
+      "ONBOARDING",
+      "LEADERSHIP"
+    ],
+    "courses": [
+      "Talent Acquisition Essentials",
+      "Learning and Development Planning",
+      "Compliance Intermediate: Data Protection and Statutory Requirements"
+    ]
+  }
+]

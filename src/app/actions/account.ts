@@ -48,6 +48,7 @@ export async function updateCourseAction(formData: FormData): Promise<void> {
     passMarkPercent: Number(text(formData, "passMarkPercent") || 70),
     minVideoWatchPercent: Number(text(formData, "minVideoWatchPercent") || 0),
     requireAssessmentPass: text(formData, "requireAssessmentPass") === "on",
+    departments: [...formData.getAll("department").map(String), ...text(formData, "otherDepartments").split(",")],
   });
   if (!result.ok) redirect(`/admin/courses/${id}?error=${encodeURIComponent(result.error)}`);
   revalidatePath(`/admin/courses/${id}`);

@@ -184,6 +184,9 @@ model Course {
   contentHash     String?      @map("content_hash")
   // Sources and further reading: [{ title, url }].
   sources         Json         @default("[]")
+  // Departments the course is for. Empty means everyone. Learners outside these
+  // departments do not see it, unless it is assigned to them or they have started it.
+  departments     String[]     @default([])
   minVideoWatchPercent  Int     @default(0) @map("min_video_watch_percent")
   requireAssessmentPass Boolean @default(false) @map("require_assessment_pass")
   createdAt       DateTime     @default(now()) @map("created_at")
@@ -196,6 +199,7 @@ model Course {
   assignments CourseAssignment[]
   feedback    CourseFeedback[]
   posts       CoursePost[]
+  pathCourses LearningPathCourse[]
 
   @@map("courses")
 }
@@ -622,4 +626,63 @@ model CoursePost {
 
   @@index([courseId, createdAt])
   @@map("course_posts")
+}
+
+// What a learning path is for. Used to recommend ready-made paths when an admin creates one.
+enum TrainingGoal {
+  SALES_ENABLEMENT
+  SOFT_SKILLS
+  CUSTOMER_ENABLEMENT
+  PROCESS_WORKFLOW
+  COMPLIANCE
+  ONBOARDING
+  TECHNICAL_SKILLS
+  LEADERSHIP
+}
+
+// An ordered list of courses assigned as one unit. Ready-made paths (isTemplate) come from
+// the seed and are copied before use; a person completes a path when they finish every
+// published course in it.
+model LearningPath {
+  id          String         @id @default(cuid())
+  title       String
+  description String?
+  goals       TrainingGoal[]
+  isTemplate  Boolean        @default(false) @map("is_template")
+  templateKey String?        @unique @map("template_key")
+  createdById String?        @map("created_by_id")
+  createdAt   DateTime       @default(now()) @map("created_at")
+  updatedAt   DateTime       @updatedAt @map("updated_at")
+
+  courses     LearningPathCourse[]
+  assignments LearningPathAssignment[]
+
+  @@map("learning_paths")
+}
+
+model LearningPathCourse {
+  id       String       @id @default(cuid())
+  pathId   String       @map("path_id")
+  path     LearningPath @relation(fields: [pathId], references: [id], onDelete: Cascade)
+  courseId String       @map("course_id")
+  course   Course       @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  position Int
+
+  @@unique([pathId, courseId])
+  @@map("learning_path_courses")
+}
+
+// Like CourseAssignment, for a whole path: a person, a department or a job title.
+model LearningPathAssignment {
+  id           String           @id @default(cuid())
+  pathId       String           @map("path_id")
+  path         LearningPath     @relation(fields: [pathId], references: [id], onDelete: Cascade)
+  targetType   AssignmentTarget @map("target_type")
+  targetValue  String           @map("target_value")
+  dueAt        DateTime?        @map("due_at")
+  assignedById String           @map("assigned_by_id")
+  createdAt    DateTime         @default(now()) @map("created_at")
+
+  @@unique([pathId, targetType, targetValue])
+  @@map("learning_path_assignments")
 }

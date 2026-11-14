@@ -10,11 +10,13 @@ export const NAV: Record<"admin" | "manager" | "learn", NavGroup[]> = {
   admin: [
     { label: "Overview", items: [
       { href: "/admin", label: "Home", icon: "home", exact: true },
-      { href: "/admin/dashboard", label: "Dashboard", icon: "chart" },
+      { href: "/admin/dashboard", label: "Reports", icon: "chart" },
+      { href: "/admin/certificates", label: "Certificates", icon: "award" },
     ] },
     { label: "Learning", items: [
       { href: "/admin/subjects", label: "Subjects", icon: "layers" },
       { href: "/admin/courses", label: "Courses", icon: "book" },
+      { href: "/admin/paths", label: "Learning paths", icon: "list" },
       { href: "/admin/assessments", label: "Assessments", icon: "check" },
       { href: "/admin/grading", label: "Grading queue", icon: "inbox" },
       { href: "/admin/instructors", label: "Instructors", icon: "person" },
@@ -27,7 +29,10 @@ export const NAV: Record<"admin" | "manager" | "learn", NavGroup[]> = {
   ],
   manager: [
     { label: "My team", items: [
+      { href: "/manager", label: "Dashboard", icon: "home", exact: true },
       { href: "/manager/team", label: "Team members", icon: "users", exact: true },
+      { href: "/manager/paths", label: "Learning paths", icon: "list" },
+      { href: "/manager/certificates", label: "Certificates", icon: "award" },
       { href: "/manager/team/summary", label: "Team summary", icon: "grid" },
       { href: "/manager/sessions", label: "Team sessions", icon: "calendar" },
     ] },

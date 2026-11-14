@@ -1,3 +1,4 @@
+import { canSeeCourse, cleanDepartments } from "./audience";
 import { prisma } from "../db/client";
 import { requireRole } from "../auth/guards";
 import type { SessionUser } from "../auth/session";
@@ -24,7 +25,7 @@ const asAdmin = (actor: SessionUser) => requireRole(actor, ["ADMIN"]);
 
 export async function createCourse(
   actor: SessionUser,
-  input: { subjectId: string; title: string; description: string; level: Level; passMarkPercent: number },
+  input: { subjectId: string; title: string; description: string; level: Level; passMarkPercent: number; departments?: string[] },
 ): Promise<Result> {
   asAdmin(actor);
   if (!input.title.trim()) return { ok: false, error: "Title is required" };
@@ -40,6 +41,7 @@ export async function createCourse(
           description: input.description.trim() || null,
           level: input.level,
           passMarkPercent: input.passMarkPercent,
+          departments: cleanDepartments(input.departments ?? []),
         },
       }),
     (c) => ({ actorId: actor.id, action: "course.create", entityType: "Course", entityId: c.id, after: { title: c.title } }),
@@ -50,7 +52,7 @@ export async function createCourse(
 export async function updateCourse(
   actor: SessionUser,
   id: string,
-  patch: { title?: string; description?: string; level?: Level; passMarkPercent?: number; minVideoWatchPercent?: number; requireAssessmentPass?: boolean },
+  patch: { title?: string; description?: string; level?: Level; passMarkPercent?: number; minVideoWatchPercent?: number; requireAssessmentPass?: boolean; departments?: string[] },
 ): Promise<Result> {
   asAdmin(actor);
   if (patch.minVideoWatchPercent !== undefined && (!Number.isInteger(patch.minVideoWatchPercent) || patch.minVideoWatchPercent < 0 || patch.minVideoWatchPercent > 100)) {
@@ -65,6 +67,7 @@ export async function updateCourse(
       ...(patch.passMarkPercent !== undefined && { passMarkPercent: patch.passMarkPercent }),
       ...(patch.minVideoWatchPercent !== undefined && { minVideoWatchPercent: patch.minVideoWatchPercent }),
       ...(patch.requireAssessmentPass !== undefined && { requireAssessmentPass: patch.requireAssessmentPass }),
+      ...(patch.departments !== undefined && { departments: cleanDepartments(patch.departments) }),
     },
   }), () => ({ actorId: actor.id, action: "course.update", entityType: "Course", entityId: id, after: { ...patch } }));
   return { ok: true, id };
@@ -235,6 +238,7 @@ export async function getLessonCaption(actor: SessionUser, lessonId: string): Pr
 // started (see learnerCanOpen).
 export async function canReadCourse(actor: SessionUser, course: { id: string; status: CourseStatus }): Promise<boolean> {
   if (actor.role === "ADMIN") return true;
+  if (!(await canSeeCourse(actor, course.id))) return false;
   if (course.status === "PUBLISHED") return true;
   if (course.status !== "ARCHIVED") return false;
   const progress = await prisma.courseProgress.findUnique({

@@ -91,17 +91,28 @@ export async function unassignCourse(actor: SessionUser, assignmentId: string): 
   return { ok: true, id: assignmentId };
 }
 
+// Every assignment that makes a course mandatory: direct course assignments plus each
+// course of every assigned learning path (only published courses, never ready-made
+// templates). Reminders, learners' home pages and reports all read this one list.
+export async function allAssignmentRefs(): Promise<(AssignmentRef & { pathId?: string })[]> {
+  const [direct, paths] = await Promise.all([
+    prisma.courseAssignment.findMany({ where: { course: { status: "PUBLISHED" } }, select: { courseId: true, targetType: true, targetValue: true, dueAt: true } }),
+    prisma.learningPathAssignment.findMany({
+      where: { path: { isTemplate: false } },
+      select: { pathId: true, targetType: true, targetValue: true, dueAt: true, path: { select: { courses: { where: { course: { status: "PUBLISHED" } }, select: { courseId: true } } } } },
+    }),
+  ]);
+  return [
+    ...direct,
+    ...paths.flatMap((a) => a.path.courses.map((c) => ({ courseId: c.courseId, targetType: a.targetType, targetValue: a.targetValue, dueAt: a.dueAt, pathId: a.pathId }))),
+  ];
+}
+
 // The published courses assigned to one person, with due dates and status, soonest first.
 export async function assignedCoursesFor(userId: string, now: Date = new Date()) {
   const user = await prisma.user.findUnique({ where: { id: userId }, select: { id: true, department: true, jobTitle: true } });
   if (!user) return [];
-  const assignments = await prisma.courseAssignment.findMany({
-    where: { course: { status: "PUBLISHED" }, OR: [
-      { targetType: "USER", targetValue: user.id },
-      ...(user.department ? [{ targetType: "DEPARTMENT" as const, targetValue: user.department }] : []),
-      ...(user.jobTitle ? [{ targetType: "JOB_TITLE" as const, targetValue: user.jobTitle }] : []),
-    ] },
-  });
+  const assignments = await allAssignmentRefs();
   const resolved = resolveAssignments([user], assignments);
   const [courses, progress] = await Promise.all([
     prisma.course.findMany({ where: { id: { in: resolved.map((r) => r.courseId) } }, select: { id: true, title: true, level: true, subject: { select: { name: true } } } }),
