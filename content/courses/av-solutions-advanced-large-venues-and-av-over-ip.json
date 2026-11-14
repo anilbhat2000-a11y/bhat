@@ -1,0 +1,140 @@
+{
+  "slug": "av-solutions-advanced-large-venues-and-av-over-ip",
+  "title": "AV Solutions Advanced: Large Venues and AV over IP",
+  "subject": "AUDIO VIDEO",
+  "category": "TECHNICAL",
+  "level": "ADVANCED",
+  "passMarkPercent": 70,
+  "description": "Auditoriums, command centres, video walls and AV over IP networks. You will be able to: design AV for large venues; plan video walls and command centres; design AV over IP with network requirements; plan managed AV services.",
+  "modules": [
+    {
+      "title": "Large venues and acoustics",
+      "minutes": 45
+    },
+    {
+      "title": "Video walls and command centres",
+      "minutes": 45
+    },
+    {
+      "title": "AV over IP",
+      "minutes": 45
+    },
+    {
+      "title": "Managed AV services",
+      "minutes": 30
+    }
+  ],
+  "lessons": [
+    {
+      "position": 1,
+      "title": "Large venues and acoustics",
+      "type": "TEXT",
+      "body": "Auditoriums, halls and large training spaces need careful audio design.\n\n## Acoustics first\n\n- **Reverberation:** sound reflecting around the room. Too much makes speech unclear.\n- **Intelligibility:** whether speech can be understood, often measured with the speech transmission index (STI).\n- Acoustic treatment (absorbers, diffusers) may be needed before choosing speakers.\n\n## Sound reinforcement\n\n- **Line array or column speakers** project sound evenly over long distances.\n- **Delay speakers** cover rear seats, time-aligned so sound arrives together.\n- Design for even coverage and enough level above background noise, without feedback.\n\n## Design tools\n\nAcoustic modelling software predicts coverage and intelligibility before installation. Validate with measurements during commissioning.",
+      "module": 1
+    },
+    {
+      "position": 2,
+      "title": "Video walls and command centres",
+      "type": "TEXT",
+      "body": "Video walls and command centres display large amounts of information, often around the clock.\n\n## Video wall technologies\n\n- **LCD video walls:** tiled displays with narrow bezels; cost-effective; small seams between panels.\n- **Direct-view LED:** seamless and very bright. **Pixel pitch** (distance between pixels, in mm) sets the closest comfortable viewing distance: a smaller pitch suits closer viewing and costs more.\n\n## Command and control centres\n\n- **Video wall controllers** place many sources (cameras, dashboards, maps) in flexible layouts.\n- Operators need ergonomic consoles and sightlines to the wall.\n- Equipment must suit 24/7 use; plan redundancy for controllers and power.\n- Consider heat, noise and maintenance access behind the wall.",
+      "module": 2
+    },
+    {
+      "position": 3,
+      "title": "AV over IP",
+      "type": "TEXT",
+      "body": "AV over IP sends audio and video across a standard network instead of dedicated cables and matrix switchers.\n\n## Common technologies\n\n- **Audio:** Dante is widely used for networked audio.\n- **Video:** several approaches exist, for example NDI, SDVoE and IPMX, with different trade-offs between bandwidth, latency and compression.\n\n## Network requirements\n\n- **Bandwidth:** uncompressed or lightly compressed video can need very high bandwidth; plan switch capacity accordingly.\n- **Multicast:** one source to many displays; needs IGMP snooping and a querier configured on the switches.\n- **Quality of service (QoS):** prioritise audio and clock traffic.\n- **Clock synchronisation:** many systems use PTP; switches must support it properly.\n- **Separation:** a dedicated AV network or VLAN, agreed with the customer's network team.\n\n> Involve the network team from the start. Most AV-over-IP problems are network configuration problems.",
+      "module": 3
+    },
+    {
+      "position": 4,
+      "title": "Managed AV services",
+      "type": "TEXT",
+      "body": "Managed AV services keep rooms working and users confident.\n\n## Typical services\n\n- **Remote monitoring** of rooms and devices, with alerts before users report problems.\n- **Preventive maintenance:** scheduled checks, firmware updates, cleaning.\n- **Help desk and on-site support** with defined response times.\n- **Usage reporting:** which rooms are used, and how much; helps plan future spaces.\n- **User training and adoption** support.\n\n## Defining the service\n\nAgree the rooms and devices in scope, service hours, response and resolution times, reporting, and how new rooms are added. Price per room or per device, per month.",
+      "module": 4
+    }
+  ],
+  "assessment": {
+    "title": "AV Solutions Advanced: completion check",
+    "level": "ADVANCED",
+    "passMarkPercent": 70,
+    "questions": [
+      {
+        "type": "SINGLE",
+        "text": "What does too much reverberation do in an auditorium?",
+        "options": [
+          "Makes speech unclear",
+          "Makes the room cooler",
+          "Improves intelligibility",
+          "Has no effect"
+        ],
+        "correct": [
+          "Makes speech unclear"
+        ],
+        "points": 1
+      },
+      {
+        "type": "SINGLE",
+        "text": "For a direct-view LED wall viewed from close up, which pixel pitch is better?",
+        "options": [
+          "A smaller pixel pitch",
+          "A larger pixel pitch",
+          "Pixel pitch does not matter",
+          "The largest available"
+        ],
+        "correct": [
+          "A smaller pixel pitch"
+        ],
+        "points": 1
+      },
+      {
+        "type": "MULTIPLE",
+        "text": "Which network features does AV over IP often need? Select all that apply.",
+        "options": [
+          "Multicast with IGMP snooping",
+          "Quality of service",
+          "Clock synchronisation such as PTP",
+          "Turning off all switches at night"
+        ],
+        "correct": [
+          "Multicast with IGMP snooping",
+          "Quality of service",
+          "Clock synchronisation such as PTP"
+        ],
+        "points": 2
+      },
+      {
+        "type": "MATCHING",
+        "text": "Match each technology to its use.",
+        "options": [
+          "Dante=Networked audio",
+          "Video wall controller=Arranges many sources on a wall",
+          "Delay speakers=Cover rear seats in a large hall"
+        ],
+        "correct": [],
+        "points": 3
+      },
+      {
+        "type": "TRUE_FALSE",
+        "text": "Most AV-over-IP problems turn out to be network configuration problems.",
+        "options": [
+          "True",
+          "False"
+        ],
+        "correct": [
+          "True"
+        ],
+        "points": 1
+      },
+      {
+        "type": "FILL_BLANK",
+        "text": "The distance between pixels on an LED display, in millimetres, is called the pixel ____.",
+        "options": [
+          "pitch"
+        ],
+        "correct": [],
+        "points": 1
+      }
+    ]
+  }
+}

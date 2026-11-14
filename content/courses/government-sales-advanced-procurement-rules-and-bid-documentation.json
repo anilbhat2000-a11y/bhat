@@ -1,0 +1,142 @@
+{
+  "slug": "government-sales-advanced-procurement-rules-and-bid-documentation",
+  "title": "Government Sales Advanced: Procurement Rules and Bid Documentation",
+  "subject": "Govt Sales",
+  "category": "BUSINESS",
+  "level": "ADVANCED",
+  "passMarkPercent": 70,
+  "description": "General Financial Rules, procurement manuals, and building a winning, compliant bid. You will be able to: apply the relevant provisions of the General Financial Rules; use Make in India and MSE preferences where eligible; assemble a complete technical and financial bid; handle post-award documentation and payments.",
+  "modules": [
+    {
+      "title": "General Financial Rules and procurement manuals",
+      "minutes": 45
+    },
+    {
+      "title": "Preference policies",
+      "minutes": 30
+    },
+    {
+      "title": "Bid assembly",
+      "minutes": 60
+    },
+    {
+      "title": "Post-award and payments",
+      "minutes": 30
+    }
+  ],
+  "lessons": [
+    {
+      "position": 1,
+      "title": "General Financial Rules and procurement manuals",
+      "type": "TEXT",
+      "body": "The General Financial Rules (GFR) set out how central government buys. Knowing the principles helps you prepare bids that evaluators can accept, and raise valid queries.\n\n## Key principles\n\n- **Transparency, competition, fairness** and elimination of arbitrariness.\n- **Value for money:** the lowest acceptable bid that meets the specifications.\n- **Specifications** should meet the need without favouring one brand.\n- **Procurement methods** depend on value and situation: GeM, open tender, limited tender, single-source (with justification).\n- **Two-bid system** for complex purchases: technical and financial bids evaluated separately.\n\n## Where to look\n\n- The GFR and the Ministry of Finance procurement manuals.\n- The buying organisation's own manual.\n- The tender document itself, which is final for that purchase.",
+      "module": 1
+    },
+    {
+      "position": 2,
+      "title": "Preference policies",
+      "type": "TEXT",
+      "body": "Government policies give certain bidders preference. Know whether we qualify, and what declarations are required.\n\n## Make in India (Public Procurement Preference)\n\nThe government's Make in India procurement order gives purchase preference to **local suppliers**, classified by the share of local content in what they supply (for example Class I and Class II local suppliers). The required local content and the declarations, such as a self-certificate of local content, are stated in the tender.\n\n## MSE procurement policy\n\nGovernment buyers have targets to buy from micro and small enterprises. Benefits for registered MSEs commonly include EMD exemption and purchase preference rules stated in the tender.\n\n## Practical steps\n\n- Check which preferences apply in each tender.\n- Get local content certificates from OEMs early where needed.\n- Make declarations only when they are true; false declarations can lead to debarment.",
+      "module": 2
+    },
+    {
+      "position": 3,
+      "title": "Bid assembly",
+      "type": "TEXT",
+      "body": "A complete, well-ordered bid is easier to qualify. Build it methodically.\n\n## Typical bid structure\n\n1. Covering letter and index.\n2. EMD or bid security declaration, or exemption proof.\n3. Eligibility documents in the order the tender lists them.\n4. Technical bid: compliance statement, datasheets, MAF, deviations (ideally none).\n5. Mandatory forms and declarations, signed and stamped.\n6. Financial bid in the exact format required (often a BoQ sheet on the portal).\n\n## Checks\n\n- Every page that must be signed is signed by the authorised signatory.\n- Names, numbers and values are consistent across all documents.\n- File formats and sizes meet portal limits.\n- Upload well before the deadline; portals slow down at the last minute.\n\n> This module includes a practice lab: assemble a complete bid from a sample tender.",
+      "module": 3
+    },
+    {
+      "position": 4,
+      "title": "Post-award and payments",
+      "type": "TEXT",
+      "body": "Winning the order is half the job. Government payments need complete paperwork.\n\n## After the award\n\n- Submit the performance security in time and in the required format.\n- Sign the contract or accept the GeM order within the allowed time.\n- Deliver exactly what was specified; deviations can lead to rejection.\n\n## Getting paid\n\n- Collect the documents the buyer needs: delivery challan, installation report, inspection and acceptance certificate, invoice.\n- On GeM, the buyer issues a consignee receipt and acceptance certificate (CRAC) before payment; follow up so it is issued promptly.\n- Track payment against the contract's terms and escalate politely through the right channel if delayed.",
+      "module": 4
+    }
+  ],
+  "assessment": {
+    "title": "Government Sales Advanced: completion check",
+    "level": "ADVANCED",
+    "passMarkPercent": 70,
+    "questions": [
+      {
+        "type": "SINGLE",
+        "text": "Under GFR, which bid is normally selected?",
+        "options": [
+          "The lowest acceptable bid that meets the specifications",
+          "The highest bid",
+          "The bid from the largest company",
+          "The first bid received"
+        ],
+        "correct": [
+          "The lowest acceptable bid that meets the specifications"
+        ],
+        "points": 1
+      },
+      {
+        "type": "TRUE_FALSE",
+        "text": "Government specifications should favour one brand to make evaluation easy.",
+        "options": [
+          "True",
+          "False"
+        ],
+        "correct": [
+          "False"
+        ],
+        "points": 1
+      },
+      {
+        "type": "SINGLE",
+        "text": "What does the Make in India procurement order give preference to?",
+        "options": [
+          "Local suppliers, based on local content",
+          "Foreign suppliers",
+          "The cheapest supplier regardless of origin",
+          "Suppliers with the most employees"
+        ],
+        "correct": [
+          "Local suppliers, based on local content"
+        ],
+        "points": 1
+      },
+      {
+        "type": "MULTIPLE",
+        "text": "Which checks should be done before uploading a bid? Select all that apply.",
+        "options": [
+          "Required pages signed by the authorised signatory",
+          "Values consistent across documents",
+          "File formats and sizes within portal limits",
+          "Upload in the last five minutes to keep it secret"
+        ],
+        "correct": [
+          "Required pages signed by the authorised signatory",
+          "Values consistent across documents",
+          "File formats and sizes within portal limits"
+        ],
+        "points": 2
+      },
+      {
+        "type": "SINGLE",
+        "text": "On GeM, which document from the buyer is needed before payment?",
+        "options": [
+          "Consignee receipt and acceptance certificate (CRAC)",
+          "A purchase requisition",
+          "Our offer letter",
+          "A credit note"
+        ],
+        "correct": [
+          "Consignee receipt and acceptance certificate (CRAC)"
+        ],
+        "points": 1
+      },
+      {
+        "type": "SHORT_ANSWER",
+        "text": "A tender requires a self-certificate of local content. The OEM has not confirmed the local content figure. What would you do?",
+        "options": [],
+        "correct": [],
+        "points": 4,
+        "explanation": "Model answer: do not guess or sign a false declaration; ask the OEM for a written local content certificate early; if it cannot be obtained in time, bid without claiming the preference or escalate to the manager."
+      }
+    ]
+  }
+}

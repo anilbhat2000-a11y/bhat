@@ -112,7 +112,7 @@ The presales role, reading customer requirements, and turning them into a soluti
 - **Level:** Basic
 - **Estimated duration:** 2 h
 - **Prerequisites:** none
-- **In the portal:** no, create with npm run db:seed-catalogue
+- **In the portal:** yes, as "Presales Basic: Understanding Solutions and Requirements"
 
 **Learning objectives**
 
@@ -135,7 +135,7 @@ Writing compliant, persuasive responses to RFPs and RFQs, with a technical propo
 - **Level:** Intermediate
 - **Estimated duration:** 2 h 50 min
 - **Prerequisites:** Presales Basic: Understanding Solutions and Requirements
-- **In the portal:** no, create with npm run db:seed-catalogue
+- **In the portal:** yes, as "Presales Intermediate: RFP/RFQ Responses and Technical Proposals"
 
 **Learning objectives**
 
@@ -158,7 +158,7 @@ Planning and running demos and proofs of concept, and designing multi-vendor sol
 - **Level:** Advanced
 - **Estimated duration:** 3 h
 - **Prerequisites:** Presales Intermediate: RFP/RFQ Responses and Technical Proposals
-- **In the portal:** no, create with npm run db:seed-catalogue
+- **In the portal:** yes, as "Presales Advanced: Demos, POCs and Solution Design"
 
 **Learning objectives**
 
@@ -185,7 +185,7 @@ How a customer order becomes a purchase order, and the documents involved.
 - **Level:** Basic
 - **Estimated duration:** 1 h 50 min
 - **Prerequisites:** none
-- **In the portal:** no, create with npm run db:seed-catalogue
+- **In the portal:** yes, as "Purchase Basic: The Procurement Process"
 
 **Learning objectives**
 
@@ -208,7 +208,7 @@ Choosing and managing vendors, tracking POs to delivery, and handling changes an
 - **Level:** Intermediate
 - **Estimated duration:** 2 h 5 min
 - **Prerequisites:** Purchase Basic: The Procurement Process
-- **In the portal:** no, create with npm run db:seed-catalogue
+- **In the portal:** yes, as "Purchase Intermediate: Vendor Management and the PO Lifecycle"
 
 **Learning objectives**
 
@@ -231,7 +231,7 @@ Working within OEM and distributor programmes: deal registration, pricing approv
 - **Level:** Advanced
 - **Estimated duration:** 2 h 30 min
 - **Prerequisites:** Purchase Intermediate: Vendor Management and the PO Lifecycle
-- **In the portal:** no, create with npm run db:seed-catalogue
+- **In the portal:** yes, as "Purchase Advanced: OEM and Channel Compliance"
 
 **Learning objectives**
 
@@ -258,7 +258,7 @@ Raising correct invoices and the GST basics every IT sale touches.
 - **Level:** Basic
 - **Estimated duration:** 2 h 5 min
 - **Prerequisites:** none
-- **In the portal:** no, create with npm run db:seed-catalogue
+- **In the portal:** yes, as "Accounts Basic: Billing, Invoicing and GST"
 
 **Learning objectives**
 
@@ -281,7 +281,7 @@ Managing collections and payments, and reconciling accounts.
 - **Level:** Intermediate
 - **Estimated duration:** 2 h 30 min
 - **Prerequisites:** Accounts Basic: Billing, Invoicing and GST
-- **In the portal:** no, create with npm run db:seed-catalogue
+- **In the portal:** yes, as "Accounts Intermediate: Receivables, Payables and Reconciliation"
 
 **Learning objectives**
 
@@ -304,7 +304,7 @@ Reading financial statements and the reports managers use.
 - **Level:** Advanced
 - **Estimated duration:** 2 h 20 min
 - **Prerequisites:** Accounts Intermediate: Receivables, Payables and Reconciliation
-- **In the portal:** no, create with npm run db:seed-catalogue
+- **In the portal:** yes, as "Accounts Advanced: Financial Reporting Basics"
 
 **Learning objectives**
 
@@ -331,7 +331,7 @@ Dispatching goods with the right documents, and proof of delivery.
 - **Level:** Basic
 - **Estimated duration:** 1 h 30 min
 - **Prerequisites:** none
-- **In the portal:** no, create with npm run db:seed-catalogue
+- **In the portal:** yes, as "Logistics Basic: Dispatch and Documentation"
 
 **Learning objectives**
 
@@ -354,7 +354,7 @@ Receiving, storing and moving stock, with accurate records.
 - **Level:** Intermediate
 - **Estimated duration:** 1 h 50 min
 - **Prerequisites:** Logistics Basic: Dispatch and Documentation
-- **In the portal:** no, create with npm run db:seed-catalogue
+- **In the portal:** yes, as "Logistics Intermediate: Warehousing and Inventory Movement"
 
 **Learning objectives**
 
@@ -377,7 +377,7 @@ Planning multi-site deliveries, choosing transport, and handling inter-state rul
 - **Level:** Advanced
 - **Estimated duration:** 2 h 5 min
 - **Prerequisites:** Logistics Intermediate: Warehousing and Inventory Movement
-- **In the portal:** no, create with npm run db:seed-catalogue
+- **In the portal:** yes, as "Logistics Advanced: Shipping, Transport and Multi-site Delivery"
 
 **Learning objectives**
 
@@ -404,7 +404,7 @@ The code of conduct, key company policies, and how to raise a concern.
 - **Level:** Basic
 - **Estimated duration:** 1 h 35 min
 - **Prerequisites:** none
-- **In the portal:** no, create with npm run db:seed-catalogue
+- **In the portal:** yes, as "Compliance Basic: Code of Conduct and Company Policies"
 
 **Learning objectives**
 
@@ -427,7 +427,7 @@ Personal data protection and the statutory duties that affect daily work.
 - **Level:** Intermediate
 - **Estimated duration:** 2 h 15 min
 - **Prerequisites:** Compliance Basic: Code of Conduct and Company Policies
-- **In the portal:** no, create with npm run db:seed-catalogue
+- **In the portal:** yes, as "Compliance Intermediate: Data Protection and Statutory Requirements"
 
 **Learning objectives**
 
@@ -450,7 +450,7 @@ Reading and complying with customer, OEM and vendor contracts.
 - **Level:** Advanced
 - **Estimated duration:** 2 h 5 min
 - **Prerequisites:** Compliance Intermediate: Data Protection and Statutory Requirements
-- **In the portal:** no, create with npm run db:seed-catalogue
+- **In the portal:** yes, as "Compliance Advanced: Contract Compliance"
 
 **Learning objectives**
 
@@ -477,7 +477,7 @@ How government buyers purchase, and how the GeM portal works for sellers.
 - **Level:** Basic
 - **Estimated duration:** 2 h 5 min
 - **Prerequisites:** none
-- **In the portal:** no, create with npm run db:seed-catalogue
+- **In the portal:** yes, as "Government Sales Basic: GeM Portal and Government Buyers"
 
 **Learning objectives**
 
@@ -500,7 +500,7 @@ The tender process from publication to award, with EMD and performance security.
 - **Level:** Intermediate
 - **Estimated duration:** 2 h 20 min
 - **Prerequisites:** Government Sales Basic: GeM Portal and Government Buyers
-- **In the portal:** no, create with npm run db:seed-catalogue
+- **In the portal:** yes, as "Government Sales Intermediate: Tenders, EMD and Bank Guarantees"
 
 **Learning objectives**
 
@@ -523,7 +523,7 @@ General Financial Rules, procurement manuals, and building a winning, compliant 
 - **Level:** Advanced
 - **Estimated duration:** 2 h 45 min
 - **Prerequisites:** Government Sales Intermediate: Tenders, EMD and Bank Guarantees
-- **In the portal:** no, create with npm run db:seed-catalogue
+- **In the portal:** yes, as "Government Sales Advanced: Procurement Rules and Bid Documentation"
 
 **Learning objectives**
 
@@ -550,7 +550,7 @@ How an SI earns revenue across products, services and support, and the solution 
 - **Level:** Basic
 - **Estimated duration:** 1 h 40 min
 - **Prerequisites:** none
-- **In the portal:** no, create with npm run db:seed-catalogue
+- **In the portal:** yes, as "SI Sales Basic: The System Integration Business Model"
 
 **Learning objectives**
 
@@ -573,7 +573,7 @@ Discovering business problems and mapping them to multi-practice solutions.
 - **Level:** Intermediate
 - **Estimated duration:** 2 h 20 min
 - **Prerequisites:** SI Sales Basic: The System Integration Business Model
-- **In the portal:** no, create with npm run db:seed-catalogue
+- **In the portal:** yes, as "SI Sales Intermediate: Customer Discovery"
 
 **Learning objectives**
 
@@ -596,7 +596,7 @@ Selling outcomes: business cases, total cost of ownership, and managed services.
 - **Level:** Advanced
 - **Estimated duration:** 2 h 45 min
 - **Prerequisites:** SI Sales Intermediate: Customer Discovery
-- **In the portal:** no, create with npm run db:seed-catalogue
+- **In the portal:** yes, as "SI Sales Advanced: Solution-based Selling"
 
 **Learning objectives**
 
@@ -646,7 +646,7 @@ Data-centre design: racks, cooling, power, cabling and monitoring.
 - **Level:** Intermediate
 - **Estimated duration:** 2 h 15 min
 - **Prerequisites:** IT Infrastructure Basic: Building Blocks
-- **In the portal:** no, create with npm run db:seed-catalogue
+- **In the portal:** yes, as "IT Infrastructure Intermediate: Data Centre and Facilities"
 
 **Learning objectives**
 
@@ -669,7 +669,7 @@ Designing resilient infrastructure for availability, scale and operations.
 - **Level:** Advanced
 - **Estimated duration:** 2 h 45 min
 - **Prerequisites:** IT Infrastructure Intermediate: Data Centre and Facilities
-- **In the portal:** no, create with npm run db:seed-catalogue
+- **In the portal:** yes, as "IT Infrastructure Advanced: Infrastructure Architecture"
 
 **Learning objectives**
 
@@ -696,7 +696,7 @@ The building blocks of meeting-room and auditorium AV.
 - **Level:** Basic
 - **Estimated duration:** 2 h
 - **Prerequisites:** none
-- **In the portal:** no, create with npm run db:seed-catalogue
+- **In the portal:** yes, as "AV Solutions Basic: Displays, Audio and Conferencing"
 
 **Learning objectives**
 
@@ -742,7 +742,7 @@ Auditoriums, command centres, video walls and AV over IP networks.
 - **Level:** Advanced
 - **Estimated duration:** 2 h 45 min
 - **Prerequisites:** AV Solutions Intermediate: Integrated Rooms
-- **In the portal:** no, create with npm run db:seed-catalogue
+- **In the portal:** yes, as "AV Solutions Advanced: Large Venues and AV over IP"
 
 **Learning objectives**
 
@@ -792,7 +792,7 @@ Sizing UPS capacity, battery backup and diesel generators.
 - **Level:** Intermediate
 - **Estimated duration:** 2 h 30 min
 - **Prerequisites:** Power Solutions Basic: UPS, Power Quality and Earthing
-- **In the portal:** no, create with npm run db:seed-catalogue
+- **In the portal:** yes, as "Power Solutions Intermediate: Sizing UPS, Batteries and DG Sets"
 
 **Learning objectives**
 
@@ -815,7 +815,7 @@ Redundant power architectures for data centres and critical sites.
 - **Level:** Advanced
 - **Estimated duration:** 2 h 15 min
 - **Prerequisites:** Power Solutions Intermediate: Sizing UPS, Batteries and DG Sets
-- **In the portal:** no, create with npm run db:seed-catalogue
+- **In the portal:** yes, as "Power Solutions Advanced: Resilient Power Design"
 
 **Learning objectives**
 
@@ -888,7 +888,7 @@ SD-WAN, campus architecture, network security integration and operations.
 - **Level:** Advanced
 - **Estimated duration:** 2 h 45 min
 - **Prerequisites:** Networking Intermediate: Switching, Routing and Wi-Fi Design
-- **In the portal:** no, create with npm run db:seed-catalogue
+- **In the portal:** yes, as "Networking Advanced: SD-WAN and Network Architecture"
 
 **Learning objectives**
 
@@ -938,7 +938,7 @@ Assessing an existing print fleet and proposing a better one.
 - **Level:** Intermediate
 - **Estimated duration:** 2 h 15 min
 - **Prerequisites:** Print Solutions Basic: Printers, MFPs and Consumables
-- **In the portal:** no, create with npm run db:seed-catalogue
+- **In the portal:** yes, as "Print Solutions Intermediate: Print Fleet Assessment"
 
 **Learning objectives**
 
@@ -961,7 +961,7 @@ Designing, pricing and running a managed print service.
 - **Level:** Advanced
 - **Estimated duration:** 2 h 20 min
 - **Prerequisites:** Print Solutions Intermediate: Print Fleet Assessment
-- **In the portal:** no, create with npm run db:seed-catalogue
+- **In the portal:** yes, as "Print Solutions Advanced: Managed Print Services"
 
 **Learning objectives**
 
@@ -988,7 +988,7 @@ The threat landscape and the main layers of protection.
 - **Level:** Basic
 - **Estimated duration:** 1 h 35 min
 - **Prerequisites:** none
-- **In the portal:** no, create with npm run db:seed-catalogue
+- **In the portal:** yes, as "Cyber Security Basic: Threats and Protection"
 
 **Learning objectives**
 
@@ -1034,7 +1034,7 @@ ISO 27001, NIST CSF and designing security architecture to meet them.
 - **Level:** Advanced
 - **Estimated duration:** 2 h 45 min
 - **Prerequisites:** Cyber Security Intermediate: Firewalls, Endpoint and SOC Basics
-- **In the portal:** no, create with npm run db:seed-catalogue
+- **In the portal:** yes, as "Cyber Security Advanced: Compliance Frameworks and Security Architecture"
 
 **Learning objectives**
 
@@ -1107,7 +1107,7 @@ Designing hybrid cloud, governance and managed cloud services.
 - **Level:** Advanced
 - **Estimated duration:** 2 h 45 min
 - **Prerequisites:** Cloud Intermediate: Migration and Cost Management
-- **In the portal:** no, create with npm run db:seed-catalogue
+- **In the portal:** yes, as "Cloud Advanced: Hybrid Architecture and Operations"
 
 **Learning objectives**
 
@@ -1134,7 +1134,7 @@ What AI, ML and HPC are, and where customers use them.
 - **Level:** Basic
 - **Estimated duration:** 1 h 50 min
 - **Prerequisites:** none
-- **In the portal:** no, create with npm run db:seed-catalogue
+- **In the portal:** yes, as "HPC, AI and ML Basic: Concepts and Use Cases"
 
 **Learning objectives**
 
@@ -1180,7 +1180,7 @@ Sizing GPU clusters and designing complete AI and HPC solutions.
 - **Level:** Advanced
 - **Estimated duration:** 2 h 45 min
 - **Prerequisites:** HPC, AI and ML Intermediate: Infrastructure for AI Workloads
-- **In the portal:** no, create with npm run db:seed-catalogue
+- **In the portal:** yes, as "HPC, AI and ML Advanced: Solution Sizing and Design"
 
 **Learning objectives**
 
@@ -1207,7 +1207,7 @@ Server form factors, RAID, and DAS, NAS and SAN.
 - **Level:** Basic
 - **Estimated duration:** 1 h 50 min
 - **Prerequisites:** none
-- **In the portal:** no, create with npm run db:seed-catalogue
+- **In the portal:** yes, as "Server and Storage Basic: Servers, RAID and Storage Types"
 
 **Learning objectives**
 
@@ -1253,7 +1253,7 @@ Designing storage architecture and disaster recovery for critical workloads.
 - **Level:** Advanced
 - **Estimated duration:** 2 h 30 min
 - **Prerequisites:** Server and Storage Intermediate: Virtualisation and Backup
-- **In the portal:** no, create with npm run db:seed-catalogue
+- **In the portal:** yes, as "Server and Storage Advanced: Architecture and Disaster Recovery"
 
 **Learning objectives**
 

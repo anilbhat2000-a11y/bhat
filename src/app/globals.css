@@ -363,3 +363,15 @@ button:disabled { opacity: 0.55; cursor: not-allowed; }
   .brand-text { display: none; }
   .topbar { padding: 0 12px; }
 }
+
+/* ---------- Lesson text ---------- */
+
+.lesson-text { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px 22px; box-shadow: var(--shadow); line-height: 1.65; }
+.lesson-text > * + * { margin-top: 10px; }
+.lesson-text ul, .lesson-text ol { padding-left: 1.4em; }
+.lesson-text ul { list-style: disc; }
+.lesson-text ol { list-style: decimal; }
+.lesson-text li + li { margin-top: 4px; }
+.lesson-subhead { font-weight: 700; color: var(--brand-green); margin-top: 14px !important; }
+.lesson-note { background: var(--accent-soft); border-left: 4px solid var(--brand-teal); padding: 10px 14px; border-radius: 8px; }
+.lesson-text code { background: var(--surface-2); border: 1px solid var(--border); border-radius: 4px; padding: 0 4px; font-size: 0.9em; }

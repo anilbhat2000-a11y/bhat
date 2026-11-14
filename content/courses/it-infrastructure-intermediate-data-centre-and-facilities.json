@@ -1,0 +1,138 @@
+{
+  "slug": "it-infrastructure-intermediate-data-centre-and-facilities",
+  "title": "IT Infrastructure Intermediate: Data Centre and Facilities",
+  "subject": "IT INFRA",
+  "category": "TECHNICAL",
+  "level": "INTERMEDIATE",
+  "passMarkPercent": 70,
+  "description": "Data-centre design: racks, cooling, power, cabling and monitoring. You will be able to: plan rack layout and capacity; explain cooling and power density basics; specify monitoring and remote management; plan a server-room refresh.",
+  "modules": [
+    {
+      "title": "Racks and layout",
+      "minutes": 30
+    },
+    {
+      "title": "Cooling and power density",
+      "minutes": 45
+    },
+    {
+      "title": "Monitoring and remote management",
+      "minutes": 30
+    },
+    {
+      "title": "Refresh planning",
+      "minutes": 30
+    }
+  ],
+  "lessons": [
+    {
+      "position": 1,
+      "title": "Racks and layout",
+      "type": "TEXT",
+      "body": "Racks hold servers, storage and network equipment. Good rack planning makes equipment easy to install, cool and maintain.\n\n## Rack basics\n\n- Height is measured in **rack units (U)**; 1U is 44.45 mm. A common full-height rack is 42U.\n- Common widths are 600 mm and 800 mm (wider racks give room for cabling); common depths are 1000 mm and 1200 mm (deep servers need deep racks).\n- Check the rack's load rating against the weight of the equipment.\n\n## Layout\n\n- Heavy equipment (UPS, storage) at the bottom.\n- Network switches often at the top, near cable entry.\n- Leave space for growth, typically 20% or more.\n- Plan cable management: vertical managers for power and data, kept separate.\n- Fit blanking panels in empty spaces so hot air cannot recirculate to the front.",
+      "module": 1
+    },
+    {
+      "position": 2,
+      "title": "Cooling and power density",
+      "type": "TEXT",
+      "body": "Every watt of power used by IT equipment becomes heat that must be removed.\n\n## Hot aisle / cold aisle\n\nRacks are placed in rows facing each other, so cold air enters the fronts from a **cold aisle** and hot air leaves the backs into a **hot aisle**. Mixing hot and cold air wastes cooling. Containment (doors or roofs over an aisle) improves this further.\n\n## Power density\n\nPower per rack is measured in kilowatts (kW). A rack of general servers may use a few kW; a rack of GPU servers can use many times more. Cooling must be designed for the real density, not an average.\n\n## Efficiency\n\n**PUE (power usage effectiveness)** = total facility power ÷ IT equipment power. A PUE of 2.0 means for every watt the IT uses, another watt goes on cooling, lighting and losses. Lower is better.",
+      "module": 2
+    },
+    {
+      "position": 3,
+      "title": "Monitoring and remote management",
+      "type": "TEXT",
+      "body": "You cannot manage what you cannot see. Monitoring and remote management reduce downtime and site visits.\n\n## What to monitor\n\n- **Environment:** temperature and humidity at rack inlets, water leak sensors, door sensors.\n- **Power:** UPS status, battery health, PDU load per circuit.\n- **Equipment:** health and alerts from servers, storage and network devices.\n\n## Remote management\n\n- **Out-of-band management** controllers on servers (often called BMCs) allow power cycling, console access and firmware updates even when the operating system is down.\n- **Remote console servers** give access to network device consoles.\n- Keep management interfaces on a separate, secured network.\n\n> This module includes a lab: configure alerts for temperature, UPS and server health on sample equipment.",
+      "module": 3
+    },
+    {
+      "position": 4,
+      "title": "Refresh planning",
+      "type": "TEXT",
+      "body": "Server rooms age: equipment goes out of support, cooling cannot keep up, power is maxed out. A refresh needs planning.\n\n## Assess the current state\n\n- Inventory: equipment, age, warranty and end-of-support dates.\n- Power: current load versus UPS and circuit capacity.\n- Cooling: current heat load versus capacity, hot spots.\n- Space: free rack units and floor space.\n- Risks: single points of failure, unsupported equipment.\n\n## Plan the refresh\n\n- Prioritise by risk: unsupported and failing items first.\n- Consider consolidation, such as virtualisation, to reduce equipment.\n- Plan migration windows to avoid business disruption.\n- Size power, cooling and space for three to five years of growth.",
+      "module": 4
+    }
+  ],
+  "assessment": {
+    "title": "IT Infrastructure Intermediate: completion check",
+    "level": "INTERMEDIATE",
+    "passMarkPercent": 70,
+    "questions": [
+      {
+        "type": "SINGLE",
+        "text": "What is the height of one rack unit (1U)?",
+        "options": [
+          "44.45 mm",
+          "100 mm",
+          "1 inch",
+          "10 cm"
+        ],
+        "correct": [
+          "44.45 mm"
+        ],
+        "points": 1
+      },
+      {
+        "type": "SINGLE",
+        "text": "Why fit blanking panels in empty rack spaces?",
+        "options": [
+          "To stop hot air recirculating to the front",
+          "To make the rack heavier",
+          "To hide labels",
+          "To reduce GST"
+        ],
+        "correct": [
+          "To stop hot air recirculating to the front"
+        ],
+        "points": 1
+      },
+      {
+        "type": "MATCHING",
+        "text": "Match each aisle to what flows through it.",
+        "options": [
+          "Cold aisle=Cool air entering equipment fronts",
+          "Hot aisle=Hot air leaving equipment backs"
+        ],
+        "correct": [],
+        "points": 2
+      },
+      {
+        "type": "SINGLE",
+        "text": "A facility uses 200 kW in total, and IT equipment uses 100 kW. What is the PUE?",
+        "options": [
+          "2.0",
+          "0.5",
+          "1.0",
+          "100"
+        ],
+        "correct": [
+          "2.0"
+        ],
+        "points": 1,
+        "explanation": "PUE = total facility power ÷ IT power = 200 ÷ 100."
+      },
+      {
+        "type": "TRUE_FALSE",
+        "text": "Out-of-band management lets you power-cycle a server even when its operating system is down.",
+        "options": [
+          "True",
+          "False"
+        ],
+        "correct": [
+          "True"
+        ],
+        "points": 1
+      },
+      {
+        "type": "FILL_BLANK",
+        "text": "A common full-height rack has ____ U of space.",
+        "options": [
+          "42"
+        ],
+        "correct": [],
+        "points": 1
+      }
+    ]
+  }
+}

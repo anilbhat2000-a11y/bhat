@@ -1,0 +1,144 @@
+{
+  "slug": "presales-intermediate-rfp-rfq-responses-and-technical-proposals",
+  "title": "Presales Intermediate: RFP/RFQ Responses and Technical Proposals",
+  "subject": "Presales",
+  "category": "BUSINESS",
+  "level": "INTERMEDIATE",
+  "passMarkPercent": 70,
+  "description": "Writing compliant, persuasive responses to RFPs and RFQs, with a technical proposal and bill of materials. You will be able to: build a compliance matrix for an RFP; write a technical proposal with a clear architecture section; prepare a bill of materials with assumptions stated; review a response before submission using a checklist.",
+  "modules": [
+    {
+      "title": "Reading an RFP and the compliance matrix",
+      "minutes": 45
+    },
+    {
+      "title": "Writing the technical proposal",
+      "minutes": 60
+    },
+    {
+      "title": "Bill of materials and assumptions",
+      "minutes": 45
+    },
+    {
+      "title": "Company proposal templates",
+      "minutes": 20
+    }
+  ],
+  "lessons": [
+    {
+      "position": 1,
+      "title": "Reading an RFP and the compliance matrix",
+      "type": "TEXT",
+      "body": "An RFP (request for proposal) asks vendors how they would solve a problem. An RFQ (request for quotation) asks for prices for something already specified. Both have strict rules: miss one and the response can be rejected without being read.\n\n## Read the whole document first\n\n- Note the **deadline**, the submission method and the format (page limits, file types, signed copies).\n- Find the **eligibility criteria** (turnover, certifications, past orders). If we do not meet them, raise it with your manager at once.\n- Note the **evaluation method**: lowest price, technical score, or a mix.\n- List every **pre-bid query** you want to raise, and the date they are due.\n\n## The compliance matrix\n\nA compliance matrix is a table with one row per requirement in the RFP:\n\n- the RFP clause number and text;\n- our response: **Complied**, **Partially complied** or **Not complied**;\n- a remark explaining how, or why not;\n- a reference to the page or datasheet that proves it.\n\nFill it honestly. Evaluators check claims against datasheets, and a false \"Complied\" can disqualify the bid or cause penalties later.",
+      "module": 1
+    },
+    {
+      "position": 2,
+      "title": "Writing the technical proposal",
+      "type": "TEXT",
+      "body": "The technical proposal explains our solution so that an evaluator who has never met us can score it highly.\n\n## A clear structure\n\n1. **Executive summary:** the customer's goal, our approach, and why it is the right choice, in one page.\n2. **Understanding of requirements:** show we have read and understood the RFP.\n3. **Proposed solution:** architecture diagram, then each component and why it was chosen.\n4. **Implementation plan:** phases, timeline, responsibilities.\n5. **Support and service levels.**\n6. **Compliance matrix and datasheets** (often as annexures).\n\n## Writing tips\n\n- Follow the order of the RFP so evaluators find answers quickly.\n- Use the customer's terms, not internal jargon.\n- One idea per paragraph; use tables for comparisons.\n- Every claim about a product should be backed by a datasheet.\n- Get a colleague to review it with fresh eyes.",
+      "module": 2
+    },
+    {
+      "position": 3,
+      "title": "Bill of materials and assumptions",
+      "type": "TEXT",
+      "body": "The bill of materials (BoM) lists every item we will supply: part number, description, quantity, and often unit price. Errors in the BoM become losses or disputes after the order.\n\n## Building a correct BoM\n\n- Start from the design, not from an old BoM.\n- Include everything needed for the solution to work: licences, power cords, rack kits, transceivers, cables, support contracts.\n- Check licence terms (per user, per device, per year) and support duration.\n- Confirm part numbers with the OEM or distributor configuration tool.\n- Note lead times for items that take long to arrive.\n\n## Assumptions\n\nWrite down what the price assumes, for example:\n\n- the customer provides rack space, power and cooling;\n- the site is ready on the agreed date;\n- civil and electrical work are excluded;\n- prices are valid for a stated number of days.\n\n> Clear assumptions protect both the customer and the company. Unstated assumptions become arguments.",
+      "module": 3
+    },
+    {
+      "position": 4,
+      "title": "Company proposal templates",
+      "type": "TEXT",
+      "body": "[PLACEHOLDER: The company will supply its proposal templates.]\n\nUntil the templates are available, use this checklist before any submission:\n\n- Every RFP requirement appears in the compliance matrix.\n- All mandatory forms are filled, signed and stamped as required.\n- Eligibility documents are attached and current.\n- The BoM matches the proposal text and the price schedule.\n- File names, formats and sizes match the instructions.\n- A second person has reviewed the whole response.\n- It is submitted before the deadline, with time to spare for upload problems.",
+      "module": 4
+    }
+  ],
+  "assessment": {
+    "title": "Presales Intermediate: completion check",
+    "level": "INTERMEDIATE",
+    "passMarkPercent": 70,
+    "questions": [
+      {
+        "type": "SINGLE",
+        "text": "What is the difference between an RFP and an RFQ?",
+        "options": [
+          "An RFP asks how you would solve a problem; an RFQ asks for prices for something already specified",
+          "They are the same",
+          "An RFQ is only for government buyers",
+          "An RFP never includes prices"
+        ],
+        "correct": [
+          "An RFP asks how you would solve a problem; an RFQ asks for prices for something already specified"
+        ],
+        "points": 1
+      },
+      {
+        "type": "MULTIPLE",
+        "text": "What does a compliance matrix row contain? Select all that apply.",
+        "options": [
+          "The RFP clause",
+          "Complied, partially complied or not complied",
+          "A remark and a reference to proof",
+          "The competitor's price"
+        ],
+        "correct": [
+          "The RFP clause",
+          "Complied, partially complied or not complied",
+          "A remark and a reference to proof"
+        ],
+        "points": 2
+      },
+      {
+        "type": "TRUE_FALSE",
+        "text": "It is acceptable to mark a clause 'Complied' if the product nearly meets it.",
+        "options": [
+          "True",
+          "False"
+        ],
+        "correct": [
+          "False"
+        ],
+        "points": 1,
+        "explanation": "Evaluators check claims against datasheets. Use 'Partially complied' with a remark."
+      },
+      {
+        "type": "SINGLE",
+        "text": "Which item is most often forgotten in a BoM?",
+        "options": [
+          "The main switch",
+          "Licences, transceivers and support contracts",
+          "The customer's name",
+          "The proposal title"
+        ],
+        "correct": [
+          "Licences, transceivers and support contracts"
+        ],
+        "points": 1
+      },
+      {
+        "type": "SINGLE",
+        "text": "Why should the technical proposal follow the order of the RFP?",
+        "options": [
+          "It looks longer",
+          "Evaluators can find each answer quickly",
+          "It is required by law",
+          "It hides weak areas"
+        ],
+        "correct": [
+          "Evaluators can find each answer quickly"
+        ],
+        "points": 1
+      },
+      {
+        "type": "FILL_BLANK",
+        "text": "A statement such as 'the customer provides rack space and power' is called an ____ in the proposal.",
+        "options": [
+          "assumption"
+        ],
+        "correct": [],
+        "points": 1
+      }
+    ]
+  }
+}

@@ -1,0 +1,141 @@
+{
+  "slug": "networking-advanced-sd-wan-and-network-architecture",
+  "title": "Networking Advanced: SD-WAN and Network Architecture",
+  "subject": "NETWORKING",
+  "category": "TECHNICAL",
+  "level": "ADVANCED",
+  "passMarkPercent": 70,
+  "description": "SD-WAN, campus architecture, network security integration and operations. You will be able to: design an SD-WAN for multiple branches; design a resilient campus network; integrate network and security policy; plan monitoring and operations.",
+  "modules": [
+    {
+      "title": "SD-WAN design",
+      "minutes": 60
+    },
+    {
+      "title": "Campus architecture",
+      "minutes": 45
+    },
+    {
+      "title": "Network and security",
+      "minutes": 30
+    },
+    {
+      "title": "Monitoring and operations",
+      "minutes": 30
+    }
+  ],
+  "lessons": [
+    {
+      "position": 1,
+      "title": "SD-WAN design",
+      "type": "TEXT",
+      "body": "SD-WAN (software-defined WAN) connects branches over several kinds of link and steers traffic by policy from a central controller.\n\n## Key ideas\n\n- **Multiple transports:** MPLS, broadband internet, 4G/5G, used together.\n- **Overlay:** encrypted tunnels between sites run over any transport.\n- **Application-aware routing:** traffic is steered by application and link quality, for example video calls on the link with the lowest loss and jitter.\n- **Central orchestration:** policies set once and pushed to all sites.\n- **Zero-touch provisioning:** a branch device configures itself when connected.\n\n## Design steps\n\n1. List sites, users, applications and current links.\n2. Classify applications by priority and sensitivity to loss and delay.\n3. Choose at least two diverse links for important sites.\n4. Decide where internet traffic breaks out (locally, or through a central or cloud security service).\n5. Plan the hub sites and redundancy for controllers and hubs.\n\n> This module includes a lab: design the SD-WAN policies for a sample 20-branch company.",
+      "module": 1
+    },
+    {
+      "position": 2,
+      "title": "Campus architecture",
+      "type": "TEXT",
+      "body": "A campus network connects users and devices within a site or group of buildings.\n\n## Hierarchy\n\n- **Access layer:** switches that connect users, phones, access points.\n- **Distribution layer:** aggregates access switches and applies policy.\n- **Core layer:** fast, highly available backbone.\n\nSmaller sites often combine core and distribution (**collapsed core**). Data centres often use a **spine-leaf** design for predictable east-west traffic.\n\n## Resilience\n\n- Dual uplinks from access to distribution or core.\n- Redundant core switches, using stacking or multi-chassis link aggregation.\n- A first-hop redundancy protocol (such as VRRP) for default gateways.\n- A dynamic routing protocol (such as OSPF) between layers for fast reconvergence.\n- Power redundancy for core devices, and PoE budgets for access switches.",
+      "module": 2
+    },
+    {
+      "position": 3,
+      "title": "Network and security",
+      "type": "TEXT",
+      "body": "Network design and security design are now the same conversation.\n\n## Building security into the network\n\n- **Segmentation:** separate users, guests, servers, IoT and management traffic with VLANs and routing policies, so an infection cannot spread freely.\n- **Network access control (NAC):** authenticate devices and users before they get access, commonly with 802.1X, and place them in the right segment.\n- **Firewall zones:** control traffic between segments and to the internet.\n- **Secure management:** a separate management network, strong authentication, logging of changes.\n- **Zero trust principles:** never trust by network location alone; verify each user and device.\n\nAgree the security policy with the customer's security team before the design is finalised.",
+      "module": 3
+    },
+    {
+      "position": 4,
+      "title": "Monitoring and operations",
+      "type": "TEXT",
+      "body": "A network is only as good as its operations.\n\n## Monitoring\n\n- **SNMP** for device health and interface statistics.\n- **Flow data** (such as NetFlow or IPFIX) for who is using bandwidth and for what.\n- **Syslog** for events and errors, sent to a central server.\n- Alerts with clear owners and escalation.\n\n## Operations practice\n\n- Automated configuration backups, kept off the devices.\n- Change management with rollback plans.\n- Regular software updates, tested first.\n- Up-to-date diagrams and IP plans.\n- Capacity reviews of WAN and uplinks.",
+      "module": 4
+    }
+  ],
+  "assessment": {
+    "title": "Networking Advanced: completion check",
+    "level": "ADVANCED",
+    "passMarkPercent": 70,
+    "questions": [
+      {
+        "type": "SINGLE",
+        "text": "What does application-aware routing in SD-WAN do?",
+        "options": [
+          "Steers traffic by application and link quality",
+          "Blocks all applications",
+          "Uses only one link",
+          "Removes the need for security"
+        ],
+        "correct": [
+          "Steers traffic by application and link quality"
+        ],
+        "points": 1
+      },
+      {
+        "type": "MULTIPLE",
+        "text": "Which are features of SD-WAN? Select all that apply.",
+        "options": [
+          "Multiple transports used together",
+          "Central orchestration",
+          "Zero-touch provisioning",
+          "Manual configuration of every branch by hand only"
+        ],
+        "correct": [
+          "Multiple transports used together",
+          "Central orchestration",
+          "Zero-touch provisioning"
+        ],
+        "points": 2
+      },
+      {
+        "type": "MATCHING",
+        "text": "Match each campus layer to its role.",
+        "options": [
+          "Access=Connects users and devices",
+          "Distribution=Aggregates access switches and applies policy",
+          "Core=Fast, highly available backbone"
+        ],
+        "correct": [],
+        "points": 3
+      },
+      {
+        "type": "SINGLE",
+        "text": "What is network segmentation for?",
+        "options": [
+          "Limiting how far an infection or attack can spread",
+          "Making cables shorter",
+          "Increasing printer speed",
+          "Avoiding IP addresses"
+        ],
+        "correct": [
+          "Limiting how far an infection or attack can spread"
+        ],
+        "points": 1
+      },
+      {
+        "type": "FILL_BLANK",
+        "text": "A standard commonly used for network access control that authenticates devices before giving access is 802.____.",
+        "options": [
+          "1X",
+          "1x"
+        ],
+        "correct": [],
+        "points": 1
+      },
+      {
+        "type": "TRUE_FALSE",
+        "text": "Configuration backups should be stored only on the devices themselves.",
+        "options": [
+          "True",
+          "False"
+        ],
+        "correct": [
+          "False"
+        ],
+        "points": 1
+      }
+    ]
+  }
+}

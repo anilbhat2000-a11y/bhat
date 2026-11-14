@@ -51,7 +51,9 @@ type CourseFile = {
   level: "BASIC" | "INTERMEDIATE" | "ADVANCED";
   passMarkPercent: number;
   description: string;
-  lessons: { position: number; title: string; type: "TEXT"; body: string }[];
+  // Optional: modules with estimated minutes; each lesson names its module by number (1-based).
+  modules?: { title: string; minutes: number }[];
+  lessons: { position: number; title: string; type: "TEXT"; body: string; module?: number }[];
   assessment: {
     title: string;
     level: "BASIC" | "INTERMEDIATE" | "ADVANCED";
@@ -169,8 +171,13 @@ async function loadCourse(db: PrismaClient, c: CourseFile, file: string): Promis
   if (await db.course.findFirst({ where: { subjectId: subject.id, title: c.title } })) return;
 
   const parsed = { questions: toQuestionRows(c.assessment.questions, file) };
+  for (const l of c.lessons) {
+    if (l.module !== undefined && !(c.modules && l.module >= 1 && l.module <= c.modules.length)) {
+      throw new Error(`${file}: lesson "${l.title}" names module ${l.module}, which does not exist`);
+    }
+  }
 
-  await db.course.create({
+  const created = await db.course.create({
     data: {
       subjectId: subject.id,
       title: c.title,
@@ -178,7 +185,7 @@ async function loadCourse(db: PrismaClient, c: CourseFile, file: string): Promis
       level: c.level,
       status: "PUBLISHED",
       passMarkPercent: c.passMarkPercent,
-      lessons: { create: c.lessons.map((l) => ({ position: l.position, title: l.title, type: l.type, body: l.body })) },
+      modules: c.modules ? { create: c.modules.map((m, i) => ({ position: i + 1, title: m.title, estimatedMinutes: m.minutes })) } : undefined,
       assessments: {
         create: {
           subjectId: subject.id,
@@ -202,5 +209,13 @@ async function loadCourse(db: PrismaClient, c: CourseFile, file: string): Promis
         },
       },
     },
+    include: { modules: true },
+  });
+  const moduleId = new Map(created.modules.map((m) => [m.position, m.id]));
+  await db.lesson.createMany({
+    data: c.lessons.map((l) => ({
+      courseId: created.id, position: l.position, title: l.title, type: l.type, body: l.body,
+      moduleId: l.module !== undefined ? moduleId.get(l.module) ?? null : null,
+    })),
   });
 }

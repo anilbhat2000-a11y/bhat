@@ -1,0 +1,139 @@
+{
+  "slug": "compliance-advanced-contract-compliance",
+  "title": "Compliance Advanced: Contract Compliance",
+  "subject": "Compliance",
+  "category": "BUSINESS",
+  "level": "ADVANCED",
+  "passMarkPercent": 70,
+  "description": "Reading and complying with customer, OEM and vendor contracts. You will be able to: identify key clauses: liability, warranty, SLA, penalties; track contractual obligations through delivery; spot non-standard terms that need approval; keep evidence of contract compliance.",
+  "modules": [
+    {
+      "title": "Key contract clauses",
+      "minutes": 45
+    },
+    {
+      "title": "Obligation tracking",
+      "minutes": 30
+    },
+    {
+      "title": "Non-standard terms and approvals",
+      "minutes": 30
+    },
+    {
+      "title": "Company contract approval matrix",
+      "minutes": 20
+    }
+  ],
+  "lessons": [
+    {
+      "position": 1,
+      "title": "Key contract clauses",
+      "type": "TEXT",
+      "body": "Contracts with customers, OEMs and vendors define what we must deliver and what happens if we do not. Read the key clauses before signing and before delivery.\n\n## Clauses to find in every contract\n\n- **Scope:** exactly what we supply, including services. Anything outside scope is extra.\n- **Delivery and acceptance:** dates, location, and how the customer accepts the work.\n- **Warranty:** what is covered, for how long, and from when (delivery, installation or acceptance).\n- **Service levels (SLAs):** response and resolution times, uptime commitments.\n- **Penalties or liquidated damages:** amounts payable for delay or SLA failures.\n- **Liability:** caps on how much either side can be liable for.\n- **Payment terms:** milestones, retention, documents needed for payment.\n- **Termination:** when and how either side can end the contract.",
+      "module": 1
+    },
+    {
+      "position": 2,
+      "title": "Obligation tracking",
+      "type": "TEXT",
+      "body": "Signing the contract is the start. Track each obligation until it is met.\n\n## An obligation register\n\nFor each contract, list:\n\n- the obligation (for example, \"deliver 40 access points\");\n- the clause number;\n- the owner in our team;\n- the due date;\n- the evidence that it was met (POD, installation report, acceptance certificate);\n- the status.\n\n## Back-to-back\n\nOur obligations to the customer often depend on OEMs and vendors. Make sure their terms (warranty length, delivery times, SLAs) are at least as good as what we promised. If the customer gets a three-year warranty and the OEM gives one year, the gap is our risk.",
+      "module": 2
+    },
+    {
+      "position": 3,
+      "title": "Non-standard terms and approvals",
+      "type": "TEXT",
+      "body": "Some terms carry more risk than usual and need approval before we accept them.\n\n## Warning signs\n\n- **Unlimited liability,** or liability far above the contract value.\n- **Penalties without a cap,** or penalties for things outside our control.\n- **Warranties longer than the OEM's.**\n- **Acceptance** that depends only on the customer's opinion, with no objective test.\n- **Payment** tied to events we do not control.\n- **Unclear scope,** such as \"all other items required\".\n- **Intellectual property** clauses giving away rights we do not own.\n\nWhen you see these, do not agree on the spot. Refer the contract for review following the approval matrix.",
+      "module": 3
+    },
+    {
+      "position": 4,
+      "title": "Company contract approval matrix",
+      "type": "TEXT",
+      "body": "[PLACEHOLDER: The company will supply its contract approval matrix.]\n\nThis lesson will show who can approve which contracts and deviations. Until then:\n\n- Do not sign or accept any contract or PO terms beyond your authority.\n- Send non-standard terms to your manager and Finance before accepting.\n- Keep the signed contract and all amendments in the contract file.",
+      "module": 4
+    }
+  ],
+  "assessment": {
+    "title": "Compliance Advanced: completion check",
+    "level": "ADVANCED",
+    "passMarkPercent": 70,
+    "questions": [
+      {
+        "type": "MULTIPLE",
+        "text": "Which clauses should you find in every contract? Select all that apply.",
+        "options": [
+          "Scope",
+          "Warranty",
+          "Penalties or liquidated damages",
+          "The customer's office decor"
+        ],
+        "correct": [
+          "Scope",
+          "Warranty",
+          "Penalties or liquidated damages"
+        ],
+        "points": 2
+      },
+      {
+        "type": "SINGLE",
+        "text": "We promised the customer a 3-year warranty, but the OEM gives 1 year. What is the effect?",
+        "options": [
+          "The 2-year gap is our risk",
+          "The customer gets only 1 year",
+          "The OEM must extend it automatically",
+          "Nothing"
+        ],
+        "correct": [
+          "The 2-year gap is our risk"
+        ],
+        "points": 1
+      },
+      {
+        "type": "TRUE_FALSE",
+        "text": "Unlimited liability is a normal term that does not need review.",
+        "options": [
+          "True",
+          "False"
+        ],
+        "correct": [
+          "False"
+        ],
+        "points": 1
+      },
+      {
+        "type": "SINGLE",
+        "text": "What does an obligation register track?",
+        "options": [
+          "Each contractual obligation, its owner, due date and evidence",
+          "Employee leave",
+          "Stock levels",
+          "Marketing campaigns"
+        ],
+        "correct": [
+          "Each contractual obligation, its owner, due date and evidence"
+        ],
+        "points": 1
+      },
+      {
+        "type": "MATCHING",
+        "text": "Match each clause to its purpose.",
+        "options": [
+          "SLA=Response and resolution commitments",
+          "Liquidated damages=Amounts payable for delay",
+          "Acceptance=How the customer confirms the work is complete"
+        ],
+        "correct": [],
+        "points": 3
+      },
+      {
+        "type": "SHORT_ANSWER",
+        "text": "A customer PO says 'supplier to provide all other items required for a complete solution'. Explain the risk and what you would do.",
+        "options": [],
+        "correct": [],
+        "points": 4,
+        "explanation": "Model answer: the scope is open-ended, so we could be forced to supply unpriced items; do not accept as is; ask for a defined scope or a list of exclusions and refer it for approval."
+      }
+    ]
+  }
+}

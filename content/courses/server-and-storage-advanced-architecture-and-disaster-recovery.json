@@ -1,0 +1,140 @@
+{
+  "slug": "server-and-storage-advanced-architecture-and-disaster-recovery",
+  "title": "Server and Storage Advanced: Architecture and Disaster Recovery",
+  "subject": "Server and storage",
+  "category": "TECHNICAL",
+  "level": "ADVANCED",
+  "passMarkPercent": 70,
+  "description": "Designing storage architecture and disaster recovery for critical workloads. You will be able to: design tiered storage; design replication and DR sites; plan and run a DR test; plan hyper-converged and software-defined options.",
+  "modules": [
+    {
+      "title": "Storage architecture",
+      "minutes": 45
+    },
+    {
+      "title": "Replication and DR",
+      "minutes": 45
+    },
+    {
+      "title": "DR testing",
+      "minutes": 30
+    },
+    {
+      "title": "HCI and software-defined storage",
+      "minutes": 30
+    }
+  ],
+  "lessons": [
+    {
+      "position": 1,
+      "title": "Storage architecture",
+      "type": "TEXT",
+      "body": "Not all data needs the same speed or cost of storage. Tiering puts each kind of data on the right media.\n\n## Typical tiers\n\n- **Performance tier:** all-flash (NVMe or SSD) for databases and busy virtual machines.\n- **Capacity tier:** large hard drives for file shares and less active data.\n- **Archive tier:** the lowest cost per terabyte for data rarely accessed, such as object storage, tape or cloud archive.\n\n## Design points\n\n- Measure workload needs: IOPS, throughput, latency, capacity.\n- Use automated tiering or policies where the storage supports them.\n- Plan data protection per tier: snapshots, replication, backup.\n- Design controllers, paths and power for redundancy.",
+      "module": 1
+    },
+    {
+      "position": 2,
+      "title": "Replication and DR",
+      "type": "TEXT",
+      "body": "Disaster recovery protects against losing a whole site or system, not just a drive.\n\n## Replication\n\n- **Synchronous:** each write is confirmed at both sites before completing. Zero data loss, but needs short distances and low latency.\n- **Asynchronous:** writes are sent to the second site shortly after. Works over long distances; a small amount of data may be lost.\n\n## DR site options\n\n- A second company site.\n- A colocation data centre.\n- The cloud, as a DR target.\n\n## Objectives\n\nSet an **RPO** (acceptable data loss) and **RTO** (acceptable downtime) for each application with the business. They drive the replication method and the cost.\n\n## Backups still matter\n\nReplication copies mistakes and ransomware too. Keep backups following the **3-2-1 rule**: three copies, on two types of media, one off-site, with at least one copy immutable or offline.",
+      "module": 2
+    },
+    {
+      "position": 3,
+      "title": "DR testing",
+      "type": "TEXT",
+      "body": "A DR plan that has never been tested is a hope, not a plan.\n\n## Types of test\n\n- **Tabletop:** walk through the plan on paper with the team.\n- **Component test:** restore a single server or database.\n- **Failover test:** switch selected services to the DR site.\n- **Full test:** run the business from the DR site for a period.\n\n## Running a test\n\n1. Agree scope, success criteria and a rollback plan.\n2. Inform stakeholders.\n3. Follow the runbook step by step and record times.\n4. Compare achieved RPO and RTO with the targets.\n5. Fix the gaps found and update the plan.\n\nTest at least yearly, and after major changes.\n\n> This module includes a lab: run a restore test and record the achieved recovery time.",
+      "module": 3
+    },
+    {
+      "position": 4,
+      "title": "HCI and software-defined storage",
+      "type": "TEXT",
+      "body": "Newer architectures simplify infrastructure by moving storage functions into software.\n\n## Hyper-converged infrastructure (HCI)\n\nCompute, storage and virtualisation combined in standard servers (nodes). Each node contributes its local drives to a shared, software-defined storage pool. Scale by adding nodes.\n\n- **Strengths:** simple to deploy and manage, scales in steps, fewer separate systems.\n- **Considerations:** compute and storage grow together; licensing models vary; check performance for demanding workloads.\n\n## Software-defined storage (SDS)\n\nStorage software running on standard servers, providing block, file or object storage without proprietary arrays.\n\n## Choosing\n\nCompare traditional SAN, HCI and SDS on workload fit, growth pattern, skills, total cost and vendor support.",
+      "module": 4
+    }
+  ],
+  "assessment": {
+    "title": "Server and Storage Advanced: completion check",
+    "level": "ADVANCED",
+    "passMarkPercent": 70,
+    "questions": [
+      {
+        "type": "SINGLE",
+        "text": "Which tier suits a busy database?",
+        "options": [
+          "Performance tier (all-flash)",
+          "Archive tier (tape)",
+          "Capacity tier (large HDDs)",
+          "USB drives"
+        ],
+        "correct": [
+          "Performance tier (all-flash)"
+        ],
+        "points": 1
+      },
+      {
+        "type": "MATCHING",
+        "text": "Match each replication type to its property.",
+        "options": [
+          "Synchronous=Zero data loss, short distances",
+          "Asynchronous=Long distances, a little data may be lost"
+        ],
+        "correct": [],
+        "points": 2
+      },
+      {
+        "type": "SINGLE",
+        "text": "What does the 3-2-1 backup rule mean?",
+        "options": [
+          "Three copies, two media types, one off-site",
+          "Three servers, two racks, one switch",
+          "Back up three times a day",
+          "Keep backups for 321 days"
+        ],
+        "correct": [
+          "Three copies, two media types, one off-site"
+        ],
+        "points": 1
+      },
+      {
+        "type": "TRUE_FALSE",
+        "text": "Replication alone protects against ransomware because it copies data to another site.",
+        "options": [
+          "True",
+          "False"
+        ],
+        "correct": [
+          "False"
+        ],
+        "points": 1,
+        "explanation": "Replication copies the encrypted data too; immutable or offline backups are needed."
+      },
+      {
+        "type": "MULTIPLE",
+        "text": "Which are types of DR test? Select all that apply.",
+        "options": [
+          "Tabletop",
+          "Failover test",
+          "Full test",
+          "Guessing"
+        ],
+        "correct": [
+          "Tabletop",
+          "Failover test",
+          "Full test"
+        ],
+        "points": 2
+      },
+      {
+        "type": "FILL_BLANK",
+        "text": "Infrastructure that combines compute, storage and virtualisation in standard server nodes is called hyper-____ infrastructure.",
+        "options": [
+          "converged"
+        ],
+        "correct": [],
+        "points": 1
+      }
+    ]
+  }
+}

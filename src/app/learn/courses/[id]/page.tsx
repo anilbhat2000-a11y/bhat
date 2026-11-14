@@ -11,6 +11,9 @@ import { VideoLesson } from "../../../../components/VideoLesson";
 import { LocalTime } from "../../../../components/LocalTime";
 import { groupByModule, learnerCanOpen, totalMinutes } from "../../../../lib/learning/modules";
 import { threadsFor } from "../../../../lib/community/community";
+import { courseCheckFor } from "../../../../lib/learning/course-check";
+import { startCourseCheckAction } from "../../../actions/progress";
+import { LessonText } from "../../../../components/LessonText";
 import { addPostAction, setPostHiddenAction, submitFeedbackAction } from "../../../actions/community";
 
 function ModerateButton({ courseId, postId, hidden }: { courseId: string; postId: string; hidden: boolean }) {
@@ -53,9 +56,10 @@ export default async function LearnCoursePage({
   const groups = groupByModule(course.lessons, course.modules);
   const minutes = totalMinutes(course.modules);
   const finished = !!course.progress[0]?.completedAt;
-  const [threads, myFeedback] = await Promise.all([
+  const [threads, myFeedback, check] = await Promise.all([
     threadsFor(user, course.id),
     prisma.courseFeedback.findUnique({ where: { courseId_userId: { courseId: course.id, userId: user.id } } }),
+    courseCheckFor(user.id, course.id),
   ]);
 
   const completed = (course.progress[0]?.completedLessonIds as string[] | undefined) ?? [];
@@ -93,7 +97,7 @@ export default async function LearnCoursePage({
             {l.instructors.length > 0 ? (
               <p>Taught by {l.instructors.map((x) => `${x.instructor.name}${x.instructor.location ? ` (${x.instructor.location})` : ""}${x.instructor.expertise.length ? `: ${x.instructor.expertise.join(", ")}` : ""}`).join("; ")}</p>
             ) : null}
-            {l.type === "TEXT" ? <p style={{ whiteSpace: "pre-wrap" }}>{l.body}</p> : null}
+            {l.type === "TEXT" ? <LessonText body={l.body ?? ""} /> : null}
             {l.type === "LINK" ? <p><a href={l.url ?? "#"} rel="noopener noreferrer">Open link</a></p> : null}
             {l.type === "PDF" ? <p><a href={`/api/files/${l.id}`}>Open PDF</a></p> : null}
             {l.type === "LIVE_SESSION" && l.liveSession ? (
@@ -140,6 +144,28 @@ export default async function LearnCoursePage({
       })}
       </section>
       ))}
+
+      {check && !archived ? (
+        <section id="check" aria-labelledby="h-check">
+          <h2 id="h-check">Completion check</h2>
+          {check.passed ? (
+            <p role="status">You passed the completion check{check.bestScore !== null ? ` with ${check.bestScore}%` : ""}.</p>
+          ) : check.awaitingGrading ? (
+            <p role="status">Your answers are with a reviewer. Your score will appear under My assessments once they are marked.</p>
+          ) : !check.ready ? (
+            <p>Finish every lesson above to unlock the completion check. Pass mark: {check.passMarkPercent}%.</p>
+          ) : (
+            <form action={startCourseCheckAction} className="card">
+              <input type="hidden" name="courseId" value={course.id} />
+              <p>
+                {check.inProgressAttemptId ? "You have an attempt in progress." : `Pass mark ${check.passMarkPercent}%. Attempts used: ${check.attemptsUsed} of ${check.attemptsAllowed}.`}
+                {check.bestScore !== null ? ` Best score so far: ${check.bestScore}%.` : ""}
+              </p>
+              <button type="submit">{check.inProgressAttemptId ? "Continue the completion check" : "Take the completion check"}</button>
+            </form>
+          )}
+        </section>
+      ) : null}
 
       {finished ? (
         <section id="feedback" aria-labelledby="h-feedback">

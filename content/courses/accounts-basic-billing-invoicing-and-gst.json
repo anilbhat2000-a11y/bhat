@@ -1,0 +1,140 @@
+{
+  "slug": "accounts-basic-billing-invoicing-and-gst",
+  "title": "Accounts Basic: Billing, Invoicing and GST",
+  "subject": "Accounts",
+  "category": "BUSINESS",
+  "level": "BASIC",
+  "passMarkPercent": 70,
+  "description": "Raising correct invoices and the GST basics every IT sale touches. You will be able to: raise an invoice with all mandatory fields; explain CGST, SGST and IGST and when each applies; use HSN and SAC codes correctly; know when an e-invoice and e-way bill are needed.",
+  "modules": [
+    {
+      "title": "Invoices and mandatory fields",
+      "minutes": 30
+    },
+    {
+      "title": "GST basics",
+      "minutes": 45
+    },
+    {
+      "title": "HSN and SAC codes",
+      "minutes": 20
+    },
+    {
+      "title": "E-invoice and e-way bill",
+      "minutes": 30
+    }
+  ],
+  "lessons": [
+    {
+      "position": 1,
+      "title": "Invoices and mandatory fields",
+      "type": "TEXT",
+      "body": "An invoice is both a request for payment and a tax document. An incorrect invoice can delay payment and can deny the customer their GST input tax credit.\n\n## Fields on a GST tax invoice\n\n- Supplier's name, address and GSTIN.\n- A unique, consecutive invoice number and the invoice date.\n- Customer's name, address and GSTIN (for registered customers).\n- Place of supply.\n- Description of goods or services, with HSN or SAC code.\n- Quantity, unit and taxable value.\n- GST rate and tax amount, shown as CGST and SGST, or IGST.\n- Total invoice value.\n- Signature (or digital signature) of the supplier.\n\n## Before an invoice goes out\n\n- Match it to the customer's PO: items, quantities, prices, PO number.\n- Check the customer's GSTIN and billing address.\n- Attach the documents the customer asks for (delivery proof, installation report).",
+      "module": 1
+    },
+    {
+      "position": 2,
+      "title": "GST basics",
+      "type": "TEXT",
+      "body": "GST (Goods and Services Tax) is charged on most supplies in India. Which type of GST applies depends on where the supply is made.\n\n## Three components\n\n- **CGST** (Central GST) and **SGST** (State GST): both charged, in equal halves, when the supplier and the place of supply are in the **same state**.\n- **IGST** (Integrated GST): charged when the supply is **between states** (or an import).\n\nExample: a supplier in Maharashtra sells to a customer in Maharashtra: CGST plus SGST. To a customer in Karnataka: IGST.\n\n## Input tax credit\n\nA registered business can usually reduce the GST it pays by the GST it was charged on its purchases. This only works if the supplier's invoice is correct and the supplier files its returns. That is why our own invoices must be accurate: our customers depend on them.\n\n> GST rates and rules change through official notifications. Always confirm the current rate for a product with the Accounts team.",
+      "module": 2
+    },
+    {
+      "position": 3,
+      "title": "HSN and SAC codes",
+      "type": "TEXT",
+      "body": "Every item on a GST invoice carries a classification code.\n\n- **HSN** (Harmonised System of Nomenclature) codes classify **goods**, such as servers, switches and cables.\n- **SAC** (Services Accounting Code) codes classify **services**, such as installation, maintenance and support.\n\n## Why codes matter\n\n- The GST rate depends on the code.\n- A wrong code can mean the wrong tax, interest and penalties.\n- Customers and auditors check them.\n\n## In practice\n\n- Use the codes maintained by Accounts for each product family; do not guess.\n- When a quote combines goods and services, show them as separate lines with their own codes.\n- Ask Accounts before using a code for a new type of product or service.",
+      "module": 3
+    },
+    {
+      "position": 4,
+      "title": "E-invoice and e-way bill",
+      "type": "TEXT",
+      "body": "Two electronic documents are linked to invoicing and moving goods.\n\n## E-invoice\n\nBusinesses above a turnover limit set by the government must report B2B invoices to the Invoice Registration Portal (IRP). The portal returns an **IRN** (invoice reference number) and a **QR code** that must appear on the invoice. An invoice that must be an e-invoice but is not reported is not valid for the customer's input tax credit. The turnover limit has been lowered several times; confirm the current rule with Accounts.\n\n## E-way bill\n\nAn e-way bill is generated on the GST portal before goods above a set value are moved, for example from our warehouse to a customer site. It records the consignor, consignee, goods, value and vehicle. The vehicle carries it during transport. The value limit and validity rules are set by notification; Accounts and Logistics keep the current figures.\n\n> Raising these documents with wrong details is as serious as raising a wrong invoice. If in doubt, ask before generating.",
+      "module": 4
+    }
+  ],
+  "assessment": {
+    "title": "Accounts Basic: completion check",
+    "level": "BASIC",
+    "passMarkPercent": 70,
+    "questions": [
+      {
+        "type": "MULTIPLE",
+        "text": "Which must appear on a GST tax invoice? Select all that apply.",
+        "options": [
+          "Supplier's GSTIN",
+          "HSN or SAC code",
+          "Place of supply",
+          "The salesperson's mobile number"
+        ],
+        "correct": [
+          "Supplier's GSTIN",
+          "HSN or SAC code",
+          "Place of supply"
+        ],
+        "points": 2
+      },
+      {
+        "type": "SINGLE",
+        "text": "A Maharashtra supplier sells to a customer in Karnataka. Which GST applies?",
+        "options": [
+          "CGST and SGST",
+          "IGST",
+          "No GST",
+          "Only SGST"
+        ],
+        "correct": [
+          "IGST"
+        ],
+        "points": 1
+      },
+      {
+        "type": "SINGLE",
+        "text": "A Maharashtra supplier sells to a customer in Maharashtra. Which GST applies?",
+        "options": [
+          "CGST and SGST",
+          "IGST",
+          "Customs duty",
+          "Only CGST"
+        ],
+        "correct": [
+          "CGST and SGST"
+        ],
+        "points": 1
+      },
+      {
+        "type": "MATCHING",
+        "text": "Match each code to what it classifies.",
+        "options": [
+          "HSN=Goods",
+          "SAC=Services"
+        ],
+        "correct": [],
+        "points": 2
+      },
+      {
+        "type": "TRUE_FALSE",
+        "text": "A customer may lose input tax credit if our invoice is incorrect.",
+        "options": [
+          "True",
+          "False"
+        ],
+        "correct": [
+          "True"
+        ],
+        "points": 1
+      },
+      {
+        "type": "FILL_BLANK",
+        "text": "The reference number returned by the Invoice Registration Portal for an e-invoice is the ____.",
+        "options": [
+          "IRN",
+          "invoice reference number"
+        ],
+        "correct": [],
+        "points": 1
+      }
+    ]
+  }
+}

@@ -1,0 +1,139 @@
+{
+  "slug": "cloud-advanced-hybrid-architecture-and-operations",
+  "title": "Cloud Advanced: Hybrid Architecture and Operations",
+  "subject": "CLOUD SOLUTIONS",
+  "category": "TECHNICAL",
+  "level": "ADVANCED",
+  "passMarkPercent": 70,
+  "description": "Designing hybrid cloud, governance and managed cloud services. You will be able to: design a hybrid architecture with connectivity; plan governance, tagging and policy; design backup and DR in the cloud; define a managed cloud service.",
+  "modules": [
+    {
+      "title": "Hybrid design",
+      "minutes": 60
+    },
+    {
+      "title": "Governance",
+      "minutes": 30
+    },
+    {
+      "title": "Cloud backup and DR",
+      "minutes": 45
+    },
+    {
+      "title": "Managed cloud services",
+      "minutes": 30
+    }
+  ],
+  "lessons": [
+    {
+      "position": 1,
+      "title": "Hybrid design",
+      "type": "TEXT",
+      "body": "Hybrid cloud combines on-premise infrastructure with one or more public clouds, connected and managed as one.\n\n## Why hybrid\n\n- Some workloads must stay on-premise (latency, data residency, legacy systems).\n- Others benefit from cloud scale and services.\n- Disaster recovery to the cloud avoids a second data centre.\n\n## Connectivity\n\n- **Site-to-site VPN** over the internet: quick and low-cost.\n- **Dedicated private connections** offered by cloud providers: predictable performance for heavy or critical traffic.\n- Plan IP addressing so on-premise and cloud ranges do not overlap.\n\n## Identity and management\n\nUse one identity system across both, and consistent monitoring, security policies and automation, so hybrid does not become two separate worlds.",
+      "module": 1
+    },
+    {
+      "position": 2,
+      "title": "Governance",
+      "type": "TEXT",
+      "body": "Without governance, cloud environments become expensive and insecure quickly.\n\n## A landing zone\n\nBefore workloads move, set up a foundation: account or subscription structure, networking, identity, logging and security baselines.\n\n## Policies\n\n- **Tagging:** every resource tagged with owner, project and environment, so costs can be allocated.\n- **Guardrails:** policies that block risky settings, such as public storage or unapproved regions.\n- **Least privilege:** roles with only the permissions needed.\n- **Budgets and alerts** for each project.\n\n## Cost management\n\nReview costs monthly: right-size instances, remove idle resources, use reserved capacity for steady workloads, and schedule non-production systems to switch off out of hours.",
+      "module": 2
+    },
+    {
+      "position": 3,
+      "title": "Cloud backup and DR",
+      "type": "TEXT",
+      "body": "Cloud makes backup and disaster recovery (DR) more affordable, but it must be designed.\n\n## Definitions\n\n- **RPO (recovery point objective):** how much data loss is acceptable, measured in time.\n- **RTO (recovery time objective):** how quickly service must be restored.\n\n## Patterns\n\n- **Backup to cloud:** low cost; slower restore.\n- **Pilot light:** core systems replicated and ready; others started when needed.\n- **Warm standby:** a smaller copy running, scaled up in a disaster.\n- **Active-active:** full capacity in two places; highest cost and fastest recovery.\n\n## Protect the backups\n\nUse immutable or separately secured backup copies, so ransomware that reaches production cannot delete them. Test restores regularly.\n\n> This module includes a lab: design DR for a sample application to meet a given RPO and RTO.",
+      "module": 3
+    },
+    {
+      "position": 4,
+      "title": "Managed cloud services",
+      "type": "TEXT",
+      "body": "Managed cloud services mean we operate the customer's cloud environment for them.\n\n## Typical scope\n\n- Monitoring and incident response, around the clock.\n- Patching, backup and DR management.\n- Security baseline enforcement and reviews.\n- Cost optimisation reports and actions.\n- Change requests within agreed limits.\n\n## Agree clearly\n\n- Which accounts, subscriptions and workloads are covered.\n- Responsibilities versus the cloud provider's shared responsibility model.\n- Service levels and reporting.\n- Pricing: per resource, per workload, or a percentage of cloud spend.",
+      "module": 4
+    }
+  ],
+  "assessment": {
+    "title": "Cloud Advanced: completion check",
+    "level": "ADVANCED",
+    "passMarkPercent": 70,
+    "questions": [
+      {
+        "type": "SINGLE",
+        "text": "Why should on-premise and cloud IP ranges not overlap?",
+        "options": [
+          "Overlapping ranges cannot be routed between each other cleanly",
+          "To reduce cost",
+          "Because GST requires it",
+          "It does not matter"
+        ],
+        "correct": [
+          "Overlapping ranges cannot be routed between each other cleanly"
+        ],
+        "points": 1
+      },
+      {
+        "type": "MATCHING",
+        "text": "Match each term to its meaning.",
+        "options": [
+          "RPO=How much data loss is acceptable",
+          "RTO=How quickly service must be restored"
+        ],
+        "correct": [],
+        "points": 2
+      },
+      {
+        "type": "SINGLE",
+        "text": "Which DR pattern has full capacity running in two places?",
+        "options": [
+          "Active-active",
+          "Backup to cloud",
+          "Pilot light",
+          "Warm standby"
+        ],
+        "correct": [
+          "Active-active"
+        ],
+        "points": 1
+      },
+      {
+        "type": "MULTIPLE",
+        "text": "Which are good cloud governance practices? Select all that apply.",
+        "options": [
+          "Tag resources with owner and project",
+          "Guardrails that block public storage",
+          "Budgets and alerts per project",
+          "Giving everyone administrator rights"
+        ],
+        "correct": [
+          "Tag resources with owner and project",
+          "Guardrails that block public storage",
+          "Budgets and alerts per project"
+        ],
+        "points": 2
+      },
+      {
+        "type": "TRUE_FALSE",
+        "text": "Backups should be protected so that ransomware reaching production cannot delete them.",
+        "options": [
+          "True",
+          "False"
+        ],
+        "correct": [
+          "True"
+        ],
+        "points": 1
+      },
+      {
+        "type": "FILL_BLANK",
+        "text": "The foundation of accounts, networking, identity and security set up before workloads move to cloud is called a landing ____.",
+        "options": [
+          "zone"
+        ],
+        "correct": [],
+        "points": 1
+      }
+    ]
+  }
+}

@@ -1,0 +1,139 @@
+{
+  "slug": "print-solutions-advanced-managed-print-services",
+  "title": "Print Solutions Advanced: Managed Print Services",
+  "subject": "PRINT SOLUTIONS",
+  "category": "TECHNICAL",
+  "level": "ADVANCED",
+  "passMarkPercent": 70,
+  "description": "Designing, pricing and running a managed print service. You will be able to: define MPS scope and SLAs; build an MPS commercial model [PLACEHOLDER: company pricing rules]; plan monitoring and automatic supplies; report service performance.",
+  "modules": [
+    {
+      "title": "MPS scope and SLAs",
+      "minutes": 45
+    },
+    {
+      "title": "Commercial models",
+      "minutes": 45
+    },
+    {
+      "title": "Monitoring and auto-supply",
+      "minutes": 30
+    },
+    {
+      "title": "Service reporting",
+      "minutes": 20
+    }
+  ],
+  "lessons": [
+    {
+      "position": 1,
+      "title": "MPS scope and SLAs",
+      "type": "TEXT",
+      "body": "Managed print services (MPS) mean we take responsibility for the customer's printing: devices, supplies, service and reporting, for a predictable charge.\n\n## Define the scope\n\n- Which devices and locations are covered, including existing devices taken over.\n- What is included: consumables (often everything except paper), service, parts, monitoring, help desk.\n- What is excluded: paper, user errors, damage, specialist devices.\n\n## Service levels\n\n- Response time and fix time for breakdowns, by location.\n- Consumables delivered before they run out.\n- Device uptime targets.\n- Regular service reviews.\n\nClear scope and service levels avoid disputes during the contract.",
+      "module": 1
+    },
+    {
+      "position": 2,
+      "title": "Commercial models",
+      "type": "TEXT",
+      "body": "MPS can be priced in several ways.\n\n## Common models\n\n- **Cost per page (click charge):** a rate per mono page and a higher rate per colour page, billed from meter readings.\n- **Fixed fee plus pages:** a monthly fee covering devices and a page allowance, with an overage rate.\n- **Minimum volume commitment:** the customer pays for at least a set number of pages.\n\n## Pricing carefully\n\n- Build the rate from real costs: device finance, consumables at expected coverage, service visits, monitoring, margin.\n- Check volume assumptions against the fleet assessment.\n- State what happens if volumes rise or fall significantly.\n\n[PLACEHOLDER: the company's pricing rules, margin targets and approval levels for MPS deals.]",
+      "module": 2
+    },
+    {
+      "position": 3,
+      "title": "Monitoring and auto-supply",
+      "type": "TEXT",
+      "body": "Good MPS runs on data from the devices.\n\n## Monitoring\n\n- Software collects meter readings, toner levels and error alerts automatically from every device.\n- Meter readings feed billing directly, removing manual reads and disputes.\n- Error alerts let the service team respond before users call.\n\n## Automatic supplies\n\n- Toner is shipped when the level falls below a threshold, timed to arrive before it runs out.\n- Track toner yield against expected coverage; very low yields can indicate a fault or waste.\n\n> Agree with the customer's IT team how the monitoring software connects to devices, and what data leaves their network.",
+      "module": 3
+    },
+    {
+      "position": 4,
+      "title": "Service reporting",
+      "type": "TEXT",
+      "body": "Regular reporting shows the customer the value of the service and spots improvements.\n\n## A monthly or quarterly report\n\n- Total pages, mono and colour, by device and department.\n- Cost against the baseline from the original assessment.\n- Service performance: tickets, response and fix times, against SLAs.\n- Device uptime and problem devices.\n- Recommendations: move, replace or remove devices; adjust policies.\n\n## The review meeting\n\nWalk through the report with the customer, agree actions, and record them. Customers who see continuous improvement renew.",
+      "module": 4
+    }
+  ],
+  "assessment": {
+    "title": "Print Solutions Advanced: completion check",
+    "level": "ADVANCED",
+    "passMarkPercent": 70,
+    "questions": [
+      {
+        "type": "SINGLE",
+        "text": "What is typically excluded from MPS consumables?",
+        "options": [
+          "Paper",
+          "Toner",
+          "Drums",
+          "Service parts"
+        ],
+        "correct": [
+          "Paper"
+        ],
+        "points": 1
+      },
+      {
+        "type": "MATCHING",
+        "text": "Match each MPS pricing model to its description.",
+        "options": [
+          "Cost per page=A rate per mono page and a higher rate per colour page",
+          "Fixed fee plus pages=A monthly fee with a page allowance and overage rate",
+          "Minimum volume commitment=Customer pays for at least a set number of pages"
+        ],
+        "correct": [],
+        "points": 3
+      },
+      {
+        "type": "TRUE_FALSE",
+        "text": "Automatic meter readings can feed billing directly and reduce disputes.",
+        "options": [
+          "True",
+          "False"
+        ],
+        "correct": [
+          "True"
+        ],
+        "points": 1
+      },
+      {
+        "type": "SINGLE",
+        "text": "Why track toner yield against expected coverage?",
+        "options": [
+          "Very low yields can indicate a fault or waste",
+          "To make toner cheaper",
+          "Because GST requires it",
+          "It has no purpose"
+        ],
+        "correct": [
+          "Very low yields can indicate a fault or waste"
+        ],
+        "points": 1
+      },
+      {
+        "type": "MULTIPLE",
+        "text": "What belongs in an MPS service report? Select all that apply.",
+        "options": [
+          "Pages by device and department",
+          "Cost against baseline",
+          "Service performance against SLAs",
+          "The account manager's lunch preferences"
+        ],
+        "correct": [
+          "Pages by device and department",
+          "Cost against baseline",
+          "Service performance against SLAs"
+        ],
+        "points": 2
+      },
+      {
+        "type": "SHORT_ANSWER",
+        "text": "A customer's print volume falls by 40% after a move to digital workflows. Explain how this affects an MPS contract and what you would discuss.",
+        "options": [],
+        "correct": [],
+        "points": 4,
+        "explanation": "Model answer: revenue under cost-per-page falls and a minimum commitment may apply; review the fleet (remove or consolidate devices), revisit the volume assumptions and pricing, and agree a revised plan in the service review."
+      }
+    ]
+  }
+}

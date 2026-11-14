@@ -1,0 +1,143 @@
+{
+  "slug": "accounts-intermediate-receivables-payables-and-reconciliation",
+  "title": "Accounts Intermediate: Receivables, Payables and Reconciliation",
+  "subject": "Accounts",
+  "category": "BUSINESS",
+  "level": "INTERMEDIATE",
+  "passMarkPercent": 70,
+  "description": "Managing collections and payments, and reconciling accounts. You will be able to: run an ageing report and follow up overdue receivables; schedule payables against terms; reconcile bank and ledger balances; handle credit notes and debit notes.",
+  "modules": [
+    {
+      "title": "Receivables and collections",
+      "minutes": 45
+    },
+    {
+      "title": "Payables",
+      "minutes": 30
+    },
+    {
+      "title": "Bank and ledger reconciliation",
+      "minutes": 45
+    },
+    {
+      "title": "Credit and debit notes",
+      "minutes": 30
+    }
+  ],
+  "lessons": [
+    {
+      "position": 1,
+      "title": "Receivables and collections",
+      "type": "TEXT",
+      "body": "Receivables are amounts customers owe us. Unpaid invoices tie up cash that the company needs to pay vendors and salaries.\n\n## The ageing report\n\nAn ageing report groups unpaid invoices by how long they are overdue: not yet due, 1 to 30 days, 31 to 60, 61 to 90, and over 90 days. The older the debt, the harder it is to collect.\n\n## A collection routine\n\n1. Before the due date: confirm the customer has the invoice and all supporting documents.\n2. On the due date: a polite reminder with a copy of the invoice.\n3. After the due date: a call to the accounts contact; find out what is blocking payment.\n4. Escalate: involve the account manager, then senior management, following company policy.\n\n## Common blockers\n\n- Missing delivery proof or installation sign-off.\n- Invoice not matching the customer's PO.\n- GSTIN or address errors.\n- Partial delivery disputes.\n\nFix the blocker; a reminder alone does not.",
+      "module": 1
+    },
+    {
+      "position": 2,
+      "title": "Payables",
+      "type": "TEXT",
+      "body": "Payables are amounts we owe vendors. Paying too early hurts our cash; paying late hurts our relationships and can stop supplies.\n\n## Managing payables\n\n- Record each approved invoice with its due date from the payment terms.\n- Plan payments weekly against cash available.\n- Pay only invoices that pass three-way matching (PO, GRN and invoice).\n- Take early-payment discounts only when they are worth more than the cash cost.\n\n## Controls\n\n- Separate duties: the person who approves an invoice should not be the one who releases payment.\n- Verify any change in vendor bank details independently.\n- Keep a record of every payment against its invoice.",
+      "module": 2
+    },
+    {
+      "position": 3,
+      "title": "Bank and ledger reconciliation",
+      "type": "TEXT",
+      "body": "Reconciliation proves that two records agree, and finds errors early.\n\n## Bank reconciliation\n\nCompare the company's cash book with the bank statement for the same period. Differences usually come from:\n\n- cheques issued but not yet presented;\n- deposits recorded but not yet credited by the bank;\n- bank charges and interest not yet recorded;\n- errors in either record.\n\nList each difference and explain it. Unexplained differences must be investigated.\n\n## Ledger reconciliations\n\n- **Customer accounts:** match our ledger with the customer's statement.\n- **Vendor accounts:** match our ledger with the vendor's statement.\n- **GST:** match tax on our books with the returns and with what suppliers have reported.\n\nDo reconciliations every month, not only at year end.\n\n> This module includes a practice lab: reconcile a sample cash book with a bank statement.",
+      "module": 3
+    },
+    {
+      "position": 4,
+      "title": "Credit and debit notes",
+      "type": "TEXT",
+      "body": "Not every invoice is final. Credit and debit notes adjust invoices that have already been issued.\n\n## Credit note\n\nIssued by the supplier to reduce the amount owed, for example when:\n\n- goods are returned;\n- the price was charged too high;\n- a discount is given after invoicing.\n\n## Debit note\n\nIssued to increase the amount owed, for example when the price was charged too low or extra quantity was supplied.\n\n## Rules of thumb\n\n- Always reference the original invoice.\n- Show the GST adjustment correctly.\n- GST law sets time limits for issuing credit notes that adjust tax; check with Accounts before issuing one for an old invoice.\n- Never \"fix\" an invoice by editing or deleting it after it has been issued.",
+      "module": 4
+    }
+  ],
+  "assessment": {
+    "title": "Accounts Intermediate: completion check",
+    "level": "INTERMEDIATE",
+    "passMarkPercent": 70,
+    "questions": [
+      {
+        "type": "SINGLE",
+        "text": "What does an ageing report show?",
+        "options": [
+          "Unpaid invoices grouped by how long they are overdue",
+          "Employee ages",
+          "Stock expiry dates",
+          "Vendor ratings"
+        ],
+        "correct": [
+          "Unpaid invoices grouped by how long they are overdue"
+        ],
+        "points": 1
+      },
+      {
+        "type": "SINGLE",
+        "text": "A customer has not paid because the installation sign-off is missing. What should you do?",
+        "options": [
+          "Send more reminders",
+          "Get the sign-off to the customer",
+          "Write off the invoice",
+          "Stop supplying all customers"
+        ],
+        "correct": [
+          "Get the sign-off to the customer"
+        ],
+        "points": 1
+      },
+      {
+        "type": "TRUE_FALSE",
+        "text": "The person who approves a vendor invoice should also be the person who releases its payment.",
+        "options": [
+          "True",
+          "False"
+        ],
+        "correct": [
+          "False"
+        ],
+        "points": 1,
+        "explanation": "Separating these duties reduces the risk of fraud and error."
+      },
+      {
+        "type": "MULTIPLE",
+        "text": "Which commonly cause differences in a bank reconciliation? Select all that apply.",
+        "options": [
+          "Cheques issued but not yet presented",
+          "Bank charges not yet recorded",
+          "Deposits not yet credited",
+          "The office being closed on Sunday"
+        ],
+        "correct": [
+          "Cheques issued but not yet presented",
+          "Bank charges not yet recorded",
+          "Deposits not yet credited"
+        ],
+        "points": 2
+      },
+      {
+        "type": "MATCHING",
+        "text": "Match each note to when it is used.",
+        "options": [
+          "Credit note=Reduce the amount owed, e.g. goods returned",
+          "Debit note=Increase the amount owed, e.g. price charged too low"
+        ],
+        "correct": [],
+        "points": 2
+      },
+      {
+        "type": "TRUE_FALSE",
+        "text": "An issued invoice with an error should be corrected by editing it in place.",
+        "options": [
+          "True",
+          "False"
+        ],
+        "correct": [
+          "False"
+        ],
+        "points": 1
+      }
+    ]
+  }
+}

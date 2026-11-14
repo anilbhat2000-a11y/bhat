@@ -1,0 +1,143 @@
+{
+  "slug": "purchase-basic-the-procurement-process",
+  "title": "Purchase Basic: The Procurement Process",
+  "subject": "Purchase",
+  "category": "BUSINESS",
+  "level": "BASIC",
+  "passMarkPercent": 70,
+  "description": "How a customer order becomes a purchase order, and the documents involved. You will be able to: describe the procure-to-pay cycle; raise a purchase order with the required details; match PO, goods receipt and invoice (three-way match); follow [PLACEHOLDER] company purchase approval levels.",
+  "modules": [
+    {
+      "title": "Procure-to-pay overview",
+      "minutes": 30
+    },
+    {
+      "title": "Raising a PO",
+      "minutes": 30
+    },
+    {
+      "title": "Three-way match",
+      "minutes": 30
+    },
+    {
+      "title": "Company purchase policy",
+      "minutes": 20
+    }
+  ],
+  "lessons": [
+    {
+      "position": 1,
+      "title": "Procure-to-pay overview",
+      "type": "TEXT",
+      "body": "Procure-to-pay (P2P) is the chain of steps from needing something to paying for it. In an IT solutions company, most purchases are made against a customer order, so mistakes affect delivery dates and margins directly.\n\n## The steps\n\n1. **Requirement:** sales or projects confirm what is needed (usually from the customer order and BoM).\n2. **Sourcing:** quotes from the OEM's authorised distributors or vendors.\n3. **Approval:** the purchase is approved at the right level.\n4. **Purchase order (PO):** a formal order sent to the vendor.\n5. **Order follow-up:** confirm price, quantity and delivery date.\n6. **Goods receipt:** goods are received and checked.\n7. **Invoice:** the vendor's invoice is checked.\n8. **Payment:** paid as per the agreed terms.\n\n> Buying before a customer order is confirmed (stock purchase) carries risk and usually needs extra approval.",
+      "module": 1
+    },
+    {
+      "position": 2,
+      "title": "Raising a PO",
+      "type": "TEXT",
+      "body": "A purchase order is a legal document. Once the vendor accepts it, both sides are bound by its terms.\n\n## What a PO must contain\n\n- PO number and date.\n- Vendor name, address and GSTIN.\n- Our billing and delivery addresses, and GSTIN.\n- Item description, part number, quantity, unit price and tax.\n- Delivery date and place.\n- Payment terms (for example, 30 days from invoice).\n- Reference to the customer order or project, for tracking.\n- Any special terms: warranty start, installation, packing.\n\n## Common errors\n\n- Wrong or old part numbers.\n- Delivery address left as head office instead of the customer site.\n- Missing licence or support duration.\n- Price not matching the vendor's quote or the approved cost sheet.\n\nCheck the PO against the BoM and the quote before sending.",
+      "module": 2
+    },
+    {
+      "position": 3,
+      "title": "Three-way match",
+      "type": "TEXT",
+      "body": "Three-way matching protects the company from paying for goods it did not receive or at a price it did not agree.\n\n## The three documents\n\n1. **Purchase order:** what we ordered and at what price.\n2. **Goods receipt note (GRN):** what we actually received, recorded when goods arrive.\n3. **Vendor invoice:** what the vendor is charging.\n\nThe invoice is approved for payment only when quantity and price agree across all three.\n\n## When they do not match\n\n- **Short supply:** pay only for what was received; ask for the balance or a credit note.\n- **Price difference:** do not pay until the vendor corrects the invoice or an approved PO amendment exists.\n- **Wrong item:** reject and return; do not record it as received.\n\nRecord every mismatch and how it was resolved.",
+      "module": 3
+    },
+    {
+      "position": 4,
+      "title": "Company purchase policy",
+      "type": "TEXT",
+      "body": "[PLACEHOLDER: The company will supply its purchase policy and approval levels.]\n\nThis lesson will cover the company's own rules. Ask Purchase or Finance for:\n\n- who can approve purchases of different values;\n- when more than one quote is required;\n- which vendors are on the approved list, and how a new vendor is added;\n- rules for stock purchases and advances to vendors.\n\nUntil then, never commit to a vendor verbally, and never split one purchase into smaller orders to avoid an approval level.",
+      "module": 4
+    }
+  ],
+  "assessment": {
+    "title": "Purchase Basic: completion check",
+    "level": "BASIC",
+    "passMarkPercent": 70,
+    "questions": [
+      {
+        "type": "SINGLE",
+        "text": "What does 'procure-to-pay' describe?",
+        "options": [
+          "The steps from needing something to paying for it",
+          "The sales pipeline",
+          "The payroll process",
+          "A type of discount"
+        ],
+        "correct": [
+          "The steps from needing something to paying for it"
+        ],
+        "points": 1
+      },
+      {
+        "type": "MATCHING",
+        "text": "Match each document to its purpose in three-way matching.",
+        "options": [
+          "Purchase order=What we ordered and at what price",
+          "Goods receipt note=What we actually received",
+          "Vendor invoice=What the vendor is charging"
+        ],
+        "correct": [],
+        "points": 2
+      },
+      {
+        "type": "TRUE_FALSE",
+        "text": "A PO becomes binding on both sides once the vendor accepts it.",
+        "options": [
+          "True",
+          "False"
+        ],
+        "correct": [
+          "True"
+        ],
+        "points": 1
+      },
+      {
+        "type": "MULTIPLE",
+        "text": "Which must a PO include? Select all that apply.",
+        "options": [
+          "Part number, quantity and price",
+          "Delivery address and date",
+          "Payment terms",
+          "The customer's personal phone number"
+        ],
+        "correct": [
+          "Part number, quantity and price",
+          "Delivery address and date",
+          "Payment terms"
+        ],
+        "points": 2
+      },
+      {
+        "type": "SINGLE",
+        "text": "The vendor invoices for 10 units but only 8 were received. What should happen?",
+        "options": [
+          "Pay for 10 to keep the vendor happy",
+          "Pay for 8 and ask for the balance or a credit note",
+          "Pay nothing ever",
+          "Record 10 as received"
+        ],
+        "correct": [
+          "Pay for 8 and ask for the balance or a credit note"
+        ],
+        "points": 1
+      },
+      {
+        "type": "TRUE_FALSE",
+        "text": "Splitting one purchase into smaller orders to avoid an approval level is acceptable if delivery is urgent.",
+        "options": [
+          "True",
+          "False"
+        ],
+        "correct": [
+          "False"
+        ],
+        "points": 1
+      }
+    ]
+  }
+}

@@ -1,0 +1,145 @@
+{
+  "slug": "print-solutions-intermediate-print-fleet-assessment",
+  "title": "Print Solutions Intermediate: Print Fleet Assessment",
+  "subject": "PRINT SOLUTIONS",
+  "category": "TECHNICAL",
+  "level": "INTERMEDIATE",
+  "passMarkPercent": 70,
+  "description": "Assessing an existing print fleet and proposing a better one. You will be able to: run a print fleet assessment; calculate current print cost; propose a right-sized fleet; plan secure printing and access control.",
+  "modules": [
+    {
+      "title": "Fleet assessment",
+      "minutes": 45
+    },
+    {
+      "title": "Cost analysis",
+      "minutes": 30
+    },
+    {
+      "title": "Right-sizing",
+      "minutes": 30
+    },
+    {
+      "title": "Secure printing",
+      "minutes": 30
+    }
+  ],
+  "lessons": [
+    {
+      "position": 1,
+      "title": "Fleet assessment",
+      "type": "TEXT",
+      "body": "A print fleet assessment shows what a customer has, how it is used and what it costs, before proposing changes.\n\n## Collect data\n\n- **Inventory:** every printer, copier and MFP: model, age, location, connection.\n- **Volumes:** monthly pages per device, mono and colour, from meter reads or monitoring software.\n- **Users:** how many people use each device.\n- **Costs:** consumables, service contracts, paper, and staff time spent on printer issues.\n- **Pain points:** breakdowns, slow devices, security concerns.\n\n## Methods\n\n- Install monitoring software for a few weeks to collect accurate volumes.\n- Walk the site to find local desktop printers that are not on the network.\n- Interview a sample of users and the IT team.\n\n> This module includes a lab: build a fleet inventory and volume table for a sample office.",
+      "module": 1
+    },
+    {
+      "position": 2,
+      "title": "Cost analysis",
+      "type": "TEXT",
+      "body": "Most customers underestimate what printing costs them.\n\n## Cost per page\n\nCost per page = (consumables + service + device cost spread over its life + power) ÷ pages printed.\n\nExample: a printer costs ₹3,000 a month in toner, ₹1,000 in service, and ₹1,000 a month in depreciation, and prints 10,000 pages: ₹5,000 ÷ 10,000 = ₹0.50 per page.\n\n## What drives cost up\n\n- Many small desktop printers with expensive cartridges.\n- Colour printing where mono would do.\n- Old devices with high service costs.\n- No control over who prints what.\n\nPresent current costs per device and in total; it becomes the baseline for the savings in your proposal.",
+      "module": 2
+    },
+    {
+      "position": 3,
+      "title": "Right-sizing",
+      "type": "TEXT",
+      "body": "Right-sizing means having the right devices, in the right places, for the real volumes.\n\n## Principles\n\n- **Consolidate** many small printers into fewer shared MFPs where users are close together.\n- **Match duty cycle to volume:** a device's recommended monthly volume should comfortably cover its actual use.\n- **Ratio of users to devices:** shared MFPs commonly serve a team or a floor section; balance convenience against cost.\n- **Keep specialist devices** where needed (labels, wide format, secure areas).\n- **Default to mono and duplex** printing.\n\n## The proposal\n\nShow the current state, the future state, the cost difference and the implementation plan, including how users will be trained.",
+      "module": 3
+    },
+    {
+      "position": 4,
+      "title": "Secure printing",
+      "type": "TEXT",
+      "body": "Printed documents and printers themselves are security risks.\n\n## Common risks\n\n- Confidential documents left in output trays.\n- Devices storing copies of scanned or printed documents on internal drives.\n- Default administrator passwords and open management ports.\n- Scan-to-email used to send data outside the company.\n\n## Controls\n\n- **Secure print release (pull printing):** jobs are held until the user authenticates at the device with a card or PIN.\n- **Device hardening:** change default passwords, disable unused protocols, keep firmware current.\n- **Encryption** of stored data, and secure wiping when devices are removed.\n- **Audit logs** of who printed, copied or scanned what.",
+      "module": 4
+    }
+  ],
+  "assessment": {
+    "title": "Print Solutions Intermediate: completion check",
+    "level": "INTERMEDIATE",
+    "passMarkPercent": 70,
+    "questions": [
+      {
+        "type": "MULTIPLE",
+        "text": "What should a print fleet assessment collect? Select all that apply.",
+        "options": [
+          "Device inventory and age",
+          "Monthly page volumes",
+          "Consumable and service costs",
+          "Staff birthdays"
+        ],
+        "correct": [
+          "Device inventory and age",
+          "Monthly page volumes",
+          "Consumable and service costs"
+        ],
+        "points": 2
+      },
+      {
+        "type": "SINGLE",
+        "text": "A printer costs ₹5,000 a month in total and prints 10,000 pages. What is the cost per page?",
+        "options": [
+          "₹0.50",
+          "₹5",
+          "₹0.05",
+          "₹50"
+        ],
+        "correct": [
+          "₹0.50"
+        ],
+        "points": 1
+      },
+      {
+        "type": "TRUE_FALSE",
+        "text": "A device's recommended monthly volume should comfortably cover its actual use.",
+        "options": [
+          "True",
+          "False"
+        ],
+        "correct": [
+          "True"
+        ],
+        "points": 1
+      },
+      {
+        "type": "SINGLE",
+        "text": "What does secure print release do?",
+        "options": [
+          "Holds jobs until the user authenticates at the device",
+          "Prints faster",
+          "Removes toner",
+          "Prints in colour by default"
+        ],
+        "correct": [
+          "Holds jobs until the user authenticates at the device"
+        ],
+        "points": 1
+      },
+      {
+        "type": "MULTIPLE",
+        "text": "Which reduce printing cost? Select all that apply.",
+        "options": [
+          "Consolidating desktop printers into shared MFPs",
+          "Defaulting to mono and duplex",
+          "Replacing old high-service devices",
+          "Printing every email in colour"
+        ],
+        "correct": [
+          "Consolidating desktop printers into shared MFPs",
+          "Defaulting to mono and duplex",
+          "Replacing old high-service devices"
+        ],
+        "points": 2
+      },
+      {
+        "type": "FILL_BLANK",
+        "text": "Printing on both sides of the paper is called ____ printing.",
+        "options": [
+          "duplex"
+        ],
+        "correct": [],
+        "points": 1
+      }
+    ]
+  }
+}

@@ -39,8 +39,9 @@ Use the search box to find courses and lessons.
    - **Live session:** register, join with the meeting link at the time shown (in your local time). The lesson completes when the trainer records your attendance.
 3. When you come back, the course shows where you stopped.
 4. Some courses are complete only after you pass their assessment, not just their lessons.
-5. When you finish, answer the two-question **Course feedback** at the bottom of the course page.
-6. Ask questions in **Questions and answers** at the bottom of the course page. Colleagues and L&D can answer.
+5. When every lesson is done, the **Completion check** at the bottom of the course page unlocks. Press **Take the completion check**; passing it earns the course certificate.
+6. When you finish, answer the two-question **Course feedback** at the bottom of the course page.
+7. Ask questions in **Questions and answers** at the bottom of the course page. Colleagues and L&D can answer.
 
 ### Assessments
 

@@ -1,0 +1,139 @@
+{
+  "slug": "compliance-intermediate-data-protection-and-statutory-requirements",
+  "title": "Compliance Intermediate: Data Protection and Statutory Requirements",
+  "subject": "Compliance",
+  "category": "BUSINESS",
+  "level": "INTERMEDIATE",
+  "passMarkPercent": 70,
+  "description": "Personal data protection and the statutory duties that affect daily work. You will be able to: explain the duties of the Digital Personal Data Protection Act, 2023 at a working level; handle personal data according to purpose and consent; respond to a suspected data breach; list the statutory registers and filings relevant to your role.",
+  "modules": [
+    {
+      "title": "Data protection principles",
+      "minutes": 45
+    },
+    {
+      "title": "Handling personal data",
+      "minutes": 30
+    },
+    {
+      "title": "Breach response",
+      "minutes": 30
+    },
+    {
+      "title": "Statutory obligations relevant to the company",
+      "minutes": 30
+    }
+  ],
+  "lessons": [
+    {
+      "position": 1,
+      "title": "Data protection principles",
+      "type": "TEXT",
+      "body": "India's Digital Personal Data Protection Act, 2023 (DPDP Act) governs digital personal data: information about an identifiable person, such as name, phone number, email, ID numbers or location.\n\n## Key terms\n\n- **Data principal:** the person the data is about.\n- **Data fiduciary:** the organisation that decides why and how the data is processed (for customer and employee data, usually us).\n- **Data processor:** someone processing data on the fiduciary's behalf, such as a cloud or payroll provider.\n\n## Core duties of a data fiduciary\n\n- Process personal data only for a lawful purpose, with valid **consent** or another ground the Act allows.\n- Give a clear **notice** of what data is collected and why.\n- Collect only what is needed, and keep it accurate.\n- Protect it with reasonable **security safeguards**.\n- Delete it when the purpose is served, unless law requires keeping it.\n- Report **personal data breaches** as the law requires.\n\n> The Act's rules and timelines are set out in detailed rules issued by the government. Your company's data protection contact will explain how they apply to your work.",
+      "module": 1
+    },
+    {
+      "position": 2,
+      "title": "Handling personal data",
+      "type": "TEXT",
+      "body": "Turn the principles into daily habits.\n\n## Collect\n\n- Ask only for data needed for the task. A demo registration does not need a date of birth.\n- Tell people why you are collecting it.\n\n## Use\n\n- Use data only for the purpose it was collected for.\n- Do not add customer contacts to marketing lists without a valid basis.\n\n## Store and share\n\n- Keep personal data only in approved company systems, not on personal devices or messaging apps.\n- Share only with colleagues and processors who need it.\n- When a vendor processes data for us, there should be an agreement covering protection.\n\n## Requests from individuals\n\nPeople have rights, such as to access, correct or erase their data and to raise grievances. Pass any such request to the data protection contact at once; do not handle it alone.",
+      "module": 2
+    },
+    {
+      "position": 3,
+      "title": "Breach response",
+      "type": "TEXT",
+      "body": "A personal data breach is any unauthorised access, sharing, loss or destruction of personal data. Examples: an email with a customer list sent to the wrong person, a lost unencrypted laptop, a hacked account.\n\n## If you suspect a breach\n\n1. **Do not hide it** or try to fix it quietly.\n2. **Report immediately** to your manager and the IT or data protection contact.\n3. **Contain** if you safely can: recall the email, change the password, disconnect the device from the network.\n4. **Preserve evidence:** do not delete logs or emails.\n5. Let the response team assess and handle any notification required by law.\n\n> Speed matters. The law expects breaches to be reported promptly, and the company cannot meet that duty if it does not know.",
+      "module": 3
+    },
+    {
+      "position": 4,
+      "title": "Statutory obligations relevant to the company",
+      "type": "TEXT",
+      "body": "[PLACEHOLDER: The company will supply the statutory obligations relevant to it.]\n\nThis lesson will list the registers, returns and filings the company must maintain, and who owns each. Typical areas for an Indian company include:\n\n- **Tax:** GST returns, TDS returns, income tax.\n- **Employment:** provident fund, ESI, professional tax, payment of wages, leave records.\n- **Company law:** statutory registers, annual filings, board meetings.\n- **Safety and premises:** shops and establishments registration, fire safety.\n\nKnow which of these your role contributes to, and the deadlines you must meet.",
+      "module": 4
+    }
+  ],
+  "assessment": {
+    "title": "Compliance Intermediate: completion check",
+    "level": "INTERMEDIATE",
+    "passMarkPercent": 70,
+    "questions": [
+      {
+        "type": "MATCHING",
+        "text": "Match each DPDP Act term to its meaning.",
+        "options": [
+          "Data principal=The person the data is about",
+          "Data fiduciary=The organisation that decides why and how data is processed",
+          "Data processor=Someone processing data on the fiduciary's behalf"
+        ],
+        "correct": [],
+        "points": 3
+      },
+      {
+        "type": "SINGLE",
+        "text": "Which is personal data?",
+        "options": [
+          "A customer contact's mobile number",
+          "The model number of a switch",
+          "A product price list",
+          "The company's GST rate table"
+        ],
+        "correct": [
+          "A customer contact's mobile number"
+        ],
+        "points": 1
+      },
+      {
+        "type": "TRUE_FALSE",
+        "text": "You should collect as much personal data as possible in case it is useful later.",
+        "options": [
+          "True",
+          "False"
+        ],
+        "correct": [
+          "False"
+        ],
+        "points": 1,
+        "explanation": "Collect only what is needed for the purpose."
+      },
+      {
+        "type": "SINGLE",
+        "text": "You emailed a customer list to the wrong address. What is the first thing to do?",
+        "options": [
+          "Report it immediately to your manager and the data protection contact",
+          "Wait and see if anyone notices",
+          "Delete your sent email",
+          "Email the list again to the right person only"
+        ],
+        "correct": [
+          "Report it immediately to your manager and the data protection contact"
+        ],
+        "points": 1
+      },
+      {
+        "type": "MULTIPLE",
+        "text": "Where may customer personal data be kept? Select all that apply.",
+        "options": [
+          "Approved company systems",
+          "A personal messaging app",
+          "A personal USB drive at home",
+          "Shared only with colleagues who need it"
+        ],
+        "correct": [
+          "Approved company systems",
+          "Shared only with colleagues who need it"
+        ],
+        "points": 2
+      },
+      {
+        "type": "SHORT_ANSWER",
+        "text": "A customer asks you to delete all the personal data we hold about them. Explain what you would do.",
+        "options": [],
+        "correct": [],
+        "points": 4,
+        "explanation": "Model answer: acknowledge the request, do not delete anything yourself, pass it at once to the data protection contact with the customer's details, and let them verify identity, check legal retention needs and respond."
+      }
+    ]
+  }
+}

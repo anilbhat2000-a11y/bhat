@@ -1,0 +1,143 @@
+{
+  "slug": "compliance-basic-code-of-conduct-and-company-policies",
+  "title": "Compliance Basic: Code of Conduct and Company Policies",
+  "subject": "Compliance",
+  "category": "BUSINESS",
+  "level": "BASIC",
+  "passMarkPercent": 70,
+  "description": "The code of conduct, key company policies, and how to raise a concern. You will be able to: explain the main points of the code of conduct; recognise conflicts of interest, gifts and bribery risks; protect company and customer information; raise a concern through the right channel.",
+  "modules": [
+    {
+      "title": "Company code of conduct",
+      "minutes": 30
+    },
+    {
+      "title": "Conflicts, gifts and anti-bribery",
+      "minutes": 30
+    },
+    {
+      "title": "Information security basics",
+      "minutes": 20
+    },
+    {
+      "title": "Whistle-blower and grievance process",
+      "minutes": 15
+    }
+  ],
+  "lessons": [
+    {
+      "position": 1,
+      "title": "Company code of conduct",
+      "type": "TEXT",
+      "body": "[PLACEHOLDER: The company will supply its Code of Conduct document.]\n\nUntil the company's own Code is uploaded, this lesson covers the principles almost every code shares:\n\n- **Act honestly and lawfully** in every dealing with customers, vendors, colleagues and government.\n- **Treat people with respect.** No harassment or discrimination.\n- **Protect company assets and information,** including customer data.\n- **Avoid conflicts of interest,** and declare any you have.\n- **Keep accurate records.** Never falsify documents, timesheets or reports.\n- **Speak up** if you see something wrong.\n\n> When the Code is supplied, read it in full and acknowledge it when asked. If a situation is not covered, ask: would I be comfortable if this appeared in the newspaper?",
+      "module": 1
+    },
+    {
+      "position": 2,
+      "title": "Conflicts, gifts and anti-bribery",
+      "type": "TEXT",
+      "body": "Sales and purchase roles face pressure from gifts, hospitality and conflicts of interest. Clear habits protect you and the company.\n\n## Conflicts of interest\n\nA conflict exists when your personal interest could affect, or look as though it affects, your work decisions. Examples:\n\n- a relative owns a vendor you select;\n- you hold shares in a competitor or supplier;\n- you do paid work for a customer outside your job.\n\nDeclare it to your manager in writing and step back from the decision.\n\n## Gifts and hospitality\n\n- Small, occasional, openly given courtesies may be acceptable within company limits [PLACEHOLDER: company gift limit].\n- Never accept cash, or anything given to influence a decision.\n- Never offer anything to a government official to win or speed up business.\n\n## Bribery\n\nOffering, giving, asking for or accepting a bribe is a crime in India, including through an agent. If anyone asks for a payment to \"help\" a deal, refuse and report it.",
+      "module": 2
+    },
+    {
+      "position": 3,
+      "title": "Information security basics",
+      "type": "TEXT",
+      "body": "Everyone handles information that must be protected.\n\n## Simple rules\n\n- Use strong passwords and multi-factor authentication; never share them.\n- Lock your screen when you step away.\n- Do not send customer or company data to personal email or messaging apps.\n- Be suspicious of unexpected links and attachments, even from known names.\n- Report a lost laptop or phone immediately.\n- Share documents only with people who need them.\n\n> Personal data about customers and employees also falls under data protection law. The intermediate course covers this in detail.",
+      "module": 3
+    },
+    {
+      "position": 4,
+      "title": "Whistle-blower and grievance process",
+      "type": "TEXT",
+      "body": "[PLACEHOLDER: The company will supply its whistle-blower and grievance process.]\n\nUntil then:\n\n- Raise concerns with your manager, HR or senior management.\n- If your concern involves your manager, go to the next level or to HR.\n- Raise concerns in good faith; you do not need proof, only an honest belief.\n- Retaliation against someone who raises a concern in good faith is not acceptable.\n\nWhen the company's process is supplied, it will list the contact points and how confidentiality is protected.",
+      "module": 4
+    }
+  ],
+  "assessment": {
+    "title": "Compliance Basic: completion check",
+    "level": "BASIC",
+    "passMarkPercent": 70,
+    "questions": [
+      {
+        "type": "SINGLE",
+        "text": "A relative owns a vendor you are evaluating. What should you do?",
+        "options": [
+          "Declare it in writing and step back from the decision",
+          "Choose them, since you trust them",
+          "Keep it quiet",
+          "Reject them without explanation"
+        ],
+        "correct": [
+          "Declare it in writing and step back from the decision"
+        ],
+        "points": 1
+      },
+      {
+        "type": "TRUE_FALSE",
+        "text": "Giving a small payment to a government official to speed up an approval is acceptable if it is customary.",
+        "options": [
+          "True",
+          "False"
+        ],
+        "correct": [
+          "False"
+        ],
+        "points": 1,
+        "explanation": "It is a bribe and a crime."
+      },
+      {
+        "type": "MULTIPLE",
+        "text": "Which are good information security habits? Select all that apply.",
+        "options": [
+          "Lock your screen when away",
+          "Report a lost laptop immediately",
+          "Use multi-factor authentication",
+          "Forward customer data to personal email to work from home"
+        ],
+        "correct": [
+          "Lock your screen when away",
+          "Report a lost laptop immediately",
+          "Use multi-factor authentication"
+        ],
+        "points": 2
+      },
+      {
+        "type": "SINGLE",
+        "text": "A vendor offers you cash to approve their invoice faster. What should you do?",
+        "options": [
+          "Refuse and report it",
+          "Accept a small amount",
+          "Ask for more",
+          "Ignore it and approve"
+        ],
+        "correct": [
+          "Refuse and report it"
+        ],
+        "points": 1
+      },
+      {
+        "type": "TRUE_FALSE",
+        "text": "You need proof before you can raise a concern.",
+        "options": [
+          "True",
+          "False"
+        ],
+        "correct": [
+          "False"
+        ],
+        "points": 1,
+        "explanation": "An honest belief, raised in good faith, is enough."
+      },
+      {
+        "type": "FILL_BLANK",
+        "text": "When your personal interest could affect a work decision, it is called a conflict of ____.",
+        "options": [
+          "interest"
+        ],
+        "correct": [],
+        "points": 1
+      }
+    ]
+  }
+}

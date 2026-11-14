@@ -1,0 +1,142 @@
+{
+  "slug": "presales-basic-understanding-solutions-and-requirements",
+  "title": "Presales Basic: Understanding Solutions and Requirements",
+  "subject": "Presales",
+  "category": "BUSINESS",
+  "level": "BASIC",
+  "passMarkPercent": 70,
+  "description": "The presales role, reading customer requirements, and turning them into a solution outline. You will be able to: explain the presales role in the sales cycle; capture functional and technical requirements; map requirements to a solution outline; know where to find [PLACEHOLDER] approved OEM datasheets.",
+  "modules": [
+    {
+      "title": "The presales role",
+      "minutes": 20
+    },
+    {
+      "title": "Requirement gathering",
+      "minutes": 40
+    },
+    {
+      "title": "From requirement to solution outline",
+      "minutes": 40
+    },
+    {
+      "title": "Company solution library tour",
+      "minutes": 20
+    }
+  ],
+  "lessons": [
+    {
+      "position": 1,
+      "title": "The presales role",
+      "type": "TEXT",
+      "body": "Presales is the technical half of the sales team. The account manager owns the relationship and the commercial deal; the presales engineer makes sure that what we propose actually solves the customer's problem and can be delivered.\n\n## What presales does in a deal\n\n- Joins discovery meetings to understand the customer's environment and pain points.\n- Turns what the customer says into clear, written requirements.\n- Designs a solution and prepares the bill of materials (BoM).\n- Writes the technical parts of proposals and tender responses.\n- Runs demos and proofs of concept (POCs).\n- Hands the won deal over to the delivery team with everything they need.\n\n## Where presales joins the sales cycle\n\n1. **Qualification:** the account manager confirms there is a real opportunity.\n2. **Discovery:** presales joins to understand the technical situation.\n3. **Solution design and proposal:** presales leads.\n4. **Negotiation and closure:** presales supports with clarifications.\n5. **Handover:** presales briefs the project team.\n\n> A good presales engineer is trusted by the customer because they are honest about what a product can and cannot do.",
+      "module": 1
+    },
+    {
+      "position": 2,
+      "title": "Requirement gathering",
+      "type": "TEXT",
+      "body": "A requirement is a statement of what the customer needs. Capture requirements in writing, in the customer's words where possible, and confirm them back.\n\n## Two kinds of requirement\n\n- **Functional:** what the solution must do. Example: \"Staff on all three floors must have Wi-Fi.\"\n- **Non-functional:** how well it must do it. Examples: availability (\"no single point of failure\"), performance (\"support 200 video calls\"), security, compliance, budget and timeline.\n\n## Questions that uncover requirements\n\n- What problem are you trying to solve, and why now?\n- What do you have today, and what is not working?\n- How many users, sites and devices? How will that grow in three years?\n- What must the solution connect to?\n- Who will run it after installation?\n- What does success look like, and how will you measure it?\n\n## Write it down\n\nKeep a simple requirement log: number, requirement, source (who said it), priority (must, should, could) and status. Send it to the customer to confirm. Many disputes later in a project come from requirements that were assumed but never written.",
+      "module": 2
+    },
+    {
+      "position": 3,
+      "title": "From requirement to solution outline",
+      "type": "TEXT",
+      "body": "Once requirements are clear, sketch a solution outline before choosing exact products.\n\n## Steps\n\n1. **Group the requirements** by area: network, compute, storage, security, end-user devices, services.\n2. **Choose an architecture** for each area. Example: \"two core switches in a redundant pair, access switches on each floor, wireless controller in the cloud\".\n3. **Map each requirement to a part of the design.** Every must-have requirement should be covered by something in the design.\n4. **List assumptions and exclusions.** Example: \"civil work and power cabling by the customer\".\n5. **Pick products** that fit, from approved OEMs (see the next lesson).\n6. **Add services:** installation, configuration, training, support.\n\n## Traceability\n\nA simple table with columns \"Requirement\" and \"How the solution meets it\" makes reviews quick and is often asked for in tenders. If a requirement is not met, say so and explain the alternative.\n\n> Never hide a gap. A gap found by the customer after the order costs far more trust and money than one explained in the proposal.",
+      "module": 3
+    },
+    {
+      "position": 4,
+      "title": "Company solution library tour",
+      "type": "TEXT",
+      "body": "[PLACEHOLDER: The company will supply a tour of its solution library.]\n\nThis lesson will show where presales finds approved material. Until the company supplies it, ask your manager for:\n\n- the list of OEMs and distributors the company is authorised to sell;\n- approved datasheets, reference architectures and past proposals that can be reused;\n- the BoM and pricing tools used by the team;\n- the approval process for discounts and non-standard configurations.\n\n## Good habits with reference material\n\n- Always use the latest datasheet from the OEM. Specifications change between product versions.\n- Do not copy claims from old proposals without checking they are still true.\n- Keep customer names and prices out of reusable templates.",
+      "module": 4
+    }
+  ],
+  "assessment": {
+    "title": "Presales Basic: completion check",
+    "level": "BASIC",
+    "passMarkPercent": 70,
+    "questions": [
+      {
+        "type": "SINGLE",
+        "text": "What is the main job of presales in a deal?",
+        "options": [
+          "Collecting payment",
+          "Making sure the proposed solution solves the customer's problem and can be delivered",
+          "Negotiating the final discount",
+          "Raising purchase orders"
+        ],
+        "correct": [
+          "Making sure the proposed solution solves the customer's problem and can be delivered"
+        ],
+        "points": 1
+      },
+      {
+        "type": "MATCHING",
+        "text": "Match each requirement to its type.",
+        "options": [
+          "Wi-Fi on all floors=Functional",
+          "No single point of failure=Non-functional (availability)",
+          "Project finished by March=Non-functional (timeline)"
+        ],
+        "correct": [],
+        "points": 2
+      },
+      {
+        "type": "TRUE_FALSE",
+        "text": "Requirements should be confirmed back to the customer in writing.",
+        "options": [
+          "True",
+          "False"
+        ],
+        "correct": [
+          "True"
+        ],
+        "points": 1,
+        "explanation": "Written, confirmed requirements prevent disputes later in the project."
+      },
+      {
+        "type": "MULTIPLE",
+        "text": "Which belong in a solution outline? Select all that apply.",
+        "options": [
+          "Assumptions and exclusions",
+          "Mapping of each requirement to the design",
+          "The salesperson's commission",
+          "Services such as installation and training"
+        ],
+        "correct": [
+          "Assumptions and exclusions",
+          "Mapping of each requirement to the design",
+          "Services such as installation and training"
+        ],
+        "points": 2
+      },
+      {
+        "type": "SINGLE",
+        "text": "A must-have requirement cannot be met by any approved product. What should presales do?",
+        "options": [
+          "Leave it out and hope it is not noticed",
+          "State the gap in the proposal and explain the alternative",
+          "Promise it will be added later",
+          "Withdraw from the deal immediately"
+        ],
+        "correct": [
+          "State the gap in the proposal and explain the alternative"
+        ],
+        "points": 1
+      },
+      {
+        "type": "FILL_BLANK",
+        "text": "The list of all items, quantities and part numbers in a proposal is called the bill of ____.",
+        "options": [
+          "materials",
+          "material"
+        ],
+        "correct": [],
+        "points": 1
+      }
+    ]
+  }
+}

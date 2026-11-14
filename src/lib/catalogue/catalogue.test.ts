@@ -50,6 +50,8 @@ it("creates draft shells with modules for courses not yet in the portal, once", 
   const subject = await prisma.subject.create({ data: { name: `${tag} subject`, slug: tag, category: "TECHNICAL" } });
   const one = structuredClone(cat.subjects.find((s) => s.subject === "Presales")!);
   one.subject = subject.name;
+  // Pretend none of its courses exist yet, so shells are made.
+  for (const level of LEVELS) one.levels[level].existingCourse = null;
   const sample = { ...cat, subjects: [one] };
   expect(await seedCatalogueDrafts(prisma, sample)).toBe(3);
   expect(await seedCatalogueDrafts(prisma, sample)).toBe(0);

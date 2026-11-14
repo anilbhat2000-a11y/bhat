@@ -1,6 +1,9 @@
 import { describe, it, expect, afterAll } from "vitest";
 import { prisma } from "../db/client";
+import { readdirSync, readFileSync } from "node:fs";
+import { join } from "node:path";
 import { DEMO, DEPARTMENTS, runSeed, SUBJECTS } from "./run";
+import { loadCatalogue, LEVELS } from "../catalogue/catalogue";
 
 const CONTENT = "content/courses";
 
@@ -42,6 +45,23 @@ describe("seed", () => {
     await runSeed(prisma, { seedPassword: "Demo-pass-1", contentDir: CONTENT });
     expect(await seededCourses()).toBe(before);
     expect(await prisma.course.count({ where: { status: "PUBLISHED" } })).toBeGreaterThanOrEqual(28);
+  });
+
+  it("loads every catalogue course as a published course, with its modules where the file defines them", async () => {
+    const catalogue = loadCatalogue();
+    const files = readdirSync(CONTENT).map((f) => JSON.parse(readFileSync(join(CONTENT, f), "utf8")) as { title: string; modules?: unknown[] });
+    const moduleCount = new Map(files.map((f) => [f.title, f.modules?.length ?? 0]));
+    for (const s of catalogue.subjects) {
+      for (const level of LEVELS) {
+        const title = s.levels[level].existingCourse;
+        expect(title, `${s.subject} ${level} has content`).toBeTruthy();
+        const course = await prisma.course.findFirst({ where: { title: title!, subject: { name: s.subject } }, include: { _count: { select: { modules: true, lessons: true } }, assessments: { include: { _count: { select: { questions: true } } } } } });
+        expect(course?.status, title!).toBe("PUBLISHED");
+        expect(course?._count.lessons, title!).toBeGreaterThan(0);
+        expect(course?.assessments[0]?._count.questions, title!).toBeGreaterThanOrEqual(5);
+        if ((moduleCount.get(title!) ?? 0) > 0) expect(course?._count.modules, title!).toBe(moduleCount.get(title!));
+      }
+    }
   });
 
   afterAll(async () => {

@@ -1,0 +1,142 @@
+{
+  "slug": "presales-advanced-demos-pocs-and-solution-design",
+  "title": "Presales Advanced: Demos, POCs and Solution Design",
+  "subject": "Presales",
+  "category": "BUSINESS",
+  "level": "ADVANCED",
+  "passMarkPercent": 70,
+  "description": "Planning and running demos and proofs of concept, and designing multi-vendor solutions. You will be able to: plan a demo around the customer's success criteria; scope a POC with entry and exit criteria; design a multi-vendor solution with integration points; present a solution to technical and business audiences.",
+  "modules": [
+    {
+      "title": "Demo planning",
+      "minutes": 30
+    },
+    {
+      "title": "POC scoping and success criteria",
+      "minutes": 45
+    },
+    {
+      "title": "Multi-vendor solution design",
+      "minutes": 60
+    },
+    {
+      "title": "Presenting the solution",
+      "minutes": 45
+    }
+  ],
+  "lessons": [
+    {
+      "position": 1,
+      "title": "Demo planning",
+      "type": "TEXT",
+      "body": "A demo shows a customer that the solution does what they need. A generic feature tour rarely wins; a demo built around the customer's own success criteria does.\n\n## Plan the demo\n\n1. Ask the customer what they must see to be convinced. Write down three to five success criteria.\n2. Build a short story: \"Here is your problem today; here is how it looks with our solution.\"\n3. Prepare realistic data and test the full flow beforehand on the same network and equipment.\n4. Prepare a backup (screenshots or a recording) in case the network fails.\n\n## During the demo\n\n- Restate the success criteria at the start.\n- Show each one, then pause and ask \"Does this meet your need?\"\n- Do not show features nobody asked for.\n- Note every question you cannot answer and promise a written reply.\n\n## After the demo\n\nSend a short summary: criteria shown, questions raised, answers, and the agreed next step.",
+      "module": 1
+    },
+    {
+      "position": 2,
+      "title": "POC scoping and success criteria",
+      "type": "TEXT",
+      "body": "A proof of concept (POC) tests the solution in the customer's environment before they buy. POCs cost time and equipment, so scope them carefully.\n\n## Agree before you start\n\n- **Objective:** the business question the POC must answer.\n- **Scope:** what is in and out (sites, users, features).\n- **Entry criteria:** what must be ready before we start (rack space, network access, test users).\n- **Success (exit) criteria:** measurable results, for example \"roaming between access points without dropping a video call\".\n- **Duration:** a fixed start and end date.\n- **Responsibilities:** who provides what, from both sides.\n- **What happens next** if the criteria are met (usually a purchase decision).\n\n## Run and close\n\nTrack results against each criterion. Close with a written report signed off by the customer. A POC with no agreed end often drifts on for months and ends without a decision.",
+      "module": 2
+    },
+    {
+      "position": 3,
+      "title": "Multi-vendor solution design",
+      "type": "TEXT",
+      "body": "Real customer solutions often combine products from several OEMs. The design must make them work together and be supportable.\n\n## Integration points\n\nFor every place where two products meet, check:\n\n- **Compatibility:** supported versions, protocols and interfaces.\n- **Performance:** will one part become the bottleneck?\n- **Management:** can the customer monitor everything from one place?\n- **Support:** which vendor is responsible when something fails at the boundary?\n\n## Design for operations\n\n- Avoid single points of failure for critical services.\n- Plan capacity for growth (often three to five years).\n- Document IP plans, VLANs, rack layouts and cable schedules.\n- Include monitoring, backup and a clear escalation path.\n\n## Lab work\n\nWhere possible, build the critical integration in a lab before proposing it. Record configurations, versions and results so the delivery team can repeat them.",
+      "module": 3
+    },
+    {
+      "position": 4,
+      "title": "Presenting the solution",
+      "type": "TEXT",
+      "body": "The best design is wasted if the audience does not understand it. Technical and business audiences need different stories.\n\n## For business leaders\n\n- Start with the business outcome: cost, risk, growth, compliance.\n- Use one simple diagram.\n- Give the total cost and the payback, not the part numbers.\n- Close with a clear decision you need from them.\n\n## For technical teams\n\n- Show the detailed architecture and data flows.\n- Explain the design choices and the alternatives you rejected.\n- Be ready for deep questions on integration, security and operations.\n\n## Handling questions\n\n- Listen to the full question before answering.\n- If you do not know, say so and commit to a written answer by a date.\n- Never contradict a colleague in front of the customer; clarify afterwards.\n\n> This module includes a live session where you present a design to a panel and receive feedback.",
+      "module": 4
+    }
+  ],
+  "assessment": {
+    "title": "Presales Advanced: completion check",
+    "level": "ADVANCED",
+    "passMarkPercent": 70,
+    "questions": [
+      {
+        "type": "SINGLE",
+        "text": "What makes a demo convincing?",
+        "options": [
+          "Showing every feature",
+          "Building it around the customer's own success criteria",
+          "Making it as long as possible",
+          "Using the vendor's default slides only"
+        ],
+        "correct": [
+          "Building it around the customer's own success criteria"
+        ],
+        "points": 1
+      },
+      {
+        "type": "MULTIPLE",
+        "text": "Which should be agreed before a POC starts? Select all that apply.",
+        "options": [
+          "Measurable success criteria",
+          "Fixed start and end dates",
+          "Entry criteria and responsibilities",
+          "The final discount"
+        ],
+        "correct": [
+          "Measurable success criteria",
+          "Fixed start and end dates",
+          "Entry criteria and responsibilities"
+        ],
+        "points": 2
+      },
+      {
+        "type": "TRUE_FALSE",
+        "text": "A POC without an agreed end date usually leads to a quick decision.",
+        "options": [
+          "True",
+          "False"
+        ],
+        "correct": [
+          "False"
+        ],
+        "points": 1
+      },
+      {
+        "type": "SINGLE",
+        "text": "In a multi-vendor design, what must be clear at every integration point?",
+        "options": [
+          "Which vendor supports the boundary when it fails",
+          "Which vendor has the larger logo",
+          "Which product is cheapest",
+          "Nothing beyond the price"
+        ],
+        "correct": [
+          "Which vendor supports the boundary when it fails"
+        ],
+        "points": 1
+      },
+      {
+        "type": "SINGLE",
+        "text": "What should a presentation to business leaders start with?",
+        "options": [
+          "Part numbers",
+          "The business outcome",
+          "Cable schedules",
+          "The VLAN plan"
+        ],
+        "correct": [
+          "The business outcome"
+        ],
+        "points": 1
+      },
+      {
+        "type": "SHORT_ANSWER",
+        "text": "A customer asks in a demo whether the product supports a feature you are not sure about. Describe how you would respond.",
+        "options": [],
+        "correct": [],
+        "points": 4,
+        "explanation": "Model answer: do not guess; say you will confirm in writing, note the question, check with the OEM, and reply by an agreed date in the demo summary."
+      }
+    ]
+  }
+}

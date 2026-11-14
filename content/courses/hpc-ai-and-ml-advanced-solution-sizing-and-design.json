@@ -1,0 +1,140 @@
+{
+  "slug": "hpc-ai-and-ml-advanced-solution-sizing-and-design",
+  "title": "HPC, AI and ML Advanced: Solution Sizing and Design",
+  "subject": "HPC/AI/ML",
+  "category": "TECHNICAL",
+  "level": "ADVANCED",
+  "passMarkPercent": 70,
+  "description": "Sizing GPU clusters and designing complete AI and HPC solutions. You will be able to: size a GPU cluster from a workload description; design the cluster network and storage; plan the software stack and scheduling; present a sizing with stated assumptions.",
+  "modules": [
+    {
+      "title": "Cluster sizing",
+      "minutes": 60
+    },
+    {
+      "title": "Network and storage design",
+      "minutes": 45
+    },
+    {
+      "title": "Software stack and scheduling",
+      "minutes": 30
+    },
+    {
+      "title": "Presenting a sizing",
+      "minutes": 30
+    }
+  ],
+  "lessons": [
+    {
+      "position": 1,
+      "title": "Cluster sizing",
+      "type": "TEXT",
+      "body": "GPU sizing starts from the workload: the model size, whether it is training or inference, and the required speed.\n\n## Memory first\n\nA model must fit in GPU memory. A rough guide for inference: each parameter needs about 2 bytes at 16-bit precision. A 7-billion-parameter model therefore needs about 14 GB for its weights alone, plus memory for the context and batch. Lower precision (quantisation) reduces this.\n\nTraining needs much more memory per parameter than inference, because gradients and optimiser states are stored too; large models are spread across many GPUs.\n\n## Throughput\n\n- For inference: requests per second and response time targets decide how many GPUs.\n- For training: dataset size, model size and the time allowed decide the GPU count.\n\n## Validate\n\nUse OEM and software vendor sizing guides, and benchmark with the customer's real workload when possible. State every assumption in the sizing.\n\n> This module includes a lab: size GPUs for a sample inference workload.",
+      "module": 1
+    },
+    {
+      "position": 2,
+      "title": "Network and storage design",
+      "type": "TEXT",
+      "body": "GPUs are only fast if data reaches them fast enough.\n\n## Networking\n\n- **Inside a server:** high-speed GPU-to-GPU links connect the GPUs in one node.\n- **Between servers:** low-latency, high-bandwidth fabrics such as InfiniBand or RDMA over Ethernet (RoCE) for multi-node training.\n- Separate networks are common for compute traffic, storage traffic and management.\n\n## Storage\n\n- Training reads large datasets repeatedly; slow storage leaves GPUs idle.\n- **Parallel file systems** spread data across many storage servers so all nodes can read at high speed.\n- Use tiers: fast flash for active datasets, cheaper capacity storage for archives.\n\n## Facilities\n\nGPU servers draw a lot of power and produce a lot of heat; check rack power density and cooling (often liquid cooling for dense deployments).",
+      "module": 2
+    },
+    {
+      "position": 3,
+      "title": "Software stack and scheduling",
+      "type": "TEXT",
+      "body": "Hardware is useless without a working software stack.\n\n## Layers\n\n- **Operating system and drivers:** a supported Linux distribution and GPU drivers.\n- **GPU computing libraries** from the GPU vendor.\n- **Containers:** package frameworks and dependencies consistently.\n- **Frameworks:** such as PyTorch or TensorFlow for training and inference.\n- **Orchestration and scheduling:** an HPC scheduler (such as Slurm) or Kubernetes to share the cluster between users and jobs.\n- **Monitoring:** GPU utilisation, temperatures, job status.\n\n## Sharing the cluster\n\nDefine how users submit jobs, how GPUs are allocated, quotas, and priorities. Poor scheduling wastes expensive GPU time.",
+      "module": 3
+    },
+    {
+      "position": 4,
+      "title": "Presenting a sizing",
+      "type": "TEXT",
+      "body": "A sizing is a recommendation the customer will spend a lot of money on. Present it clearly and honestly.\n\n## Structure\n\n1. **Workload summary:** what the customer wants to run, in their words.\n2. **Assumptions:** model sizes, precision, users, dataset sizes, growth.\n3. **Recommended configuration:** servers, GPUs, network, storage, software.\n4. **Expected performance** and how it was estimated.\n5. **Facilities requirements:** power, cooling, space.\n6. **Options:** a smaller starting point and how to scale.\n7. **Risks and next steps:** for example, a proof of concept to validate performance.\n\n## Be honest\n\nIf performance depends on assumptions not yet confirmed, say so and propose how to confirm them.\n\n> This module includes a live session: present a sizing to a mock customer panel.",
+      "module": 4
+    }
+  ],
+  "assessment": {
+    "title": "HPC, AI and ML Advanced: completion check",
+    "level": "ADVANCED",
+    "passMarkPercent": 70,
+    "questions": [
+      {
+        "type": "SINGLE",
+        "text": "At 16-bit precision, roughly how much GPU memory do the weights of a 7-billion-parameter model need?",
+        "options": [
+          "About 14 GB",
+          "About 1 GB",
+          "About 140 GB",
+          "About 7 MB"
+        ],
+        "correct": [
+          "About 14 GB"
+        ],
+        "points": 1,
+        "explanation": "About 2 bytes per parameter × 7 billion ≈ 14 GB."
+      },
+      {
+        "type": "TRUE_FALSE",
+        "text": "Training a model needs more memory per parameter than running inference.",
+        "options": [
+          "True",
+          "False"
+        ],
+        "correct": [
+          "True"
+        ],
+        "points": 1
+      },
+      {
+        "type": "MULTIPLE",
+        "text": "Which are used to connect GPU servers for multi-node training? Select all that apply.",
+        "options": [
+          "InfiniBand",
+          "RDMA over Ethernet (RoCE)",
+          "Low-latency high-bandwidth fabrics",
+          "A USB hub"
+        ],
+        "correct": [
+          "InfiniBand",
+          "RDMA over Ethernet (RoCE)",
+          "Low-latency high-bandwidth fabrics"
+        ],
+        "points": 2
+      },
+      {
+        "type": "SINGLE",
+        "text": "Why do AI training clusters often use parallel file systems?",
+        "options": [
+          "So all nodes can read large datasets at high speed",
+          "To print faster",
+          "To avoid using networks",
+          "Because they are the cheapest storage"
+        ],
+        "correct": [
+          "So all nodes can read large datasets at high speed"
+        ],
+        "points": 1
+      },
+      {
+        "type": "MATCHING",
+        "text": "Match each software layer to its role.",
+        "options": [
+          "Containers=Package frameworks and dependencies consistently",
+          "Scheduler or Kubernetes=Share the cluster between users and jobs",
+          "Frameworks=Train and run models"
+        ],
+        "correct": [],
+        "points": 3
+      },
+      {
+        "type": "SHORT_ANSWER",
+        "text": "A customer wants to run an internal chatbot for 500 employees on-premise. List the information you need before sizing, and explain why.",
+        "options": [],
+        "correct": [],
+        "points": 4,
+        "explanation": "Model answer: model choice and size and precision (memory), expected concurrent users and response time (throughput), document volume for retrieval (storage), data residency needs, growth, and facilities limits (power and cooling)."
+      }
+    ]
+  }
+}

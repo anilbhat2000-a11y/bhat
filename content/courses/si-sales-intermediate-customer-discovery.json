@@ -1,0 +1,139 @@
+{
+  "slug": "si-sales-intermediate-customer-discovery",
+  "title": "SI Sales Intermediate: Customer Discovery",
+  "subject": "System Integration Sales",
+  "category": "BUSINESS",
+  "level": "INTERMEDIATE",
+  "passMarkPercent": 70,
+  "description": "Discovering business problems and mapping them to multi-practice solutions. You will be able to: run a discovery across business and IT stakeholders; map a business problem to practice areas; identify cross-sell opportunities; hand over a qualified opportunity to presales.",
+  "modules": [
+    {
+      "title": "Multi-stakeholder discovery",
+      "minutes": 45
+    },
+    {
+      "title": "Problem-to-solution mapping",
+      "minutes": 45
+    },
+    {
+      "title": "Cross-sell",
+      "minutes": 30
+    },
+    {
+      "title": "Hand-over to presales",
+      "minutes": 20
+    }
+  ],
+  "lessons": [
+    {
+      "position": 1,
+      "title": "Multi-stakeholder discovery",
+      "type": "TEXT",
+      "body": "In an SI deal, several people influence the decision. Talking only to one of them is risky.\n\n## Who to meet\n\n- **Business leaders:** care about outcomes, cost and risk.\n- **IT head or CIO:** care about architecture, support and fit with existing systems.\n- **IT operations team:** care about how easy it is to run.\n- **Finance:** care about budget, payment terms and total cost.\n- **Procurement:** care about process, compliance and fair comparison.\n- **Users:** care about whether it makes their work easier.\n\n## Questions for discovery\n\n- What business problem are you solving, and what happens if you do nothing?\n- How do you measure success?\n- Who else is involved in the decision, and how will it be made?\n- What is the budget and timeline?\n- What have you tried before?\n\nRecord answers and confirm a summary by email.",
+      "module": 1
+    },
+    {
+      "position": 2,
+      "title": "Problem-to-solution mapping",
+      "type": "TEXT",
+      "body": "Customers describe problems, not products. Your job is to map each problem to the right practice areas.\n\n## Examples\n\n- \"Our branches lose connectivity often\": networking (SD-WAN, link redundancy), possibly power (UPS at branches).\n- \"We were hit by ransomware last year\": security (endpoint, email security, backup), server and storage (immutable backups).\n- \"Meetings with remote staff are painful\": audio-visual and collaboration.\n- \"Our server room overheats\": IT infrastructure (cooling, racks), power.\n\n## Use specialists\n\nOnce you see which areas are involved, bring in the presales specialist for each. A joint discovery session with the customer's IT team often uncovers more needs than separate meetings.",
+      "module": 2
+    },
+    {
+      "position": 3,
+      "title": "Cross-sell",
+      "type": "TEXT",
+      "body": "Cross-selling means offering related solutions that genuinely help the customer.\n\n## Spot opportunities\n\n- New network: security, Wi-Fi, power protection for network racks.\n- New servers: storage, backup, virtualisation, UPS.\n- New office: structured cabling, Wi-Fi, AV, access control.\n- Any installation: support contract and managed services.\n\n## Do it well\n\n- Link every suggestion to a problem the customer mentioned.\n- Keep the main deal moving; do not overload it.\n- Propose phases if budget is tight.\n\n> Customers trust advisers who recommend what they need, and remember salespeople who pushed what they did not.",
+      "module": 3
+    },
+    {
+      "position": 4,
+      "title": "Hand-over to presales",
+      "type": "TEXT",
+      "body": "A clean handover to presales saves time and impresses the customer.\n\n## What to hand over\n\n- Customer background and the business problem in their words.\n- Stakeholders met, their roles and priorities.\n- Known requirements, constraints, budget and timeline.\n- Existing environment notes: brands, versions, sites.\n- Competition and the decision process.\n- Agreed next steps and dates.\n\n## Format\n\nUse the CRM opportunity record plus a short written summary. Introduce the presales engineer to the customer by email, with context, so they do not repeat questions already answered.",
+      "module": 4
+    }
+  ],
+  "assessment": {
+    "title": "SI Sales Intermediate: completion check",
+    "level": "INTERMEDIATE",
+    "passMarkPercent": 70,
+    "questions": [
+      {
+        "type": "MULTIPLE",
+        "text": "Who typically influences an SI purchase? Select all that apply.",
+        "options": [
+          "The IT head",
+          "Finance",
+          "Users",
+          "The delivery driver"
+        ],
+        "correct": [
+          "The IT head",
+          "Finance",
+          "Users"
+        ],
+        "points": 2
+      },
+      {
+        "type": "MATCHING",
+        "text": "Match each customer problem to a likely practice area.",
+        "options": [
+          "Branches lose connectivity=Networking",
+          "Ransomware attack last year=Security and backup",
+          "Remote meetings are painful=Audio-visual and collaboration"
+        ],
+        "correct": [],
+        "points": 3
+      },
+      {
+        "type": "SINGLE",
+        "text": "What makes a cross-sell suggestion credible?",
+        "options": [
+          "It is linked to a problem the customer mentioned",
+          "It has the highest margin",
+          "It is the newest product",
+          "It is added without explanation"
+        ],
+        "correct": [
+          "It is linked to a problem the customer mentioned"
+        ],
+        "points": 1
+      },
+      {
+        "type": "TRUE_FALSE",
+        "text": "The presales engineer should be introduced to the customer with context, so questions are not repeated.",
+        "options": [
+          "True",
+          "False"
+        ],
+        "correct": [
+          "True"
+        ],
+        "points": 1
+      },
+      {
+        "type": "SINGLE",
+        "text": "Which discovery question best reveals urgency?",
+        "options": [
+          "What happens if you do nothing?",
+          "What colour is your logo?",
+          "Do you like our brand?",
+          "How many floors does your building have?"
+        ],
+        "correct": [
+          "What happens if you do nothing?"
+        ],
+        "points": 1
+      },
+      {
+        "type": "SHORT_ANSWER",
+        "text": "A customer says 'our server room keeps overheating'. List the practice areas you would involve and the first questions you would ask.",
+        "options": [],
+        "correct": [],
+        "points": 4,
+        "explanation": "Model answer: IT infrastructure (cooling, racks, airflow) and power (UPS, load); ask about room size, number of racks and kW load, current cooling, temperatures, growth plans and outages."
+      }
+    ]
+  }
+}

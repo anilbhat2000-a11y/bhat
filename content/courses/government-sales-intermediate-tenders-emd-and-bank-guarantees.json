@@ -1,0 +1,140 @@
+{
+  "slug": "government-sales-intermediate-tenders-emd-and-bank-guarantees",
+  "title": "Government Sales Intermediate: Tenders, EMD and Bank Guarantees",
+  "subject": "Govt Sales",
+  "category": "BUSINESS",
+  "level": "INTERMEDIATE",
+  "passMarkPercent": 70,
+  "description": "The tender process from publication to award, with EMD and performance security. You will be able to: read a tender document and its eligibility criteria; prepare EMD and understand exemptions; arrange a performance bank guarantee; track pre-bid queries and corrigenda.",
+  "modules": [
+    {
+      "title": "Tender lifecycle",
+      "minutes": 45
+    },
+    {
+      "title": "Eligibility and documents",
+      "minutes": 45
+    },
+    {
+      "title": "EMD and bank guarantees",
+      "minutes": 30
+    },
+    {
+      "title": "Pre-bid queries and corrigenda",
+      "minutes": 20
+    }
+  ],
+  "lessons": [
+    {
+      "position": 1,
+      "title": "Tender lifecycle",
+      "type": "TEXT",
+      "body": "A tender moves through fixed stages. Missing one can disqualify a strong bid.\n\n## Stages\n\n1. **Notice published** on the portal: read it the same day.\n2. **Pre-bid meeting and queries:** ask about unclear or restrictive clauses before the query deadline.\n3. **Corrigenda:** the buyer may change dates, specifications or terms. Check the portal for corrigenda right up to submission.\n4. **Bid submission:** usually online, often in two covers: technical (with EMD and eligibility documents) and financial.\n5. **Technical evaluation:** bids that fail eligibility or specifications are rejected.\n6. **Financial opening:** prices of technically qualified bidders are opened; the lowest acceptable (L1) is identified.\n7. **Award:** letter of award or purchase order, followed by performance security and contract signing.",
+      "module": 1
+    },
+    {
+      "position": 2,
+      "title": "Eligibility and documents",
+      "type": "TEXT",
+      "body": "Eligibility criteria decide whether the bid is even evaluated. Check them first.\n\n## Common eligibility criteria\n\n- Minimum **annual turnover** over recent years.\n- **Similar work experience:** past orders of a given value and type, with completion certificates.\n- **OEM authorisation** (manufacturer's authorisation form, MAF) for the tender.\n- **Certifications** such as ISO.\n- **Registrations:** GST, PAN, and sometimes local office presence.\n- **Declarations:** not blacklisted, no conflicts of interest, integrity pact for large tenders.\n\n## Prepare in advance\n\nKeep a ready, current set of company documents: financial statements, past order copies with completion certificates, certificates and registrations. Requesting the MAF from the OEM early is essential; it can take days.",
+      "module": 2
+    },
+    {
+      "position": 3,
+      "title": "EMD and bank guarantees",
+      "type": "TEXT",
+      "body": "Two kinds of security protect the buyer.\n\n## Earnest money deposit (EMD) or bid security\n\nSubmitted with the bid, to discourage bidders from withdrawing or changing their bid. GFR provides a typical range of a few percent of the estimated value; the exact amount and the accepted forms (bank guarantee, online payment) are in the tender. Many tenders accept a **bid security declaration** instead, and registered **MSEs and eligible startups** are often exempt; check the tender.\n\nThe EMD of unsuccessful bidders is returned after the award. It can be forfeited if a bidder withdraws during the validity period or refuses the award.\n\n## Performance security\n\nSubmitted by the winning bidder after the award, usually as a **bank guarantee** for a percentage of the contract value stated in the tender (GFR provides a typical range). It protects the buyer if we fail to perform, and is returned after the contract and warranty obligations end.\n\n## Bank guarantees in practice\n\n- Use the exact format in the tender.\n- Check amount, beneficiary name, validity and claim period before submitting.\n- Track expiry dates and extend in time if the contract runs longer.",
+      "module": 3
+    },
+    {
+      "position": 4,
+      "title": "Pre-bid queries and corrigenda",
+      "type": "TEXT",
+      "body": "Before submission, clarify and track.\n\n## Pre-bid queries\n\n- Raise queries where specifications point to one brand, eligibility is unclear, or terms are unreasonable.\n- Quote the clause number, state the issue, and propose a change.\n- Submit before the deadline, in the format required.\n\n## Corrigenda\n\n- Buyers publish answers and changes as corrigenda.\n- A corrigendum can change dates, specifications, quantities or terms.\n- Check for corrigenda daily until submission, and make sure the bid follows the latest version.\n\n> Missing a corrigendum is one of the commonest reasons a well-prepared bid is rejected.",
+      "module": 4
+    }
+  ],
+  "assessment": {
+    "title": "Government Sales Intermediate: completion check",
+    "level": "INTERMEDIATE",
+    "passMarkPercent": 70,
+    "questions": [
+      {
+        "type": "SINGLE",
+        "text": "In a two-cover tender, what usually happens first?",
+        "options": [
+          "Technical evaluation",
+          "Financial opening",
+          "Award",
+          "Contract signing"
+        ],
+        "correct": [
+          "Technical evaluation"
+        ],
+        "points": 1
+      },
+      {
+        "type": "MATCHING",
+        "text": "Match each security to when it is submitted.",
+        "options": [
+          "EMD or bid security=With the bid",
+          "Performance security=After the award"
+        ],
+        "correct": [],
+        "points": 2
+      },
+      {
+        "type": "TRUE_FALSE",
+        "text": "Registered MSEs are often exempt from EMD, but the tender document must be checked.",
+        "options": [
+          "True",
+          "False"
+        ],
+        "correct": [
+          "True"
+        ],
+        "points": 1
+      },
+      {
+        "type": "MULTIPLE",
+        "text": "Which are common eligibility criteria? Select all that apply.",
+        "options": [
+          "Minimum annual turnover",
+          "Similar work experience with completion certificates",
+          "OEM authorisation (MAF)",
+          "The number of cars the company owns"
+        ],
+        "correct": [
+          "Minimum annual turnover",
+          "Similar work experience with completion certificates",
+          "OEM authorisation (MAF)"
+        ],
+        "points": 2
+      },
+      {
+        "type": "SINGLE",
+        "text": "What is a corrigendum?",
+        "options": [
+          "A change or clarification to the tender published by the buyer",
+          "A type of bank guarantee",
+          "A bidder's complaint",
+          "The final contract"
+        ],
+        "correct": [
+          "A change or clarification to the tender published by the buyer"
+        ],
+        "points": 1
+      },
+      {
+        "type": "FILL_BLANK",
+        "text": "The OEM's letter authorising us to bid its products is the manufacturer's authorisation ____.",
+        "options": [
+          "form",
+          "MAF"
+        ],
+        "correct": [],
+        "points": 1
+      }
+    ]
+  }
+}

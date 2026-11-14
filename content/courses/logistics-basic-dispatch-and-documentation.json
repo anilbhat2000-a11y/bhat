@@ -1,0 +1,145 @@
+{
+  "slug": "logistics-basic-dispatch-and-documentation",
+  "title": "Logistics Basic: Dispatch and Documentation",
+  "subject": "Logistics",
+  "category": "BUSINESS",
+  "level": "BASIC",
+  "passMarkPercent": 70,
+  "description": "Dispatching goods with the right documents, and proof of delivery. You will be able to: list the documents a dispatch needs; pack and label equipment safely; record proof of delivery; report damage or shortage correctly.",
+  "modules": [
+    {
+      "title": "Dispatch documents",
+      "minutes": 30
+    },
+    {
+      "title": "Packing and labelling",
+      "minutes": 20
+    },
+    {
+      "title": "Proof of delivery",
+      "minutes": 20
+    },
+    {
+      "title": "Damage and shortage",
+      "minutes": 20
+    }
+  ],
+  "lessons": [
+    {
+      "position": 1,
+      "title": "Dispatch documents",
+      "type": "TEXT",
+      "body": "Goods moving on the road without the right documents can be stopped, fined or delayed. Every dispatch needs a document set, checked before the vehicle leaves.\n\n## The usual document set\n\n- **Tax invoice** (for a sale) or **delivery challan** (for movements that are not sales, such as goods sent for demo, repair or on approval).\n- **E-way bill**, when the value and type of movement require it. Logistics and Accounts keep the current rules.\n- **Packing list:** what is in each box, with serial numbers.\n- **Lorry receipt (LR) or consignment note** from the transporter.\n- Any documents the customer asked for, such as a copy of their PO.\n\n## Before the vehicle leaves\n\n- Quantities and serial numbers on the packing list match the boxes.\n- Invoice, e-way bill and packing list show the same items, values and addresses.\n- The vehicle number on the e-way bill matches the vehicle.",
+      "module": 1
+    },
+    {
+      "position": 2,
+      "title": "Packing and labelling",
+      "type": "TEXT",
+      "body": "IT equipment is valuable and easily damaged. Good packing prevents claims and returns.\n\n## Packing\n\n- Use the original OEM cartons where possible; they are designed for the product.\n- Pack heavy items at the bottom; never stack on top of server cartons that say not to.\n- Fill empty space so items cannot move.\n- Seal boxes with company tape so tampering is visible.\n\n## Labelling\n\nEach box should show:\n\n- customer name, delivery address, contact person and phone;\n- our invoice or challan number;\n- box number, for example \"Box 3 of 7\";\n- handling marks: fragile, this way up, keep dry.\n\n> A photo of the packed and labelled boxes before dispatch is cheap insurance if a damage claim arises.",
+      "module": 2
+    },
+    {
+      "position": 3,
+      "title": "Proof of delivery",
+      "type": "TEXT",
+      "body": "Proof of delivery (POD) shows that the customer received the goods. Without it, collecting payment can be difficult.\n\n## A good POD records\n\n- the customer's name and address;\n- our invoice or challan number;\n- the number of boxes received, and their condition;\n- date and time of receipt;\n- name, signature and, where possible, the stamp of the person receiving.\n\n## In practice\n\n- The receiver should count the boxes and note any visible damage before signing.\n- If a box is damaged, write \"received damaged\" on the POD and take photos.\n- Send a scanned copy of the POD to Accounts the same day; many customers will not pay without it.",
+      "module": 3
+    },
+    {
+      "position": 4,
+      "title": "Damage and shortage",
+      "type": "TEXT",
+      "body": "Problems found at delivery must be reported quickly, or the transporter and insurer may refuse the claim.\n\n## What to do\n\n1. **Record it on the POD:** \"1 box damaged\", \"2 boxes short\".\n2. **Take photos** of the outer box, the packing and the product.\n3. **Do not open or install** a damaged unit without instructions.\n4. **Inform** Logistics and the account manager the same day.\n5. **Notify** the transporter in writing, within the time stated in their terms.\n6. **Raise an insurance claim** if the goods were insured, with the photos, POD and invoice.\n\n## Afterwards\n\nArrange a replacement with Purchase and agree the new delivery date with the customer. Track the claim until it is settled.",
+      "module": 4
+    }
+  ],
+  "assessment": {
+    "title": "Logistics Basic: completion check",
+    "level": "BASIC",
+    "passMarkPercent": 70,
+    "questions": [
+      {
+        "type": "SINGLE",
+        "text": "Goods are being sent to a customer for a demo, not sold. Which document usually goes with them instead of a tax invoice?",
+        "options": [
+          "Delivery challan",
+          "Credit note",
+          "Purchase order",
+          "Offer letter"
+        ],
+        "correct": [
+          "Delivery challan"
+        ],
+        "points": 1
+      },
+      {
+        "type": "MULTIPLE",
+        "text": "Which should match before a vehicle leaves? Select all that apply.",
+        "options": [
+          "Items and values on the invoice and e-way bill",
+          "Serial numbers on the packing list and the boxes",
+          "The vehicle number on the e-way bill and the vehicle",
+          "The driver's favourite route"
+        ],
+        "correct": [
+          "Items and values on the invoice and e-way bill",
+          "Serial numbers on the packing list and the boxes",
+          "The vehicle number on the e-way bill and the vehicle"
+        ],
+        "points": 2
+      },
+      {
+        "type": "SINGLE",
+        "text": "What is the main purpose of a proof of delivery?",
+        "options": [
+          "To show the customer received the goods",
+          "To order more stock",
+          "To calculate GST",
+          "To book a vehicle"
+        ],
+        "correct": [
+          "To show the customer received the goods"
+        ],
+        "points": 1
+      },
+      {
+        "type": "TRUE_FALSE",
+        "text": "If a box arrives damaged, the receiver should sign the POD as normal and report it later.",
+        "options": [
+          "True",
+          "False"
+        ],
+        "correct": [
+          "False"
+        ],
+        "points": 1,
+        "explanation": "Write 'received damaged' on the POD and take photos at once."
+      },
+      {
+        "type": "FILL_BLANK",
+        "text": "A label such as 'Box 3 of ____' helps the receiver check nothing is missing when 7 boxes are sent.",
+        "options": [
+          "7",
+          "seven"
+        ],
+        "correct": [],
+        "points": 1
+      },
+      {
+        "type": "SINGLE",
+        "text": "Which is the best practice when packing a server?",
+        "options": [
+          "Use the original OEM carton where possible",
+          "Use any box and no filling",
+          "Stack other boxes on top regardless of markings",
+          "Leave it unsealed"
+        ],
+        "correct": [
+          "Use the original OEM carton where possible"
+        ],
+        "points": 1
+      }
+    ]
+  }
+}

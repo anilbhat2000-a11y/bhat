@@ -233,6 +233,19 @@ for s in CAT:
     s["levels"]["INTERMEDIATE"]["prerequisites"] = [s["levels"]["BASIC"]["title"]]
     s["levels"]["ADVANCED"]["prerequisites"] = [s["levels"]["INTERMEDIATE"]["title"]]
 
+# A catalogue course is "in the portal" when a course file with the same subject, level and
+# title exists in content/courses (written by hand or by scripts/build-courses.py).
+COURSE_DIR = os.path.join(os.path.dirname(__file__), "..", "content", "courses")
+existing = set()
+for name in os.listdir(COURSE_DIR):
+    if name.endswith(".json"):
+        c = json.load(open(os.path.join(COURSE_DIR, name)))
+        existing.add((c["subject"], c["level"], c["title"]))
+for s in CAT:
+    for level, c in s["levels"].items():
+        if not c["existingCourse"] and (s["subject"], level, c["title"]) in existing:
+            c["existingCourse"] = c["title"]
+
 assert len(CAT) == 17
 out = os.path.join(os.path.dirname(__file__), "..", "content", "catalogue.json")
 with open(out, "w") as f:

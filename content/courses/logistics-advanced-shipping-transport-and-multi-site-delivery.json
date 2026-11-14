@@ -1,0 +1,143 @@
+{
+  "slug": "logistics-advanced-shipping-transport-and-multi-site-delivery",
+  "title": "Logistics Advanced: Shipping, Transport and Multi-site Delivery",
+  "subject": "Logistics",
+  "category": "BUSINESS",
+  "level": "ADVANCED",
+  "passMarkPercent": 70,
+  "description": "Planning multi-site deliveries, choosing transport, and handling inter-state rules. You will be able to: plan a multi-site rollout delivery schedule; choose transport and insurance for high-value equipment; apply inter-state movement rules; measure delivery performance.",
+  "modules": [
+    {
+      "title": "Multi-site delivery planning",
+      "minutes": 45
+    },
+    {
+      "title": "Transport and insurance",
+      "minutes": 30
+    },
+    {
+      "title": "Inter-state movement",
+      "minutes": 30
+    },
+    {
+      "title": "Delivery performance",
+      "minutes": 20
+    }
+  ],
+  "lessons": [
+    {
+      "position": 1,
+      "title": "Multi-site delivery planning",
+      "type": "TEXT",
+      "body": "Large projects, such as rolling out equipment to 50 branches, succeed or fail on logistics planning.\n\n## Build a delivery plan\n\n- List every site with address, contact, access times and any restrictions (lifts, loading bay, security passes).\n- Group sites by route or region.\n- Agree the delivery sequence with the project team, so installation engineers arrive after the goods.\n- Decide whether to ship directly from the distributor or through our warehouse (staging), for example to pre-configure devices.\n- Build a tracker: site, items, dispatch date, expected delivery, delivered, POD received.\n\n## Communicate\n\nConfirm each delivery with the site contact a day or two before. A delivery that arrives to a locked office is a wasted trip.",
+      "module": 1
+    },
+    {
+      "position": 2,
+      "title": "Transport and insurance",
+      "type": "TEXT",
+      "body": "The right transport and insurance protect high-value equipment.\n\n## Choosing transport\n\n- **Courier or express:** small, urgent, high-value items; door to door.\n- **Part load:** medium consignments sharing a truck; cheaper, slower, more handling.\n- **Full truck load:** large consignments; fewer handling points, safer for big items.\n\nConsider value, fragility, distance, deadline and the site's ability to receive a large vehicle.\n\n## Transit insurance\n\n- Check whether goods are covered under the company's transit policy or the transporter's.\n- Make sure the declared value matches the invoice.\n- Know the claim procedure and time limits before something goes wrong.",
+      "module": 2
+    },
+    {
+      "position": 3,
+      "title": "Inter-state movement",
+      "type": "TEXT",
+      "body": "Moving goods between states adds tax and document requirements.\n\n## Points to check\n\n- The **e-way bill** must be generated before movement, with correct consignor and consignee GSTINs, value and vehicle details. Validity depends on distance; if a delay means it will expire, it must be extended in time.\n- **Sales to another state** carry IGST on the invoice.\n- **Transfers between our own branches in different states** are generally treated as supplies under GST and need a tax invoice and e-way bill.\n- Goods may be checked on the way; documents must be with the vehicle.\n\n> Rules on values, distances and validity are set by notification and can change. Logistics and Accounts maintain the current checklist.",
+      "module": 3
+    },
+    {
+      "position": 4,
+      "title": "Delivery performance",
+      "type": "TEXT",
+      "body": "Measure delivery performance so it can improve.\n\n## Useful measures\n\n- **On-time delivery:** deliveries made by the promised date ÷ total deliveries.\n- **Delivered complete:** deliveries with no shortage ÷ total.\n- **Damage rate:** deliveries with damage ÷ total.\n- **POD turnaround:** days from delivery to POD received by Accounts.\n- **Cost per delivery** by transport type and region.\n\n## Using the numbers\n\nReview monthly with transporters. Share the scores; move volume to the transporters who perform well; agree improvement plans with those who do not.",
+      "module": 4
+    }
+  ],
+  "assessment": {
+    "title": "Logistics Advanced: completion check",
+    "level": "ADVANCED",
+    "passMarkPercent": 70,
+    "questions": [
+      {
+        "type": "MULTIPLE",
+        "text": "What should a multi-site delivery plan record for each site? Select all that apply.",
+        "options": [
+          "Contact person and access times",
+          "Restrictions such as lifts or security passes",
+          "Expected delivery and POD status",
+          "The site's favourite colour"
+        ],
+        "correct": [
+          "Contact person and access times",
+          "Restrictions such as lifts or security passes",
+          "Expected delivery and POD status"
+        ],
+        "points": 2
+      },
+      {
+        "type": "SINGLE",
+        "text": "Which transport mode is usually best for small, urgent, high-value items?",
+        "options": [
+          "Courier or express",
+          "Full truck load",
+          "Part load by rail",
+          "Postal parcel without tracking"
+        ],
+        "correct": [
+          "Courier or express"
+        ],
+        "points": 1
+      },
+      {
+        "type": "TRUE_FALSE",
+        "text": "Transfers between our own branches in different states generally need a tax invoice and e-way bill.",
+        "options": [
+          "True",
+          "False"
+        ],
+        "correct": [
+          "True"
+        ],
+        "points": 1
+      },
+      {
+        "type": "SINGLE",
+        "text": "An e-way bill will expire before the delayed vehicle arrives. What should happen?",
+        "options": [
+          "Extend it in time as the rules allow",
+          "Ignore it",
+          "Tear it up",
+          "Create a new invoice"
+        ],
+        "correct": [
+          "Extend it in time as the rules allow"
+        ],
+        "points": 1
+      },
+      {
+        "type": "FILL_BLANK",
+        "text": "Deliveries made by the promised date divided by total deliveries is the on-____ delivery rate.",
+        "options": [
+          "time"
+        ],
+        "correct": [],
+        "points": 1
+      },
+      {
+        "type": "SINGLE",
+        "text": "Why should the declared value for transit insurance match the invoice?",
+        "options": [
+          "So a claim is paid at the right value",
+          "To reduce GST",
+          "To speed up the truck",
+          "It does not matter"
+        ],
+        "correct": [
+          "So a claim is paid at the right value"
+        ],
+        "points": 1
+      }
+    ]
+  }
+}

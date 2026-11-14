@@ -1,0 +1,140 @@
+{
+  "slug": "purchase-intermediate-vendor-management-and-the-po-lifecycle",
+  "title": "Purchase Intermediate: Vendor Management and the PO Lifecycle",
+  "subject": "Purchase",
+  "category": "BUSINESS",
+  "level": "INTERMEDIATE",
+  "passMarkPercent": 70,
+  "description": "Choosing and managing vendors, tracking POs to delivery, and handling changes and cancellations. You will be able to: evaluate vendors on price, lead time, quality and terms; track a PO from release to closure; handle PO amendments and cancellations correctly; keep vendor records current.",
+  "modules": [
+    {
+      "title": "Vendor evaluation",
+      "minutes": 45
+    },
+    {
+      "title": "PO tracking and follow-up",
+      "minutes": 30
+    },
+    {
+      "title": "Amendments and cancellations",
+      "minutes": 30
+    },
+    {
+      "title": "Vendor records",
+      "minutes": 20
+    }
+  ],
+  "lessons": [
+    {
+      "position": 1,
+      "title": "Vendor evaluation",
+      "type": "TEXT",
+      "body": "Choosing the right vendor is about more than the lowest price. A cheap vendor who delivers late can cost a project penalty.\n\n## Evaluate on several factors\n\n- **Price:** total landed cost, including freight and taxes.\n- **Lead time:** how soon they can deliver, and how reliably.\n- **Authorisation:** are they an authorised distributor or partner of the OEM? Unauthorised sources can mean no warranty.\n- **Quality and track record:** past delivery performance, damage and return rates.\n- **Commercial terms:** credit period, payment terms, return policy.\n- **Compliance:** valid GSTIN, filing record, required documents.\n\n## A simple scorecard\n\nScore each factor (for example 1 to 5) and weight the factors that matter for the purchase. Keep the scorecard with the purchase record so the decision can be explained later.",
+      "module": 1
+    },
+    {
+      "position": 2,
+      "title": "PO tracking and follow-up",
+      "type": "TEXT",
+      "body": "After a PO is released, follow it until it is closed.\n\n## Stages\n\n1. **Released:** sent to the vendor.\n2. **Acknowledged:** vendor confirms price, quantity and delivery date in writing.\n3. **In transit:** shipped; get the tracking details and documents.\n4. **Received:** goods checked and a GRN recorded.\n5. **Invoiced and matched:** invoice checked against PO and GRN.\n6. **Closed:** fully received, invoiced and paid.\n\n## Follow-up habits\n\n- Chase acknowledgement within a day or two.\n- Track committed delivery dates and warn the project team early about delays.\n- Keep all communication on email so there is a record.\n- Review open POs every week; old open POs hide problems.",
+      "module": 2
+    },
+    {
+      "position": 3,
+      "title": "Amendments and cancellations",
+      "type": "TEXT",
+      "body": "Orders change: customers change quantities, OEMs change part numbers, projects get delayed.\n\n## Amendments\n\n- Raise a formal PO amendment for any change in item, quantity, price or delivery terms.\n- Get it approved at the same level as the original PO (or higher if the value rises).\n- Send the amended PO to the vendor and get acknowledgement.\n\n## Cancellations\n\n- Check the vendor's cancellation terms first; some items (custom builds, licences) cannot be cancelled.\n- Cancel in writing and get written acceptance.\n- Record the reason and any charges.\n\n> Never agree a change only by phone. If it is not in writing, it did not happen.",
+      "module": 3
+    },
+    {
+      "position": 4,
+      "title": "Vendor records",
+      "type": "TEXT",
+      "body": "Vendor records must be accurate, or payments and tax credits go wrong.\n\n## What to keep for each vendor\n\n- Legal name, address and GSTIN as on the GST registration.\n- PAN and bank details, verified (for example with a cancelled cheque).\n- Contact persons for sales, logistics and accounts.\n- Authorisation certificates from OEMs, with expiry dates.\n- Agreements, credit terms and performance notes.\n\n## Keep it current\n\n- Verify bank detail changes by phone with a known contact before updating; fake \"change of bank account\" emails are a common fraud.\n- Review authorisations and documents at least once a year.\n- Deactivate vendors you no longer use.",
+      "module": 4
+    }
+  ],
+  "assessment": {
+    "title": "Purchase Intermediate: completion check",
+    "level": "INTERMEDIATE",
+    "passMarkPercent": 70,
+    "questions": [
+      {
+        "type": "MULTIPLE",
+        "text": "Which factors should be used to evaluate a vendor? Select all that apply.",
+        "options": [
+          "Lead time and reliability",
+          "OEM authorisation",
+          "Total landed cost",
+          "Whether they are a friend of the buyer"
+        ],
+        "correct": [
+          "Lead time and reliability",
+          "OEM authorisation",
+          "Total landed cost"
+        ],
+        "points": 2
+      },
+      {
+        "type": "SINGLE",
+        "text": "Why does OEM authorisation matter?",
+        "options": [
+          "Unauthorised sources may mean no warranty or support",
+          "It makes the price higher",
+          "It is only needed for government orders",
+          "It does not matter"
+        ],
+        "correct": [
+          "Unauthorised sources may mean no warranty or support"
+        ],
+        "points": 1
+      },
+      {
+        "type": "MATCHING",
+        "text": "Match each PO stage to what happens.",
+        "options": [
+          "Acknowledged=Vendor confirms price, quantity and date",
+          "Received=Goods are checked and a GRN is recorded",
+          "Closed=Fully received, invoiced and paid"
+        ],
+        "correct": [],
+        "points": 2
+      },
+      {
+        "type": "TRUE_FALSE",
+        "text": "A change to a PO agreed on the phone does not need a written amendment.",
+        "options": [
+          "True",
+          "False"
+        ],
+        "correct": [
+          "False"
+        ],
+        "points": 1
+      },
+      {
+        "type": "SINGLE",
+        "text": "A vendor emails asking to change their bank account. What should you do first?",
+        "options": [
+          "Update it immediately",
+          "Verify by phone with a known contact before updating",
+          "Ignore all emails",
+          "Pay into both accounts"
+        ],
+        "correct": [
+          "Verify by phone with a known contact before updating"
+        ],
+        "points": 1
+      },
+      {
+        "type": "FILL_BLANK",
+        "text": "The vendor's 15-character GST registration number is called the ____.",
+        "options": [
+          "GSTIN"
+        ],
+        "correct": [],
+        "points": 1
+      }
+    ]
+  }
+}

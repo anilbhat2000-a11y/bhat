@@ -1,0 +1,141 @@
+{
+  "slug": "hpc-ai-and-ml-basic-concepts-and-use-cases",
+  "title": "HPC, AI and ML Basic: Concepts and Use Cases",
+  "subject": "HPC/AI/ML",
+  "category": "TECHNICAL",
+  "level": "BASIC",
+  "passMarkPercent": 70,
+  "description": "What AI, ML and HPC are, and where customers use them. You will be able to: explain AI, ML and deep learning in plain terms; describe HPC and where it is used; identify common enterprise AI use cases; ask discovery questions for an AI project.",
+  "modules": [
+    {
+      "title": "AI and ML concepts",
+      "minutes": 30
+    },
+    {
+      "title": "HPC concepts",
+      "minutes": 30
+    },
+    {
+      "title": "Use cases",
+      "minutes": 30
+    },
+    {
+      "title": "Discovery",
+      "minutes": 20
+    }
+  ],
+  "lessons": [
+    {
+      "position": 1,
+      "title": "AI and ML concepts",
+      "type": "TEXT",
+      "body": "These terms are often mixed up. In plain words:\n\n- **Artificial intelligence (AI):** computers doing tasks that normally need human intelligence, such as understanding language or recognising images.\n- **Machine learning (ML):** a way of building AI where the system learns patterns from data instead of following hand-written rules.\n- **Deep learning:** machine learning using large neural networks with many layers; behind most modern image, speech and language AI.\n- **Generative AI:** models that create new text, images or code, such as large language models (LLMs).\n\n## Two phases\n\n- **Training:** the model learns from large amounts of data. Very compute-intensive.\n- **Inference:** the trained model is used to make predictions or generate output. Less intensive per request, but can be large in total when many users are served.",
+      "module": 1
+    },
+    {
+      "position": 2,
+      "title": "HPC concepts",
+      "type": "TEXT",
+      "body": "High-performance computing (HPC) solves very large problems by splitting them across many processors working in parallel.\n\n## Where HPC is used\n\n- Weather forecasting and climate modelling.\n- Engineering simulation: crash tests, fluid dynamics, structures.\n- Scientific research: genomics, chemistry, physics.\n- Financial risk modelling.\n\n## The building blocks\n\n- **Compute nodes:** servers with many CPU cores and often GPUs.\n- **High-speed interconnect:** low-latency networks so nodes can work together.\n- **Parallel storage:** file systems that many nodes can read and write at once.\n- **Scheduler:** software that queues and runs jobs on the cluster.\n\nHPC and AI infrastructure share much of this design, which is why they are often sold together.",
+      "module": 2
+    },
+    {
+      "position": 3,
+      "title": "Use cases",
+      "type": "TEXT",
+      "body": "Customers ask \"what can AI do for us?\" Common enterprise use cases help start the conversation.\n\n## Examples\n\n- **Customer service:** chatbots and assistants answering common questions.\n- **Document processing:** extracting data from invoices, forms and contracts.\n- **Knowledge search:** employees asking questions of internal documents.\n- **Computer vision:** quality inspection, safety monitoring, counting.\n- **Predictive maintenance:** spotting equipment failures before they happen.\n- **Forecasting:** demand, inventory and sales.\n\n## Deployment choice\n\nSome customers use cloud AI services; others need on-premise infrastructure because of data sensitivity, cost at scale, or latency. That on-premise demand is where infrastructure solutions fit.",
+      "module": 3
+    },
+    {
+      "position": 4,
+      "title": "Discovery",
+      "type": "TEXT",
+      "body": "AI projects fail when the goal or the data is unclear. Ask before proposing hardware.\n\n## Discovery questions\n\n- What business problem will AI solve, and how will success be measured?\n- What data exists, where is it, and how much? Is it labelled?\n- Is the plan to train models, fine-tune existing models, or only run inference?\n- How many users or requests, and what response time is needed?\n- Must data stay on-premise for regulatory or confidentiality reasons?\n- Who will build and run the models: in-house team, partner, or vendor?\n- What is the timeline and budget?\n\nThe answers decide whether the customer needs GPU servers, storage, networking, cloud services, or a partner for model development.",
+      "module": 4
+    }
+  ],
+  "assessment": {
+    "title": "HPC, AI and ML Basic: completion check",
+    "level": "BASIC",
+    "passMarkPercent": 70,
+    "questions": [
+      {
+        "type": "MATCHING",
+        "text": "Match each term to its meaning.",
+        "options": [
+          "Machine learning=Systems learn patterns from data",
+          "Deep learning=ML with large multi-layer neural networks",
+          "Generative AI=Models that create new text, images or code"
+        ],
+        "correct": [],
+        "points": 3
+      },
+      {
+        "type": "SINGLE",
+        "text": "Which phase is usually the most compute-intensive?",
+        "options": [
+          "Training",
+          "Inference",
+          "Data entry",
+          "Printing results"
+        ],
+        "correct": [
+          "Training"
+        ],
+        "points": 1
+      },
+      {
+        "type": "MULTIPLE",
+        "text": "Which are building blocks of an HPC cluster? Select all that apply.",
+        "options": [
+          "Compute nodes",
+          "High-speed interconnect",
+          "Parallel storage",
+          "A fax machine"
+        ],
+        "correct": [
+          "Compute nodes",
+          "High-speed interconnect",
+          "Parallel storage"
+        ],
+        "points": 2
+      },
+      {
+        "type": "SINGLE",
+        "text": "Why might a customer run AI on-premise instead of in the cloud?",
+        "options": [
+          "Data sensitivity, cost at scale, or latency",
+          "Because cloud AI does not exist",
+          "To avoid using GPUs",
+          "It is always cheaper in every case"
+        ],
+        "correct": [
+          "Data sensitivity, cost at scale, or latency"
+        ],
+        "points": 1
+      },
+      {
+        "type": "TRUE_FALSE",
+        "text": "It is best to propose GPU hardware before understanding the customer's data and goals.",
+        "options": [
+          "True",
+          "False"
+        ],
+        "correct": [
+          "False"
+        ],
+        "points": 1
+      },
+      {
+        "type": "FILL_BLANK",
+        "text": "Software that queues and runs jobs on an HPC cluster is called a ____.",
+        "options": [
+          "scheduler",
+          "job scheduler"
+        ],
+        "correct": [],
+        "points": 1
+      }
+    ]
+  }
+}

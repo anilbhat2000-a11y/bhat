@@ -1,0 +1,139 @@
+{
+  "slug": "it-infrastructure-advanced-infrastructure-architecture",
+  "title": "IT Infrastructure Advanced: Infrastructure Architecture",
+  "subject": "IT INFRA",
+  "category": "TECHNICAL",
+  "level": "ADVANCED",
+  "passMarkPercent": 70,
+  "description": "Designing resilient infrastructure for availability, scale and operations. You will be able to: design for high availability and avoid single points of failure; size infrastructure for growth; plan operations and lifecycle management; document an architecture for handover.",
+  "modules": [
+    {
+      "title": "High availability design",
+      "minutes": 60
+    },
+    {
+      "title": "Capacity planning",
+      "minutes": 45
+    },
+    {
+      "title": "Operations and lifecycle",
+      "minutes": 30
+    },
+    {
+      "title": "Architecture documentation",
+      "minutes": 30
+    }
+  ],
+  "lessons": [
+    {
+      "position": 1,
+      "title": "High availability design",
+      "type": "TEXT",
+      "body": "High availability means critical services keep running when a component fails.\n\n## Remove single points of failure\n\nA single point of failure (SPOF) is any part whose failure stops the service. Look at every layer:\n\n- **Power:** dual power supplies fed from separate PDUs and UPSs.\n- **Network:** two core switches, two uplinks, two internet links from different providers.\n- **Compute:** clusters so workloads move if a host fails.\n- **Storage:** redundant controllers, RAID, replication.\n- **Facilities:** cooling redundancy.\n\n## Redundancy levels\n\n- **N:** exactly enough capacity, no spare.\n- **N+1:** one extra unit beyond what is needed.\n- **2N:** a complete duplicate system.\n\nMatch the level to the business cost of downtime. Not every service needs 2N.",
+      "module": 1
+    },
+    {
+      "position": 2,
+      "title": "Capacity planning",
+      "type": "TEXT",
+      "body": "Capacity planning makes sure infrastructure keeps up with growth without large over-investment.\n\n## Measure current use\n\n- Compute: CPU and memory utilisation, at peak, not average.\n- Storage: used capacity, growth per month, performance (IOPS, latency).\n- Network: link utilisation at peak.\n- Power and cooling: load versus capacity.\n\n## Project forward\n\n- Use the business plan: new staff, sites, applications.\n- Apply growth rates from history.\n- Keep headroom: a common target is to stay below about 70 to 80% of capacity at peak.\n\n## Plan purchases\n\nBuy in steps aligned to growth, and design so capacity can be added without redesign, for example spare slots, scalable storage and modular UPS.\n\n> This module includes a lab: size compute and storage for a sample company's three-year plan.",
+      "module": 2
+    },
+    {
+      "position": 3,
+      "title": "Operations and lifecycle",
+      "type": "TEXT",
+      "body": "Infrastructure must be run well for its whole life.\n\n## Operations\n\n- **Monitoring and alerting** with clear owners for each alert.\n- **Change management:** plan, approve, test and record changes.\n- **Patching and firmware:** a regular schedule, tested first.\n- **Backups:** scheduled, monitored, and restore-tested.\n- **Documentation:** kept current as changes are made.\n\n## Lifecycle\n\n- Track **end-of-sale** and **end-of-support** dates from OEMs for every product.\n- Plan replacements before support ends; unsupported equipment gets no security fixes.\n- Securely wipe or destroy storage before disposing of equipment.",
+      "module": 3
+    },
+    {
+      "position": 4,
+      "title": "Architecture documentation",
+      "type": "TEXT",
+      "body": "Good documentation lets someone else run, fix and extend the infrastructure.\n\n## A handover pack contains\n\n- High-level architecture diagram and the design rationale.\n- Network diagrams, IP address plan and VLANs.\n- Rack layouts and cable schedules.\n- Equipment inventory with serial numbers, warranty and support details.\n- Configuration backups and standard settings.\n- Credentials handed over securely, not in the document.\n- Operating procedures: start-up, shutdown, backup, restore, escalation.\n- Test results from commissioning.\n\n## Keep it alive\n\nAssign an owner to update documentation with every change. Outdated documents are worse than none, because people trust them.",
+      "module": 4
+    }
+  ],
+  "assessment": {
+    "title": "IT Infrastructure Advanced: completion check",
+    "level": "ADVANCED",
+    "passMarkPercent": 70,
+    "questions": [
+      {
+        "type": "SINGLE",
+        "text": "What is a single point of failure?",
+        "options": [
+          "A component whose failure stops the service",
+          "A spare part",
+          "A backup tape",
+          "A redundant switch"
+        ],
+        "correct": [
+          "A component whose failure stops the service"
+        ],
+        "points": 1
+      },
+      {
+        "type": "MATCHING",
+        "text": "Match each redundancy level to its meaning.",
+        "options": [
+          "N=Exactly enough capacity",
+          "N+1=One extra unit beyond what is needed",
+          "2N=A complete duplicate system"
+        ],
+        "correct": [],
+        "points": 3
+      },
+      {
+        "type": "TRUE_FALSE",
+        "text": "Capacity planning should be based on average utilisation, not peak.",
+        "options": [
+          "True",
+          "False"
+        ],
+        "correct": [
+          "False"
+        ],
+        "points": 1
+      },
+      {
+        "type": "MULTIPLE",
+        "text": "Which belong in a handover pack? Select all that apply.",
+        "options": [
+          "IP address plan and VLANs",
+          "Rack layouts and cable schedules",
+          "Equipment inventory with warranty details",
+          "Passwords written in the document"
+        ],
+        "correct": [
+          "IP address plan and VLANs",
+          "Rack layouts and cable schedules",
+          "Equipment inventory with warranty details"
+        ],
+        "points": 2
+      },
+      {
+        "type": "SINGLE",
+        "text": "Why replace equipment before its end-of-support date?",
+        "options": [
+          "Unsupported equipment gets no security fixes or repairs",
+          "It changes colour",
+          "It becomes heavier",
+          "It is required by GST"
+        ],
+        "correct": [
+          "Unsupported equipment gets no security fixes or repairs"
+        ],
+        "points": 1
+      },
+      {
+        "type": "SHORT_ANSWER",
+        "text": "A customer's file server, core switch and internet link each exist only once. Describe how you would remove the single points of failure.",
+        "options": [],
+        "correct": [],
+        "points": 4,
+        "explanation": "Model answer: cluster or replicate the file server (or move to redundant storage), add a second core switch with redundant links, and add a second internet link from a different provider with failover; also check power redundancy."
+      }
+    ]
+  }
+}

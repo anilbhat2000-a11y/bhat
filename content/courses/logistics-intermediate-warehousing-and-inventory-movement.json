@@ -1,0 +1,145 @@
+{
+  "slug": "logistics-intermediate-warehousing-and-inventory-movement",
+  "title": "Logistics Intermediate: Warehousing and Inventory Movement",
+  "subject": "Logistics",
+  "category": "BUSINESS",
+  "level": "INTERMEDIATE",
+  "passMarkPercent": 70,
+  "description": "Receiving, storing and moving stock, with accurate records. You will be able to: receive goods against a PO; record stock movements accurately; run a cycle count; track serial numbers for equipment.",
+  "modules": [
+    {
+      "title": "Goods receipt",
+      "minutes": 30
+    },
+    {
+      "title": "Stock movements",
+      "minutes": 30
+    },
+    {
+      "title": "Cycle counts",
+      "minutes": 30
+    },
+    {
+      "title": "Serial number tracking",
+      "minutes": 20
+    }
+  ],
+  "lessons": [
+    {
+      "position": 1,
+      "title": "Goods receipt",
+      "type": "TEXT",
+      "body": "Goods receipt is the first control point for stock. What is recorded here drives payment to the vendor and delivery to the customer.\n\n## Steps\n\n1. **Check documents:** the vendor's invoice or challan and our PO number.\n2. **Count boxes** against the transporter's documents before signing.\n3. **Inspect** for damage; photograph any.\n4. **Open and verify** contents: part numbers, quantities, serial numbers.\n5. **Record the goods receipt note (GRN)** in the system against the PO.\n6. **Label and store** the goods in the right location.\n\n## Mismatches\n\n- Record only what was actually received.\n- Inform Purchase at once about shortages, wrong items or damage, so the vendor can be held to the terms.",
+      "module": 1
+    },
+    {
+      "position": 2,
+      "title": "Stock movements",
+      "type": "TEXT",
+      "body": "Stock records are only useful if they match what is on the shelf.\n\n## Every movement is recorded\n\n- **In:** goods receipt from vendors, returns from customers, transfers from other branches.\n- **Out:** dispatches to customers, transfers to other branches, items sent for repair or demo.\n- **Internal:** moving items between locations in the warehouse.\n\n## Good practice\n\n- Record the movement when it happens, not at the end of the day.\n- Use location codes (rack, shelf, bin) so items can be found.\n- Issue stock on a **first in, first out** basis unless a specific serial number is needed.\n- Keep demo and repair stock separate from saleable stock.\n\n> Under GST, moving stock between branches with different GSTINs (for example in different states) is generally treated as a supply and needs proper documents. Check with Accounts before any inter-state transfer.",
+      "module": 2
+    },
+    {
+      "position": 3,
+      "title": "Cycle counts",
+      "type": "TEXT",
+      "body": "A cycle count checks part of the stock every week or month, instead of counting everything once a year.\n\n## How to run one\n\n1. Choose the items to count: high-value items more often, slow movers less often.\n2. Count without looking at the system quantity, so the count is not influenced.\n3. Compare the count with the system.\n4. Investigate differences: unrecorded dispatches, receipts posted to the wrong item, damage, theft.\n5. Adjust the system only after investigation and approval.\n\n## Why it matters\n\nRegular counts find errors while they are small and the cause can still be traced. A difference found a year later is usually impossible to explain.\n\n> This module includes a practice lab: run a cycle count on a sample stock list and explain the differences.",
+      "module": 3
+    },
+    {
+      "position": 4,
+      "title": "Serial number tracking",
+      "type": "TEXT",
+      "body": "Most IT equipment carries a unique serial number. Tracking serials links each unit to its customer, warranty and support.\n\n## Why serials matter\n\n- Warranty and OEM support are tied to the serial number.\n- OEM special pricing often requires proof of which serials went to which customer.\n- Returns and replacements must be matched to the original unit.\n\n## Practice\n\n- Scan or record serials at goods receipt.\n- Record serials again at dispatch, against the customer invoice.\n- Note serials on the packing list and the POD.\n- When a faulty unit is replaced, record both the old and new serial numbers.",
+      "module": 4
+    }
+  ],
+  "assessment": {
+    "title": "Logistics Intermediate: completion check",
+    "level": "INTERMEDIATE",
+    "passMarkPercent": 70,
+    "questions": [
+      {
+        "type": "SINGLE",
+        "text": "When recording a goods receipt, what quantity should be entered?",
+        "options": [
+          "What was actually received",
+          "What was ordered",
+          "What the vendor invoiced",
+          "A rounded figure"
+        ],
+        "correct": [
+          "What was actually received"
+        ],
+        "points": 1
+      },
+      {
+        "type": "SINGLE",
+        "text": "What does 'first in, first out' mean?",
+        "options": [
+          "The oldest stock is issued first",
+          "The newest stock is issued first",
+          "Stock is never issued",
+          "The cheapest stock is issued first"
+        ],
+        "correct": [
+          "The oldest stock is issued first"
+        ],
+        "points": 1
+      },
+      {
+        "type": "TRUE_FALSE",
+        "text": "In a cycle count, the counter should look at the system quantity first so they know what to expect.",
+        "options": [
+          "True",
+          "False"
+        ],
+        "correct": [
+          "False"
+        ],
+        "points": 1,
+        "explanation": "Counting blind keeps the count independent."
+      },
+      {
+        "type": "MULTIPLE",
+        "text": "Why track serial numbers? Select all that apply.",
+        "options": [
+          "Warranty and support are tied to them",
+          "OEM special pricing may need proof of which serials went to which customer",
+          "Returns must match the original unit",
+          "They make boxes lighter"
+        ],
+        "correct": [
+          "Warranty and support are tied to them",
+          "OEM special pricing may need proof of which serials went to which customer",
+          "Returns must match the original unit"
+        ],
+        "points": 2
+      },
+      {
+        "type": "SINGLE",
+        "text": "A cycle count shows 2 fewer switches than the system. What should happen next?",
+        "options": [
+          "Adjust the system immediately",
+          "Investigate the difference before any approved adjustment",
+          "Ignore it",
+          "Order 2 more switches"
+        ],
+        "correct": [
+          "Investigate the difference before any approved adjustment"
+        ],
+        "points": 1
+      },
+      {
+        "type": "FILL_BLANK",
+        "text": "The document recorded when goods arrive at the warehouse is the goods receipt ____.",
+        "options": [
+          "note",
+          "GRN"
+        ],
+        "correct": [],
+        "points": 1
+      }
+    ]
+  }
+}

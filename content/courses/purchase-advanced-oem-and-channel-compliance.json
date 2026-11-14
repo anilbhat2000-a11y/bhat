@@ -1,0 +1,145 @@
+{
+  "slug": "purchase-advanced-oem-and-channel-compliance",
+  "title": "Purchase Advanced: OEM and Channel Compliance",
+  "subject": "Purchase",
+  "category": "BUSINESS",
+  "level": "ADVANCED",
+  "passMarkPercent": 70,
+  "description": "Working within OEM and distributor programmes: deal registration, pricing approvals, and audit readiness. You will be able to: explain how OEM deal registration and special pricing work; keep the evidence an OEM audit asks for; avoid common channel-compliance breaches; escalate a compliance doubt before ordering.",
+  "modules": [
+    {
+      "title": "OEM and distributor programmes",
+      "minutes": 45
+    },
+    {
+      "title": "Deal registration and special pricing",
+      "minutes": 45
+    },
+    {
+      "title": "Audit evidence",
+      "minutes": 30
+    },
+    {
+      "title": "Company OEM and channel terms",
+      "minutes": 30
+    }
+  ],
+  "lessons": [
+    {
+      "position": 1,
+      "title": "OEM and distributor programmes",
+      "type": "TEXT",
+      "body": "Most IT products reach us through a channel: the OEM (manufacturer) sells through authorised distributors to partners like us, who sell to end customers. Each OEM runs a partner programme with rules we must follow.\n\n## Typical programme elements\n\n- **Partner levels** based on certifications and sales volume.\n- **Authorised product lines:** we may resell only the lines we are authorised for.\n- **Distributor of record:** many OEMs require purchase through specific distributors.\n- **Certification requirements:** trained engineers and salespeople.\n- **Rebates and incentives** linked to targets and correct reporting.\n\n> Breaking programme rules can cost the company its partner status, rebates and future pricing.",
+      "module": 1
+    },
+    {
+      "position": 2,
+      "title": "Deal registration and special pricing",
+      "type": "TEXT",
+      "body": "Two common channel processes affect purchase directly.\n\n## Deal registration\n\nThe partner registers an opportunity with the OEM early in the sales cycle. If approved, it can give us protected pricing for that customer. Rules usually include:\n\n- registration before the deal is far advanced;\n- accurate end-customer details;\n- an expiry date, after which it must be renewed.\n\n## Special pricing (bid pricing)\n\nFor competitive deals the OEM may approve a special price for a named end customer and project. Conditions usually include:\n\n- the product must be delivered to that end customer only;\n- the price is valid for a limited time and quantity;\n- the OEM may ask for proof of delivery and invoice to the end customer.\n\nSelling specially priced stock to another customer is a serious breach.",
+      "module": 2
+    },
+    {
+      "position": 3,
+      "title": "Audit evidence",
+      "type": "TEXT",
+      "body": "OEMs and distributors can audit how special pricing and programmes were used. Keep evidence for every deal that used them.\n\n## Evidence to keep\n\n- Deal registration and special pricing approvals.\n- Our PO to the distributor, referencing the approval number.\n- Our invoice to the named end customer.\n- Proof of delivery to the end customer's address.\n- Serial numbers supplied, matched to the end customer.\n\n## Good practice\n\n- Store the evidence in one folder per deal, named consistently.\n- Keep it for the period the OEM agreement requires.\n- Make sure the end customer on our invoice matches the approval exactly.",
+      "module": 3
+    },
+    {
+      "position": 4,
+      "title": "Company OEM and channel terms",
+      "type": "TEXT",
+      "body": "[PLACEHOLDER: The company will supply its OEM and channel terms.]\n\nThis lesson will summarise the programmes the company belongs to. Until then, before ordering under a special price or registration:\n\n- Confirm the approval is current and covers the exact part numbers and quantity.\n- Confirm the end customer and delivery address match the approval.\n- If anything does not match, stop and ask your manager or the OEM channel manager before ordering.",
+      "module": 4
+    }
+  ],
+  "assessment": {
+    "title": "Purchase Advanced: completion check",
+    "level": "ADVANCED",
+    "passMarkPercent": 70,
+    "questions": [
+      {
+        "type": "SINGLE",
+        "text": "What is a 'distributor of record'?",
+        "options": [
+          "The distributor through which the OEM requires a partner to buy",
+          "Any shop that sells the product",
+          "The end customer",
+          "A logistics company"
+        ],
+        "correct": [
+          "The distributor through which the OEM requires a partner to buy"
+        ],
+        "points": 1
+      },
+      {
+        "type": "SINGLE",
+        "text": "What does approved deal registration usually give the partner?",
+        "options": [
+          "Protected pricing for that customer",
+          "Free products",
+          "A permanent discount on everything",
+          "Exemption from GST"
+        ],
+        "correct": [
+          "Protected pricing for that customer"
+        ],
+        "points": 1
+      },
+      {
+        "type": "TRUE_FALSE",
+        "text": "Stock bought under special pricing for one end customer may be sold to another customer if it is still unused.",
+        "options": [
+          "True",
+          "False"
+        ],
+        "correct": [
+          "False"
+        ],
+        "points": 1,
+        "explanation": "Special pricing is tied to the named end customer and project."
+      },
+      {
+        "type": "MULTIPLE",
+        "text": "Which evidence should be kept for a special-pricing deal? Select all that apply.",
+        "options": [
+          "The approval and our PO referencing it",
+          "Our invoice to the named end customer",
+          "Proof of delivery and serial numbers",
+          "The salesperson's travel bills"
+        ],
+        "correct": [
+          "The approval and our PO referencing it",
+          "Our invoice to the named end customer",
+          "Proof of delivery and serial numbers"
+        ],
+        "points": 2
+      },
+      {
+        "type": "SINGLE",
+        "text": "The end customer name on our invoice differs from the special-price approval. What should you do?",
+        "options": [
+          "Order anyway",
+          "Stop and resolve it with the manager or OEM before ordering",
+          "Change the invoice later",
+          "Use a different distributor"
+        ],
+        "correct": [
+          "Stop and resolve it with the manager or OEM before ordering"
+        ],
+        "points": 1
+      },
+      {
+        "type": "FILL_BLANK",
+        "text": "The manufacturer of a product, such as a switch or server brand, is called the ____.",
+        "options": [
+          "OEM",
+          "original equipment manufacturer"
+        ],
+        "correct": [],
+        "points": 1
+      }
+    ]
+  }
+}

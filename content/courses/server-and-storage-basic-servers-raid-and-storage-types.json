@@ -1,0 +1,139 @@
+{
+  "slug": "server-and-storage-basic-servers-raid-and-storage-types",
+  "title": "Server and Storage Basic: Servers, RAID and Storage Types",
+  "subject": "Server and storage",
+  "category": "TECHNICAL",
+  "level": "BASIC",
+  "passMarkPercent": 70,
+  "description": "Server form factors, RAID, and DAS, NAS and SAN. You will be able to: compare tower, rack and blade servers; explain RAID levels and their trade-offs; compare DAS, NAS and SAN; collect requirements for a server refresh.",
+  "modules": [
+    {
+      "title": "Server form factors",
+      "minutes": 30
+    },
+    {
+      "title": "RAID",
+      "minutes": 30
+    },
+    {
+      "title": "DAS, NAS and SAN",
+      "minutes": 30
+    },
+    {
+      "title": "Refresh requirements",
+      "minutes": 20
+    }
+  ],
+  "lessons": [
+    {
+      "position": 1,
+      "title": "Server form factors",
+      "type": "TEXT",
+      "body": "Servers come in three main shapes.\n\n- **Tower servers:** look like desktop PCs; for small offices without a rack. Quiet and simple, but take floor space.\n- **Rack servers:** fit standard 19-inch racks, measured in rack units (1U, 2U and so on). The most common choice in server rooms and data centres.\n- **Blade servers:** thin servers sharing power, cooling and networking in a chassis. Dense; suited to larger deployments.\n\n## Choosing\n\n- Number of servers now and later.\n- Space, power and cooling available.\n- Expansion needs: drives, memory, GPUs, network cards.\n- Management: remote management controllers on each server.",
+      "module": 1
+    },
+    {
+      "position": 2,
+      "title": "RAID",
+      "type": "TEXT",
+      "body": "RAID combines several drives to improve resilience, performance or both.\n\n## Common levels\n\n- **RAID 0 (striping):** fast, but no protection; one drive failure loses everything.\n- **RAID 1 (mirroring):** two copies; survives one drive failure; 50% usable capacity.\n- **RAID 5 (single parity):** survives one drive failure; usable capacity is (number of drives − 1).\n- **RAID 6 (double parity):** survives two drive failures; usable capacity is (number of drives − 2).\n- **RAID 10 (mirroring + striping):** fast and resilient; 50% usable capacity.\n\n## Example\n\nSix 4 TB drives: RAID 5 gives 20 TB usable; RAID 6 gives 16 TB; RAID 10 gives 12 TB.\n\n> RAID is not a backup. It protects against drive failure, not against deletion, corruption or ransomware.",
+      "module": 2
+    },
+    {
+      "position": 3,
+      "title": "DAS, NAS and SAN",
+      "type": "TEXT",
+      "body": "Storage can be connected to servers in three main ways.\n\n## DAS: direct-attached storage\n\nDrives inside or cabled directly to one server. Simple and fast, but not easily shared.\n\n## NAS: network-attached storage\n\nA storage device on the network that shares **files** (for example over SMB or NFS). Good for shared folders, home directories and file archives.\n\n## SAN: storage area network\n\nA dedicated network giving servers access to **blocks** of storage, as if they were local disks (for example over Fibre Channel or iSCSI). Used for databases and virtualisation clusters that need shared, high-performance storage.\n\n## Choosing\n\nAsk what is stored (files or application data), how many servers need it, the performance needed, and the growth expected.",
+      "module": 3
+    },
+    {
+      "position": 4,
+      "title": "Refresh requirements",
+      "type": "TEXT",
+      "body": "A server refresh starts with understanding what exists and what is needed.\n\n## Collect requirements\n\n- Current servers: age, warranty and support status, utilisation of CPU, memory and storage.\n- Applications: what runs where, and their performance needs.\n- Growth: users, data and new applications expected over three to five years.\n- Availability: which systems cannot go down.\n- Constraints: rack space, power, cooling, budget.\n\n## Opportunities\n\n- Consolidate many old servers onto fewer new ones with virtualisation.\n- Right-size storage with the right RAID level and room for growth.\n- Add backup and DR if they are missing.\n\n> This module includes a lab: collect refresh requirements using a sample checklist.",
+      "module": 4
+    }
+  ],
+  "assessment": {
+    "title": "Server and Storage Basic: completion check",
+    "level": "BASIC",
+    "passMarkPercent": 70,
+    "questions": [
+      {
+        "type": "SINGLE",
+        "text": "Which server form factor is the most common in server rooms with racks?",
+        "options": [
+          "Rack server",
+          "Tower server",
+          "Laptop",
+          "Blade-only phone"
+        ],
+        "correct": [
+          "Rack server"
+        ],
+        "points": 1
+      },
+      {
+        "type": "MATCHING",
+        "text": "Match each RAID level to its property.",
+        "options": [
+          "RAID 0=Fast but no protection",
+          "RAID 1=Mirroring with 50% usable capacity",
+          "RAID 6=Survives two drive failures"
+        ],
+        "correct": [],
+        "points": 3
+      },
+      {
+        "type": "SINGLE",
+        "text": "Six 4 TB drives in RAID 5 give how much usable capacity?",
+        "options": [
+          "20 TB",
+          "24 TB",
+          "16 TB",
+          "12 TB"
+        ],
+        "correct": [
+          "20 TB"
+        ],
+        "points": 1,
+        "explanation": "(6 − 1) × 4 TB = 20 TB."
+      },
+      {
+        "type": "TRUE_FALSE",
+        "text": "RAID is a backup.",
+        "options": [
+          "True",
+          "False"
+        ],
+        "correct": [
+          "False"
+        ],
+        "points": 1,
+        "explanation": "RAID protects against drive failure, not deletion, corruption or ransomware."
+      },
+      {
+        "type": "MATCHING",
+        "text": "Match each storage type to what it provides.",
+        "options": [
+          "NAS=Shared files over the network",
+          "SAN=Block storage over a dedicated network",
+          "DAS=Drives attached to one server"
+        ],
+        "correct": [],
+        "points": 3
+      },
+      {
+        "type": "FILL_BLANK",
+        "text": "Running many virtual servers on fewer physical servers is called server ____.",
+        "options": [
+          "consolidation",
+          "virtualisation",
+          "virtualization"
+        ],
+        "correct": [],
+        "points": 1
+      }
+    ]
+  }
+}

@@ -6,6 +6,8 @@ This folder holds the sample content loaded by the seed:
 - `question-banks/`: recurring assessments with their question banks (the 20-question Sales Basic and Networking Basic monthly assessments). Same question format as below, plus `cadence`, `timeLimitMinutes`, `questionsPerAttempt` and `assignDepartment`. Question types include `FILL_BLANK` (options are the accepted answers), `MATCHING` (options written `left=right`) and `SHORT_ANSWER`, each with an empty `correct`, and any question can have `scenario` and `explanation`.
 - `catalogue.json`: the 17-subject catalogue outline (see `docs/CATALOGUE.md`).
 
+The 37 catalogue courses without hand-written files are generated: their lessons and questions live in `scripts/course_content/` and `python3 scripts/build-courses.py` writes them here, taking titles, modules and minutes from `catalogue.json`. Run `npm run catalogue:docs` afterwards to refresh the catalogue document. Lesson text supports a safe Markdown subset: paragraphs, `- ` bullets, `1. ` lists, `## ` sub-headings, `> ` notes and `**bold**`. Course files may also list `modules` (title and minutes), with each lesson naming its `module` number.
+
 Each file in `courses/` is one course. The seed step (`prisma/seed.ts`, Task 19 of the plan) loads these files into the database.
 
 ## File format

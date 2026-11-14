@@ -49,6 +49,8 @@ Add an optional due date. Learners see assigned courses with a countdown on thei
 
 **Live sessions:** after adding a live-session lesson, schedule it with a date, time, meeting link, capacity and instructors. After the session, tick who attended; attendance completes the lesson for them. **Instructors** are managed under **Admin portal → Instructors**.
 
+**Course content and completion checks:** all 51 catalogue courses have starter content: lessons for every module and a completion check (written for this LMS, with company-specific facts marked `[PLACEHOLDER]`; review and replace these before go-live). A one-time assessment linked to a course is that course's **completion check**: learners open it from the course page once every lesson is done, with no assignment needed. Assign it only if you want a due date.
+
 **Catalogue shells:** `docs/CATALOGUE.md` lists all 51 planned courses with modules and the content to supply. If the catalogue seed was run, these exist as draft courses with their modules, ready for lessons.
 
 ## 4. Assessments

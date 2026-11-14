@@ -1,0 +1,144 @@
+{
+  "slug": "si-sales-advanced-solution-based-selling",
+  "title": "SI Sales Advanced: Solution-based Selling",
+  "subject": "System Integration Sales",
+  "category": "BUSINESS",
+  "level": "ADVANCED",
+  "passMarkPercent": 70,
+  "description": "Selling outcomes: business cases, total cost of ownership, and managed services. You will be able to: build a business case with ROI and TCO; position managed services and multi-year contracts; manage partners in a joint solution; present a solution to an executive committee.",
+  "modules": [
+    {
+      "title": "Business cases, ROI and TCO",
+      "minutes": 60
+    },
+    {
+      "title": "Managed services",
+      "minutes": 30
+    },
+    {
+      "title": "Partner management",
+      "minutes": 30
+    },
+    {
+      "title": "Executive presentation",
+      "minutes": 45
+    }
+  ],
+  "lessons": [
+    {
+      "position": 1,
+      "title": "Business cases, ROI and TCO",
+      "type": "TEXT",
+      "body": "Senior buyers approve investments that make business sense. A business case shows that in numbers.\n\n## Key measures\n\n- **Total cost of ownership (TCO):** all costs over the solution's life: purchase, installation, licences, support, power, staff time, and the cost of downtime.\n- **Return on investment (ROI):** (benefit − cost) ÷ cost, as a percentage over a period.\n- **Payback period:** how long until the benefits repay the cost.\n\n## Example\n\nA ₹20 lakh monitoring and redundancy solution prevents downtime that has been costing ₹12 lakh a year. Over three years the benefit is ₹36 lakh; ROI = (36 − 20) ÷ 20 = 80%; payback is under two years.\n\n## Build it with the customer\n\nUse the customer's own figures for downtime cost, staff time and growth. Numbers they supplied are numbers they believe.\n\n> This module includes a lab: build a TCO and ROI comparison for a sample deal.",
+      "module": 1
+    },
+    {
+      "position": 2,
+      "title": "Managed services",
+      "type": "TEXT",
+      "body": "Managed services mean we operate part of the customer's IT for a regular fee, under agreed service levels.\n\n## What customers gain\n\n- Predictable monthly cost instead of large capital spends.\n- Access to skills they cannot hire or keep.\n- Round-the-clock monitoring and faster response.\n\n## What we must define\n\n- **Scope:** which devices, sites and services.\n- **Service levels:** response and resolution times, uptime, reporting.\n- **Responsibilities:** what the customer still does.\n- **Pricing:** per device, per user or fixed, with rules for additions.\n- **Term and exit:** contract length, renewal and handback.\n\nMulti-year managed service contracts are valuable, but only if the scope and service levels are clear and deliverable.",
+      "module": 2
+    },
+    {
+      "position": 3,
+      "title": "Partner management",
+      "type": "TEXT",
+      "body": "Large solutions often need partners: OEMs, distributors, specialist subcontractors.\n\n## Working with partners\n\n- **OEMs:** register deals early; involve their specialists for complex designs; agree who presents what.\n- **Distributors:** arrange credit, logistics and availability early.\n- **Subcontractors:** for civil work, specialist installation or local presence; agree scope, standards and payment back-to-back with our contract.\n\n## Stay in control\n\n- We own the customer relationship and the overall solution.\n- Every partner's commitments must support what we promised the customer.\n- Hold regular joint reviews during delivery.",
+      "module": 3
+    },
+    {
+      "position": 4,
+      "title": "Executive presentation",
+      "type": "TEXT",
+      "body": "Executive committees decide quickly and expect clarity.\n\n## Structure for a 15-minute presentation\n\n1. **The problem and its cost** in business terms.\n2. **The recommendation** in one sentence.\n3. **The business case:** cost, benefits, payback, risks.\n4. **The plan:** phases and milestones.\n5. **The decision** you need today.\n\n## Tips\n\n- One slide per point; one chart instead of a table where possible.\n- Anticipate objections: budget, risk, timing.\n- Bring a technical colleague for detailed questions, but you lead.\n\n> This module includes a live session: present a business case to a mock executive panel.",
+      "module": 4
+    }
+  ],
+  "assessment": {
+    "title": "SI Sales Advanced: completion check",
+    "level": "ADVANCED",
+    "passMarkPercent": 70,
+    "questions": [
+      {
+        "type": "SINGLE",
+        "text": "What does total cost of ownership include?",
+        "options": [
+          "All costs over the solution's life, including support and downtime",
+          "Only the purchase price",
+          "Only installation",
+          "Only licences"
+        ],
+        "correct": [
+          "All costs over the solution's life, including support and downtime"
+        ],
+        "points": 1
+      },
+      {
+        "type": "SINGLE",
+        "text": "A ₹20 lakh solution brings ₹36 lakh of benefit over three years. What is the ROI?",
+        "options": [
+          "80%",
+          "180%",
+          "36%",
+          "16%"
+        ],
+        "correct": [
+          "80%"
+        ],
+        "points": 1,
+        "explanation": "(36 − 20) ÷ 20 = 0.8, or 80%."
+      },
+      {
+        "type": "MULTIPLE",
+        "text": "What must a managed services contract define? Select all that apply.",
+        "options": [
+          "Scope",
+          "Service levels",
+          "Pricing and rules for additions",
+          "The customer's holiday calendar only"
+        ],
+        "correct": [
+          "Scope",
+          "Service levels",
+          "Pricing and rules for additions"
+        ],
+        "points": 2
+      },
+      {
+        "type": "TRUE_FALSE",
+        "text": "When subcontractors are used, we still own the customer relationship and the overall solution.",
+        "options": [
+          "True",
+          "False"
+        ],
+        "correct": [
+          "True"
+        ],
+        "points": 1
+      },
+      {
+        "type": "SINGLE",
+        "text": "What should an executive presentation end with?",
+        "options": [
+          "The decision you need",
+          "A list of part numbers",
+          "The company history",
+          "A long Q&A with no conclusion"
+        ],
+        "correct": [
+          "The decision you need"
+        ],
+        "points": 1
+      },
+      {
+        "type": "FILL_BLANK",
+        "text": "The time it takes for benefits to repay the cost is the ____ period.",
+        "options": [
+          "payback"
+        ],
+        "correct": [],
+        "points": 1
+      }
+    ]
+  }
+}

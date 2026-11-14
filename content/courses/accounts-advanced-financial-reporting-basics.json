@@ -1,0 +1,145 @@
+{
+  "slug": "accounts-advanced-financial-reporting-basics",
+  "title": "Accounts Advanced: Financial Reporting Basics",
+  "subject": "Accounts",
+  "category": "BUSINESS",
+  "level": "ADVANCED",
+  "passMarkPercent": 70,
+  "description": "Reading financial statements and the reports managers use. You will be able to: read a profit and loss statement and balance sheet; explain gross margin and working capital; prepare a month-end checklist; support an audit with the right records.",
+  "modules": [
+    {
+      "title": "Reading financial statements",
+      "minutes": 45
+    },
+    {
+      "title": "Margin and working capital",
+      "minutes": 30
+    },
+    {
+      "title": "Month-end close",
+      "minutes": 45
+    },
+    {
+      "title": "Company reporting calendar",
+      "minutes": 20
+    }
+  ],
+  "lessons": [
+    {
+      "position": 1,
+      "title": "Reading financial statements",
+      "type": "TEXT",
+      "body": "Two statements describe a company's finances.\n\n## Profit and loss statement (P&L)\n\nShows performance over a period, such as a month or a year:\n\n- **Revenue:** sales.\n- **Cost of goods sold:** what the products and services we sold cost us.\n- **Gross profit:** revenue minus cost of goods sold.\n- **Operating expenses:** salaries, rent, travel, marketing.\n- **Operating profit,** then interest and tax, then **net profit**.\n\n## Balance sheet\n\nShows the position on one date:\n\n- **Assets:** what the company owns or is owed (cash, receivables, stock, equipment).\n- **Liabilities:** what it owes (payables, loans, taxes due).\n- **Equity:** what belongs to the owners.\n\nAssets always equal liabilities plus equity.",
+      "module": 1
+    },
+    {
+      "position": 2,
+      "title": "Margin and working capital",
+      "type": "TEXT",
+      "body": "Two measures matter a lot in an IT solutions business.\n\n## Gross margin\n\nGross margin percentage = (revenue minus cost) ÷ revenue × 100.\n\nExample: we sell a solution for ₹10,00,000 that cost us ₹8,50,000. Gross profit is ₹1,50,000, and the gross margin is 15%.\n\nHardware resale often has thin margins; services and support usually carry higher margins. That is why services matter to profitability.\n\n## Working capital\n\nWorking capital = current assets minus current liabilities.\n\nIn practice it is driven by:\n\n- how quickly customers pay us (receivables);\n- how long stock sits before it is sold;\n- how long we take to pay vendors (payables).\n\nA company can be profitable and still run out of cash if customers pay slowly while vendors must be paid quickly.",
+      "module": 2
+    },
+    {
+      "position": 3,
+      "title": "Month-end close",
+      "type": "TEXT",
+      "body": "Month-end close is the routine that makes the month's numbers reliable.\n\n## A typical checklist\n\n1. All sales invoices for the month are raised.\n2. All vendor invoices received are recorded; accruals made for goods received but not yet invoiced.\n3. Bank and key ledger reconciliations are complete.\n4. Stock is counted or checked against records.\n5. GST and TDS entries are checked against the returns to be filed.\n6. Unusual items are reviewed and explained.\n7. Management reports are prepared and reviewed.\n\n## Supporting audits\n\nAuditors test whether the accounts are true and fair. Help them by keeping:\n\n- signed POs, invoices, GRNs and delivery proofs filed by period;\n- reconciliations with explanations;\n- approvals for discounts, write-offs and unusual payments.",
+      "module": 3
+    },
+    {
+      "position": 4,
+      "title": "Company reporting calendar",
+      "type": "TEXT",
+      "body": "[PLACEHOLDER: The company will supply its reporting calendar.]\n\nThis lesson will list the company's monthly, quarterly and annual deadlines: management reports, GST returns, TDS returns, board meetings and audits. Until it is available, ask the Finance team for:\n\n- the monthly close date and who signs off;\n- statutory filing due dates the team tracks;\n- the format of management reports.",
+      "module": 4
+    }
+  ],
+  "assessment": {
+    "title": "Accounts Advanced: completion check",
+    "level": "ADVANCED",
+    "passMarkPercent": 70,
+    "questions": [
+      {
+        "type": "SINGLE",
+        "text": "What does a profit and loss statement show?",
+        "options": [
+          "Performance over a period",
+          "The position on one date",
+          "Only cash in the bank",
+          "Employee details"
+        ],
+        "correct": [
+          "Performance over a period"
+        ],
+        "points": 1
+      },
+      {
+        "type": "SINGLE",
+        "text": "What is always true of a balance sheet?",
+        "options": [
+          "Assets equal liabilities plus equity",
+          "Revenue equals profit",
+          "Cash equals equity",
+          "Liabilities are always zero"
+        ],
+        "correct": [
+          "Assets equal liabilities plus equity"
+        ],
+        "points": 1
+      },
+      {
+        "type": "SINGLE",
+        "text": "A solution sells for ₹10,00,000 and costs ₹8,50,000. What is the gross margin?",
+        "options": [
+          "8.5%",
+          "15%",
+          "85%",
+          "1.5%"
+        ],
+        "correct": [
+          "15%"
+        ],
+        "points": 1,
+        "explanation": "(10,00,000 − 8,50,000) ÷ 10,00,000 × 100 = 15%."
+      },
+      {
+        "type": "TRUE_FALSE",
+        "text": "A profitable company can still run out of cash.",
+        "options": [
+          "True",
+          "False"
+        ],
+        "correct": [
+          "True"
+        ],
+        "points": 1,
+        "explanation": "If customers pay slowly while vendors must be paid quickly, cash runs short."
+      },
+      {
+        "type": "MULTIPLE",
+        "text": "Which belong on a month-end close checklist? Select all that apply.",
+        "options": [
+          "All sales invoices raised",
+          "Bank reconciliation done",
+          "Accruals for goods received but not invoiced",
+          "Planning the office party"
+        ],
+        "correct": [
+          "All sales invoices raised",
+          "Bank reconciliation done",
+          "Accruals for goods received but not invoiced"
+        ],
+        "points": 2
+      },
+      {
+        "type": "FILL_BLANK",
+        "text": "Current assets minus current liabilities is called working ____.",
+        "options": [
+          "capital"
+        ],
+        "correct": [],
+        "points": 1
+      }
+    ]
+  }
+}

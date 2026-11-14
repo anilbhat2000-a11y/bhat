@@ -1,0 +1,139 @@
+{
+  "slug": "si-sales-basic-the-system-integration-business-model",
+  "title": "SI Sales Basic: The System Integration Business Model",
+  "subject": "System Integration Sales",
+  "category": "BUSINESS",
+  "level": "BASIC",
+  "passMarkPercent": 70,
+  "description": "How an SI earns revenue across products, services and support, and the solution lifecycle. You will be able to: explain the SI business model and revenue streams; describe the solution lifecycle from design to support; identify where services add value to a product sale; know the company's practice areas [PLACEHOLDER].",
+  "modules": [
+    {
+      "title": "The SI business model",
+      "minutes": 30
+    },
+    {
+      "title": "The solution lifecycle",
+      "minutes": 30
+    },
+    {
+      "title": "Services and support",
+      "minutes": 20
+    },
+    {
+      "title": "Company practice areas",
+      "minutes": 20
+    }
+  ],
+  "lessons": [
+    {
+      "position": 1,
+      "title": "The SI business model",
+      "type": "TEXT",
+      "body": "A system integrator (SI) brings products from many manufacturers together with its own skills to deliver a working solution. Customers buy the outcome, such as a secure network or a working meeting room, not just boxes.\n\n## How an SI earns revenue\n\n- **Product resale:** margin on hardware and software from OEMs. Often competitive and thin.\n- **Professional services:** design, installation, configuration, migration, training. Higher margin; depends on skilled people.\n- **Support and AMC:** annual maintenance contracts and support renewals. Recurring revenue.\n- **Managed services:** running part of the customer's IT for a monthly fee. Long-term, recurring revenue.\n\n> A deal that is only product resale is easy to lose on price. A deal that includes services and support builds a long relationship.",
+      "module": 1
+    },
+    {
+      "position": 2,
+      "title": "The solution lifecycle",
+      "type": "TEXT",
+      "body": "Every solution goes through a lifecycle. An SI can add value, and earn revenue, at each stage.\n\n1. **Assess and plan:** understand the current state and the business goal.\n2. **Design:** architecture, bill of materials, implementation plan.\n3. **Build:** supply, install, configure, test, migrate.\n4. **Operate:** support, monitoring, managed services.\n5. **Optimise and refresh:** improvements, upgrades, and replacement at end of life.\n\n## Why it matters to sales\n\n- Customers in different stages need different conversations.\n- The operate stage creates the relationship that wins the next refresh.\n- Tracking install dates and end-of-support dates shows when to start the next conversation.",
+      "module": 2
+    },
+    {
+      "position": 3,
+      "title": "Services and support",
+      "type": "TEXT",
+      "body": "Services turn a product sale into a solution, and differentiate us from box sellers.\n\n## Services that add value\n\n- **Site survey and design:** prevents surprises later.\n- **Installation and configuration:** to best practice, documented.\n- **Migration:** moving data, users and services with minimal disruption.\n- **Training:** so the customer's team can run the solution.\n- **Support:** a single point of contact across several OEMs.\n\n## Selling services\n\n- Explain the risk the service removes: downtime, failed projects, unhappy users.\n- Price services clearly, with a defined scope and deliverables.\n- Include services in the first proposal; they are hard to add later.",
+      "module": 3
+    },
+    {
+      "position": 4,
+      "title": "Company practice areas",
+      "type": "TEXT",
+      "body": "[PLACEHOLDER: The company will supply a description of its practice areas.]\n\nThis lesson will introduce the company's practices (for example networking, security, data centre, collaboration, power) and who leads each. Until then, list the areas you hear about in your first weeks and the subject matter experts for each, so you know whom to bring into a customer conversation.",
+      "module": 4
+    }
+  ],
+  "assessment": {
+    "title": "SI Sales Basic: completion check",
+    "level": "BASIC",
+    "passMarkPercent": 70,
+    "questions": [
+      {
+        "type": "SINGLE",
+        "text": "What does a system integrator sell?",
+        "options": [
+          "A working outcome built from several products and its own skills",
+          "Only boxes at the lowest price",
+          "Only software licences",
+          "Office furniture"
+        ],
+        "correct": [
+          "A working outcome built from several products and its own skills"
+        ],
+        "points": 1
+      },
+      {
+        "type": "MATCHING",
+        "text": "Match each revenue stream to its description.",
+        "options": [
+          "Product resale=Margin on OEM hardware and software",
+          "Professional services=Design, installation and configuration",
+          "Managed services=Running part of the customer's IT for a monthly fee"
+        ],
+        "correct": [],
+        "points": 3
+      },
+      {
+        "type": "TRUE_FALSE",
+        "text": "Support and managed services provide recurring revenue.",
+        "options": [
+          "True",
+          "False"
+        ],
+        "correct": [
+          "True"
+        ],
+        "points": 1
+      },
+      {
+        "type": "SINGLE",
+        "text": "Which lifecycle stage builds the relationship that often wins the next refresh?",
+        "options": [
+          "Operate",
+          "Design",
+          "Assess",
+          "Build"
+        ],
+        "correct": [
+          "Operate"
+        ],
+        "points": 1
+      },
+      {
+        "type": "SINGLE",
+        "text": "When should services be included in a proposal?",
+        "options": [
+          "In the first proposal",
+          "Only after the customer complains",
+          "Never",
+          "After delivery"
+        ],
+        "correct": [
+          "In the first proposal"
+        ],
+        "points": 1
+      },
+      {
+        "type": "FILL_BLANK",
+        "text": "A yearly contract to maintain and support installed equipment is often called an ____.",
+        "options": [
+          "AMC",
+          "annual maintenance contract"
+        ],
+        "correct": [],
+        "points": 1
+      }
+    ]
+  }
+}

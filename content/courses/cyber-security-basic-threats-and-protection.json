@@ -1,0 +1,140 @@
+{
+  "slug": "cyber-security-basic-threats-and-protection",
+  "title": "Cyber Security Basic: Threats and Protection",
+  "subject": "CYBER SECURITY",
+  "category": "TECHNICAL",
+  "level": "BASIC",
+  "passMarkPercent": 70,
+  "description": "The threat landscape and the main layers of protection. You will be able to: describe common threats: phishing, ransomware, insider risk; explain firewall, endpoint and email protection; apply good password and MFA practice; report a security incident.",
+  "modules": [
+    {
+      "title": "Threat landscape",
+      "minutes": 30
+    },
+    {
+      "title": "Layers of protection",
+      "minutes": 30
+    },
+    {
+      "title": "Passwords and MFA",
+      "minutes": 20
+    },
+    {
+      "title": "Reporting incidents",
+      "minutes": 15
+    }
+  ],
+  "lessons": [
+    {
+      "position": 1,
+      "title": "Threat landscape",
+      "type": "TEXT",
+      "body": "Most attacks on companies start with people, not technology.\n\n## Common threats\n\n- **Phishing:** emails or messages that trick you into clicking a link, opening an attachment or giving a password. Look for urgency, unexpected requests and mismatched sender addresses.\n- **Ransomware:** malware that encrypts files and demands payment. Often arrives through phishing or unpatched systems.\n- **Business email compromise:** criminals impersonate a manager or vendor to request payments or bank detail changes.\n- **Credential theft:** stolen or reused passwords used to log in as you.\n- **Insider risk:** data taken or damaged by someone inside, deliberately or by mistake.\n\n> If an email asks you to act urgently, pay, change bank details or log in, stop and verify through another channel.",
+      "module": 1
+    },
+    {
+      "position": 2,
+      "title": "Layers of protection",
+      "type": "TEXT",
+      "body": "No single product stops every attack. Security works in layers, so that if one fails, another catches the threat.\n\n## The main layers\n\n- **Firewall:** controls traffic between the internet and the company network, and between internal segments.\n- **Email security:** filters spam, phishing and malicious attachments.\n- **Endpoint protection:** on laptops and servers, detects and blocks malware; modern tools (EDR) also detect suspicious behaviour.\n- **Patching:** updates close the holes attackers use.\n- **Backups:** kept separate and tested, so data can be restored after ransomware.\n- **Access control:** each person gets only the access they need.\n- **People:** trained staff who spot and report attacks.\n\nThese are also the building blocks of most security solutions we sell.",
+      "module": 2
+    },
+    {
+      "position": 3,
+      "title": "Passwords and MFA",
+      "type": "TEXT",
+      "body": "Passwords are still the main lock on most accounts.\n\n## Good passwords\n\n- Long: a passphrase of several words is strong and easy to remember.\n- Unique: never reuse a work password anywhere else.\n- Stored in an approved password manager, not on paper or in a spreadsheet.\n\n## Multi-factor authentication (MFA)\n\nMFA asks for something more than a password, such as a code from an app or a security key. Even if a password is stolen, the attacker cannot log in without the second factor.\n\n- Turn on MFA wherever it is offered.\n- Never approve an MFA prompt you did not start; it means someone has your password. Report it.",
+      "module": 3
+    },
+    {
+      "position": 4,
+      "title": "Reporting incidents",
+      "type": "TEXT",
+      "body": "Fast reporting limits the damage of an incident.\n\n## Report immediately if\n\n- you clicked a suspicious link or opened a suspicious attachment;\n- you entered your password on a page you now doubt;\n- you see unexpected MFA prompts;\n- your device behaves strangely, or files become unreadable;\n- you lose a laptop, phone or storage device.\n\n## How\n\nReport to IT and your manager at once [PLACEHOLDER: company IT security contact]. Do not try to fix it alone, and do not switch off an infected device unless told to; disconnect it from the network instead.\n\n> In India, organisations must report certain cyber incidents to CERT-In within short time limits. Your quick report helps the company meet that duty.",
+      "module": 4
+    }
+  ],
+  "assessment": {
+    "title": "Cyber Security Basic: completion check",
+    "level": "BASIC",
+    "passMarkPercent": 70,
+    "questions": [
+      {
+        "type": "SINGLE",
+        "text": "An email from your 'manager' urgently asks you to change a vendor's bank details. What should you do?",
+        "options": [
+          "Verify through another channel before acting",
+          "Change them immediately",
+          "Reply asking for more urgency",
+          "Forward it to the vendor"
+        ],
+        "correct": [
+          "Verify through another channel before acting"
+        ],
+        "points": 1
+      },
+      {
+        "type": "MATCHING",
+        "text": "Match each threat to its description.",
+        "options": [
+          "Phishing=Tricks you into clicking or giving a password",
+          "Ransomware=Encrypts files and demands payment",
+          "Business email compromise=Impersonates a manager or vendor to request payments"
+        ],
+        "correct": [],
+        "points": 3
+      },
+      {
+        "type": "TRUE_FALSE",
+        "text": "Security works best in layers, so that if one control fails another catches the threat.",
+        "options": [
+          "True",
+          "False"
+        ],
+        "correct": [
+          "True"
+        ],
+        "points": 1
+      },
+      {
+        "type": "SINGLE",
+        "text": "You receive an MFA prompt you did not start. What does it mean?",
+        "options": [
+          "Someone may have your password; report it",
+          "The system is testing you; approve it",
+          "Nothing; ignore it forever",
+          "Your phone needs charging"
+        ],
+        "correct": [
+          "Someone may have your password; report it"
+        ],
+        "points": 1
+      },
+      {
+        "type": "MULTIPLE",
+        "text": "Which should be reported to IT immediately? Select all that apply.",
+        "options": [
+          "Clicking a suspicious link",
+          "Losing a company laptop",
+          "Files suddenly becoming unreadable",
+          "A colleague's birthday"
+        ],
+        "correct": [
+          "Clicking a suspicious link",
+          "Losing a company laptop",
+          "Files suddenly becoming unreadable"
+        ],
+        "points": 2
+      },
+      {
+        "type": "FILL_BLANK",
+        "text": "Asking for a code from an app in addition to a password is called multi-factor ____.",
+        "options": [
+          "authentication"
+        ],
+        "correct": [],
+        "points": 1
+      }
+    ]
+  }
+}

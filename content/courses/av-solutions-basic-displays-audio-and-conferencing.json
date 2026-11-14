@@ -1,0 +1,141 @@
+{
+  "slug": "av-solutions-basic-displays-audio-and-conferencing",
+  "title": "AV Solutions Basic: Displays, Audio and Conferencing",
+  "subject": "AUDIO VIDEO",
+  "category": "TECHNICAL",
+  "level": "BASIC",
+  "passMarkPercent": 70,
+  "description": "The building blocks of meeting-room and auditorium AV. You will be able to: choose displays and projectors for a room; explain microphones, speakers and DSPs; describe video-conferencing room types; run an AV site survey.",
+  "modules": [
+    {
+      "title": "Displays and projection",
+      "minutes": 30
+    },
+    {
+      "title": "Audio basics",
+      "minutes": 30
+    },
+    {
+      "title": "Conferencing rooms",
+      "minutes": 30
+    },
+    {
+      "title": "Site survey",
+      "minutes": 30
+    }
+  ],
+  "lessons": [
+    {
+      "position": 1,
+      "title": "Displays and projection",
+      "type": "TEXT",
+      "body": "Choosing the right display starts with the room and the content.\n\n## Display types\n\n- **Flat panels (LCD/LED TVs and professional displays):** bright, simple, for small and medium rooms. Professional displays are built for long daily use.\n- **Interactive flat panels:** touch displays for training rooms and collaboration.\n- **Projectors:** large images at lower cost; need light control. Brightness is measured in lumens; brighter rooms need more.\n- **LED video walls:** very large, bright and seamless; for large venues and lobbies.\n\n## Size\n\nA common rule of thumb: the farthest viewer should be no more than about six times the image height away for general content, and closer for detailed content such as spreadsheets. Check text is readable from the back row.\n\n## Other checks\n\n- Ambient light and windows.\n- Mounting: wall strength, height, viewing angles.\n- Inputs: HDMI, USB-C, network.",
+      "module": 1
+    },
+    {
+      "position": 2,
+      "title": "Audio basics",
+      "type": "TEXT",
+      "body": "In a meeting room, poor audio ruins a call faster than poor video.\n\n## Microphones\n\n- **Ceiling microphones and arrays:** clean tables, cover the whole room.\n- **Table (boundary) microphones:** good pickup close to participants.\n- **Gooseneck microphones:** for boardrooms and podiums.\n- **Wireless handheld and lapel microphones:** for presenters and training.\n\n## Speakers\n\nCeiling or wall speakers spread sound evenly; small rooms may use speakers in the video bar.\n\n## Digital signal processors (DSP)\n\nA DSP mixes and processes audio. Its most important job in conferencing is **acoustic echo cancellation (AEC)**: it stops remote participants hearing their own voices back. It also handles gain control and noise reduction.\n\n## The room matters\n\nHard surfaces such as glass and bare walls cause echo. Soft furnishings and acoustic panels help more than expensive equipment.",
+      "module": 2
+    },
+    {
+      "position": 3,
+      "title": "Conferencing rooms",
+      "type": "TEXT",
+      "body": "Conferencing rooms come in a few common types.\n\n- **Huddle rooms (2 to 6 people):** an all-in-one video bar with camera, microphones and speakers, plus one display.\n- **Small and medium rooms (6 to 12):** video bar or separate camera, with extra microphones; one or two displays.\n- **Boardrooms (12+):** multiple cameras or a tracking camera, ceiling or table microphones, DSP, and two displays.\n- **Training rooms:** presenter microphones, cameras on the presenter and audience, and interactive displays.\n\n## Platform choice\n\n- **Native room systems** run a meeting platform directly (such as Microsoft Teams Rooms or Zoom Rooms): one-touch join, consistent experience.\n- **Bring your own device (BYOD):** users connect their laptops to the room's camera and audio by USB; flexible across platforms.\n\nAsk which platforms the customer uses before designing.",
+      "module": 3
+    },
+    {
+      "position": 4,
+      "title": "Site survey",
+      "type": "TEXT",
+      "body": "A site survey prevents surprises during installation.\n\n## What to record\n\n- Room dimensions, ceiling height and type, and photos of every wall.\n- Windows, lighting and acoustics: hard surfaces, echo.\n- Furniture layout and seating capacity.\n- Power points and network points, and where new ones are needed.\n- Wall construction for mounting displays.\n- Cable routes and containment.\n- How the room is used: meetings, training, presentations, recording.\n\n## After the survey\n\nProduce a short survey report with a sketch of the room and the proposed equipment positions. Confirm it with the customer before finalising the design.\n\n> This module includes a lab: complete a survey of a sample room using the checklist.",
+      "module": 4
+    }
+  ],
+  "assessment": {
+    "title": "AV Solutions Basic: completion check",
+    "level": "BASIC",
+    "passMarkPercent": 70,
+    "questions": [
+      {
+        "type": "SINGLE",
+        "text": "Which display is best for a large lobby needing a very large, bright, seamless image?",
+        "options": [
+          "LED video wall",
+          "Small TV",
+          "Interactive panel",
+          "Laptop screen"
+        ],
+        "correct": [
+          "LED video wall"
+        ],
+        "points": 1
+      },
+      {
+        "type": "SINGLE",
+        "text": "What is the most important job of a DSP in a conferencing room?",
+        "options": [
+          "Acoustic echo cancellation",
+          "Making the display brighter",
+          "Recording attendance",
+          "Charging laptops"
+        ],
+        "correct": [
+          "Acoustic echo cancellation"
+        ],
+        "points": 1
+      },
+      {
+        "type": "MATCHING",
+        "text": "Match each room type to a typical setup.",
+        "options": [
+          "Huddle room=All-in-one video bar and one display",
+          "Boardroom=Multiple cameras, ceiling or table mics and a DSP",
+          "Training room=Presenter mics, audience cameras and interactive displays"
+        ],
+        "correct": [],
+        "points": 3
+      },
+      {
+        "type": "TRUE_FALSE",
+        "text": "Hard surfaces such as glass walls can cause echo in a meeting room.",
+        "options": [
+          "True",
+          "False"
+        ],
+        "correct": [
+          "True"
+        ],
+        "points": 1
+      },
+      {
+        "type": "FILL_BLANK",
+        "text": "Projector brightness is measured in ____.",
+        "options": [
+          "lumens",
+          "lumen"
+        ],
+        "correct": [],
+        "points": 1
+      },
+      {
+        "type": "MULTIPLE",
+        "text": "What should a site survey record? Select all that apply.",
+        "options": [
+          "Room dimensions and photos",
+          "Power and network points",
+          "Wall construction for mounting",
+          "The CEO's favourite film"
+        ],
+        "correct": [
+          "Room dimensions and photos",
+          "Power and network points",
+          "Wall construction for mounting"
+        ],
+        "points": 2
+      }
+    ]
+  }
+}

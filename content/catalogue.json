@@ -150,7 +150,7 @@
               "content": "[PLACEHOLDER: company to supply] PDF"
             }
           ],
-          "existingCourse": null,
+          "existingCourse": "Presales Basic: Understanding Solutions and Requirements",
           "prerequisites": []
         },
         "INTERMEDIATE": {
@@ -184,7 +184,7 @@
               "content": "[PLACEHOLDER: company to supply] PDF"
             }
           ],
-          "existingCourse": null,
+          "existingCourse": "Presales Intermediate: RFP/RFQ Responses and Technical Proposals",
           "prerequisites": [
             "Presales Basic: Understanding Solutions and Requirements"
           ]
@@ -220,7 +220,7 @@
               "content": "[PLACEHOLDER: company to supply] LIVE_SESSION (instructor-led)"
             }
           ],
-          "existingCourse": null,
+          "existingCourse": "Presales Advanced: Demos, POCs and Solution Design",
           "prerequisites": [
             "Presales Intermediate: RFP/RFQ Responses and Technical Proposals"
           ]
@@ -263,7 +263,7 @@
               "content": "[PLACEHOLDER: company to supply] PDF"
             }
           ],
-          "existingCourse": null,
+          "existingCourse": "Purchase Basic: The Procurement Process",
           "prerequisites": []
         },
         "INTERMEDIATE": {
@@ -297,7 +297,7 @@
               "content": "[PLACEHOLDER: company to supply] TEXT (written lesson)"
             }
           ],
-          "existingCourse": null,
+          "existingCourse": "Purchase Intermediate: Vendor Management and the PO Lifecycle",
           "prerequisites": [
             "Purchase Basic: The Procurement Process"
           ]
@@ -333,7 +333,7 @@
               "content": "[PLACEHOLDER: company to supply] PDF"
             }
           ],
-          "existingCourse": null,
+          "existingCourse": "Purchase Advanced: OEM and Channel Compliance",
           "prerequisites": [
             "Purchase Intermediate: Vendor Management and the PO Lifecycle"
           ]
@@ -376,7 +376,7 @@
               "content": "[PLACEHOLDER: company to supply] PDF"
             }
           ],
-          "existingCourse": null,
+          "existingCourse": "Accounts Basic: Billing, Invoicing and GST",
           "prerequisites": []
         },
         "INTERMEDIATE": {
@@ -410,7 +410,7 @@
               "content": "[PLACEHOLDER: company to supply] TEXT (written lesson)"
             }
           ],
-          "existingCourse": null,
+          "existingCourse": "Accounts Intermediate: Receivables, Payables and Reconciliation",
           "prerequisites": [
             "Accounts Basic: Billing, Invoicing and GST"
           ]
@@ -446,7 +446,7 @@
               "content": "[PLACEHOLDER: company to supply] PDF"
             }
           ],
-          "existingCourse": null,
+          "existingCourse": "Accounts Advanced: Financial Reporting Basics",
           "prerequisites": [
             "Accounts Intermediate: Receivables, Payables and Reconciliation"
           ]
@@ -489,7 +489,7 @@
               "content": "[PLACEHOLDER: company to supply] TEXT (written lesson)"
             }
           ],
-          "existingCourse": null,
+          "existingCourse": "Logistics Basic: Dispatch and Documentation",
           "prerequisites": []
         },
         "INTERMEDIATE": {
@@ -523,7 +523,7 @@
               "content": "[PLACEHOLDER: company to supply] TEXT (written lesson)"
             }
           ],
-          "existingCourse": null,
+          "existingCourse": "Logistics Intermediate: Warehousing and Inventory Movement",
           "prerequisites": [
             "Logistics Basic: Dispatch and Documentation"
           ]
@@ -559,7 +559,7 @@
               "content": "[PLACEHOLDER: company to supply] TEXT (written lesson)"
             }
           ],
-          "existingCourse": null,
+          "existingCourse": "Logistics Advanced: Shipping, Transport and Multi-site Delivery",
           "prerequisites": [
             "Logistics Intermediate: Warehousing and Inventory Movement"
           ]
@@ -602,7 +602,7 @@
               "content": "[PLACEHOLDER: company to supply] PDF"
             }
           ],
-          "existingCourse": null,
+          "existingCourse": "Compliance Basic: Code of Conduct and Company Policies",
           "prerequisites": []
         },
         "INTERMEDIATE": {
@@ -636,7 +636,7 @@
               "content": "[PLACEHOLDER: company to supply] PDF"
             }
           ],
-          "existingCourse": null,
+          "existingCourse": "Compliance Intermediate: Data Protection and Statutory Requirements",
           "prerequisites": [
             "Compliance Basic: Code of Conduct and Company Policies"
           ]
@@ -672,7 +672,7 @@
               "content": "[PLACEHOLDER: company to supply] PDF"
             }
           ],
-          "existingCourse": null,
+          "existingCourse": "Compliance Advanced: Contract Compliance",
           "prerequisites": [
             "Compliance Intermediate: Data Protection and Statutory Requirements"
           ]
@@ -715,7 +715,7 @@
               "content": "[PLACEHOLDER: company to supply] TEXT (written lesson)"
             }
           ],
-          "existingCourse": null,
+          "existingCourse": "Government Sales Basic: GeM Portal and Government Buyers",
           "prerequisites": []
         },
         "INTERMEDIATE": {
@@ -749,7 +749,7 @@
               "content": "[PLACEHOLDER: company to supply] TEXT (written lesson)"
             }
           ],
-          "existingCourse": null,
+          "existingCourse": "Government Sales Intermediate: Tenders, EMD and Bank Guarantees",
           "prerequisites": [
             "Government Sales Basic: GeM Portal and Government Buyers"
           ]
@@ -785,7 +785,7 @@
               "content": "[PLACEHOLDER: company to supply] TEXT (written lesson)"
             }
           ],
-          "existingCourse": null,
+          "existingCourse": "Government Sales Advanced: Procurement Rules and Bid Documentation",
           "prerequisites": [
             "Government Sales Intermediate: Tenders, EMD and Bank Guarantees"
           ]
@@ -828,7 +828,7 @@
               "content": "[PLACEHOLDER: company to supply] PDF"
             }
           ],
-          "existingCourse": null,
+          "existingCourse": "SI Sales Basic: The System Integration Business Model",
           "prerequisites": []
         },
         "INTERMEDIATE": {
@@ -862,7 +862,7 @@
               "content": "[PLACEHOLDER: company to supply] TEXT (written lesson)"
             }
           ],
-          "existingCourse": null,
+          "existingCourse": "SI Sales Intermediate: Customer Discovery",
           "prerequisites": [
             "SI Sales Basic: The System Integration Business Model"
           ]
@@ -898,7 +898,7 @@
               "content": "[PLACEHOLDER: company to supply] LIVE_SESSION (instructor-led)"
             }
           ],
-          "existingCourse": null,
+          "existingCourse": "SI Sales Advanced: Solution-based Selling",
           "prerequisites": [
             "SI Sales Intermediate: Customer Discovery"
           ]
@@ -975,7 +975,7 @@
               "content": "[PLACEHOLDER: company to supply] TEXT (written lesson)"
             }
           ],
-          "existingCourse": null,
+          "existingCourse": "IT Infrastructure Intermediate: Data Centre and Facilities",
           "prerequisites": [
             "IT Infrastructure Basic: Building Blocks"
           ]
@@ -1011,7 +1011,7 @@
               "content": "[PLACEHOLDER: company to supply] TEXT (written lesson)"
             }
           ],
-          "existingCourse": null,
+          "existingCourse": "IT Infrastructure Advanced: Infrastructure Architecture",
           "prerequisites": [
             "IT Infrastructure Intermediate: Data Centre and Facilities"
           ]
@@ -1054,7 +1054,7 @@
               "content": "[PLACEHOLDER: company to supply] LAB (step-by-step checklist)"
             }
           ],
-          "existingCourse": null,
+          "existingCourse": "AV Solutions Basic: Displays, Audio and Conferencing",
           "prerequisites": []
         },
         "INTERMEDIATE": {
@@ -1124,7 +1124,7 @@
               "content": "[PLACEHOLDER: company to supply] TEXT (written lesson)"
             }
           ],
-          "existingCourse": null,
+          "existingCourse": "AV Solutions Advanced: Large Venues and AV over IP",
           "prerequisites": [
             "AV Solutions Intermediate: Integrated Rooms"
           ]
@@ -1201,7 +1201,7 @@
               "content": "[PLACEHOLDER: company to supply] TEXT (written lesson)"
             }
           ],
-          "existingCourse": null,
+          "existingCourse": "Power Solutions Intermediate: Sizing UPS, Batteries and DG Sets",
           "prerequisites": [
             "Power Solutions Basic: UPS, Power Quality and Earthing"
           ]
@@ -1237,7 +1237,7 @@
               "content": "[PLACEHOLDER: company to supply] TEXT (written lesson)"
             }
           ],
-          "existingCourse": null,
+          "existingCourse": "Power Solutions Advanced: Resilient Power Design",
           "prerequisites": [
             "Power Solutions Intermediate: Sizing UPS, Batteries and DG Sets"
           ]
@@ -1350,7 +1350,7 @@
               "content": "[PLACEHOLDER: company to supply] TEXT (written lesson)"
             }
           ],
-          "existingCourse": null,
+          "existingCourse": "Networking Advanced: SD-WAN and Network Architecture",
           "prerequisites": [
             "Networking Intermediate: Switching, Routing and Wi-Fi Design"
           ]
@@ -1427,7 +1427,7 @@
               "content": "[PLACEHOLDER: company to supply] TEXT (written lesson)"
             }
           ],
-          "existingCourse": null,
+          "existingCourse": "Print Solutions Intermediate: Print Fleet Assessment",
           "prerequisites": [
             "Print Solutions Basic: Printers, MFPs and Consumables"
           ]
@@ -1463,7 +1463,7 @@
               "content": "[PLACEHOLDER: company to supply] TEXT (written lesson)"
             }
           ],
-          "existingCourse": null,
+          "existingCourse": "Print Solutions Advanced: Managed Print Services",
           "prerequisites": [
             "Print Solutions Intermediate: Print Fleet Assessment"
           ]
@@ -1506,7 +1506,7 @@
               "content": "[PLACEHOLDER: company to supply] TEXT (written lesson)"
             }
           ],
-          "existingCourse": null,
+          "existingCourse": "Cyber Security Basic: Threats and Protection",
           "prerequisites": []
         },
         "INTERMEDIATE": {
@@ -1576,7 +1576,7 @@
               "content": "[PLACEHOLDER: company to supply] TEXT (written lesson)"
             }
           ],
-          "existingCourse": null,
+          "existingCourse": "Cyber Security Advanced: Compliance Frameworks and Security Architecture",
           "prerequisites": [
             "Cyber Security Intermediate: Firewalls, Endpoint and SOC Basics"
           ]
@@ -1689,7 +1689,7 @@
               "content": "[PLACEHOLDER: company to supply] TEXT (written lesson)"
             }
           ],
-          "existingCourse": null,
+          "existingCourse": "Cloud Advanced: Hybrid Architecture and Operations",
           "prerequisites": [
             "Cloud Intermediate: Migration and Cost Management"
           ]
@@ -1732,7 +1732,7 @@
               "content": "[PLACEHOLDER: company to supply] TEXT (written lesson)"
             }
           ],
-          "existingCourse": null,
+          "existingCourse": "HPC, AI and ML Basic: Concepts and Use Cases",
           "prerequisites": []
         },
         "INTERMEDIATE": {
@@ -1802,7 +1802,7 @@
               "content": "[PLACEHOLDER: company to supply] LIVE_SESSION (instructor-led)"
             }
           ],
-          "existingCourse": null,
+          "existingCourse": "HPC, AI and ML Advanced: Solution Sizing and Design",
           "prerequisites": [
             "HPC, AI and ML Intermediate: Infrastructure for AI Workloads"
           ]
@@ -1845,7 +1845,7 @@
               "content": "[PLACEHOLDER: company to supply] LAB (step-by-step checklist)"
             }
           ],
-          "existingCourse": null,
+          "existingCourse": "Server and Storage Basic: Servers, RAID and Storage Types",
           "prerequisites": []
         },
         "INTERMEDIATE": {
@@ -1915,7 +1915,7 @@
               "content": "[PLACEHOLDER: company to supply] TEXT (written lesson)"
             }
           ],
-          "existingCourse": null,
+          "existingCourse": "Server and Storage Advanced: Architecture and Disaster Recovery",
           "prerequisites": [
             "Server and Storage Intermediate: Virtualisation and Backup"
           ]

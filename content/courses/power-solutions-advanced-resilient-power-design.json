@@ -1,0 +1,140 @@
+{
+  "slug": "power-solutions-advanced-resilient-power-design",
+  "title": "Power Solutions Advanced: Resilient Power Design",
+  "subject": "POWER SOLUTIONS",
+  "category": "TECHNICAL",
+  "level": "ADVANCED",
+  "passMarkPercent": 70,
+  "description": "Redundant power architectures for data centres and critical sites. You will be able to: design N+1 and 2N power architectures; plan distribution, PDUs and monitoring; coordinate power with cooling; plan maintenance without downtime.",
+  "modules": [
+    {
+      "title": "Redundant architectures",
+      "minutes": 45
+    },
+    {
+      "title": "Distribution and PDUs",
+      "minutes": 30
+    },
+    {
+      "title": "Power and cooling together",
+      "minutes": 30
+    },
+    {
+      "title": "Maintenance planning",
+      "minutes": 30
+    }
+  ],
+  "lessons": [
+    {
+      "position": 1,
+      "title": "Redundant architectures",
+      "type": "TEXT",
+      "body": "Critical sites need power designs that survive component failures and allow maintenance without shutdown.\n\n## Common architectures\n\n- **N:** one UPS sized for the load. Any failure or maintenance affects the load (unless bypassed to raw mains).\n- **N+1:** enough UPS modules for the load plus one spare, often in a parallel or modular system. One module can fail or be serviced.\n- **2N:** two completely independent power paths (A and B), each able to carry the full load. Dual-corded equipment draws from both.\n\n## Choosing\n\nMatch the architecture to the cost of downtime. A branch office may be fine with N; a primary data centre often needs 2N for critical loads. Remember that redundancy is only as good as its weakest shared part, such as a single distribution board.",
+      "module": 1
+    },
+    {
+      "position": 2,
+      "title": "Distribution and PDUs",
+      "type": "TEXT",
+      "body": "Power must reach every device reliably, and be measured.\n\n## Distribution\n\n- Separate circuits for each rack or row, sized for the load with margin.\n- **A and B feeds:** two PDUs per rack, each from a different UPS or path, so dual-power-supply equipment survives the loss of one.\n- Balance load across phases in three-phase systems.\n\n## Rack PDUs\n\n- **Basic:** distribution only.\n- **Metered:** show total current, so circuits are not overloaded.\n- **Monitored / switched:** per-outlet measurement and remote on/off control.\n\n## Monitoring\n\nMonitor UPS, PDUs and circuits centrally. Watch that each feed of a 2N design stays below half its capacity; otherwise, losing one feed overloads the other.",
+      "module": 2
+    },
+    {
+      "position": 3,
+      "title": "Power and cooling together",
+      "type": "TEXT",
+      "body": "Power and cooling must be designed together. Every kilowatt of IT load becomes heat that the cooling system must remove.\n\n## Points to coordinate\n\n- Cooling equipment needs power too, and often must be on generator, and for critical sites even on UPS, so cooling continues during an outage.\n- Rising power density per rack needs matching cooling capacity at the rack, not just in the room.\n- Redundancy levels should match: an N+1 cooling system behind a 2N power system leaves cooling as the weak point.\n\n## Efficiency\n\n- Higher UPS load and efficient modes reduce losses.\n- Containment and correct temperature set points reduce cooling energy.\n- Track **PUE** (total facility power ÷ IT power) to measure overall efficiency.",
+      "module": 3
+    },
+    {
+      "position": 4,
+      "title": "Maintenance planning",
+      "type": "TEXT",
+      "body": "Power systems need maintenance; resilient designs allow it without shutting down the load.\n\n## Maintenance practice\n\n- Follow the manufacturer's schedule for UPS, batteries and generators.\n- Test batteries regularly and replace them before end of life.\n- Run generators on load periodically, not just idle.\n- Use **maintenance bypass** switches so a UPS can be serviced while the load stays powered.\n\n## Planning a maintenance window\n\n1. Confirm the redundant path is healthy before starting.\n2. Inform stakeholders and agree the window.\n3. Follow a written procedure (method statement), step by step.\n4. Have a rollback plan.\n5. Record what was done and the readings taken.",
+      "module": 4
+    }
+  ],
+  "assessment": {
+    "title": "Power Solutions Advanced: completion check",
+    "level": "ADVANCED",
+    "passMarkPercent": 70,
+    "questions": [
+      {
+        "type": "MATCHING",
+        "text": "Match each architecture to its description.",
+        "options": [
+          "N=One UPS sized for the load",
+          "N+1=Enough modules for the load plus one spare",
+          "2N=Two independent power paths, each carrying the full load"
+        ],
+        "correct": [],
+        "points": 3
+      },
+      {
+        "type": "SINGLE",
+        "text": "In a 2N design, why must each feed stay below half its capacity?",
+        "options": [
+          "So that losing one feed does not overload the other",
+          "To save paper",
+          "Because GST requires it",
+          "It does not matter"
+        ],
+        "correct": [
+          "So that losing one feed does not overload the other"
+        ],
+        "points": 1
+      },
+      {
+        "type": "SINGLE",
+        "text": "Which rack PDU type allows remote on/off control of individual outlets?",
+        "options": [
+          "Switched",
+          "Basic",
+          "Metered",
+          "Passive"
+        ],
+        "correct": [
+          "Switched"
+        ],
+        "points": 1
+      },
+      {
+        "type": "TRUE_FALSE",
+        "text": "Cooling equipment may need to be on generator or UPS so cooling continues during an outage.",
+        "options": [
+          "True",
+          "False"
+        ],
+        "correct": [
+          "True"
+        ],
+        "points": 1
+      },
+      {
+        "type": "MULTIPLE",
+        "text": "Which belong in planning a power maintenance window? Select all that apply.",
+        "options": [
+          "Confirm the redundant path is healthy",
+          "Follow a written method statement",
+          "Have a rollback plan",
+          "Skip informing stakeholders to save time"
+        ],
+        "correct": [
+          "Confirm the redundant path is healthy",
+          "Follow a written method statement",
+          "Have a rollback plan"
+        ],
+        "points": 2
+      },
+      {
+        "type": "FILL_BLANK",
+        "text": "A switch that keeps the load powered while a UPS is serviced is a maintenance ____ switch.",
+        "options": [
+          "bypass"
+        ],
+        "correct": [],
+        "points": 1
+      }
+    ]
+  }
+}
