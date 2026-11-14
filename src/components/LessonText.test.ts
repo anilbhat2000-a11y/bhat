@@ -31,3 +31,9 @@ it("links https addresses, leaving trailing punctuation and other schemes as tex
   expect(out).not.toContain('href="javascript');
   expect(out).not.toContain('href="http://');
 });
+
+it("renders *italic* for titles and emphasis, but leaves lone asterisks alone", () => {
+  expect(html("Read *Getting to Yes* first.")).toContain("<p>Read <em>Getting to Yes</em> first.</p>");
+  expect(html("Use 2 * 3 or a*b.")).toContain("<p>Use 2 * 3 or a*b.</p>");
+  expect(html("**bold** and *it*")).toContain("<strong>bold</strong> and <em>it</em>");
+});

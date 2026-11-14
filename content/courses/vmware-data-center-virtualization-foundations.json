@@ -1,0 +1,303 @@
+{
+  "slug": "vmware-data-center-virtualization-foundations",
+  "title": "VMware Data Center Virtualization Foundations",
+  "subject": "IT INFRA",
+  "category": "TECHNICAL",
+  "level": "BASIC",
+  "passMarkPercent": 70,
+  "description": "How server virtualisation with VMware vSphere turns under-used physical servers into a flexible, resilient data centre: virtual machines, ESXi and vCenter, vMotion and DRS, high availability and fault tolerance, storage and virtual networking, operations and disaster recovery. Based on our 4-hour workshop, updated for today's VMware portfolio. You will be able to: explain the business case for virtualisation; describe the main vSphere components; and choose the right vSphere feature for a customer's problem.",
+  "modules": [
+    {
+      "title": "Why virtualise the data centre",
+      "minutes": 45
+    },
+    {
+      "title": "vSphere core: compute, mobility and availability",
+      "minutes": 80
+    },
+    {
+      "title": "Storage, networking, operations and recovery",
+      "minutes": 30
+    },
+    {
+      "title": "Applying what you have learned",
+      "minutes": 40
+    },
+    {
+      "title": "Wrap-up and certification readiness",
+      "minutes": 15
+    }
+  ],
+  "lessons": [
+    {
+      "position": 1,
+      "title": "Course overview: what you will learn and what has changed",
+      "type": "TEXT",
+      "body": "This course is the self-paced version of our 4-hour instructor-led workshop, **VMware Data Center Virtualization Foundations**. It is for system administrators, network engineers, presales engineers, account managers and new joiners in technical roles. You need only basic IT familiarity.\n\n## What you will be able to do\n\n1. **Explain the value of virtualisation** in business terms: availability, scalability, optimisation and management.\n2. **Describe the main components** of VMware vSphere: virtual machines, the ESXi hypervisor, vCenter Server, storage and virtual networking, and the management tools around them.\n3. **Match features to real problems**: recommend the right vSphere capability for a customer's situation.\n\nCertification exams and customers both test why a feature is used as much as what it does, so every lesson ends with that link.\n\n## How the course is organised\n\n- **Module 1** explains why organisations virtualise, and includes a server room audit exercise.\n- **Module 2** covers the vSphere core: compute, live migration, resource balancing and availability.\n- **Module 3** covers storage, virtual networking, operations and disaster recovery.\n- **Module 4** applies everything to four customer scenarios.\n- **Module 5** gives a feature cheat sheet and the current certification path.\n\n## What has changed since the original workshop\n\nThe workshop was first written for vSphere 5.5, released in 2013. vSphere 5.5 reached the end of general support in September 2018. The ideas taught here have not changed, but some products have:\n\n- **Broadcom** completed its acquisition of VMware in November 2023. VMware products are now sold mainly as subscriptions, chiefly **VMware vSphere Foundation (VVF)** and **VMware Cloud Foundation (VCF)**.\n- The browser tool is now the **vSphere Client** (HTML5); the old Flash-based vSphere Web Client was removed. vCenter now runs only as the **vCenter Server Appliance**; the Windows version ended with vSphere 6.7.\n- **Fault Tolerance** is no longer limited to 1 vCPU: in vSphere 8 it supports up to 8 vCPUs, depending on the licence.\n- **vSphere Flash Read Cache** and **vSphere Data Protection** were discontinued.\n- **vCenter Operations Manager** became vRealize Operations, then Aria Operations, and is **VCF Operations** in VCF 9.\n- **Site Recovery Manager** was rebranded under the **VMware Live Recovery** family in 2024.\n- The **VCA-DCV** associate certification no longer exists. See the last lesson for today's path.\n\n## Key terms\n\n- **Virtualisation:** running several isolated virtual computers on one physical computer.\n- **vSphere:** VMware's server virtualisation platform: ESXi plus vCenter Server and their features.\n- **VVF / VCF:** VMware vSphere Foundation and VMware Cloud Foundation, today's main VMware subscriptions.\n\n## Real-world example\n\nA presales engineer is asked by a customer whether the \"vSphere 5.5 features\" in an old proposal still apply. Because she knows what has been renamed, replaced or retired, she rewrites the proposal around vSphere 8 features and the customer's VVF subscription, avoiding promises about products that no longer exist.\n\n## Common mistakes\n\n- Quoting product names or limits from old material without checking the current version.\n- Treating virtualisation as only a cost-saving exercise.\n\n## Key takeaways\n\n- The concepts in this course are current; some product names and limits have changed.\n- Always check features against the customer's vSphere version and subscription.",
+      "module": 1
+    },
+    {
+      "position": 2,
+      "title": "Physical versus virtual architecture",
+      "type": "TEXT",
+      "body": "To see why virtualisation matters, compare a traditional server room with a virtualised one.\n\n## The traditional physical model\n\nIn a traditional setup, each application runs on its own physical server: a web application on one, a database on another, a mail server on a third.\n\n- **Tightly coupled:** the operating system is installed for that exact server's motherboard, network card and storage controller. Moving the application to new hardware is slow and risky.\n- **Low utilisation:** most single-application servers use only a small part of their capacity, often around 5 to 15% of their CPU on an average day.\n- **Server sprawl:** many servers mean high power, cooling and rack-space costs.\n- **Slow provisioning:** a new server can take weeks to approve, buy, deliver, rack and install.\n\n## The virtualised model\n\nIn a virtualised data centre, a thin software layer called a **hypervisor** runs directly on each physical server. VMware's hypervisor is **ESXi**. The hypervisor:\n\n- **Pools** the server's CPU, memory, storage and network.\n- Runs **many virtual machines (VMs)** side by side, each with its own operating system and applications, fully isolated from the others.\n- Presents **standard virtual hardware** to every VM, so a VM is not tied to one physical model.\n\nThe results are higher utilisation (often 60 to 80% of host capacity), fewer servers, and new VMs ready in minutes from templates instead of weeks.\n\n## Key terms\n\n- **Hypervisor:** software that creates and runs virtual machines.\n- **Type 1 (bare-metal) hypervisor:** installed directly on the server hardware, such as ESXi. Type 2 hypervisors, such as VMware Workstation, run on top of Windows or Linux and are used on desktops.\n- **Consolidation ratio:** the number of VMs running on one physical host.\n- **CAPEX / OPEX:** capital expenditure (buying hardware) and operating expenditure (power, cooling, support).\n\n## Real-world example\n\nA distribution company in Nagpur runs 30 physical servers, each for one application, and is out of rack space. After virtualising onto four ESXi hosts with shared storage, it frees most of its racks, cuts its power bill sharply and deploys new application servers the same day they are requested.\n\n## Common mistakes\n\n- Thinking a VM is \"less real\" than a physical server; to the operating system it behaves like a normal computer.\n- Consolidating so heavily that there is no spare capacity for failures or growth.\n\n## Key takeaways\n\n- Physical servers tie the operating system to specific hardware and are usually under-used.\n- A Type 1 hypervisor such as ESXi pools resources and runs many isolated VMs on one host.\n- Virtualisation improves utilisation, cuts costs and speeds up provisioning.",
+      "module": 1
+    },
+    {
+      "position": 3,
+      "title": "The four core IT challenges",
+      "type": "TEXT",
+      "body": "Every feature in this course solves one or more of four business challenges. Learn these four, and you can explain any vSphere feature in terms a customer cares about.\n\n## 1. Availability\n\n**The problem:** planned hardware maintenance forces downtime windows, and unexpected server failures or site disasters cause long, costly outages.\n\n**vSphere answers:** vMotion (move running VMs before maintenance), High Availability (automatic restart after a failure), Fault Tolerance (no downtime at all for critical VMs) and site recovery tools for disasters.\n\n## 2. Scalability\n\n**The problem:** the business cannot add capacity quickly for traffic spikes or growth without buying hardware that sits idle most of the time.\n\n**vSphere answers:** VM templates and cloning for fast deployment, DRS clusters that share resources across hosts, and vSAN storage that grows by adding hosts.\n\n## 3. Optimisation\n\n**The problem:** under-used servers waste electricity, cooling and space, while storage bottlenecks slow important applications.\n\n**vSphere answers:** consolidation, Distributed Power Management, Storage I/O Control and storage balancing.\n\n## 4. Management\n\n**The problem:** repetitive manual administration, inconsistent configuration from host to host, and reacting to problems only after users complain.\n\n**vSphere answers:** vCenter Server for central management, the vSphere Distributed Switch for consistent networking, and operations analytics (now VCF Operations) for proactive monitoring.\n\n## Key terms\n\n- **Downtime:** time when a service is unavailable.\n- **Provisioning:** preparing and delivering a new server or VM.\n- **Server sprawl:** too many lightly used physical servers.\n\n## Real-world example\n\nDuring discovery, a hospital's IT head lists three complaints: weekend outages for maintenance, three weeks to get a new server, and no one noticing slow systems until doctors complain. The account manager maps them to availability, scalability and management, and the proposal explains vMotion, templates and proactive monitoring in those terms.\n\n## Common mistakes\n\n- Pitching features by name without linking them to a challenge.\n- Ignoring management, which is often the biggest daily pain for small IT teams.\n\n## Key takeaways\n\n- The four challenges are availability, scalability, optimisation and management.\n- Every vSphere feature maps to at least one of them.\n- Use the four challenges to structure discovery and proposals.",
+      "module": 1
+    },
+    {
+      "position": 4,
+      "title": "Activity: the traditional server room audit",
+      "type": "TEXT",
+      "body": "This activity applies Module 1 to a realistic customer. Work through the questions before reading the suggested answers.\n\n## The customer\n\n**Kaveri Logistics** (a fictional company) runs a traditional server room with one application per physical rack server:\n\n- 20 physical servers.\n- Average CPU utilisation of 12%.\n- New servers take about 3 weeks to deploy.\n- A power supply failure last month took the shipping portal offline for 6 hours.\n\n## Questions to answer\n\n1. Which of the four core IT challenges is Kaveri Logistics facing?\n2. At 12% average utilisation across 20 servers, how many ESXi hosts would run all 20 workloads with N+1 redundancy (one spare host's worth of capacity)?\n3. How would virtualisation have prevented the 6-hour shipping portal outage?\n\n## Suggested answers\n\n- **Challenges:** all four. Availability (the outage), scalability (3-week provisioning), optimisation (12% utilisation) and management (20 separate servers to look after).\n- **Consolidation maths:** 20 servers × 12% ≈ 2.4 servers' worth of actual load. Three or four modern ESXi hosts, running at around 60% with capacity to survive one host failure, can carry all 20 workloads, removing about 16 physical servers. Always confirm with measured CPU, memory and storage data before sizing.\n- **Outage prevention:** with vSphere HA, if a host fails, its VMs restart automatically on the remaining hosts within a few minutes. Dual power supplies on each host and a UPS reduce the risk further.\n- **Agility:** VM templates cut new server deployment from weeks to minutes.\n\n## Key terms\n\n- **N+1:** one extra unit of capacity so that one failure can be tolerated.\n- **Average utilisation:** typical use over time; always check peaks too.\n- **Template:** a master VM image used to create new VMs quickly.\n\n## Real-world example\n\nA presales engineer runs this same calculation with real monitoring data from a customer. The data shows that memory, not CPU, is the limiting factor, so the design uses hosts with more RAM. Measuring rather than guessing avoids a costly mistake.\n\n## Common mistakes\n\n- Sizing from average CPU only, ignoring memory, storage and peaks.\n- Forgetting spare capacity for a host failure.\n\n## Key takeaways\n\n- Under-used physical servers can usually be consolidated onto far fewer hosts.\n- Size with N+1 and real usage data.\n- HA and templates address outages and slow provisioning.",
+      "module": 1
+    },
+    {
+      "position": 5,
+      "title": "Core building blocks: virtual machines, ESXi and vCenter",
+      "type": "TEXT",
+      "body": "Every vSphere environment is built from three building blocks: virtual machines, the ESXi hypervisor and vCenter Server.\n\n## Virtual machines (VMs)\n\nA VM is a software computer that runs its own operating system and applications. Four properties make VMs powerful:\n\n- **Partitioning:** many VMs share one physical host.\n- **Isolation:** a crash or malware in one VM does not affect the others.\n- **Encapsulation:** the whole VM is stored as a set of files, so it can be copied, moved and backed up easily.\n- **Hardware independence:** every VM sees the same standard virtual hardware, on any supported host.\n\nImportant VM files include the **.vmx** file (configuration), the **.vmdk** file (virtual disk) and the **.nvram** file (virtual BIOS or UEFI settings).\n\n## ESXi hypervisor\n\n**ESXi** is VMware's Type 1, bare-metal hypervisor, installed directly on the physical server with no Windows or Linux underneath.\n\n- It schedules CPU time, allocates memory and shares storage and network access among VMs.\n- Its small footprint means a small attack surface and less patching than a general-purpose operating system.\n- A single ESXi host can be managed on its own through its host client.\n\n## vCenter Server\n\n**vCenter Server** is the central management platform for many hosts and VMs.\n\n- One place to manage hundreds of hosts and thousands of VMs, through the browser-based **vSphere Client**.\n- **Required** for the cluster features in this course: vMotion, DRS, HA, Fault Tolerance and the vSphere Distributed Switch.\n- Today it is deployed as the **vCenter Server Appliance**, a pre-built Linux-based virtual machine.\n\n## Key terms\n\n- **Guest operating system:** the operating system inside a VM.\n- **Host:** a physical server running ESXi.\n- **Cluster:** a group of hosts managed together in vCenter, sharing resources and availability features.\n\n## Real-world example\n\nA school group runs two standalone ESXi hosts managed separately. When one host needs maintenance, every VM on it must be shut down. After adding vCenter and creating a cluster, the IT team moves running VMs to the other host before maintenance, with no interruption to students.\n\n## Common mistakes\n\n- Expecting vMotion, HA or DRS on standalone hosts without vCenter.\n- Deleting or editing VM files directly on the datastore instead of using vCenter.\n\n## Key takeaways\n\n- VMs are isolated, encapsulated, hardware-independent computers stored as files.\n- ESXi is a bare-metal Type 1 hypervisor.\n- vCenter Server is required for cluster features such as vMotion, DRS, HA and FT.",
+      "module": 2
+    },
+    {
+      "position": 6,
+      "title": "Live migration and resource balancing: vMotion, DRS and DPM",
+      "type": "TEXT",
+      "body": "Three features build on each other to keep workloads running smoothly across a cluster: vMotion, DRS and DPM.\n\n## vSphere vMotion\n\n**vMotion** moves a running VM from one ESXi host to another with no downtime and no dropped connections. It copies the VM's active memory and execution state over a dedicated vMotion network, then switches the VM to the new host in a moment. Users do not notice.\n\n- **Main use:** planned host maintenance, such as firmware updates or hardware repairs.\n- With shared storage, the VM's disk files stay where they are; only the running state moves.\n\n## Distributed Resource Scheduler (DRS)\n\n**DRS** automates vMotion. It treats the CPU and memory of all hosts in a cluster as one pool:\n\n- **Initial placement:** chooses the best host when a VM is powered on.\n- **Load balancing:** continuously checks the cluster and moves VMs with vMotion when a host becomes overloaded.\n- **Automation levels:** manual (DRS only recommends), partially automated (DRS places new VMs, recommends moves) and fully automated (DRS acts on its own).\n\n## Distributed Power Management (DPM)\n\n**DPM** is an option of DRS clusters. When demand is low, such as at night, it moves VMs onto fewer hosts and puts idle hosts into standby to save power and cooling. When demand rises, it powers them back on.\n\n## Key terms\n\n- **Live migration:** moving a running VM without shutting it down.\n- **vMotion network:** a dedicated network (VMkernel port) for vMotion traffic.\n- **Automation level:** how much DRS acts on its own.\n\n## Real-world example\n\nAn IT team must update the firmware on all six hosts in a cluster. It puts each host into maintenance mode in turn; DRS moves that host's VMs to the others with vMotion. The firmware is updated during working hours, and nobody notices.\n\n## Common mistakes\n\n- Running vMotion over a congested shared network instead of a dedicated one.\n- Setting DRS to manual and never acting on its recommendations.\n\n## Key takeaways\n\n- vMotion moves running VMs between hosts with no downtime.\n- DRS balances CPU and memory across a cluster using vMotion.\n- DPM saves power by putting idle hosts into standby when demand is low.",
+      "module": 2
+    },
+    {
+      "position": 7,
+      "title": "Storage mobility and optimisation: Storage vMotion, Storage DRS and SIOC",
+      "type": "TEXT",
+      "body": "Storage can become a bottleneck or a source of downtime too. vSphere provides three features for moving and balancing storage.\n\n## Storage vMotion\n\n**Storage vMotion** moves a running VM's virtual disk files (.vmdk) from one datastore or storage array to another, with no downtime.\n\n- **Main uses:** replacing a storage array, retiring old storage, or freeing space on a full datastore.\n- **vMotion versus Storage vMotion:** vMotion moves the running VM between **hosts** (the disks stay put); Storage vMotion moves the VM's **disks** between datastores (the VM stays on its host). Both can be combined in one migration.\n\n## Storage DRS\n\n**Storage DRS** groups several datastores into a **datastore cluster** and:\n\n- Chooses where to place a new VM's disks.\n- Balances **capacity** (how full each datastore is) and **I/O latency** (how slow it is), moving disks with Storage vMotion when needed.\n\n## Storage I/O Control (SIOC)\n\n**SIOC** provides quality of service for storage. When a datastore's latency rises above a threshold, SIOC gives disk access to VMs according to their shares, so lower-priority VMs are throttled first.\n\n- **Main use:** stopping \"noisy neighbour\" VMs, such as backup or batch jobs, from starving important databases.\n\n## Key terms\n\n- **Datastore:** a storage container for VM files.\n- **Datastore cluster:** a group of datastores managed by Storage DRS.\n- **Latency:** the delay for a storage operation, in milliseconds.\n- **Shares:** relative priority used when resources are contended.\n\n## Real-world example\n\nA bank is replacing its five-year-old storage array. Using Storage vMotion, the team moves VM disks to the new array during the day, a few at a time, with no outage. Afterwards, Storage DRS keeps capacity and latency balanced across the new datastores automatically.\n\n## Common mistakes\n\n- Confusing vMotion (hosts) with Storage vMotion (disks).\n- Leaving backup VMs with the same storage priority as critical databases.\n\n## Key takeaways\n\n- Storage vMotion moves VM disks between datastores without downtime.\n- Storage DRS balances capacity and latency across a datastore cluster.\n- SIOC protects important VMs from noisy neighbours when storage is busy.",
+      "module": 2
+    },
+    {
+      "position": 8,
+      "title": "Availability and data protection: HA, Fault Tolerance, replication and backup",
+      "type": "TEXT",
+      "body": "Different workloads need different levels of protection. vSphere provides a range from automatic restart to zero downtime.\n\n## vSphere High Availability (HA)\n\n**HA** monitors the hosts in a cluster. If a host fails, the other hosts automatically restart its VMs, typically within a few minutes. HA can also restart a VM whose guest operating system stops responding.\n\n- Works for all VMs with little overhead.\n- **Admission control** reserves enough spare capacity in the cluster to restart VMs after a failure.\n\n## vSphere Fault Tolerance (FT)\n\n**FT** gives continuous availability: no downtime and no data loss if a host fails. It keeps a **secondary VM** on another host, continuously synchronised with the primary. If the primary's host fails, the secondary takes over instantly.\n\n- Used only for the most critical VMs, because it doubles resource use and needs a fast dedicated network.\n- In vSphere 8, an FT VM can have up to 8 vCPUs with vSphere Enterprise Plus or VVF, and up to 2 vCPUs with Standard or Enterprise. (The original vSphere 5.5 limit was 1 vCPU.)\n\n**Exam and customer tip:** HA **restarts** VMs after a failure (minutes of downtime); FT **avoids** downtime entirely.\n\n## vSphere Replication\n\n**vSphere Replication** copies VMs to another site, asynchronously, at the hypervisor level. You choose a recovery point objective, from minutes up to 24 hours. It does not need identical storage arrays at both sites.\n\n## Backup\n\nBackups protect against deletion, corruption and ransomware, which HA and FT do not. VMware's own backup appliance, vSphere Data Protection, was discontinued; today, backup products from vendors such as Veeam, Commvault and Veritas protect vSphere VMs using VMware's storage APIs for data protection, with changed block tracking for fast incremental backups.\n\n## Key terms\n\n- **RTO:** recovery time objective, how quickly service must return.\n- **RPO:** recovery point objective, how much data loss is acceptable.\n- **Admission control:** HA reserving capacity for failover.\n- **Changed block tracking (CBT):** recording which disk blocks changed since the last backup.\n\n## Real-world example\n\nA hospital protects its patient-monitoring database with FT, its other clinical systems with HA, replicates key VMs to its DR site with vSphere Replication and backs everything up daily with immutable copies. Each tier matches the business impact of downtime.\n\n## Common mistakes\n\n- Assuming HA means zero downtime.\n- Thinking HA or FT replace backups.\n\n## Key takeaways\n\n- HA restarts VMs after a host failure; FT gives zero downtime for critical VMs.\n- vSphere Replication copies VMs to another site with a chosen RPO.\n- Backups are still essential for deletion, corruption and ransomware.",
+      "module": 2
+    },
+    {
+      "position": 9,
+      "title": "Guided walkthrough: vCenter and the vSphere Client",
+      "type": "TEXT",
+      "body": "In the workshop, the instructor demonstrates these steps live. Follow them in a lab or training environment, never in production without approval.\n\n## Step 1: explore the inventory\n\n1. Sign in to the **vSphere Client** in a browser.\n2. Open **Hosts and Clusters**. Note the hierarchy: vCenter → data centre → cluster → hosts → VMs.\n3. Select an ESXi host and review its **summary**: CPU, memory, ESXi version and build.\n4. Open **Datastores** and browse a VM's folder to see its **.vmx** and **.vmdk** files.\n\n## Step 2: watch a live vMotion\n\n1. From another machine, start a continuous ping to a running test VM (for example `ping -t web-01` on Windows).\n2. Right-click the VM → **Migrate** → **Change compute resource only**.\n3. Choose another host in the cluster and finish the wizard.\n4. Watch the ping: it continues with no lost replies, or at most one, while the VM moves.\n\nIf vMotion fails, check that both hosts have a VMkernel adapter with the **vMotion** service enabled, on a network they can both reach.\n\n## Step 3: review HA and DRS settings\n\n1. Select the cluster → **Configure**.\n2. Under **vSphere DRS**, review the automation level: manual, partially automated or fully automated.\n3. Under **vSphere Availability**, review host monitoring, admission control and VM restart priority.\n\n## Key terms\n\n- **Inventory:** the tree of data centres, clusters, hosts and VMs in vCenter.\n- **VMkernel adapter:** a host network interface for services such as management, vMotion or storage.\n- **Restart priority:** the order in which HA restarts VMs.\n\n## Real-world example\n\nA new support engineer practises these steps in the company's training lab. A month later, during a real host failure, she knows where to check HA events and restart priorities, and explains to the customer exactly what happened.\n\n## Common mistakes\n\n- Practising on production systems.\n- Missing the vMotion VMkernel configuration when migrations fail.\n\n## Key takeaways\n\n- The vSphere Client shows the inventory from vCenter down to VM files.\n- A continuous ping demonstrates zero-downtime vMotion.\n- HA and DRS are configured at the cluster level.",
+      "module": 2
+    },
+    {
+      "position": 10,
+      "title": "Storage and virtual networking",
+      "type": "TEXT",
+      "body": "VMs need storage for their disks and networks to talk to users and each other. vSphere provides both.\n\n## Storage options\n\n- **VMFS datastores:** VMware's clustered file system on block storage (Fibre Channel, iSCSI, or NVMe over Fabrics), which several hosts can use at once.\n- **NFS datastores:** file-based storage from a NAS over the IP network.\n- **vSAN:** VMware's software-defined, hyper-converged storage. It pools the local disks of the hosts in a cluster into one shared datastore, with no separate storage array. vSAN's original architecture used flash for cache and disks for capacity; the newer **Express Storage Architecture** (vSphere 8 onwards) uses all-NVMe flash.\n- **vSphere Flash Read Cache**, taught in the original workshop, was deprecated in vSphere 6.7 Update 2 and is no longer available in current releases.\n\n## Virtual networking\n\n- **vSphere Standard Switch (vSS):** a virtual switch configured separately on each host. It connects VMs' virtual network cards to the host's physical uplinks.\n- **vSphere Distributed Switch (vDS):** configured once in vCenter and shared by many hosts, so VLANs and policies are consistent everywhere. It adds features such as Network I/O Control and NetFlow, and requires vCenter.\n\n## VMkernel adapters\n\nEach host uses **VMkernel adapters** for its own traffic, separate from VM traffic. Common services include **management**, **vMotion**, **Fault Tolerance logging**, **IP storage** (iSCSI or NFS), **vSAN** and **vSphere Replication**. Separate networks or VLANs for these services improve performance and security.\n\n## Key terms\n\n- **Uplink:** a physical network card connecting a host to the physical network.\n- **Port group:** a set of virtual switch ports with the same settings, such as a VLAN.\n- **Hyper-converged infrastructure (HCI):** compute and storage combined in the same servers.\n\n## Real-world example\n\nA retail company with 24 hosts configures VLANs on standard switches host by host, and one typo breaks the payment network on two hosts. Moving to a distributed switch, configured once in vCenter, removes the inconsistency, and changes now take minutes instead of hours.\n\n## Common mistakes\n\n- Putting vMotion, storage and management traffic on one congested network.\n- Configuring standard switches differently on each host.\n\n## Key takeaways\n\n- Datastores can be VMFS, NFS or vSAN; vSAN pools hosts' local disks.\n- Distributed switches give consistent networking across hosts and need vCenter.\n- Separate VMkernel services such as management, vMotion, storage and vSAN.",
+      "module": 3
+    },
+    {
+      "position": 11,
+      "title": "Operations and disaster recovery",
+      "type": "TEXT",
+      "body": "Running a large virtual environment well needs proactive monitoring and a tested disaster recovery plan.\n\n## Operations analytics\n\nThe workshop's **vCenter Operations Manager (vC Ops)** has been renamed several times: vRealize Operations, then Aria Operations, and **VCF Operations** in VMware Cloud Foundation 9. The ideas are the same:\n\n- **Health:** is something wrong right now? It learns normal behaviour and flags anomalies.\n- **Risk:** will we run out of capacity soon? It forecasts when CPU, memory or storage will run out.\n- **Efficiency:** are we wasting resources? It finds oversized and idle VMs whose resources can be reclaimed.\n\nThis moves the team from firefighting to planning.\n\n## Disaster recovery orchestration\n\nThe workshop's **vCenter Site Recovery Manager (SRM)** automates site failover. In 2024 Broadcom rebranded it under the **VMware Live Recovery** family (as VMware Live Site Recovery) and it is now part of VMware Cloud Foundation; check Broadcom's current product pages for the latest name and packaging. Its capabilities:\n\n- **Recovery plans:** the order in which VMs start, scripts to run and IP address changes at the recovery site.\n- **Non-disruptive testing:** full DR tests in an isolated network, with no effect on production.\n- **Replication choice:** works with vSphere Replication or storage array replication.\n\nAutomated, tested plans replace long manual runbooks that are rarely tested and often fail under pressure.\n\n## Key terms\n\n- **Capacity forecasting:** predicting when resources will run out.\n- **Right-sizing:** adjusting VM CPU and memory to what is actually used.\n- **Recovery plan:** an automated, ordered set of steps for failover.\n- **DR test (drill):** a practice failover to prove the plan works.\n\n## Real-world example\n\nAn insurance company's DR plan is a 100-page document last tested three years ago. After implementing automated recovery plans, it runs a quarterly DR test in an isolated network in under an hour, records the results for its auditors and fixes two issues it would otherwise have discovered during a real disaster.\n\n## Common mistakes\n\n- Buying monitoring tools but acting only on alerts after users complain.\n- Having a DR plan that has never been tested.\n\n## Key takeaways\n\n- Operations analytics (now VCF Operations) show health, risk and efficiency.\n- DR orchestration automates failover and allows non-disruptive testing.\n- Product names change; the capabilities, and the need to test, do not.",
+      "module": 3
+    },
+    {
+      "position": 12,
+      "title": "Four scenario stations: availability, scalability, optimisation and management",
+      "type": "TEXT",
+      "body": "In the workshop, groups rotate through four customer stations. For each one, decide which vSphere features you would recommend before reading the suggested solution. The organisations are fictional.\n\n## Station 1: availability, Sahyadri Multispeciality Hospital\n\nThe patient-monitoring database cannot tolerate even 30 seconds of downtime. Other clinical applications need automatic recovery from hardware failure. Regional branches need automated disaster recovery with testing that does not disturb production.\n\n**Suggested solution:** Fault Tolerance for the patient-monitoring database (zero downtime, zero data loss); HA for other clinical VMs (automatic restart in minutes); VMware Live Recovery (formerly SRM) with vSphere Replication for orchestrated branch DR and isolated DR tests.\n\n## Station 2: scalability, CartKart online retail\n\nWeekend flash sales bring sudden traffic spikes. The retailer needs 15 new web servers in minutes, automatic balancing across 8 hosts and storage that grows without buying an expensive SAN.\n\n**Suggested solution:** VM templates and cloning for fast deployment; DRS to balance CPU and memory across the 8 hosts; vSAN for storage that scales by adding disks or hosts.\n\n## Station 3: optimisation, Dalal Street Analytics\n\nServers sit mostly idle overnight, wasting electricity. At month end, batch jobs hog shared storage and slow down executive dashboards.\n\n**Suggested solution:** DPM to consolidate VMs and put idle hosts into standby at night; Storage I/O Control to throttle batch VMs when storage is congested. (The original workshop also suggested Flash Read Cache, which is no longer available; today, all-flash or vSAN storage addresses read performance.)\n\n## Station 4: management, a lean IT team\n\nThree administrators look after 400 VMs on 24 hosts. They configure virtual switches host by host, move VMs off full datastores by hand and find performance problems only after users complain.\n\n**Suggested solution:** vCenter Server with a vSphere Distributed Switch for central, consistent configuration; VCF Operations (formerly vC Ops) for health, risk and efficiency analytics; Storage DRS to balance datastore capacity and latency automatically.\n\n## Key terms\n\n- **Scenario-based design:** choosing features from a customer's stated needs.\n- **Tiered protection:** different availability levels for different workloads.\n\n## Real-world example\n\nAn account manager uses these four stations as a discovery checklist with a new customer. By asking about availability, scalability, optimisation and management in turn, she finds a DR gap the customer had not mentioned, which becomes the largest part of the eventual order.\n\n## Common mistakes\n\n- Recommending Fault Tolerance for every VM, which wastes resources.\n- Proposing features the customer's licence or version does not include.\n\n## Key takeaways\n\n- Start from the customer's challenge, then choose the feature.\n- Combine features: no single feature solves every need.\n- Check that recommended features are in the customer's version and subscription.",
+      "module": 4
+    },
+    {
+      "position": 13,
+      "title": "Feature cheat sheet and today's certification path",
+      "type": "TEXT",
+      "body": "Use this lesson as a quick revision sheet and a guide to next steps.\n\n## Feature cheat sheet\n\n- **Host maintenance with no VM downtime:** vMotion.\n- **Moving VM disks to new storage with no downtime:** Storage vMotion.\n- **Automatic VM restart after a host failure:** vSphere HA.\n- **Zero downtime and zero data loss for a critical VM:** Fault Tolerance.\n- **Automatic CPU and memory balancing across a cluster:** DRS.\n- **Powering down idle hosts at night:** DPM.\n- **Stopping noisy neighbours on shared storage:** Storage I/O Control.\n- **Balancing datastore capacity and latency:** Storage DRS.\n- **Hyper-converged storage from hosts' local disks:** vSAN.\n- **Consistent networking across many hosts:** vSphere Distributed Switch.\n- **Health, risk and efficiency analytics:** VCF Operations (formerly vC Ops / Aria Operations).\n- **Automated, testable site failover:** VMware Live Recovery (formerly Site Recovery Manager).\n\n## Three things to remember\n\n1. **vCenter dependencies:** vMotion, DRS, HA, FT and the distributed switch all need vCenter Server.\n2. **VMkernel services:** management, vMotion, FT logging, IP storage, vSAN and replication.\n3. **HA versus FT:** HA restarts; FT avoids downtime.\n\n## Today's certification path\n\nThe workshop originally prepared learners for the **VCA-DCV** associate exam, which no longer exists. After Broadcom's acquisition, VMware certifications were reorganised around its current products:\n\n- **VCP-VVF Administrator** focuses on VMware vSphere Foundation, the natural next step after this course.\n- **VCP-VCF Administrator** covers the wider VMware Cloud Foundation stack, including NSX, vSAN and SDDC Manager.\n\nSeveral legacy certifications, including VCP-DCV, are reported to have been retired in December 2025. Exam names, codes and requirements change, so always check Broadcom's official certification pages before booking. Ask L&D about the company's certification support.\n\n## Key terms\n\n- **VCP:** VMware Certified Professional.\n- **VVF / VCF:** VMware vSphere Foundation / VMware Cloud Foundation.\n\n## Real-world example\n\nAfter finishing this course, a support engineer uses the cheat sheet to revise, builds a small lab, and plans for the VCP-VVF Administrator exam with the company's certification support. Customers now see a certified engineer on their projects, which also helps the company's VMware partner status.\n\n## Common mistakes\n\n- Studying for retired exams from old guides.\n- Memorising feature names without understanding which problem each solves.\n\n## Key takeaways\n\n- Match each customer need to the right feature using the cheat sheet.\n- vCenter is required for the cluster features.\n- Check Broadcom's current certification pages; VCP-VVF and VCP-VCF are today's main paths.",
+      "module": 5
+    }
+  ],
+  "sources": [
+    {
+      "title": "Broadcom TechDocs: VMware vSphere documentation",
+      "url": "https://techdocs.broadcom.com/"
+    },
+    {
+      "title": "VMware vSphere 8 documentation: Fault Tolerance requirements and limits",
+      "url": "https://docs.vmware.com/en/VMware-vSphere/8.0/vsphere-availability/GUID-57929CF0-DA9B-407A-BF2E-E7B72708D825.html"
+    },
+    {
+      "title": "Broadcom KB 373821: rebranding of Site Recovery Manager and Cloud Disaster Recovery",
+      "url": "https://knowledge.broadcom.com/external/article/373821"
+    },
+    {
+      "title": "Broadcom: VMware certification FAQs",
+      "url": "https://docs.broadcom.com/doc/vmw-certification-faqs"
+    },
+    {
+      "title": "William Lam: what is in VMware vSphere Foundation (VVF) and VMware Cloud Foundation (VCF)",
+      "url": "https://williamlam.com/2024/01/whats-in-the-new-vmware-vsphere-foundation-vvf-and-vmware-cloud-foundation-vcf-offers.html"
+    },
+    {
+      "title": "vFlash Read Cache deprecation announced (vSphere 6.7 Update 2)",
+      "url": "https://vcdx181.com/2019/04/15/vflash-read-cache-deprecation-announced/"
+    }
+  ],
+  "assessment": {
+    "title": "VMware Data Center Virtualization Foundations: completion check",
+    "level": "BASIC",
+    "passMarkPercent": 70,
+    "questions": [
+      {
+        "type": "SINGLE",
+        "text": "An administrator must update firmware on an ESXi host without interrupting users of its running VMs. Which feature is needed?",
+        "options": [
+          "vSphere High Availability",
+          "vSphere vMotion",
+          "vSphere Replication",
+          "Storage I/O Control"
+        ],
+        "correct": [
+          "vSphere vMotion"
+        ],
+        "points": 1,
+        "explanation": "vMotion moves running VMs to another host with no downtime, so the host can be maintained."
+      },
+      {
+        "type": "SINGLE",
+        "text": "How does vSphere Fault Tolerance differ from vSphere High Availability?",
+        "options": [
+          "FT powers off idle hosts; HA balances CPU",
+          "FT gives zero downtime with a synchronised secondary VM; HA restarts VMs after a failure",
+          "FT moves disks; HA moves memory",
+          "FT backs up VMs; HA replicates over the WAN"
+        ],
+        "correct": [
+          "FT gives zero downtime with a synchronised secondary VM; HA restarts VMs after a failure"
+        ],
+        "points": 1,
+        "explanation": "HA restarts VMs (minutes of downtime); FT keeps a live secondary VM, so there is no downtime or data loss."
+      },
+      {
+        "type": "SINGLE",
+        "text": "Which solution pools the local disks of the hosts in a cluster into one shared, hyper-converged datastore?",
+        "options": [
+          "Storage DRS",
+          "vSphere Distributed Switch",
+          "vSAN",
+          "VCF Operations"
+        ],
+        "correct": [
+          "vSAN"
+        ],
+        "points": 1,
+        "explanation": "vSAN is VMware's software-defined, hyper-converged storage built from hosts' local disks."
+      },
+      {
+        "type": "SINGLE",
+        "text": "A company has 20 physical servers averaging 12% CPU use. Roughly how much actual compute load is that?",
+        "options": [
+          "About 2.4 servers' worth",
+          "About 12 servers' worth",
+          "About 20 servers' worth",
+          "About 0.5 servers' worth"
+        ],
+        "correct": [
+          "About 2.4 servers' worth"
+        ],
+        "points": 1,
+        "explanation": "20 × 12% ≈ 2.4 servers of load, so three or four hosts with N+1 headroom could run them all (confirm with measured data)."
+      },
+      {
+        "type": "SINGLE",
+        "text": "What does Storage vMotion move?",
+        "options": [
+          "A running VM's memory between hosts",
+          "A running VM's disk files between datastores",
+          "Physical disks between servers",
+          "Backups to another site"
+        ],
+        "correct": [
+          "A running VM's disk files between datastores"
+        ],
+        "points": 1,
+        "explanation": "vMotion moves the running VM between hosts; Storage vMotion moves its disks between datastores."
+      },
+      {
+        "type": "MULTIPLE",
+        "text": "Which features require vCenter Server?",
+        "options": [
+          "vMotion",
+          "DRS",
+          "vSphere HA",
+          "Running a single VM on a standalone ESXi host"
+        ],
+        "correct": [
+          "vMotion",
+          "DRS",
+          "vSphere HA"
+        ],
+        "points": 1,
+        "explanation": "Cluster features need vCenter; a standalone host can still run VMs on its own."
+      },
+      {
+        "type": "SINGLE",
+        "text": "Backup VMs are slowing down a production database on shared storage. Which feature helps most?",
+        "options": [
+          "Distributed Power Management",
+          "Storage I/O Control",
+          "vSphere Standard Switch",
+          "VM templates"
+        ],
+        "correct": [
+          "Storage I/O Control"
+        ],
+        "points": 1,
+        "explanation": "SIOC gives storage access by priority when latency rises, throttling noisy neighbours."
+      },
+      {
+        "type": "TRUE_FALSE",
+        "text": "vSphere HA and Fault Tolerance make regular backups unnecessary.",
+        "options": [
+          "True",
+          "False"
+        ],
+        "correct": [
+          "False"
+        ],
+        "points": 1,
+        "explanation": "HA and FT protect against host failure, not against deletion, corruption or ransomware."
+      },
+      {
+        "type": "TRUE_FALSE",
+        "text": "A vSphere Distributed Switch is configured once in vCenter and shared by many hosts.",
+        "options": [
+          "True",
+          "False"
+        ],
+        "correct": [
+          "True"
+        ],
+        "points": 1,
+        "explanation": "Unlike a standard switch, which is configured on each host, a distributed switch gives consistent networking everywhere."
+      },
+      {
+        "type": "MATCHING",
+        "text": "Match each customer need to the vSphere feature.",
+        "options": [
+          "Automatic VM restart after a host failure=vSphere HA",
+          "Automatic CPU and memory balancing=DRS",
+          "Powering down idle hosts at night=DPM",
+          "Automated, testable site failover=VMware Live Recovery (formerly SRM)"
+        ],
+        "correct": [],
+        "points": 1,
+        "explanation": "Matching needs to features is the core skill this course builds."
+      }
+    ]
+  }
+}

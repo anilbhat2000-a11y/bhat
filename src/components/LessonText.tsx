@@ -2,18 +2,19 @@ import type { ReactNode } from "react";
 
 // Shows lesson text written in a small, safe subset of Markdown:
 //   blank line = new paragraph, "- item" = bullet list, "1. item" = numbered list,
-//   "## Heading" = sub-heading, "> text" = highlighted note, **bold**, `code`,
+//   "## Heading" = sub-heading, "> text" = highlighted note, **bold**, *italic*, `code`,
 //   and https:// addresses become links that open in a new tab.
 // Everything is rendered as React text, so lesson authors cannot inject HTML or script.
 function inline(text: string): ReactNode[] {
   const out: ReactNode[] = [];
-  const re = /\*\*(.+?)\*\*|`([^`]+)`|(https:\/\/[^\s<>()]+[^\s<>().,;:!?'"])/g;
+  const re = /\*\*(.+?)\*\*|`([^`]+)`|(https:\/\/[^\s<>()]+[^\s<>().,;:!?'"])|(?<![*\w])\*(?![*\s])([^*\n]+?)(?<!\s)\*(?![*\w])/g;
   let last = 0;
   let m: RegExpExecArray | null;
   while ((m = re.exec(text))) {
     if (m.index > last) out.push(text.slice(last, m.index));
     if (m[1] !== undefined) out.push(<strong key={m.index}>{m[1]}</strong>);
     else if (m[2] !== undefined) out.push(<code key={m.index}>{m[2]}</code>);
+    else if (m[4] !== undefined) out.push(<em key={m.index}>{m[4]}</em>);
     else out.push(<a key={m.index} href={m[3]} target="_blank" rel="noopener noreferrer">{m[3]}</a>);
     last = m.index + m[0].length;
   }

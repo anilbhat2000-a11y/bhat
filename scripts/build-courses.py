@@ -22,6 +22,7 @@ def lower_first(text):
 
 CONTENT = {}
 EXTRA = {}  # courses outside the catalogue: {existing course title: {lessons, questions, sources}}
+STANDALONE = {}  # whole new courses outside the catalogue, defined in full (see build_standalone)
 for mod in pkgutil.iter_modules(course_content.__path__):
     m = importlib.import_module(f"course_content.{mod.name}")
     for title, body in getattr(m, "COURSES", {}).items():
@@ -30,6 +31,9 @@ for mod in pkgutil.iter_modules(course_content.__path__):
     for title, body in getattr(m, "EXTRA", {}).items():
         assert title not in EXTRA, f"duplicate extra content for {title}"
         EXTRA[title] = body
+    for title, body in getattr(m, "STANDALONE", {}).items():
+        assert title not in STANDALONE, f"duplicate standalone course {title}"
+        STANDALONE[title] = body
 
 
 def check(title, data):
@@ -99,6 +103,25 @@ for title, data in EXTRA.items():
         lesson["body"] = body.strip()
     course["assessment"]["questions"] = data["questions"]
     with open(path, "w") as f:
+        json.dump(course, f, indent=2, ensure_ascii=False)
+        f.write("\n")
+    written += 1
+
+# Standalone courses: {"slug", "subject", "category", "level", "description",
+# "modules": [(title, minutes)], "lessons": [(module number, title, body)], questions, sources}.
+for title, data in STANDALONE.items():
+    sources = check(title, data)
+    for n, lesson_title, _ in data["lessons"]:
+        assert 1 <= n <= len(data["modules"]), f"{title}: lesson {lesson_title} names module {n}"
+    course = {
+        "slug": data["slug"], "title": title, "subject": data["subject"], "category": data["category"],
+        "level": data["level"], "passMarkPercent": 70, "description": data["description"],
+        "modules": [{"title": t, "minutes": m} for t, m in data["modules"]],
+        "lessons": [{"position": i + 1, "title": t, "type": "TEXT", "body": b.strip(), "module": n} for i, (n, t, b) in enumerate(data["lessons"])],
+        "sources": sources,
+        "assessment": {"title": f"{title}: completion check", "level": data["level"], "passMarkPercent": 70, "questions": data["questions"]},
+    }
+    with open(os.path.join(COURSE_DIR, f'{data["slug"]}.json'), "w") as f:
         json.dump(course, f, indent=2, ensure_ascii=False)
         f.write("\n")
     written += 1
