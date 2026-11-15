@@ -1,8 +1,9 @@
-// Lesson file formats the portal accepts. Browsers show PDF and MP4 directly; other formats
-// are converted in the background (Office files to PDF with LibreOffice, MOV and MKV to MP4
-// with ffmpeg) and the original is kept for download.
+// File formats the portal accepts for lessons and the content library. Browsers show PDF,
+// MP4, JPEG, PNG and HTML directly; other formats are converted in the background (Office
+// files to PDF with LibreOffice, MOV and MKV to MP4 with ffmpeg) and the original is kept for
+// download. HTML is always shown in a sandbox, so its scripts cannot reach the portal.
 
-export type FileFamily = "PDF" | "VIDEO" | "OFFICE";
+export type FileFamily = "PDF" | "VIDEO" | "OFFICE" | "IMAGE" | "HTML";
 export type Format = { ext: string; family: FileFamily; mime: string; label: string; convertTo?: "pdf" | "mp4" };
 
 export const FORMATS: Format[] = [
@@ -16,6 +17,11 @@ export const FORMATS: Format[] = [
   { ext: "doc", family: "OFFICE", mime: "application/msword", label: "Word (97-2003)", convertTo: "pdf" },
   { ext: "xlsx", family: "OFFICE", mime: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", label: "Excel", convertTo: "pdf" },
   { ext: "xls", family: "OFFICE", mime: "application/vnd.ms-excel", label: "Excel (97-2003)", convertTo: "pdf" },
+  { ext: "jpg", family: "IMAGE", mime: "image/jpeg", label: "JPEG image" },
+  { ext: "jpeg", family: "IMAGE", mime: "image/jpeg", label: "JPEG image" },
+  { ext: "png", family: "IMAGE", mime: "image/png", label: "PNG image" },
+  { ext: "html", family: "HTML", mime: "text/html", label: "HTML page" },
+  { ext: "htm", family: "HTML", mime: "text/html", label: "HTML page" },
 ];
 
 const BY_EXT = new Map(FORMATS.map((f) => [f.ext, f]));
@@ -27,6 +33,10 @@ const ALSO_SENT: Record<string, string[]> = {
   xls: ["application/excel", "application/x-excel", "application/x-msexcel"],
   doc: ["application/doc"],
   ppt: ["application/mspowerpoint", "application/powerpoint", "application/x-mspowerpoint"],
+  jpg: ["image/jpg", "image/pjpeg"],
+  jpeg: ["image/jpg", "image/pjpeg"],
+  html: ["application/xhtml+xml", "text/plain"],
+  htm: ["application/xhtml+xml", "text/plain"],
 };
 
 export function extOf(filename: string): string {
@@ -43,7 +53,7 @@ export function formatFor(filename: string, mime: string): Format | null {
 }
 
 export const ACCEPT_ATTRIBUTE = [...FORMATS.map((f) => `.${f.ext}`), ...new Set(FORMATS.map((f) => f.mime))].join(",");
-export const FORMAT_LIST = "PDF, PowerPoint (.ppt, .pptx), Word (.doc, .docx), Excel (.xls, .xlsx) and video (.mp4, .mov, .mkv)";
+export const FORMAT_LIST = "PDF, PowerPoint (.ppt, .pptx), Word (.doc, .docx), Excel (.xls, .xlsx), video (.mp4, .mov, .mkv), images (.jpg, .jpeg, .png) and HTML pages (.html)";
 
 // Checks the first bytes of a stored file against its format, so a renamed file of another
 // kind is refused.
@@ -56,6 +66,14 @@ export function signatureMatches(ext: string, head: Uint8Array): boolean {
     case "mkv": return hex(4) === "1a45dfa3";
     case "pptx": case "docx": case "xlsx": return hex(4) === "504b0304";
     case "ppt": case "doc": case "xls": return hex(8) === "d0cf11e0a1b11ae1";
+    case "png": return hex(8) === "89504e470d0a1a0a";
+    case "jpg": case "jpeg": return hex(3) === "ffd8ff";
+    case "html": case "htm": {
+      // Text that starts with a tag (after an optional byte-order mark and white space).
+      if (head.includes(0)) return false;
+      const text = Buffer.from(head).toString("utf8").replace(/^\uFEFF/, "").trimStart();
+      return text === "" || text.startsWith("<");
+    }
     default: return false;
   }
 }

@@ -36,6 +36,9 @@ For L&D and HR administrators. Sign in and open the **Admin portal** (`/admin`).
 
 ### Supported file formats
 
+Images (.jpg, .jpeg, .png) and single-file HTML pages can also be uploaded as lessons; learners see the picture, or the page in a sandbox.
+
+
 Lesson files can be **PDF**, **PowerPoint** (.ppt, .pptx), **Word** (.doc, .docx), **Excel** (.xls, .xlsx) or **video** (.mp4, .mov, .mkv). Size limits: PDF 50 MB, PowerPoint, Word and Excel 100 MB, video 500 MB each (set in `.env` with `MAX_UPLOAD_MB_DOC`, `MAX_UPLOAD_MB_OFFICE` and `MAX_UPLOAD_MB_VIDEO`).
 
 - PDF and MP4 are shown as they are.
@@ -44,6 +47,19 @@ Lesson files can be **PDF**, **PowerPoint** (.ppt, .pptx), **Word** (.doc, .docx
 - Each file is checked when it is uploaded: a file renamed to look like another type (for example a web page saved as .pdf) is refused.
 
 Questions can be imported from **Excel** (.xlsx, .xls), **CSV** or **Word** (.docx, .doc). Download the Excel template or the Word example from an assessment's page; both explain the layout. Every row is checked first, and nothing is imported if any row has a mistake.
+
+### Content library
+
+**Admin portal → Content library.** One place to store training material and reuse it in any course.
+
+- **Upload files:** choose up to 50 files at once: PDF, PowerPoint (.ppt, .pptx), Word (.doc, .docx), Excel (.xls, .xlsx), video (.mp4, .mov, .mkv), images (.jpg, .jpeg, .png) and HTML pages (.html). Add tags (for example "Networking, Onboarding") to find them later. Size limits: PDF 50 MB, Office 100 MB, video 500 MB, images 20 MB, HTML 50 MB (change with `MAX_UPLOAD_MB_*` in `.env`).
+- **Processing:** every file is checked to be what its name says. PowerPoint, Word and Excel files are converted to PDF and MOV or MKV videos to MP4 in the background, so they open in the browser; the original is always kept for download. A file that cannot be converted stays available as a download.
+- **Find:** filter by type, tag or search text; sort by date, title or size. Images show a thumbnail.
+- **Open a file** to preview it, edit its title, description and tags, download it, and see which courses use it.
+- **Add to a course:** choose a course and a lesson title. The lesson uses the library file directly (nothing is copied). Videos still need a caption file before the course can be published.
+- **Delete:** only for files not used in any lesson.
+
+**HTML pages** run in a secure sandbox: their scripts work (for example an interactive slide deck), but they cannot see the portal, the learner's session or other pages. Pages that load styles or fonts from the internet (for example Tailwind or Google Fonts) look plain on a server or computer without internet access; save such pages with everything included, or keep the server online.
 
 ### Bulk upload many courses
 

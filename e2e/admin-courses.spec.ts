@@ -38,9 +38,9 @@ test("a non-PDF file uploaded as a PDF lesson is refused with a clear reason", a
 
   await page.fill("form[data-test=upload-lesson] input[name=title]", "Bad file");
   await page.setInputFiles("form[data-test=upload-lesson] input[type=file]", {
-    name: "page.html",
-    mimeType: "text/html",
-    buffer: Buffer.from("<html></html>"),
+    name: "drawing.svg",
+    mimeType: "image/svg+xml",
+    buffer: Buffer.from("<svg xmlns='http://www.w3.org/2000/svg'></svg>"),
   });
   await page.click("form[data-test=upload-lesson] button[type=submit]");
   await expect(page.locator("p[role=alert]")).toContainText("not allowed");

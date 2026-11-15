@@ -26,6 +26,11 @@ test("an admin drags a lesson above another, and the new order is kept", async (
   const first = page.locator("li[data-lesson-title='First lesson']");
   // Both rows must be on screen: the page stays scrolled down at the form after adding a lesson.
   await page.locator("ol[data-test=lesson-list]").evaluate((el) => el.scrollIntoView({ block: "center" }));
+  // Wait until React has attached the drag handlers to the list (after the page reload).
+  await page.waitForFunction(() => {
+    const li = document.querySelector("li[data-lesson-title='Second lesson']");
+    return !!li && Object.keys(li).some((k) => k.startsWith("__reactProps"));
+  });
   await second.dragTo(first);
   await expect(page.locator("ol[data-test=lesson-list] li").first()).toHaveAttribute("data-lesson-title", "Second lesson");
   await page.reload();

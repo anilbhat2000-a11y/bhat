@@ -575,3 +575,53 @@ a.btn-outline:hover { background: var(--accent-soft); }
 .tr-period > span { display: block; }
 .page form .tr-dates { flex-basis: auto; display: flex; align-items: center; gap: 6px; border: 0; padding: 0; margin: 0; }
 .page form .tr-dates legend { font-weight: 600; font-size: 0.88rem; padding: 0; margin-bottom: 5px; float: left; width: 100%; }
+.image-lesson img { max-width: 100%; height: auto; border-radius: var(--radius); border: 1px solid var(--border); display: block; }
+.image-lesson figcaption { margin-top: 6px; font-size: 0.88rem; }
+.html-frame { width: 100%; height: 75vh; min-height: 480px; border: 1px solid var(--border); border-radius: var(--radius); background: #fff; }
+
+/* Content library */
+.lib-stats { grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); }
+.lib-grid { list-style: none; padding: 0; margin: 12px 0 20px; display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 14px; }
+.lib-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; display: flex; flex-direction: column; }
+.lib-thumb { display: flex; align-items: center; justify-content: center; height: 130px; background: var(--surface-2); text-decoration: none; border-bottom: 1px solid var(--border); overflow: hidden; }
+.lib-thumb img { width: 100%; height: 100%; object-fit: cover; }
+.lib-thumb[data-kind="PDF"] { background: #fdecea; }
+.lib-thumb[data-kind="VIDEO"] { background: #e7ebff; }
+.lib-thumb[data-kind="OFFICE"] { background: #fff4dc; }
+.lib-thumb[data-kind="HTML"] { background: #e3f4ef; }
+.lib-icon { font-weight: 800; font-size: 1.6rem; letter-spacing: 0.04em; color: var(--text); opacity: 0.75; font-family: ui-monospace, Menlo, Consolas, monospace; }
+.lib-body { padding: 10px 12px 12px; display: flex; flex-direction: column; gap: 5px; }
+.lib-title { font-weight: 700; color: var(--text); text-decoration: none; line-height: 1.3; word-break: break-word; }
+.lib-title:hover { color: var(--brand-blue); text-decoration: underline; }
+.lib-meta { font-size: 0.8rem; color: var(--muted); display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.lib-kind { display: inline-block; padding: 1px 8px; border-radius: 999px; font-size: 0.74rem; font-weight: 700; background: var(--surface-2); color: var(--text); }
+.lib-kind-pdf { background: #fdecea; color: #a4262c; }
+.lib-kind-video { background: #e7ebff; color: #2a2aa8; }
+.lib-kind-office { background: #fff4dc; color: #8a5a00; }
+.lib-kind-image { background: #f1e8ff; color: #5b2aa8; }
+.lib-kind-html { background: #e3f4ef; color: #0b6b55; }
+.lib-state { font-size: 0.8rem; color: #8a5a00; font-weight: 600; }
+.lib-bad { color: var(--danger); }
+.lib-tags { display: flex; flex-wrap: wrap; gap: 4px; }
+.lib-tag { font-size: 0.74rem; padding: 1px 7px; border-radius: 6px; border: 1px solid var(--border); color: var(--muted); text-decoration: none; }
+.lib-tag:hover { color: var(--brand-blue); border-color: var(--brand-blue); }
+.lib-used { font-size: 0.78rem; color: var(--muted); }
+.page form.lib-upload { display: grid; grid-template-columns: 1fr 1fr; gap: 14px 18px; }
+.lib-upload .lib-more, .lib-upload .form-actions { grid-column: 1 / -1; }
+.lib-more label { margin-top: 8px; }
+@media (max-width: 800px) { .page form.lib-upload { grid-template-columns: 1fr; } }
+.lib-detail { display: grid; grid-template-columns: minmax(0, 1.7fr) minmax(280px, 1fr); gap: 16px; align-items: start; }
+@media (max-width: 1000px) { .lib-detail { grid-template-columns: 1fr; } }
+.lib-side { display: flex; flex-direction: column; gap: 16px; }
+.lib-side .card { margin: 0; }
+.lib-side form { display: flex; flex-direction: column; gap: 10px; align-items: stretch; }
+.lib-video, .lib-image { width: 100%; max-height: 75vh; border-radius: var(--radius); background: #000; display: block; }
+.lib-image { background: none; object-fit: contain; }
+.lib-preview .pdf-frame, .lib-preview .html-frame { width: 100%; height: 75vh; }
+.lib-wait { padding: 40px 20px; text-align: center; }
+.lib-facts { display: grid; grid-template-columns: auto 1fr; gap: 4px 12px; font-size: 0.88rem; margin: 14px 0 0; }
+.lib-facts dt { color: var(--muted); }
+.lib-facts dd { margin: 0; word-break: break-word; }
+@media (prefers-color-scheme: dark) {
+  .lib-thumb[data-kind], .lib-kind { background: var(--surface-2) !important; color: var(--text) !important; }
+}

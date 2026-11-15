@@ -29,7 +29,8 @@ describe("lesson file formats", () => {
     expect(formatFor("x.exe", "application/octet-stream")).toBeNull();
     expect(formatFor("x.pdf", "text/html")).toBeNull();
     expect(validateLessonFile({ filename: "deck.pptx", mime: "" })).toMatchObject({ ok: true, kind: "OFFICE" });
-    expect(validateLessonFile({ filename: "page.html", mime: "text/html" })).toMatchObject({ ok: false });
+    expect(validateLessonFile({ filename: "setup.exe", mime: "application/x-msdownload" })).toMatchObject({ ok: false });
+    expect(validateLessonFile({ filename: "icon.svg", mime: "image/svg+xml" })).toMatchObject({ ok: false });
   });
 
   it("checks file signatures", () => {

@@ -202,7 +202,7 @@ export async function saveLessonFile(
     return fail(`The file does not look like a real ${format.label} file. Check it opens on your computer, then upload it again.`);
   }
   const convert = !!format.convertTo;
-  const type: LessonType = format.family === "PDF" ? "PDF" : format.family === "VIDEO" ? "VIDEO" : "DOCUMENT";
+  const type: LessonType = format.family === "PDF" ? "PDF" : format.family === "VIDEO" ? "VIDEO" : format.family === "IMAGE" ? "IMAGE" : format.family === "HTML" ? "HTML" : "DOCUMENT";
   try {
     const position = await nextPosition(courseId);
     const lesson = await writeWithAudit(

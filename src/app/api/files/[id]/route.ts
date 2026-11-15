@@ -4,6 +4,7 @@ import { getLessonFile } from "../../../../lib/learning/courses";
 import { defaultStorage } from "../../../../lib/storage";
 import { webStream } from "../../../../lib/storage/web";
 import { parseRange } from "../../../../lib/storage/range";
+import { safetyHeaders } from "../../../../lib/storage/headers";
 
 const MAX_PART = 8 * 1024 * 1024;
 
@@ -25,7 +26,7 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
     "content-disposition": `${file.download ? "attachment" : "inline"}; filename="${safeName}"`,
     "accept-ranges": "bytes",
     "cache-control": "private, no-store",
-    "x-content-type-options": "nosniff",
+    ...safetyHeaders(file.mime),
   };
 
   if (size === 0) return new Response(new Uint8Array(0), { headers: { ...common, "content-length": "0" } });

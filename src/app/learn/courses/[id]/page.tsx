@@ -124,6 +124,20 @@ export default async function LearnCoursePage({
                 </p>
               </div>
             ) : null}
+            {l.type === "IMAGE" ? (
+              <figure className="file-lesson image-lesson">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={`/api/files/${l.id}`} alt={l.title} loading="lazy" />
+                <figcaption><a href={`/api/files/${l.id}`} target="_blank" rel="noopener noreferrer">Open full size</a></figcaption>
+              </figure>
+            ) : null}
+            {l.type === "HTML" ? (
+              <div className="file-lesson">
+                {/* The page runs in a sandbox: it cannot see the portal or the learner's session. */}
+                <iframe src={`/api/files/${l.id}`} title={`${l.title} (interactive page)`} className="html-frame" sandbox="allow-scripts allow-popups allow-forms allow-modals" />
+                <p><a href={`/api/files/${l.id}`} target="_blank" rel="noopener noreferrer">Open in a new tab (full screen)</a></p>
+              </div>
+            ) : null}
             {l.type === "DOCUMENT" ? (
               <div className="file-lesson card">
                 <p>{l.conversion === "PENDING"

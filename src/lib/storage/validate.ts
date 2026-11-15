@@ -2,7 +2,7 @@ import { randomUUID } from "node:crypto";
 
 import { formatFor } from "./formats";
 
-export type UploadKind = "DOCUMENT" | "VIDEO" | "IMAGE" | "CAPTION" | "OFFICE";
+export type UploadKind = "DOCUMENT" | "VIDEO" | "IMAGE" | "CAPTION" | "OFFICE" | "PICTURE" | "HTML";
 
 type Rule = { mimes: Record<string, string>; limitMb: () => number };
 
@@ -20,6 +20,10 @@ const RULES: Record<UploadKind, Rule> = {
   CAPTION: { mimes: { "text/vtt": "vtt" }, limitMb: () => 1 },
   // PowerPoint, Word and Excel lesson files (converted to PDF for viewing).
   OFFICE: { mimes: {}, limitMb: () => Number(process.env.MAX_UPLOAD_MB_OFFICE ?? 100) },
+  // JPEG and PNG pictures in lessons and the content library.
+  PICTURE: { mimes: {}, limitMb: () => Number(process.env.MAX_UPLOAD_MB_PICTURE ?? 20) },
+  // Single-file HTML pages (for example an interactive slide deck with its images inlined).
+  HTML: { mimes: {}, limitMb: () => Number(process.env.MAX_UPLOAD_MB_HTML ?? 50) },
 };
 
 // Any lesson file format (see formats.ts): returns the size rule that applies and a stored
@@ -27,8 +31,8 @@ const RULES: Record<UploadKind, Rule> = {
 export function validateLessonFile(input: { filename: string; mime: string }):
   { ok: true; key: string; kind: UploadKind; ext: string } | { ok: false; reason: string } {
   const f = formatFor(input.filename, input.mime);
-  if (!f) return { ok: false, reason: `This file type is not allowed: "${input.filename}". Use PDF, PowerPoint, Word, Excel, MP4, MOV or MKV.` };
-  const kind: UploadKind = f.family === "PDF" ? "DOCUMENT" : f.family === "VIDEO" ? "VIDEO" : "OFFICE";
+  if (!f) return { ok: false, reason: `This file type is not allowed: "${input.filename}". Use PDF, PowerPoint, Word, Excel, MP4, MOV, MKV, JPEG, PNG or HTML.` };
+  const kind: UploadKind = f.family === "PDF" ? "DOCUMENT" : f.family === "VIDEO" ? "VIDEO" : f.family === "IMAGE" ? "PICTURE" : f.family === "HTML" ? "HTML" : "OFFICE";
   return { ok: true, key: `${randomUUID()}.${f.ext}`, kind, ext: f.ext };
 }
 

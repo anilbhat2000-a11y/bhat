@@ -41,6 +41,9 @@ enum LessonType {
   VIDEO
   // A file the browser cannot show (an Office file that could not be converted): download only.
   DOCUMENT
+  // A JPEG or PNG picture, and a single-file HTML page shown in a sandbox.
+  IMAGE
+  HTML
   LINK
   LIVE_SESSION
   LAB
@@ -721,4 +724,29 @@ model AiDraft {
 
   @@index([createdAt])
   @@map("ai_drafts")
+}
+
+// The content library: files admins upload once and reuse in any course. Office files are
+// converted to PDF and MOV/MKV videos to MP4 for viewing; the original is kept.
+//   kind:       PDF, VIDEO, OFFICE, IMAGE or HTML (from the file format)
+//   conversion: null (none needed), PENDING, DONE or FAILED
+model LibraryItem {
+  id             String   @id @default(cuid())
+  title          String
+  description    String?
+  tags           String[] @default([])
+  kind           String
+  fileKey        String   @map("file_key")
+  sourceFileKey  String?  @map("source_file_key")
+  fileName       String   @map("file_name")
+  sizeBytes      BigInt   @default(0) @map("size_bytes")
+  conversion     String?
+  conversionError String? @map("conversion_error")
+  uploadedById   String   @map("uploaded_by_id")
+  createdAt      DateTime @default(now()) @map("created_at")
+  updatedAt      DateTime @updatedAt @map("updated_at")
+
+  @@index([kind])
+  @@index([createdAt])
+  @@map("library_items")
 }

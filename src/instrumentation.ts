@@ -6,5 +6,8 @@ export async function register() {
     void import("./lib/learning/conversions")
       .then((m) => m.resumePendingConversions())
       .catch((e) => console.error("could not resume lesson conversions", (e as Error).message));
+    void import("./lib/library/library")
+      .then((m) => m.resumeLibraryConversions())
+      .catch((e) => console.error("could not resume library conversions", (e as Error).message));
   }, 5_000);
 }

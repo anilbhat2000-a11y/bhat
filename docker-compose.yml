@@ -38,6 +38,13 @@ services:
       SESSION_IDLE_MINUTES: ${SESSION_IDLE_MINUTES:-30}
       RETENTION_DAYS: ${RETENTION_DAYS:-365}
       PUBLIC_BASE_URL: ${PUBLIC_BASE_URL:-}
+      # Upload size limits in MB (see .env.example).
+      MAX_UPLOAD_MB_DOC: ${MAX_UPLOAD_MB_DOC:-50}
+      MAX_UPLOAD_MB_VIDEO: ${MAX_UPLOAD_MB_VIDEO:-500}
+      MAX_UPLOAD_MB_OFFICE: ${MAX_UPLOAD_MB_OFFICE:-100}
+      MAX_UPLOAD_MB_PICTURE: ${MAX_UPLOAD_MB_PICTURE:-20}
+      MAX_UPLOAD_MB_HTML: ${MAX_UPLOAD_MB_HTML:-50}
+      MAX_UPLOAD_MB_PHOTO: ${MAX_UPLOAD_MB_PHOTO:-5}
       # Optional AI assistant (admin only). Without a key it stays switched off and the LMS
       # needs no internet. With a key, the app calls api.anthropic.com over HTTPS.
       ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}
