@@ -122,15 +122,33 @@ export function slugify(name: string): string {
   return name.trim().toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
 }
 
+// Checks a subject's name and certificate validity; also that no other subject has the name.
+async function checkSubject(input: { name?: string; certificationValidityMonths?: number }, exceptId?: string): Promise<string | null> {
+  if (input.name !== undefined) {
+    const name = input.name.trim();
+    if (!name) return "Enter a subject name";
+    if (name.length > 100) return "Keep the subject name under 100 characters";
+    const clash = await prisma.subject.findFirst({
+      where: { OR: [{ name: { equals: name, mode: "insensitive" } }, { slug: slugify(name) }], ...(exceptId ? { id: { not: exceptId } } : {}) },
+      select: { name: true },
+    });
+    if (clash) return `A subject called "${clash.name}" already exists`;
+  }
+  const months = input.certificationValidityMonths;
+  if (months !== undefined && (!Number.isInteger(months) || months < 1 || months > 120)) {
+    return "Certificate validity must be a whole number of months from 1 to 120";
+  }
+  return null;
+}
+
 export async function createSubject(
   actor: SessionUser,
   input: { name: string; category: Category; certificationValidityMonths: number },
 ): Promise<Result> {
   asAdmin(actor);
-  if (!input.name.trim()) return { ok: false, error: "Name is required" };
-  if (!Number.isInteger(input.certificationValidityMonths) || input.certificationValidityMonths < 1) {
-    return { ok: false, error: "Validity must be a whole number of months" };
-  }
+  const problem = await checkSubject(input);
+  if (problem) return { ok: false, error: problem };
+  if (input.category !== "BUSINESS" && input.category !== "TECHNICAL") return { ok: false, error: "Choose Business or Technical" };
   const subject = await writeWithAudit(
     (tx) =>
       tx.subject.create({
@@ -152,16 +170,37 @@ export async function updateSubject(
   patch: { name?: string; category?: Category; certificationValidityMonths?: number },
 ): Promise<Result> {
   asAdmin(actor);
+  const before = await prisma.subject.findUnique({ where: { id } });
+  if (!before) return { ok: false, error: "Subject not found" };
+  const problem = await checkSubject(patch, id);
+  if (problem) return { ok: false, error: problem };
+  if (patch.category !== undefined && patch.category !== "BUSINESS" && patch.category !== "TECHNICAL") return { ok: false, error: "Choose Business or Technical" };
   await writeWithAudit((tx) => tx.subject.update({
     where: { id },
     data: {
-      ...(patch.name !== undefined && { name: patch.name.trim(), slug: slugify(patch.name) }),
+      // The slug stays as it was, so the content seed still finds a renamed subject.
+      ...(patch.name !== undefined && { name: patch.name.trim() }),
       ...(patch.category !== undefined && { category: patch.category }),
       ...(patch.certificationValidityMonths !== undefined && {
         certificationValidityMonths: patch.certificationValidityMonths,
       }),
     },
-  }), () => ({ actorId: actor.id, action: "subject.update", entityType: "Subject", entityId: id, after: { ...patch } }));
+  }), () => ({ actorId: actor.id, action: "subject.update", entityType: "Subject", entityId: id, before: { name: before.name, category: before.category, certificationValidityMonths: before.certificationValidityMonths }, after: { ...patch } }));
+  return { ok: true, id };
+}
+
+// A subject can be deleted only while nothing uses it: no courses, assessments or certificates.
+export async function deleteSubject(actor: SessionUser, id: string): Promise<Result> {
+  asAdmin(actor);
+  const s = await prisma.subject.findUnique({ where: { id }, include: { _count: { select: { courses: true, assessments: true, certifications: true, profileSkills: true } } } });
+  if (!s) return { ok: false, error: "Subject not found" };
+  const used = s._count.courses + s._count.assessments + s._count.certifications;
+  if (used > 0) return { ok: false, error: `"${s.name}" is in use (${s._count.courses} courses, ${s._count.assessments} assessments, ${s._count.certifications} certificates). Move or delete those first.` };
+  await prisma.$transaction(async (tx) => {
+    await tx.profileSkill.deleteMany({ where: { subjectId: id } });
+    await tx.subject.delete({ where: { id } });
+    await recordAudit(tx, { actorId: actor.id, action: "subject.delete", entityType: "Subject", entityId: id, before: { name: s.name, category: s.category } });
+  });
   return { ok: true, id };
 }
 

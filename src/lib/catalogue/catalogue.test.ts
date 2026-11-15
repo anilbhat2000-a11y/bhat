@@ -47,7 +47,7 @@ it("creates draft shells with modules for courses not yet in the portal, once", 
   // Uses a copy of one subject renamed to a test subject, so the shared test database is
   // not filled with 30 drafts.
   const tag = `cat-${Date.now()}`;
-  const subject = await prisma.subject.create({ data: { name: `${tag} subject`, slug: tag, category: "TECHNICAL" } });
+  const subject = await prisma.subject.create({ data: { name: `${tag} subject`, slug: `${tag}-subject`, category: "TECHNICAL" } });
   const one = structuredClone(cat.subjects.find((s) => s.subject === "Presales")!);
   one.subject = subject.name;
   // Pretend none of its courses exist yet, so shells are made.

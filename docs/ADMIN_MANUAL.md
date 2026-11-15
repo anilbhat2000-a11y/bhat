@@ -14,9 +14,15 @@ For L&D and HR administrators. Sign in and open the **Admin portal** (`/admin`).
 
 **Departments and locations** are set on each user. Type the same spelling each time, because assessments are assigned by department name. **Reporting lines** come from each user's manager. A manager sees everyone below them, directly or indirectly.
 
-## 2. Subjects
+## 2. Subject areas
 
-**Admin portal → Subjects** lists the 17 subjects (business and technical). For each subject you can set **certificate validity** in months (default 12). When a certificate expires, the learner must pass again to renew it.
+**Admin portal → Subject areas.** Subject areas are the main topics of your training (for example Networking, Accounts). Every course and assessment belongs to one, and each sets how long its certificates stay valid.
+
+- The table shows each area's category, courses (published / all), assessments, valid certificates and certificate validity. Filter by Technical or Business, or search by name.
+- **Add a subject area** at the bottom of the page: name, category and certificate validity in months (12 = one year).
+- **Edit** renames an area or changes its category or validity. Courses, assessments and certificates stay linked. Re-running the content seed keeps your new name.
+- **Courses** opens the course catalogue filtered to that area.
+- **Delete** appears only for an area with no courses, assessments or certificates.
 
 ## 3. Courses
 

@@ -76,7 +76,8 @@ export async function runSeed(
   for (const s of SUBJECTS) {
     await db.subject.upsert({
       where: { slug: s.slug },
-      update: { name: s.name, category: s.category },
+      // Admins may rename a subject or change its category; the seed keeps their choice.
+      update: {},
       create: { name: s.name, slug: s.slug, category: s.category },
     });
   }
@@ -141,7 +142,7 @@ function toQuestionRows(questions: BankFile["questions"], file: string) {
 // Loads a recurring assessment and its question bank, assigned to a department. Matched by
 // title, so re-running the seed skips banks that already exist.
 async function loadBank(db: PrismaClient, b: BankFile, file: string): Promise<void> {
-  const subject = await db.subject.findUnique({ where: { name: b.subject } });
+  const subject = await db.subject.findUnique({ where: { slug: slugify(b.subject) } });
   if (!subject) throw new Error(`${file}: unknown subject "${b.subject}"`);
   if (await db.assessment.findFirst({ where: { subjectId: subject.id, title: b.title } })) return;
   const course = await db.course.findFirst({ where: { subjectId: subject.id, title: b.course } });
@@ -175,7 +176,7 @@ async function loadBank(db: PrismaClient, b: BankFile, file: string): Promise<vo
 // Creates the course from its file, or refreshes it in place when the file has changed and
 // the course is still seed-managed (no admin has changed its lessons or modules).
 async function loadCourse(db: PrismaClient, c: CourseFile, file: string, hash: string): Promise<"created" | "updated" | "unchanged"> {
-  const subject = await db.subject.findUnique({ where: { name: c.subject } });
+  const subject = await db.subject.findUnique({ where: { slug: slugify(c.subject) } });
   if (!subject) throw new Error(`${file}: unknown subject "${c.subject}"`);
   const existing = await db.course.findFirst({ where: { subjectId: subject.id, title: c.title } });
   if (existing) {

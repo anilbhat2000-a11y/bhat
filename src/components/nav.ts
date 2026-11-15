@@ -14,7 +14,7 @@ export const NAV: Record<"admin" | "manager" | "learn", NavGroup[]> = {
       { href: "/admin/certificates", label: "Certificates", icon: "award" },
     ] },
     { label: "Learning", items: [
-      { href: "/admin/subjects", label: "Subjects", icon: "layers" },
+      { href: "/admin/subjects", label: "Subject areas", icon: "layers" },
       { href: "/admin/courses", label: "Courses", icon: "book" },
       { href: "/admin/ai", label: "AI assistant", icon: "spark" },
       { href: "/admin/paths", label: "Learning paths", icon: "list" },
