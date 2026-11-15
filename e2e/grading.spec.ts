@@ -41,9 +41,10 @@ test("fill-in, matching and short-answer questions: the learner waits for a revi
     scenario: "A school asks for 200 laptops by next month.", explanation: "Mention budget, authority, need and timeline.",
   });
   await admin.click("form[data-test=publish-assessment] button[type=submit]");
-  await admin.selectOption("select[name=targetType]", "ALL");
-  await admin.click("button:has-text('Save assignment')");
-  await expect(admin.getByText("Assignment saved")).toBeVisible();
+  await expect(admin.getByRole("status")).toHaveText("Status updated");
+  await admin.check("form[data-test=assign-assessment] input[name=everyone]");
+  await admin.click("form[data-test=assign-assessment] button[type=submit]");
+  await expect(admin.getByRole("status")).toContainText("Assigned to 1 new target");
 
   const learner = await browser.newPage();
   await signIn(learner, "employee@example.test");

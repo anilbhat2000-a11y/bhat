@@ -1,9 +1,10 @@
 import { connection } from "next/server";
+import { AssessmentAssignPanel } from "../../../../components/AssessmentAssignPanel";
 import { guardPortal } from "../../../../lib/auth/portal";
 import { notFound } from "next/navigation";
 import { prisma } from "../../../../lib/db/client";
 import {
-  addQuestionAction, importQuestionsAction, importQuestionFileAction, setAssignmentAction, setPublishedAction, resetAttemptsAction,
+  addQuestionAction, importQuestionsAction, importQuestionFileAction, setPublishedAction, resetAttemptsAction,
 } from "../../../actions/assessments";
 import { deleteQuestionAction, updateSettingsAction } from "../../../actions/content";
 import { QUESTION_FILE_ACCEPT } from "../../../../lib/import/question-files";
@@ -29,8 +30,6 @@ export default async function AssessmentPage({
     orderBy: { title: "asc" },
     select: { id: true, title: true },
   });
-  const people = await prisma.user.findMany({ where: { active: true }, select: { id: true, name: true, department: true }, orderBy: { name: "asc" } });
-  const departments = [...new Set(people.map((p) => p.department).filter((d): d is string => Boolean(d)))].sort();
   const periods = await prisma.assessmentPeriod.findMany({
     where: { assessmentId: id },
     include: { user: { select: { name: true } } },
@@ -41,7 +40,7 @@ export default async function AssessmentPage({
   return (
     <main className="page">
       <h1>{assessment.title}</h1>
-      <nav className="subnav" aria-label="Sections on this page"><a href="#questions">Questions</a><a href="#settings">Settings</a><a href="#add-question">Add question</a><a href="#import">Import CSV</a><a href="#periods">Learner periods</a><a href="#assigned">Assigned to</a></nav>
+      <nav className="subnav" aria-label="Sections on this page"><a href="#questions">Questions</a><a href="#settings">Settings</a><a href="#add-question">Add question</a><a href="#import">Import CSV</a><a href="#periods">Learner periods</a><a href="#assign">Assign</a></nav>
       <p>Status: {assessment.published ? "Published" : "Draft"} · {assessment.cadence} · pass mark {assessment.passMarkPercent}%</p>
       {error ? <p role="alert">{error}</p> : null}
       {notice ? <p role="status">{notice}</p> : null}
@@ -153,22 +152,9 @@ export default async function AssessmentPage({
         </ul>
       )}
 
-      <h2 id="assigned">Assigned to</h2>
-      <p>{assessment.assignments.map((a) => `${a.targetType}${a.targetValue ? `: ${a.targetValue}` : ""}`).join(", ") || "Nobody yet"}</p>
-      <form action={setAssignmentAction}>
-        <input type="hidden" name="assessmentId" value={assessment.id} />
-        <select aria-label="Target type" name="targetType" defaultValue="ALL">
-          <option value="ALL">Everyone</option>
-          <option value="DEPARTMENT">A department</option>
-          <option value="USER">One user (by id)</option>
-        </select>{" "}
-        <input aria-label="Department name or user id" name="targetValue" placeholder="Department name or user id" list="assign-targets" />{" "}
-        <datalist id="assign-targets">
-          {departments.map((d) => <option key={`d-${d}`} value={d} />)}
-          {people.map((p) => <option key={`u-${p.id}`} value={p.id} label={p.name} />)}
-        </datalist>{" "}
-        <button type="submit">Save assignment</button>
-      </form>
+      <div id="assigned">
+        <AssessmentAssignPanel assessmentId={assessment.id} returnTo={`/admin/assessments/${assessment.id}`} />
+      </div>
     </main>
   );
 }

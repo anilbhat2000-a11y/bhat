@@ -49,3 +49,34 @@ test("a question import with one bad row names the row and adds nothing", async 
   await expect(page.locator("p[role=alert]")).toContainText("Row 2");
   await expect(page.getByText("Good question")).toHaveCount(0);
 });
+
+test("an admin assigns an assessment to an employee straight from the assessments table", async ({ page }) => {
+  await page.goto("/login");
+  await page.fill("input[name=email]", "admin@example.test");
+  await page.fill("input[name=password]", "Test-pass-1");
+  await page.click("button[type=submit]");
+  await expect(page).toHaveURL(/\/admin/);
+  await page.goto("/admin/assessments");
+  const title = `E2E assign ${Date.now()}`;
+  await page.fill("form[data-test=create-assessment] input[name=title]", title);
+  await page.selectOption("form[data-test=create-assessment] select[name=subjectId]", { label: "E2E Subject" });
+  await page.click("form[data-test=create-assessment] button[type=submit]");
+  await expect(page.getByRole("heading", { name: title })).toBeVisible();
+
+  await page.goto(`/admin/assessments?q=${encodeURIComponent(title)}`);
+  const row = page.locator("table[data-test=assessments-table] tr", { hasText: title });
+  await expect(row).toContainText("Not assigned");
+  await row.getByRole("link", { name: "Assign", exact: true }).click();
+  const panel = page.locator("form[data-test=assign-assessment]");
+  await panel.getByLabel("Search employees").fill("employee@example.test");
+  await panel.locator("label.picker-item", { hasText: "Test Employee" }).locator("input").check();
+  await expect(panel.locator(".picker-count")).toHaveText("1 selected");
+  await panel.locator("button[type=submit]").click();
+  await expect(page.getByRole("status")).toContainText("Assigned to 1 new target");
+  await expect(page.locator(".assign-chips")).toContainText("Test Employee");
+  await expect(page.locator("table[data-test=assessments-table] tr", { hasText: title })).toContainText("1 person");
+
+  // Remove it again from the chip.
+  await page.getByRole("button", { name: "Remove Test Employee" }).click();
+  await expect(page.getByRole("status")).toContainText("Assignment removed");
+});

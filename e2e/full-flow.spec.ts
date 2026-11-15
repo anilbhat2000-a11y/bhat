@@ -37,11 +37,10 @@ test("the full loop: admin publishes, employee learns and passes, manager and ad
   await page.fill("form[data-test=add-question] input[name=correct]", "2");
   await page.click("form[data-test=add-question] button[type=submit]");
   await page.click("form[data-test=publish-assessment] button[type=submit]");
-  await page.selectOption("select[name=targetType]", "USER");
-  await page.fill("input[name=targetValue]", "placeholder");
-  await page.selectOption("select[name=targetType]", "ALL");
-  await page.click("button:has-text('Save assignment')");
-  await expect(page.getByText("Assignment saved")).toBeVisible();
+  await expect(page.getByRole("status")).toHaveText("Status updated");
+  await page.check("form[data-test=assign-assessment] input[name=everyone]");
+  await page.click("form[data-test=assign-assessment] button[type=submit]");
+  await expect(page.getByRole("status")).toContainText("Assigned to 1 new target");
 
   const employeeContext = await browser.newContext();
   const employee = await employeeContext.newPage();

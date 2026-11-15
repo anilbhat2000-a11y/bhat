@@ -8,6 +8,7 @@ import { parseCsvRows } from "../../lib/import/csv";
 import type { QuestionRow } from "../../lib/import/questions";
 import {
   createAssessment, addQuestion, importQuestions, setAssessmentPublished, setAssignments, resetAttempts,
+  addAssessmentTargets, removeAssessmentTarget, type AssessmentTarget,
 } from "../../lib/assessments/admin";
 import { prisma } from "../../lib/db/client";
 import { openPeriodsFor } from "../../lib/assessments/open-periods";
@@ -135,4 +136,50 @@ export async function importQuestionFileAction(formData: FormData): Promise<void
   }
   revalidatePath(to);
   back(to, `Imported ${result.created} questions from ${file.name}`, "notice");
+}
+
+// Assign from the assessments table or page: ticked employees, a department, or everyone.
+export async function addAssignmentsAction(formData: FormData): Promise<void> {
+  const actor = await requireSession();
+  const id = text(formData, "assessmentId");
+  const to = text(formData, "returnTo").startsWith("/admin/assessments") ? text(formData, "returnTo") : `/admin/assessments/${id}`;
+  const targets: AssessmentTarget[] = [
+    ...formData.getAll("userId").map((v) => ({ targetType: "USER" as const, targetValue: String(v) })),
+    ...formData.getAll("department").map((v) => ({ targetType: "DEPARTMENT" as const, targetValue: String(v) })),
+    ...(formData.get("everyone") === "on" ? [{ targetType: "ALL" as const, targetValue: null }] : []),
+  ];
+  const result = await addAssessmentTargets(actor, id, targets);
+  const sep = to.includes("?") ? "&" : "?";
+  if (!result.ok) redirect(`${to}${sep}error=${encodeURIComponent(result.error)}`);
+  await openPeriodsFor(id, new Date());
+  const published = (await prisma.assessment.findUnique({ where: { id }, select: { published: true } }))?.published;
+  revalidatePath("/admin/assessments");
+  revalidatePath(`/admin/assessments/${id}`);
+  const msg = result.added === 0 ? "Already assigned: nothing changed" : `Assigned to ${result.added} new ${result.added === 1 ? "target" : "targets"}${published ? "" : ". The assessment is a draft: employees see it once you publish it"}`;
+  redirect(`${to}${sep}notice=${encodeURIComponent(msg)}`);
+}
+
+export async function removeAssignmentAction(formData: FormData): Promise<void> {
+  const actor = await requireSession();
+  const id = text(formData, "assessmentId");
+  const to = text(formData, "returnTo").startsWith("/admin/assessments") ? text(formData, "returnTo") : `/admin/assessments/${id}`;
+  const result = await removeAssessmentTarget(actor, text(formData, "assignmentId"));
+  const sep = to.includes("?") ? "&" : "?";
+  if (!result.ok) redirect(`${to}${sep}error=${encodeURIComponent(result.error)}`);
+  revalidatePath("/admin/assessments");
+  revalidatePath(`/admin/assessments/${id}`);
+  redirect(`${to}${sep}notice=${encodeURIComponent("Assignment removed")}`);
+}
+
+export async function togglePublishedFromListAction(formData: FormData): Promise<void> {
+  const actor = await requireSession();
+  const id = text(formData, "assessmentId");
+  const publish = text(formData, "published") === "true";
+  const result = await setAssessmentPublished(actor, id, publish);
+  const to = text(formData, "returnTo").startsWith("/admin/assessments") ? text(formData, "returnTo") : "/admin/assessments";
+  const sep = to.includes("?") ? "&" : "?";
+  if (!result.ok) redirect(`${to}${sep}error=${encodeURIComponent(result.error)}`);
+  if (publish) await openPeriodsFor(id, new Date());
+  revalidatePath("/admin/assessments");
+  redirect(`${to}${sep}notice=${encodeURIComponent(publish ? "Assessment published" : "Assessment unpublished")}`);
 }

@@ -155,6 +155,12 @@ Managers can assign paths to people in their own team from the manager portal.
 
 ## 4. Assessments
 
+
+**Admin portal → Assessments** lists every assessment in a table: subject area, frequency, number of questions, how many employees are assigned, results (✓ passed, ● waiting, ! overdue) and status. Search, filter by status, subject area or frequency, and sort by any column.
+
+- **Assign** (on each row, and on each assessment's page) opens a panel: search for employees by name, email, department or job title and tick them, or tick whole departments or **Everyone**, then click **Assign**. New assignments are added to the existing ones. Employees already covered are shown as "Already assigned". Remove an assignment with the × on its chip; people who had not started lose the open assessment.
+- **Publish / Unpublish** directly from the table. Employees see an assessment only once it is published.
+
 **Admin portal → Assessments**
 
 1. **Create:** subject, title, cadence (one-time, weekly, monthly, annual), level, and pass mark. Link it to a course if it checks that course; the link drives the remedial path.

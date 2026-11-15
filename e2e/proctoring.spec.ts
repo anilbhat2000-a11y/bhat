@@ -29,9 +29,10 @@ test("a proctored attempt hides questions until full screen and submits itself a
   await admin.getByRole("button", { name: "Save settings" }).click();
   await expect(admin.getByRole("status")).toHaveText("Settings saved");
   await admin.click("form[data-test=publish-assessment] button[type=submit]");
-  await admin.selectOption("select[name=targetType]", "ALL");
-  await admin.click("button:has-text('Save assignment')");
-  await expect(admin.getByText("Assignment saved")).toBeVisible();
+  await expect(admin.getByRole("status")).toHaveText("Status updated");
+  await admin.check("form[data-test=assign-assessment] input[name=everyone]");
+  await admin.click("form[data-test=assign-assessment] button[type=submit]");
+  await expect(admin.getByRole("status")).toContainText("Assigned to 1 new target");
 
   const learner = await browser.newPage();
   await signIn(learner, "employee@example.test");

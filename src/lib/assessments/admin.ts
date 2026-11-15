@@ -298,3 +298,40 @@ export async function addCompletionCheckQuestions(
   if (!assessment.published) await setAssessmentPublished(actor, assessment.id, true);
   return { ok: true, created: imported.created, assessmentId: assessment.id };
 }
+
+export type AssessmentTarget = { targetType: "ALL" | "DEPARTMENT" | "USER"; targetValue: string | null };
+
+// Adds people, departments or everyone to an assessment, keeping what is already assigned.
+// Targets already present are skipped. Periods open straight away when the assessment is
+// published (otherwise when it is published).
+export async function addAssessmentTargets(
+  actor: SessionUser,
+  assessmentId: string,
+  targets: AssessmentTarget[],
+): Promise<{ ok: true; added: number } | { ok: false; error: string }> {
+  asAdmin(actor);
+  const assessment = await prisma.assessment.findUnique({ where: { id: assessmentId }, include: { assignments: true } });
+  if (!assessment) return { ok: false, error: "Assessment not found" };
+  const clean = targets
+    .map((t) => ({ targetType: t.targetType, targetValue: t.targetType === "ALL" ? null : (t.targetValue ?? "").trim() || null }))
+    .filter((t) => t.targetType === "ALL" || t.targetValue);
+  if (clean.length === 0) return { ok: false, error: "Choose at least one employee or department" };
+  const key = (t: AssessmentTarget) => `${t.targetType}|${t.targetValue ?? ""}`;
+  const have = new Set(assessment.assignments.map(key));
+  const fresh = [...new Map(clean.map((t) => [key(t), t])).values()].filter((t) => !have.has(key(t)));
+  if (fresh.length === 0) return { ok: true, added: 0 };
+  const merged = [...assessment.assignments.map((a) => ({ targetType: a.targetType, targetValue: a.targetValue })), ...fresh];
+  const saved = await setAssignments(actor, assessmentId, merged);
+  if (!saved.ok) return saved;
+  return { ok: true, added: fresh.length };
+}
+
+// Removes one assignment (a person, a department or everyone). Learners no longer covered
+// lose their open periods if they have not started them.
+export async function removeAssessmentTarget(actor: SessionUser, assignmentId: string): Promise<Result> {
+  asAdmin(actor);
+  const row = await prisma.assessmentAssignment.findUnique({ where: { id: assignmentId } });
+  if (!row) return { ok: false, error: "Assignment not found" };
+  const rest = await prisma.assessmentAssignment.findMany({ where: { assessmentId: row.assessmentId, id: { not: assignmentId } } });
+  return setAssignments(actor, row.assessmentId, rest.map((a) => ({ targetType: a.targetType, targetValue: a.targetValue })));
+}
