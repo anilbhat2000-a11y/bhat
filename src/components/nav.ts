@@ -10,7 +10,8 @@ export const NAV: Record<"admin" | "manager" | "learn", NavGroup[]> = {
   admin: [
     { label: "Overview", items: [
       { href: "/admin", label: "Home", icon: "home", exact: true },
-      { href: "/admin/dashboard", label: "Reports", icon: "chart" },
+      { href: "/admin/dashboard", label: "Reports", icon: "chart", exact: true },
+      { href: "/admin/reports/training", label: "Training report", icon: "list" },
       { href: "/admin/certificates", label: "Certificates", icon: "award" },
     ] },
     { label: "Learning", items: [
@@ -34,6 +35,7 @@ export const NAV: Record<"admin" | "manager" | "learn", NavGroup[]> = {
       { href: "/manager/team", label: "Team members", icon: "users", exact: true },
       { href: "/manager/paths", label: "Learning paths", icon: "list" },
       { href: "/manager/certificates", label: "Certificates", icon: "award" },
+      { href: "/manager/training", label: "Training report", icon: "list" },
       { href: "/manager/team/summary", label: "Team summary", icon: "grid" },
       { href: "/manager/sessions", label: "Team sessions", icon: "calendar" },
     ] },

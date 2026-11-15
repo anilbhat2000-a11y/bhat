@@ -53,6 +53,7 @@ export default async function AdminDashboard({ searchParams }: { searchParams: P
   return (
     <main className="page">
       <h1>Dashboard</h1>
+      <p className="no-print"><a className="btn-outline" href="/admin/reports/training">Employee training report: who was assigned what, and what they completed</a></p>
       <p>Showing: {described}. Counts include active users only. The period applies to issue, completion and submit dates; overdue work and the expiry forecast are as of today.</p>
 
       <form method="get" className="no-print" aria-label="Dashboard filters">

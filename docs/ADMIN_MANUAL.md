@@ -219,6 +219,16 @@ A certificate is issued automatically when a learner passes. It shows the name, 
 
 **Search:** **Search courses, lessons and questions** finds courses (including drafts), lesson text, and question-bank questions.
 
+### Employee training report
+
+**Admin portal → Training report** (managers: **Manager portal → Training report**, for their own team). One line per employee showing trainings assigned, completed, in progress and overdue, with a completion bar. Click a name to see each training:
+
+- **Assigned through:** directly, through the person's department or job title, or through a learning path (named).
+- **Assignment period:** the date it was assigned and the due date.
+- **Lessons done**, a **progress** bar, the **status** (Completed, In progress, Not started, Overdue) and the **completion date**.
+
+Filter by name or email, department, status (for example "With overdue trainings") and the dates the trainings were assigned. **Download Excel report** gives two sheets: one row per employee, and one row per assigned training. **Completion %** is trainings finished out of trainings assigned; **average progress** is the average share of lessons done.
+
 ## 7. Audit log
 
 **Admin portal → Audit log** lists every change to users, courses, lessons, modules, assessments, questions, assignments (assessment and course), attempts, grades, certificates, remedial plans, announcements and hidden Q&A posts, with who made it and when. Filter by type (User, Course, Assessment and so on). The log cannot be edited or deleted from the portal. Entries older than the retention period (1 year) are removed by the retention purge, which logs what it removed.
