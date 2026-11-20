@@ -178,6 +178,26 @@ A restore replaces the current database and uploaded files.
 
 **Restore time.** In testing, a seeded database with sample files backed up in 2 seconds and restored in under 1 second. Time grows with content size, and video files dominate. Plan for about 10 minutes per 100 GB of uploaded files on SSD storage, and measure it during the Phase 4 restore test (see `TESTING.md`). Record the measured time in your operations notes.
 
+### Move the LMS to a new server
+
+Everything (users, courses, progress, results, certificates, uploaded files) moves in one encrypted backup.
+
+On the **old** server:
+
+1. `docker compose exec backup backup.sh` — makes a fresh backup in `backups/`.
+2. Copy to a USB drive or network share: the newest `backups/lms-….tar.gpg` and its `.sha256` file, the `.env` file, and the folder `deploy/nginx/certs`.
+
+On the **new** server (Docker and Git installed):
+
+1. `git clone https://github.com/anilbhat2000-a11y/bhat.git lms`, then `cd lms` and `git checkout claude/optimistic-mccarthy-dvkjzq` (use the branch you run).
+2. Put the copied `.env` in the `lms` folder and `certs` in `deploy/nginx/`. Keep the same `BACKUP_PASSPHRASE` (the backup cannot be opened without it). Change `PUBLIC_BASE_URL` if the address changes.
+3. Create `backups/` and put the backup file and its `.sha256` in it.
+4. `docker compose up -d --build`
+5. `docker compose stop app scheduler`
+6. `docker compose exec backup restore.sh /backups/lms-YYYYmmdd-HHMMSS.tar.gpg` and type `RESTORE`.
+7. `docker compose start app scheduler` — database updates for newer versions run automatically.
+8. Sign in and check courses, users and a few files. Then stop the old server with `docker compose down` (without `-v`, so its data stays as a fallback until you are sure).
+
 ## 8. Upgrades
 
 ```bash
