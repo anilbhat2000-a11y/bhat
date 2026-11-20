@@ -9,7 +9,7 @@ import type { Mailer } from "../notifications/mailer";
 import { PORTAL_NAME } from "../brand";
 
 // "Forgot password". Two ways, chosen by whether the company mail server is configured:
-//  - email (SMTP_URL set): the person gets a one-time link, valid for an hour;
+//  - email (set up under Admin → Email settings, or SMTP_URL): a one-time link, valid an hour;
 //  - no email: the request goes to the LMS administrators, who set a temporary password
 //    on the person's page (Admin → Users) and tell them.
 // The answer on screen is the same whether or not the email belongs to an account, so the

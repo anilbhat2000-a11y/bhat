@@ -59,7 +59,7 @@ Edit `.env` and set at least these values:
 | --- | --- |
 | `POSTGRES_PASSWORD` | A long random password for the database. |
 | `CRON_SECRET` | A long random value. The scheduler uses it to call the reminder endpoint. |
-| `SMTP_URL` | The company SMTP server, for example `smtp://lms%40company.in:password@smtp.company.in:587`. Leave empty until you have the details: the LMS runs, but sends no email. |
+| `SMTP_URL` | Optional. Easier: set the mail server in the portal under **Admin → Email settings** (which takes precedence). Or here, for example `smtp://lms%40company.in:password@smtp.company.in:587`. Without either, the LMS runs but sends no email. |
 | `MAIL_FROM` | The sender address for LMS emails. |
 | `PUBLIC_BASE_URL` | The address staff type, for example `https://lms.3cit.local`. It is printed in certificate QR codes. |
 | `BACKUP_PASSPHRASE` | A long passphrase that encrypts backups. **Store a copy offline.** Without it, no backup can be restored. |
@@ -233,12 +233,12 @@ Disconnect the server's internet (or block outbound traffic at the firewall) and
 | Browser warns about the certificate | Install `lms.crt` as trusted on the computer, or use a certificate from the company CA. |
 | Sign-in shows "Invalid Server Actions request" in the app log | Nginx must pass the `Host` header with the port. Use the provided `deploy/nginx/lms.conf` unchanged. |
 | "Too many failed sign-in attempts" | Wait 15 minutes, or have an admin reset the password. |
-| No reminder emails | Check `SMTP_URL`, and `docker compose logs scheduler`. |
+| No reminder emails | Open **Admin → Email settings**, check the status and use **Send test email**. Then check `docker compose logs scheduler`. |
 | Uploads fail for large videos | The limit is `MAX_UPLOAD_MB_VIDEO` (default 500 MB). Nginx allows up to 4 GB on upload routes, for bulk uploads. |
 | A PowerPoint, Word, Excel, MOV or MKV lesson stays "converting" or shows "could not be converted" | The Docker image includes LibreOffice and ffmpeg. Check `docker compose logs app` for "lesson conversion failed". Very large or password-protected files cannot be converted; learners can still download the original. |
 | AI assistant says it is switched off | `ANTHROPIC_API_KEY` is empty in `.env`. Add it, then run `docker compose up -d`. |
 | AI draft fails with "could not reach api.anthropic.com" | Allow outbound HTTPS to `api.anthropic.com` at the firewall, or set `HTTPS_PROXY`. |
 | AI draft fails with "API key is not valid" or "limit was reached" | Check the key and the account's billing and limits at console.anthropic.com. |
-| An employee forgot their password | They click **Forgot your password?** on the sign-in page. With `SMTP_URL` set they get a one-time link by email (valid 1 hour); without it, the request appears at the top of **Admin → Users**, where an admin sets a temporary password. |
+| An employee forgot their password | They click **Forgot your password?** on the sign-in page. With email set up (Admin → Email settings) they get a one-time link by email (valid 1 hour); without it, the request appears at the top of **Admin → Users**, where an admin sets a temporary password. |
 | Every admin forgot their password | On the server, in `C:\lms`, run `docker compose exec -e ADMIN_PASSWORD='a-new-strong-password' app npx tsx prisma/create-admin.ts "Full Name" admin.email@company.in` (at least 12 characters). It creates the admin, or resets and reactivates an existing one with that email. |
 | Backup container keeps restarting | `BACKUP_PASSPHRASE` is missing from `.env`. |

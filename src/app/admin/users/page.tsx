@@ -2,14 +2,15 @@ import { connection } from "next/server";
 import { guardPortal } from "../../../lib/auth/portal";
 import { prisma } from "../../../lib/db/client";
 import { createUserAction, importUsersAction } from "../../actions/users";
-import { openResetRequests, resetMode } from "../../../lib/auth/password-reset";
+import { openResetRequests } from "../../../lib/auth/password-reset";
+import { mailEnabled } from "../../../lib/notifications/mail-settings";
 import { closeResetRequestAction } from "../../actions/password-reset";
 
 export default async function UsersPage({ searchParams }: { searchParams: Promise<{ error?: string; notice?: string }> }) {
   await connection();
   const actor = await guardPortal(["ADMIN"]);
   const { error, notice } = await searchParams;
-  const requests = await openResetRequests(actor);
+  const [requests, emailOn] = await Promise.all([openResetRequests(actor), mailEnabled()]);
   const when = (d: Date) => d.toLocaleString("en-IN", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit", timeZone: "Asia/Kolkata" });
   const users = await prisma.user.findMany({
     orderBy: { name: "asc" },
@@ -26,7 +27,7 @@ export default async function UsersPage({ searchParams }: { searchParams: Promis
       {requests.length > 0 ? (
         <section className="card reset-requests" aria-labelledby="h-resets" data-test="reset-requests">
           <h2 id="h-resets">Password reset requests <span className="badge badge-draft">{requests.length}</span></h2>
-          <p className="muted">These people used <strong>Forgot your password?</strong> on the sign-in page. Open their page, set a temporary password, and tell them in person, by phone or on chat (never by plain email). Setting the password closes the request.{resetMode() === "ADMIN" ? " Once the company mail server is set up (SMTP_URL), people get a reset link by email instead." : ""}</p>
+          <p className="muted">These people used <strong>Forgot your password?</strong> on the sign-in page. Open their page, set a temporary password, and tell them in person, by phone or on chat (never by plain email). Setting the password closes the request.{emailOn ? "" : <> Once email is set up under <a href="/admin/settings/email">Email settings</a>, people get a reset link by email instead.</>}</p>
           <table className="data">
             <thead><tr><th scope="col">Employee</th><th scope="col">Department</th><th scope="col">Asked</th><th scope="col">Actions</th></tr></thead>
             <tbody>

@@ -5,7 +5,7 @@ import { redirect } from "next/navigation";
 import { requireSession } from "../../lib/auth/current-user";
 import { assignCourse, unassignCourse } from "../../lib/learning/assignments";
 import { addPost, createAnnouncement, deleteAnnouncement, setPostHidden, submitFeedback } from "../../lib/community/community";
-import { smtpMailer } from "../../lib/notifications/mailer";
+import { getMailer } from "../../lib/notifications/mail-settings";
 import type { AssignmentTarget } from "../../generated/prisma/client";
 
 const text = (fd: FormData, key: string) => String(fd.get(key) ?? "");
@@ -54,11 +54,8 @@ export async function createAnnouncementAction(formData: FormData): Promise<void
   const email = text(formData, "email") === "on";
   let mailer;
   if (email) {
-    try {
-      mailer = smtpMailer();
-    } catch {
-      back("/admin/announcements", "error", "Email is not set up (SMTP_URL). The announcement was not posted.");
-    }
+    mailer = (await getMailer().catch(() => null)) ?? undefined;
+    if (!mailer) back("/admin/announcements", "error", "Email is not set up yet (Admin → Email settings). The announcement was not posted.");
   }
   const result = await createAnnouncement(actor, { title: text(formData, "title"), body: text(formData, "body"), department: text(formData, "department") }, mailer);
   if (!result.ok) back("/admin/announcements", "error", result.error);

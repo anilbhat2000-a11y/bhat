@@ -772,3 +772,14 @@ model PasswordReset {
   @@index([userId, status])
   @@map("password_resets")
 }
+
+// Portal settings changed by admins in the browser (for example the mail server).
+// Secrets inside a value (the SMTP password) are stored encrypted (see lib/settings/secret.ts).
+model AppSetting {
+  key         String   @id
+  value       Json
+  updatedById String?  @map("updated_by_id")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  @@map("app_settings")
+}

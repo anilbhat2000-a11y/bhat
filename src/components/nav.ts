@@ -27,6 +27,7 @@ export const NAV: Record<"admin" | "manager" | "learn", NavGroup[]> = {
     { label: "Organisation", items: [
       { href: "/admin/users", label: "Users", icon: "users" },
       { href: "/admin/announcements", label: "Announcements", icon: "megaphone" },
+      { href: "/admin/settings/email", label: "Email settings", icon: "inbox" },
       { href: "/admin/audit", label: "Audit log", icon: "shield" },
     ] },
   ],

@@ -1,7 +1,7 @@
 import { connection } from "next/server";
 import { sendReminders } from "../../../../lib/notifications/send";
 import { openAllPeriods } from "../../../../lib/assessments/open-periods";
-import { smtpMailer } from "../../../../lib/notifications/mailer";
+import { getMailer } from "../../../../lib/notifications/mail-settings";
 import { purgeOldData } from "../../../../lib/retention";
 
 // Called by the scheduler every hour. Refused unless the request carries the cron secret.
@@ -17,9 +17,10 @@ export async function POST(request: Request) {
   // Open the new periods and mark overdue ones, so reminders see the current state.
   const opened = await openAllPeriods(now);
   // Until the company SMTP server is configured, everything else still runs.
-  if (!process.env.SMTP_URL) {
-    return Response.json({ sent: 0, emailSkipped: "SMTP_URL is not set", opened: opened.created, failedToOpen: opened.failed, purged });
+  const mailer = await getMailer().catch(() => null);
+  if (!mailer) {
+    return Response.json({ sent: 0, emailSkipped: "Email is not set up (Admin → Email settings or SMTP_URL)", opened: opened.created, failedToOpen: opened.failed, purged });
   }
-  const result = await sendReminders(now, smtpMailer());
+  const result = await sendReminders(now, mailer);
   return Response.json({ ...result, opened: opened.created, failedToOpen: opened.failed, purged });
 }
