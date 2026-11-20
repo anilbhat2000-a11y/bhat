@@ -31,19 +31,21 @@ export default async function AdminHome({ searchParams }: { searchParams: Promis
   const duration = parseDuration(sp.duration);
   const now = new Date();
   const dashboard = await lmsDashboard(user, duration, now);
-  const [people, courses, assessments, waiting, overdue, certified] = await Promise.all([
+  const [people, courses, assessments, waiting, overdue, certified, resets] = await Promise.all([
     prisma.user.count({ where: { active: true } }),
     prisma.course.count({ where: { status: "PUBLISHED" } }),
     prisma.assessment.count({ where: { published: true } }),
     prisma.assessmentAttempt.count({ where: { status: "AWAITING_GRADING" } }),
     prisma.assessmentPeriod.count({ where: { status: "OVERDUE", user: { active: true } } }),
     prisma.certification.count({ where: { expiresAt: { gt: now }, user: { active: true } } }),
+    prisma.passwordReset.count({ where: { kind: "ADMIN", status: "OPEN" } }),
   ]);
   const stats: { value: number; label: string; tone: string; href: string }[] = [
     { value: people, label: "Active users", tone: "is-blue", href: "/admin/users" },
     { value: courses, label: "Published courses", tone: "is-green", href: "/admin/courses" },
     { value: assessments, label: "Published assessments", tone: "", href: "/admin/assessments" },
     { value: certified, label: "Valid certificates", tone: "is-green", href: "/admin/dashboard" },
+    ...(resets > 0 ? [{ value: resets, label: "Password reset requests", tone: "is-red", href: "/admin/users" }] : []),
     { value: waiting, label: "Waiting to be graded", tone: waiting > 0 ? "is-red" : "", href: "/admin/grading" },
     { value: overdue, label: "Overdue assessments", tone: overdue > 0 ? "is-red" : "", href: "/admin/dashboard" },
   ];

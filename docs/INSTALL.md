@@ -219,4 +219,6 @@ Disconnect the server's internet (or block outbound traffic at the firewall) and
 | AI assistant says it is switched off | `ANTHROPIC_API_KEY` is empty in `.env`. Add it, then run `docker compose up -d`. |
 | AI draft fails with "could not reach api.anthropic.com" | Allow outbound HTTPS to `api.anthropic.com` at the firewall, or set `HTTPS_PROXY`. |
 | AI draft fails with "API key is not valid" or "limit was reached" | Check the key and the account's billing and limits at console.anthropic.com. |
+| An employee forgot their password | They click **Forgot your password?** on the sign-in page. With `SMTP_URL` set they get a one-time link by email (valid 1 hour); without it, the request appears at the top of **Admin → Users**, where an admin sets a temporary password. |
+| Every admin forgot their password | On the server, in `C:\lms`, run `docker compose exec -e ADMIN_PASSWORD='a-new-strong-password' app npx tsx prisma/create-admin.ts "Full Name" admin.email@company.in` (at least 12 characters). It creates the admin, or resets and reactivates an existing one with that email. |
 | Backup container keeps restarting | `BACKUP_PASSPHRASE` is missing from `.env`. |

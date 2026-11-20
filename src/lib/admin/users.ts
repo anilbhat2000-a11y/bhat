@@ -275,6 +275,8 @@ export async function setUserPassword(actor: SessionUser, id: string, next: stri
   await prisma.$transaction(async (tx) => {
     await tx.user.update({ where: { id }, data: { passwordHash: hash } });
     await tx.session.deleteMany({ where: { userId: id } });
+    // Any "forgot password" request from this person is now dealt with.
+    await tx.passwordReset.updateMany({ where: { userId: id, status: "OPEN" }, data: { status: "DONE", closedAt: new Date() } });
     await recordAudit(tx, { actorId: actor.id, action: "user.password.reset", entityType: "User", entityId: id });
   });
   return { ok: true, id };

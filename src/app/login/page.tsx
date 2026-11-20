@@ -1,10 +1,17 @@
 "use client";
 
-import { useActionState } from "react";
+import { Suspense, useActionState } from "react";
+import { useSearchParams } from "next/navigation";
 import { login, type LoginState } from "../actions/auth";
 import { LEGAL_NAME, LOGO_URL, PORTAL_NAME } from "../../lib/brand";
 
 const initial: LoginState = {};
+
+// After a password reset, the sign-in page confirms it.
+function ResetNotice() {
+  const reset = useSearchParams().get("reset") === "1";
+  return reset ? <p role="status" className="login-ok">Your password has been changed. Sign in with your new password.</p> : null;
+}
 
 export default function LoginPage() {
   const [state, action, pending] = useActionState(login, initial);
@@ -18,6 +25,7 @@ export default function LoginPage() {
         <p className="login-title">{PORTAL_NAME}</p>
         <p className="login-sub">Training, assessments and certification</p>
         <h1>Sign in</h1>
+        <Suspense fallback={null}><ResetNotice /></Suspense>
         <form action={action}>
           <label>
             Email
@@ -30,6 +38,7 @@ export default function LoginPage() {
           {state.error ? <p role="alert">{state.error}</p> : null}
           <button type="submit" disabled={pending}>{pending ? "Signing in…" : "Sign in"}</button>
         </form>
+        <p className="login-links"><a href="/forgot-password">Forgot your password?</a></p>
         <p className="login-foot">{LEGAL_NAME}</p>
       </main>
     </div>

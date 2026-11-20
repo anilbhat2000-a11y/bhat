@@ -55,7 +55,8 @@ export default async function UserPage({
         <button type="submit">Upload photo</button>
       </form>
 
-      <h2>Reset password</h2>
+      <h2 id="reset-password">Reset password</h2>
+      <p className="muted">Set a temporary password and give it to the person in person, by phone or on chat. They can change it under <strong>Profile → Change password</strong> after signing in.</p>
       <form action={setUserPasswordAction}>
         <input type="hidden" name="id" value={user.id} />
         <label>New password (8+ characters) <input aria-label="Next" name="next" type="password" minLength={8} autoComplete="new-password" required /></label>{" "}

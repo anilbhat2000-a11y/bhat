@@ -678,3 +678,10 @@ a.btn-outline:hover { background: var(--accent-soft); }
 .picker, .page .picker-list, .picker-bar { width: 100%; max-width: none; }
 .assign-groups .check-grid { align-content: start; display: grid; gap: 6px; }
 .assess-table td { vertical-align: middle; }
+
+/* Forgot / reset password */
+.login-links { text-align: center; margin: 12px 0 0; font-size: 0.92rem; }
+.login-ok { background: var(--ok-soft); color: var(--ok); border-radius: 8px; padding: 10px 12px; font-weight: 600; line-height: 1.45; }
+.login-hint { font-size: 0.82rem; color: var(--muted); margin: 0; }
+.reset-requests { border-left: 4px solid #d99a00; margin-bottom: 18px; }
+.reset-requests h2 { display: flex; align-items: center; gap: 8px; margin-top: 0; }

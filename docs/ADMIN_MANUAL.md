@@ -14,6 +14,15 @@ For L&D and HR administrators. Sign in and open the **Admin portal** (`/admin`).
 
 **Departments and locations** are set on each user. Type the same spelling each time, because assessments are assigned by department name. **Reporting lines** come from each user's manager. A manager sees everyone below them, directly or indirectly.
 
+### Forgotten passwords
+
+The sign-in page has **Forgot your password?**. The person enters their work email:
+
+- **When the company mail server is set up** (`SMTP_URL` in `.env`), they get an email with a link to choose a new password. The link works once, for one hour; a newer request replaces an older link. Choosing a new password signs them out everywhere.
+- **Until then**, the request appears at the top of **Admin → Users** under **Password reset requests** (and as a red tile on the admin home page). Click **Set a password**, enter a temporary password, and tell the person in person, by phone or on chat. Setting the password closes the request; **Dismiss** closes it without changes. They can change the temporary password under **Profile → Change password**.
+
+The page gives the same answer whether or not the email has an account, and limits repeated requests, so it cannot be used to find out who works here. If every admin is locked out, see "Every admin forgot their password" in INSTALL.md.
+
 ## 2. Subject areas
 
 **Admin portal → Subject areas.** Subject areas are the main topics of your training (for example Networking, Accounts). Every course and assessment belongs to one, and each sets how long its certificates stay valid.
