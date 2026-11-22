@@ -37,8 +37,14 @@ class CpuProbe:
             "mem_used_pct": round(mem.percent, 1),
             "mem_used_gb": round(mem.used / 1e9, 2),
             "mem_total_gb": round(mem.total / 1e9, 2),
-            "power_w": self._rapl.watts(),
+            **self._power(),
         }
+
+    def _power(self) -> dict:
+        w = self._rapl.watts()
+        if w is not None:
+            return {"power_w": w, "power_source": "cpu-package (RAPL)"}
+        return {"power_w": None, "power_source": None}
 
 
 class _RaplReader:

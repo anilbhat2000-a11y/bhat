@@ -7,6 +7,9 @@ from __future__ import annotations
 
 import base64
 import io
+import json
+import os
+import re
 import threading
 import time
 import uuid
@@ -16,6 +19,8 @@ from statistics import fmean
 import numpy as np
 from PIL import Image
 
+from . import hwinfo, predict
+from .assessment import assess
 from .inference.engine import EngineManager, preprocess
 from .sources.files import extract
 from .telemetry.sampler import INFERENCE, Sampler, gpu_util, impact
@@ -128,43 +133,116 @@ class JobManager:
 
     def _run_benchmark(self, job: dict, device_ids: list[str], seconds: float) -> None:
         job["status"] = "running"
-        rng = np.random.default_rng(0)
-        x = preprocess(Image.fromarray(rng.integers(0, 255, (480, 640, 3), dtype=np.uint8)))
-        steps = len(device_ids) + 1
         try:
-            # Idle baseline - nothing from this app is running.
-            t0 = time.time()
-            time.sleep(seconds / 2)
-            job["baseline"] = _window_stats(self.sampler.between(t0, time.time()))
-            job["progress"] = round(1 / steps, 3)
-            for n, dev in enumerate(device_ids, 2):
-                entry = {"device": dev}
-                job["results"].append(entry)
-                try:
-                    engine = self.engines.get(dev)
-                    entry.update(kind=engine.device.kind, label=engine.device.label, compile_ms=engine.compile_ms)
-                    INFERENCE.active["benchmark"] = dev
-                    lats: list[float] = []
-                    t0 = time.time()
-                    while time.time() - t0 < seconds:
-                        _, lat = engine.infer(x, workload="benchmark")
-                        lats.append(lat)
-                    t1 = time.time()
-                    INFERENCE.active.pop("benchmark", None)
-                    time.sleep(self.sampler.interval * 2)
-                    a = np.array(lats)
-                    entry.update(
-                        ips=round(len(lats) / (t1 - t0), 1),
-                        latency_mean_ms=round(float(a.mean()), 2),
-                        latency_p95_ms=round(float(np.percentile(a, 95)), 2),
-                        during=_window_stats(self.sampler.between(t0 + 0.5, t1)),  # skip ramp-up
-                    )
-                except Exception as exc:
-                    entry["error"] = str(exc)
-                finally:
-                    INFERENCE.active.pop("benchmark", None)
-                job["progress"] = round(n / steps, 3)
-                time.sleep(1.5)  # cool-down so windows do not overlap
+            self._bench(job, device_ids, seconds, len(device_ids) + 1)
             job["status"] = "done"
         except Exception as exc:
             job["status"], job["error"] = "error", str(exc)
+
+    def _bench(self, job: dict, device_ids: list[str], seconds: float, steps: int) -> None:
+        """Idle baseline, then each device flat-out for ``seconds``. Fills job['baseline'/'results']."""
+        rng = np.random.default_rng(0)
+        x = preprocess(Image.fromarray(rng.integers(0, 255, (480, 640, 3), dtype=np.uint8)))
+        t0 = time.time()
+        time.sleep(seconds / 2)
+        job["baseline"] = _window_stats(self.sampler.between(t0, time.time()))
+        job["progress"] = round(1 / steps, 3)
+        for n, dev in enumerate(device_ids, 2):
+            entry = {"device": dev}
+            job["results"].append(entry)
+            try:
+                engine = self.engines.get(dev)
+                entry.update(kind=engine.device.kind, label=engine.device.label, compile_ms=engine.compile_ms)
+                INFERENCE.active["benchmark"] = dev
+                lats: list[float] = []
+                t0 = time.time()
+                while time.time() - t0 < seconds:
+                    _, lat = engine.infer(x, workload="benchmark")
+                    lats.append(lat)
+                t1 = time.time()
+                INFERENCE.active.pop("benchmark", None)
+                time.sleep(self.sampler.interval * 2)
+                a = np.array(lats)
+                entry.update(
+                    ips=round(len(lats) / (t1 - t0), 1),
+                    latency_mean_ms=round(float(a.mean()), 2),
+                    latency_p95_ms=round(float(np.percentile(a, 95)), 2),
+                    during=_window_stats(self.sampler.between(t0 + 0.5, t1)),  # skip ramp-up
+                )
+            except Exception as exc:
+                kind = next((d.kind for d in self.engines.devices if d.id == dev), None)
+                entry.update(kind=kind, error=str(exc))
+            finally:
+                INFERENCE.active.pop("benchmark", None)
+            job["progress"] = round(n / steps, 3)
+            time.sleep(1.5)  # cool-down so windows do not overlap
+
+    # --- NPU suitability assessment ------------------------------------------------
+    def submit_assessment(self, seconds: float) -> dict:
+        # One device per kind (the list is sorted best-backend-first) plus every NPU,
+        # so a machine with two NPU backends is judged on the better one.
+        chosen, kinds = [], set()
+        for d in self.engines.devices:
+            if d.kind == "npu" or d.kind not in kinds:
+                chosen.append(d.id)
+                kinds.add(d.kind)
+        job = self._new("assessment", devices=chosen, seconds=seconds, baseline=None, results=[], report=None)
+        self._pool.submit(self._run_assessment, job, chosen, max(3.0, min(seconds, 60.0)))
+        return job
+
+    def _run_assessment(self, job: dict, device_ids: list[str], seconds: float) -> None:
+        job["status"] = "running"
+        try:
+            self._bench(job, device_ids, seconds, len(device_ids) + 1)
+            bench = {"baseline": job["baseline"], "results": job["results"], "seconds": seconds,
+                     "gpu_measured": bool(self.sampler.gpu.sources)}
+            power = next((s["cpu"].get("power_source") for s in reversed(self.sampler.since(120))
+                          if s["cpu"].get("power_source")), None)
+            latest = self.sampler.latest() or {}
+            battery = latest.get("battery")
+            report = assess(hwinfo.collect(), bench, self.engines.model.name, power, battery)
+            model = predict.workload_model(report, battery)
+            report["impact_model"] = model
+            if battery and battery.get("present"):
+                report["battery_lifespan"] = predict.npu_lifespan_benefit(predict.health_forecast(battery), model)
+            report["id"] = job["id"]
+            job["report"] = report
+            save_report(report)
+            job["status"] = "done"
+        except Exception as exc:
+            job["status"], job["error"] = "error", str(exc)
+
+
+REPORTS_DIR = os.environ.get(
+    "NPU_MONITOR_REPORTS", os.path.join(os.path.dirname(__file__), "..", "reports"))
+
+
+def save_report(report: dict) -> str:
+    os.makedirs(REPORTS_DIR, exist_ok=True)
+    host = re.sub(r"[^A-Za-z0-9_.-]", "_", report["hardware"].get("host") or "machine")
+    report["file"] = f"{host}-{time.strftime('%Y%m%d-%H%M%S')}.json"
+    path = os.path.join(REPORTS_DIR, report["file"])
+    with open(path, "w", encoding="utf-8") as f:
+        json.dump(report, f, indent=1)
+    return path
+
+
+def list_reports() -> list[dict]:
+    out = []
+    if os.path.isdir(REPORTS_DIR):
+        for fn in sorted(os.listdir(REPORTS_DIR), reverse=True):
+            if fn.endswith(".json"):
+                try:
+                    with open(os.path.join(REPORTS_DIR, fn), encoding="utf-8") as f:
+                        r = json.load(f)
+                    out.append({"file": fn, "host": r["hardware"].get("host"), "cpu": r["hardware"].get("cpu"),
+                                "score": r.get("score"), "verdict": r.get("verdict"), "created": r.get("created")})
+                except (OSError, ValueError, KeyError):
+                    continue
+    return out
+
+
+def load_report(filename: str) -> dict:
+    fn = os.path.basename(filename)  # no path traversal
+    with open(os.path.join(REPORTS_DIR, fn), encoding="utf-8") as f:
+        return json.load(f)

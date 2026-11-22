@@ -46,6 +46,10 @@
     badge.title = src.startsWith("hardware")
       ? `Reading ${src.split(":")[1]} - includes NPU load from every process.`
       : "No NPU hardware counter readable on this OS/driver. Showing the share of time this app kept the NPU busy.";
+    const ai = s.hardware.ai_pc;
+    $("aiPc").textContent = ai.class;
+    $("aiPc").title = ai.reason;
+    $("aiPc").className = "badge " + (ai.class === "Copilot+ AI PC" ? "ok" : ai.is_ai_pc ? "" : "bad");
     devices = s.inference.devices;
     const opts = devices.length
       ? devices.map((d) => `<option value="${esc(d.id)}">${esc(d.kind.toUpperCase())} · ${esc(d.label)}</option>`).join("")
@@ -75,7 +79,7 @@
       while (history.length && history[0].ts < cutoff) history.shift();
       updateKpis(sample);
       updateLive(live);
-      draw();
+      draw(); drawPower();
     };
   }
 
@@ -92,7 +96,7 @@
     $("kIps").textContent = num(ips);
     $("kIpsFoot").textContent = kinds.length ? kinds.map(([k, v]) => `${k.toUpperCase()} ${v.latency_ms} ms`).join(" · ") : "idle";
     $("kMem").textContent = pct(s.cpu.mem_used_pct);
-    $("kMemFoot").textContent = `${s.cpu.mem_used_gb}/${s.cpu.mem_total_gb} GB${s.cpu.power_w != null ? ` · CPU pkg ${s.cpu.power_w} W` : ""}`;
+    $("kMemFoot").textContent = `${s.cpu.mem_used_gb}/${s.cpu.mem_total_gb} GB${s.cpu.power_w != null ? ` · ${s.cpu.power_source?.startsWith("battery") ? "system" : "CPU pkg"} ${s.cpu.power_w} W` : ""}`;
     $("cores").innerHTML = s.cpu.per_core.map((c, i) => `<i title="core ${i}: ${c}%"><b style="height:${c}%"></b></i>`).join("");
   }
 
@@ -176,7 +180,8 @@
     document.querySelectorAll(".seg button").forEach((o) => o.classList.toggle("on", o === b));
     spanSec = Number(b.dataset.span);
     $("spanLabel").textContent = b.textContent.replace("m", " min");
-    draw();
+    document.querySelectorAll(".spanTxt").forEach((el) => { el.textContent = $("spanLabel").textContent; });
+    draw(); drawPower();
   }));
 
   // ---------- impact ----------
@@ -378,11 +383,236 @@
     $("benchTbl").tBodies[0].innerHTML = rows.join("");
   }
 
+
+  // ---------- NPU suitability assessment ----------
+  function renderAssessment(r) {
+    $("assessOut").hidden = false;
+    $("aScore").textContent = r.score;
+    $("aVerdict").textContent = r.verdict;
+    const hw = r.hardware, rated = hw.rated_npu || {};
+    $("aHw").textContent = `${hw.host} · ${hw.machine_type} · ${hw.cpu} · ${hw.cores_logical} threads · ${hw.ram_gb} GB RAM · NPU: `
+      + ((hw.npu_names || []).join(", ") || rated.family || "none detected") + (rated.tops ? ` (${rated.tops} TOPS rated)` : "");
+    const li = (xs) => xs.length ? xs.map((x) => `<li>${esc(x)}</li>`).join("") : `<li class="muted" style="list-style:none">None found</li>`;
+    $("aPros").innerHTML = li(r.pros);
+    $("aCons").innerHTML = li(r.cons);
+    $("aRecs").innerHTML = li(r.recommendations);
+    $("aCrit").tBodies[0].innerHTML = r.criteria.map((c) => `<tr><td>${esc(c.title)}</td>
+      <td>${c.points == null ? '<span class="muted">not measurable</span>' : `${c.points} / ${c.max}`}</td>
+      <td class="critbar"><i style="width:${c.points == null ? 0 : (c.points / c.max) * 100}%"></i></td></tr>`).join("");
+    $("aWl").tBodies[0].innerHTML = r.workloads.map((w) => `<tr><td>${esc(w.workload)}</td>
+      <td><strong>${esc((w.kind || "").toUpperCase())}</strong> <span class="muted">${esc(w.device || "—")}</span><br><span class="small">${esc(w.why)}</span></td></tr>`).join("");
+    if (r.file) {
+      $("aHtml").href = `/api/reports/${encodeURIComponent(r.file)}/html`;
+      $("aJson").href = `/api/reports/${encodeURIComponent(r.file)}`;
+      $("aJson").download = r.file;
+    }
+  }
+
+  $("assessBtn").onclick = async () => {
+    $("assessBtn").disabled = true; $("assessProg").hidden = false; $("assessProg").value = 0;
+    $("assessIntro").textContent = "Measuring the idle baseline, then each processor in turn… keep the machine idle.";
+    try {
+      const { id } = await postJSON("/api/assessment", { seconds: Number($("assessSecs").value) });
+      const j = await poll(id, (j) => { $("assessProg").value = j.progress; });
+      if (j.status === "error") throw new Error(j.error);
+      renderAssessment(j.report);
+      $("assessIntro").textContent = "Assessment complete. The report is saved and can be compared with other machines below.";
+      loadSaved();
+    } catch (e) {
+      $("assessIntro").innerHTML = `<span class="err">${esc(e.message)}</span>`;
+    } finally { $("assessBtn").disabled = false; $("assessProg").hidden = true; }
+  };
+
+  let imported = [];
+  async function loadSaved() {
+    try {
+      const list = await api("/api/reports");
+      $("savedReports").innerHTML = list.length
+        ? list.slice(0, 12).map((r, i) => `<label><input type="checkbox" value="${esc(r.file)}" ${i < 1 ? "checked" : ""}>
+            ${esc(r.host)} <span class="muted small">${r.score}/100 · ${new Date(r.created * 1000).toLocaleString()}</span></label>`).join("")
+        : `<span class="muted small">No saved reports yet. Run the assessment first.</span>`;
+      if (list.length) {
+        const latest = await api(`/api/reports/${encodeURIComponent(list[0].file)}`);
+        if ($("assessOut").hidden) renderAssessment(latest);
+      }
+    } catch { /* server not ready */ }
+  }
+
+  $("importIn").onchange = async (e) => {
+    for (const f of e.target.files) {
+      try {
+        const r = JSON.parse(await f.text());
+        if (!r.hardware || r.score == null) throw new Error("not an NPU Monitor report");
+        imported.push(r);
+      } catch (err) { alert(`${f.name}: ${err.message}`); }
+    }
+    $("imported").textContent = imported.length ? `Imported: ${imported.map((r) => `${r.hardware.host} (${r.score}/100)`).join(", ")}` : "";
+    e.target.value = "";
+  };
+
+  $("compareBtn").onclick = async () => {
+    const files = [...document.querySelectorAll("#savedReports input:checked")].map((i) => i.value);
+    try {
+      const saved = await Promise.all(files.map((f) => api(`/api/reports/${encodeURIComponent(f)}`)));
+      const all = [...saved, ...imported];
+      if (!all.length) { alert("Select or import at least one report."); return; }
+      renderCompare(await postJSON("/api/compare", all), "rankTbl", "whyBest", "caveats");
+      $("compareOut").hidden = false;
+    } catch (e) { alert(e.message); }
+  };
+
+
+  function renderCompare(c, tbl, why, cav) {
+    $(tbl).tBodies[0].innerHTML = c.ranking.map((r) => `<tr class="${r.rank === 1 ? "best" : ""}">
+      <td>${r.rank}</td><td>${esc(r.host)} <span class="muted small">${esc(r.cpu)} · ${esc(r.machine_type)}</span></td>
+      <td>${r.score}</td><td>${num(r.npu_ips)}</td><td>${num(r.npu_fps)}</td><td>${r.speedup_vs_cpu == null ? "—" : `${r.speedup_vs_cpu}×`}</td>
+      <td>${pct(r.cpu_busy_on_npu)}</td><td>${num(r.npu_inf_per_joule, 2)}</td><td>${r.rated_tops ?? "—"}</td></tr>`).join("");
+    $(why).innerHTML = c.why_best.map((x) => `<li>${esc(x)}</li>`).join("");
+    $(cav).innerHTML = [...(c.warnings || []), ...(c.caveats || [])].map((x) => `<li>${esc(x)}</li>`).join("");
+  }
+
+  // ---------- alerts ----------
+  async function refreshAlerts() {
+    try {
+      const a = await api("/api/alerts");
+      $("alerts").innerHTML = a.active.map((x) => `<div class="alert ${x.level}"><span class="lvl">${esc(x.level)}</span>
+        <div><div class="t">${esc(x.title)}</div><div class="d">${esc(x.detail)}</div></div></div>`).join("");
+    } catch { /* ignore */ }
+  }
+  setInterval(refreshAlerts, 5000);
+
+  // ---------- battery & predictions ----------
+  const mins = (m) => (m == null ? "—" : m >= 60 ? `${Math.floor(m / 60)} h ${m % 60} min` : `${m} min`);
+  async function refreshBattery() {
+    let v;
+    try { v = await api("/api/battery"); } catch { return; }
+    const b = v.battery, rt = v.runtime, f = v.forecast;
+    $("batNone").hidden = !!b.present;
+    $("batStatus").textContent = b.present ? b.status : "no battery";
+    $("bCharge").textContent = b.present ? pct(b.percent) : "—";
+    $("bChargeFoot").textContent = b.present ? `${b.now_wh ?? "?"} / ${b.full_wh ?? "?"} Wh${b.plugged ? " · plugged in" : " · on battery"}` : "";
+    const last = history[history.length - 1];
+    const pw = b.present && b.power_w != null ? b.power_w : last?.cpu.power_w;
+    $("bPower").textContent = pw == null ? "—" : `${Math.abs(pw).toFixed(1)} W`;
+    $("bPowerFoot").textContent = pw == null ? "plug out the charger to measure" : (b.present && b.power_w < 0 ? "charging" : (last?.cpu.power_source || "battery discharge"));
+    $("bHealth").textContent = b.health_pct == null ? "—" : `${b.health_pct}%`;
+    $("bHealthFoot").textContent = b.present ? `${b.cycles != null ? `${b.cycles} cycles · ` : ""}design ${b.design_wh ?? "?"} Wh` : "";
+    $("bLeft").textContent = rt.available ? (b.plugged ? mins(rt.full_by_trend_min ?? rt.full_by_power_min) : mins(rt.empty_min)) : "—";
+    $("bLeftFoot").textContent = !rt.available ? "" : b.plugged ? "until full" : rt.empty_by_trend_min ? "from discharge trend" : rt.empty_by_power_min ? "from current draw" : "collecting data…";
+
+    const p = [];
+    if (b.present) {
+      if (rt.trend_pct_per_hour != null) p.push(`Charge is changing at ${rt.trend_pct_per_hour}% per hour (last 10 min).`);
+      if (!b.plugged && rt.empty_by_power_min) p.push(`At the current ${b.power_w} W draw the battery empties in ${mins(rt.empty_by_power_min)}.`);
+      if (f.available) {
+        p.push(`Battery condition: ${f.condition} (${f.health_pct}% of design capacity${f.cycles ? `, ${f.cycles} cycles` : ""}).`);
+        p.push(f.days_to_80 > 0
+          ? `Predicted to reach 80% health around ${f.date_80} (~${(f.days_to_80 / 365).toFixed(1)} years). Method: ${f.method}; ${f.cycles_per_day} cycles/day (${f.cycles_per_day_source}). Wear ≈ ${f.wear_pct_per_year}%/year.`
+          : `Battery is already at or below 80% health. Plan a replacement.`);
+      } else p.push(esc(f.reason || "Battery health not reported."));
+    } else {
+      p.push("No battery: battery predictions don't apply. Power and thermal data are shown where available.");
+    }
+    const t = Object.entries(v.temps || {});
+    if (t.length) p.push(`Temperatures: ${t.map(([k, c]) => `${k} ${c} °C`).join(", ")}.`);
+    if (v.lifespan) p.push(v.lifespan.text);
+    $("predList").innerHTML = p.map((x) => `<li>${esc(x)}</li>`).join("");
+
+    const m = v.impact_model;
+    if (!m.available) {
+      $("imIntro").textContent = `${m.reason}. The model then shows how a 30 FPS AI camera loads each processor.`;
+      $("imTbl").tBodies[0].innerHTML = ""; $("imFindings").innerHTML = ""; $("imLifespan").textContent = "";
+      return;
+    }
+    $("imIntro").textContent = `A ${m.rate} inferences/s AI workload (30 FPS camera) modelled on each processor from the latest assessment. ` +
+      (m.power_measured ? `Power: ${m.power_source}.` : "Power not measured.");
+    $("imTbl").tBodies[0].innerHTML = m.rows.map((r) => `<tr><td><strong>${esc(r.kind.toUpperCase())}</strong> <span class="muted small">${esc(r.label)}</span>
+      ${r.sustains ? "" : '<span class="pill no">can\'t keep up</span>'}</td><td>${pct(r.busy_pct)}</td><td>${pct(r.cpu_pct)}</td><td>${pct(r.gpu_pct)}</td>
+      <td>${r.power_w == null ? "—" : `${r.power_w} W`}</td><td>${r.battery_h == null ? "—" : `${r.battery_h} h`}</td><td>${r.cycles_per_year ?? "—"}</td></tr>`).join("");
+    $("imFindings").innerHTML = m.findings.map((x) => `<li>${esc(x)}</li>`).join("");
+    $("imLifespan").textContent = v.lifespan ? v.lifespan.text : "";
+  }
+  setInterval(refreshBattery, 3000);
+
+  // power chart (single series, its own axis - never on the % chart)
+  const pc = $("powerChart"), pctx = pc.getContext("2d");
+  function drawPower() {
+    const dpr = window.devicePixelRatio || 1, W = pc.clientWidth, H = pc.clientHeight;
+    if (!W) return;
+    if (pc.width !== W * dpr || pc.height !== H * dpr) { pc.width = W * dpr; pc.height = H * dpr; }
+    pctx.setTransform(dpr, 0, 0, dpr, 0, 0); pctx.clearRect(0, 0, W, H);
+    const now = history.length ? history[history.length - 1].ts : Date.now() / 1000, t0 = now - spanSec;
+    const pts = history.filter((s) => s.ts >= t0 && s.cpu.power_w != null);
+    const P = { l: 38, r: 10, t: 8, b: 18 }, pw = W - P.l - P.r, ph = H - P.t - P.b;
+    const max = Math.max(5, ...pts.map((s) => s.cpu.power_w)) * 1.15;
+    const step = max > 60 ? 20 : max > 25 ? 10 : 5;
+    const x = (t) => P.l + ((t - t0) / spanSec) * pw, y = (v) => P.t + ph - (v / max) * ph;
+    pctx.strokeStyle = css("--grid"); pctx.fillStyle = css("--text-muted"); pctx.font = "11px system-ui, sans-serif";
+    pctx.textAlign = "right"; pctx.textBaseline = "middle"; pctx.lineWidth = 1;
+    for (let v = 0; v <= max; v += step) { pctx.beginPath(); pctx.moveTo(P.l, y(v) + 0.5); pctx.lineTo(W - P.r, y(v) + 0.5); pctx.stroke(); pctx.fillText(`${v} W`, P.l - 6, y(v)); }
+    if (!pts.length) { pctx.textAlign = "center"; pctx.fillText("No power sensor reading (unplug the charger on a laptop)", P.l + pw / 2, P.t + ph / 2); return; }
+    pctx.strokeStyle = css("--npu"); pctx.lineWidth = 2; pctx.lineJoin = "round"; pctx.beginPath();
+    pts.forEach((s, i) => (i ? pctx.lineTo(x(s.ts), y(s.cpu.power_w)) : pctx.moveTo(x(s.ts), y(s.cpu.power_w))));
+    pctx.stroke();
+  }
+  new ResizeObserver(drawPower).observe(pc);
+
+  // ---------- fleet ----------
+  const aiPill = (c) => !c ? "—" : `<span class="pill ${c.class === "Copilot+ AI PC" ? "ok" : c.is_ai_pc ? "mid" : "no"}" title="${esc(c.reason)}">${esc(c.class)}</span>`;
+  async function refreshFleet() {
+    let list;
+    try { list = await api("/api/fleet"); } catch { return; }
+    $("fleetTbl").tBodies[0].innerHTML = list.map((m) => {
+      const n = m.node || {}, x = n.metrics || {}, b = n.battery || null;
+      const al = (n.alerts || []).filter((a) => a.level !== "info");
+      return `<tr><td><span class="dot ${m.online ? "on" : "off"}"></span><strong>${esc(m.self ? `${n.host} (this machine)` : m.name)}</strong>
+          <div class="muted small">${esc(n.cpu || m.error || m.url)}${n.machine_type ? ` · ${esc(n.machine_type)}` : ""}</div></td>
+        <td>${aiPill(n.ai_pc)}</td><td>${pct(x.npu)}</td><td>${pct(x.cpu)}</td><td>${x.gpu == null ? "—" : pct(x.gpu)}</td><td>${num(x.ips)}</td>
+        <td>${b ? `${pct(b.percent)}${b.plugged ? " ⚡" : ""}` : "—"}</td><td>${b && b.health_pct != null ? `${b.health_pct}%` : "—"}</td>
+        <td>${n.report ? n.report.score : "—"}</td>
+        <td class="small" style="white-space:normal">${al.length ? al.map((a) => `<span class="pill ${a.level === "critical" ? "no" : "mid"}">${esc(a.title)}</span>`).join(" ") : "—"}</td>
+        <td>${m.self ? "" : `<button class="iconbtn" data-rm="${esc(m.id)}" title="Remove" aria-label="Remove ${esc(m.name)}">✕</button>`}</td></tr>`;
+    }).join("");
+  }
+  $("fleetTbl").addEventListener("click", async (e) => {
+    const id = e.target.dataset?.rm;
+    if (id && confirm("Remove this machine from the fleet?")) { await api(`/api/fleet/peers/${id}`, { method: "DELETE" }); refreshFleet(); }
+  });
+  $("peerForm").onsubmit = async (e) => {
+    e.preventDefault();
+    $("peerMsg").textContent = "Connecting…";
+    try {
+      const p = await postJSON("/api/fleet/peers", { url: $("peerUrl").value, token: $("peerToken").value, name: $("peerName").value });
+      $("peerMsg").textContent = `Added ${p.name}.`; $("peerForm").reset(); refreshFleet();
+    } catch (err) { $("peerMsg").innerHTML = `<span class="err">${esc(err.message)}</span>`; }
+  };
+  $("fleetRunBtn").onclick = async () => {
+    $("fleetRunBtn").disabled = true; $("fleetRun").hidden = false; $("fleetCompare").hidden = true;
+    try {
+      const { id } = await postJSON("/api/fleet/run", { seconds: Number($("fleetSecs").value) });
+      for (;;) {
+        const r = await api(`/api/fleet/runs/${id}`);
+        $("fleetProgress").innerHTML = r.machines.map((m) => `<div>${esc(m.name)}: ${esc(m.status)} ${m.status === "running" ? `${Math.round(m.progress * 100)}%` : ""}
+          ${m.score != null ? `· ${m.score}/100 · ${esc(m.ai_pc || "")}` : ""} ${m.error ? `<span class="err">${esc(m.error)}</span>` : ""}</div>`).join("");
+        if (r.status === "done") {
+          if (r.comparison) { renderCompare(r.comparison, "fleetRank", "fleetWhy", "fleetCaveats"); $("fleetCompare").hidden = false; }
+          break;
+        }
+        await new Promise((res) => setTimeout(res, 1000));
+      }
+      refreshFleet(); loadSaved();
+    } catch (e) { $("fleetProgress").innerHTML = `<span class="err">${esc(e.message)}</span>`; }
+    finally { $("fleetRunBtn").disabled = false; }
+  };
+  setInterval(refreshFleet, 4000);
+
   // ---------- boot ----------
   (async () => {
     try { await loadSystem(); } catch (e) { $("host").textContent = `Could not reach the server: ${e.message}`; }
     try { history = await api("/api/history?seconds=900"); draw(); } catch { /* starts empty */ }
     connect();
     refreshImpact();
+    loadSaved();
+    refreshAlerts(); refreshBattery(); refreshFleet();
   })();
 })();

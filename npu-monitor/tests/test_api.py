@@ -62,3 +62,19 @@ def test_benchmark_and_csv(client):
     assert csv.startswith("timestamp,phase,npu_util")
     imp = client.get("/api/impact?seconds=60").json()
     assert "correlation" in imp
+
+
+def test_assessment_saves_report_and_compares(client, tmp_path, monkeypatch):
+    import npu_monitor.jobs as jobs
+    monkeypatch.setattr(jobs, "REPORTS_DIR", str(tmp_path))
+    j = _wait(client, client.post("/api/assessment", json={"seconds": 3}).json()["id"])
+    assert j["status"] == "done", j["error"]
+    r = j["report"]
+    assert 0 <= r["score"] <= 100 and r["verdict"] and r["file"]
+    saved = client.get("/api/reports").json()
+    assert saved[0]["file"] == r["file"]
+    html = client.get(f"/api/reports/{r['file']}/html")
+    assert html.status_code == 200 and "NPU Suitability Report" in html.text
+    assert client.get("/api/reports/..%2F..%2Fetc%2Fpasswd").status_code == 404
+    cmp = client.post("/api/compare", json=[r, {**r, "hardware": {**r["hardware"], "host": "other"}, "score": 100}]).json()
+    assert [x["host"] for x in cmp["ranking"]] == ["other", r["hardware"]["host"]] and cmp["why_best"]

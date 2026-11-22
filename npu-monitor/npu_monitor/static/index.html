@@ -13,6 +13,7 @@
     <p class="sub" id="host">Connecting…</p>
   </div>
   <div class="top-actions">
+    <span class="badge" id="aiPc" title="AI PC classification">AI PC: —</span>
     <span class="badge" id="npuSource" title="Where NPU utilisation comes from">NPU source: —</span>
     <span class="badge" id="conn">offline</span>
     <a class="btn ghost" href="/api/export.csv">Export CSV</a>
@@ -20,6 +21,7 @@
   </div>
 </header>
 
+<div id="alerts" class="alerts" role="status" aria-live="polite"></div>
 <main>
   <section class="kpis" aria-label="Current utilisation">
     <div class="kpi"><span class="kpi-label"><i class="sw s-npu"></i>NPU</span><span class="kpi-val" id="kNpu">—</span><span class="kpi-foot" id="kNpuFoot">&nbsp;</span></div>
@@ -27,6 +29,85 @@
     <div class="kpi"><span class="kpi-label"><i class="sw s-gpu"></i>GPU</span><span class="kpi-val" id="kGpu">—</span><span class="kpi-foot" id="kGpuFoot">&nbsp;</span></div>
     <div class="kpi"><span class="kpi-label">Inferences / s</span><span class="kpi-val" id="kIps">—</span><span class="kpi-foot" id="kIpsFoot">&nbsp;</span></div>
     <div class="kpi"><span class="kpi-label">Memory · Power</span><span class="kpi-val" id="kMem">—</span><span class="kpi-foot" id="kMemFoot">&nbsp;</span></div>
+  </section>
+
+
+  <section class="card wide" id="assess">
+    <div class="card-head"><h2>Is this machine good for NPU work?</h2>
+      <div class="controls tight">
+        <label>Seconds per device <input id="assessSecs" type="number" min="3" max="60" value="8"></label>
+        <button class="btn" id="assessBtn" type="button">Run assessment</button>
+        <progress id="assessProg" max="1" value="0" hidden></progress>
+      </div></div>
+    <p class="muted small" id="assessIntro">Benchmarks the same AI model on the NPU, GPU and CPU, then scores this laptop, PC or server
+      from 0 to 100 and explains why, using the measured numbers. Leave the machine idle while it runs.
+      For energy efficiency, run it on battery power.</p>
+    <div id="assessOut" hidden>
+      <div class="hero">
+        <div class="score-tile"><span class="score" id="aScore">—</span><span class="muted">/100</span></div>
+        <div class="hero-text"><div class="verdict" id="aVerdict"></div><div class="muted small" id="aHw"></div>
+          <div class="small links"><a id="aHtml" target="_blank" rel="noopener">Open printable report</a> ·
+            <a id="aJson" download>Download JSON (for comparing machines)</a></div></div>
+      </div>
+      <div class="two">
+        <div><h3>Strengths</h3><ul class="pros" id="aPros"></ul></div>
+        <div><h3>Weaknesses</h3><ul class="cons" id="aCons"></ul></div>
+      </div>
+      <div class="two">
+        <div><h3>Score breakdown</h3><table class="tbl" id="aCrit"><tbody></tbody></table></div>
+        <div><h3>Best processor for each workload</h3><table class="tbl wl" id="aWl"><tbody></tbody></table>
+          <h3>Recommendations</h3><ul id="aRecs" class="small"></ul></div>
+      </div>
+    </div>
+
+    <h3 class="compare-h">Compare laptops, PCs and servers</h3>
+    <p class="muted small">Run the assessment on each machine, then pick the saved reports below or import JSON files
+      copied from other machines. The ranking explains why the top machine is best for NPU work.</p>
+    <div class="controls">
+      <div id="savedReports" class="checks"></div>
+      <label class="btn ghost filebtn">Import report JSON…<input id="importIn" type="file" accept=".json" multiple hidden></label>
+      <button class="btn" id="compareBtn" type="button">Compare</button>
+    </div>
+    <div id="imported" class="small muted"></div>
+    <div id="compareOut" hidden>
+      <div class="scroll"><table class="tbl" id="rankTbl">
+        <thead><tr><th>#</th><th>Machine</th><th>Score</th><th>NPU inf/s</th><th>Camera FPS</th><th>× CPU</th><th>CPU busy on NPU</th><th>Inf/J</th><th>TOPS</th></tr></thead>
+        <tbody></tbody></table></div>
+      <h3>Why it is the best choice for NPU work</h3><ul class="pros" id="whyBest"></ul>
+      <ul class="small muted" id="caveats"></ul>
+    </div>
+  </section>
+
+
+  <section class="card wide" id="fleet">
+    <div class="card-head"><h2>Fleet: run multiple machines together</h2>
+      <div class="controls tight">
+        <label>Seconds per device <input id="fleetSecs" type="number" min="3" max="60" value="8"></label>
+        <button class="btn" id="fleetRunBtn" type="button">Run assessment on all machines</button>
+      </div></div>
+    <p class="muted small">On each laptop, desktop, workstation or server, start the monitor with
+      <code>python run.py --host 0.0.0.0 --token YOUR_SECRET</code>, then add it here. All machines are benchmarked
+      at the same time and ranked, and any machine that is not an AI PC is flagged.</p>
+    <form class="controls" id="peerForm">
+      <label>Address <input id="peerUrl" placeholder="192.168.1.20:8765" required></label>
+      <label>Token <input id="peerToken" type="password" autocomplete="off"></label>
+      <label>Name (optional) <input id="peerName" placeholder="Finance laptop"></label>
+      <button class="btn ghost" type="submit">Add machine</button>
+      <span class="small" id="peerMsg"></span>
+    </form>
+    <div class="scroll"><table class="tbl" id="fleetTbl">
+      <thead><tr><th>Machine</th><th>AI PC</th><th>NPU</th><th>CPU</th><th>GPU</th><th>Inf/s</th><th>Battery</th><th>Health</th><th>Score</th><th>Alerts</th><th></th></tr></thead>
+      <tbody></tbody></table></div>
+    <div id="fleetRun" hidden>
+      <h3>Assessment run</h3><div id="fleetProgress" class="small"></div>
+      <div id="fleetCompare" hidden>
+        <div class="scroll"><table class="tbl" id="fleetRank">
+          <thead><tr><th>#</th><th>Machine</th><th>Score</th><th>NPU inf/s</th><th>Camera FPS</th><th>× CPU</th><th>CPU busy on NPU</th><th>Inf/J</th><th>TOPS</th></tr></thead>
+          <tbody></tbody></table></div>
+        <h3>Why it is the best choice for NPU work</h3><ul class="pros" id="fleetWhy"></ul>
+        <ul class="small muted" id="fleetCaveats"></ul>
+      </div>
+    </div>
   </section>
 
   <section class="card wide">
@@ -46,6 +127,33 @@
     <div class="chart-wrap"><canvas id="chart" role="img" aria-label="NPU, CPU and GPU utilisation over time"></canvas>
       <div class="tip" id="tip" hidden></div></div>
     <div class="cores-row"><span class="muted small">CPU cores</span><div class="cores" id="cores"></div></div>
+  </section>
+
+
+  <section class="card">
+    <div class="card-head"><h2>Battery, power and health</h2><span class="badge" id="batStatus">—</span></div>
+    <div id="batNone" class="muted small" hidden>No battery on this machine (desktop, workstation or server).
+      Power is shown when the OS exposes CPU package power.</div>
+    <div class="mini-kpis" id="batKpis">
+      <div><span class="kpi-label">Charge</span><span class="mk" id="bCharge">—</span><span class="kpi-foot" id="bChargeFoot"></span></div>
+      <div><span class="kpi-label">Power draw</span><span class="mk" id="bPower">—</span><span class="kpi-foot" id="bPowerFoot"></span></div>
+      <div><span class="kpi-label">Health</span><span class="mk" id="bHealth">—</span><span class="kpi-foot" id="bHealthFoot"></span></div>
+      <div><span class="kpi-label">Time left (predicted)</span><span class="mk" id="bLeft">—</span><span class="kpi-foot" id="bLeftFoot"></span></div>
+    </div>
+    <h3>Power draw, last <span class="spanTxt">2 min</span></h3>
+    <div class="chart-wrap small-chart"><canvas id="powerChart" role="img" aria-label="Power draw in watts over time"></canvas></div>
+    <h3>Predictive analysis</h3>
+    <ul class="small" id="predList"></ul>
+  </section>
+
+  <section class="card">
+    <div class="card-head"><h2>How the NPU relieves the CPU, GPU and battery</h2></div>
+    <p class="muted small" id="imIntro">Uses the latest assessment to model a 30 FPS AI camera on each processor.</p>
+    <div class="scroll"><table class="tbl" id="imTbl">
+      <thead><tr><th>Processor</th><th>Busy</th><th>CPU load</th><th>GPU load</th><th>Power</th><th>Battery life</th><th>Cycles / yr</th></tr></thead>
+      <tbody></tbody></table></div>
+    <ul class="pros small" id="imFindings"></ul>
+    <p class="small" id="imLifespan"></p>
   </section>
 
   <section class="card">

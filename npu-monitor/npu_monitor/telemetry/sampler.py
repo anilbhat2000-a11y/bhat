@@ -11,6 +11,7 @@ import time
 from collections import deque
 from statistics import fmean
 
+from .battery import BatteryProbe, temperatures
 from .cpu import CpuProbe
 from .gpu import GpuProbe
 from .npu import BUSY, NpuProbe
@@ -117,6 +118,7 @@ class Sampler:
         self.win = WindowsEngineCounters()
         self.cpu = CpuProbe()
         self.gpu = GpuProbe(self.win)
+        self.battery = BatteryProbe()
         self.npu = NpuProbe(self.win, window_s=max(1.0, interval_s * 2))
         self.history: deque[dict] = deque(maxlen=int(history_s / interval_s))
         self._lock = threading.Lock()
@@ -141,9 +143,15 @@ class Sampler:
 
     def sample_once(self) -> dict:
         self.win.refresh()
+        cpu = self.cpu.sample()
+        bat = self.battery.sample()
+        if cpu["power_w"] is None and bat.get("present") and not bat.get("plugged") and (bat.get("power_w") or 0) > 0:
+            cpu["power_w"], cpu["power_source"] = bat["power_w"], "battery discharge (whole system)"
         s = {
             "ts": time.time(),
-            "cpu": self.cpu.sample(),
+            "cpu": cpu,
+            "battery": bat,
+            "temps": temperatures(),
             "gpu": self.gpu.sample(),
             "npu": self.npu.sample(),
             "inference": INFERENCE.window(max(1.0, self.interval * 2)),

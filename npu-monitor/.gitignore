@@ -5,3 +5,5 @@ models/*.onnx
 models/*.txt
 models/*.part
 .venv/
+reports/
+data/
