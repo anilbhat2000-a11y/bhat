@@ -71,7 +71,7 @@ td.num, th.num { text-align: right; }
 .dot.ok { background: var(--ok); } .dot.bad { background: var(--bad); } .dot.neutral { background: var(--muted); }
 .na { color: var(--muted); font-style: italic; font-size: 12px; }
 .toolbar { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin-bottom: 12px; }
-.toolbar .grow { flex: 1; }
+.toolbar .grow { flex: 1 1 180px; }
 input, select, textarea { font: inherit; color: var(--text); background: var(--panel); border: 1px solid var(--border);
   border-radius: 8px; padding: 7px 10px; min-width: 0; }
 textarea { width: 100%; min-height: 140px; font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 12px; }

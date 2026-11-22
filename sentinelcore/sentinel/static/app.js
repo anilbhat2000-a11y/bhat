@@ -239,7 +239,7 @@ async function renderOverview() {
     <div class="card"><h2>Active alerts <a class="right small" href="#/alerts">View all</a></h2>${alertList(alerts)}</div>
   </div>
   <div class="grid cols-3">
-    <div class="card"><h2>Sites</h2>${s.sites.length ? `<div class="table-wrap"><table><thead><tr><th>Site</th><th class="num">Cameras</th><th class="num">Online</th><th class="num">NVR faults</th></tr></thead><tbody>
+    <div class="card"><h2>Sites</h2>${s.sites.length ? `<div class="table-wrap"><table><thead><tr><th>Site</th><th class="num">Cameras</th><th class="num">Online</th><th class="num">Faults</th></tr></thead><tbody>
       ${s.sites.map((x) => `<tr><td>${esc(x.name)}</td><td class="num">${x.cameras}</td><td class="num">${x.online_pct ?? "—"}%</td><td class="num">${x.nvr_faults ? `<span class="badge bad">${x.nvr_faults}</span>` : "0"}</td></tr>`).join("")}</tbody></table></div>` : '<div class="empty">No devices yet.</div>'}</div>
     <div class="card"><h2>Least reliable cameras (24 h)</h2>${hbars(worst.map((w) => ({ label: `${w.name} · ${w.site}`, value: w.uptime_pct, text: `${w.uptime_pct}%`, cls: w.uptime_pct < 80 ? "bar-bad" : "bar-warn" })), { max: 100 })}</div>
     <div class="card"><h2>Image &amp; stream issues now</h2>${hbars(issues.map(([k, v]) => ({ label: k.replace("_", " "), value: v, cls: "bar-warn" })))}</div>
@@ -567,7 +567,7 @@ async function renderUsers() {
     <td class="small">${u.role === "super_admin" || u.role === "auditor" ? "All" : esc(u.sites.map((s) => s.name).join(", ") || "None")}</td><td>${u.active ? "Yes" : '<span class="badge neutral">disabled</span>'}</td>
     <td><button class="btn small" data-edit="${u.id}">Edit</button></td></tr>`).join("")}</tbody></table></div></div>
     <div class="card"><h2>Sites</h2><div class="list">${state.sites.map((s) => `<div class="list-item"><div class="main-col"><div class="title">${esc(s.name)}</div><div class="muted small">${esc(s.city)}</div></div></div>`).join("") || '<div class="empty">No sites yet.</div>'}</div>
-    <form id="siteForm" class="toolbar"><input name="name" placeholder="New site name" required class="grow"><input name="city" placeholder="City"><button class="btn primary">Add site</button></form></div></div>
+    <form id="siteForm" class="toolbar"><input name="name" placeholder="New site name" required class="grow"><input name="city" placeholder="City" size="12"><button class="btn primary">Add site</button></form></div></div>
     <form class="card" id="userForm"><h2 id="uTitle">Add user</h2><input type="hidden" name="id"><div class="form-grid">
       <label class="field">Username<input name="username" required pattern="[A-Za-z0-9_.\\-]+"></label><label class="field">Full name<input name="full_name"></label>
       <label class="field">Role<select name="role">${roles.map((r) => `<option value="${r}">${r.replace("_", " ")}</option>`).join("")}</select></label>
