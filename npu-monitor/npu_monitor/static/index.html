@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NPU Monitor</title>
+<link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+<header class="top">
+  <div>
+    <h1>NPU Monitor</h1>
+    <p class="sub" id="host">Connecting…</p>
+  </div>
+  <div class="top-actions">
+    <span class="badge" id="npuSource" title="Where NPU utilisation comes from">NPU source: —</span>
+    <span class="badge" id="conn">offline</span>
+    <a class="btn ghost" href="/api/export.csv">Export CSV</a>
+    <button class="btn ghost" id="theme" type="button" aria-label="Toggle colour theme">Theme</button>
+  </div>
+</header>
+
+<main>
+  <section class="kpis" aria-label="Current utilisation">
+    <div class="kpi"><span class="kpi-label"><i class="sw s-npu"></i>NPU</span><span class="kpi-val" id="kNpu">—</span><span class="kpi-foot" id="kNpuFoot">&nbsp;</span></div>
+    <div class="kpi"><span class="kpi-label"><i class="sw s-cpu"></i>CPU</span><span class="kpi-val" id="kCpu">—</span><span class="kpi-foot" id="kCpuFoot">&nbsp;</span></div>
+    <div class="kpi"><span class="kpi-label"><i class="sw s-gpu"></i>GPU</span><span class="kpi-val" id="kGpu">—</span><span class="kpi-foot" id="kGpuFoot">&nbsp;</span></div>
+    <div class="kpi"><span class="kpi-label">Inferences / s</span><span class="kpi-val" id="kIps">—</span><span class="kpi-foot" id="kIpsFoot">&nbsp;</span></div>
+    <div class="kpi"><span class="kpi-label">Memory · Power</span><span class="kpi-val" id="kMem">—</span><span class="kpi-foot" id="kMemFoot">&nbsp;</span></div>
+  </section>
+
+  <section class="card wide">
+    <div class="card-head">
+      <h2>Utilisation, last <span id="spanLabel">2 min</span></h2>
+      <div class="seg" role="group" aria-label="Time range">
+        <button type="button" data-span="60">1m</button>
+        <button type="button" data-span="120" class="on">2m</button>
+        <button type="button" data-span="300">5m</button>
+        <button type="button" data-span="900">15m</button>
+      </div>
+    </div>
+    <div class="legend">
+      <span><i class="sw s-npu"></i>NPU</span><span><i class="sw s-cpu"></i>CPU (system)</span>
+      <span><i class="sw s-gpu"></i>GPU</span><span><i class="sw s-band"></i>NPU busy</span>
+    </div>
+    <div class="chart-wrap"><canvas id="chart" role="img" aria-label="NPU, CPU and GPU utilisation over time"></canvas>
+      <div class="tip" id="tip" hidden></div></div>
+    <div class="cores-row"><span class="muted small">CPU cores</span><div class="cores" id="cores"></div></div>
+  </section>
+
+  <section class="card">
+    <div class="card-head"><h2>Impact of NPU work on CPU &amp; GPU</h2>
+      <select id="impactSpan" aria-label="Impact window">
+        <option value="120">last 2 min</option><option value="300" selected>last 5 min</option>
+        <option value="900">last 15 min</option></select></div>
+    <p class="muted small">Compares samples while the NPU is busy with samples while nothing is running.
+      Run the camera or a document job, then read the Δ column.</p>
+    <table class="tbl" id="impactTbl">
+      <thead><tr><th>Metric</th><th>Idle</th><th>NPU busy</th><th>Δ</th></tr></thead>
+      <tbody></tbody>
+    </table>
+    <p class="small" id="impactNote"></p>
+  </section>
+
+  <section class="card">
+    <div class="card-head"><h2>Live camera &amp; screen</h2></div>
+    <div class="controls">
+      <label>Source
+        <select id="liveMode">
+          <option value="camera">Laptop camera (server)</option>
+          <option value="browser">Camera via browser</option>
+          <option value="screen">Screen / graphics capture</option>
+        </select></label>
+      <label>Run on <select class="devSel" id="liveDev"></select></label>
+      <label id="camIdxWrap">Camera # <input id="camIdx" type="number" min="0" max="9" value="0"></label>
+      <button class="btn" id="liveBtn" type="button">Start</button>
+    </div>
+    <div class="live">
+      <img id="liveImg" alt="Annotated live feed" hidden>
+      <video id="liveVideo" playsinline muted hidden></video>
+      <div class="live-empty" id="liveEmpty">Feed appears here. Inference runs on the selected device for every frame.</div>
+    </div>
+    <p class="small" id="liveStatus"></p>
+  </section>
+
+  <section class="card wide">
+    <div class="card-head"><h2>Process images, PDFs, Excel &amp; CSV</h2></div>
+    <div class="drop" id="drop" tabindex="0">
+      <strong>Drop files here</strong> or <label class="link">browse<input id="fileIn" type="file" multiple hidden
+        accept=".png,.jpg,.jpeg,.bmp,.gif,.tif,.tiff,.webp,.pdf,.xlsx,.xlsm,.csv"></label>
+      <div class="muted small">PDF pages and embedded pictures, Excel sheets and pictures, and images each go through the model.</div>
+      <div id="fileList" class="small"></div>
+    </div>
+    <div class="controls">
+      <label>Run on <select class="devSel" id="fileDev"></select></label>
+      <label title="Repeat inference to hold the load long enough to observe">Passes <input id="repeat" type="number" min="1" max="200" value="10"></label>
+      <button class="btn" id="fileBtn" type="button" disabled>Process</button>
+      <progress id="fileProg" max="1" value="0" hidden></progress>
+    </div>
+    <div id="fileStats" class="small"></div>
+    <div class="grid" id="results"></div>
+  </section>
+
+  <section class="card wide">
+    <div class="card-head"><h2>NPU vs GPU vs CPU benchmark</h2></div>
+    <p class="muted small">Runs the same model on each device for a fixed time after an idle baseline,
+      and records throughput, latency and what every processor was doing meanwhile.</p>
+    <div class="controls">
+      <div id="benchDevs" class="checks"></div>
+      <label>Seconds per device <input id="benchSecs" type="number" min="3" max="120" value="10"></label>
+      <button class="btn" id="benchBtn" type="button">Run benchmark</button>
+      <progress id="benchProg" max="1" value="0" hidden></progress>
+    </div>
+    <div class="scroll"><table class="tbl" id="benchTbl" hidden>
+      <thead><tr><th>Device</th><th>Inf/s</th><th>Latency (mean / p95)</th><th>NPU</th><th>CPU (system)</th><th>CPU (this app)</th><th>GPU</th><th>Power</th></tr></thead>
+      <tbody></tbody></table></div>
+  </section>
+</main>
+<footer class="muted small" id="foot"></footer>
+<script src="/static/app.js"></script>
+</body>
+</html>
