@@ -1,8 +1,24 @@
 """Standalone, printable HTML for an assessment report (Print -> Save as PDF)."""
 from __future__ import annotations
 
+import base64
+import os
 import time
+from functools import lru_cache
 from html import escape
+
+APP_NAME = "3C ITS AI PC Health Checker & NPU Performance"
+
+
+@lru_cache(maxsize=1)
+def _logo_data_uri() -> str:
+    """Embedded so the saved/printed report stays a single self-contained file."""
+    path = os.path.join(os.path.dirname(__file__), "static", "3c-its-logo.png")
+    try:
+        with open(path, "rb") as f:
+            return "data:image/png;base64," + base64.b64encode(f.read()).decode()
+    except OSError:
+        return ""
 
 
 def _v(x, unit: str = "") -> str:
@@ -36,7 +52,7 @@ def render(r: dict) -> str:
     rated = hw.get("rated_npu") or {}
     return f"""<!doctype html><html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>NPU Suitability Report</title>
+<title>AI PC Health &amp; NPU Report</title>
 <style>
 :root{{--ink:#0b0b0b;--muted:#52514e;--line:#e0dfda;--accent:#2a78d6;--good:#0a7d32;--bad:#c03030;--bg:#fcfcfb}}
 body{{font:14px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:var(--ink);background:var(--bg);max-width:960px;margin:0 auto;padding:24px 16px}}
@@ -49,8 +65,11 @@ th{{color:var(--muted);font-weight:500;font-size:12px}} .n{{text-align:right;whi
 .bar{{width:35%}} .bar i{{display:block;height:8px;background:var(--accent);border-radius:0 4px 4px 0}}
 .pros li::marker{{content:"✔  ";color:var(--good)}} .cons li::marker{{content:"✖  ";color:var(--bad)}}
 .grid{{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:4px 24px}}
-.scroll{{overflow-x:auto}} @media print{{body{{padding:0}} .noprint{{display:none}}}}
+.scroll{{overflow-x:auto}}
+.brand{{display:flex;align-items:center;gap:16px;padding-bottom:12px;border-bottom:1px solid var(--line);margin-bottom:12px}}
+.brand img{{height:52px;width:auto}} .brand .app{{font-size:13px;color:var(--muted)}} @media print{{body{{padding:0}} .noprint{{display:none}}}}
 </style></head><body>
+<div class="brand"><img src="{_logo_data_uri()}" alt="3C ITS – Make IT Simple"><div class="app">{escape(APP_NAME)}</div></div>
 <h1>NPU Suitability Report</h1>
 <div class="muted">{escape(hw.get('host') or '')} · {escape(time.strftime('%Y-%m-%d %H:%M', time.localtime(r['created'])))} · model: {escape(r['model'])}</div>
 <div class="hero"><div class="score">{r['score']}<small>/100</small></div>

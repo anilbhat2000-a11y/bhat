@@ -156,7 +156,7 @@ def create_app(sampler: Sampler | None = None, engines: EngineManager | None = N
                                "npu_ips": rep["metrics"].get("npu_ips")},
         }
 
-    app = FastAPI(title="NPU Monitor", version="1.1.0", lifespan=lifespan)
+    app = FastAPI(title="3C ITS AI PC Health Checker & NPU Performance", version="1.2.0", lifespan=lifespan)
 
     @app.middleware("http")
     async def auth(request: Request, call_next):

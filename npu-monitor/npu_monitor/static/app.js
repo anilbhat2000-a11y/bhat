@@ -1,4 +1,4 @@
-/* NPU Monitor dashboard - no external dependencies, works fully offline. */
+/* 3C ITS AI PC Health Checker & NPU Performance - dashboard. No external dependencies, works fully offline. */
 (() => {
   "use strict";
   const $ = (id) => document.getElementById(id);
@@ -442,7 +442,7 @@
     for (const f of e.target.files) {
       try {
         const r = JSON.parse(await f.text());
-        if (!r.hardware || r.score == null) throw new Error("not an NPU Monitor report");
+        if (!r.hardware || r.score == null) throw new Error("not a 3C ITS AI PC Health Checker report");
         imported.push(r);
       } catch (err) { alert(`${f.name}: ${err.message}`); }
     }

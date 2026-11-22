@@ -1,4 +1,4 @@
-"""Start the on-prem NPU Monitor.
+"""Start 3C ITS AI PC Health Checker & NPU Performance (on-prem).
 
 Local only (default):        python run.py
 Joinable by a fleet hub:     python run.py --host 0.0.0.0 --token MySecret123
@@ -11,7 +11,7 @@ import webbrowser
 import uvicorn
 
 if __name__ == "__main__":
-    ap = argparse.ArgumentParser(description="On-prem NPU / GPU / CPU utilisation monitor")
+    ap = argparse.ArgumentParser(description="3C ITS AI PC Health Checker & NPU Performance")
     ap.add_argument("--host", default="127.0.0.1",
                     help="bind address; use 0.0.0.0 so other machines (a fleet hub) can connect")
     ap.add_argument("--port", type=int, default=8765)
@@ -30,4 +30,5 @@ if __name__ == "__main__":
         print(f"  Add this machine on the hub as  http://<this-ip>:{a.port}  with token  {a.token}\n")
     if not a.no_browser:
         webbrowser.open(f"http://localhost:{a.port}")
+    print("  3C ITS AI PC Health Checker & NPU Performance  -  Make IT Simple")
     uvicorn.run("npu_monitor.server:app", host=a.host, port=a.port, log_level="info")

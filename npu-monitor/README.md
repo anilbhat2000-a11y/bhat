@@ -1,4 +1,8 @@
-# NPU Monitor (on-prem)
+<img src="npu_monitor/static/3c-its-logo.png" alt="3C ITS – Make IT Simple" height="64">
+
+# 3C ITS AI PC Health Checker & NPU Performance
+
+An on-prem tool by 3C ITS.
 
 A local, fully offline tool for AI laptops with a built-in NPU (Intel Core Ultra, AMD Ryzen AI, Qualcomm Snapdragon X). It:
 
@@ -70,7 +74,7 @@ On an air-gapped machine, copy `mobilenetv2-12.onnx` and `synset.txt` into `mode
    ```
    On Windows, allow the port through the firewall once (in an Administrator prompt):
    ```bash
-   netsh advfirewall firewall add rule name="NPU Monitor" dir=in action=allow protocol=TCP localport=8765
+   netsh advfirewall firewall add rule name="3C ITS AI PC Health Checker" dir=in action=allow protocol=TCP localport=8765
    ```
 2. On the machine you want to view from (the hub), open the dashboard. In **Fleet**, add each machine as `IP:8765` with its token.
 3. Click **Run assessment on all machines**. Every machine benchmarks at the same time, and you get a ranking, *why it is the best choice* and a flag on any machine that is not an AI PC.
@@ -87,7 +91,7 @@ Requests from other machines must carry the token. The app refuses network reque
 
 ## Privacy
 
-Nothing is sent anywhere. The `openvino` pip package includes a telemetry module that sends usage statistics to Google Analytics unless an opt-out file exists. NPU Monitor writes OpenVINO's own opt-out file (`~/intel/openvino_telemetry` = `0`) at start-up unless you already made a choice. Set `NPU_MONITOR_ALLOW_VENDOR_TELEMETRY=1` to skip this.
+Nothing is sent anywhere. The `openvino` pip package includes a telemetry module that sends usage statistics to Google Analytics unless an opt-out file exists. The app writes OpenVINO's own opt-out file (`~/intel/openvino_telemetry` = `0`) at start-up unless you already made a choice. Set `NPU_MONITOR_ALLOW_VENDOR_TELEMETRY=1` to skip this.
 
 ## Measuring the impact on CPU and GPU
 

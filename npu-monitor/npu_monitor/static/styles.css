@@ -189,3 +189,9 @@ input:not([type]), input[type=password] { font: inherit; font-size: 13px; paddin
 .iconbtn { border: 0; background: none; color: var(--text-muted); cursor: pointer; font-size: 16px; }
 #fleetRank td:nth-child(2), #fleetRank th:nth-child(2) { text-align: left; white-space: normal; }
 #imTbl td:first-child { white-space: normal; }
+
+.brand { display: flex; align-items: center; gap: 14px; min-width: 0; }
+.brand-text { min-width: 0; }
+.logo { height: 48px; width: auto; flex: none; background: #fff; border-radius: 8px; padding: 4px 6px; box-sizing: content-box; }
+@media (max-width: 600px) { .brand { flex-direction: column; align-items: flex-start; gap: 8px; } .logo { height: 40px; } h1 { font-size: 17px; } }
+footer div + div { margin-top: 4px; }

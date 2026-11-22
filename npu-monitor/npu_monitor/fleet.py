@@ -1,4 +1,4 @@
-"""Fleet mode: one NPU Monitor ("hub") connects to others on the LAN.
+"""Fleet mode: one instance ("hub") connects to others on the LAN.
 
 Every machine runs the same app. Remote machines must be started with
 ``python run.py --host 0.0.0.0 --token <secret>``; the hub stores their URL and

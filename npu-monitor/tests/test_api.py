@@ -74,7 +74,7 @@ def test_assessment_saves_report_and_compares(client, tmp_path, monkeypatch):
     saved = client.get("/api/reports").json()
     assert saved[0]["file"] == r["file"]
     html = client.get(f"/api/reports/{r['file']}/html")
-    assert html.status_code == 200 and "NPU Suitability Report" in html.text
+    assert html.status_code == 200 and "NPU Suitability Report" in html.text and "data:image/png;base64" in html.text
     assert client.get("/api/reports/..%2F..%2Fetc%2Fpasswd").status_code == 404
     cmp = client.post("/api/compare", json=[r, {**r, "hardware": {**r["hardware"], "host": "other"}, "score": 100}]).json()
     assert [x["host"] for x in cmp["ranking"]] == ["other", r["hardware"]["host"]] and cmp["why_best"]
