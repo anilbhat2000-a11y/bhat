@@ -9,8 +9,12 @@ from npu_monitor.server import create_app
 
 
 @pytest.fixture(scope="module")
-def client():
+def client(tmp_path_factory):
+    import npu_monitor.auth as auth
+    auth.DATA_DIR = str(tmp_path_factory.mktemp("authdata"))
     with TestClient(create_app()) as c:
+        r = c.post("/api/auth/setup", json={"username": "admin", "password": "Adm1n-pass-123"})
+        assert r.status_code == 200, r.text
         time.sleep(1.2)  # a couple of sampler ticks
         yield c
 

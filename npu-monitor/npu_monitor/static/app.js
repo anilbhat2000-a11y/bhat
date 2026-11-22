@@ -13,20 +13,17 @@
   let devices = [];
   let hoverX = null;
 
-  // ---------- theme ----------
-  const savedTheme = (() => { try { return localStorage.getItem("npu-theme"); } catch { return null; } })();
-  if (savedTheme) document.documentElement.dataset.theme = savedTheme;
-  $("theme").onclick = () => {
-    const next = document.documentElement.dataset.theme === "light" ? "dark" : "light";
-    document.documentElement.dataset.theme = next;
-    try { localStorage.setItem("npu-theme", next); } catch { /* private mode */ }
-    draw(); drawPower();
-  };
-
+  // ---------- settings & user ----------
+  $("settingsBtn").onclick = () => UISettings.open();
+  window.addEventListener("ui-settings-changed", () => { draw(); drawPower(); });
+  const fsScale = () => parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--fs-scale")) || 1;
+  const chartFont = (px) => `${Math.round(px * fsScale())}px ${getComputedStyle(document.body).fontFamily}`;
+  UISettings.mountUser($("userSlot"));
 
   // ---------- API ----------
   async function api(path, opts = {}) {
     const r = await fetch(path, opts);
+    if (r.status === 401) { location.href = "/login"; throw new Error("signed out"); }
     const body = r.headers.get("content-type")?.includes("json") ? await r.json() : await r.text();
     if (!r.ok) throw new Error(body?.detail || body || r.statusText);
     return body;
@@ -101,7 +98,7 @@
   // ---------- chart ----------
   const canvas = $("chart");
   const ctx = canvas.getContext("2d");
-  const PAD = { l: 38, r: 10, t: 8, b: 22 };
+  const PAD = { l: 44, r: 10, t: 8, b: 24 };
 
   function draw() {
     const dpr = window.devicePixelRatio || 1;
@@ -130,7 +127,7 @@
 
     // grid + axes (recessive)
     ctx.strokeStyle = css("--grid"); ctx.lineWidth = 1;
-    ctx.fillStyle = css("--text-muted"); ctx.font = "11px system-ui, sans-serif";
+    ctx.fillStyle = css("--text-muted"); ctx.font = chartFont(11);
     ctx.textAlign = "right"; ctx.textBaseline = "middle";
     for (let v = 0; v <= 100; v += 25) {
       ctx.beginPath(); ctx.moveTo(PAD.l, y(v) + 0.5); ctx.lineTo(W - PAD.r, y(v) + 0.5); ctx.stroke();
@@ -225,7 +222,7 @@
 
   function setLiveUi(on) {
     liveRunning = on;
-    $("liveBtn").textContent = on ? "Stop" : "Start";
+    $("liveBtn").textContent = I18N.t(on ? "Stop" : "Start");
     $("liveBtn").classList.toggle("stop", on);
     if (!on) {
       $("liveImg").hidden = true; $("liveImg").removeAttribute("src");
@@ -545,7 +542,7 @@
     const max = Math.max(5, ...pts.map((s) => s.cpu.power_w)) * 1.15;
     const step = max > 60 ? 20 : max > 25 ? 10 : 5;
     const x = (t) => P.l + ((t - t0) / spanSec) * pw, y = (v) => P.t + ph - (v / max) * ph;
-    pctx.strokeStyle = css("--grid"); pctx.fillStyle = css("--text-muted"); pctx.font = "11px system-ui, sans-serif";
+    pctx.strokeStyle = css("--grid"); pctx.fillStyle = css("--text-muted"); pctx.font = chartFont(11);
     pctx.textAlign = "right"; pctx.textBaseline = "middle"; pctx.lineWidth = 1;
     for (let v = 0; v <= max; v += step) { pctx.beginPath(); pctx.moveTo(P.l, y(v) + 0.5); pctx.lineTo(W - P.r, y(v) + 0.5); pctx.stroke(); pctx.fillText(`${v} W`, P.l - 6, y(v)); }
     if (!pts.length) { pctx.textAlign = "center"; pctx.fillText("No power sensor reading (unplug the charger on a laptop)", P.l + pw / 2, P.t + ph / 2); return; }

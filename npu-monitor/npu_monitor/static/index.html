@@ -21,7 +21,8 @@
     <span class="badge" id="npuSource" title="Where NPU utilisation comes from">NPU source: —</span>
     <span class="badge" id="conn">offline</span>
     <a class="btn ghost" href="/api/export.csv">Export CSV</a>
-    <button class="btn ghost" id="theme" type="button" aria-label="Toggle colour theme">Theme</button>
+    <button class="btn ghost" id="settingsBtn" type="button" aria-haspopup="dialog"><span aria-hidden="true">⚙</span> Settings</button>
+    <div id="userSlot"></div>
   </div>
 </header>
 
@@ -38,7 +39,7 @@
 
   <section class="card wide" id="assess">
     <div class="card-head"><h2>Is this machine good for NPU work?</h2>
-      <div class="controls tight">
+      <div class="controls tight op-only">
         <label>Seconds per device <input id="assessSecs" type="number" min="3" max="60" value="8"></label>
         <button class="btn" id="assessBtn" type="button">Run assessment</button>
         <progress id="assessProg" max="1" value="0" hidden></progress>
@@ -85,14 +86,14 @@
 
   <section class="card wide" id="fleet">
     <div class="card-head"><h2>Fleet: run multiple machines together</h2>
-      <div class="controls tight">
+      <div class="controls tight admin-only">
         <label>Seconds per device <input id="fleetSecs" type="number" min="3" max="60" value="8"></label>
         <button class="btn" id="fleetRunBtn" type="button">Run assessment on all machines</button>
       </div></div>
     <p class="muted small">On each laptop, desktop, workstation or server, start the monitor with
       <code>python run.py --host 0.0.0.0 --token YOUR_SECRET</code>, then add it here. All machines are benchmarked
       at the same time and ranked, and any machine that is not an AI PC is flagged.</p>
-    <form class="controls" id="peerForm">
+    <form class="controls admin-only" id="peerForm">
       <label>Address <input id="peerUrl" placeholder="192.168.1.20:8765" required></label>
       <label>Token <input id="peerToken" type="password" autocomplete="off"></label>
       <label>Name (optional) <input id="peerName" placeholder="Finance laptop"></label>
@@ -176,7 +177,7 @@
 
   <section class="card">
     <div class="card-head"><h2>Live camera &amp; screen</h2></div>
-    <div class="controls">
+    <div class="controls op-only">
       <label>Source
         <select id="liveMode">
           <option value="camera">Laptop camera (server)</option>
@@ -197,13 +198,13 @@
 
   <section class="card wide">
     <div class="card-head"><h2>Process images, PDFs, Excel &amp; CSV</h2></div>
-    <div class="drop" id="drop" tabindex="0">
+    <div class="drop op-only" id="drop" tabindex="0">
       <strong>Drop files here</strong> or <label class="link">browse<input id="fileIn" type="file" multiple hidden
         accept=".png,.jpg,.jpeg,.bmp,.gif,.tif,.tiff,.webp,.pdf,.xlsx,.xlsm,.csv"></label>
       <div class="muted small">PDF pages and embedded pictures, Excel sheets and pictures, and images each go through the model.</div>
       <div id="fileList" class="small"></div>
     </div>
-    <div class="controls">
+    <div class="controls op-only">
       <label>Run on <select class="devSel" id="fileDev"></select></label>
       <label title="Repeat inference to hold the load long enough to observe">Passes <input id="repeat" type="number" min="1" max="200" value="10"></label>
       <button class="btn" id="fileBtn" type="button" disabled>Process</button>
@@ -217,7 +218,7 @@
     <div class="card-head"><h2>NPU vs GPU vs CPU benchmark</h2></div>
     <p class="muted small">Runs the same model on each device for a fixed time after an idle baseline,
       and records throughput, latency and what every processor was doing meanwhile.</p>
-    <div class="controls">
+    <div class="controls op-only">
       <div id="benchDevs" class="checks"></div>
       <label>Seconds per device <input id="benchSecs" type="number" min="3" max="120" value="10"></label>
       <button class="btn" id="benchBtn" type="button">Run benchmark</button>
@@ -229,6 +230,8 @@
   </section>
 </main>
 <footer class="muted small"><div id="foot"></div><div>3C ITS AI PC Health Checker &amp; NPU Performance · Make IT Simple</div></footer>
+<script src="/static/i18n.js"></script>
+<script src="/static/settings.js"></script>
 <script src="/static/app.js"></script>
 </body>
 </html>

@@ -19,6 +19,8 @@ A local, fully offline tool for AI laptops with a built-in NPU (Intel Core Ultra
 * **Predictive analysis**: time to empty or full, battery-health forecast (date it reaches 80 %), and modelled battery life, CPU/GPU load and battery cycles per year when the same AI workload runs on the NPU vs the GPU vs the CPU
 * **Fleet mode**: connect laptops, desktops, workstations and servers, watch them live, run the assessment on all of them at once and get a ranking that explains why the winner is best
 * **Alerts**: not an AI PC, NPU present but unusable, battery worn or low, AI running on the CPU while an NPU sits idle. Optional webhook.
+* **Sign-in and user management**: login page, Admin / Operator / Viewer roles, admin panel for users, audit log and security settings
+* **Display settings** per browser: theme (dark green, light green, high contrast, classic light), language (English, हिन्दी, ಕನ್ನಡ, தமிழ், తెలుగు), font, text size, background and font colour, bold, italic
 * exports telemetry as CSV
 
 Nothing leaves the machine. The server binds to `127.0.0.1` by default, and the dashboard has no CDN or internet dependencies.
@@ -66,6 +68,29 @@ python scripts/download_models.py
 
 On an air-gapped machine, copy `mobilenetv2-12.onnx` and `synset.txt` into `models/` instead. To use any other image-classification ONNX model, set `NPU_MONITOR_MODEL=/path/model.onnx`.
 
+## Sign-in, users and roles
+
+On first start, open **http://localhost:8765** on the machine itself and create the administrator account. Setup is only allowed from that computer. After that, everyone signs in.
+
+| Role | Can |
+|---|---|
+| **Viewer** | see dashboards, battery data, reports and comparisons; export CSV |
+| **Operator** | everything a viewer can, plus run assessments and benchmarks, start the camera or screen capture, and process documents |
+| **Administrator** | everything, plus manage users, fleet machines and security settings (**Admin panel**) |
+
+* New users and admin password resets get a **temporary password**, which must be changed at first sign-in.
+* The server always refuses to remove, demote or disable the **last active administrator**. Admins can't change their own role or delete themselves.
+* Passwords are stored as PBKDF2-SHA256 hashes (310 000 iterations) in `data/users.json`. Sessions use an HttpOnly, SameSite=Strict cookie and expire after the configured idle time. Restarting the app signs everyone out.
+* After 5 failed sign-ins (configurable) for a username or address, sign-in is locked for 5 minutes.
+* The **audit log** records sign-ins (including failures), user and security changes, assessments, fleet changes and camera starts.
+* If you forget the only admin password, stop the app, delete `data/users.json` and start again to re-run setup. The reports and battery log are kept.
+
+## Display settings and languages
+
+Click **⚙ Settings** (also on the sign-in page) to choose the theme, language, font, text size (80–160 %), background colour, font colour, bold and italic. A preview shows the contrast ratio and warns below 4.5:1. Settings are saved per browser on that computer.
+
+Languages: English, Hindi, Kannada, Tamil and Telugu cover all buttons, labels and help text. Analysis sentences generated from measurements (reasons, alerts, findings) stay in English. To add a language, add its code to `LANGS` and one more column to each row in `npu_monitor/static/i18n.js`. Please have translations reviewed by a native speaker before rolling them out.
+
 ## Fleet: several machines together
 
 1. On **every** machine, start the app so the hub can reach it:
@@ -81,7 +106,7 @@ On an air-gapped machine, copy `mobilenetv2-12.onnx` and `synset.txt` into `mode
 
 Machines that aren't added to a hub can still be compared: download each machine's report JSON and use **Import report JSON** in *Compare laptops, PCs and servers*.
 
-Requests from other machines must carry the token. The app refuses network requests if it has none, and `run.py` generates one when you bind to `0.0.0.0` without `--token`. Traffic is plain HTTP, so use it on a trusted LAN or put it behind your HTTPS reverse proxy.
+The fleet token lets a hub call only the status, assessment and job endpoints on a machine. It never grants user or admin access. People still sign in as users. The app refuses network requests if it has none, and `run.py` generates one when you bind to `0.0.0.0` without `--token`. Traffic is plain HTTP, so use it on a trusted LAN or put it behind your HTTPS reverse proxy.
 
 ## Battery, power and predictions
 

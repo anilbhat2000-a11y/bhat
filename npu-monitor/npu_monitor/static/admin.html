@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Admin panel · 3C ITS AI PC Health Checker</title>
+<link rel="icon" type="image/png" href="/static/favicon.png">
+<link rel="stylesheet" href="/static/styles.css">
+<style>
+  .tabs { display: flex; gap: 4px; border-bottom: 1px solid var(--border); margin-bottom: 14px; flex-wrap: wrap; }
+  .tabs button { all: unset; cursor: pointer; padding: 9px 14px; border-radius: 8px 8px 0 0; color: var(--text-secondary);
+    font-family: var(--font-display); font-weight: 600; font-size: calc(14px * var(--fs-scale)); border-bottom: 3px solid transparent; }
+  .tabs button[aria-selected="true"] { color: var(--text-primary); border-bottom-color: var(--accent); }
+  .tabs button:focus-visible { outline: 2px solid var(--accent); }
+  .admin-main { display: block; max-width: 1200px; margin: 0 auto; padding: 14px 16px 30px; }
+  .admin-main input:not([type=checkbox]), .admin-main select, dialog input:not([type=checkbox]), dialog select {
+    font: inherit; padding: 6px 9px; border-radius: 7px; border: 1px solid var(--border); background: var(--surface-0); color: var(--text-primary); }
+  .tbl td, .tbl th { text-align: left; }
+  .roles { display: grid; gap: 4px; margin: 6px 0 12px; }
+  .act { display: flex; gap: 6px; flex-wrap: wrap; }
+  .act .btn { padding: 4px 9px; font-size: calc(12px * var(--fs-scale)); }
+  .sec-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; max-width: 760px; }
+  .sec-grid input { width: 100%; }
+  dialog.ed { border: 1px solid var(--border); border-radius: 14px; padding: 0; width: min(440px, calc(100vw - 32px));
+    background: var(--surface-1); color: var(--text-primary); box-shadow: 0 20px 60px rgba(0,0,0,.45); }
+  dialog.ed::backdrop { background: rgba(0,0,0,.55); }
+  dialog.ed form { padding: 18px; display: grid; gap: 12px; }
+  dialog.ed .foot { display: flex; justify-content: flex-end; gap: 8px; }
+  .filter { margin-bottom: 10px; width: min(320px, 100%); }
+</style>
+</head>
+<body data-role="admin">
+<header class="top">
+  <div class="brand">
+    <img class="logo" src="/static/3c-its-logo.png" alt="3C ITS – Make IT Simple" width="154" height="48">
+    <div class="brand-text">
+      <h1>Admin panel</h1>
+      <p class="sub">3C ITS AI PC Health Checker &amp; NPU Performance</p>
+    </div>
+  </div>
+  <div class="top-actions">
+    <a class="btn ghost" href="/"><span aria-hidden="true">←</span> Back to dashboard</a>
+    <button class="btn ghost" id="settingsBtn" type="button" aria-haspopup="dialog"><span aria-hidden="true">⚙</span> Settings</button>
+    <div id="userSlot"></div>
+  </div>
+</header>
+
+<main class="admin-main">
+  <div class="tabs" role="tablist">
+    <button role="tab" aria-selected="true" aria-controls="tabUsers" id="tUsers">Users</button>
+    <button role="tab" aria-selected="false" aria-controls="tabAudit" id="tAudit">Audit log</button>
+    <button role="tab" aria-selected="false" aria-controls="tabSec" id="tSec">Security</button>
+  </div>
+
+  <section class="card" id="tabUsers" role="tabpanel" aria-labelledby="tUsers">
+    <div class="card-head"><h2>Users</h2></div>
+    <div class="roles small muted">
+      <div>Viewer: can see dashboards and reports.</div>
+      <div>Operator: can also run assessments, benchmarks, camera and document jobs.</div>
+      <div>Administrator: can also manage users, fleet machines and security.</div>
+    </div>
+    <div class="scroll"><table class="tbl" id="usersTbl">
+      <thead><tr><th>Username</th><th>Display name</th><th>Role</th><th>Status</th><th>Last sign-in</th><th>Actions</th></tr></thead>
+      <tbody></tbody></table></div>
+    <h3>Add user</h3>
+    <form class="controls" id="addForm">
+      <label>Username <input id="aUser" required autocomplete="off"></label>
+      <label>Display name <input id="aName" autocomplete="off"></label>
+      <label>Role <select id="aRole"><option value="viewer">Viewer</option><option value="operator">Operator</option><option value="admin">Administrator</option></select></label>
+      <label>Temporary password <input id="aPass" type="password" required autocomplete="new-password"></label>
+      <button class="btn">Add user</button>
+    </form>
+    <p class="muted small">The user must choose a new password at first sign-in.</p>
+    <div class="small" id="addMsg" role="status"></div>
+  </section>
+
+  <section class="card" id="tabAudit" role="tabpanel" aria-labelledby="tAudit" hidden>
+    <div class="card-head"><h2>Audit log</h2></div>
+    <input class="filter" id="auditFilter" placeholder="Filter…" aria-label="Filter">
+    <div class="scroll"><table class="tbl" id="auditTbl">
+      <thead><tr><th>Time</th><th>User</th><th>Action</th><th>Details</th><th>Address</th></tr></thead>
+      <tbody></tbody></table></div>
+  </section>
+
+  <section class="card" id="tabSec" role="tabpanel" aria-labelledby="tSec" hidden>
+    <div class="card-head"><h2>Security</h2></div>
+    <form id="secForm">
+      <div class="sec-grid">
+        <label>Session timeout (minutes) <input id="sec_session_minutes" type="number" min="5" max="10080" required></label>
+        <label>Minimum password length <input id="sec_min_password_length" type="number" min="8" max="64" required></label>
+        <label>Failed sign-ins before lockout <input id="sec_max_failed_logins" type="number" min="3" max="20" required></label>
+        <label>Lockout duration (minutes) <input id="sec_lockout_minutes" type="number" min="1" max="120" required></label>
+      </div>
+      <p class="small muted" id="secInfo"></p>
+      <button class="btn">Save security settings</button> <span class="small" id="secMsg" role="status"></span>
+    </form>
+  </section>
+</main>
+
+<dialog class="ed" id="editDlg"><form id="editForm">
+  <h2 id="editTitle">Edit</h2>
+  <label>Display name <input id="eName"></label>
+  <label>Role <select id="eRole"><option value="viewer">Viewer</option><option value="operator">Operator</option><option value="admin">Administrator</option></select></label>
+  <div class="err small" id="eErr" role="alert"></div>
+  <div class="foot"><button type="button" class="btn ghost" data-close>Cancel</button><button class="btn">Save</button></div>
+</form></dialog>
+
+<dialog class="ed" id="resetDlg"><form id="resetForm">
+  <h2>Reset password</h2>
+  <p class="muted small" id="resetWho"></p>
+  <label>Temporary password <input id="rPass" type="password" required autocomplete="new-password"></label>
+  <p class="muted small">The user must choose a new password at first sign-in.</p>
+  <div class="err small" id="rErr" role="alert"></div>
+  <div class="foot"><button type="button" class="btn ghost" data-close>Cancel</button><button class="btn">Save</button></div>
+</form></dialog>
+
+<dialog class="ed" id="confirmDlg"><form method="dialog">
+  <h2>Delete this user?</h2>
+  <p id="confirmWho"></p>
+  <div class="foot"><button class="btn ghost" value="no">No</button><button class="btn stop" value="yes">Delete</button></div>
+</form></dialog>
+
+<script src="/static/i18n.js"></script>
+<script src="/static/settings.js"></script>
+<script src="/static/admin.js"></script>
+</body>
+</html>

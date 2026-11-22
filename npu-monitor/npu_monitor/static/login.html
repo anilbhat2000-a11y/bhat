@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sign in · 3C ITS AI PC Health Checker</title>
+<link rel="icon" type="image/png" href="/static/favicon.png">
+<link rel="stylesheet" href="/static/styles.css">
+<style>
+  .auth-wrap { min-height: 100vh; display: grid; place-items: center; padding: 24px 16px; }
+  .auth { width: min(420px, 100%); background: var(--surface-1); border: 1px solid var(--border); border-radius: 16px;
+    box-shadow: var(--shadow); overflow: hidden; }
+  .auth-top { padding: 18px; display: grid; justify-items: center; gap: 10px; text-align: center; color: #f1faf7;
+    background: repeating-linear-gradient(-18deg, rgba(255,255,255,.035) 0 2px, transparent 2px 14px), linear-gradient(100deg, #04735f, #0a3d32);
+    border-bottom: 3px solid #52c0ab; }
+  .auth-top .logo { height: 54px; }
+  .auth-top .app { font-family: var(--font-display); font-size: calc(15px * var(--fs-scale)); font-weight: 600; }
+  .auth form { padding: 18px; display: grid; gap: 12px; }
+  .auth h2::before { display: none; }
+  .auth input { font: inherit; padding: 8px 10px; border-radius: 8px; border: 1px solid var(--border); background: var(--surface-0); color: var(--text-primary); }
+  .auth .btn { width: 100%; padding: 9px; }
+  .auth .bar { display: flex; justify-content: space-between; align-items: center; padding: 0 18px 16px; gap: 8px; flex-wrap: wrap; }
+  .auth .bar select { max-width: 60%; }
+</style>
+</head>
+<body>
+<div class="auth-wrap">
+  <div class="auth">
+    <div class="auth-top">
+      <img class="logo" src="/static/3c-its-logo.png" alt="3C ITS – Make IT Simple" width="173" height="54">
+      <div class="app">3C ITS AI PC Health Checker &amp; NPU Performance</div>
+    </div>
+
+    <form id="loginForm" hidden>
+      <h2>Sign in</h2>
+      <label>Username <input id="lUser" autocomplete="username" required autofocus></label>
+      <label>Password <input id="lPass" type="password" autocomplete="current-password" required></label>
+      <div class="err small" id="lErr" role="alert"></div>
+      <button class="btn" id="lBtn">Sign in</button>
+    </form>
+
+    <form id="setupForm" hidden>
+      <h2>Create administrator account</h2>
+      <p class="muted small">Set up the first administrator for this computer. You can add more users later in the Admin panel.</p>
+      <label>Username <input id="sUser" autocomplete="username" required value="admin"></label>
+      <label>Display name <input id="sName" autocomplete="name"></label>
+      <label>Password <input id="sPass" type="password" autocomplete="new-password" required></label>
+      <label>Confirm password <input id="sPass2" type="password" autocomplete="new-password" required></label>
+      <div class="muted small" id="sRule"></div>
+      <div class="err small" id="sErr" role="alert"></div>
+      <button class="btn">Create account</button>
+    </form>
+
+    <div id="setupRemote" class="muted small" style="padding:18px" hidden>First-time setup must be done on this computer at http://localhost:8765.</div>
+
+    <div class="bar">
+      <select id="quickLang" aria-label="Language"></select>
+      <button class="btn ghost" id="settingsBtn" type="button"><span aria-hidden="true">⚙</span> Settings</button>
+    </div>
+  </div>
+</div>
+<script src="/static/i18n.js"></script>
+<script src="/static/settings.js"></script>
+<script>
+(() => {
+  const $ = (id) => document.getElementById(id);
+  $("settingsBtn").onclick = () => UISettings.open();
+  $("quickLang").innerHTML = I18N.LANGS.map(([v, l]) => `<option value="${v}">${l}</option>`).join("");
+  $("quickLang").value = UISettings.get().lang;
+  $("quickLang").onchange = (e) => UISettings.set({ lang: e.target.value });
+  window.addEventListener("ui-settings-changed", (e) => { $("quickLang").value = e.detail.lang; });
+
+  async function post(url, body) {
+    const r = await fetch(url, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) });
+    const j = await r.json().catch(() => ({}));
+    if (!r.ok) throw new Error(j.detail || r.statusText);
+    return j;
+  }
+  const next = () => { location.href = "/"; };
+
+  fetch("/api/auth/status").then((r) => r.json()).then((st) => {
+    if (st.user && !st.setup_required) return next();
+    if (st.setup_required) {
+      if (!st.setup_allowed_here) { $("setupRemote").hidden = false; return; }
+      $("setupForm").hidden = false;
+      $("sRule").textContent = `≥ ${st.min_password_length} · a–z + 0–9 / !@#`;
+      $("sPass").focus();
+    } else {
+      $("loginForm").hidden = false;
+      $("lUser").focus();
+    }
+  });
+
+  $("loginForm").onsubmit = async (e) => {
+    e.preventDefault();
+    $("lBtn").disabled = true; $("lErr").textContent = "";
+    try { await post("/api/auth/login", { username: $("lUser").value, password: $("lPass").value }); next(); }
+    catch (err) { $("lErr").textContent = err.message; $("lPass").select(); }
+    finally { $("lBtn").disabled = false; }
+  };
+  $("setupForm").onsubmit = async (e) => {
+    e.preventDefault();
+    if ($("sPass").value !== $("sPass2").value) { $("sErr").textContent = I18N.t("Passwords do not match."); return; }
+    try { await post("/api/auth/setup", { username: $("sUser").value, password: $("sPass").value, display_name: $("sName").value }); next(); }
+    catch (err) { $("sErr").textContent = err.message; }
+  };
+})();
+</script>
+</body>
+</html>

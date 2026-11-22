@@ -12,12 +12,13 @@ import time
 from contextlib import asynccontextmanager
 
 from fastapi import FastAPI, File, Form, HTTPException, Query, Request, UploadFile, WebSocket, WebSocketDisconnect
-from fastapi.responses import FileResponse, HTMLResponse, JSONResponse, Response, StreamingResponse
+from fastapi.responses import FileResponse, HTMLResponse, JSONResponse, RedirectResponse, Response, StreamingResponse
 from fastapi.staticfiles import StaticFiles
 from PIL import Image
 from pydantic import BaseModel
 
 from . import alerts as alert_rules
+from .auth import COOKIE, RANK, AuthError, AuthStore, required_role
 from . import hwinfo, predict
 from .assessment import compare
 from .fleet import TOKEN_HEADER, FleetManager
@@ -33,15 +34,50 @@ MAX_UPLOAD = int(os.environ.get("NPU_MONITOR_MAX_UPLOAD_MB", "200")) * 1024 * 10
 LOOPBACK = {"127.0.0.1", "::1", "localhost", "testclient"}
 
 
+PUBLIC_PATHS = {"/login", "/api/auth/login", "/api/auth/setup", "/api/auth/status", "/favicon.ico"}
+# What a fleet hub may call on this machine with the machine token (no user login).
+FLEET_TOKEN_ROUTES = (("GET", "/api/node"), ("POST", "/api/assessment"), ("GET", "/api/jobs/"))
+
+
 def _authorised(client_host: str | None, header: str | None, query: str | None) -> bool:
-    """Local requests are always allowed; remote ones need NPU_MONITOR_TOKEN."""
-    if (client_host or "") in LOOPBACK:
-        return True
+    """Machine-to-machine check: does the request carry this machine's fleet token?"""
     token = os.environ.get("NPU_MONITOR_TOKEN", "")
-    if not token:
-        return False  # never expose an unauthenticated API to the network
     given = header or query or ""
-    return hmac.compare_digest(given.encode(), token.encode())
+    return bool(token) and bool(given) and hmac.compare_digest(given.encode(), token.encode())
+
+
+def _client_ip(request) -> str:
+    return (request.client.host if request.client else "") or ""
+
+
+class LoginReq(BaseModel):
+    username: str
+    password: str
+
+
+class SetupReq(BaseModel):
+    username: str
+    password: str
+    display_name: str = ""
+
+
+class PasswordReq(BaseModel):
+    current: str
+    new: str
+
+
+class UserCreate(BaseModel):
+    username: str
+    password: str
+    role: str = "viewer"
+    display_name: str = ""
+
+
+class UserUpdate(BaseModel):
+    display_name: str | None = None
+    role: str | None = None
+    active: bool | None = None
+    password: str | None = None
 
 
 class PeerReq(BaseModel):
@@ -77,6 +113,7 @@ def create_app(sampler: Sampler | None = None, engines: EngineManager | None = N
         state["live"] = LiveSource(state["engines"])
         state["jobs"] = JobManager(state["engines"], state["sampler"])
         state["hw"] = hwinfo.collect()
+        state["auth"] = AuthStore()
         state["notifier"] = alert_rules.Notifier()
         state["alerts"] = []
         state["fleet"] = FleetManager(node, state["jobs"])
@@ -160,17 +197,168 @@ def create_app(sampler: Sampler | None = None, engines: EngineManager | None = N
 
     @app.middleware("http")
     async def auth(request: Request, call_next):
-        if request.url.path.startswith("/api") or request.url.path == "/":
-            if not _authorised(request.client and request.client.host, request.headers.get(TOKEN_HEADER),
-                               request.query_params.get("token")):
-                return JSONResponse({"detail": "token required"}, 401)
+        path, method = request.url.path, request.method
+        request.state.user = None
+        if path.startswith("/static/") or path in PUBLIC_PATHS:
+            return await call_next(request)
+        if _authorised(None, request.headers.get(TOKEN_HEADER), None):
+            if any(method == m and path.startswith(pfx) for m, pfx in FLEET_TOKEN_ROUTES):
+                request.state.user = {"username": "fleet-hub", "role": "operator"}
+                return await call_next(request)
+            return JSONResponse({"detail": "the fleet token only allows status and assessment calls"}, 403)
+        user = state["auth"].session_user(request.cookies.get(COOKIE))
+        is_page = not path.startswith("/api")
+        if user is None:
+            if is_page:
+                return RedirectResponse("/login", 303)
+            return JSONResponse({"detail": "sign in required"}, 401)
+        request.state.user = user
+        if user.get("must_change_password") and not is_page and not path.startswith("/api/auth/"):
+            return JSONResponse({"detail": "password change required"}, 403)
+        need = "admin" if path.startswith("/admin") else required_role(method, path)
+        if RANK[user["role"]] < RANK[need]:
+            if is_page:
+                return RedirectResponse("/", 303)
+            return JSONResponse({"detail": f"requires the {need} role"}, 403)
         return await call_next(request)
+
+    def actor(request: Request) -> str:
+        u = getattr(request.state, "user", None)
+        return u["username"] if u else "?"
+
+    def audit(request: Request, action: str, detail: str = "") -> None:
+        state["auth"].audit(actor(request), action, detail, _client_ip(request))
 
     app.mount("/static", StaticFiles(directory=STATIC), name="static")
 
     @app.get("/", include_in_schema=False)
     def index():
         return FileResponse(os.path.join(STATIC, "index.html"))
+
+    @app.get("/login", include_in_schema=False)
+    def login_page():
+        return FileResponse(os.path.join(STATIC, "login.html"))
+
+    @app.get("/admin", include_in_schema=False)
+    def admin_page():
+        return FileResponse(os.path.join(STATIC, "admin.html"))
+
+    @app.get("/favicon.ico", include_in_schema=False)
+    def favicon():
+        return FileResponse(os.path.join(STATIC, "favicon.png"))
+
+    # --- authentication & user management ---------------------------------------------
+    def _set_cookie(resp: Response, request: Request, token: str) -> None:
+        resp.set_cookie(COOKIE, token, httponly=True, samesite="strict", path="/",
+                        secure=request.url.scheme == "https",
+                        max_age=int(state["auth"].security["session_minutes"]) * 60)
+
+    @app.get("/api/auth/status")
+    def auth_status(request: Request):
+        u = state["auth"].session_user(request.cookies.get(COOKIE))
+        return {"setup_required": state["auth"].setup_required, "user": u and state["auth"].public(u),
+                "setup_allowed_here": _client_ip(request) in LOOPBACK,
+                "min_password_length": state["auth"].security["min_password_length"]}
+
+    @app.post("/api/auth/setup")
+    def auth_setup(req: SetupReq, request: Request):
+        if not state["auth"].setup_required:
+            raise HTTPException(409, "setup is already complete")
+        if _client_ip(request) not in LOOPBACK:
+            raise HTTPException(403, "create the first administrator from this computer (http://localhost)")
+        try:
+            state["auth"].create_user(req.username, req.password, "admin", req.display_name)
+            token, user = state["auth"].login(req.username, req.password, _client_ip(request))
+        except AuthError as e:
+            raise HTTPException(e.status, str(e))
+        state["auth"].audit(user["username"], "setup", "first administrator created", _client_ip(request))
+        resp = JSONResponse({"user": user})
+        _set_cookie(resp, request, token)
+        return resp
+
+    @app.post("/api/auth/login")
+    def auth_login(req: LoginReq, request: Request):
+        try:
+            token, user = state["auth"].login(req.username, req.password, _client_ip(request))
+        except AuthError as e:
+            raise HTTPException(e.status, str(e))
+        resp = JSONResponse({"user": user})
+        _set_cookie(resp, request, token)
+        return resp
+
+    @app.post("/api/auth/logout")
+    def auth_logout(request: Request):
+        state["auth"].logout(request.cookies.get(COOKIE))
+        audit(request, "logout")
+        resp = JSONResponse({"ok": True})
+        resp.delete_cookie(COOKIE, path="/")
+        return resp
+
+    @app.get("/api/auth/me")
+    def auth_me(request: Request):
+        return state["auth"].public(request.state.user)
+
+    @app.post("/api/auth/password")
+    def auth_password(req: PasswordReq, request: Request):
+        try:
+            state["auth"].change_own_password(actor(request), req.current, req.new)
+        except AuthError as e:
+            raise HTTPException(e.status, str(e))
+        audit(request, "password_changed")
+        return {"ok": True}
+
+    @app.get("/api/users")
+    def users_list():
+        return sorted((state["auth"].public(u) for u in state["auth"].users.values()), key=lambda u: u["username"].lower())
+
+    @app.post("/api/users")
+    def users_create(req: UserCreate, request: Request):
+        try:
+            u = state["auth"].create_user(req.username, req.password, req.role, req.display_name, must_change=True)
+        except AuthError as e:
+            raise HTTPException(e.status, str(e))
+        audit(request, "user_created", f"{u['username']} ({u['role']})")
+        return u
+
+    @app.patch("/api/users/{username}")
+    def users_update(username: str, req: UserUpdate, request: Request):
+        try:
+            u = state["auth"].update_user(username, actor(request), display_name=req.display_name, role=req.role,
+                                          active=req.active, password=req.password)
+        except AuthError as e:
+            raise HTTPException(e.status, str(e))
+        changes = [f"{k}={v}" for k, v in req.model_dump().items() if v is not None and k != "password"]
+        if req.password:
+            changes.append("password reset")
+        audit(request, "user_updated", f"{username}: {', '.join(changes)}")
+        return u
+
+    @app.delete("/api/users/{username}")
+    def users_delete(username: str, request: Request):
+        try:
+            state["auth"].delete_user(username, actor(request))
+        except AuthError as e:
+            raise HTTPException(e.status, str(e))
+        audit(request, "user_deleted", username)
+        return {"ok": True}
+
+    @app.get("/api/audit")
+    def audit_log(limit: int = Query(300, ge=1, le=2000)):
+        return state["auth"].read_audit(limit)
+
+    @app.get("/api/security")
+    def security_get():
+        return {**state["auth"].security, "fleet_token_set": bool(os.environ.get("NPU_MONITOR_TOKEN")),
+                "active_sessions": len(state["auth"].sessions)}
+
+    @app.put("/api/security")
+    def security_put(values: dict, request: Request):
+        try:
+            sec = state["auth"].update_security(values)
+        except (AuthError, ValueError, TypeError) as e:
+            raise HTTPException(400, str(e))
+        audit(request, "security_updated", ", ".join(f"{k}={v}" for k, v in values.items()))
+        return sec
 
     # --- system & telemetry ----------------------------------------------------
     @app.get("/api/system")
@@ -216,7 +404,7 @@ def create_app(sampler: Sampler | None = None, engines: EngineManager | None = N
 
     @app.websocket("/ws/metrics")
     async def ws_metrics(ws: WebSocket):
-        if not _authorised(ws.client and ws.client.host, ws.headers.get(TOKEN_HEADER), ws.query_params.get("token")):
+        if state["auth"].session_user(ws.cookies.get(COOKIE)) is None:
             await ws.close(code=4401)
             return
         await ws.accept()
@@ -242,7 +430,8 @@ def create_app(sampler: Sampler | None = None, engines: EngineManager | None = N
 
     # --- live camera / screen ----------------------------------------------------
     @app.post("/api/live/start")
-    def live_start(req: LiveStart):
+    def live_start(req: LiveStart, request: Request):
+        audit(request, "live_started", f"{req.mode} on {req.device}")
         try:
             return state["live"].start(req.mode, req.device, req.camera_index, req.max_fps, req.monitor)
         except Exception as exc:
@@ -305,8 +494,9 @@ def create_app(sampler: Sampler | None = None, engines: EngineManager | None = N
 
     # --- NPU suitability assessment -----------------------------------------------
     @app.post("/api/assessment")
-    def run_assessment(req: AssessReq):
+    def run_assessment(req: AssessReq, request: Request):
         job = state["jobs"].submit_assessment(req.seconds)
+        audit(request, "assessment_started", f"{req.seconds}s per device")
         return {"id": job["id"]}
 
     @app.get("/api/reports")
@@ -355,19 +545,23 @@ def create_app(sampler: Sampler | None = None, engines: EngineManager | None = N
         return state["fleet"].status()
 
     @app.post("/api/fleet/peers")
-    def fleet_add(req: PeerReq):
+    def fleet_add(req: PeerReq, request: Request):
         try:
-            return state["fleet"].add(req.url, req.token, req.name)
+            peer = state["fleet"].add(req.url, req.token, req.name)
+            audit(request, "fleet_machine_added", f"{peer['name']} {peer['url']}")
+            return peer
         except Exception as exc:
             raise HTTPException(400, f"could not reach {req.url}: {exc}")
 
     @app.delete("/api/fleet/peers/{peer_id}")
-    def fleet_remove(peer_id: str):
+    def fleet_remove(peer_id: str, request: Request):
         state["fleet"].remove(peer_id)
+        audit(request, "fleet_machine_removed", peer_id)
         return {"ok": True}
 
     @app.post("/api/fleet/run")
-    def fleet_run(req: AssessReq):
+    def fleet_run(req: AssessReq, request: Request):
+        audit(request, "fleet_run_started", f"{len(state['fleet'].peers) + 1} machines")
         return {"id": state["fleet"].start_run(max(3.0, min(req.seconds, 60.0)))["id"]}
 
     @app.get("/api/fleet/runs/{run_id}")
