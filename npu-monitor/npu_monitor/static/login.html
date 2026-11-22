@@ -27,7 +27,7 @@
 <div class="auth-wrap">
   <div class="auth">
     <div class="auth-top">
-      <img class="logo" src="/static/3c-its-logo.png" alt="3C ITS – Make IT Simple" width="173" height="54">
+      <a href="/" aria-label="3C ITS home"><img class="logo" src="/static/3c-its-logo.png" alt="3C ITS – Make IT Simple" width="173" height="54"></a>
       <div class="app">3C ITS AI PC Health Checker &amp; NPU Performance</div>
     </div>
 
@@ -76,7 +76,7 @@
     if (!r.ok) throw new Error(j.detail || r.statusText);
     return j;
   }
-  const next = () => { location.href = "/"; };
+  const next = () => { location.href = "/app"; };
 
   fetch("/api/auth/status").then((r) => r.json()).then((st) => {
     if (st.user && !st.setup_required) return next();

@@ -34,7 +34,7 @@ def test_system_and_metrics(client):
     assert s["inference"]["devices"], "expected at least a CPU backend"
     m = client.get("/api/metrics").json()
     assert {"cpu", "gpu", "npu", "phase"} <= m.keys()
-    assert client.get("/").status_code == 200
+    assert client.get("/").status_code == 200 and client.get("/app").status_code == 200
 
 
 def test_websocket_streams_samples(client):

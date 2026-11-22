@@ -64,7 +64,8 @@ def test_login_flow_and_roles(app_client):
     c = app_client
     assert c.get("/api/auth/status").json()["setup_required"] is True
     assert c.get("/api/metrics").status_code == 401
-    r = c.get("/", follow_redirects=False)
+    assert c.get("/").status_code == 200                       # public landing page
+    r = c.get("/app", follow_redirects=False)
     assert r.status_code == 303 and r.headers["location"] == "/login"
     assert c.get("/login").status_code == 200
     r = c.post("/api/auth/setup", json={"username": "admin", "password": PW})

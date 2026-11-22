@@ -4,6 +4,8 @@
 
 An on-prem tool by 3C ITS.
 
+> **We Care. We Build. We Transform.** Your technology, transformed with AI infrastructure.
+
 A local, fully offline tool for AI laptops with a built-in NPU (Intel Core Ultra, AMD Ryzen AI, Qualcomm Snapdragon X). It:
 
 * shows **NPU utilisation in real time**, with **CPU and GPU** on the same chart, so you can see what NPU work does to the other processors
@@ -19,6 +21,7 @@ A local, fully offline tool for AI laptops with a built-in NPU (Intel Core Ultra
 * **Predictive analysis**: time to empty or full, battery-health forecast (date it reaches 80 %), and modelled battery life, CPU/GPU load and battery cycles per year when the same AI workload runs on the NPU vs the GPU vs the CPU
 * **Fleet mode**: connect laptops, desktops, workstations and servers, watch them live, run the assessment on all of them at once and get a ranking that explains why the winner is best
 * **Alerts**: not an AI PC, NPU present but unusable, battery worn or low, AI running on the CPU while an NPU sits idle. Optional webhook.
+* **Landing page** at `/` with the 3C ITS tagline and original vector illustrations of AI laptops, desktops, servers and the AI transformation (animated, theme-aware and translated)
 * **Sign-in and user management**: login page, Admin / Operator / Viewer roles, admin panel for users, audit log and security settings
 * **Display settings** per browser: theme (dark green, light green, high contrast, classic light), language (English, हिन्दी, ಕನ್ನಡ, தமிழ், తెలుగు), font, text size, background and font colour, bold, italic
 * exports telemetry as CSV
@@ -41,7 +44,7 @@ pip install -r requirements.txt
 python run.py
 ```
 
-Your browser opens at http://localhost:8765.
+Your browser opens at http://localhost:8765. That's the public landing page; **Sign in** leads to the dashboard at `/app`.
 
 ### Install the backend for your NPU
 

@@ -141,7 +141,7 @@
   (async () => {
     me = await UISettings.mountUser($("userSlot"));
     if (!me) return;
-    if (me.role !== "admin") { location.href = "/"; return; }
+    if (me.role !== "admin") { location.href = "/app"; return; }
     loadUsers();
     window.addEventListener("ui-settings-changed", () => { loadUsers(); });
   })();

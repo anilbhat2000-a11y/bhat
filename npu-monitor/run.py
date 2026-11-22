@@ -29,6 +29,6 @@ if __name__ == "__main__":
     if remote:
         print(f"  Add this machine on the hub as  http://<this-ip>:{a.port}  with token  {a.token}\n")
     if not a.no_browser:
-        webbrowser.open(f"http://localhost:{a.port}")
+        webbrowser.open(f"http://localhost:{a.port}/")
     print("  3C ITS AI PC Health Checker & NPU Performance  -  Make IT Simple")
     uvicorn.run("npu_monitor.server:app", host=a.host, port=a.port, log_level="info")

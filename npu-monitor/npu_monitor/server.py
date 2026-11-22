@@ -34,7 +34,7 @@ MAX_UPLOAD = int(os.environ.get("NPU_MONITOR_MAX_UPLOAD_MB", "200")) * 1024 * 10
 LOOPBACK = {"127.0.0.1", "::1", "localhost", "testclient"}
 
 
-PUBLIC_PATHS = {"/login", "/api/auth/login", "/api/auth/setup", "/api/auth/status", "/favicon.ico"}
+PUBLIC_PATHS = {"/", "/login", "/api/auth/login", "/api/auth/setup", "/api/auth/status", "/favicon.ico"}
 # What a fleet hub may call on this machine with the machine token (no user login).
 FLEET_TOKEN_ROUTES = (("GET", "/api/node"), ("POST", "/api/assessment"), ("GET", "/api/jobs/"))
 
@@ -218,7 +218,7 @@ def create_app(sampler: Sampler | None = None, engines: EngineManager | None = N
         need = "admin" if path.startswith("/admin") else required_role(method, path)
         if RANK[user["role"]] < RANK[need]:
             if is_page:
-                return RedirectResponse("/", 303)
+                return RedirectResponse("/app", 303)
             return JSONResponse({"detail": f"requires the {need} role"}, 403)
         return await call_next(request)
 
@@ -232,6 +232,10 @@ def create_app(sampler: Sampler | None = None, engines: EngineManager | None = N
     app.mount("/static", StaticFiles(directory=STATIC), name="static")
 
     @app.get("/", include_in_schema=False)
+    def landing():
+        return FileResponse(os.path.join(STATIC, "landing.html"))
+
+    @app.get("/app", include_in_schema=False)
     def index():
         return FileResponse(os.path.join(STATIC, "index.html"))
 
