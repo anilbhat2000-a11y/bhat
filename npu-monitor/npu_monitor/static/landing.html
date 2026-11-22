@@ -8,75 +8,74 @@
 <link rel="icon" type="image/png" href="/static/favicon.png">
 <link rel="stylesheet" href="/static/styles.css">
 <style>
-  body { overflow-x: hidden; }
+  /* One-screen layout: nav + hero + strip + footer fill exactly the window on laptops and desktops. */
+  html, body { height: 100%; }
+  body.lp { display: grid; grid-template-rows: auto 1fr auto; min-height: 100svh; overflow-x: hidden; }
+  @media (min-width: 900px) and (min-height: 560px) { body.lp { height: 100svh; overflow: hidden; } }
   .lp-nav { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap;
-    padding: 12px max(16px, calc((100vw - 1200px) / 2)); position: sticky; top: 0; z-index: 10;
-    background: color-mix(in srgb, var(--surface-0) 82%, transparent); backdrop-filter: blur(10px);
-    border-bottom: 1px solid var(--border); }
-  .lp-nav .logo { height: 44px; }
+    padding: clamp(6px, 1.2vh, 12px) max(16px, calc((100vw - 1280px) / 2));
+    background: color-mix(in srgb, var(--surface-0) 82%, transparent); backdrop-filter: blur(10px); border-bottom: 1px solid var(--border); }
+  .lp-nav .logo { height: clamp(32px, 5.2vh, 44px); width: auto; }
   .lp-nav nav { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
   .lp-nav nav a.link { color: var(--text-secondary); text-decoration: none; padding: 6px 10px; border-radius: 8px; font-size: calc(14px * var(--fs-scale)); }
   .lp-nav nav a.link:hover { color: var(--text-primary); background: var(--surface-2); }
-  .wrap { max-width: 1200px; margin: 0 auto; padding: 0 16px; }
+  .lp-main { display: grid; grid-template-columns: minmax(0, 1fr); grid-template-rows: minmax(0, 1fr) auto; gap: clamp(8px, 2vh, 20px); min-height: 0;
+    width: 100%; max-width: 1280px; margin: 0 auto; padding: clamp(8px, 2.2vh, 26px) 16px clamp(8px, 1.6vh, 16px); }
 
-  .hero { display: grid; grid-template-columns: 1.05fr 1fr; gap: 28px; align-items: center; padding: 56px 0 40px;
-    background: none; border: 0; }
-  .hero .kicker { display: inline-flex; align-items: center; gap: 8px; font-size: calc(12px * var(--fs-scale)); letter-spacing: .12em;
+  .lp-hero { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); gap: clamp(12px, 3vw, 36px); align-items: center; min-height: 0; }
+  .lp-hero > div { min-height: 0; }
+  .lp-hero .kicker { display: inline-flex; align-items: center; gap: 8px; font-size: calc(12px * var(--fs-scale)); letter-spacing: .12em;
     text-transform: uppercase; color: var(--accent); font-weight: 700; }
-  .hero .kicker::before { content: ""; width: 26px; height: 3px; border-radius: 2px; background: var(--accent); }
-  .tagline { font-family: var(--font-display); font-weight: 700; line-height: 1.02; margin: 14px 0 10px;
-    font-size: calc(clamp(40px, 6.2vw, 74px) * var(--fs-scale)); letter-spacing: -.01em; }
+  .lp-hero .kicker::before { content: ""; width: 26px; height: 3px; border-radius: 2px; background: var(--accent); }
+  .tagline { font-family: var(--font-display); font-weight: 700; line-height: 1.02; margin: clamp(6px, 1.4vh, 14px) 0 clamp(4px, 1vh, 10px);
+    font-size: calc(clamp(30px, min(5.6vw, 8.2vh), 78px) * var(--fs-scale)); letter-spacing: -.01em; }
   .tagline span { display: block; }
   .tagline span:nth-child(2) { color: var(--accent); }
   .tagline span:nth-child(3) { background: linear-gradient(90deg, var(--accent), #8fe3d0 60%, var(--gpu)); -webkit-background-clip: text; background-clip: text; color: transparent; }
-  .subtag { font-family: var(--font-display); font-size: calc(clamp(18px, 2.2vw, 24px) * var(--fs-scale)); color: var(--text-primary); margin: 0 0 12px; font-weight: 500; }
-  .lede { color: var(--text-secondary); font-size: calc(16px * var(--fs-scale)); max-width: 56ch; margin: 0 0 22px; }
+  .subtag { font-family: var(--font-display); font-size: calc(clamp(16px, min(1.9vw, 3vh), 24px) * var(--fs-scale)); margin: 0 0 clamp(4px, 1vh, 10px); font-weight: 500; }
+  .lede { color: var(--text-secondary); font-size: calc(clamp(13px, 2vh, 16px) * var(--fs-scale)); max-width: 56ch; margin: 0 0 clamp(8px, 2vh, 20px); }
   .ctas { display: flex; gap: 10px; flex-wrap: wrap; }
-  .ctas .btn { padding: 11px 20px; font-size: calc(15px * var(--fs-scale)); border-radius: 10px; }
-  .stats { display: flex; gap: 22px; flex-wrap: wrap; margin-top: 26px; }
+  .ctas .btn { padding: clamp(7px, 1.3vh, 11px) 20px; font-size: calc(15px * var(--fs-scale)); border-radius: 10px; }
+  .stats { display: flex; gap: 22px; flex-wrap: wrap; margin-top: clamp(8px, 2.4vh, 24px); }
   .stats div { display: flex; flex-direction: column; }
-  .stats b { font-family: var(--font-display); font-size: calc(24px * var(--fs-scale)); color: var(--text-primary); }
+  .stats b { font-family: var(--font-display); font-size: calc(clamp(16px, 2.8vh, 24px) * var(--fs-scale)); }
   .stats span { font-size: calc(12px * var(--fs-scale)); color: var(--text-muted); }
-  .art { width: 100%; height: auto; display: block; }
+  .hero-art { width: 100%; height: 100%; max-height: 100%; display: block; min-height: 0; }
+  .lp-hero .art-cell { height: 100%; min-height: 0; display: flex; align-items: center; }
 
-  section.band { padding: 54px 0; }
-  .band h2.big { font-size: calc(clamp(24px, 3vw, 34px) * var(--fs-scale)); justify-content: center; text-align: center; margin-bottom: 8px; }
-  .band h2.big::before { display: none; }
-  .band .intro { text-align: center; color: var(--text-secondary); max-width: 64ch; margin: 0 auto 28px; }
-  .devices { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
-  .device { background: var(--surface-1); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; box-shadow: var(--shadow);
-    transition: transform .2s ease, border-color .2s ease; }
-  .device:hover { transform: translateY(-3px); border-color: var(--accent); }
-  .device .pic { background: radial-gradient(120% 90% at 50% 0%, var(--glow), transparent 70%), var(--surface-2); padding: 14px 10px 4px; border-bottom: 1px solid var(--border); }
-  .device .body { padding: 16px 18px 18px; }
-  .device h3 { text-transform: none; letter-spacing: 0; font-size: calc(18px * var(--fs-scale)); color: var(--text-primary); margin: 0 0 6px; }
-  .device p { margin: 0; color: var(--text-secondary); }
+  .strip { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(8px, 1.2vw, 14px); }
+  .device { display: flex; align-items: center; gap: 10px; background: var(--surface-1); border: 1px solid var(--border); border-radius: 14px;
+    padding: 8px 12px 8px 8px; box-shadow: var(--shadow); transition: border-color .2s ease; min-width: 0; }
+  .device:hover { border-color: var(--accent); }
+  .device .pic { flex: none; width: clamp(84px, 13vh, 132px); border-radius: 10px; padding: 4px;
+    background: radial-gradient(120% 90% at 50% 0%, var(--glow), transparent 70%), var(--surface-2); }
+  .device .body { min-width: 0; }
+  .device h3 { text-transform: none; letter-spacing: 0; font-size: calc(15px * var(--fs-scale)); color: var(--text-primary); margin: 0 0 2px; }
+  .device p { margin: 0; color: var(--text-secondary); font-size: calc(12.5px * var(--fs-scale)); line-height: 1.35;
+    display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+  .lp-foot { text-align: center; color: var(--text-muted); font-size: calc(12px * var(--fs-scale)); padding: 6px 16px 8px; border-top: 1px solid var(--border); }
 
-  .journey { background: var(--surface-1); border: 1px solid var(--border); border-radius: 18px; padding: 18px; box-shadow: var(--shadow); }
-  .steps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; margin-top: 18px; }
-  .step { display: flex; gap: 12px; align-items: flex-start; padding: 14px; border-radius: 12px; background: var(--surface-2); border: 1px solid var(--border); }
-  .step .n { flex: none; width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; font-family: var(--font-display);
+  /* "How it works" pop-up */
+  #howDlg { border: 1px solid var(--border); border-radius: 16px; padding: 0; width: min(1000px, calc(100vw - 24px));
+    max-height: calc(100svh - 24px); background: var(--surface-0); color: var(--text-primary); box-shadow: 0 24px 70px rgba(0,0,0,.5); }
+  #howDlg::backdrop { background: rgba(0,0,0,.6); }
+  .how { padding: 18px; overflow: auto; max-height: calc(100svh - 26px); }
+  .how-head { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+  .how .intro { color: var(--text-secondary); margin: 4px 0 14px; }
+  .journey { background: var(--surface-1); border: 1px solid var(--border); border-radius: 14px; padding: 14px; }
+  .steps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin-top: 14px; }
+  .step { display: flex; gap: 12px; align-items: flex-start; padding: 12px; border-radius: 12px; background: var(--surface-2); border: 1px solid var(--border); }
+  .step .n { flex: none; width: 32px; height: 32px; border-radius: 50%; display: grid; place-items: center; font-family: var(--font-display);
     font-weight: 700; background: var(--accent); color: var(--on-accent); }
-  .step h3 { text-transform: none; letter-spacing: 0; font-size: calc(16px * var(--fs-scale)); color: var(--text-primary); margin: 2px 0 4px; }
-  .step p { margin: 0; color: var(--text-secondary); font-size: calc(13px * var(--fs-scale)); }
+  .step h3, .feature h3 { text-transform: none; letter-spacing: 0; font-size: calc(15px * var(--fs-scale)); color: var(--text-primary); margin: 2px 0 4px; }
+  .step p, .feature p { margin: 0; color: var(--text-secondary); font-size: calc(13px * var(--fs-scale)); }
+  #features h2 { margin: 20px 0 4px; } #features h2::before { display: none; }
+  #features .intro { margin-bottom: 12px; }
+  .features { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+  .feature { padding: 14px; border-radius: 12px; border: 1px solid var(--border); background: var(--surface-1); }
+  .feature svg { width: 28px; height: 28px; color: var(--accent); }
 
-  .features { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
-  .feature { padding: 18px; border-radius: 14px; border: 1px solid var(--border); background: var(--surface-1); }
-  .feature svg { width: 30px; height: 30px; color: var(--accent); }
-  .feature h3 { text-transform: none; letter-spacing: 0; font-size: calc(16px * var(--fs-scale)); color: var(--text-primary); margin: 10px 0 4px; }
-  .feature p { margin: 0; color: var(--text-secondary); font-size: calc(13.5px * var(--fs-scale)); }
-
-  .cta-band { margin: 20px 0 50px; border-radius: 20px; padding: 34px 24px; text-align: center; color: #f1faf7;
-    background: repeating-linear-gradient(-18deg, rgba(255,255,255,.04) 0 2px, transparent 2px 14px), linear-gradient(110deg, #04735f, #0a3d32);
-    border: 1px solid #1c4a3d; }
-  .cta-band h2 { justify-content: center; font-size: calc(clamp(22px, 3vw, 30px) * var(--fs-scale)); color: #f1faf7; }
-  .cta-band h2::before { display: none; }
-  .cta-band p { color: #c4e3d9; margin: 8px 0 18px; }
-  .cta-band .btn { background: #52c0ab; border-color: #52c0ab; color: #03211a; padding: 11px 22px; }
-  .lp-foot { border-top: 1px solid var(--border); padding: 22px 16px 30px; text-align: center; color: var(--text-muted); }
-  .lp-foot img { height: 36px; background: #fff; border-radius: 6px; padding: 3px 5px; }
-
-  /* illustration styling (follows the theme) */
+  /* illustrations (follow the theme) */
   .art .dev { fill: var(--surface-2); stroke: var(--accent); stroke-width: 2; }
   .art .dev2 { fill: var(--surface-1); stroke: var(--border); stroke-width: 1.5; }
   .art .scr { fill: #04241d; }
@@ -92,31 +91,35 @@
   @keyframes pulse { 0% { transform: scale(.75); opacity: .7; } 100% { transform: scale(1.45); opacity: 0; } }
   @keyframes blink { 0% { opacity: 1; } 100% { opacity: .25; } }
   @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
-  @media (prefers-reduced-motion: reduce) { .art * { animation: none !important; } .device { transition: none; } }
+  @media (prefers-reduced-motion: reduce) { .art * { animation: none !important; } }
 
-  @media (max-width: 700px) { .lp-nav nav a.link { display: none; } }
-  @media (max-width: 900px) {
-    .hero { grid-template-columns: 1fr; padding-top: 32px; }
-    .devices, .steps, .features { grid-template-columns: 1fr; }
+  /* short windows: drop the least important lines so everything still fits */
+  @media (max-height: 760px) and (min-width: 900px) { .stats { display: none; } }
+  @media (max-height: 640px) and (min-width: 900px) { .lede { display: none; } .device p { -webkit-line-clamp: 2; } }
+  /* narrow screens: stack and scroll */
+  @media (max-width: 899px) {
+    .lp-hero { grid-template-columns: 1fr; }
+    .lp-hero .art-cell { height: auto; }
+    .hero-art { height: auto; max-height: 46vh; }
+    .strip, .steps, .features { grid-template-columns: 1fr; }
   }
-  @media (min-width: 600px) and (max-width: 900px) { .features { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 700px) { .lp-nav nav a.link { display: none; } }
 </style>
 </head>
-<body>
+<body class="lp">
 <header class="lp-nav">
   <a href="/" aria-label="3C ITS home"><img class="logo" src="/static/3c-its-logo.png" alt="3C ITS – Make IT Simple" width="141" height="44"></a>
   <nav aria-label="Main">
-    <a class="link" href="#machines">Every machine, assessed</a>
-    <a class="link" href="#journey">How it works</a>
-    <a class="link" href="#features">Features</a>
+    
+    <a class="link" href="#how" data-how>How it works</a>
+    <a class="link" href="#features" data-how>Features</a>
     <button class="btn ghost" id="settingsBtn" type="button" aria-haspopup="dialog"><span aria-hidden="true">⚙</span> Settings</button>
     <a class="btn" id="navCta" href="/login">Sign in</a>
   </nav>
 </header>
 
-<main class="wrap" style="display:block">
-  <!-- HERO -->
-  <section class="hero" aria-labelledby="tagline">
+<main class="lp-main">
+  <section class="lp-hero" aria-labelledby="tagline">
     <div>
       <span class="kicker">3C ITS · AI Infrastructure</span>
       <h1 class="tagline" id="tagline"><span>We Care.</span><span>We Build.</span><span>We Transform.</span></h1>
@@ -124,7 +127,7 @@
       <p class="lede">See how every laptop, desktop and server handles AI, on-premises: real-time NPU, CPU and GPU usage, battery health, and a clear verdict on which machines are ready for the AI era.</p>
       <div class="ctas">
         <a class="btn" id="heroCta" href="/login">Sign in</a>
-        <a class="btn ghost" href="#journey">How it works</a>
+        <a class="btn ghost" href="#how" data-how>How it works</a>
       </div>
       <div class="stats">
         <div><b>0–100</b><span>NPU readiness score</span></div>
@@ -133,8 +136,9 @@
       </div>
     </div>
 
+    <div class="art-cell">
     <!-- Hero illustration: laptop, desktop and server feeding an AI chip -->
-    <svg class="art" viewBox="0 0 600 440" role="img" aria-labelledby="heroArtT">
+    <svg class="art hero-art" viewBox="0 0 600 440" preserveAspectRatio="xMidYMid meet" role="img" aria-labelledby="heroArtT">
       <title id="heroArtT">Illustration: an AI laptop, a desktop and a server connected to a central AI chip, with a rising chart showing transformation</title>
       <defs>
         <radialGradient id="hGlow" cx="50%" cy="50%" r="50%">
@@ -230,14 +234,10 @@
       <text x="300" y="232" text-anchor="middle" font-family="sans-serif" font-size="34" font-weight="800" fill="#ffffff">AI</text>
       <circle cx="300" cy="248" r="3" fill="#e0201a"/>
     </svg>
+    </div>
   </section>
-
-  <!-- MACHINES -->
-  <section class="band" id="machines" aria-labelledby="machinesH">
-    <h2 class="big" id="machinesH">Every machine, assessed</h2>
-    <p class="intro">One tool for the whole estate. It runs locally on each machine and ranks them together.</p>
-    <div class="devices">
-      <article class="device">
+  <section class="strip" id="machines" aria-label="Every machine, assessed">
+    <article class="device">
         <div class="pic">
           <svg class="art" viewBox="0 0 240 150" role="img" aria-label="Illustration of an AI laptop with an NPU chip and a full battery">
             <rect class="dev" x="40" y="14" width="160" height="100" rx="8"/>
@@ -252,7 +252,7 @@
         </div>
         <div class="body"><h3>AI laptops</h3><p>Measures the NPU, battery life and battery health, and shows how much load the NPU takes off the CPU and GPU.</p></div>
       </article>
-      <article class="device">
+    <article class="device">
         <div class="pic">
           <svg class="art" viewBox="0 0 240 150" role="img" aria-label="Illustration of a desktop monitor and tower showing NPU, GPU and CPU charts">
             <rect class="dev" x="22" y="14" width="150" height="96" rx="8"/>
@@ -268,7 +268,7 @@
         </div>
         <div class="body"><h3>Desktops &amp; workstations</h3><p>Flags machines that are not AI PCs and benchmarks NPU, GPU and CPU side by side.</p></div>
       </article>
-      <article class="device">
+    <article class="device">
         <div class="pic">
           <svg class="art" viewBox="0 0 240 150" role="img" aria-label="Illustration of two server racks with status lights">
             <g>
@@ -289,12 +289,14 @@
         </div>
         <div class="body"><h3>Servers</h3><p>Watches CPU and GPU load, compares servers with AI PCs, and ranks the whole fleet.</p></div>
       </article>
-    </div>
   </section>
+</main>
+<footer class="lp-foot">3C ITS AI PC Health Checker &amp; NPU Performance · Make IT Simple</footer>
 
-  <!-- JOURNEY -->
-  <section class="band" id="journey" aria-labelledby="journeyH">
-    <h2 class="big" id="journeyH">Your AI transformation</h2>
+<dialog id="howDlg" aria-labelledby="journeyH">
+  <div class="how">
+    <div class="how-head"><h2 id="journeyH">Your AI transformation</h2>
+      <button class="btn ghost" type="button" data-close aria-label="Close">✕</button></div>
     <p class="intro">From overloaded processors to AI-ready infrastructure, with the numbers to prove it.</p>
     <div class="journey">
       <svg class="art" viewBox="0 0 760 230" role="img" aria-labelledby="jT">
@@ -346,10 +348,7 @@
         <div class="step"><span class="n">3</span><div><h3>Transform</h3><p>Move AI work to the NPU and plan upgrades with confidence.</p></div></div>
       </div>
     </div>
-  </section>
-
-  <!-- FEATURES -->
-  <section class="band" id="features" aria-labelledby="featuresH">
+    <div id="features">
     <h2 class="big" id="featuresH">Features</h2>
     <p class="intro">Everything runs on your own machines. Nothing is sent to the cloud.</p>
     <div class="features">
@@ -366,19 +365,9 @@
       <div class="feature"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2l8 4v6c0 5-3.5 9-8 10-4.5-1-8-5-8-10V6z"/><path d="M9 12l2 2 4-4"/></svg>
         <h3>Secure &amp; on-premises</h3><p>Sign-in with roles, an audit log and no third-party telemetry.</p></div>
     </div>
-  </section>
-
-  <section class="cta-band" aria-labelledby="ctaH">
-    <h2 id="ctaH">Ready to see your machines?</h2>
-    <p>We Care. We Build. We Transform.</p>
-    <a class="btn" id="ctaBtn" href="/login">Sign in</a>
-  </section>
-</main>
-
-<footer class="lp-foot">
-  <img src="/static/3c-its-logo.png" alt="3C ITS – Make IT Simple" width="116" height="36">
-  <div class="small" style="margin-top:8px">3C ITS AI PC Health Checker &amp; NPU Performance · Make IT Simple</div>
-</footer>
+    </div>
+  </div>
+</dialog>
 
 <script src="/static/i18n.js"></script>
 <script src="/static/settings.js"></script>
@@ -392,6 +381,18 @@
       a.textContent = I18N.t("Open dashboard");
     }
   }).catch(() => {});
+</script>
+<script>
+  (() => {
+    const dlg = document.getElementById("howDlg");
+    document.querySelectorAll("[data-how]").forEach((a) => a.addEventListener("click", (e) => {
+      e.preventDefault(); dlg.showModal();
+      if (a.getAttribute("href") === "#features") document.getElementById("features").scrollIntoView();
+      else dlg.querySelector(".how").scrollTop = 0;
+    }));
+    dlg.querySelector("[data-close]").onclick = () => dlg.close();
+    dlg.addEventListener("click", (e) => { if (e.target === dlg) dlg.close(); });
+  })();
 </script>
 </body>
 </html>
