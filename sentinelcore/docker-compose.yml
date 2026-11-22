@@ -1,0 +1,29 @@
+# On-premise deployment: SentinelCore + PostgreSQL. No internet needed at runtime.
+# 1. cp .env.example .env and set SC_SECRET_KEY, SC_ADMIN_PASSWORD, POSTGRES_PASSWORD
+# 2. docker compose up -d   ->  http://<server-ip>:8080
+# Use network_mode: host (Linux) if you want ONVIF WS-Discovery (multicast) to reach camera VLANs.
+services:
+  db:
+    image: postgres:16.6
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: sentinel
+      POSTGRES_USER: sentinel
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD in .env}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+  app:
+    build: .
+    restart: unless-stopped
+    depends_on: [db]
+    ports:
+      - "8080:8080"
+    environment:
+      SC_DATABASE_URL: postgresql+psycopg://sentinel:${POSTGRES_PASSWORD}@db:5432/sentinel
+      SC_SECRET_KEY: ${SC_SECRET_KEY:?set SC_SECRET_KEY in .env}
+      SC_ADMIN_PASSWORD: ${SC_ADMIN_PASSWORD:-}
+      SC_COLLECT_INTERVAL: ${SC_COLLECT_INTERVAL:-30}
+      SC_SEED_DEMO: ${SC_SEED_DEMO:-0}
+      SC_COOKIE_SECURE: ${SC_COOKIE_SECURE:-0}
+volumes:
+  pgdata:

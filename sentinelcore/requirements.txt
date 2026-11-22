@@ -1,0 +1,13 @@
+# Exact pins — versions installed and tested in this repo.
+fastapi==0.165.0
+starlette==1.10.0
+uvicorn==0.54.0
+SQLAlchemy==2.1.9
+pydantic==2.14.4
+PyJWT==2.15.1
+bcrypt==5.0.0
+cryptography==50.0.2
+httpx==0.28.1
+python-multipart==0.0.34
+# Postgres driver (only needed when SC_DATABASE_URL points at PostgreSQL)
+psycopg[binary]==3.2.13

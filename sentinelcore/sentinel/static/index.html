@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SentinelCore</title>
+  <link rel="icon" href="/static/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+  <div id="app" class="app">
+    <aside class="sidebar" id="sidebar" hidden>
+      <div class="brand">
+        <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M12 2 3 6v6c0 5 3.8 9.3 9 10 5.2-.7 9-5 9-10V6l-9-4Z" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="11" r="3" fill="currentColor"/></svg>
+        <span>SentinelCore</span>
+      </div>
+      <nav id="nav" aria-label="Main"></nav>
+      <div class="sidebar-foot">
+        <div id="whoami" class="muted small"></div>
+        <button class="btn ghost small" id="themeBtn" type="button">Theme</button>
+        <button class="btn ghost small" id="logoutBtn" type="button">Sign out</button>
+      </div>
+    </aside>
+    <main class="main">
+      <header class="topbar" id="topbar" hidden>
+        <button class="btn ghost icon" id="menuBtn" type="button" aria-label="Menu">☰</button>
+        <h1 id="pageTitle">Overview</h1>
+        <div class="topbar-right">
+          <span id="simBadge" class="badge warn" hidden title="Some devices use the simulator driver">SIMULATED DATA</span>
+          <span id="updated" class="muted small"></span>
+        </div>
+      </header>
+      <div id="view" class="view"></div>
+    </main>
+  </div>
+  <div id="drawer" class="drawer" hidden>
+    <div class="drawer-panel" role="dialog" aria-modal="true">
+      <button class="btn ghost icon drawer-close" id="drawerClose" type="button" aria-label="Close">✕</button>
+      <div id="drawerBody"></div>
+    </div>
+  </div>
+  <div id="toast" class="toast" hidden></div>
+  <script src="/static/app.js" type="module"></script>
+</body>
+</html>
