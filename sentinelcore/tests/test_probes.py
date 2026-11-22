@@ -129,7 +129,7 @@ def test_parse_isapi_storage_and_summary():
     s = drivers.summarize_disks(disks)
     assert s["disk_errors"] == 1 and s["disk_count"] == 2 and 80 < s["storage_used_pct"] < 90
     info = drivers.parse_isapi_device_info("<DeviceInfo xmlns='x'><model>DS-7616</model><firmwareVersion>V4.1</firmwareVersion></DeviceInfo>")
-    assert info == {"model": "DS-7616", "firmware": "V4.1"}
+    assert info == {"model": "DS-7616", "firmware": "V4.1", "manufacturer": "Hikvision"}
 
 
 def test_unknown_driver_and_crashing_driver_never_raise():

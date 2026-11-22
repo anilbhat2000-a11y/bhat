@@ -2,7 +2,7 @@
 const $ = (s, el = document) => el.querySelector(s);
 const $$ = (s, el = document) => [...el.querySelectorAll(s)];
 const view = $("#view");
-const state = { me: null, sites: [], timer: null, route: "" };
+const state = { me: null, locations: [], timer: null, route: "" };
 
 // ---------------------------------------------------------------- helpers --
 const esc = (v) => String(v ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
@@ -111,8 +111,8 @@ function hbars(rows, { max = null, cls = "bar-acc" } = {}) {
     <div class="num small">${esc(r.text ?? r.value)}</div></div>`).join("")}</div>`;
 }
 
-const siteOptions = (sel = "", any = true) =>
-  (any ? '<option value="">All sites</option>' : "") + state.sites.map((s) => `<option value="${s.id}" ${String(sel) === String(s.id) ? "selected" : ""}>${esc(s.name)}</option>`).join("");
+const locOptions = (sel = "", any = true) =>
+  (any ? '<option value="">All locations</option>' : "") + state.locations.map((s) => `<option value="${s.id}" ${String(sel) === String(s.id) ? "selected" : ""}>${esc(s.name)}</option>`).join("");
 
 function openDrawer(html) {
   $("#drawerBody").innerHTML = html;
@@ -165,7 +165,7 @@ const ROUTES = [
   { id: "events", title: "AI events", perm: "view", render: renderEvents },
   { id: "devices", title: "Add & import devices", perm: "manage_devices", render: renderDevices, sep: "Administer" },
   { id: "rules", title: "Alert rules", perm: "manage_rules", render: renderRules },
-  { id: "users", title: "Users & sites", perm: "manage_users", render: renderUsers },
+  { id: "users", title: "Users & locations", perm: "manage_users", render: renderUsers },
   { id: "edge", title: "Edge devices", perm: "manage_edge", render: renderEdge },
   { id: "audit", title: "Audit log", perm: "view_audit", render: renderAudit },
 ];
@@ -173,8 +173,8 @@ const ROUTES = [
 function renderNav() {
   $("#nav").innerHTML = ROUTES.filter((r) => can(r.perm)).map((r) =>
     `${r.sep ? `<div class="sep">${r.sep}</div>` : ""}<a href="#/${r.id}" data-id="${r.id}">${r.title}</a>`).join("");
-  const sites = state.me.role === "super_admin" || state.me.role === "auditor" ? "All sites" : state.me.sites.map((s) => s.name).join(", ") || "No sites assigned";
-  $("#whoami").innerHTML = `<strong>${esc(state.me.full_name || state.me.username)}</strong><br>${esc(state.me.role.replace("_", " "))} · ${esc(sites)}`;
+  const locations = state.me.role === "super_admin" || state.me.role === "auditor" ? "All locations" : state.me.locations.map((s) => s.name).join(", ") || "No locations assigned";
+  $("#whoami").innerHTML = `<strong>${esc(state.me.full_name || state.me.username)}</strong><br>${esc(state.me.role.replace("_", " "))} · ${esc(locations)}`;
 }
 
 async function route() {
@@ -207,7 +207,7 @@ async function boot() {
   } catch {
     return renderLogin();
   }
-  state.sites = await api("/api/sites");
+  state.locations = await api("/api/locations");
   $("#sidebar").hidden = false;
   $("#topbar").hidden = false;
   renderNav();
@@ -239,9 +239,9 @@ async function renderOverview() {
     <div class="card"><h2>Active alerts <a class="right small" href="#/alerts">View all</a></h2>${alertList(alerts)}</div>
   </div>
   <div class="grid cols-3">
-    <div class="card"><h2>Sites</h2>${s.sites.length ? `<div class="table-wrap"><table><thead><tr><th>Site</th><th class="num">Cameras</th><th class="num">Online</th><th class="num">Faults</th></tr></thead><tbody>
-      ${s.sites.map((x) => `<tr><td>${esc(x.name)}</td><td class="num">${x.cameras}</td><td class="num">${x.online_pct ?? "—"}%</td><td class="num">${x.nvr_faults ? `<span class="badge bad">${x.nvr_faults}</span>` : "0"}</td></tr>`).join("")}</tbody></table></div>` : '<div class="empty">No devices yet.</div>'}</div>
-    <div class="card"><h2>Least reliable cameras (24 h)</h2>${hbars(worst.map((w) => ({ label: `${w.name} · ${w.site}`, value: w.uptime_pct, text: `${w.uptime_pct}%`, cls: w.uptime_pct < 80 ? "bar-bad" : "bar-warn" })), { max: 100 })}</div>
+    <div class="card"><h2>Locations</h2>${s.locations.length ? `<div class="table-wrap"><table><thead><tr><th>Location</th><th class="num">Cameras</th><th class="num">Online</th><th class="num">Faults</th></tr></thead><tbody>
+      ${s.locations.map((x) => `<tr><td>${esc(x.name)}</td><td class="num">${x.cameras}</td><td class="num">${x.online_pct ?? "—"}%</td><td class="num">${x.nvr_faults ? `<span class="badge bad">${x.nvr_faults}</span>` : "0"}</td></tr>`).join("")}</tbody></table></div>` : '<div class="empty">No devices yet.</div>'}</div>
+    <div class="card"><h2>Least reliable cameras (24 h)</h2>${hbars(worst.map((w) => ({ label: `${w.name} · ${w.location}`, value: w.uptime_pct, text: `${w.uptime_pct}%`, cls: w.uptime_pct < 80 ? "bar-bad" : "bar-warn" })), { max: 100 })}</div>
     <div class="card"><h2>Image &amp; stream issues now</h2>${hbars(issues.map(([k, v]) => ({ label: k.replace("_", " "), value: v, cls: "bar-warn" })))}</div>
   </div>
   <div class="card"><h2>AI events by type (7 days)</h2>${hbars(Object.entries(evs.by_type).sort((a, b) => b[1].total - a[1].total).map(([k, v]) => ({ label: k.replaceAll("_", " "), value: v.total, text: `${v.total} (${v.false_alarm} false)` })))}</div>`;
@@ -262,7 +262,7 @@ function bindAlertAcks(root) {
 }
 
 // ---------------------------------------------------------------- cameras --
-const camFilters = { site_id: "", status: "", power_type: "", q: "" };
+const camFilters = { location_id: "", status: "", power_type: "", q: "" };
 async function renderCameras() {
   const qs = new URLSearchParams(Object.entries(camFilters).filter(([, v]) => v)).toString();
   const cams = await api(`/api/cameras?${qs}`);
@@ -271,16 +271,16 @@ async function renderCameras() {
   view.innerHTML = `
   <div class="toolbar">
     <input class="grow" id="fq" placeholder="Search name, zone or IP" value="${esc(camFilters.q)}">
-    <select id="fsite">${siteOptions(camFilters.site_id)}</select>
+    <select id="fsite">${locOptions(camFilters.location_id)}</select>
     <select id="fstatus"><option value="">Any status</option>${["online", "offline", "unknown"].map((s) => `<option ${camFilters.status === s ? "selected" : ""}>${s}</option>`).join("")}</select>
     <select id="fpower"><option value="">Any power</option>${["poe", "mains", "battery", "solar"].map((s) => `<option ${camFilters.power_type === s ? "selected" : ""}>${s}</option>`).join("")}</select>
     <button class="btn" id="exportCsv">Export CSV</button>
   </div>
   <div class="card"><div class="muted small">${cams.length} cameras · click a row for details and history</div>
-  <div class="table-wrap"><table><thead><tr><th>Camera</th><th>Site / zone</th><th>Status</th><th>Last seen</th><th class="num">FPS</th><th class="num">Bitrate</th><th class="num">Latency</th><th>Image</th><th>Power</th><th>Firmware</th></tr></thead><tbody>
+  <div class="table-wrap"><table><thead><tr><th>Camera</th><th>Location / zone</th><th>Status</th><th>Last seen</th><th class="num">FPS</th><th class="num">Bitrate</th><th class="num">Latency</th><th>Image</th><th>Power</th><th>Firmware</th></tr></thead><tbody>
   ${cams.map((c) => { const d = c.health.data; const fl = imgFlags(d); const lowFps = d.fps != null && d.fps < 0.6 * c.target_fps; return `<tr class="clickable" data-cam="${c.id}">
     <td><strong>${esc(c.name)}</strong><div class="muted small">${esc(c.nvr ? `${c.nvr} CH${c.channel}` : c.host)}</div></td>
-    <td>${esc(c.site)}<div class="muted small">${esc([c.building, c.floor && `Floor ${c.floor}`, c.zone].filter(Boolean).join(" · "))}</div></td>
+    <td>${esc(c.location)}<div class="muted small">${esc([c.building, c.floor && `Floor ${c.floor}`, c.zone].filter(Boolean).join(" · "))}</div></td>
     <td>${statusBadge(c.health.status)}</td><td class="small">${ago(c.health.last_seen)}</td>
     <td class="num">${d.fps != null ? `<span class="${lowFps ? "badge warn" : ""}">${d.fps}</span><span class="muted small">/${c.target_fps}</span>` : NA}</td>
     <td class="num">${d.bitrate_kbps != null ? `${Math.round(d.bitrate_kbps)} kbps` : NA}</td>
@@ -291,7 +291,7 @@ async function renderCameras() {
   </tbody></table></div></div>`;
   const reload = () => renderCameras();
   $("#fq").onchange = (e) => { camFilters.q = e.target.value; reload(); };
-  $("#fsite").onchange = (e) => { camFilters.site_id = e.target.value; reload(); };
+  $("#fsite").onchange = (e) => { camFilters.location_id = e.target.value; reload(); };
   $("#fstatus").onchange = (e) => { camFilters.status = e.target.value; reload(); };
   $("#fpower").onchange = (e) => { camFilters.power_type = e.target.value; reload(); };
   $("#exportCsv").onclick = async () => download("cameras.csv", await api("/api/cameras/export.csv"));
@@ -329,7 +329,7 @@ async function cameraDetail(id, hours = 24) {
     <div class="card"><h2>FPS</h2>${lineChart([{ points: m.fps }], { yMax: Math.max(c.target_fps, 1) })}</div>
     <div class="card"><h2>Latency (ms)</h2>${lineChart([{ points: m.latency_ms }], { yMin: 0 })}</div>
     ${battery ? `<div class="card"><h2>Battery %</h2>${lineChart([{ points: m.battery_pct }], { yMax: 100, unit: "%" })}</div>` : ""}
-    <div class="card"><h2>Device</h2><dl class="kv">${row("Site", esc(c.site))}${row("Location", esc([c.building, c.floor, c.zone].filter(Boolean).join(" / ") || "—"))}
+    <div class="card"><h2>Device</h2><dl class="kv">${row("Location", esc(c.location))}${row("Location", esc([c.building, c.floor, c.zone].filter(Boolean).join(" / ") || "—"))}
       ${row("NVR", c.nvr ? `${esc(c.nvr)} CH${c.channel}` : "—")}${row("Vendor / model", esc(`${c.vendor} ${c.model || d.model || ""}`))}
       ${row("Host", esc(c.host || "—"))}${row("Main stream", esc(c.rtsp_url || "—"))}${row("Sub stream", esc(c.sub_stream_url || "—"))}
       ${row("Driver", esc(c.driver))}${row("Analytics", c.analytics.length ? c.analytics.map((a) => esc(a.type)).join(", ") : "None configured")}</dl></div>`);
@@ -352,8 +352,8 @@ async function renderBatteries() {
     <div class="card kpi"><div class="label">Average charge</div><div class="value">${avg == null ? "—" : `${avg.toFixed(0)}%`}</div><div class="sub">&nbsp;</div></div>
     <div class="card kpi"><div class="label">Charging now</div><div class="value">${rep.filter((c) => c.health.data.charging).length}</div><div class="sub">&nbsp;</div></div></div>
   <div class="card"><h2>Battery health <span class="right muted small">sorted lowest first · "Not supported" = the device does not report this</span></h2>
-  <div class="table-wrap"><table><thead><tr><th>Camera</th><th>Site</th><th>Status</th><th>Charge</th><th></th><th class="num">Voltage</th><th>Charging</th><th class="num">Temp</th><th class="num">Time left</th><th class="num">Solar</th><th class="num">Signal</th></tr></thead><tbody>
-  ${cams.map((c) => { const d = c.health.data; return `<tr class="clickable" data-cam="${c.id}"><td><strong>${esc(c.name)}</strong><div class="muted small">${esc(c.power_type)}</div></td><td>${esc(c.site)}</td><td>${statusBadge(c.health.status)}</td>
+  <div class="table-wrap"><table><thead><tr><th>Camera</th><th>Location</th><th>Status</th><th>Charge</th><th></th><th class="num">Voltage</th><th>Charging</th><th class="num">Temp</th><th class="num">Time left</th><th class="num">Solar</th><th class="num">Signal</th></tr></thead><tbody>
+  ${cams.map((c) => { const d = c.health.data; return `<tr class="clickable" data-cam="${c.id}"><td><strong>${esc(c.name)}</strong><div class="muted small">${esc(c.power_type)}</div></td><td>${esc(c.location)}</td><td>${statusBadge(c.health.status)}</td>
     <td class="num">${d.battery_pct != null ? `${d.battery_pct}%` : NA}</td><td>${d.battery_pct != null ? meter(d.battery_pct) : ""}</td>
     <td class="num">${fmt(d.battery_voltage, " V", 2)}</td><td>${d.charging == null ? NA : d.charging ? '<span class="badge ok">yes</span>' : "no"}</td>
     <td class="num">${fmt(d.battery_temp_c, " °C")}</td><td class="num">${fmt(d.est_hours_left, " h", 0)}</td>
@@ -366,9 +366,9 @@ async function renderBatteries() {
 async function renderNvrs() {
   const nvrs = await api("/api/nvrs");
   view.innerHTML = `<div class="card"><h2>NVR / DVR status</h2><div class="table-wrap"><table><thead><tr>
-    <th>NVR</th><th>Site</th><th>Status</th><th>Last seen</th><th class="num">Cameras</th><th>Recording</th><th>Disks</th><th>Storage used</th><th></th><th class="num">Retention</th><th class="num">Temp</th><th>Firmware</th></tr></thead><tbody>
+    <th>NVR</th><th>Location</th><th>Status</th><th>Last seen</th><th class="num">Cameras</th><th>Recording</th><th>Disks</th><th>Storage used</th><th></th><th class="num">Retention</th><th class="num">Temp</th><th>Firmware</th></tr></thead><tbody>
   ${nvrs.map((n) => { const d = n.health.data; const used = d.storage_used_pct; return `<tr class="clickable" data-nvr="${n.id}">
-    <td><strong>${esc(n.name)}</strong><div class="muted small">${esc(n.vendor)} ${esc(d.model || n.model)} · ${esc(n.host)}</div></td><td>${esc(n.site)}</td>
+    <td><strong>${esc(n.name)}</strong><div class="muted small">${esc(n.vendor)} ${esc(d.model || n.model)} · ${esc(n.host)}</div></td><td>${esc(n.location)}</td>
     <td>${statusBadge(n.health.status)}</td><td class="small">${ago(n.health.last_seen)}</td><td class="num">${n.camera_count}/${n.channels}</td>
     <td>${d.recording_channels != null ? `<span class="badge ${d.recording_channels < d.total_channels ? "warn" : "ok"}">${d.recording_channels}/${d.total_channels} ch</span>` : NA}</td>
     <td>${d.disk_count != null ? (d.disk_errors ? `<span class="badge bad">${d.disk_errors} error / ${d.disk_count}</span>` : `<span class="badge ok">${d.disk_count} OK</span>`) : NA}</td>
@@ -395,14 +395,14 @@ async function nvrDetail(id) {
 }
 
 // ---------------------------------------------------------------- alerts ---
-const alertFilters = { status: "active", severity: "", site_id: "" };
+const alertFilters = { status: "active", severity: "", location_id: "" };
 async function renderAlerts() {
   const qs = new URLSearchParams(Object.entries(alertFilters).filter(([, v]) => v)).toString();
   const alerts = await api(`/api/alerts?${qs}`);
   view.innerHTML = `<div class="toolbar">
     <select id="aStatus">${["active", "open", "acknowledged", "resolved", "all"].map((s) => `<option ${alertFilters.status === s ? "selected" : ""}>${s}</option>`).join("")}</select>
     <select id="aSev"><option value="">Any severity</option>${["critical", "warning", "info"].map((s) => `<option ${alertFilters.severity === s ? "selected" : ""}>${s}</option>`).join("")}</select>
-    <select id="aSite">${siteOptions(alertFilters.site_id)}</select></div>
+    <select id="aSite">${locOptions(alertFilters.location_id)}</select></div>
   <div class="card"><div class="table-wrap"><table><thead><tr><th>Severity</th><th>Alert</th><th>Device</th><th>Opened</th><th>Status</th><th></th></tr></thead><tbody>
   ${alerts.map((a) => `<tr><td>${sevBadge(a.severity)}</td><td>${esc(a.message)}</td><td>${esc(a.device_type)}</td><td class="small">${localTime(a.opened_at)}</td>
     <td>${esc(a.status)}${a.acknowledged_by ? `<div class="muted small">by ${esc(a.acknowledged_by)}</div>` : ""}${a.resolved_at ? `<div class="muted small">resolved ${ago(a.resolved_at)}</div>` : ""}</td>
@@ -410,12 +410,12 @@ async function renderAlerts() {
   </tbody></table></div></div>`;
   $("#aStatus").onchange = (e) => { alertFilters.status = e.target.value; renderAlerts(); };
   $("#aSev").onchange = (e) => { alertFilters.severity = e.target.value; renderAlerts(); };
-  $("#aSite").onchange = (e) => { alertFilters.site_id = e.target.value; renderAlerts(); };
+  $("#aSite").onchange = (e) => { alertFilters.location_id = e.target.value; renderAlerts(); };
   bindAlertAcks(view);
 }
 
 // ---------------------------------------------------------------- events ---
-const evFilters = { status: "new", type: "", site_id: "" };
+const evFilters = { status: "new", type: "", location_id: "" };
 async function renderEvents() {
   const qs = new URLSearchParams(Object.entries(evFilters).filter(([, v]) => v)).toString();
   const [events, stats] = await Promise.all([api(`/api/events?${qs}`), api("/api/events/stats?days=7")]);
@@ -423,17 +423,17 @@ async function renderEvents() {
   view.innerHTML = `<div class="toolbar">
     <select id="eStatus"><option value="">Any status</option>${["new", "acknowledged", "true_alarm", "false_alarm"].map((s) => `<option value="${s}" ${evFilters.status === s ? "selected" : ""}>${s.replace("_", " ")}</option>`).join("")}</select>
     <select id="eType"><option value="">Any type</option>${types.map((t) => `<option ${evFilters.type === t ? "selected" : ""}>${esc(t)}</option>`).join("")}</select>
-    <select id="eSite">${siteOptions(evFilters.site_id)}</select>
+    <select id="eSite">${locOptions(evFilters.location_id)}</select>
     <span class="grow"></span><span class="muted small">False-alarm rate (7 d, reviewed events): <strong>${stats.false_alarm_pct ?? "—"}${stats.false_alarm_pct != null ? "%" : ""}</strong> of ${stats.reviewed}</span></div>
   <div class="card"><div class="table-wrap"><table><thead><tr><th>Time</th><th>Event</th><th>Camera</th><th>Zone</th><th class="num">Confidence</th><th>Source</th><th>Status</th><th></th></tr></thead><tbody>
   ${events.map((e) => `<tr><td class="small">${localTime(e.ts)}</td><td><strong>${esc(e.type.replaceAll("_", " "))}</strong><div class="muted small">${esc(e.object_class)}</div></td>
-    <td>${esc(e.camera)}<div class="muted small">${esc(e.site)}</div></td><td>${esc(e.zone)}</td><td class="num">${(e.confidence * 100).toFixed(0)}%</td>
+    <td>${esc(e.camera)}<div class="muted small">${esc(e.location)}</div></td><td>${esc(e.zone)}</td><td class="num">${(e.confidence * 100).toFixed(0)}%</td>
     <td><span class="badge neutral">${esc(e.source)}</span></td><td>${evStatusBadge(e.status)}</td>
     <td>${can("ack") ? `<button class="btn small" data-ev="${e.id}" data-st="true_alarm">True</button> <button class="btn small" data-ev="${e.id}" data-st="false_alarm">False</button>${e.status === "new" ? ` <button class="btn small" data-ev="${e.id}" data-st="acknowledged">Ack</button>` : ""}` : ""}</td></tr>`).join("") || '<tr><td colspan="8" class="empty">No events.</td></tr>'}
   </tbody></table></div><div class="muted small">Marking events True/False feeds the false-alarm statistics used to tune thresholds per camera.</div></div>`;
   $("#eStatus").onchange = (e) => { evFilters.status = e.target.value; renderEvents(); };
   $("#eType").onchange = (e) => { evFilters.type = e.target.value; renderEvents(); };
-  $("#eSite").onchange = (e) => { evFilters.site_id = e.target.value; renderEvents(); };
+  $("#eSite").onchange = (e) => { evFilters.location_id = e.target.value; renderEvents(); };
   $$("[data-ev]").forEach((b) => (b.onclick = async () => {
     b.disabled = true;
     try { await api(`/api/events/${b.dataset.ev}/handle`, { method: "POST", json: { status: b.dataset.st } }); renderEvents(); } catch (e) { toast(e.message); b.disabled = false; }
@@ -448,7 +448,7 @@ async function renderDevices(tab = "camera") {
   const opt = (arr, sel) => arr.map((v) => `<option ${v === sel ? "selected" : ""}>${v}</option>`).join("");
   const body = {
     camera: `<form id="camForm" class="card"><div class="form-grid">
-      <label class="field">Name*<input name="name" required></label><label class="field">Site*<select name="site_id" required>${siteOptions("", false)}</select></label>
+      <label class="field">Name*<input name="name" required></label><label class="field">Location*<select name="location_id" required>${locOptions("", false)}</select></label>
       <label class="field">Vendor<input name="vendor" value="generic"></label><label class="field">Model<input name="model"></label>
       <label class="field">IP / host (ONVIF)<input name="host"></label><label class="field">ONVIF port<input name="onvif_port" type="number" value="80"></label>
       <label class="field">Main stream RTSP URL<input name="rtsp_url" placeholder="rtsp://…"></label><label class="field">Sub stream RTSP URL<input name="sub_stream_url" placeholder="rtsp://…"></label>
@@ -459,10 +459,10 @@ async function renderDevices(tab = "camera") {
       <div class="toolbar"><button class="btn primary" type="submit">Add camera</button><span class="muted small">${info.ffmpeg_available ? "FFmpeg found: FPS, bitrate and image health will be measured." : "FFmpeg not found: only reachability will be checked."}</span></div></form>`,
     csv: `<div class="card"><p class="muted">Paste CSV (or choose a file). Every row is validated first; nothing is imported unless all rows are valid.</p>
       <div class="toolbar"><button class="btn" id="tplBtn">Download template</button><input type="file" id="csvFile" accept=".csv,text/csv"></div>
-      <textarea id="csvText" placeholder="name,site,host,rtsp_url,…"></textarea>
+      <textarea id="csvText" placeholder="name,location,host,rtsp_url,…"></textarea>
       <div class="toolbar"><button class="btn" id="csvCheck">Validate</button><button class="btn primary" id="csvImport">Import</button></div><div id="csvResult"></div></div>`,
     nvr: `<form id="nvrForm" class="card"><div class="form-grid">
-      <label class="field">Name*<input name="name" required></label><label class="field">Site*<select name="site_id">${siteOptions("", false)}</select></label>
+      <label class="field">Name*<input name="name" required></label><label class="field">Location*<select name="location_id">${locOptions("", false)}</select></label>
       <label class="field">Vendor<select name="vendor">${opt(["hikvision", "dahua", "cpplus", "generic"])}</select></label><label class="field">Model<input name="model"></label>
       <label class="field">IP / host*<input name="host" required></label><label class="field">HTTP port<input name="http_port" type="number" value="80"></label>
       <label class="field">RTSP port<input name="rtsp_port" type="number" value="554"></label><label class="field">Channels<input name="channels" type="number" value="16" min="1" max="256"></label>
@@ -484,11 +484,11 @@ async function renderDevices(tab = "camera") {
   const formJson = (f, nums = []) => { const o = Object.fromEntries(new FormData(f)); nums.forEach((k) => { if (o[k] !== undefined && o[k] !== "") o[k] = Number(o[k]); }); return o; };
   if (tab === "camera") $("#camForm").onsubmit = async (e) => {
     e.preventDefault();
-    try { const c = await api("/api/cameras", { method: "POST", json: formJson(e.target, ["site_id", "onvif_port", "target_fps"]) }); toast(`Added ${c.name}`); e.target.reset(); } catch (er) { toast(er.message); }
+    try { const c = await api("/api/cameras", { method: "POST", json: formJson(e.target, ["location_id", "onvif_port", "target_fps"]) }); toast(`Added ${c.name}`); e.target.reset(); } catch (er) { toast(er.message); }
   };
   if (tab === "nvr") $("#nvrForm").onsubmit = async (e) => {
     e.preventDefault();
-    try { const n = await api("/api/nvrs", { method: "POST", json: formJson(e.target, ["site_id", "http_port", "rtsp_port", "channels"]) }); toast(`Added ${n.name}. Next: import its channels.`); renderDevices("channels"); } catch (er) { toast(er.message); }
+    try { const n = await api("/api/nvrs", { method: "POST", json: formJson(e.target, ["location_id", "http_port", "rtsp_port", "channels"]) }); toast(`Added ${n.name}. Next: import its channels.`); renderDevices("channels"); } catch (er) { toast(er.message); }
   };
   if (tab === "channels") $("#chForm").onsubmit = async (e) => {
     e.preventDefault();
@@ -560,26 +560,26 @@ async function renderRules() {
 // ----------------------------------------------------------------- users ---
 async function renderUsers() {
   const users = await api("/api/users");
-  state.sites = await api("/api/sites");
+  state.locations = await api("/api/locations");
   const roles = ["super_admin", "site_admin", "operator", "viewer", "auditor"];
-  view.innerHTML = `<div class="grid cols-2"><div class="card"><h2>Users</h2><div class="table-wrap"><table><thead><tr><th>User</th><th>Role</th><th>Sites</th><th>Active</th><th></th></tr></thead><tbody>
+  view.innerHTML = `<div class="grid cols-2"><div class="card"><h2>Users</h2><div class="table-wrap"><table><thead><tr><th>User</th><th>Role</th><th>Locations</th><th>Active</th><th></th></tr></thead><tbody>
     ${users.map((u) => `<tr><td><strong>${esc(u.username)}</strong><div class="muted small">${esc(u.full_name)}</div></td><td>${esc(u.role.replace("_", " "))}</td>
-    <td class="small">${u.role === "super_admin" || u.role === "auditor" ? "All" : esc(u.sites.map((s) => s.name).join(", ") || "None")}</td><td>${u.active ? "Yes" : '<span class="badge neutral">disabled</span>'}</td>
+    <td class="small">${u.role === "super_admin" || u.role === "auditor" ? "All" : esc(u.locations.map((s) => s.name).join(", ") || "None")}</td><td>${u.active ? "Yes" : '<span class="badge neutral">disabled</span>'}</td>
     <td><button class="btn small" data-edit="${u.id}">Edit</button></td></tr>`).join("")}</tbody></table></div></div>
-    <div class="card"><h2>Sites</h2><div class="list">${state.sites.map((s) => `<div class="list-item"><div class="main-col"><div class="title">${esc(s.name)}</div><div class="muted small">${esc(s.city)}</div></div></div>`).join("") || '<div class="empty">No sites yet.</div>'}</div>
-    <form id="siteForm" class="toolbar"><input name="name" placeholder="New site name" required class="grow"><input name="city" placeholder="City" size="12"><button class="btn primary">Add site</button></form></div></div>
+    <div class="card"><h2>Locations</h2><div class="list">${state.locations.map((s) => `<div class="list-item"><div class="main-col"><div class="title">${esc(s.name)}</div><div class="muted small">${esc(s.city)}</div></div></div>`).join("") || '<div class="empty">No locations yet.</div>'}</div>
+    <form id="siteForm" class="toolbar"><input name="name" placeholder="New location name" required class="grow"><input name="city" placeholder="City" size="12"><button class="btn primary">Add location</button></form></div></div>
     <form class="card" id="userForm"><h2 id="uTitle">Add user</h2><input type="hidden" name="id"><div class="form-grid">
       <label class="field">Username<input name="username" required pattern="[A-Za-z0-9_.\\-]+"></label><label class="field">Full name<input name="full_name"></label>
       <label class="field">Role<select name="role">${roles.map((r) => `<option value="${r}">${r.replace("_", " ")}</option>`).join("")}</select></label>
       <label class="field">Password (min 10)<input name="password" type="password" autocomplete="new-password"></label>
-      <label class="field">Sites (site admin / operator / viewer)<select name="site_ids" multiple size="4">${siteOptions("", false)}</select></label>
+      <label class="field">Locations (location admin / operator / viewer)<select name="location_ids" multiple size="4">${locOptions("", false)}</select></label>
       <label class="field">Active<select name="active"><option value="true">Yes</option><option value="false">No</option></select></label></div>
       <div class="toolbar"><button class="btn primary">Save user</button><button class="btn" type="reset" id="uReset">Clear</button></div></form>`;
   const f = $("#userForm");
   $$("[data-edit]").forEach((b) => (b.onclick = () => {
     const u = users.find((x) => x.id === +b.dataset.edit);
     f.id.value = u.id; f.username.value = u.username; f.username.readOnly = true; f.full_name.value = u.full_name; f.role.value = u.role; f.active.value = String(u.active);
-    [...f.site_ids.options].forEach((o) => (o.selected = u.sites.some((s) => String(s.id) === o.value)));
+    [...f.location_ids.options].forEach((o) => (o.selected = u.locations.some((s) => String(s.id) === o.value)));
     $("#uTitle").textContent = `Edit ${u.username}`;
     f.scrollIntoView({ behavior: "smooth" });
   }));
@@ -587,7 +587,7 @@ async function renderUsers() {
   f.onsubmit = async (e) => {
     e.preventDefault();
     const body = { username: f.username.value, full_name: f.full_name.value, role: f.role.value, active: f.active.value === "true",
-      site_ids: [...f.site_ids.selectedOptions].map((o) => +o.value), password: f.password.value || null };
+      location_ids: [...f.location_ids.selectedOptions].map((o) => +o.value), password: f.password.value || null };
     try {
       if (f.id.value) await api(`/api/users/${f.id.value}`, { method: "PATCH", json: body });
       else await api("/api/users", { method: "POST", json: body });
@@ -596,7 +596,7 @@ async function renderUsers() {
   };
   $("#siteForm").onsubmit = async (e) => {
     e.preventDefault();
-    try { await api("/api/sites", { method: "POST", json: Object.fromEntries(new FormData(e.target)) }); state.sites = await api("/api/sites"); renderUsers(); } catch (er) { toast(er.message); }
+    try { await api("/api/locations", { method: "POST", json: Object.fromEntries(new FormData(e.target)) }); state.locations = await api("/api/locations"); renderUsers(); } catch (er) { toast(er.message); }
   };
 }
 
@@ -604,12 +604,12 @@ async function renderUsers() {
 async function renderEdge() {
   const devs = await api("/api/edge-devices");
   view.innerHTML = `<div class="card"><h2>Edge AI devices</h2><p class="muted small">Edge boxes (Jetson, NUC, AI cameras) push analytics events to <code>POST /api/edge/events</code> with header <code>X-Edge-Key</code>. Run <code>python -m sentinel.analytics.runner</code> on the box.</p>
-  <table><thead><tr><th>Name</th><th>Site</th><th>Key prefix</th><th>Last seen</th><th></th></tr></thead><tbody>
-  ${devs.map((d) => `<tr><td>${esc(d.name)}</td><td>${esc(state.sites.find((s) => s.id === d.site_id)?.name || d.site_id)}</td><td><code>sc_${esc(d.key_prefix)}_…</code></td><td>${ago(d.last_seen)}</td><td><button class="btn small danger" data-del="${d.id}">Revoke</button></td></tr>`).join("") || '<tr><td colspan="5" class="empty">None registered.</td></tr>'}</tbody></table></div>
-  <form class="card" id="edgeForm"><h2>Register edge device</h2><div class="toolbar"><input name="name" placeholder="Name" required><select name="site_id">${siteOptions("", false)}</select><button class="btn primary">Create key</button></div><div id="edgeKey"></div></form>`;
+  <table><thead><tr><th>Name</th><th>Location</th><th>Key prefix</th><th>Last seen</th><th></th></tr></thead><tbody>
+  ${devs.map((d) => `<tr><td>${esc(d.name)}</td><td>${esc(state.locations.find((s) => s.id === d.location_id)?.name || d.location_id)}</td><td><code>sc_${esc(d.key_prefix)}_…</code></td><td>${ago(d.last_seen)}</td><td><button class="btn small danger" data-del="${d.id}">Revoke</button></td></tr>`).join("") || '<tr><td colspan="5" class="empty">None registered.</td></tr>'}</tbody></table></div>
+  <form class="card" id="edgeForm"><h2>Register edge device</h2><div class="toolbar"><input name="name" placeholder="Name" required><select name="location_id">${locOptions("", false)}</select><button class="btn primary">Create key</button></div><div id="edgeKey"></div></form>`;
   $("#edgeForm").onsubmit = async (e) => {
     e.preventDefault();
-    const o = Object.fromEntries(new FormData(e.target)); o.site_id = +o.site_id;
+    const o = Object.fromEntries(new FormData(e.target)); o.location_id = +o.location_id;
     try { const r = await api("/api/edge-devices", { method: "POST", json: o }); $("#edgeKey").innerHTML = `<p class="err">${esc(r.note)}</p><pre class="code">${esc(r.api_key)}</pre>`; } catch (er) { toast(er.message); }
   };
   $$("[data-del]").forEach((b) => (b.onclick = async () => { if (confirm("Revoke this device's key?")) { await api(`/api/edge-devices/${b.dataset.del}`, { method: "DELETE" }); renderEdge(); } }));

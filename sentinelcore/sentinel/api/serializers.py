@@ -16,39 +16,52 @@ def state_dict(st: DeviceState | None) -> dict:
             "last_checked": iso(st.last_checked), "error": st.error, "data": st.data or {}}
 
 
-def camera_dict(c: Camera, st: DeviceState | None = None) -> dict:
-    return {"id": c.id, "name": c.name, "site_id": c.site_id, "site": c.site.name if c.site else "",
+def identity(d) -> dict:
+    return {"manufacturer": d.manufacturer, "serial_number": d.serial_number, "firmware": d.firmware,
+            "mac_address": d.mac_address, "department": d.department, "info_updated_at": iso(d.info_updated_at)}
+
+
+def camera_dict(c: Camera, st: DeviceState | None = None, path: str = "") -> dict:
+    return {"id": c.id, "name": c.name, "location_id": c.location_id, "location": c.location.name if c.location else "",
+            "location_path": path or (c.location.name if c.location else ""),
+            "org_id": c.location.org_id if c.location else None, "org": c.location.org.name if c.location else "",
             "nvr_id": c.nvr_id, "nvr": c.nvr.name if c.nvr else None, "channel": c.channel, "vendor": c.vendor,
             "model": c.model, "host": c.host, "onvif_port": c.onvif_port, "rtsp_url": c.rtsp_url,
             "sub_stream_url": c.sub_stream_url, "username": c.username, "has_password": bool(c.password_enc),
             "power_type": c.power_type, "driver": c.driver, "building": c.building, "floor": c.floor,
             "zone": c.zone, "tags": c.tags or [], "target_fps": c.target_fps, "analytics": c.analytics or [],
-            "enabled": c.enabled, "health": state_dict(st)}
+            **identity(c), "enabled": c.enabled, "health": state_dict(st)}
 
 
-def nvr_dict(n: NVR, st: DeviceState | None = None, camera_count: int = 0) -> dict:
-    return {"id": n.id, "name": n.name, "site_id": n.site_id, "site": n.site.name if n.site else "",
+def nvr_dict(n: NVR, st: DeviceState | None = None, camera_count: int = 0, path: str = "") -> dict:
+    return {"id": n.id, "name": n.name, "location_id": n.location_id, "location": n.location.name if n.location else "",
+            "location_path": path or (n.location.name if n.location else ""),
+            "org_id": n.location.org_id if n.location else None, "org": n.location.org.name if n.location else "",
             "vendor": n.vendor, "model": n.model, "host": n.host, "http_port": n.http_port, "rtsp_port": n.rtsp_port,
             "username": n.username, "has_password": bool(n.password_enc), "channels": n.channels,
-            "driver": n.driver, "enabled": n.enabled, "camera_count": camera_count, "health": state_dict(st)}
+            "driver": n.driver, **identity(n), "enabled": n.enabled, "camera_count": camera_count,
+            "health": state_dict(st)}
 
 
 def alert_dict(a: Alert, device_name: str = "") -> dict:
     return {"id": a.id, "rule_id": a.rule_id, "device_type": a.device_type, "device_id": a.device_id,
-            "device_name": device_name, "site_id": a.site_id, "severity": a.severity, "message": a.message,
+            "device_name": device_name, "location_id": a.location_id, "severity": a.severity, "message": a.message,
             "value": a.value, "status": a.status, "opened_at": iso(a.opened_at),
             "acknowledged_by": a.acknowledged_by, "acknowledged_at": iso(a.acknowledged_at),
             "resolved_at": iso(a.resolved_at)}
 
 
-def event_dict(e: Event, camera_name: str = "", site_name: str = "") -> dict:
-    return {"id": e.id, "ts": iso(e.ts), "camera_id": e.camera_id, "camera": camera_name, "site_id": e.site_id,
-            "site": site_name, "type": e.type, "object_class": e.object_class, "confidence": e.confidence,
+def event_dict(e: Event, camera_name: str = "", location_name: str = "") -> dict:
+    return {"id": e.id, "ts": iso(e.ts), "camera_id": e.camera_id, "camera": camera_name, "location_id": e.location_id,
+            "location": location_name, "type": e.type, "object_class": e.object_class, "confidence": e.confidence,
             "zone": e.zone, "source": e.source, "details": e.details or {}, "snapshot_url": e.snapshot_url,
             "clip_url": e.clip_url, "status": e.status, "handled_by": e.handled_by, "handled_at": iso(e.handled_at),
             "notes": e.notes}
 
 
-def user_dict(u: User) -> dict:
-    return {"id": u.id, "username": u.username, "full_name": u.full_name, "role": u.role, "active": u.active,
-            "sites": [{"id": s.id, "name": s.name} for s in u.sites], "created_at": iso(u.created_at)}
+def user_dict(u: User, paths: dict[int, str] | None = None) -> dict:
+    paths = paths or {}
+    return {"id": u.id, "username": u.username, "full_name": u.full_name, "designation": u.designation,
+            "role": u.role, "active": u.active, "org_id": u.org_id, "org": u.org.name if u.org else "",
+            "locations": [{"id": s.id, "name": s.name, "path": paths.get(s.id, s.name)} for s in u.locations],
+            "created_at": iso(u.created_at)}

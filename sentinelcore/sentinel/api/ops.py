@@ -15,43 +15,68 @@ from ..audit import audit
 from ..db import get_db
 from ..health.alerts import OPS
 from ..health.probes import ffprobe_available
-from ..models import (EVENT_STATUSES, NVR, ROLES, Alert, AlertRule, AuditLog, Camera, DeviceState, EdgeDevice, Event,
-                      HealthMetric, Site, User, utcnow)
-from ..security import (check_site, hash_password, require, scope_filter, verify_password)
+from ..models import (EVENT_STATUSES, NVR, Alert, AlertRule, AuditLog, Camera, DeviceState, EdgeDevice, Event,
+                      HealthMetric, Location, User, utcnow)
+from ..security import (branch_of, check_location, descendants, hash_password, location_path, location_tree, require,
+                        scope_filter, verify_password)
 from ..config import settings
-from .serializers import alert_dict, event_dict, iso, user_dict
+from .serializers import alert_dict, event_dict, iso
 
 router = APIRouter(prefix="/api", tags=["ops"])
 VERSION = "0.1.0"
 
 
+def _subtree(db: Session, user: User, location_id: int) -> set[int]:
+    check_location(db, user, location_id)
+    loc = db.get(Location, location_id)
+    return descendants(location_tree(db, loc.org_id), {location_id})
+
+
+def _org_locs(org_id: int):
+    return select(Location.id).where(Location.org_id == org_id)
+
+
 def _scoped_ids(db: Session, model, user: User) -> list[int]:
-    return list(db.scalars(scope_filter(select(model.id), model.site_id, user)))
+    return list(db.scalars(scope_filter(db, select(model.id), model.location_id, user)))
 
 
 # ------------------------------------------------------------ health summary
 @router.get("/health/summary")
-def health_summary(user: User = Depends(require("view")), db: Session = Depends(get_db), site_id: int | None = None):
-    cam_q = scope_filter(select(Camera).where(Camera.enabled.is_(True)), Camera.site_id, user)
-    nvr_q = scope_filter(select(NVR).where(NVR.enabled.is_(True)), NVR.site_id, user)
-    if site_id:
-        check_site(user, site_id)
-        cam_q, nvr_q = cam_q.where(Camera.site_id == site_id), nvr_q.where(NVR.site_id == site_id)
+def health_summary(user: User = Depends(require("view")), db: Session = Depends(get_db), location_id: int | None = None,
+                   org_id: int | None = None):
+    cam_q = scope_filter(db, select(Camera).where(Camera.enabled.is_(True)), Camera.location_id, user)
+    nvr_q = scope_filter(db, select(NVR).where(NVR.enabled.is_(True)), NVR.location_id, user)
+    alert_extra, event_extra = None, None
+    if location_id:
+        sub = _subtree(db, user, location_id)
+        cam_q, nvr_q = cam_q.where(Camera.location_id.in_(sub)), nvr_q.where(NVR.location_id.in_(sub))
+        alert_extra, event_extra = Alert.location_id.in_(sub), Event.location_id.in_(sub)
+    elif org_id:
+        cam_q, nvr_q = cam_q.where(Camera.location_id.in_(_org_locs(org_id))), nvr_q.where(NVR.location_id.in_(_org_locs(org_id)))
+        alert_extra, event_extra = Alert.location_id.in_(_org_locs(org_id)), Event.location_id.in_(_org_locs(org_id))
     cams, nvrs = db.scalars(cam_q).all(), db.scalars(nvr_q).all()
     cstates = {s.device_id: s for s in db.scalars(select(DeviceState).where(DeviceState.device_type == "camera"))}
     nstates = {s.device_id: s for s in db.scalars(select(DeviceState).where(DeviceState.device_type == "nvr"))}
 
+    trees: dict[int, dict] = {}
+
+    def _branch(loc_id: int, org_id: int) -> tuple[int, str]:
+        tree = trees.setdefault(org_id, location_tree(db, org_id))
+        b = branch_of(tree, loc_id) or loc_id
+        return b, location_path(tree, b)
+
     cam = Counter()
     battery = {"devices": 0, "reporting": 0, "low": 0, "critical": 0, "charging": 0}
     image_issues = Counter()
-    per_site: dict[int, dict] = defaultdict(lambda: {"cameras": 0, "online": 0, "nvrs": 0, "nvr_faults": 0, "name": ""})
+    per_location: dict[int, dict] = defaultdict(lambda: {"cameras": 0, "online": 0, "nvrs": 0, "nvr_faults": 0, "name": ""})
     simulated = False
     for c in cams:
         st = cstates.get(c.id)
         status = "unknown" if st is None else ("online" if st.online else "offline")
         cam[status] += 1
-        ps = per_site[c.site_id]
-        ps["name"], ps["cameras"] = c.site.name, ps["cameras"] + 1
+        bid, bname = _branch(c.location_id, c.location.org_id)
+        ps = per_location[bid]
+        ps["name"], ps["cameras"] = bname, ps["cameras"] + 1
         ps["online"] += status == "online"
         d = (st.data if st else {}) or {}
         simulated |= d.get("source") == "simulator"
@@ -77,8 +102,9 @@ def health_summary(user: User = Depends(require("view")), db: Session = Depends(
         fault = status != "online" or d.get("disk_errors", 0) > 0
         nvr["fault" if fault else "healthy"] += 1
         nvr[status] += 1
-        ps = per_site[n.site_id]
-        ps["name"], ps["nvrs"], ps["nvr_faults"] = n.site.name, ps["nvrs"] + 1, ps["nvr_faults"] + fault
+        bid, bname = _branch(n.location_id, n.location.org_id)
+        ps = per_location[bid]
+        ps["name"], ps["nvrs"], ps["nvr_faults"] = bname, ps["nvrs"] + 1, ps["nvr_faults"] + fault
         storage["total_gb"] += d.get("storage_total_gb", 0)
         storage["disk_errors"] += d.get("disk_errors", 0)
         if "retention_days" in d:
@@ -86,10 +112,10 @@ def health_summary(user: User = Depends(require("view")), db: Session = Depends(
             storage["min_retention_days"] = d["retention_days"] if r is None else min(r, d["retention_days"])
         if "recording_channels" in d and "total_channels" in d:
             storage["recording_gaps"] += max(0, d["total_channels"] - d["recording_channels"])
-    alert_q = scope_filter(select(Alert.severity, func.count()).where(Alert.status != "resolved"), Alert.site_id, user)
-    event_q = scope_filter(select(func.count()).select_from(Event).where(Event.status == "new"), Event.site_id, user)
-    if site_id:
-        alert_q, event_q = alert_q.where(Alert.site_id == site_id), event_q.where(Event.site_id == site_id)
+    alert_q = scope_filter(db, select(Alert.severity, func.count()).where(Alert.status != "resolved"), Alert.location_id, user)
+    event_q = scope_filter(db, select(func.count()).select_from(Event).where(Event.status == "new"), Event.location_id, user)
+    if alert_extra is not None:
+        alert_q, event_q = alert_q.where(alert_extra), event_q.where(event_extra)
     open_alerts = dict(db.execute(alert_q.group_by(Alert.severity)).all())
     total = len(cams)
     return {
@@ -103,8 +129,8 @@ def health_summary(user: User = Depends(require("view")), db: Session = Depends(
         "storage": {**storage, "total_gb": round(storage["total_gb"], 1)},
         "alerts": {"open": sum(open_alerts.values()), "by_severity": open_alerts},
         "events_new": db.scalar(event_q) or 0,
-        "sites": [{"site_id": k, **v, "online_pct": round(100 * v["online"] / v["cameras"], 1) if v["cameras"] else None}
-                  for k, v in sorted(per_site.items(), key=lambda kv: kv[1]["name"])],
+        "locations": [{"location_id": k, **v, "online_pct": round(100 * v["online"] / v["cameras"], 1) if v["cameras"] else None}
+                  for k, v in sorted(per_location.items(), key=lambda kv: kv[1]["name"])],
     }
 
 
@@ -139,8 +165,8 @@ def worst_devices(hours: int = Query(24, ge=1, le=24 * 30), limit: int = Query(1
     rows = db.execute(select(HealthMetric.device_id, func.avg(HealthMetric.value), func.count()).where(
         HealthMetric.device_type == "camera", HealthMetric.key == "online", HealthMetric.device_id.in_(ids),
         HealthMetric.ts >= since).group_by(HealthMetric.device_id).order_by(func.avg(HealthMetric.value)).limit(limit)).all()
-    names = {c.id: (c.name, c.site.name) for c in db.scalars(select(Camera).where(Camera.id.in_([r[0] for r in rows])))}
-    return [{"camera_id": cid, "name": names.get(cid, ("?", ""))[0], "site": names.get(cid, ("", "?"))[1],
+    names = {c.id: (c.name, c.location.name) for c in db.scalars(select(Camera).where(Camera.id.in_([r[0] for r in rows])))}
+    return [{"camera_id": cid, "name": names.get(cid, ("?", ""))[0], "location": names.get(cid, ("", "?"))[1],
              "uptime_pct": round(100 * avg, 1), "samples": n} for cid, avg, n in rows if avg < 1]
 
 
@@ -158,16 +184,16 @@ def _device_names(db: Session, alerts: list[Alert]) -> dict[tuple[str, int], str
 
 @router.get("/alerts")
 def list_alerts(user: User = Depends(require("view")), db: Session = Depends(get_db), status: str = "active",
-                severity: str | None = None, site_id: int | None = None, limit: int = Query(200, le=1000)):
-    q = scope_filter(select(Alert).order_by(Alert.opened_at.desc()), Alert.site_id, user)
+                severity: str | None = None, location_id: int | None = None, limit: int = Query(200, le=1000)):
+    q = scope_filter(db, select(Alert).order_by(Alert.opened_at.desc()), Alert.location_id, user)
     if status == "active":
         q = q.where(Alert.status != "resolved")
     elif status != "all":
         q = q.where(Alert.status == status)
     if severity:
         q = q.where(Alert.severity == severity)
-    if site_id:
-        q = q.where(Alert.site_id == site_id)
+    if location_id:
+        q = q.where(Alert.location_id.in_(_subtree(db, user, location_id)))
     alerts = db.scalars(q.limit(limit)).all()
     names = _device_names(db, alerts)
     return [alert_dict(a, names.get((a.device_type, a.device_id), "")) for a in alerts]
@@ -178,7 +204,7 @@ def ack_alert(alert_id: int, request: Request, user: User = Depends(require("ack
     a = db.get(Alert, alert_id)
     if not a:
         raise HTTPException(404, "Not found")
-    check_site(user, a.site_id)
+    check_location(db, user, a.location_id)
     if a.status == "open":
         a.status, a.acknowledged_by, a.acknowledged_at = "acknowledged", user.username, utcnow()
         audit(db, user.username, "alert_acknowledged", f"alert {a.id}", request=request)
@@ -248,23 +274,25 @@ def delete_rule(rule_id: int, request: Request, user: User = Depends(require("ma
 # ------------------------------------------------------------------ events
 @router.get("/events")
 def list_events(user: User = Depends(require("view")), db: Session = Depends(get_db), status: str | None = None,
-                type: str | None = None, site_id: int | None = None, camera_id: int | None = None,
+                type: str | None = None, location_id: int | None = None, camera_id: int | None = None,
                 hours: int = Query(24 * 7, le=24 * 365), limit: int = Query(200, le=1000)):
-    q = scope_filter(select(Event).where(Event.ts >= utcnow() - timedelta(hours=hours)).order_by(Event.ts.desc()),
-                     Event.site_id, user)
-    for col, val in ((Event.status, status), (Event.type, type), (Event.site_id, site_id), (Event.camera_id, camera_id)):
+    q = scope_filter(db, select(Event).where(Event.ts >= utcnow() - timedelta(hours=hours)).order_by(Event.ts.desc()),
+                     Event.location_id, user)
+    if location_id:
+        q = q.where(Event.location_id.in_(_subtree(db, user, location_id)))
+    for col, val in ((Event.status, status), (Event.type, type), (Event.camera_id, camera_id)):
         if val:
             q = q.where(col == val)
     events = db.scalars(q.limit(limit)).all()
     cams = {c.id: c for c in db.scalars(select(Camera).where(Camera.id.in_({e.camera_id for e in events})))}
     return [event_dict(e, cams[e.camera_id].name if e.camera_id in cams else "",
-                       cams[e.camera_id].site.name if e.camera_id in cams else "") for e in events]
+                       cams[e.camera_id].location.name if e.camera_id in cams else "") for e in events]
 
 
 @router.get("/events/stats")
 def event_stats(days: int = Query(7, ge=1, le=90), user: User = Depends(require("view")), db: Session = Depends(get_db)):
-    q = scope_filter(select(Event.type, Event.status, func.count()).where(Event.ts >= utcnow() - timedelta(days=days)),
-                     Event.site_id, user).group_by(Event.type, Event.status)
+    q = scope_filter(db, select(Event.type, Event.status, func.count()).where(Event.ts >= utcnow() - timedelta(days=days)),
+                     Event.location_id, user).group_by(Event.type, Event.status)
     by_type: dict[str, dict] = defaultdict(lambda: {"total": 0, "true_alarm": 0, "false_alarm": 0})
     for t, s, n in db.execute(q).all():
         by_type[t]["total"] += n
@@ -290,7 +318,7 @@ def handle_event(event_id: int, body: HandleIn, request: Request, user: User = D
     e = db.get(Event, event_id)
     if not e:
         raise HTTPException(404, "Not found")
-    check_site(user, e.site_id)
+    check_location(db, user, e.location_id)
     e.status, e.handled_by, e.handled_at = body.status, user.username, utcnow()
     if body.notes:
         e.notes = (e.notes + "\n" if e.notes else "") + f"[{user.username}] {body.notes}"
@@ -301,28 +329,31 @@ def handle_event(event_id: int, body: HandleIn, request: Request, user: User = D
 # ------------------------------------------------------------ edge devices
 class EdgeIn(BaseModel):
     name: str = Field(min_length=1, max_length=120)
-    site_id: int
+    location_id: int
 
 
 @router.get("/edge-devices")
 def list_edge(user: User = Depends(require("manage_edge")), db: Session = Depends(get_db)):
-    return [{"id": d.id, "name": d.name, "site_id": d.site_id, "key_prefix": d.key_prefix,
-             "last_seen": iso(d.last_seen), "enabled": d.enabled} for d in db.scalars(select(EdgeDevice))]
+    q = scope_filter(db, select(EdgeDevice), EdgeDevice.location_id, user)
+    return [{"id": d.id, "name": d.name, "location_id": d.location_id, "key_prefix": d.key_prefix,
+             "last_seen": iso(d.last_seen), "enabled": d.enabled} for d in db.scalars(q)]
 
 
 @router.post("/edge-devices", status_code=201)
 def create_edge(body: EdgeIn, request: Request, user: User = Depends(require("manage_edge")), db: Session = Depends(get_db)):
-    if not db.get(Site, body.site_id):
-        raise HTTPException(422, "Unknown site")
+    loc = db.get(Location, body.location_id)
+    if not loc:
+        raise HTTPException(422, "Unknown location")
+    check_location(db, user, loc.id)
     prefix = secrets.token_hex(4)
     key = f"sc_{prefix}_{secrets.token_urlsafe(32)}"
-    d = EdgeDevice(name=body.name, site_id=body.site_id, key_prefix=prefix, api_key_hash=hash_password(key[:72]))
+    d = EdgeDevice(name=body.name, location_id=body.location_id, key_prefix=prefix, api_key_hash=hash_password(key[:72]))
     db.add(d)
     try:
         db.flush()
     except IntegrityError:
         raise HTTPException(409, "Name already used")
-    audit(db, user.username, "edge_device_created", d.name, request=request)
+    audit(db, user.username, "edge_device_created", d.name, request=request, org_id=loc.org_id)
     return {"id": d.id, "name": d.name, "api_key": key, "note": "Store this key now; it is not shown again."}
 
 
@@ -331,8 +362,9 @@ def delete_edge(dev_id: int, request: Request, user: User = Depends(require("man
     d = db.get(EdgeDevice, dev_id)
     if not d:
         raise HTTPException(404, "Not found")
+    check_location(db, user, d.location_id)
     db.delete(d)
-    audit(db, user.username, "edge_device_deleted", d.name, request=request)
+    audit(db, user.username, "edge_device_deleted", d.name, request=request, org_id=user.org_id)
     return {"ok": True}
 
 
@@ -361,10 +393,12 @@ class EdgeEventIn(BaseModel):
 @router.post("/edge/events", status_code=201)
 def ingest_event(body: EdgeEventIn, dev: EdgeDevice = Depends(edge_device), db: Session = Depends(get_db)):
     cam = db.get(Camera, body.camera_id)
-    if not cam or cam.site_id != dev.site_id:
-        raise HTTPException(404, "Camera not found for this edge device's site")
+    edge_loc = db.get(Location, dev.location_id)
+    subtree = descendants(location_tree(db, edge_loc.org_id), {dev.location_id}) if edge_loc else set()
+    if not cam or cam.location_id not in subtree:
+        raise HTTPException(404, "Camera not found for this edge device's location")
     ts = datetime.fromtimestamp(body.ts, timezone.utc).replace(tzinfo=None) if body.ts else utcnow()
-    e = Event(ts=ts, camera_id=cam.id, site_id=cam.site_id, type=body.type, object_class=body.object_class,
+    e = Event(ts=ts, camera_id=cam.id, location_id=cam.location_id, type=body.type, object_class=body.object_class,
               confidence=body.confidence, zone=body.zone or cam.zone, source="edge", details=body.details,
               snapshot_url=body.snapshot_url, clip_url=body.clip_url)
     dev.last_seen = utcnow()
@@ -373,71 +407,19 @@ def ingest_event(body: EdgeEventIn, dev: EdgeDevice = Depends(edge_device), db: 
     return {"id": e.id}
 
 
-# ------------------------------------------------------------------- users
-class UserIn(BaseModel):
-    username: str = Field(min_length=3, max_length=80, pattern=r"^[A-Za-z0-9_.-]+$")
-    full_name: str = ""
-    role: str = "viewer"
-    password: str | None = None
-    site_ids: list[int] = []
-    active: bool = True
-
-
-@router.get("/users")
-def list_users(user: User = Depends(require("manage_users")), db: Session = Depends(get_db)):
-    return [user_dict(u) for u in db.scalars(select(User).order_by(User.username))]
-
-
-def _apply_user(u: User, body: UserIn, db: Session):
-    if body.role not in ROLES:
-        raise HTTPException(422, f"role must be one of {ROLES}")
-    if body.password is not None and len(body.password) < 10:
-        raise HTTPException(422, "Password must be at least 10 characters")
-    sites = db.scalars(select(Site).where(Site.id.in_(body.site_ids))).all() if body.site_ids else []
-    u.full_name, u.role, u.active, u.sites = body.full_name, body.role, body.active, list(sites)
-    if body.password:
-        u.password_hash = hash_password(body.password)
-
-
-@router.post("/users", status_code=201)
-def create_user(body: UserIn, request: Request, user: User = Depends(require("manage_users")), db: Session = Depends(get_db)):
-    if not body.password:
-        raise HTTPException(422, "Password is required")
-    u = User(username=body.username, password_hash="")
-    _apply_user(u, body, db)
-    db.add(u)
-    try:
-        db.flush()
-    except IntegrityError:
-        raise HTTPException(409, "Username already exists")
-    audit(db, user.username, "user_created", u.username, {"role": u.role}, request=request)
-    return user_dict(u)
-
-
-@router.patch("/users/{user_id}")
-def update_user(user_id: int, body: UserIn, request: Request, user: User = Depends(require("manage_users")),
-                db: Session = Depends(get_db)):
-    u = db.get(User, user_id)
-    if not u:
-        raise HTTPException(404, "Not found")
-    if u.id == user.id and (body.role != "super_admin" or not body.active):
-        raise HTTPException(422, "You cannot demote or disable your own account")
-    _apply_user(u, body, db)
-    audit(db, user.username, "user_updated", u.username, {"role": u.role, "active": u.active}, request=request)
-    return user_dict(u)
-
-
 # ------------------------------------------------------------------- audit
 @router.get("/audit")
 def list_audit(user: User = Depends(require("view_audit")), db: Session = Depends(get_db),
                username: str | None = None, action: str | None = None, limit: int = Query(300, le=2000)):
     q = select(AuditLog).order_by(AuditLog.ts.desc())
+    if user.org_id is not None:
+        q = q.where(AuditLog.org_id == user.org_id)
     if username:
         q = q.where(AuditLog.username == username)
     if action:
         q = q.where(AuditLog.action == action)
-    return [{"id": a.id, "ts": iso(a.ts), "username": a.username, "action": a.action, "target": a.target,
-             "details": a.details, "ip": a.ip} for a in db.scalars(q.limit(limit))]
+    return [{"id": a.id, "ts": iso(a.ts), "username": a.username, "org_id": a.org_id, "action": a.action,
+             "target": a.target, "details": a.details, "ip": a.ip} for a in db.scalars(q.limit(limit))]
 
 
 # ------------------------------------------------------------------ system

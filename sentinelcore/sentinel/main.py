@@ -13,7 +13,7 @@ from fastapi import FastAPI, Request
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 
-from .api import auth, devices, ops
+from .api import auth, devices, ops, org
 from .config import settings
 from .db import Base, SessionLocal, engine
 from .health import collector
@@ -45,6 +45,7 @@ app = FastAPI(title="SentinelCore", version=ops.VERSION, lifespan=lifespan)
 app.include_router(auth.router)
 app.include_router(devices.router)
 app.include_router(ops.router)
+app.include_router(org.router)
 
 
 @app.middleware("http")

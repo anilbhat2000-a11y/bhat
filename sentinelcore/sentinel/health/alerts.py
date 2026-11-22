@@ -60,7 +60,7 @@ def derived_metrics(data: dict, online: bool) -> dict[str, float]:
     return out
 
 
-def evaluate(db: Session, device_type: str, device_id: int, site_id: int, device_name: str,
+def evaluate(db: Session, device_type: str, device_id: int, location_id: int, device_name: str,
              values: dict[str, float], now: datetime | None = None) -> list[Alert]:
     """Evaluate all enabled rules for one device. Returns newly opened alerts.
     Caller commits."""
@@ -80,7 +80,7 @@ def evaluate(db: Session, device_type: str, device_id: int, site_id: int, device
                 breach = RuleBreach(rule_id=rule.id, device_type=device_type, device_id=device_id, since=now)
                 db.add(breach)
             if active is None and now - breach.since >= timedelta(seconds=rule.duration_s):
-                alert = Alert(rule_id=rule.id, device_type=device_type, device_id=device_id, site_id=site_id,
+                alert = Alert(rule_id=rule.id, device_type=device_type, device_id=device_id, location_id=location_id,
                               severity=rule.severity, value=values[rule.metric], opened_at=now,
                               message=f"{device_name}: {rule.name} (value {values[rule.metric]:g})")
                 db.add(alert)

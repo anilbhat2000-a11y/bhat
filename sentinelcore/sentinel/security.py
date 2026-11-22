@@ -1,4 +1,4 @@
-"""Authentication, role-based access control, site scoping and secret storage."""
+"""Authentication, role-based access control, location scoping and secret storage."""
 from __future__ import annotations
 
 import base64
@@ -9,6 +9,7 @@ import bcrypt
 import jwt
 from cryptography.fernet import Fernet, InvalidToken
 from fastapi import Depends, HTTPException, Request, status
+from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from .config import settings
@@ -20,13 +21,18 @@ ALGO = "HS256"
 
 # Permission matrix. Keep this the single source of truth for authorization.
 PERMISSIONS: dict[str, set[str]] = {
-    "super_admin": {"view", "ack", "manage_devices", "manage_rules", "manage_users", "view_audit", "manage_edge"},
-    "site_admin": {"view", "ack", "manage_devices"},
+    "super_admin": {"view", "ack", "manage_devices", "manage_rules", "manage_users", "view_audit", "manage_edge",
+                    "manage_orgs", "manage_locations", "manage_contacts", "approve", "reboot", "troubleshoot"},
+    "org_admin": {"view", "ack", "manage_devices", "manage_users", "view_audit", "manage_edge", "manage_locations",
+                  "manage_contacts", "approve", "reboot", "troubleshoot"},
+    "location_admin": {"view", "ack", "manage_devices", "manage_users", "manage_locations", "manage_contacts", "approve",
+                       "reboot", "troubleshoot"},
     "operator": {"view", "ack"},
     "viewer": {"view"},
     "auditor": {"view", "view_audit"},
 }
-ALL_SITES_ROLES = {"super_admin", "auditor"}
+# Roles whose scope is their whole organization (or every organization for platform users).
+ORG_WIDE_ROLES = {"super_admin", "org_admin", "auditor"}
 
 
 # ---- passwords -------------------------------------------------------------
@@ -100,22 +106,97 @@ def require(perm: str):
     return dep
 
 
-def allowed_site_ids(user: User) -> set[int] | None:
-    """None means every site."""
-    if user.role in ALL_SITES_ROLES:
-        return None
-    return {s.id for s in user.sites}
+def location_tree(db: Session, org_id: int | None = None) -> dict[int, "Location"]:
+    from .models import Location
+    q = select(Location)
+    if org_id is not None:
+        q = q.where(Location.org_id == org_id)
+    return {loc.id: loc for loc in db.scalars(q)}
 
 
-def check_site(user: User, site_id: int) -> None:
-    ids = allowed_site_ids(user)
-    if ids is not None and site_id not in ids:
+def descendants(tree: dict, roots: set[int]) -> set[int]:
+    children: dict[int, list[int]] = {}
+    for loc in tree.values():
+        if loc.parent_id is not None:
+            children.setdefault(loc.parent_id, []).append(loc.id)
+    out, stack = set(), [r for r in roots if r in tree]
+    while stack:
+        n = stack.pop()
+        if n in out:
+            continue
+        out.add(n)
+        stack.extend(children.get(n, []))
+    return out
+
+
+def ancestors(tree: dict, loc_id: int) -> list[int]:
+    """Self first, then parent, grandparent... up to the root."""
+    out, cur, seen = [], tree.get(loc_id), set()
+    while cur is not None and cur.id not in seen:
+        out.append(cur.id)
+        seen.add(cur.id)
+        cur = tree.get(cur.parent_id) if cur.parent_id is not None else None
+    return out
+
+
+def location_path(tree: dict, loc_id: int) -> str:
+    return " / ".join(tree[i].name for i in reversed(ancestors(tree, loc_id)))
+
+
+BRANCH_KINDS = ("branch", "office", "warehouse", "store", "plant", "corporate")
+
+
+def branch_of(tree: dict, loc_id: int) -> int | None:
+    """Nearest ancestor-or-self that is a branch-like site (branch, office, store, ...)."""
+    for i in ancestors(tree, loc_id):
+        if tree[i].kind in BRANCH_KINDS:
+            return i
+    chain = ancestors(tree, loc_id)
+    return chain[-1] if chain else None
+
+
+def allowed_location_ids(db: Session, user: User) -> set[int] | None:
+    """Location ids the user may see. None means every location (platform users only).
+    Org-wide roles see their whole organization; everyone else sees the subtree under
+    each location they are assigned to."""
+    cached = getattr(user, "_scope_cache", "unset")
+    if cached != "unset":
+        return cached
+    if user.org_id is None and user.role in ORG_WIDE_ROLES:
+        ids = None
+    elif user.org_id is None:
+        ids = set()  # misconfigured: non-platform role without organization sees nothing
+    else:
+        tree = location_tree(db, user.org_id)
+        if user.role in ORG_WIDE_ROLES:
+            ids = set(tree)
+        else:
+            ids = descendants(tree, {loc.id for loc in user.locations if loc.org_id == user.org_id})
+    user._scope_cache = ids
+    return ids
+
+
+def covers(db: Session, user: User, location_id: int) -> bool:
+    ids = allowed_location_ids(db, user)
+    return ids is None or location_id in ids
+
+
+def check_location(db: Session, user: User, location_id: int) -> None:
+    if not covers(db, user, location_id):
         # 404 rather than 403 so out-of-scope devices are not disclosed.
         raise HTTPException(status.HTTP_404_NOT_FOUND, "Not found")
 
 
-def scope_filter(query, column, user: User):
-    ids = allowed_site_ids(user)
+def scope_filter(db: Session, query, column, user: User):
+    ids = allowed_location_ids(db, user)
     if ids is None:
         return query
     return query.where(column.in_(ids or {-1}))
+
+
+def can_assign_role(actor: User, role: str) -> bool:
+    """Users may only hand out roles below their own (super admin may do anything)."""
+    from .models import ROLE_RANK
+    if actor.role == "super_admin":
+        return True
+    return ROLE_RANK.get(role, 999) < ROLE_RANK.get(actor.role, 0)

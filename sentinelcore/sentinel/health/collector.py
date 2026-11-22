@@ -14,9 +14,28 @@ from ..config import settings
 from ..db import SessionLocal
 from ..models import NVR, Camera, DeviceState, HealthMetric, utcnow
 from . import alerts, drivers
+from .. import notify
 
 log = logging.getLogger("sentinel.collector")
 _pool = ThreadPoolExecutor(max_workers=32, thread_name_prefix="probe")
+
+
+IDENTITY_KEYS = {"manufacturer": "manufacturer", "model": "model", "serial": "serial_number",
+                 "firmware": "firmware", "mac": "mac_address"}
+
+
+def record_identity(device, data: dict, now) -> bool:
+    """Copy make/model/serial/firmware/MAC reported by the device onto its record."""
+    seen = False
+    for src, field in IDENTITY_KEYS.items():
+        v = data.get(src)
+        if isinstance(v, str) and v.strip():
+            seen = True
+            if getattr(device, field) != v.strip()[:80]:
+                setattr(device, field, v.strip()[:80])
+    if seen:
+        device.info_updated_at = now
+    return seen
 
 
 def store_reading(db: Session, device_type: str, device, reading: drivers.HealthReading, now=None) -> list:
@@ -34,10 +53,11 @@ def store_reading(db: Session, device_type: str, device, reading: drivers.Health
     else:
         # Keep the last known values (e.g. last battery level) but mark offline.
         st.data = {**(st.data or {}), **reading.data}
+    record_identity(device, reading.data if reading.online else {}, now)
     values = alerts.derived_metrics(reading.data if reading.online else {}, reading.online)
     for k, v in values.items():
         db.add(HealthMetric(ts=now, device_type=device_type, device_id=device.id, key=k, value=v))
-    return alerts.evaluate(db, device_type, device.id, device.site_id, device.name, values, now)
+    return alerts.evaluate(db, device_type, device.id, device.location_id, device.name, values, now)
 
 
 def collect_once(db: Session) -> dict:
@@ -69,6 +89,7 @@ async def run_forever(stop: asyncio.Event) -> None:
         def _work():
             with SessionLocal() as db:
                 res = collect_once(db)
+                res["notifications"] = notify.dispatch(db)
                 if ticks % 120 == 0:
                     prune(db)
                 return res

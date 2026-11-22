@@ -95,6 +95,18 @@ def nvr_tcp(nvr) -> HealthReading:
     return HealthReading(ok, {"latency_ms": latency} if ok else {}, err)
 
 
+def nvr_onvif(nvr) -> HealthReading:
+    """Any ONVIF-capable NVR: reachability plus make/model/serial/firmware and clock drift."""
+    ok, latency, err = probes.tcp_check(nvr.host, nvr.http_port, settings.probe_timeout_s)
+    if not ok:
+        return HealthReading(False, error=err)
+    info, err = probes.onvif_device_service(nvr.host, nvr.http_port, nvr.username, decrypt_secret(nvr.password_enc),
+                                            settings.probe_timeout_s)
+    if nvr.username and not info.get("model") and not err:
+        err = "ONVIF login refused or device information not available"
+    return HealthReading(True, {"latency_ms": latency, **info}, err)
+
+
 def parse_isapi_storage(xml_text: str) -> list[dict]:
     """Parse ISAPI /ContentMgmt/Storage. Capacity/freeSpace are in MB."""
     root = ET.fromstring(xml_text)
@@ -118,10 +130,19 @@ def parse_isapi_device_info(xml_text: str) -> dict:
     out = {}
     for el in root.iter():
         name = el.tag.rsplit("}", 1)[-1]
-        if name == "model" and el.text:
-            out["model"] = el.text.strip()
-        elif name == "firmwareVersion" and el.text:
-            out["firmware"] = el.text.strip()
+        text = (el.text or "").strip()
+        if not text:
+            continue
+        if name == "model":
+            out["model"] = text
+        elif name == "firmwareVersion":
+            out["firmware"] = text
+        elif name == "serialNumber":
+            out["serial"] = text
+        elif name == "macAddress":
+            out["mac"] = text
+    if out:
+        out["manufacturer"] = "Hikvision"
     return out
 
 
@@ -201,7 +222,9 @@ class _Sim:
                     "packet_loss_pct": round(abs(r.gauss(0.1, 0.6 if s["flaky"] else 0.1)), 2),
                     "time_drift_s": round(s["drift"] + r.gauss(0, 0.2), 1),
                     "brightness": round(r.uniform(70, 160), 1), "contrast": round(r.uniform(25, 60), 1),
-                    "sharpness": round(r.uniform(60, 400), 1), "firmware": "V5.7.3-sim"}
+                    "sharpness": round(r.uniform(60, 400), 1), "firmware": "V5.7.3-sim",
+                    "manufacturer": (cam.vendor or "generic").title(), "model": cam.model or "SIM-CAM-4MP",
+                    "serial": f"SIM{cam.id:06d}CAM", "mac": f"02:00:00:00:{cam.id // 256:02x}:{cam.id % 256:02x}"}
             hour = time.localtime().tm_hour
             data.update({"too_dark": False, "too_bright": False, "blank": False,
                          "blurred": s["flaky"] and r.random() < 0.2, "frozen": False,
@@ -222,6 +245,8 @@ class _Sim:
         with self.lock:
             s = self._st("nvr", nvr.id)
             r: random.Random = s["rng"]
+            if time.time() < s["offline_until"]:
+                return HealthReading(False, {"source": "simulator"}, "simulated: rebooting / no response")
             s["used"] = min(99.5, s["used"] + r.uniform(0, 0.02))
             ndisk = 2 if nvr.channels <= 16 else 4
             disks = []
@@ -232,6 +257,7 @@ class _Sim:
                               "free_gb": round(cap * (1 - s["used"] / 100), 1)})
             data = {"source": "simulator", "latency_ms": round(abs(r.gauss(12, 5)) + 1, 1),
                     "model": nvr.model or "NVR-SIM", "firmware": "V4.30-sim",
+                    "manufacturer": (nvr.vendor or "generic").title(), "serial": f"SIM{nvr.id:06d}NVR",
                     "cpu_pct": round(r.uniform(15, 70), 1), "temp_c": round(r.gauss(46, 4), 1),
                     "retention_days": round(max(1.0, 30 * (1.2 - s["used"] / 100) + r.gauss(0, 0.5)), 1),
                     "recording_channels": nvr.channels - (1 if s["bad_disk"] else 0),
@@ -243,7 +269,7 @@ class _Sim:
 SIM = _Sim()
 
 CAMERA_DRIVERS = {"generic": camera_generic, "rtsp": camera_rtsp, "simulator": SIM.camera}
-NVR_DRIVERS = {"tcp": nvr_tcp, "hikvision_isapi": nvr_hikvision_isapi, "simulator": SIM.nvr}
+NVR_DRIVERS = {"tcp": nvr_tcp, "onvif": nvr_onvif, "hikvision_isapi": nvr_hikvision_isapi, "simulator": SIM.nvr}
 
 
 def read_camera(cam) -> HealthReading:

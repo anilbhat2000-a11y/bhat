@@ -182,7 +182,7 @@ def frame_difference(a: bytes, b: bytes) -> float:
     return sum(abs(x - y) for x, y in zip(a, b)) / max(1, len(a))
 
 
-# Thresholds are starting points; tune per site with the evaluation screen.
+# Thresholds are starting points; tune per location with the evaluation screen.
 IMAGE_THRESHOLDS = {"dark": 25.0, "bright": 235.0, "blank_contrast": 4.0, "blur_sharpness": 15.0,
                     "frozen_diff": 0.3, "view_changed_diff": 45.0}
 

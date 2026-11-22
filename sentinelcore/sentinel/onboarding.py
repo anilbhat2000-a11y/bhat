@@ -12,7 +12,7 @@ from urllib.parse import urlsplit
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
-from .models import NVR, POWER_TYPES, Camera, Site
+from .models import NVR, POWER_TYPES, Camera, Location
 from .security import encrypt_secret
 
 # ----------------------------------------------------------- WS-Discovery ----
@@ -114,7 +114,7 @@ def import_nvr_channels(db: Session, nvr: NVR, channels: list[int] | None = None
         if ch in existing:
             continue
         main, sub = channel_urls(nvr.vendor, nvr.host, nvr.rtsp_port, ch, main_tpl, sub_tpl)
-        cam = Camera(site_id=nvr.site_id, nvr_id=nvr.id, channel=ch, name=f"{name_prefix or nvr.name} CH{ch:02d}",
+        cam = Camera(location_id=nvr.location_id, nvr_id=nvr.id, channel=ch, name=f"{name_prefix or nvr.name} CH{ch:02d}",
                      vendor=nvr.vendor, rtsp_url=main, sub_stream_url=sub, username=nvr.username,
                      password_enc=nvr.password_enc, driver=driver if nvr.driver != "simulator" else "simulator")
         db.add(cam)
@@ -124,19 +124,49 @@ def import_nvr_channels(db: Session, nvr: NVR, channels: list[int] | None = None
 
 
 # ------------------------------------------------------------------- CSV ------
-CSV_COLUMNS = ["name", "site", "host", "rtsp_url", "sub_stream_url", "vendor", "model", "username", "password",
+CSV_COLUMNS = ["name", "location", "host", "rtsp_url", "sub_stream_url", "vendor", "model", "username", "password",
                "power_type", "building", "floor", "zone", "onvif_port", "target_fps", "driver", "tags"]
-REQUIRED = ["name", "site"]
+REQUIRED = ["name", "location"]
 
 
 def csv_template() -> str:
     buf = io.StringIO()
     w = csv.writer(buf)
     w.writerow(CSV_COLUMNS)
-    w.writerow(["Gate 1 Entry", "Head Office", "192.168.10.21",
+    w.writerow(["Gate 1 Entry", "Corporate Office / West Region / Mumbai Branch", "192.168.10.21",
                 "rtsp://192.168.10.21:554/Streaming/Channels/101", "rtsp://192.168.10.21:554/Streaming/Channels/102",
                 "hikvision", "DS-2CD2143G2", "admin", "", "poe", "Main", "G", "Gate", "80", "25", "generic", "perimeter;gate"])
     return buf.getvalue()
+
+
+def location_resolver(db: Session, allowed: set[int] | None):
+    """CSV rows name their location by code, by full path ("Corporate / West / Mumbai Branch")
+    or by plain name when that name is unique among the locations the user can see."""
+    from .security import location_path
+    q = select(Location)
+    if allowed is not None:
+        q = q.where(Location.id.in_(allowed or {-1}))
+    visible = db.scalars(q).all()
+    trees: dict[int, dict] = {}
+    for loc in db.scalars(select(Location).where(Location.org_id.in_({l.org_id for l in visible} or {-1}))):
+        trees.setdefault(loc.org_id, {})[loc.id] = loc
+    by_code, by_path, by_name = {}, {}, {}
+    for loc in visible:
+        if loc.code:
+            by_code.setdefault(loc.code.lower(), []).append(loc)
+        by_path.setdefault(location_path(trees[loc.org_id], loc.id).lower(), []).append(loc)
+        by_name.setdefault(loc.name.lower(), []).append(loc)
+
+    def resolve(ref: str):
+        key = " / ".join(p.strip() for p in ref.split("/")).lower()
+        for table in (by_code, by_path, by_name):
+            hits = table.get(key)
+            if hits and len(hits) == 1:
+                return hits[0], ""
+            if hits:
+                return None, f"location {ref!r} matches {len(hits)} locations; use its code or full path"
+        return None, f"unknown location {ref!r} (or no permission)"
+    return resolve
 
 
 def import_csv(db: Session, text: str, allowed_sites: set[int] | None, dry_run: bool = False) -> dict:
@@ -145,7 +175,7 @@ def import_csv(db: Session, text: str, allowed_sites: set[int] | None, dry_run: 
     missing = [c for c in REQUIRED if c not in (reader.fieldnames or [])]
     if missing:
         return {"imported": 0, "errors": [{"row": 1, "error": f"missing column(s): {', '.join(missing)}"}]}
-    sites = {s.name.lower(): s for s in db.scalars(select(Site)).all()}
+    resolve = location_resolver(db, allowed_sites)
     errors, rows = [], []
     seen = set()
     for i, raw in enumerate(reader, start=2):
@@ -156,11 +186,11 @@ def import_csv(db: Session, text: str, allowed_sites: set[int] | None, dry_run: 
         for c in REQUIRED:
             if not row.get(c):
                 errs.append(f"{c} is required")
-        site = sites.get(row.get("site", "").lower())
-        if row.get("site") and site is None:
-            errs.append(f"unknown site {row['site']!r}")
-        elif site is not None and allowed_sites is not None and site.id not in allowed_sites:
-            errs.append(f"no permission for site {row['site']!r}")
+        location = None
+        if row.get("location"):
+            location, err = resolve(row["location"])
+            if err:
+                errs.append(err)
         if not row.get("rtsp_url") and not row.get("host"):
             errs.append("rtsp_url or host is required")
         if row.get("rtsp_url") and not row["rtsp_url"].startswith("rtsp://"):
@@ -174,24 +204,25 @@ def import_csv(db: Session, text: str, allowed_sites: set[int] | None, dry_run: 
                     float(row[num])
                 except ValueError:
                     errs.append(f"{num} must be a number")
-        key = (row.get("site", "").lower(), row.get("name", "").lower())
+        key = (row.get("location", "").lower(), row.get("name", "").lower())
         if key in seen:
-            errs.append("duplicate name for this site in file")
+            errs.append("duplicate name for this location in file")
         seen.add(key)
         if errs:
             errors.append({"row": i, "error": "; ".join(errs)})
         else:
-            rows.append((row, site))
+            rows.append((row, location))
     if errors or dry_run:
-        return {"imported": 0, "valid_rows": len(rows), "errors": errors, "dry_run": dry_run}
-    for row, site in rows:
+        return {"imported": 0, "valid_rows": len(rows), "errors": errors, "dry_run": dry_run,
+                "location_ids": sorted({loc.id for _, loc in rows})}
+    for row, location in rows:
         db.add(Camera(
-            site_id=site.id, name=row["name"], host=row.get("host", ""), rtsp_url=row.get("rtsp_url", ""),
+            location_id=location.id, name=row["name"], host=row.get("host", ""), rtsp_url=row.get("rtsp_url", ""),
             sub_stream_url=row.get("sub_stream_url", ""), vendor=row.get("vendor") or "generic",
             model=row.get("model", ""), username=row.get("username", ""),
             password_enc=encrypt_secret(row.get("password", "")), power_type=row.get("power_type") or "poe",
             building=row.get("building", ""), floor=row.get("floor", ""), zone=row.get("zone", ""),
             onvif_port=int(float(row.get("onvif_port") or 80)), target_fps=float(row.get("target_fps") or 25),
             driver=row.get("driver") or "generic", tags=[t for t in row.get("tags", "").split(";") if t]))
-    db.commit()
-    return {"imported": len(rows), "errors": []}
+    db.flush()
+    return {"imported": len(rows), "errors": [], "location_ids": sorted({loc.id for _, loc in rows})}

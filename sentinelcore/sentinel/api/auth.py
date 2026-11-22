@@ -43,7 +43,7 @@ def login(body: LoginIn, request: Request, response: Response, db: Session = Dep
     token = create_token(user)
     response.set_cookie(COOKIE_NAME, token, httponly=True, samesite="strict", secure=settings.cookie_secure,
                         max_age=settings.token_minutes * 60, path="/")
-    audit(db, user.username, "login", request=request)
+    audit(db, user.username, "login", request=request, org_id=user.org_id)
     return {"token": token, "user": me_payload(user)}
 
 
@@ -75,5 +75,5 @@ def change_password(body: PasswordIn, request: Request, user: User = Depends(cur
         raise HTTPException(400, "New password must be at least 10 characters")
     user.password_hash = hash_password(body.new_password)
     db.add(user)
-    audit(db, user.username, "password_changed", request=request)
+    audit(db, user.username, "password_changed", request=request, org_id=user.org_id)
     return {"ok": True}
