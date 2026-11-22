@@ -58,6 +58,8 @@ if __name__ == "__main__":
     ap.add_argument("--port", type=int, default=8765)
     ap.add_argument("--token", default=os.environ.get("NPU_MONITOR_TOKEN", ""),
                     help="shared secret the portal must send (required when not bound to localhost)")
+    ap.add_argument("--token-file", default=os.environ.get("NPU_MONITOR_TOKEN_FILE", ""),
+                    help="read the token from this file (used by the installers' services)")
     ap.add_argument("--enrol", "--enroll", metavar="PORTAL_URL",
                     help="register this machine with a portal, e.g. http://192.168.1.10:8765")
     ap.add_argument("--code", help="one-time enrolment code from the portal's Machines > Add machine")
@@ -65,6 +67,12 @@ if __name__ == "__main__":
     ap.add_argument("--no-browser", action="store_true")
     a = ap.parse_args()
 
+    if a.token_file and not a.token:
+        try:
+            with open(a.token_file, encoding="utf-8") as f:
+                a.token = f.read().strip()
+        except OSError as exc:
+            ap.error(f"cannot read --token-file: {exc}")
     if a.enrol and not a.code:
         ap.error("--enrol needs --code (create one in the portal: Machines > Add machine > Enrolment code)")
     if a.enrol and a.host in ("127.0.0.1", "localhost", "::1"):

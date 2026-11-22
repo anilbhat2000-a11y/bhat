@@ -31,6 +31,9 @@ Nothing leaves the machine. The server binds to `127.0.0.1` by default, and the 
 
 ## Quick start
 
+**Installing for a customer? Follow [INSTALL.md](INSTALL.md)** (prerequisites, Windows and Linux installers, services, portal set-up, offline installs and troubleshooting). A printable copy is in `docs/3C-ITS-Installation-Guide.pdf`.
+
+
 ```bash
 python -m venv .venv
 ```
