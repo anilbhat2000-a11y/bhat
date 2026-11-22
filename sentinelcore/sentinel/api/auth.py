@@ -44,7 +44,7 @@ def login(body: LoginIn, request: Request, response: Response, db: Session = Dep
     response.set_cookie(COOKIE_NAME, token, httponly=True, samesite="strict", secure=settings.cookie_secure,
                         max_age=settings.token_minutes * 60, path="/")
     audit(db, user.username, "login", request=request, org_id=user.org_id)
-    return {"token": token, "user": me_payload(user)}
+    return {"token": token, "user": me_payload(user, db)}
 
 
 @router.post("/logout")
@@ -53,13 +53,18 @@ def logout(response: Response):
     return {"ok": True}
 
 
-def me_payload(user: User) -> dict:
-    return {**user_dict(user), "permissions": sorted(PERMISSIONS.get(user.role, set()))}
+def me_payload(user: User, db: Session | None = None) -> dict:
+    paths = {}
+    if db is not None and user.org_id:
+        from ..security import location_path, location_tree
+        tree = location_tree(db, user.org_id)
+        paths = {lid: location_path(tree, lid) for lid in tree}
+    return {**user_dict(user, paths), "permissions": sorted(PERMISSIONS.get(user.role, set()))}
 
 
 @router.get("/me")
-def me(user: User = Depends(current_user)):
-    return me_payload(user)
+def me(user: User = Depends(current_user), db: Session = Depends(get_db)):
+    return me_payload(user, db)
 
 
 class PasswordIn(BaseModel):

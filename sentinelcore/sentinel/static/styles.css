@@ -129,3 +129,33 @@ pre.code { background: var(--panel-2); padding: 10px; border-radius: 8px; overfl
 }
 .badge { white-space: nowrap; }
 @media (max-width: 760px) { #updated { display: none; } }
+/* hierarchy, management, troubleshooting */
+td.wrap { white-space: normal; min-width: 160px; max-width: 280px; }
+.wrap { white-space: normal; overflow-wrap: anywhere; }
+.actions { display: flex; gap: 4px; flex-wrap: wrap; align-items: center; }
+.errline { color: var(--bad); }
+.errbox { background: var(--bad-bg); color: var(--bad); border-radius: 8px; padding: 8px 10px; margin-top: 8px; font-size: 13px; overflow-wrap: anywhere; }
+.hint { color: var(--warn); margin-top: 2px; }
+.steps { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
+.step { display: flex; gap: 10px; padding: 9px 0; border-bottom: 1px solid var(--border); }
+.step:last-child { border-bottom: 0; }
+.step-icon { flex: none; width: 22px; height: 22px; border-radius: 50%; display: grid; place-items: center; font-size: 12px; font-weight: 700; }
+.step.pass .step-icon { background: var(--ok-bg); color: var(--ok); }
+.step.warn .step-icon { background: var(--warn-bg); color: var(--warn); }
+.step.fail .step-icon { background: var(--bad-bg); color: var(--bad); }
+.step.skip .step-icon { background: var(--panel-2); color: var(--muted); }
+.tree { display: flex; flex-direction: column; }
+.tree-row { display: flex; gap: 10px; align-items: center; padding: 8px 0; border-bottom: 1px solid var(--border); flex-wrap: wrap; }
+.tree-row .main-col { flex: 1; min-width: 180px; }
+.indent-1 { padding-left: 22px; } .indent-2 { padding-left: 44px; } .indent-3 { padding-left: 66px; }
+.indent-4 { padding-left: 88px; } .indent-5 { padding-left: 110px; } .indent-6 { padding-left: 132px; } .indent-7 { padding-left: 154px; }
+.tree-row[class*="indent-"]:not(.indent-0) .title::before { content: "└ "; color: var(--muted); }
+.confirm { border-color: var(--bad); }
+.confirm-inline { margin-top: 6px; display: flex; gap: 6px; align-items: center; flex-wrap: wrap; color: var(--bad); }
+.field.wide { grid-column: span 2; }
+.nav-count { margin-left: 4px; }
+.status-card.offline { border-color: var(--bad); }
+.list-item.clickable { cursor: pointer; }
+@media (max-width: 760px) { .indent-1, .indent-2, .indent-3, .indent-4, .indent-5, .indent-6, .indent-7 { padding-left: 12px; } .field.wide { grid-column: auto; } }
+td.act-cell, .act-cell { min-width: 190px; max-width: 240px; white-space: normal; }
+.devtable td { vertical-align: top; }

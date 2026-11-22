@@ -13,7 +13,28 @@ This report follows Section 11 of the build prompt: every claim is backed by a t
 | Privacy law | India, DPDP Act 2023 (see the gaps below) | — |
 | Database | SQLite (dev) and PostgreSQL 16 (prod). **Both tested** | — |
 
-## Tested here (`pytest -q`: 42 passed on SQLite and on PostgreSQL 16)
+## Tested here (`pytest -q`: 50 passed on SQLite and on PostgreSQL 16)
+
+### Organizations, hierarchy, approvals, contacts, maintenance (added in this round)
+
+| Feature | Evidence |
+|---|---|
+| Organizations are isolated: devices, locations, users, contacts and audit log of one org are invisible to another | `test_org_isolation`, `test_audit_scoped_to_org`, `test_notifications_routing_and_escalation` |
+| Access covers assigned location and everything under it; location filters include sub-locations | `test_hierarchy_scoping`, `test_health_summary_groups_by_branch` |
+| Users can only hand out roles below their own, only within their own scope | `test_role_ladder_for_user_management` |
+| Location tree: add, rename, no duplicates per level, no cycles, cannot delete own node or non-empty nodes | `test_location_management` |
+| Approval: branch admin's change waits; peers and requester cannot approve; a regional manager or org admin can; rejection leaves nothing changed; orgs without approval apply directly | `test_approval_workflow` |
+| Alert contacts: phone and email validation, scope, routing to a location and everything under it, severity filter, escalation after a delay, never sent twice, every attempt logged | `test_contacts_validation_and_scope`, `test_notifications_routing_and_escalation` |
+| SMS gateway request (URL encoding, JSON escaping, headers) | `test_sms_gateway_request_building` (mock HTTP server) |
+| Unconfigured email/SMS is logged as "skipped", not silently dropped | `test_notification_channels_not_configured_are_logged_as_skipped` |
+| Make/model/serial/firmware stored from device readings; department saved; activate/deactivate closes alerts; deactivation by a location admin needs approval | `test_identity_status_reboot_troubleshoot` |
+| Reboot permission (operators cannot), simulated reboot takes the device offline, troubleshoot reports it | `test_identity_status_reboot_troubleshoot` |
+| Troubleshoot on an unreachable camera reports the failing network step with a fix, and stores the error message | `test_troubleshoot_real_driver_reports_network_failure` |
+| CSV locations by code and full path; ambiguous names rejected | `test_csv_location_by_code_path_and_ambiguity`, `test_csv_import_by_path_and_code` |
+| Edge boxes may only post events for cameras in their location subtree | `test_edge_ingest_within_subtree` |
+| UI as super admin, org-level manager, branch admin and regional approver, desktop and phone, no JS errors | Manual Playwright tour against the demo |
+
+### Earlier features
 
 | Feature | Status | Evidence |
 |---|---|---|
@@ -37,6 +58,13 @@ This report follows Section 11 of the build prompt: every claim is backed by a t
 | UI served with strict CSP (no external origins) | Done | `test_ui_served_with_csp` |
 | UI renders with no JS errors (desktop 1440 px and phone 390 px, no horizontal scroll) | Done | Manual Playwright run against the demo server |
 
+## Written but NOT verified against real hardware (additions)
+
+- **Reboot:** ONVIF `SystemReboot` and Hikvision ISAPI `PUT /ISAPI/System/reboot`. Try it on one device during a maintenance window first.
+- **`onvif` NVR driver** and reading the serial number and MAC address from real devices.
+- **Email delivery** through your SMTP server (only the logic was tested, with sending mocked).
+- **SMS delivery** through your gateway. Tested against a mock HTTP server only; set `SC_SMS_BODY`/`SC_SMS_HEADERS` to your provider's format.
+
 ## Written but NOT verified against real hardware
 
 You need to check these on site. **Do not rely on them until you have.**
@@ -51,6 +79,12 @@ You need to check these on site. **Do not rely on them until you have.**
 6. **ONVIF discovery** on a real camera VLAN.
 
 ## Not done yet (next phases from the build prompt)
+
+- **Database migrations:** no migration tool yet. v0.1 databases must be recreated.
+- **Multi-level approval chains:** for example, branch to region to corporate in sequence. Today a single approval from any level above is enough.
+- **Approvals for other changes:** location, user and contact changes apply directly and are audited; only device changes go through approval.
+- **Recovery notifications:** contacts are not yet told when an alert resolves.
+- **WhatsApp notifications.
 
 - **Live view:** video wall and WebRTC/HLS (needs MediaMTX), recording, playback, evidence export.
 - **Advanced AI:** face recognition, ANPR, PPE, slip & fall, heat maps, anomaly detection, forensic search.

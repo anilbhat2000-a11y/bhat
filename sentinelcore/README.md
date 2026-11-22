@@ -22,10 +22,23 @@ SC_SECRET_KEY=change-me-to-a-long-random-string SC_ADMIN_PASSWORD='Admin@123456'
 
 Open http://localhost:8080 and sign in as `admin` / `Admin@123456`.
 
-The demo creates:
+The demo creates two organizations:
 
-- 3 sites, 4 NVRs and 48 cameras. Some cameras are battery or solar powered.
-- Demo users `operator1`, `siteadmin`, `viewer1` and `auditor1`, all with password `Demo@12345`.
+- **Acme Retail** (device changes need approval): Corporate Office › West Region › Mumbai Andheri Branch and Pune Warehouse, plus South Region › Chennai T Nagar Store.
+- **Globex Logistics**: Head Office › Gurugram Hub.
+- 6 NVRs and 48 cameras in total. Some cameras are battery or solar powered.
+- Alert contacts with designations, including escalation contacts.
+
+Demo users all have the password `Demo@12345`:
+
+| User | Role | Sees |
+|---|---|---|
+| `acme.admin` | Org admin | All of Acme |
+| `west.manager` | Location admin | West Region and everything under it; approves branch changes |
+| `andheri.admin` | Location admin | Mumbai Andheri Branch; their device changes need approval |
+| `andheri.guard` | Operator | Mumbai Andheri Branch |
+| `acme.auditor` | Auditor | All of Acme, read-only, plus audit log |
+| `globex.admin` | Org admin | All of Globex |
 
 Demo devices use the `simulator` driver, and the UI shows a **SIMULATED DATA** badge whenever simulated readings are on screen.
 
@@ -38,13 +51,49 @@ docker compose up -d
 
 Put it behind HTTPS (nginx/Caddy with your internal CA) and set `SC_COOKIE_SECURE=1`. If `SC_ADMIN_PASSWORD` is empty, the first admin password is generated and printed once in the logs.
 
+## Organizations, locations and access
+
+- **Organizations.** Each customer is an organization. Its devices, users, contacts and audit log are invisible to other organizations. Only the platform `admin` (super admin) sees every organization.
+- **Locations.** Each organization has a named location tree, for example Corporate Office › West Region › Mumbai Andheri Branch › 2nd Floor › Server Room. Cameras and NVRs can be attached at any level.
+- **Access by hierarchy.** A user assigned to a location sees and manages that location and everything under it. Roles, from highest to lowest:
+
+| Role | Scope | Can do |
+|---|---|---|
+| Super admin | All organizations | Everything; creates organizations |
+| Org admin | Whole organization | Devices, locations, users, contacts, approvals, reboot |
+| Location admin | Assigned locations and below | Same as org admin, within scope; can only create users with lower roles |
+| Operator | Assigned locations and below | Acknowledge alerts, review AI events |
+| Viewer | Assigned locations and below | View only |
+| Auditor | Whole organization | View only, plus audit log |
+
+- **Approvals.** Turn on "Device changes need approval" for an organization. Then adding, editing, deactivating or deleting a camera or NVR by a location admin waits on the **Approvals** page. It applies only after someone higher up approves it: an org admin, or a location admin assigned above the requester. Nobody can approve their own request.
+- **Alert contacts.** Each location can have contacts with name, designation, mobile number and email.
+  - A contact gets alerts for that location and everything under it, filtered by severity and by device type.
+  - An escalation contact is told only if an alert is still unacknowledged after the chosen time.
+  - Email goes through your SMTP server (`SC_SMTP_*`). SMS goes through any HTTP SMS gateway (`SC_SMS_*`).
+  - Every send is listed in the **Notification log**.
+
+## Managing devices
+
+The **Manage devices** page lists cameras and NVRs with Open, Edit, Activate/Deactivate, Reboot and Delete. It also has bulk CSV import, NVR channel import and ONVIF discovery.
+
+- **Device details.** Each device records its make, model, serial number, firmware and MAC address, read from the device over ONVIF or Hikvision ISAPI. It also records its department, location path and branch, and its NVR and channel.
+- **Status.** Each device shows whether it is active or deactivated, whether it is online or offline, and the exact error message when it is not working.
+- **Reboot.** Uses ONVIF `SystemReboot`, with Hikvision ISAPI as a fallback. Every reboot is logged in the audit trail.
+- **Troubleshoot** runs these checks and gives a plain fix for each one that fails:
+  - network reachability to each port
+  - the RTSP service
+  - the ONVIF clock and login
+  - the video stream (FPS, bitrate)
+  - a picture check
+
 ## Adding real cameras
 
 | Method | Where | Notes |
 |---|---|---|
-| Single camera | Add & import devices → Add camera | RTSP URL and/or ONVIF host |
-| Bulk CSV | Add & import devices → Bulk CSV import | Download the template first. All rows are validated; nothing is imported unless every row is valid |
-| Whole NVR | Add NVR, then Import NVR channels | Built-in RTSP paths for Hikvision, Dahua and CP Plus, or your own `{host}/{port}/{ch}` template |
+| Single camera | Manage devices → Cameras → Add camera | RTSP URL and/or ONVIF host |
+| Bulk CSV | Manage devices → Bulk CSV import | The `location` column takes a location code, a full path such as `Corporate Office / West Region / Mumbai Branch`, or a unique name. Nothing is imported unless every row is valid |
+| Whole NVR | NVRs → Add NVR, then Import NVR channels | Built-in RTSP paths for Hikvision, Dahua and CP Plus, or your own `{host}/{port}/{ch}` template |
 | Auto-discovery | ONVIF discovery | WS-Discovery multicast. Only reaches the server's own network segment |
 
 Set the camera **health driver**:
@@ -55,7 +104,8 @@ Set the camera **health driver**:
 The NVR drivers are:
 
 - `tcp`: checks that the NVR's web port answers.
-- `hikvision_isapi`: also reads model, firmware and disk status. Confirm it on your firmware first; see VERIFICATION.md.
+- `onvif`: also reads make, model, serial number, firmware and clock drift.
+- `hikvision_isapi`: also reads disk status and storage. Confirm it on your firmware first; see VERIFICATION.md.
 
 **Battery data:** ONVIF has no standard battery query, so battery values for real cameras need a vendor driver. Until one is added, the dashboard shows **"Not supported by device"**. It never shows an estimate.
 
@@ -99,5 +149,10 @@ SC_TEST_DATABASE_URL=postgresql+psycopg://user@host/db pytest -q   # PostgreSQL
 | `SC_METRIC_RETENTION_DAYS` | 90 | How long health history is kept |
 | `SC_SEED_DEMO` | 0 | Create the simulated demo fleet on first start |
 | `SC_COOKIE_SECURE` | 0 | Set to 1 when served over HTTPS |
+| `SC_PUBLIC_URL` | — | Address included as a link in alert emails |
+| `SC_SMTP_HOST`, `_PORT`, `_USER`, `_PASSWORD`, `_FROM`, `_STARTTLS` | — | Email alerts. Empty host = email off, logged as "skipped" |
+| `SC_SMS_URL`, `_METHOD`, `_BODY`, `_HEADERS` | — | SMS alerts through an HTTP gateway. `{phone}` and `{message}` are filled in. Empty URL = SMS off |
+
+**Upgrading from v0.1:** the database layout changed (organizations and location tree). There is no migration tool yet, so start with a fresh database.
 
 API documentation (OpenAPI) is at `/docs`. Note: the Swagger page itself loads its assets from a CDN, so on an air-gapped network use `/openapi.json` instead.
