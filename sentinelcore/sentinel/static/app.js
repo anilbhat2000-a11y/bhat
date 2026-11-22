@@ -200,6 +200,8 @@ const ROUTES = [
   { id: "events", title: "AI events", perm: "view", render: renderEvents, live: true },
   { id: "approvals", title: "Approvals", perm: "view", render: renderApprovals },
   { id: "notifications", title: "Notification log", perm: "view", render: renderNotifications },
+  { id: "usecases", title: "Use cases", perm: "view", render: renderUseCases, sep: "AI use cases" },
+  { id: "capabilities", title: "Models & integrations", perm: "view", render: renderCapabilities },
   { id: "devices", title: "Manage devices", perm: "manage_devices", render: renderDevices, sep: "Manage" },
   { id: "locations", title: "Locations", perm: "view", render: renderLocations },
   { id: "contacts", title: "Alert contacts", perm: "view", render: renderContacts },
@@ -299,7 +301,7 @@ async function renderOverview() {
   <div class="grid cols-3">
     <div class="card"><h2>Least reliable cameras (24 h)</h2>${hbars(worst.map((w) => ({ label: `${w.name} · ${w.location}`, value: w.uptime_pct, text: `${w.uptime_pct}%`, cls: w.uptime_pct < 80 ? "bar-bad" : "bar-warn" })), { max: 100 })}</div>
     <div class="card"><h2>Image &amp; stream issues now</h2>${hbars(issues.map(([k, v]) => ({ label: k.replace("_", " "), value: v, cls: "bar-warn" })))}</div>
-    <div class="card"><h2>AI events by type (7 days)</h2>${hbars(Object.entries(evs.by_type).sort((a, b2) => b2[1].total - a[1].total).slice(0, 6).map(([k, v]) => ({ label: k.replaceAll("_", " "), value: v.total, text: `${v.total} (${v.false_alarm} false)` })))}</div>
+    <div class="card"><h2>AI events by category (7 days) <a class="right small" href="#/usecases">Use cases</a></h2>${hbars(Object.entries(evs.by_category || {}).sort((a, b2) => b2[1] - a[1]).slice(0, 8).map(([k, v]) => ({ label: k, value: v })))}</div>
   </div>`;
   $("#ovLoc").onchange = (e) => { ovFilter.location_id = e.target.value; renderOverview(); };
   bindAlertAcks(view);
@@ -469,6 +471,7 @@ async function deviceDetail(kind, id, hours = 24) {
     ${statusCard(c)}
     <div id="tsResult"></div>
     ${identityCard("camera", c)}
+    ${cameraUseCasesCard(c)}
     <div class="card"><h2>Stream</h2><dl class="kv">
       ${row("Measured FPS", d.fps != null ? `${d.fps} of ${c.target_fps} target` : NA)}${row("Bitrate", fmt(d.bitrate_kbps, " kbps", 0))}
       ${row("Resolution", d.width ? `${d.width}×${d.height}` : NA)}${row("Codec", d.codec ? esc(d.codec.toUpperCase()) : NA)}
@@ -488,6 +491,7 @@ async function deviceDetail(kind, id, hours = 24) {
       ${battery ? `<div class="small muted">Battery %</div>${lineChart([{ points: m.battery_pct }], { yMax: 100, unit: "%", height: 120 })}` : ""}</div>`);
   $("#dHours").onchange = (e) => deviceDetail("camera", id, +e.target.value);
   bindDeviceActions("camera", c, $("#drawerBody"), () => deviceDetail("camera", id, hours));
+  bindCameraUseCases(c);
 }
 
 // -------------------------------------------------------------- batteries --
@@ -572,11 +576,11 @@ async function renderEvents() {
   const types = Object.keys(stats.by_type).sort();
   view.innerHTML = `<div class="toolbar">
     <select id="eStatus"><option value="">Any status</option>${["new", "acknowledged", "true_alarm", "false_alarm"].map((s) => `<option value="${s}" ${evFilters.status === s ? "selected" : ""}>${s.replace("_", " ")}</option>`).join("")}</select>
-    <select id="eType"><option value="">Any type</option>${types.map((t) => `<option ${evFilters.type === t ? "selected" : ""}>${esc(t)}</option>`).join("")}</select>
+    <select id="eType"><option value="">Any type</option>${types.map((t) => `<option value="${esc(t)}" ${evFilters.type === t ? "selected" : ""}>${esc(stats.by_type[t]?.name || t)}</option>`).join("")}</select>
     <select id="eLoc">${locOptions(evFilters.location_id)}</select>
     <span class="grow"></span><span class="muted small">False-alarm rate (7 d): <strong>${stats.false_alarm_pct ?? "—"}${stats.false_alarm_pct != null ? "%" : ""}</strong> of ${stats.reviewed} reviewed</span></div>
   <div class="card"><div class="table-wrap"><table><thead><tr><th>Time</th><th>Event</th><th>Camera</th><th>Zone</th><th class="num">Confidence</th><th>Source</th><th>Status</th><th></th></tr></thead><tbody>
-  ${events.map((e) => `<tr><td class="small">${localTime(e.ts)}</td><td><strong>${esc(e.type.replaceAll("_", " "))}</strong><div class="muted small">${esc(e.object_class)}</div></td>
+  ${events.map((e) => `<tr><td class="small">${localTime(e.ts)}</td><td class="wrap"><strong>${esc(stats.by_type[e.type]?.name || e.type.replaceAll("_", " "))}</strong><div class="muted small">${esc(stats.by_type[e.type]?.category || "")}${e.object_class ? ` · ${esc(e.object_class)}` : ""}</div></td>
     <td>${esc(e.camera)}<div class="muted small">${esc(locById(e.location_id)?.path || e.location)}</div></td><td>${esc(e.zone)}</td><td class="num">${(e.confidence * 100).toFixed(0)}%</td>
     <td><span class="badge neutral">${esc(e.source)}</span></td><td>${evStatusBadge(e.status)}</td>
     <td>${can("ack") ? `<button class="btn small" data-ev="${e.id}" data-st="true_alarm">True</button> <button class="btn small" data-ev="${e.id}" data-st="false_alarm">False</button>` : ""}</td></tr>`).join("") || '<tr><td colspan="8" class="empty">No events.</td></tr>'}
@@ -1056,6 +1060,198 @@ async function renderAudit() {
   const rows = await api("/api/audit");
   view.innerHTML = `<div class="card"><div class="table-wrap"><table><thead><tr><th>Time</th><th>User</th><th>Action</th><th>Target</th><th>IP</th></tr></thead><tbody>
   ${rows.map((a) => `<tr><td class="small">${localTime(a.ts)}</td><td>${esc(a.username)}</td><td><code>${esc(a.action)}</code></td><td class="wrap">${esc(a.target)}</td><td class="small">${esc(a.ip)}</td></tr>`).join("") || '<tr><td colspan="5" class="empty">Empty.</td></tr>'}</tbody></table></div></div>`;
+}
+
+
+// -------------------------------------------------------------- use cases --
+const UC_STATUS = {
+  available: '<span class="badge ok">Available</span>',
+  needs_model: '<span class="badge warn">Needs model</span>',
+  needs_integration: '<span class="badge info">Needs integration</span>',
+};
+const ucFilter = { sector: "", category: "", status: "", q: "" };
+let capNames = {};
+async function loadCapNames() {
+  if (Object.keys(capNames).length) return;
+  (await api("/api/capabilities")).forEach((c) => (capNames[c.key] = c.name.split(" (")[0]));
+}
+const reqText = (u) => [...u.missing_capabilities.map((k) => `Model: ${capNames[k] || k}`), ...u.missing_integrations.map((k) => `Integration: ${capNames[k] || k}`)];
+const RULE_TEXT = {
+  zone_intrusion: "Object in a zone", line_crossing: "Crossing a line", people_count: "Counting across a line", loitering: "Staying too long",
+  occupancy: "Too many in a zone", crowd_density: "Crowd density", object_left: "Object left behind", proximity: "Two objects too close",
+  dwell: "Time spent in a zone", presence_required: "Too few people present", tailgating: "Several people per entry", fall: "Person fall", speed: "Moving too fast",
+};
+
+async function renderUseCases() {
+  await loadCapNames();
+  const qs = new URLSearchParams(Object.entries(ucFilter).filter(([, v]) => v)).toString();
+  const [cov, list] = await Promise.all([api("/api/use-cases/coverage"), api(`/api/use-cases?${qs}`)]);
+  const pct = (a, b) => (b ? Math.round((100 * a) / b) : 0);
+  view.innerHTML = `
+  <div class="grid kpis">
+    <div class="card kpi"><div class="label">Use cases in catalog</div><div class="value">${cov.totals.total}</div><div class="sub">of ${cov.totals.target} in the requirement list</div></div>
+    <div class="card kpi ok"><div class="label">Available now</div><div class="value">${cov.totals.available}</div><div class="sub">models and integrations installed</div></div>
+    <div class="card kpi"><div class="label">Need a model</div><div class="value">${cov.sectors.reduce((s, x) => s + x.needs_model, 0)}</div><div class="sub">install it to unlock</div></div>
+    <div class="card kpi"><div class="label">Need an integration</div><div class="value">${cov.sectors.reduce((s, x) => s + x.needs_integration, 0)}</div><div class="sub">connect the other system</div></div>
+  </div>
+  <div class="grid cols-2">
+    <div class="card"><h2>Coverage by sector <span class="right muted small">catalog vs requirement list</span></h2><div class="table-wrap"><table><thead><tr><th>Sector</th><th class="num">In catalog</th><th></th><th class="num">Available</th><th class="num">Needs model</th><th class="num">Needs integration</th></tr></thead><tbody>
+      ${cov.sectors.map((s) => `<tr class="clickable" data-sector="${s.sector}"><td>${esc(s.name)}</td><td class="num">${s.total}/${s.target}</td><td>${meter(pct(s.total, s.target), "bar-acc")}</td><td class="num">${s.available}</td><td class="num">${s.needs_model}</td><td class="num">${s.needs_integration}</td></tr>`).join("")}
+    </tbody></table></div></div>
+    <div class="card"><h2>Install to unlock more</h2>${hbars(cov.unlock.models.slice(0, 7).map((m) => ({ label: m.name.split(" (")[0], value: m.use_cases, text: `${m.use_cases} use cases` })))}
+      <div class="small muted">Integrations: ${cov.unlock.integrations.slice(0, 6).map((m) => `${esc(m.name.split(" (")[0])} (${m.use_cases})`).join(" · ") || "none needed"}</div>
+      <div class="toolbar"><a class="btn small" href="#/capabilities">Models &amp; integrations</a></div></div>
+  </div>
+  <div class="toolbar">
+    <input class="grow" id="ucq" placeholder="Search use cases" value="${esc(ucFilter.q)}">
+    <select id="ucs"><option value="">All sectors</option>${cov.sectors.map((s) => `<option value="${s.sector}" ${ucFilter.sector === s.sector ? "selected" : ""}>${esc(s.name)}</option>`).join("")}</select>
+    <select id="ucc"><option value="">All categories</option>${cov.categories.map((c) => `<option ${ucFilter.category === c ? "selected" : ""}>${esc(c)}</option>`).join("")}</select>
+    <select id="ucst"><option value="">Any status</option><option value="available" ${ucFilter.status === "available" ? "selected" : ""}>Available</option><option value="needs_model" ${ucFilter.status === "needs_model" ? "selected" : ""}>Needs model</option><option value="needs_integration" ${ucFilter.status === "needs_integration" ? "selected" : ""}>Needs integration</option></select>
+  </div>
+  <div class="card"><div class="muted small">${list.length} use cases</div><div class="table-wrap"><table><thead><tr><th>Use case</th><th>Sector</th><th>Category</th><th>How it works</th><th>Status</th><th>Cameras</th><th></th></tr></thead><tbody>
+  ${list.map((u) => `<tr><td class="wrap"><strong>${esc(u.name)}</strong><div class="muted small">${esc(u.key)}${u.builtin ? "" : " · imported"}</div></td>
+    <td class="small">${esc(u.sector_name)}</td><td class="small">${esc(u.category)}</td>
+    <td class="small wrap">${u.rule ? esc(RULE_TEXT[u.rule.type] || u.rule.type) + (u.rule.classes ? ` <span class="muted">(${esc(u.rule.classes.join(", "))})</span>` : "") : '<span class="muted">Inside the model / integration</span>'}</td>
+    <td>${UC_STATUS[u.status]}${reqText(u).length ? `<div class="muted small wrap">${reqText(u).map(esc).join("<br>")}</div>` : ""}</td>
+    <td class="num">${u.enabled_cameras || "—"}</td>
+    <td>${u.configurable && u.status === "available" && can("manage_devices") ? `<button class="btn small primary" data-setup="${u.key}">Set up on camera</button>` : ""}</td></tr>`).join("") || '<tr><td colspan="7" class="empty">No use cases match.</td></tr>'}
+  </tbody></table></div></div>
+  ${can("manage_orgs") ? `<div class="card"><h2>Import your use-case list</h2><p class="muted small">Add use cases from your own list (CSV). Columns: key, sector, category, name, description, capabilities, integrations, rule_type, classes, severity. Capabilities and integrations are separated by “;”. Rows are checked first; nothing is imported unless every row is valid.</p>
+    <div class="toolbar"><button class="btn" id="ucTpl">Download template</button><input type="file" id="ucFile" accept=".csv,text/csv"></div>
+    <textarea id="ucCsv" placeholder="key,sector,category,name,…"></textarea><div class="toolbar"><button class="btn" id="ucVal">Validate</button><button class="btn primary" id="ucImp">Import</button></div><div id="ucRes"></div></div>` : ""}`;
+  const re = () => renderUseCases();
+  $("#ucq").onchange = (e) => { ucFilter.q = e.target.value; re(); };
+  $("#ucs").onchange = (e) => { ucFilter.sector = e.target.value; re(); };
+  $("#ucc").onchange = (e) => { ucFilter.category = e.target.value; re(); };
+  $("#ucst").onchange = (e) => { ucFilter.status = e.target.value; re(); };
+  $$("[data-sector]").forEach((tr) => (tr.onclick = () => { ucFilter.sector = tr.dataset.sector; re(); }));
+  $$("[data-setup]").forEach((b) => (b.onclick = () => useCaseSetup({ key: b.dataset.setup })));
+  if ($("#ucTpl")) {
+    $("#ucTpl").onclick = async () => download("use_case_import_template.csv", await api("/api/use-cases/import/template"));
+    $("#ucFile").onchange = async (e) => { $("#ucCsv").value = await e.target.files[0].text(); };
+    const send = async (dry) => {
+      try {
+        const r = await api(`/api/use-cases/import?dry_run=${dry}`, { method: "POST", body: $("#ucCsv").value, headers: { "Content-Type": "text/csv" } });
+        $("#ucRes").innerHTML = r.errors.length ? `<p class="err">${r.errors.length} row(s) have errors — nothing imported.</p><table><tbody>${r.errors.map((x) => `<tr><td>Row ${x.row}</td><td class="wrap">${esc(x.error)}</td></tr>`).join("")}</tbody></table>`
+          : dry ? `<p><span class="badge ok">${r.valid_rows} rows valid</span></p>` : `<p><span class="badge ok">${r.imported} use cases imported</span></p>`;
+        if (!dry && !r.errors.length) setTimeout(re, 800);
+      } catch (er) { toast(er.message); }
+    };
+    $("#ucVal").onclick = () => send(true);
+    $("#ucImp").onclick = () => send(false);
+  }
+}
+
+// --------------------------------------------------- use case setup drawer --
+const PARAMS = {
+  seconds: ["Alert after (seconds)", 1], max_seconds: ["Alert if longer than (seconds, 0 = never)", 1], min_count: ["Minimum people required", 1],
+  max_occupancy: ["Maximum allowed", 1], max_density: ["Maximum density", 1], max_distance: ["Minimum safe distance (fraction of picture width)", 0.01],
+  window_s: ["Entries counted together within (seconds)", 0.5], max_speed: ["Speed limit (picture widths per second)", 0.01],
+};
+const LINE_TYPES = ["line_crossing", "people_count", "tailgating"];
+async function useCaseSetup({ key = "", camId = null }) {
+  const [ucs, cams] = await Promise.all([api("/api/use-cases?status=available"), api("/api/cameras")]);
+  const options = ucs.filter((u) => u.configurable);
+  let uc = options.find((u) => u.key === key) || options[0];
+  if (!uc) return toast("No configurable use cases are available yet. Install a model under Models & integrations.");
+  let pts = [];
+  const isLine = () => LINE_TYPES.includes(uc.rule.type);
+  const draw = () => {
+    const svg = $("#zoneSvg");
+    const p = pts.map((q) => `${q[0] * 160},${q[1] * 90}`).join(" ");
+    svg.querySelector("#zShape").setAttribute("points", p);
+    svg.querySelector("#zShape").setAttribute("class", isLine() ? "zone-line" : "zone-poly");
+    svg.querySelector("#zDots").innerHTML = pts.map((q) => `<circle cx="${q[0] * 160}" cy="${q[1] * 90}" r="1.4"/>`).join("");
+    $("#zHelp").textContent = isLine() ? (pts.length < 2 ? `Click two points to draw the line (${pts.length}/2).` : "Line set. Clear to redraw.")
+      : pts.length < 3 ? `Click at least 3 points around the area (${pts.length} so far), or leave empty for the whole picture.` : `${pts.length} points. Clear to redraw.`;
+  };
+  const render = () => {
+    const params = Object.keys(PARAMS).filter((k) => k in uc.rule);
+    openDrawer(`<h2>Set up a use case</h2><form id="ucForm" class="card"><div class="form-grid">
+      <label class="field wide">Use case<select name="key">${options.map((u) => `<option value="${u.key}" ${u.key === uc.key ? "selected" : ""}>${esc(u.name)} — ${esc(u.sector_name)}</option>`).join("")}</select></label>
+      <label class="field wide">Camera<select name="cam">${cams.map((c) => `<option value="${c.id}" ${String(c.id) === String(camId) ? "selected" : ""}>${esc(c.name)} — ${esc(c.location_path)}</option>`).join("")}</select></label>
+      ${params.map((k) => `<label class="field">${PARAMS[k][0]}<input name="${k}" type="number" step="${PARAMS[k][1]}" min="0" value="${uc.rule[k]}"></label>`).join("")}
+      ${uc.rule.type === "line_crossing" ? `<label class="field">Direction<select name="direction"><option value="any">Either way</option><option value="left_to_right" ${uc.rule.direction === "left_to_right" ? "selected" : ""}>One way (A→B)</option><option value="right_to_left" ${uc.rule.direction === "right_to_left" ? "selected" : ""}>Other way (B→A)</option></select></label>` : ""}
+      <label class="field">Detects<input name="classes" value="${esc((uc.rule.classes || []).join(", "))}"></label></div>
+      <p class="small muted">${esc(RULE_TEXT[uc.rule.type] || uc.rule.type)}. Events are named “${esc(uc.name)}” and sent to the location's alert contacts like any other alert.</p>
+      <h3>${isLine() ? "Draw the line" : "Draw the zone"}</h3>
+      <div class="zone-wrap"><img id="zoneImg" alt="" hidden><svg id="zoneSvg" viewBox="0 0 160 90" role="img" aria-label="Zone editor">
+        <defs><pattern id="g" width="16" height="9" patternUnits="userSpaceOnUse"><path d="M16 0H0V9" class="zone-grid"/></pattern></defs>
+        <rect width="160" height="90" fill="url(#g)"/><polygon id="zShape" points=""/><g id="zDots" class="zone-dot"></g></svg></div>
+      <div class="toolbar"><span id="zHelp" class="small muted grow"></span><button class="btn small" type="button" id="zClear">Clear</button></div>
+      <div class="toolbar"><button class="btn primary" type="submit">Turn on</button><button class="btn" type="button" id="ucCancel">Cancel</button></div></form>`);
+    const f = $("#ucForm");
+    const loadImg = () => {
+      const img = $("#zoneImg");
+      img.hidden = true;
+      img.onload = () => (img.hidden = false);
+      img.onerror = () => (img.hidden = true);
+      img.src = `/api/cameras/${f.cam.value}/snapshot.jpg?t=${Date.now()}`;
+    };
+    loadImg();
+    f.cam.onchange = loadImg;
+    f.key.onchange = () => { uc = options.find((u) => u.key === f.key.value); pts = []; camId = f.cam.value; render(); };
+    $("#zoneSvg").onclick = (e) => {
+      const r = e.currentTarget.getBoundingClientRect();
+      if (isLine() && pts.length >= 2) return;
+      pts.push([+((e.clientX - r.left) / r.width).toFixed(3), +((e.clientY - r.top) / r.height).toFixed(3)]);
+      draw();
+    };
+    $("#zClear").onclick = () => { pts = []; draw(); };
+    $("#ucCancel").onclick = closeDrawer;
+    draw();
+    f.onsubmit = async (e) => {
+      e.preventDefault();
+      const body = { key: uc.key, params: {} };
+      Object.keys(PARAMS).filter((k) => f[k]).forEach((k) => (body.params[k] = Number(f[k].value)));
+      if (f.direction) body.params.direction = f.direction.value;
+      const cls = f.classes.value.split(",").map((s) => s.trim()).filter(Boolean);
+      if (cls.length) body.params.classes = cls;
+      if (isLine()) { if (pts.length === 2) body.line = pts; else if (pts.length) return toast("Draw both ends of the line, or clear it to use the default line."); }
+      else if (pts.length >= 3) body.polygon = pts;
+      else if (pts.length) return toast("A zone needs at least 3 points, or clear it for the whole picture.");
+      try {
+        await api(`/api/cameras/${f.cam.value}/use-cases`, { method: "POST", json: body });
+        toast(`“${uc.name}” is on for this camera`);
+        deviceDetail("camera", f.cam.value);
+      } catch (er) { toast(er.message); }
+    };
+  };
+  render();
+}
+
+function cameraUseCasesCard(c) {
+  const list = (c.analytics || []).filter((a) => a.use_case);
+  return `<div class="card"><h2>Use cases on this camera ${can("manage_devices") ? '<button class="btn small right" id="ucAdd" type="button">Add use case</button>' : ""}</h2>
+    ${list.length ? `<div class="list">${list.map((a) => `<div class="list-item"><div class="main-col"><div class="title">${esc(a.name || a.use_case)}</div>
+      <div class="muted small">${esc(RULE_TEXT[a.type] || a.type)}${a.polygon ? " · custom zone" : a.line ? " · custom line" : " · whole picture"}${a.seconds != null ? ` · ${a.seconds}s` : ""}${a.min_count != null ? ` · min ${a.min_count}` : ""}${a.max_occupancy != null ? ` · max ${a.max_occupancy}` : ""}</div></div>
+      ${can("manage_devices") ? `<button class="btn small danger" data-ucdel="${esc(a.use_case)}">Turn off</button>` : ""}</div>`).join("")}</div>`
+    : '<div class="muted small">None yet. Use cases run on the edge box or GPU server assigned to this location.</div>'}</div>`;
+}
+function bindCameraUseCases(c) {
+  const add = $("#ucAdd");
+  if (add) add.onclick = () => useCaseSetup({ camId: c.id });
+  $$("[data-ucdel]").forEach((b) => (b.onclick = async () => {
+    try { await api(`/api/cameras/${c.id}/use-cases/${b.dataset.ucdel}`, { method: "DELETE" }); toast("Turned off"); deviceDetail("camera", c.id); } catch (e) { toast(e.message); }
+  }));
+}
+
+// ------------------------------------------------- models & integrations --
+async function renderCapabilities() {
+  const caps = await api("/api/capabilities");
+  const edit = can("manage_orgs");
+  const table = (kind, title, help) => `<div class="card"><h2>${title}</h2><p class="muted small">${help}</p><div class="table-wrap"><table><thead><tr><th>Name</th><th class="num">Use cases</th><th>Installed</th><th>Note</th>${edit ? "<th></th>" : ""}</tr></thead><tbody>
+    ${caps.filter((c) => c.kind === kind).map((c) => `<tr><td class="wrap"><strong>${esc(c.name.split(" (")[0])}</strong><div class="muted small">${esc(c.name.includes("(") ? c.name.slice(c.name.indexOf("(") + 1, -1) : "")}</div></td>
+      <td class="num">${c.use_cases}</td><td>${c.installed ? '<span class="badge ok">Installed</span>' : '<span class="badge neutral">Not installed</span>'}${c.updated_by ? `<div class="muted small">${esc(c.updated_by)} · ${ago(c.updated_at)}</div>` : ""}</td>
+      <td class="small wrap">${edit ? `<input data-note="${c.key}" value="${esc(c.note)}" placeholder="Model version, server, contact…">` : esc(c.note)}</td>
+      ${edit ? `<td><button class="btn small ${c.installed ? "" : "primary"}" data-cap="${c.key}" data-on="${c.installed ? 0 : 1}">${c.installed ? "Mark not installed" : "Mark installed"}</button></td>` : ""}</tr>`).join("")}
+  </tbody></table></div></div>`;
+  view.innerHTML = table("model", "AI models", "Mark a model installed once it runs on your edge boxes or GPU server and has been tested on your own footage. Use cases that need it then show as Available.")
+    + table("integration", "Integrations", "Systems whose data some use cases compare with video (POS bills, tokens, rosters, badge events). Mark connected once data is flowing.");
+  $$("[data-cap]").forEach((b) => (b.onclick = async () => {
+    try { await api(`/api/capabilities/${b.dataset.cap}`, { method: "PATCH", json: { installed: b.dataset.on === "1", note: $(`[data-note="${b.dataset.cap}"]`).value } }); capNames = {}; renderCapabilities(); toast("Saved"); }
+    catch (e) { toast(e.message); }
+  }));
 }
 
 // ------------------------------------------------------------------ init ---

@@ -18,10 +18,33 @@ from .models import NVR, AlertContact, Camera, Event, Location, Organization, Us
 from .security import hash_password
 
 
+def sync_catalog(db: Session) -> None:
+    """Load or refresh the built-in use cases and the list of models/integrations."""
+    from .models import PlatformCapability, UseCase
+    from .usecases import CAPABILITIES, INTEGRATIONS, builtin_catalog
+    existing = {u.key: u for u in db.scalars(select(UseCase))}
+    for uc in builtin_catalog():
+        row = existing.get(uc["key"])
+        if row is None:
+            db.add(UseCase(builtin=True, **uc))
+        elif row.builtin:
+            for k, v in uc.items():
+                setattr(row, k, v)
+    have = {c.key for c in db.scalars(select(PlatformCapability))}
+    for key in CAPABILITIES:
+        if key not in have:
+            db.add(PlatformCapability(key=key, kind="model"))
+    for key in INTEGRATIONS:
+        if key not in have:
+            db.add(PlatformCapability(key=key, kind="integration"))
+    db.commit()
+
+
 def bootstrap(db: Session) -> str | None:
     """Create the first platform super admin if no users exist. Returns the generated
     password when one was generated (printed once to the server log)."""
     alerts.seed_default_rules(db)
+    sync_catalog(db)
     if db.scalar(select(User.id).limit(1)) is not None:
         return None
     pw = settings.admin_password or secrets.token_urlsafe(12)
@@ -32,9 +55,10 @@ def bootstrap(db: Session) -> str | None:
 
 ZONES = ["Main Gate", "Lobby", "Parking", "Loading Bay", "Perimeter East", "Corridor", "Cash Counter", "Server Room"]
 DEPARTMENTS = ["Security", "Operations", "Admin", "Finance", "Logistics", "IT"]
-EVENT_TYPES = [("zone_intrusion", "person"), ("line_crossing", "car"), ("loitering", "person"),
-               ("ppe_violation", "person"), ("anpr_read", "car"), ("crowd_density", "person"),
-               ("object_left", "backpack"), ("slip_fall", "person"), ("face_match", "person")]
+EVENT_TYPES = [("gen_intrusion", "person"), ("gen_line_cross", "car"), ("gen_loitering", "person"),
+               ("gen_ppe", "person"), ("gen_anpr_gate", "car"), ("gen_crowd", "person"), ("gen_abandoned", "backpack"),
+               ("gen_fall", "person"), ("gen_watchlist", "person"), ("ret_queue", "person"), ("bank_atm_multi", "person"),
+               ("log_forklift_person", "forklift"), ("it_phone_secure_bay", "cell phone"), ("gen_tailgating", "person")]
 
 # (org name, code, require_approval, tree). Tree nodes: (kind, name, city, children, nvrs)
 DEMO_ORGS = [
@@ -123,5 +147,12 @@ def seed_demo(db: Session) -> bool:
     ):
         db.add(AlertContact(location_id=named[loc_name].id, name=name, designation=desig, phone=phone, email=email,
                             min_severity=sev, escalation_delay_min=delay, notify_sms=sms, notify_email=True))
+    # Demo only: pretend the common models are installed so use cases can be tried out.
+    from .models import PlatformCapability
+    for key in ("person_vehicle", "anpr", "face"):
+        cap = db.get(PlatformCapability, key)
+        if cap:
+            cap.installed, cap.note, cap.updated_by = True, "Demo data: marked installed for evaluation", "demo"
+            cap.updated_at = utcnow()
     db.commit()
     return True

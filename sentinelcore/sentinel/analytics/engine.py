@@ -24,6 +24,9 @@ from dataclasses import dataclass, field
 Point = tuple[float, float]
 
 
+FULL_FRAME = [[0.0, 0.0], [1.0, 0.0], [1.0, 1.0], [0.0, 1.0]]
+
+
 # ------------------------------------------------------------------ geometry
 def point_in_polygon(p: Point, poly: list[Point]) -> bool:
     """Ray casting; points on the boundary may count either way."""
@@ -106,8 +109,11 @@ class IouTracker:
     """Greedy IoU tracker. Good enough for fixed cameras at >= 5 fps; replace
     with ByteTrack/BoT-SORT for crowded scenes."""
 
-    def __init__(self, iou_threshold: float = 0.3, max_missed: int = 10) -> None:
+    def __init__(self, iou_threshold: float = 0.3, max_missed: int = 10, max_foot_distance: float = 0.08) -> None:
         self.iou_threshold = iou_threshold
+        # Second pass: same class, foot points close together. Keeps identity when the
+        # box changes shape suddenly (a fall) or moves quickly between frames.
+        self.max_foot_distance = max_foot_distance
         self.max_missed = max_missed
         self.tracks: dict[int, Track] = {}
         self._next = 1
@@ -119,6 +125,21 @@ class IouTracker:
         used_tracks: set[int] = set()
         for score, tid, i in pairs:
             if score < self.iou_threshold:
+                break
+            if tid in used_tracks or i not in unmatched:
+                continue
+            t, d = self.tracks[tid], dets[i]
+            t.box, t.conf, t.last_ts, t.missed = d.box, d.conf, ts, 0
+            t.age += 1
+            t.history.append(t.foot)
+            del t.history[:-50]
+            used_tracks.add(tid)
+            unmatched.discard(i)
+        dist_pairs = sorted(
+            (((self.tracks[tid].foot[0] - dets[i].foot[0]) ** 2 + (self.tracks[tid].foot[1] - dets[i].foot[1]) ** 2) ** 0.5, tid, i)
+            for tid in self.tracks if tid not in used_tracks for i in unmatched if self.tracks[tid].cls == dets[i].cls)
+        for dist, tid, i in dist_pairs:
+            if dist > self.max_foot_distance:
                 break
             if tid in used_tracks or i not in unmatched:
                 continue
@@ -165,7 +186,8 @@ class Rule:
         self.min_conf = float(cfg.get("min_confidence", 0.5))
         self.min_area = float(cfg.get("min_box_area", 0.0005))
         self.min_age = int(cfg.get("min_track_age", 3))
-        self.polygon = [tuple(p) for p in cfg.get("polygon", [])]
+        # No polygon = the whole picture.
+        self.polygon = [tuple(p) for p in cfg.get("polygon") or FULL_FRAME]
 
     def eligible(self, t: Track) -> bool:
         area = (t.box[2] - t.box[0]) * (t.box[3] - t.box[1])
@@ -345,7 +367,186 @@ class ObjectLeft(Rule):
         return out
 
 
-RULES = {r.type: r for r in (ZoneIntrusion, LineCrossing, PeopleCount, Loitering, Occupancy, CrowdDensity, ObjectLeft)}
+class Proximity(Rule):
+    """Two kinds of object closer than `max_distance` (normalised, foot to foot),
+    e.g. forklift near a person, person near an aircraft engine. Calibrate per camera."""
+    type = "proximity"
+
+    def __init__(self, cfg):
+        super().__init__({"min_track_age": 2, **cfg})
+        self.classes_b = set(cfg.get("classes_b", ["person"]))
+        self.max_distance = float(cfg.get("max_distance", 0.08))
+        self.fired: set[tuple[int, int]] = set()
+
+    def process(self, tracks, ts):
+        a_tracks = [t for t in tracks if self.eligible(t) and point_in_polygon(t.foot, self.polygon)]
+        b_tracks = [t for t in tracks if t.cls in self.classes_b and t.conf >= self.min_conf and t.age >= self.min_age
+                    and point_in_polygon(t.foot, self.polygon)]
+        out = []
+        for a in a_tracks:
+            for b in b_tracks:
+                if a.id == b.id:
+                    continue
+                d = ((a.foot[0] - b.foot[0]) ** 2 + (a.foot[1] - b.foot[1]) ** 2) ** 0.5
+                key = (a.id, b.id)
+                if d <= self.max_distance and key not in self.fired:
+                    self.fired.add(key)
+                    out.append(EventOut(self.type, ts, a.id, a.cls, min(a.conf, b.conf), self.name,
+                                        {"other_class": b.cls, "other_track": b.id, "distance": round(d, 3)}))
+        return out
+
+
+class Dwell(Rule):
+    """Time each object spends in a zone. Reports the duration when it leaves
+    (truck turnaround, dock occupancy, aisle dwell, theatre usage) and raises
+    an alert once if it stays longer than `max_seconds` (0 = never alert)."""
+    type = "dwell"
+
+    def __init__(self, cfg):
+        super().__init__({"min_track_age": 1, **cfg})
+        self.max_seconds = float(cfg.get("max_seconds", 0))
+        self.min_report = float(cfg.get("min_report_seconds", 5))
+        self.inside: dict[int, tuple[float, str, float]] = {}
+        self.alerted: set[int] = set()
+
+    def process(self, tracks, ts):
+        out = []
+        present = set()
+        for t in tracks:
+            if not self.eligible(t) or not point_in_polygon(t.foot, self.polygon):
+                continue
+            present.add(t.id)
+            start, _, _ = self.inside.setdefault(t.id, (ts, t.cls, t.conf))
+            self.inside[t.id] = (start, t.cls, t.conf)
+            if self.max_seconds and ts - start >= self.max_seconds and t.id not in self.alerted:
+                self.alerted.add(t.id)
+                out.append(EventOut("dwell_exceeded", ts, t.id, t.cls, t.conf, self.name,
+                                    {"dwell_s": round(ts - start, 1), "max_s": self.max_seconds}))
+        for tid in [k for k in self.inside if k not in present]:
+            start, cls, conf = self.inside.pop(tid)
+            self.alerted.discard(tid)
+            if ts - start >= self.min_report:
+                out.append(EventOut("dwell_complete", ts, tid, cls, conf, self.name, {"dwell_s": round(ts - start, 1)}))
+        return out
+
+
+class PresenceRequired(Rule):
+    """Fewer than `min_count` objects in the zone for `seconds`: unattended
+    counter, guard post empty, vault opened without two custodians."""
+    type = "presence_required"
+
+    def __init__(self, cfg):
+        super().__init__({"min_track_age": 1, **cfg})
+        self.min_count = int(cfg.get("min_count", 1))
+        self.seconds = float(cfg.get("seconds", 60))
+        self.short_since: float | None = None
+        self.alerted = False
+
+    def process(self, tracks, ts):
+        n = sum(1 for t in tracks if self.eligible(t) and point_in_polygon(t.foot, self.polygon))
+        if n >= self.min_count:
+            self.short_since, self.alerted = None, False
+            return []
+        if self.short_since is None:
+            self.short_since = ts
+        if not self.alerted and ts - self.short_since >= self.seconds:
+            self.alerted = True
+            return [EventOut(self.type, ts, None, ",".join(sorted(self.classes)), 1.0, self.name,
+                             {"count": n, "required": self.min_count, "for_s": round(ts - self.short_since, 1)})]
+        return []
+
+
+class Tailgating(LineCrossing):
+    """More than one person crosses an entry line within `window_s` seconds
+    (one badge, several people). Pair with access-control events to confirm."""
+    type = "tailgating"
+
+    def __init__(self, cfg):
+        super().__init__({"min_track_age": 2, **cfg})
+        self.window = float(cfg.get("window_s", 3))
+        self.max_per_entry = int(cfg.get("max_per_entry", 1))
+        self.recent: list[tuple[float, int]] = []
+
+    def process(self, tracks, ts):
+        out = []
+        for t in tracks:
+            if not self.eligible(t):
+                continue
+            d = self.crossing(t)
+            if d and (self.direction in ("any", d)) and (t.id, d) not in self.fired:
+                self.fired.add((t.id, d))
+                self.recent = [(x, i) for x, i in self.recent if ts - x <= self.window]
+                self.recent.append((ts, t.id))
+                if len(self.recent) == self.max_per_entry + 1:
+                    out.append(EventOut(self.type, ts, t.id, t.cls, t.conf, self.name,
+                                        {"people": len(self.recent), "window_s": self.window, "direction": d}))
+        return out
+
+
+class FallHeuristic(Rule):
+    """Person box turns from upright to lying and stays down for `seconds`.
+    A shape heuristic: a pose model is more reliable (see the 'pose' capability)."""
+    type = "fall"
+
+    def __init__(self, cfg):
+        super().__init__({"min_track_age": 3, **cfg})
+        self.seconds = float(cfg.get("seconds", 5))
+        self.was_upright: set[int] = set()
+        self.down_since: dict[int, float] = {}
+        self.fired: set[int] = set()
+
+    def process(self, tracks, ts):
+        out = []
+        for t in tracks:
+            if t.cls not in self.classes or t.conf < self.min_conf or not point_in_polygon(t.foot, self.polygon):
+                continue
+            w, h = t.box[2] - t.box[0], t.box[3] - t.box[1]
+            ratio = h / w if w > 0 else 0
+            if ratio >= 1.3:
+                self.was_upright.add(t.id)
+                self.down_since.pop(t.id, None)
+            elif ratio <= 0.8 and t.id in self.was_upright:
+                start = self.down_since.setdefault(t.id, ts)
+                if ts - start >= self.seconds and t.id not in self.fired:
+                    self.fired.add(t.id)
+                    out.append(EventOut(self.type, ts, t.id, t.cls, t.conf, self.name, {"down_s": round(ts - start, 1)}))
+        return out
+
+
+class Speed(Rule):
+    """Object moving faster than `max_speed` (normalised frame widths per second,
+    averaged over `window` positions). Convert to km/h with a per-camera calibration."""
+    type = "speed"
+
+    def __init__(self, cfg):
+        super().__init__({"classes": ["car", "truck", "bus", "motorcycle"], **cfg})
+        self.max_speed = float(cfg.get("max_speed", 0.25))
+        self.window = int(cfg.get("window", 5))
+        self.hist: dict[int, list[tuple[float, Point]]] = {}
+        self.fired: set[int] = set()
+
+    def process(self, tracks, ts):
+        out = []
+        for t in tracks:
+            if not self.eligible(t) or not point_in_polygon(t.foot, self.polygon):
+                continue
+            h = self.hist.setdefault(t.id, [])
+            h.append((ts, t.foot))
+            del h[:-self.window]
+            if len(h) >= 2 and h[-1][0] > h[0][0]:
+                dist = sum(((h[i][1][0] - h[i - 1][1][0]) ** 2 + (h[i][1][1] - h[i - 1][1][1]) ** 2) ** 0.5
+                           for i in range(1, len(h)))
+                v = dist / (h[-1][0] - h[0][0])
+                if v > self.max_speed and t.id not in self.fired:
+                    self.fired.add(t.id)
+                    out.append(EventOut(self.type, ts, t.id, t.cls, t.conf, self.name, {"speed": round(v, 3)}))
+        return out
+
+
+RULES = {r.type: r for r in (ZoneIntrusion, LineCrossing, PeopleCount, Loitering, Occupancy, CrowdDensity, ObjectLeft,
+                             Proximity, Dwell, PresenceRequired, Tailgating, FallHeuristic, Speed)}
+LINE_RULES = {"line_crossing", "people_count", "tailgating"}
+
 
 
 def validate_rule_config(cfg: dict) -> list[str]:
@@ -353,19 +554,21 @@ def validate_rule_config(cfg: dict) -> list[str]:
     t = cfg.get("type")
     if t not in RULES:
         return [f"unknown analytic type {t!r}; choose from {sorted(RULES)}"]
-    if t in ("line_crossing", "people_count"):
+    if t in LINE_RULES:
         line = cfg.get("line")
         if not (isinstance(line, list) and len(line) == 2):
             errs.append("line must be [[x1,y1],[x2,y2]]")
-    else:
-        poly = cfg.get("polygon")
-        if not (isinstance(poly, list) and len(poly) >= 3):
-            errs.append("polygon needs at least 3 points")
+    poly = cfg.get("polygon")
+    if poly is not None and not (isinstance(poly, list) and len(poly) >= 3):
+        errs.append("polygon needs at least 3 points (or leave it out for the whole picture)")
     pts = (cfg.get("line") or []) + (cfg.get("polygon") or [])
     for p in pts:
         if not (isinstance(p, (list, tuple)) and len(p) == 2 and all(isinstance(v, (int, float)) and 0 <= v <= 1 for v in p)):
             errs.append(f"point {p!r} must be [x,y] with values 0..1")
             break
+    for k in ("seconds", "max_seconds", "min_count", "max_occupancy", "max_distance", "window_s", "max_speed"):
+        if k in cfg and not (isinstance(cfg[k], (int, float)) and cfg[k] >= 0):
+            errs.append(f"{k} must be a number ≥ 0")
     return errs
 
 
@@ -380,5 +583,12 @@ class CameraPipeline:
         tracks = self.tracker.update(dets, ts)
         events: list[EventOut] = []
         for r in self.rules:
-            events += r.process(tracks, ts)
+            for ev in r.process(tracks, ts):
+                # A use case can give its events its own name (e.g. "bank_vault_dual_custody").
+                if r.cfg.get("event_type") and ev.type not in ("dwell_complete",):
+                    ev.details = {**ev.details, "rule": ev.type}
+                    ev.type = r.cfg["event_type"]
+                if r.cfg.get("use_case"):
+                    ev.details = {**ev.details, "use_case": r.cfg["use_case"]}
+                events.append(ev)
         return events

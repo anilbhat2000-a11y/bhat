@@ -13,7 +13,31 @@ This report follows Section 11 of the build prompt: every claim is backed by a t
 | Privacy law | India, DPDP Act 2023 (see the gaps below) | — |
 | Database | SQLite (dev) and PostgreSQL 16 (prod). **Both tested** | — |
 
-## Tested here (`pytest -q`: 50 passed on SQLite and on PostgreSQL 16)
+## Tested here (`pytest -q`: 63 passed on SQLite and on PostgreSQL 16)
+
+### AI use cases (v0.3)
+
+| Feature | Evidence |
+|---|---|
+| Catalog: 184 built-in use cases with unique keys, covering all 13 sectors and all 12 categories; every rule template is valid | `test_builtin_catalog_is_consistent` and a validation run over every entry |
+| Status follows installed models and integrations; a use case cannot be switched on until everything it needs is installed; only the platform admin can mark things installed | `test_catalog_listing_and_status`, `test_enable_use_case_requires_model_then_works` |
+| Switch on/off per camera with zone/line and settings; unknown settings rejected; viewers cannot change | `test_enable_use_case_requires_model_then_works` |
+| Edge box gets only cameras in its location subtree, with stream login and use cases; the runner turns them into events named after the use case | `test_edge_config_and_runner_post_use_case_events` |
+| Events counted by category | `test_edge_config_and_runner_post_use_case_events` |
+| CSV import of use cases: validation, no overwriting of built-ins, all-or-nothing | `test_coverage_and_import` |
+| New rules: proximity, dwell, required presence (two-person rule), tailgating, fall (box-shape heuristic), speed; event name override | `test_analytics.py` (7 new tests on synthetic tracks) |
+| Tracker keeps identity through a sudden shape change or a fast move (foot-distance matching) | `test_fall_heuristic`, `test_speed_and_event_type_override` |
+| UI: use cases, coverage, models page, zone editor, camera use cases; no JS errors | Manual Playwright run and the guide capture script |
+
+### Not verified / not included (use cases)
+
+- **Models are not included.** Roughly 75 catalog entries need specialised models (face, ANPR, OCR, pose, PPE, fire/smoke, weapon, ATM tamper, shelf, defect inspection, aviation, driver monitoring). These must be sourced, installed and tested on your hardware and footage.
+- **Integrations are not built.** About 40 entries need connectors to POS, token queue, roster/HRMS, access control, gate pass, parking, fare collection, ATM switch/EJ, vault alarm, fleet, AODB, MES/LIMS, WMS or HMS. Only the catalog tagging exists today.
+- **Rule thresholds are untested on real footage.** Distance, speed and density values are in picture units and need calibration per camera. The fall rule is a box-shape heuristic; a pose model is more reliable.
+- **Catalog size.** It holds 184 of the 500 use cases in the requirement list. The rest need the owner's full list (CSV import).
+- **Heat maps and cross-camera person search** are listed as use cases but have no screen yet.
+
+### Earlier features (v0.2)
 
 ### Organizations, hierarchy, approvals, contacts, maintenance (added in this round)
 

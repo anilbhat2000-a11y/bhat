@@ -87,6 +87,15 @@ The **Manage devices** page lists cameras and NVRs with Open, Edit, Activate/Dea
   - the video stream (FPS, bitrate)
   - a picture check
 
+## AI use cases
+
+- **Catalog.** The **Use cases** page lists 184 built-in AI use cases across 13 sectors and 12 categories: cross-industry, logistics, IT/ITES, BPO, banking, branch operations, retail, pharma, hospitals, malls, railways, bus fleets and airports. It shows coverage against the requirement list (500 use cases in total).
+- **Your own list.** The platform admin can import the remaining use cases by CSV.
+- **What each use case needs.** Each one lists the AI models (for example face, ANPR, pose, PPE, ATM tamper) and the integrations (for example POS, token queue, roster, access control) it requires. It shows **Available** only when everything it needs is marked installed on **Models & integrations**.
+- **Rule-based use cases** can be switched on per camera, with a zone or line drawn on screen and settings such as time limits and counts. They run in the analytics engine on the edge box or GPU server, which reads them from `GET /api/edge/config`.
+- **Rule types:** zone, line, count, loitering, occupancy, crowd density, object left, proximity, dwell time, required presence, tailgating, fall and speed.
+- **Model-only and integration-only use cases** (face match, skimmer detection, POS reconciliation) produce their events directly from that model or integration, once it is connected.
+
 ## Adding real cameras
 
 | Method | Where | Notes |

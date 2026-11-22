@@ -98,21 +98,22 @@ footer { margin-top: 48px; padding-top: 16px; border-top: 1px solid var(--line);
       <li><a href="#camera"><span class="n">10</span>Add one camera</a></li>
       <li><a href="#discovery"><span class="n">11</span>ONVIF discovery</a></li>
       <li><a href="#manage"><span class="n">12</span>Manage devices</a></li>
-      <li><a href="#dashboards"><span class="n">13</span>Dashboards</a></li>
-      <li><a href="#approvals"><span class="n">14</span>Approvals</a></li>
-      <li><a href="#alerts"><span class="n">15</span>Alerts &amp; notifications</a></li>
-      <li><a href="#edge"><span class="n">16</span>Edge AI devices</a></li>
-      <li><a href="#audit"><span class="n">17</span>Audit log</a></li>
-      <li><a href="#service"><span class="n">18</span>Run as a service</a></li>
-      <li><a href="#golive"><span class="n">19</span>Go-live checklist</a></li>
-      <li><a href="#trouble"><span class="n">20</span>Troubleshooting</a></li>
-      <li><a href="#changes"><span class="n">21</span>What's new</a></li>
+      <li><a href="#usecases"><span class="n">13</span>AI use cases</a></li>
+      <li><a href="#dashboards"><span class="n">14</span>Dashboards</a></li>
+      <li><a href="#approvals"><span class="n">15</span>Approvals</a></li>
+      <li><a href="#alerts"><span class="n">16</span>Alerts &amp; notifications</a></li>
+      <li><a href="#edge"><span class="n">17</span>Edge AI devices</a></li>
+      <li><a href="#audit"><span class="n">18</span>Audit log</a></li>
+      <li><a href="#service"><span class="n">19</span>Run as a service</a></li>
+      <li><a href="#golive"><span class="n">20</span>Go-live checklist</a></li>
+      <li><a href="#trouble"><span class="n">21</span>Troubleshooting</a></li>
+      <li><a href="#changes"><span class="n">22</span>What's new</a></li>
     </ol>
   </nav>
 
   <main>
     <header class="top">
-      <div class="eyebrow">SentinelCore v0.2.0 · On-premise · Guide updated 22 Nov 2026</div>
+      <div class="eyebrow">SentinelCore v0.3.0 · On-premise · Guide updated 22 Nov 2026</div>
       <h1>SentinelCore Installation Guide</h1>
       <p class="lede">This guide takes you from a bare Linux server to a running multi-organization system. By the end you will have organizations, branches and offices set up, cameras and NVRs onboarded, alert contacts receiving notifications, and health dashboards live. Every screenshot was captured from a fresh install of this version.</p>
       <div class="meta"><span><b>Time needed:</b> about 45 minutes</span><span><b>Skill level:</b> basic Linux command line</span><span><b>Internet:</b> needed only to download packages</span></div>
@@ -156,14 +157,14 @@ cd bhat/sentinelcore</code></pre><button type="button">Copy</button></div></li>
 pip install -r requirements-dev.txt</code></pre><button type="button">Copy</button></div></li>
         <li>Run the test suite to confirm the install works on this machine:
           <div class="cmd"><pre><code>pytest -q</code></pre><button type="button">Copy</button></div>
-          <pre><code><span class="out">..................................................                       [100%]
-50 passed</span></code></pre></li>
+          <pre><code><span class="out">...............................................................          [100%]
+63 passed</span></code></pre></li>
       </ol>
       <h3>Option B: Docker Compose with PostgreSQL</h3>
       <div class="cmd"><pre><code>cd bhat/sentinelcore
 cp .env.example .env      # fill in SC_SECRET_KEY, SC_ADMIN_PASSWORD, POSTGRES_PASSWORD (and SMTP/SMS if wanted)
 docker compose up -d</code></pre><button type="button">Copy</button></div>
-      <div class="note warn"><strong>Not yet tested</strong>The Docker image has not been built yet. The app itself is tested on PostgreSQL 16. If the build fails, use Option A with <code>SC_DATABASE_URL</code> pointing at your PostgreSQL server (step 18).</div>
+      <div class="note warn"><strong>Not yet tested</strong>The Docker image has not been built yet. The app itself is tested on PostgreSQL 16. If the build fails, use Option A with <code>SC_DATABASE_URL</code> pointing at your PostgreSQL server (step 19).</div>
       <div class="note"><strong>Upgrading from v0.1</strong>The database layout changed in v0.2 (organizations and the location tree). There is no upgrade tool yet, so start with a new, empty database.</div>
     </section>
 
@@ -192,7 +193,7 @@ INFO:     Uvicorn running on http://127.0.0.1:8099 (Press CTRL+C to quit)
         <li>Open <b>Organizations</b>.</li>
         <li>Enter the name and a short code, for example <code>ACME</code>.</li>
         <li>Name its top-level location. This is usually “Corporate Office”.</li>
-        <li>Choose whether device changes need approval (step 14).</li>
+        <li>Choose whether device changes need approval (step 15).</li>
       </ol>
       <figure><img src="img/03-organizations.webp" alt="Organizations page with Acme Retail Pvt Ltd created" width="2560" height="1600" loading="lazy"><figcaption>The list shows each organization's locations, NVRs, cameras and users. The checkbox turns approval on or off at any time.</figcaption></figure>
     </section>
@@ -243,7 +244,7 @@ INFO:     Uvicorn running on http://127.0.0.1:8099 (Press CTRL+C to quit)
       </ol>
       <figure><img src="img/07-alert-contacts.webp" alt="Alert contacts: branch supervisor immediately, regional manager after 30 minutes, head of security after 60 minutes" width="2560" height="1612" loading="lazy"><figcaption>A typical chain: the branch supervisor is told immediately, the regional manager after 30 minutes, and the head of security after an hour, each only if the alert is still unacknowledged.</figcaption></figure>
       <h3>Turn on email and SMS</h3>
-      <p>Add these to the server's environment (step 18). Until they are set, the Notification log shows each message as <span class="pill warn">skipped</span>, so nothing is lost silently.</p>
+      <p>Add these to the server's environment (step 19). Until they are set, the Notification log shows each message as <span class="pill warn">skipped</span>, so nothing is lost silently.</p>
       <div class="cmd"><pre><code>SC_SMTP_HOST=mail.yourcompany.com
 SC_SMTP_PORT=587
 SC_SMTP_USER=sentinel@yourcompany.com
@@ -267,7 +268,7 @@ SC_SMS_HEADERS={"Authorization": "Bearer your-api-key"}</code></pre><button type
           <ul>
             <li><code>tcp</code>: checks the NVR answers. Works with any brand.</li>
             <li><code>onvif</code>: also reads make, model, serial number and firmware.</li>
-            <li><code>hikvision_isapi</code>: also reads disk status and storage. Test it on your model first (step 20).</li>
+            <li><code>hikvision_isapi</code>: also reads disk status and storage. Test it on your model first (step 21).</li>
           </ul></li>
       </ol>
       <figure><img src="img/08-add-nvr.webp" alt="Add NVR form for Andheri NVR-1 at Mumbai Andheri Branch" width="2560" height="1600" loading="lazy"><figcaption>The password is stored encrypted and never shown again.</figcaption></figure>
@@ -329,10 +330,53 @@ SC_SMS_HEADERS={"Authorization": "Bearer your-api-key"}</code></pre><button type
       <div class="note"><strong>Deactivate instead of delete</strong>A deactivated device keeps its history but is no longer checked and raises no alerts. Its open alerts are closed. Use it for cameras under repair or seasonal sites.</div>
     </section>
 
+
+    <section id="usecases">
+      <h2><span class="n">13</span>AI use cases</h2>
+      <p>The <b>Use cases</b> page holds the catalog of AI use cases for 13 sectors, from cross-industry to airports, grouped into 12 categories. Examples: two custodians at the vault, a forklift too close to a person, a phone in a no-device bay, tailgating, a queue that is too long. The catalog has 184 built-in use cases, covering every example in the requirement list, and you can import the rest of your own list.</p>
+      <h3>Step 1: tell the portal which models and integrations you have</h3>
+      <p>Many use cases need a specialised AI model (face, number plates, pose, PPE, ATM tamper…) or data from another system (POS bills, token queue, roster, badge events). On <b>Models &amp; integrations</b>, the platform admin marks each one installed once it really runs on your edge boxes or GPU server and has been tested on your own footage.</p>
+      <figure><img src="img/31-models.webp" alt="Models and integrations page with the person and vehicle detector marked installed" width="2560" height="1600" loading="lazy"><figcaption>The person &amp; vehicle detector is marked installed, with a note saying where it runs. The Use cases column shows how many use cases each model unlocks.</figcaption></figure>
+      <h3>Step 2: see what is available</h3>
+      <figure><img src="img/32-use-cases.webp" alt="Use cases page: catalog count, available now, coverage by sector, install to unlock more" width="2560" height="1600" loading="lazy"><figcaption>Coverage by sector compares the catalog with the requirement list. “Install to unlock more” shows which model or integration would switch on the most use cases.</figcaption></figure>
+      <figure><img src="img/33-use-cases-banking.webp" alt="Banking use cases with status Available, Needs model or Needs integration" width="2560" height="1600" loading="lazy"><figcaption>Filtered to banking. Each use case says how it works and exactly what it still needs. Only <b>Available</b> ones can be switched on.</figcaption></figure>
+      <div class="table"><table><thead><tr><th>Status</th><th>Meaning</th></tr></thead><tbody>
+        <tr><td><span class="pill ok">Available</span></td><td>Everything it needs is installed. Rule-based ones can be set up on any camera now</td></tr>
+        <tr><td><span class="pill warn">Needs model</span></td><td>A specialised AI model must be installed and tested first</td></tr>
+        <tr><td>Needs integration</td><td>Data from another system (POS, token queue, roster, badge events…) must be connected first</td></tr>
+      </tbody></table></div>
+      <h3>Step 3: switch a use case on for a camera</h3>
+      <ol>
+        <li>Open a camera and choose <b>Add use case</b>, or use <b>Set up on camera</b> on the Use cases page.</li>
+        <li>Pick the use case and the camera.</li>
+        <li>Adjust its settings: for example, alert after how many seconds, the minimum number of people, or the safe distance.</li>
+        <li>Click on the picture to draw the zone (at least 3 points) or the line (2 points). Leave it empty to use the whole picture. When the camera can send a still image, it is shown behind the grid.</li>
+      </ol>
+      <figure><img src="img/34-use-case-setup.webp" alt="Set up a use case: perimeter intrusion with a zone drawn on the editor" width="2560" height="1600" loading="lazy"><figcaption>Drawing the zone for “Perimeter intrusion after hours”.</figcaption></figure>
+      <figure><img src="img/35-camera-use-cases.webp" alt="Camera details listing the use case now switched on" width="2560" height="1600" loading="lazy"><figcaption>The camera now lists the use case, with <b>Turn off</b> next to it.</figcaption></figure>
+      <p>The edge box or GPU server for that location picks up the camera's use cases from the portal automatically (step 17). Events then appear on <b>AI events</b> under the use case's own name. They are counted by category on the overview and go to the location's alert contacts.</p>
+      <h3>Rule types available for your own use cases</h3>
+      <div class="table"><table><thead><tr><th>Rule</th><th>Typical use</th></tr></thead><tbody>
+        <tr><td>Object in a zone</td><td>Intrusion, phone in a secure bay, person on the tracks</td></tr>
+        <tr><td>Crossing a line / counting</td><td>Virtual fence, wrong way, footfall</td></tr>
+        <tr><td>Staying too long</td><td>Loitering, illegal parking</td></tr>
+        <tr><td>Too many in a zone / crowd density</td><td>Queues, occupancy limits, stampede warning</td></tr>
+        <tr><td>Too few people present</td><td>Counter unattended, two-person vault rule, guard absent</td></tr>
+        <tr><td>Time spent in a zone</td><td>Truck turnaround, dock occupancy, aisle dwell, theatre usage</td></tr>
+        <tr><td>Two objects too close</td><td>Forklift near a person, person near an engine intake</td></tr>
+        <tr><td>Several people per entry</td><td>Tailgating, fare-gate jumping</td></tr>
+        <tr><td>Object left behind</td><td>Unattended bags, blocked exits</td></tr>
+        <tr><td>Person fall / moving too fast</td><td>Falls, overspeeding vehicles or forklifts</td></tr>
+      </tbody></table></div>
+      <h3>Import your full use-case list</h3>
+      <p>The platform admin can add use cases from a CSV file at the bottom of the Use cases page. Download the template first. Each row needs a key, sector, category and name. Optionally add the models and integrations it needs, a rule type and the objects it detects. Rows are checked first, and nothing is imported unless every row is valid.</p>
+      <div class="note warn"><strong>What “Available” does and does not mean</strong>The rules have been tested. The models themselves are not included: you install and test them on your own hardware. Most use cases also need tuning per camera (zone, thresholds, camera angle) before their alerts can be trusted. Mark the false alarms on <b>AI events</b> to see the false-alarm rate.</div>
+    </section>
+
     <section id="dashboards">
-      <h2><span class="n">13</span>Check the dashboards</h2>
+      <h2><span class="n">14</span>Check the dashboards</h2>
       <p>Every device is checked every 30 seconds by default (<code>SC_COLLECT_INTERVAL</code>). Within a minute the dashboards fill in. Use the <b>Showing</b> list to look at one region, branch or floor.</p>
-      <figure><img src="img/18-overview.webp" alt="Overview dashboard with KPIs, uptime chart and by-branch table" width="2560" height="2078" loading="lazy"><figcaption>The overview, grouped by branch and office.</figcaption></figure>
+      <figure><img src="img/18-overview.webp" alt="Overview dashboard with KPIs, uptime chart and by-branch table" width="2560" height="2078" loading="lazy"><figcaption>The overview, grouped by branch and office, with AI events counted by category.</figcaption></figure>
       <figure><img src="img/19-camera-health.webp" alt="Camera health table with location, make, model, serial, status, FPS, bitrate" width="2560" height="1600" loading="lazy"><figcaption>Camera health: filter by location, status or power type, and export to CSV.</figcaption></figure>
       <figure><img src="img/20-battery-health.webp" alt="Battery health table" width="2560" height="1600" loading="lazy"><figcaption>Battery and solar cameras, lowest charge first. Values a camera does not report read “Not supported by device”.</figcaption></figure>
       <figure><img src="img/21-nvr-status.webp" alt="NVR status table with make, model, serial, disks, storage, retention" width="2560" height="1600" loading="lazy"><figcaption>NVR status: recording channels, disks, storage, days of recording kept, temperature.</figcaption></figure>
@@ -341,7 +385,7 @@ SC_SMS_HEADERS={"Authorization": "Bearer your-api-key"}</code></pre><button type
     </section>
 
     <section id="approvals">
-      <h2><span class="n">14</span>Approvals</h2>
+      <h2><span class="n">15</span>Approvals</h2>
       <p>When an organization requires approval, a location admin's request to add, edit, deactivate or delete a camera or NVR is not applied straight away. It waits on the <b>Approvals</b> page.</p>
       <ul>
         <li><b>Who can approve:</b> someone higher up the tree, either the org admin or a location admin assigned above the requester. A branch admin's request can be approved by the regional manager.</li>
@@ -353,29 +397,30 @@ SC_SMS_HEADERS={"Authorization": "Bearer your-api-key"}</code></pre><button type
     </section>
 
     <section id="alerts">
-      <h2><span class="n">15</span>Alerts, rules and notifications</h2>
+      <h2><span class="n">16</span>Alerts, rules and notifications</h2>
       <p>SentinelCore ships with 14 health rules. Examples: camera offline for more than 5 minutes, battery below 20%, NVR disk error, storage above 95%, recording kept for less than 7 days. A rule opens an alert when its condition has held for the set time, and closes it when the condition clears. Alert contacts are then notified as set up in step 7.</p>
       <figure><img src="img/27-alert-rules.webp" alt="Alert rules table" width="2560" height="1600" loading="lazy"><figcaption>The platform admin can turn rules on or off, and add new ones.</figcaption></figure>
       <figure><img src="img/26-notification-log.webp" alt="Notification log with a skipped email because SMTP is not configured" width="2560" height="1600" loading="lazy"><figcaption>Every email and SMS attempt is listed with its result. Here email is not configured yet, so the test message is marked skipped.</figcaption></figure>
     </section>
 
     <section id="edge">
-      <h2><span class="n">16</span>Edge AI devices (optional)</h2>
+      <h2><span class="n">17</span>Edge AI devices (optional)</h2>
       <p>Edge boxes such as Jetson or NUC units run AI detection near the cameras and send events to the server. Register each one under <b>Edge devices</b> at its location and copy its key, which is shown only once. A box can send events only for cameras at its location and below.</p>
       <figure><img src="img/28-edge-key.webp" alt="Edge device key created for jetson-andheri-01" width="2560" height="1600" loading="lazy"><figcaption>Key partly hidden here.</figcaption></figure>
       <div class="cmd"><pre><code>python -m sentinel.analytics.runner --server http://&lt;server-ip&gt;:8080 --api-key sc_… \
-  --camera-id 12 --url rtsp://… --model yolov8n.onnx --rules rules.json --fps 5</code></pre><button type="button">Copy</button></div>
+  --camera-id 12 --model yolov8n.onnx --fps 5</code></pre><button type="button">Copy</button></div>
+      <p>The box reads the camera's stream address and its use cases (step 13) from the portal, so zones and settings are managed in one place.</p>
       <div class="note warn"><strong>Not yet tested with a real model</strong>Try the model connector on one camera before rolling it out.</div>
     </section>
 
     <section id="audit">
-      <h2><span class="n">17</span>Audit log</h2>
+      <h2><span class="n">18</span>Audit log</h2>
       <p>Every sign-in, device change, approval, rejection, reboot, troubleshoot run and contact change is recorded with the user, time and IP address. Org admins and auditors see their own organization's log; the platform admin sees all of them.</p>
       <figure><img src="img/29-audit.webp" alt="Audit log" width="2560" height="1600" loading="lazy"><figcaption>The audit trail from this installation.</figcaption></figure>
     </section>
 
     <section id="service">
-      <h2><span class="n">18</span>Run it as a service</h2>
+      <h2><span class="n">19</span>Run it as a service</h2>
       <p>Create <code>/etc/sentinelcore.env</code>, readable only by root:</p>
       <div class="cmd"><pre><code>SC_SECRET_KEY=paste-your-key-here
 SC_DATABASE_URL=postgresql+psycopg://sentinel:DB_PASSWORD@localhost:5432/sentinel
@@ -410,7 +455,7 @@ sudo journalctl -u sentinelcore -f</code></pre><button type="button">Copy</butto
     </section>
 
     <section id="golive">
-      <h2><span class="n">19</span>Go-live checklist</h2>
+      <h2><span class="n">20</span>Go-live checklist</h2>
       <ul class="check">
         <li><code>SC_SECRET_KEY</code> is set and backed up somewhere safe</li>
         <li>The admin password has been changed from the generated one</li>
@@ -429,7 +474,7 @@ sudo journalctl -u sentinelcore -f</code></pre><button type="button">Copy</butto
     </section>
 
     <section id="trouble">
-      <h2><span class="n">20</span>Troubleshooting</h2>
+      <h2><span class="n">21</span>Troubleshooting</h2>
       <p>Start with the device's <b>Troubleshoot</b> button. It names the failing check and what to do. Common cases:</p>
       <div class="table"><table><thead><tr><th>Symptom</th><th>Likely cause and fix</th></tr></thead><tbody>
         <tr><td><span class="pill bad">Offline</span> with “connect failed”</td><td>The server cannot reach the device. Run <code>nc -vz &lt;ip&gt; 554</code> from the server; check routing, VLAN and firewall to that branch</td></tr>
@@ -446,7 +491,16 @@ sudo journalctl -u sentinelcore -f</code></pre><button type="button">Copy</butto
     </section>
 
     <section id="changes">
-      <h2><span class="n">21</span>What's new</h2>
+      <h2><span class="n">22</span>What's new</h2>
+      <h3>v0.3.0 — 22 Nov 2026</h3>
+      <ul>
+        <li>AI use case catalog: 184 built-in use cases across 13 sectors and 12 categories, with CSV import for your own list</li>
+        <li>Models &amp; integrations page: use cases show as Available only when what they need is installed</li>
+        <li>Switch use cases on per camera, with an on-screen zone and line editor</li>
+        <li>New rule types: too few people present, time in zone, two objects too close, tailgating, fall, speed</li>
+        <li>Edge boxes read each camera's use cases from the portal</li>
+        <li>AI events named after their use case, and counted by category</li>
+      </ul>
       <h3>v0.2.0 — 22 Nov 2026</h3>
       <ul>
         <li>Multiple organizations, each fully separated</li>
@@ -462,7 +516,7 @@ sudo journalctl -u sentinelcore -f</code></pre><button type="button">Copy</butto
       <ul><li>First release: camera, battery and NVR health, alerts, AI rule engine, single-organization sites</li></ul>
     </section>
 
-    <footer>SentinelCore v0.2.0. Screenshots re-captured from a fresh install with <code>docs/install-guide/capture.sh</code>. The README and docs/VERIFICATION.md in the repository say exactly what has been tested and what is still planned.</footer>
+    <footer>SentinelCore v0.3.0. Screenshots re-captured from a fresh install with <code>docs/install-guide/capture.sh</code>. The README and docs/VERIFICATION.md in the repository say exactly what has been tested and what is still planned.</footer>
   </main>
 </div>
 

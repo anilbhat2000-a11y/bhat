@@ -159,6 +159,24 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
   await shot(a, "17-reboot-confirm");
   await a.click("#cbNo"); await a.keyboard.press("Escape");
 
+  // AI use cases: install a model, browse the catalog, switch one on for a camera
+  await go(a, "capabilities", "[data-cap]");
+  await a.fill('[data-note="person_vehicle"]', "YOLOv8m on the GPU server, tested on site footage");
+  await a.click('[data-cap="person_vehicle"]'); await sleep(900); await toastGone(a);
+  await shot(a, "31-models");
+  await go(a, "usecases", "#ucs"); await shot(a, "32-use-cases");
+  await a.selectOption("#ucs", "banking"); await sleep(900);
+  await a.evaluate(() => document.querySelector("#ucq").scrollIntoView()); await shot(a, "33-use-cases-banking");
+  await go(a, "cameras", "tr.clickable"); await a.click("tr.clickable"); await a.waitForSelector("#ucAdd");
+  await a.click("#ucAdd"); await a.waitForSelector("#ucForm");
+  await a.selectOption("#ucForm select[name=key]", "gen_intrusion"); await sleep(500);
+  const zb = await a.locator("#zoneSvg").boundingBox();
+  for (const [x, y] of [[0.15, 0.35], [0.85, 0.35], [0.9, 0.95], [0.1, 0.95]]) await a.mouse.click(zb.x + zb.width * x, zb.y + zb.height * y);
+  await shot(a, "34-use-case-setup");
+  await a.click("#ucForm button[type=submit]"); await a.waitForSelector("[data-ucdel]"); await toastGone(a);
+  await a.locator("[data-ucdel]").scrollIntoViewIfNeeded(); await shot(a, "35-camera-use-cases");
+  await a.keyboard.press("Escape");
+
   // Dashboards
   await go(a, "overview", ".kpi"); await shot(a, "18-overview", { fullPage: true });
   await go(a, "cameras", "tr.clickable"); await shot(a, "19-camera-health");

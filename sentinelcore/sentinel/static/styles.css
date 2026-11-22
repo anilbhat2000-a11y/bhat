@@ -159,3 +159,12 @@ td.wrap { white-space: normal; min-width: 160px; max-width: 280px; }
 @media (max-width: 760px) { .indent-1, .indent-2, .indent-3, .indent-4, .indent-5, .indent-6, .indent-7 { padding-left: 12px; } .field.wide { grid-column: auto; } }
 td.act-cell, .act-cell { min-width: 190px; max-width: 240px; white-space: normal; }
 .devtable td { vertical-align: top; }
+.zone-wrap { position: relative; width: 100%; aspect-ratio: 16 / 9; max-width: 100%; background: var(--panel-2); border-radius: 8px; overflow: hidden; border: 1px solid var(--border); }
+.zone-wrap img, .zone-wrap svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+.zone-wrap img { object-fit: cover; }
+.zone-wrap svg { cursor: crosshair; }
+.zone-grid { fill: none; stroke: var(--border); stroke-width: 0.3; }
+.zone-poly { fill: var(--chart-1); fill-opacity: 0.25; stroke: var(--chart-1); stroke-width: 0.6; }
+.zone-line { fill: none; stroke: var(--bad); stroke-width: 1; }
+.zone-dot circle { fill: var(--chart-1); stroke: var(--panel); stroke-width: 0.4; }
+.card h2 .btn.right { margin-left: auto; }

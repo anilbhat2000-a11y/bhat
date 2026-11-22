@@ -23,7 +23,7 @@ from ..config import settings
 from .serializers import alert_dict, event_dict, iso
 
 router = APIRouter(prefix="/api", tags=["ops"])
-VERSION = "0.2.0"
+VERSION = "0.3.0"
 
 
 def _subtree(db: Session, user: User, location_id: int) -> set[int]:
@@ -298,10 +298,18 @@ def event_stats(days: int = Query(7, ge=1, le=90), user: User = Depends(require(
         by_type[t]["total"] += n
         if s in ("true_alarm", "false_alarm"):
             by_type[t][s] += n
+    from ..models import UseCase
+    ucs = {u.key: u for u in db.scalars(select(UseCase).where(UseCase.key.in_(list(by_type) or ["-"])))}
+    by_category: dict[str, int] = defaultdict(int)
+    for t, v in by_type.items():
+        v["name"] = ucs[t].name if t in ucs else t.replace("_", " ")
+        v["category"] = ucs[t].category if t in ucs else ""
+        if v["category"]:
+            by_category[v["category"]] += v["total"]
     closed_true = sum(v["true_alarm"] for v in by_type.values())
     closed_false = sum(v["false_alarm"] for v in by_type.values())
     reviewed = closed_true + closed_false
-    return {"days": days, "by_type": dict(by_type), "reviewed": reviewed,
+    return {"days": days, "by_type": dict(by_type), "by_category": dict(by_category), "reviewed": reviewed,
             "false_alarm_pct": round(100 * closed_false / reviewed, 1) if reviewed else None}
 
 

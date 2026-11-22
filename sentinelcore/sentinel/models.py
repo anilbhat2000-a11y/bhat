@@ -319,3 +319,30 @@ class AuditLog(Base):
     target: Mapped[str] = mapped_column(String(120), default="")
     details: Mapped[dict] = mapped_column(JSON, default=dict)
     ip: Mapped[str] = mapped_column(String(64), default="")
+
+
+class UseCase(Base):
+    """A use case in the catalog (built-in or imported)."""
+    __tablename__ = "use_cases"
+    id: Mapped[int] = mapped_column(primary_key=True)
+    key: Mapped[str] = mapped_column(String(60), unique=True)
+    sector: Mapped[str] = mapped_column(String(30), index=True)
+    category: Mapped[str] = mapped_column(String(40), index=True)
+    name: Mapped[str] = mapped_column(String(200))
+    description: Mapped[str] = mapped_column(Text, default="")
+    capabilities: Mapped[list] = mapped_column(JSON, default=list)
+    integrations: Mapped[list] = mapped_column(JSON, default=list)
+    rule: Mapped[dict | None] = mapped_column(JSON, nullable=True)
+    severity: Mapped[str] = mapped_column(String(10), default="warning")
+    builtin: Mapped[bool] = mapped_column(Boolean, default=True)
+
+
+class PlatformCapability(Base):
+    """Whether an AI model or an integration is installed on this platform."""
+    __tablename__ = "platform_capabilities"
+    key: Mapped[str] = mapped_column(String(40), primary_key=True)
+    kind: Mapped[str] = mapped_column(String(12))  # model | integration
+    installed: Mapped[bool] = mapped_column(Boolean, default=False)
+    note: Mapped[str] = mapped_column(String(300), default="")
+    updated_by: Mapped[str] = mapped_column(String(80), default="")
+    updated_at: Mapped[datetime | None] = mapped_column(DateTime, nullable=True)

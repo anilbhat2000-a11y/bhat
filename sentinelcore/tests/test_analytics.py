@@ -113,3 +113,73 @@ def test_validate_rule_config():
     assert validate_rule_config({"type": "nope"})
     assert validate_rule_config({"type": "zone_intrusion", "polygon": [[0, 0], [1, 1]]})
     assert validate_rule_config({"type": "line_crossing", "line": [[0, 0], [2, 1]]})
+
+
+# ---------------------------------------------------------------- new rules
+def test_proximity_forklift_near_person():
+    pipe = CameraPipeline([{"type": "proximity", "classes": ["forklift"], "classes_b": ["person"], "max_distance": 0.1}])
+    far = [(t, [Detection("forklift", 0.9, box_at(0.2, 0.6, 0.1, 0.1)), Detection("person", 0.9, box_at(0.6, 0.6))]) for t in range(3)]
+    assert run(pipe, far) == []
+    near = [(3 + t, [Detection("forklift", 0.9, box_at(0.24 + 0.05 * t, 0.6, 0.1, 0.1)), Detection("person", 0.9, box_at(0.6, 0.6))]) for t in range(7)]
+    ev = run(pipe, near)
+    assert len(ev) == 1 and ev[0].details["other_class"] == "person" and ev[0].details["distance"] <= 0.1
+
+
+def test_dwell_reports_duration_and_alerts_once():
+    pipe = CameraPipeline([{"type": "dwell", "classes": ["truck"], "polygon": SQUARE, "max_seconds": 60}])
+    frames = [(t, [Detection("truck", 0.9, box_at(0.5, 0.5, 0.2, 0.2))]) for t in range(0, 100, 10)]
+    frames.append((100, []))
+    ev = run(pipe, frames)
+    assert [e.type for e in ev] == ["dwell_exceeded", "dwell_complete"]
+    assert ev[1].details["dwell_s"] == 100
+
+
+def test_presence_required_two_person_rule():
+    pipe = CameraPipeline([{"type": "presence_required", "min_count": 2, "seconds": 10, "polygon": SQUARE}])
+    two = [Detection("person", 0.9, box_at(0.35, 0.5)), Detection("person", 0.9, box_at(0.65, 0.5))]
+    assert run(pipe, [(t, two) for t in range(0, 20, 5)]) == []
+    one = [two[0]]
+    ev = run(pipe, [(20 + t, one) for t in range(0, 20, 5)])
+    assert len(ev) == 1 and ev[0].details["count"] == 1 and ev[0].details["required"] == 2
+
+
+def test_tailgating_two_people_within_window():
+    line = [[0.5, 0.0], [0.5, 1.0]]
+    pipe = CameraPipeline([{"type": "tailgating", "line": line, "window_s": 3}])
+    a = [0.40, 0.43, 0.46, 0.49, 0.52, 0.55, 0.58, 0.61]
+    frames = []
+    for i in range(len(a)):
+        dets = [Detection("person", 0.9, box_at(a[i], 0.3))]
+        if i >= 1:
+            dets.append(Detection("person", 0.9, box_at(a[i - 1], 0.8)))
+        frames.append((i * 0.5, dets))
+    ev = run(pipe, frames)
+    assert len(ev) == 1 and ev[0].details["people"] == 2
+    single = CameraPipeline([{"type": "tailgating", "line": line, "window_s": 3}])
+    assert run(single, [(i, [Detection("person", 0.9, box_at(x, 0.3))]) for i, x in enumerate(a)]) == []
+
+
+def test_fall_heuristic():
+    pipe = CameraPipeline([{"type": "fall", "seconds": 3}])
+    upright = [(t, [Detection("person", 0.9, (0.45, 0.3, 0.55, 0.6))]) for t in range(4)]
+    lying = [(4 + t, [Detection("person", 0.9, (0.40, 0.52, 0.62, 0.62))]) for t in range(5)]
+    ev = run(pipe, upright + lying)
+    assert len(ev) == 1 and ev[0].type == "fall"
+
+
+def test_speed_and_event_type_override():
+    pipe = CameraPipeline([{"type": "speed", "max_speed": 0.2, "event_type": "bus_overspeed", "use_case": "bus_overspeed"}])
+    slow = [(t, [Detection("bus", 0.9, box_at(0.1 + 0.05 * t, 0.7, 0.1, 0.1))]) for t in range(5)]
+    assert run(pipe, slow) == []
+    fast = CameraPipeline([{"type": "speed", "max_speed": 0.2, "event_type": "bus_overspeed", "use_case": "bus_overspeed"}])
+    ev = run(fast, [(t * 0.25, [Detection("bus", 0.9, box_at(0.1 + 0.06 * t, 0.7, 0.1, 0.1))]) for t in range(8)])
+    assert len(ev) == 1 and ev[0].type == "bus_overspeed" and ev[0].details["rule"] == "speed"
+    assert ev[0].details["use_case"] == "bus_overspeed"
+
+
+def test_whole_frame_default_and_validation_of_new_rules():
+    assert validate_rule_config({"type": "presence_required", "min_count": 2}) == []
+    assert validate_rule_config({"type": "tailgating"})  # needs a line
+    assert validate_rule_config({"type": "dwell", "max_seconds": -5})
+    pipe = CameraPipeline([{"type": "zone_intrusion", "classes": ["cell phone"], "min_track_age": 1}])
+    assert len(run(pipe, [(0, [Detection("cell phone", 0.8, box_at(0.9, 0.95, 0.02, 0.03))])])) == 1
