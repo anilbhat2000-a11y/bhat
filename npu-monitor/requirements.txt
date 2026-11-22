@@ -1,0 +1,29 @@
+# Core
+fastapi>=0.110
+uvicorn[standard]>=0.29   # [standard] brings the WebSocket library
+python-multipart>=0.0.9
+numpy>=1.26
+pillow>=10.0
+psutil>=5.9
+onnx>=1.15
+
+# Live sources
+opencv-python-headless>=4.9   # laptop camera
+mss>=9.0                      # screen / graphics capture
+
+# Documents
+pymupdf>=1.24                 # PDF
+openpyxl>=3.1                 # Excel
+
+# Windows performance counters (NPU + GPU utilisation, same source as Task Manager)
+pywin32>=306; sys_platform == "win32"
+
+# ---- Inference backends: install the one(s) matching your NPU -----------------
+# Intel Core Ultra (NPU + iGPU + CPU):
+openvino>=2024.4
+# Plain CPU fallback (always useful for comparisons):
+onnxruntime>=1.18
+# AMD Ryzen AI      -> install the Ryzen AI Software package (ships onnxruntime + Vitis AI EP)
+# Qualcomm Snapdragon X -> pip install onnxruntime-qnn   (instead of onnxruntime)
+# Any DX12 GPU on Windows -> pip install onnxruntime-directml
+# NVIDIA GPU stats/inference -> pip install nvidia-ml-py onnxruntime-gpu
