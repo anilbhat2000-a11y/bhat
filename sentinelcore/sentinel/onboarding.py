@@ -116,7 +116,8 @@ def import_nvr_channels(db: Session, nvr: NVR, channels: list[int] | None = None
         main, sub = channel_urls(nvr.vendor, nvr.host, nvr.rtsp_port, ch, main_tpl, sub_tpl)
         cam = Camera(location_id=nvr.location_id, nvr_id=nvr.id, channel=ch, name=f"{name_prefix or nvr.name} CH{ch:02d}",
                      vendor=nvr.vendor, rtsp_url=main, sub_stream_url=sub, username=nvr.username,
-                     password_enc=nvr.password_enc, driver=driver if nvr.driver != "simulator" else "simulator")
+                     password_enc=nvr.password_enc, driver=driver if nvr.driver != "simulator" else "simulator",
+                     department=nvr.department)
         db.add(cam)
         created.append(cam)
     db.flush()

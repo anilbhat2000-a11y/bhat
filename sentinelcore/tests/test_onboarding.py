@@ -80,13 +80,15 @@ def test_missing_columns():
 def test_nvr_channel_import_skips_existing():
     with SessionLocal() as db:
         location = db.scalar(select(Location).where(Location.name == "CSV Location A"))
-        nvr = NVR(location_id=location.id, name="HQ-NVR", vendor="hikvision", host="10.1.1.10", channels=4)
+        nvr = NVR(location_id=location.id, name="HQ-NVR", vendor="hikvision", host="10.1.1.10", channels=4,
+                  department="Security")
         db.add(nvr)
         db.flush()
         first = onboarding.import_nvr_channels(db, nvr, [1, 2])
         assert [c.rtsp_url for c in first] == ["rtsp://10.1.1.10:554/Streaming/Channels/101",
                                               "rtsp://10.1.1.10:554/Streaming/Channels/201"]
         assert first[0].sub_stream_url.endswith("/102")
+        assert first[0].department == "Security"
         second = onboarding.import_nvr_channels(db, nvr)
         assert sorted(c.channel for c in second) == [3, 4]
         db.commit()

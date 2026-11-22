@@ -1,0 +1,6 @@
+INFO:     Started server process [4739]
+INFO:     Waiting for application startup.
+2026-11-22 20:56:58,882 WARNING sentinel: Created first user 'admin' with password: ••••••••••••••••  (change it after first login)
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:8099 (Press CTRL+C to quit)
+2026-11-22 20:56:58,981 INFO sentinel.collector: health cycle: {'cameras': 0, 'nvrs': 0, 'alerts_opened': 0, 'notifications': 0}

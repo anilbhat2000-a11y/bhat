@@ -1,0 +1,485 @@
+<title>SentinelCore Installation Guide</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: sticky table of contents on the left, one reading column of numbered steps with full-width screenshots. */
+:root {
+  --bg: #f6f8fb; --paper: #ffffff; --ink: #142032; --muted: #5a6b80; --line: #dde3eb;
+  --accent: #1f6feb; --accent-soft: #e7f0ff; --code-bg: #0f1724; --code-ink: #dbe6f5;
+  --warn: #9a5b00; --warn-bg: #fff4dd; --ok: #1a7f37; --ok-bg: #e6f5ea; --bad: #b42318; --bad-bg: #fdecea;
+  --sans: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #0d131b; --paper: #141c26; --ink: #e5ecf5; --muted: #95a4b7; --line: #263241;
+  --accent: #5b9bff; --accent-soft: #15253d; --code-bg: #080d14; --code-ink: #d4e1f2;
+  --warn: #e7b04f; --warn-bg: #2a2010; --ok: #49c26a; --ok-bg: #11261a; --bad: #f2786c; --bad-bg: #2d1414; color-scheme: dark; } }
+:root[data-theme="dark"] {
+  --bg: #0d131b; --paper: #141c26; --ink: #e5ecf5; --muted: #95a4b7; --line: #263241;
+  --accent: #5b9bff; --accent-soft: #15253d; --code-bg: #080d14; --code-ink: #d4e1f2;
+  --warn: #e7b04f; --warn-bg: #2a2010; --ok: #49c26a; --ok-bg: #11261a; --bad: #f2786c; --bad-bg: #2d1414; color-scheme: dark; }
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font: 16px/1.6 var(--sans); }
+.wrap { display: grid; grid-template-columns: 250px minmax(0, 1fr); gap: 40px; max-width: 1240px; margin: 0 auto;
+  padding-block: 32px 64px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+nav.toc { position: sticky; top: calc(env(safe-area-inset-top, 0px) + 24px); align-self: start; max-height: calc(100vh - 48px); overflow-y: auto; font-size: 14px; }
+nav.toc .label { font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
+nav.toc ol { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 2px; counter-reset: s; }
+nav.toc a { display: flex; gap: 8px; padding: 5px 8px; border-radius: 6px; color: var(--ink); text-decoration: none; }
+nav.toc a:hover { background: var(--accent-soft); color: var(--accent); }
+nav.toc a .n { font-family: var(--mono); color: var(--muted); min-width: 1.6em; }
+main { min-width: 0; max-width: 860px; }
+header.top { padding-bottom: 24px; border-bottom: 1px solid var(--line); margin-bottom: 8px; }
+.eyebrow { font-family: var(--mono); font-size: 13px; color: var(--accent); letter-spacing: .04em; }
+h1 { font-size: clamp(28px, 4vw, 38px); line-height: 1.15; margin: 8px 0 12px; text-wrap: balance; }
+.lede { color: var(--muted); font-size: 18px; max-width: 65ch; margin: 0; }
+.meta { display: flex; flex-wrap: wrap; gap: 8px 20px; margin-top: 16px; font-size: 14px; color: var(--muted); }
+.meta b { color: var(--ink); font-weight: 600; }
+section { padding-top: 36px; scroll-margin-top: 16px; }
+h2 { font-size: 24px; margin: 0 0 12px; display: flex; align-items: baseline; gap: 12px; text-wrap: balance; }
+h2 .n { font-family: var(--mono); font-size: 15px; color: var(--accent); background: var(--accent-soft); padding: 2px 8px; border-radius: 6px; flex: none; }
+h3 { font-size: 18px; margin: 24px 0 8px; }
+p, li { max-width: 68ch; }
+ul, ol { padding-left: 1.3em; }
+li + li { margin-top: 4px; }
+a { color: var(--accent); }
+code { font-family: var(--mono); font-size: .88em; background: var(--accent-soft); padding: 1px 5px; border-radius: 4px; overflow-wrap: anywhere; }
+pre { background: var(--code-bg); color: var(--code-ink); border-radius: 10px; padding: 14px 16px; overflow-x: auto; font: 13.5px/1.55 var(--mono); margin: 12px 0; }
+pre code { background: none; padding: 0; color: inherit; font-size: inherit; overflow-wrap: normal; }
+.cmd { position: relative; }
+.cmd button { position: absolute; top: 8px; right: 8px; font: 12px var(--sans); background: transparent; color: var(--code-ink); border: 1px solid #ffffff33; border-radius: 6px; padding: 3px 9px; cursor: pointer; }
+.cmd button:hover { background: #ffffff14; }
+.cmd button:focus-visible, a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.prompt { color: #7fa7d9; user-select: none; }
+.out { color: #93a4b8; }
+figure { margin: 16px 0 8px; }
+figure img { display: block; width: 100%; height: auto; border: 1px solid var(--line); border-radius: 10px; background: var(--paper); }
+figcaption { font-size: 14px; color: var(--muted); margin-top: 8px; }
+figure.phone { max-width: 320px; }
+.note { border-radius: 10px; padding: 12px 16px; margin: 16px 0; font-size: 15px; border: 1px solid var(--line); background: var(--paper); }
+.note strong:first-child { display: block; margin-bottom: 2px; }
+.note.warn { background: var(--warn-bg); border-color: transparent; }
+.note.warn strong:first-child { color: var(--warn); }
+.note.ok { background: var(--ok-bg); border-color: transparent; }
+.note.ok strong:first-child { color: var(--ok); }
+.table { overflow-x: auto; margin: 12px 0; border: 1px solid var(--line); border-radius: 10px; background: var(--paper); }
+table { border-collapse: collapse; width: 100%; font-size: 14.5px; }
+th, td { text-align: left; padding: 9px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
+tr:last-child td { border-bottom: 0; }
+th { font-size: 13px; color: var(--muted); font-weight: 600; background: var(--bg); }
+td code { white-space: nowrap; }
+.check { list-style: none; padding: 0; }
+.check li { padding-left: 28px; position: relative; }
+.check li::before { content: ""; position: absolute; left: 2px; top: .35em; width: 14px; height: 14px; border: 2px solid var(--accent); border-radius: 4px; }
+.pill { font-size: 12px; font-weight: 600; padding: 1px 8px; border-radius: 999px; white-space: nowrap; }
+.pill.ok { background: var(--ok-bg); color: var(--ok); } .pill.warn { background: var(--warn-bg); color: var(--warn); } .pill.bad { background: var(--bad-bg); color: var(--bad); }
+footer { margin-top: 48px; padding-top: 16px; border-top: 1px solid var(--line); color: var(--muted); font-size: 14px; }
+@media (max-width: 900px) {
+  .wrap { grid-template-columns: 1fr; gap: 0; padding-block: 20px 48px; }
+  nav.toc { position: static; max-height: none; border: 1px solid var(--line); border-radius: 10px; padding: 12px; background: var(--paper); margin-bottom: 8px; }
+  nav.toc ol { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
+}
+@media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
+</style>
+
+<div class="wrap">
+  <nav class="toc" aria-label="Contents">
+    <div class="label">Contents</div>
+    <ol>
+      <li><a href="#requirements"><span class="n">01</span>Requirements</a></li>
+      <li><a href="#install"><span class="n">02</span>Install</a></li>
+      <li><a href="#first-start"><span class="n">03</span>First start &amp; sign-in</a></li>
+      <li><a href="#org"><span class="n">04</span>Create an organization</a></li>
+      <li><a href="#locations"><span class="n">05</span>Build the location tree</a></li>
+      <li><a href="#users"><span class="n">06</span>Users &amp; access</a></li>
+      <li><a href="#contacts"><span class="n">07</span>Alert contacts</a></li>
+      <li><a href="#nvr"><span class="n">08</span>Add NVRs &amp; channels</a></li>
+      <li><a href="#csv"><span class="n">09</span>Bulk CSV import</a></li>
+      <li><a href="#camera"><span class="n">10</span>Add one camera</a></li>
+      <li><a href="#discovery"><span class="n">11</span>ONVIF discovery</a></li>
+      <li><a href="#manage"><span class="n">12</span>Manage devices</a></li>
+      <li><a href="#dashboards"><span class="n">13</span>Dashboards</a></li>
+      <li><a href="#approvals"><span class="n">14</span>Approvals</a></li>
+      <li><a href="#alerts"><span class="n">15</span>Alerts &amp; notifications</a></li>
+      <li><a href="#edge"><span class="n">16</span>Edge AI devices</a></li>
+      <li><a href="#audit"><span class="n">17</span>Audit log</a></li>
+      <li><a href="#service"><span class="n">18</span>Run as a service</a></li>
+      <li><a href="#golive"><span class="n">19</span>Go-live checklist</a></li>
+      <li><a href="#trouble"><span class="n">20</span>Troubleshooting</a></li>
+      <li><a href="#changes"><span class="n">21</span>What's new</a></li>
+    </ol>
+  </nav>
+
+  <main>
+    <header class="top">
+      <div class="eyebrow">SentinelCore v0.2.0 · On-premise · Guide updated 22 Nov 2026</div>
+      <h1>SentinelCore Installation Guide</h1>
+      <p class="lede">This guide takes you from a bare Linux server to a running multi-organization system. By the end you will have organizations, branches and offices set up, cameras and NVRs onboarded, alert contacts receiving notifications, and health dashboards live. Every screenshot was captured from a fresh install of this version.</p>
+      <div class="meta"><span><b>Time needed:</b> about 45 minutes</span><span><b>Skill level:</b> basic Linux command line</span><span><b>Internet:</b> needed only to download packages</span></div>
+    </header>
+
+    <div class="note warn"><strong>About the screenshots</strong>
+      The devices in these screenshots use the <code>simulator</code> health driver, so the dashboards show realistic numbers without real hardware. That is why a <b>SIMULATED DATA</b> badge appears at the top right. For your real cameras and NVRs, choose the <code>generic</code> camera driver and the <code>tcp</code>, <code>onvif</code> or <code>hikvision_isapi</code> NVR driver (step 8).</div>
+
+    <section id="requirements">
+      <h2><span class="n">01</span>Requirements</h2>
+      <div class="table"><table>
+        <thead><tr><th>Item</th><th>What you need</th></tr></thead>
+        <tbody>
+          <tr><td>Server</td><td>A Linux machine or VM (Ubuntu 22.04/24.04 recommended) on a network that can reach the camera and NVR VLANs at every branch</td></tr>
+          <tr><td>Python</td><td>3.11 or newer. Tested with 3.13</td></tr>
+          <tr><td>FFmpeg</td><td>Needed to measure real FPS, bitrate and picture problems. Without it, SentinelCore only checks whether each camera answers</td></tr>
+          <tr><td>Database</td><td>SQLite is built in and fine for a trial. Use PostgreSQL 16 in production (tested)</td></tr>
+          <tr><td>Mail server</td><td>Optional: an SMTP server for email alerts</td></tr>
+          <tr><td>SMS gateway</td><td>Optional: any SMS provider with an HTTP API, for SMS alerts</td></tr>
+          <tr><td>Network ports</td><td>Server to cameras: RTSP <code>554</code> and ONVIF/HTTP <code>80</code> (or each device's own ports). Browsers to server: <code>8080</code>, or 443 behind a reverse proxy</td></tr>
+          <tr><td>Browser</td><td>A current version of Chrome, Edge, Firefox or Safari, on desktop or phone</td></tr>
+        </tbody></table></div>
+      <div class="cmd"><pre><code><span class="prompt">$ </span>python3 --version
+<span class="out">Python 3.13.18</span>
+<span class="prompt">$ </span>ffmpeg -version | head -1
+<span class="out">ffmpeg version 6.1.1-3ubuntu5 Copyright (c) 2000-2023 the FFmpeg developers</span></code></pre></div>
+      <p>If either is missing, install it on Ubuntu with:</p>
+      <div class="cmd"><pre><code>sudo apt update &amp;&amp; sudo apt install -y python3 python3-venv ffmpeg git</code></pre><button type="button">Copy</button></div>
+    </section>
+
+    <section id="install">
+      <h2><span class="n">02</span>Install</h2>
+      <h3>Option A: Python (recommended for a first install)</h3>
+      <ol>
+        <li>Get the code and go into the project folder:
+          <div class="cmd"><pre><code>git clone https://github.com/anilbhat2000-a11y/bhat.git
+cd bhat/sentinelcore</code></pre><button type="button">Copy</button></div></li>
+        <li>Create a virtual environment and install the pinned packages:
+          <div class="cmd"><pre><code>python3 -m venv .venv
+. .venv/bin/activate
+pip install -r requirements-dev.txt</code></pre><button type="button">Copy</button></div></li>
+        <li>Run the test suite to confirm the install works on this machine:
+          <div class="cmd"><pre><code>pytest -q</code></pre><button type="button">Copy</button></div>
+          <pre><code><span class="out">..................................................                       [100%]
+50 passed</span></code></pre></li>
+      </ol>
+      <h3>Option B: Docker Compose with PostgreSQL</h3>
+      <div class="cmd"><pre><code>cd bhat/sentinelcore
+cp .env.example .env      # fill in SC_SECRET_KEY, SC_ADMIN_PASSWORD, POSTGRES_PASSWORD (and SMTP/SMS if wanted)
+docker compose up -d</code></pre><button type="button">Copy</button></div>
+      <div class="note warn"><strong>Not yet tested</strong>The Docker image has not been built yet. The app itself is tested on PostgreSQL 16. If the build fails, use Option A with <code>SC_DATABASE_URL</code> pointing at your PostgreSQL server (step 18).</div>
+      <div class="note"><strong>Upgrading from v0.1</strong>The database layout changed in v0.2 (organizations and the location tree). There is no upgrade tool yet, so start with a new, empty database.</div>
+    </section>
+
+    <section id="first-start">
+      <h2><span class="n">03</span>First start and sign-in</h2>
+      <p>Create a secret key once and keep it safe. It signs logins and encrypts the camera and NVR passwords stored in the database.</p>
+      <div class="cmd"><pre><code>python3 -c "import secrets; print(secrets.token_urlsafe(48))"</code></pre><button type="button">Copy</button></div>
+      <div class="cmd"><pre><code>SC_SECRET_KEY='paste-your-key-here' uvicorn sentinel.main:app --host 0.0.0.0 --port 8080</code></pre><button type="button">Copy</button></div>
+      <p>On the first start, SentinelCore creates the platform administrator <code>admin</code> and prints its password once:</p>
+      <pre><code><span class="out">INFO:     Started server process [4739]
+INFO:     Waiting for application startup.
+</span>2026-11-22 20:56:58,882 WARNING sentinel: Created first user &#x27;admin&#x27; with password: ••••••••••••••••  (change it after first login)<span class="out">
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:8099 (Press CTRL+C to quit)
+2026-11-22 20:56:58,981 INFO sentinel.collector: health cycle: {&#x27;cameras&#x27;: 0, &#x27;nvrs&#x27;: 0, &#x27;alerts_opened&#x27;: 0, &#x27;notifications&#x27;: 0}</span></code></pre>
+      <p>To choose the password yourself, add <code>SC_ADMIN_PASSWORD='…'</code> before <code>uvicorn</code>. Then open <code>http://&lt;server-ip&gt;:8080</code> and sign in.</p>
+      <figure><img src="img/01-login.webp" alt="SentinelCore sign-in screen" width="2560" height="1600" loading="lazy"><figcaption>Five wrong passwords in a row lock that username for 5 minutes.</figcaption></figure>
+      <figure><img src="img/02-first-login.webp" alt="Empty overview after first sign-in" width="2560" height="1600" loading="lazy"><figcaption>The first sign-in shows an empty overview. The menu changes with each user's role.</figcaption></figure>
+      <p><b>Just evaluating?</b> Start with <code>SC_SEED_DEMO=1</code> to get two sample organizations with branches, 6 NVRs, 48 cameras, alert contacts, and demo users (password <code>Demo@12345</code>).</p>
+    </section>
+
+    <section id="org">
+      <h2><span class="n">04</span>Create an organization</h2>
+      <p>Each customer or company is an organization. Its locations, devices, users, alert contacts and audit log are completely separate from every other organization. Only the platform <code>admin</code> sees all of them.</p>
+      <ol>
+        <li>Open <b>Organizations</b>.</li>
+        <li>Enter the name and a short code, for example <code>ACME</code>.</li>
+        <li>Name its top-level location. This is usually “Corporate Office”.</li>
+        <li>Choose whether device changes need approval (step 14).</li>
+      </ol>
+      <figure><img src="img/03-organizations.webp" alt="Organizations page with Acme Retail Pvt Ltd created" width="2560" height="1600" loading="lazy"><figcaption>The list shows each organization's locations, NVRs, cameras and users. The checkbox turns approval on or off at any time.</figcaption></figure>
+    </section>
+
+    <section id="locations">
+      <h2><span class="n">05</span>Build the location tree</h2>
+      <p>Name every place where cameras and NVRs are installed, in the organization's own hierarchy. For example: Corporate Office › West Region › Mumbai Andheri Branch › 2nd Floor › Server Room. Cameras and NVRs can be placed at any level.</p>
+      <ol>
+        <li>Open <b>Locations</b>.</li>
+        <li>Choose <b>Add under</b> next to the parent location.</li>
+        <li>Enter the name and pick the type: region, branch, office, warehouse, store, plant, building, floor or area.</li>
+        <li>Optionally add a short code (useful in CSV imports) and the city.</li>
+      </ol>
+      <figure><img src="img/04-locations.webp" alt="Location hierarchy: Corporate Office, West Region, Mumbai Andheri Branch, 2nd Floor, Pune Warehouse" width="2560" height="1600" loading="lazy"><figcaption>Adding “Server Room” under 2nd Floor. Each row shows its type, code, city and how many cameras, NVRs and alert contacts it has.</figcaption></figure>
+      <div class="note"><strong>Branch is worked out for you</strong>A camera on “2nd Floor” is reported under “Mumbai Andheri Branch” on the dashboards. SentinelCore uses the nearest branch, office, warehouse, store or plant above the camera.</div>
+    </section>
+
+    <section id="users">
+      <h2><span class="n">06</span>Add users and set access</h2>
+      <p>Access follows the hierarchy. A user assigned to a location sees and manages that location and everything under it.</p>
+      <div class="table"><table><thead><tr><th>Role</th><th>Sees</th><th>Can do</th></tr></thead><tbody>
+        <tr><td>Super admin</td><td>All organizations</td><td>Everything; creates organizations and alert rules</td></tr>
+        <tr><td>Org admin</td><td>Whole organization</td><td>Devices, locations, users, contacts, approvals, reboot, troubleshoot</td></tr>
+        <tr><td>Location admin</td><td>Assigned locations and below</td><td>Same as org admin within scope; creates users with lower roles only</td></tr>
+        <tr><td>Operator</td><td>Assigned locations and below</td><td>Acknowledge alerts, mark AI events true or false</td></tr>
+        <tr><td>Viewer</td><td>Assigned locations and below</td><td>View only</td></tr>
+        <tr><td>Auditor</td><td>Whole organization</td><td>View only, plus the audit log</td></tr>
+      </tbody></table></div>
+      <figure><img src="img/05-add-user.webp" alt="Add user form: Sanjay Patil, Branch Admin, location admin for Mumbai Andheri Branch" width="2560" height="1600" loading="lazy"><figcaption>A branch admin gets access to Mumbai Andheri Branch and everything under it. The line under the form explains the selected role.</figcaption></figure>
+      <figure><img src="img/06-users.webp" alt="Users list showing organization, role and access for each user" width="2560" height="1600" loading="lazy"><figcaption>The Access column shows exactly which part of the tree each person covers.</figcaption></figure>
+    </section>
+
+    <section id="contacts">
+      <h2><span class="n">07</span>Add alert contacts</h2>
+      <p>Alert contacts are the people who are told when something goes wrong. They do not need a login.</p>
+      <ol>
+        <li>Open <b>Alert contacts</b>.</li>
+        <li>Enter the name, designation, mobile number (with country code) and email.</li>
+        <li>Choose the location. A contact gets alerts for that location and everything under it.</li>
+        <li>Choose:
+          <ul>
+            <li><b>Send by:</b> email, SMS or both.</li>
+            <li><b>Which alerts:</b> critical only, warning and critical, or all.</li>
+            <li><b>For:</b> cameras, NVRs or both.</li>
+            <li><b>When:</b> immediately, or as an <b>escalation</b> 15, 30, 60 or 240 minutes later if nobody has acknowledged the alert.</li>
+          </ul></li>
+        <li>Use <b>Send test</b> to confirm the message arrives.</li>
+      </ol>
+      <figure><img src="img/07-alert-contacts.webp" alt="Alert contacts: branch supervisor immediately, regional manager after 30 minutes, head of security after 60 minutes" width="2560" height="1612" loading="lazy"><figcaption>A typical chain: the branch supervisor is told immediately, the regional manager after 30 minutes, and the head of security after an hour, each only if the alert is still unacknowledged.</figcaption></figure>
+      <h3>Turn on email and SMS</h3>
+      <p>Add these to the server's environment (step 18). Until they are set, the Notification log shows each message as <span class="pill warn">skipped</span>, so nothing is lost silently.</p>
+      <div class="cmd"><pre><code>SC_SMTP_HOST=mail.yourcompany.com
+SC_SMTP_PORT=587
+SC_SMTP_USER=sentinel@yourcompany.com
+SC_SMTP_PASSWORD=your-mail-password
+SC_SMTP_FROM=sentinel@yourcompany.com
+SC_PUBLIC_URL=https://sentinel.yourcompany.com
+
+# SMS: any HTTP gateway. {phone} and {message} are filled in for you.
+SC_SMS_URL=https://your-sms-provider.example/api/send
+SC_SMS_BODY={"to": "{phone}", "text": "{message}"}
+SC_SMS_HEADERS={"Authorization": "Bearer your-api-key"}</code></pre><button type="button">Copy</button></div>
+      <div class="note warn"><strong>Check your SMS provider's format</strong>Each provider names its fields differently. Copy the request format from your provider's API documentation into <code>SC_SMS_URL</code>, <code>SC_SMS_BODY</code> and <code>SC_SMS_HEADERS</code>, then use <b>Send test</b>.</div>
+    </section>
+
+    <section id="nvr">
+      <h2><span class="n">08</span>Add NVRs and import their channels</h2>
+      <ol>
+        <li>Go to <b>Manage devices → NVRs → Add NVR</b>.</li>
+        <li>Enter its name, location, department, make, model, IP address, ports, channel count and login.</li>
+        <li>Choose the health driver:
+          <ul>
+            <li><code>tcp</code>: checks the NVR answers. Works with any brand.</li>
+            <li><code>onvif</code>: also reads make, model, serial number and firmware.</li>
+            <li><code>hikvision_isapi</code>: also reads disk status and storage. Test it on your model first (step 20).</li>
+          </ul></li>
+      </ol>
+      <figure><img src="img/08-add-nvr.webp" alt="Add NVR form for Andheri NVR-1 at Mumbai Andheri Branch" width="2560" height="1600" loading="lazy"><figcaption>The password is stored encrypted and never shown again.</figcaption></figure>
+      <p>After saving, the <b>Import NVR channels</b> tab opens. Enter the channels (for example <code>1-8</code>, or blank for all). One camera is created per channel, with its stream address filled in and the NVR's location and department copied over.</p>
+      <div class="table"><table><thead><tr><th>Make</th><th>Main stream address created</th></tr></thead><tbody>
+        <tr><td>Hikvision</td><td><code>rtsp://{host}:554/Streaming/Channels/{ch}01</code> (sub stream <code>…{ch}02</code>)</td></tr>
+        <tr><td>Dahua / CP Plus</td><td><code>rtsp://{host}:554/cam/realmonitor?channel={ch}&amp;subtype=0</code></td></tr>
+        <tr><td>Any other brand</td><td>Type your own template using <code>{host}</code>, <code>{port}</code> and <code>{ch}</code></td></tr>
+      </tbody></table></div>
+      <figure><img src="img/09-import-channels.webp" alt="Import NVR channels: 8 cameras created" width="2560" height="1600" loading="lazy"><figcaption>Running it again skips channels that already exist.</figcaption></figure>
+    </section>
+
+    <section id="csv">
+      <h2><span class="n">09</span>Bulk import cameras from CSV</h2>
+      <p>Open <b>Manage devices → Bulk CSV import</b>, choose <b>Download template</b>, fill in one row per camera, then <b>Validate</b> and <b>Import</b>.</p>
+      <div class="table"><table><thead><tr><th>Column</th><th>Allowed values</th></tr></thead><tbody>
+        <tr><td><code>location</code></td><td>A location code (<code>PUN-WH</code>), the full path (<code>Corporate Office / West Region / Pune Warehouse</code>), or a name that is unique. If a name matches more than one location, the row is rejected and you are asked for the code or path</td></tr>
+        <tr><td><code>department</code></td><td>Free text, for example Security, Finance or Logistics</td></tr>
+        <tr><td><code>rtsp_url</code>, <code>sub_stream_url</code></td><td>Must start with <code>rtsp://</code></td></tr>
+        <tr><td><code>power_type</code></td><td><code>poe</code>, <code>mains</code>, <code>battery</code> or <code>solar</code></td></tr>
+        <tr><td><code>driver</code></td><td><code>generic</code> (full check), <code>rtsp</code> (only checks the camera answers) or <code>simulator</code></td></tr>
+      </tbody></table></div>
+      <figure><img src="img/10-csv-validate-error.webp" alt="CSV validation showing row 4 error: rtsp_url must start with rtsp://" width="2560" height="1600" loading="lazy"><figcaption>Validation names the exact row and problem. Nothing is imported until every row is valid.</figcaption></figure>
+      <figure><img src="img/11-csv-imported.webp" alt="CSV import result: 3 cameras imported" width="2560" height="1600" loading="lazy"><figcaption>The three rows used a code, a full path and a plain name for the same warehouse.</figcaption></figure>
+    </section>
+
+    <section id="camera">
+      <h2><span class="n">10</span>Add a single camera</h2>
+      <p><b>Manage devices → Cameras → Add camera</b>. Make, model and serial number are read from the camera automatically when it is reachable over ONVIF, so you can leave them blank.</p>
+      <figure><img src="img/12-add-camera.webp" alt="Add camera form for Reception Dome on 2nd Floor" width="2560" height="1600" loading="lazy"><figcaption>The note under the button says whether FFmpeg was found, and so whether FPS and picture checks will run.</figcaption></figure>
+    </section>
+
+    <section id="discovery">
+      <h2><span class="n">11</span>Find cameras automatically (ONVIF)</h2>
+      <p><b>Manage devices → ONVIF discovery</b> asks every ONVIF camera on the server's own network segment to identify itself. Choose <b>Add</b> next to a result to open a pre-filled Add camera form.</p>
+      <figure><img src="img/13-discovery.webp" alt="ONVIF discovery with no devices found" width="2560" height="1600" loading="lazy"><figcaption>The test server had no cameras on its network, so nothing answered. On a camera VLAN, a list of devices appears here.</figcaption></figure>
+      <div class="note"><strong>Discovery does not cross routers</strong>Multicast stays inside one VLAN. For other VLANs and branches, give the server an interface there or use CSV import.</div>
+    </section>
+
+    <section id="manage">
+      <h2><span class="n">12</span>Manage devices</h2>
+      <p><b>Manage devices</b> is where cameras and NVRs are added, edited, activated or deactivated, rebooted and deleted. Each row shows location, department, make, model, serial number, NVR and channel, state, and the error message when a device is not working.</p>
+      <figure><img src="img/14-manage-devices.webp" alt="Manage devices list with actions Open, Edit, Deactivate, Reboot, Delete" width="2560" height="1600" loading="lazy"><figcaption>Delete and Reboot ask for confirmation on the row itself.</figcaption></figure>
+      <h3>Device details</h3>
+      <figure><img src="img/15-device-details.webp" alt="Device details: status, make, model, serial, firmware, MAC, organization, branch, location, department, NVR" width="2560" height="1600" loading="lazy"><figcaption><b>Open</b> shows everything known about the device, with Check now, Troubleshoot, Reboot, Edit and Deactivate at the top.</figcaption></figure>
+      <h3>Troubleshoot</h3>
+      <p><b>Troubleshoot</b> runs these checks in order and shows a fix for anything that fails:</p>
+      <ul>
+        <li>network reachability to each port</li>
+        <li>the RTSP video service</li>
+        <li>the ONVIF clock and login (make, model, serial)</li>
+        <li>the video stream (codec, resolution, FPS, bitrate)</li>
+        <li>a picture check (dark, blank, blurred)</li>
+      </ul>
+      <figure><img src="img/16-troubleshoot.webp" alt="Troubleshooting result panel" width="2560" height="1600" loading="lazy"><figcaption>A simulated device skips the network checks. On a real camera you see one line per check, each marked pass, warning or fail.</figcaption></figure>
+      <h3>Reboot</h3>
+      <figure><img src="img/17-reboot-confirm.webp" alt="Reboot confirmation box" width="2560" height="1600" loading="lazy"><figcaption>Reboot uses ONVIF SystemReboot, with Hikvision ISAPI as a fallback. Every reboot is written to the audit log with who did it.</figcaption></figure>
+      <div class="note warn"><strong>Test reboot on one device first</strong>Remote reboot follows the published ONVIF and Hikvision specifications but has not yet been tried on real hardware. Try it on one camera and one NVR during a maintenance window.</div>
+      <div class="note"><strong>Deactivate instead of delete</strong>A deactivated device keeps its history but is no longer checked and raises no alerts. Its open alerts are closed. Use it for cameras under repair or seasonal sites.</div>
+    </section>
+
+    <section id="dashboards">
+      <h2><span class="n">13</span>Check the dashboards</h2>
+      <p>Every device is checked every 30 seconds by default (<code>SC_COLLECT_INTERVAL</code>). Within a minute the dashboards fill in. Use the <b>Showing</b> list to look at one region, branch or floor.</p>
+      <figure><img src="img/18-overview.webp" alt="Overview dashboard with KPIs, uptime chart and by-branch table" width="2560" height="2078" loading="lazy"><figcaption>The overview, grouped by branch and office.</figcaption></figure>
+      <figure><img src="img/19-camera-health.webp" alt="Camera health table with location, make, model, serial, status, FPS, bitrate" width="2560" height="1600" loading="lazy"><figcaption>Camera health: filter by location, status or power type, and export to CSV.</figcaption></figure>
+      <figure><img src="img/20-battery-health.webp" alt="Battery health table" width="2560" height="1600" loading="lazy"><figcaption>Battery and solar cameras, lowest charge first. Values a camera does not report read “Not supported by device”.</figcaption></figure>
+      <figure><img src="img/21-nvr-status.webp" alt="NVR status table with make, model, serial, disks, storage, retention" width="2560" height="1600" loading="lazy"><figcaption>NVR status: recording channels, disks, storage, days of recording kept, temperature.</figcaption></figure>
+      <figure><img src="img/22-nvr-details.webp" alt="NVR details panel with disks and channel list" width="2560" height="1600" loading="lazy"><figcaption>NVR details, including disk by disk status and each channel's camera.</figcaption></figure>
+      <figure class="phone"><img src="img/30-phone.webp" alt="Overview on a phone" width="780" height="1688" loading="lazy"><figcaption>Every page also works on a phone.</figcaption></figure>
+    </section>
+
+    <section id="approvals">
+      <h2><span class="n">14</span>Approvals</h2>
+      <p>When an organization requires approval, a location admin's request to add, edit, deactivate or delete a camera or NVR is not applied straight away. It waits on the <b>Approvals</b> page.</p>
+      <ul>
+        <li><b>Who can approve:</b> someone higher up the tree, either the org admin or a location admin assigned above the requester. A branch admin's request can be approved by the regional manager.</li>
+        <li><b>Own requests:</b> nobody can approve their own request.</li>
+      </ul>
+      <figure><img src="img/23-sent-for-approval.webp" alt="Branch admin sees: Sent for approval (request #1)" width="2560" height="1600" loading="lazy"><figcaption>The branch admin adds a camera and is told it has been sent for approval.</figcaption></figure>
+      <figure><img src="img/24-approvals.webp" alt="Regional manager's approvals page with Approve and Reject" width="2560" height="1600" loading="lazy"><figcaption>The regional manager sees the request (and a count in the menu), adds an optional note, and approves or rejects. Approving applies the change at once.</figcaption></figure>
+      <figure><img src="img/25-regional-view.webp" alt="Regional manager's overview covering only West Region" width="2560" height="1600" loading="lazy"><figcaption>The regional manager's overview covers only West Region and its branches.</figcaption></figure>
+    </section>
+
+    <section id="alerts">
+      <h2><span class="n">15</span>Alerts, rules and notifications</h2>
+      <p>SentinelCore ships with 14 health rules. Examples: camera offline for more than 5 minutes, battery below 20%, NVR disk error, storage above 95%, recording kept for less than 7 days. A rule opens an alert when its condition has held for the set time, and closes it when the condition clears. Alert contacts are then notified as set up in step 7.</p>
+      <figure><img src="img/27-alert-rules.webp" alt="Alert rules table" width="2560" height="1600" loading="lazy"><figcaption>The platform admin can turn rules on or off, and add new ones.</figcaption></figure>
+      <figure><img src="img/26-notification-log.webp" alt="Notification log with a skipped email because SMTP is not configured" width="2560" height="1600" loading="lazy"><figcaption>Every email and SMS attempt is listed with its result. Here email is not configured yet, so the test message is marked skipped.</figcaption></figure>
+    </section>
+
+    <section id="edge">
+      <h2><span class="n">16</span>Edge AI devices (optional)</h2>
+      <p>Edge boxes such as Jetson or NUC units run AI detection near the cameras and send events to the server. Register each one under <b>Edge devices</b> at its location and copy its key, which is shown only once. A box can send events only for cameras at its location and below.</p>
+      <figure><img src="img/28-edge-key.webp" alt="Edge device key created for jetson-andheri-01" width="2560" height="1600" loading="lazy"><figcaption>Key partly hidden here.</figcaption></figure>
+      <div class="cmd"><pre><code>python -m sentinel.analytics.runner --server http://&lt;server-ip&gt;:8080 --api-key sc_… \
+  --camera-id 12 --url rtsp://… --model yolov8n.onnx --rules rules.json --fps 5</code></pre><button type="button">Copy</button></div>
+      <div class="note warn"><strong>Not yet tested with a real model</strong>Try the model connector on one camera before rolling it out.</div>
+    </section>
+
+    <section id="audit">
+      <h2><span class="n">17</span>Audit log</h2>
+      <p>Every sign-in, device change, approval, rejection, reboot, troubleshoot run and contact change is recorded with the user, time and IP address. Org admins and auditors see their own organization's log; the platform admin sees all of them.</p>
+      <figure><img src="img/29-audit.webp" alt="Audit log" width="2560" height="1600" loading="lazy"><figcaption>The audit trail from this installation.</figcaption></figure>
+    </section>
+
+    <section id="service">
+      <h2><span class="n">18</span>Run it as a service</h2>
+      <p>Create <code>/etc/sentinelcore.env</code>, readable only by root:</p>
+      <div class="cmd"><pre><code>SC_SECRET_KEY=paste-your-key-here
+SC_DATABASE_URL=postgresql+psycopg://sentinel:DB_PASSWORD@localhost:5432/sentinel
+SC_COLLECT_INTERVAL=30
+SC_COOKIE_SECURE=1
+SC_PUBLIC_URL=https://sentinel.yourcompany.com
+SC_SMTP_HOST=mail.yourcompany.com
+SC_SMTP_USER=sentinel@yourcompany.com
+SC_SMTP_PASSWORD=your-mail-password
+SC_SMTP_FROM=sentinel@yourcompany.com
+SC_SMS_URL=https://your-sms-provider.example/api/send
+SC_SMS_HEADERS={"Authorization": "Bearer your-api-key"}</code></pre><button type="button">Copy</button></div>
+      <p>Then create <code>/etc/systemd/system/sentinelcore.service</code>, changing <code>/opt/bhat</code> to where you cloned the code:</p>
+      <div class="cmd"><pre><code>[Unit]
+Description=SentinelCore
+After=network-online.target postgresql.service
+
+[Service]
+WorkingDirectory=/opt/bhat/sentinelcore
+EnvironmentFile=/etc/sentinelcore.env
+ExecStart=/opt/bhat/sentinelcore/.venv/bin/uvicorn sentinel.main:app --host 127.0.0.1 --port 8080 --proxy-headers
+Restart=always
+User=sentinel
+
+[Install]
+WantedBy=multi-user.target</code></pre><button type="button">Copy</button></div>
+      <div class="cmd"><pre><code>sudo useradd -r sentinel
+sudo systemctl daemon-reload
+sudo systemctl enable --now sentinelcore
+sudo journalctl -u sentinelcore -f</code></pre><button type="button">Copy</button></div>
+      <p>Put nginx or Caddy in front of it with a certificate from your internal certificate authority, so users connect over HTTPS.</p>
+    </section>
+
+    <section id="golive">
+      <h2><span class="n">19</span>Go-live checklist</h2>
+      <ul class="check">
+        <li><code>SC_SECRET_KEY</code> is set and backed up somewhere safe</li>
+        <li>The admin password has been changed from the generated one</li>
+        <li>PostgreSQL is used, with a nightly <code>pg_dump</code> backup</li>
+        <li>Users connect over HTTPS, and <code>SC_COOKIE_SECURE=1</code> is set</li>
+        <li>Each organization's location tree matches its real branches and offices</li>
+        <li>Each user has the lowest role and fewest locations they need</li>
+        <li>Approval is on for organizations that require sign-off on device changes</li>
+        <li>Every branch has at least one alert contact, and escalation contacts are set for regions</li>
+        <li><b>Send test</b> reaches each contact by email and SMS</li>
+        <li>No device still uses the <code>simulator</code> driver: the SIMULATED DATA badge is gone</li>
+        <li>For 10 devices, make, model, serial number and health match the device's own web page</li>
+        <li>Troubleshoot passes on a known-good camera; reboot tested on one camera and one NVR</li>
+        <li>Unplugging one test camera opens a “Camera offline &gt; 5 min” alert and the branch contact is notified</li>
+      </ul>
+    </section>
+
+    <section id="trouble">
+      <h2><span class="n">20</span>Troubleshooting</h2>
+      <p>Start with the device's <b>Troubleshoot</b> button. It names the failing check and what to do. Common cases:</p>
+      <div class="table"><table><thead><tr><th>Symptom</th><th>Likely cause and fix</th></tr></thead><tbody>
+        <tr><td><span class="pill bad">Offline</span> with “connect failed”</td><td>The server cannot reach the device. Run <code>nc -vz &lt;ip&gt; 554</code> from the server; check routing, VLAN and firewall to that branch</td></tr>
+        <tr><td>“The device refused the ONVIF login”</td><td>Many cameras need a separate ONVIF user. On Hikvision: Configuration → Network → Advanced → Integration Protocol</td></tr>
+        <tr><td>Make, model or serial says “Not detected yet”</td><td>Set the camera's IP address and ONVIF login, or switch an NVR to the <code>onvif</code> or <code>hikvision_isapi</code> driver</td></tr>
+        <tr><td>NVR disks read “Not supported”</td><td>Use <code>hikvision_isapi</code>, after testing <code>curl --digest -u admin:PASS http://NVR/ISAPI/ContentMgmt/Storage</code></td></tr>
+        <tr><td>Reboot fails</td><td>Check the user has ONVIF admin rights; for cameras behind an NVR with no own IP, reboot the NVR</td></tr>
+        <tr><td>Notifications “skipped”</td><td><code>SC_SMTP_HOST</code> or <code>SC_SMS_URL</code> is not set (step 7)</td></tr>
+        <tr><td>Notifications “failed”</td><td>Read the error in the Notification log: wrong mail login, blocked port, or wrong SMS gateway format</td></tr>
+        <tr><td>A branch admin's change did not appear</td><td>The organization requires approval; look on <b>Approvals</b></td></tr>
+        <tr><td>CSV row: “matches 2 locations”</td><td>Two locations share that name; use the location code or full path</td></tr>
+        <tr><td>All stored device passwords stopped working</td><td><code>SC_SECRET_KEY</code> changed. Restore the original key, or enter the passwords again</td></tr>
+      </tbody></table></div>
+    </section>
+
+    <section id="changes">
+      <h2><span class="n">21</span>What's new</h2>
+      <h3>v0.2.0 — 22 Nov 2026</h3>
+      <ul>
+        <li>Multiple organizations, each fully separated</li>
+        <li>Named location tree (corporate, region, branch, office, warehouse, floor, area…)</li>
+        <li>Access by hierarchy, and a new role ladder: org admin, location admin, operator, viewer, auditor</li>
+        <li>Optional approval of device changes by someone higher in the hierarchy</li>
+        <li>Alert contacts with designation, mobile and email; email and SMS delivery; escalation; notification log</li>
+        <li>Make, model, serial number, firmware and MAC read from devices; department field</li>
+        <li>Manage devices screen: add, edit, activate/deactivate, reboot, delete</li>
+        <li>Troubleshoot panel with step-by-step checks and fixes</li>
+      </ul>
+      <h3>v0.1.0</h3>
+      <ul><li>First release: camera, battery and NVR health, alerts, AI rule engine, single-organization sites</li></ul>
+    </section>
+
+    <footer>SentinelCore v0.2.0. Screenshots re-captured from a fresh install with <code>docs/install-guide/capture.sh</code>. The README and docs/VERIFICATION.md in the repository say exactly what has been tested and what is still planned.</footer>
+  </main>
+</div>
+
+<script>
+document.querySelectorAll(".cmd button").forEach((btn) => {
+  btn.addEventListener("click", async () => {
+    const code = btn.parentElement.querySelector("code");
+    const text = code.innerText.replace(/^\$ /gm, "");
+    try {
+      await navigator.clipboard.writeText(text);
+      btn.textContent = "Copied";
+    } catch {
+      const r = document.createRange(); r.selectNodeContents(code);
+      const s = getSelection(); s.removeAllRanges(); s.addRange(r);
+      btn.textContent = "Selected";
+    }
+    setTimeout(() => (btn.textContent = "Copy"), 1500);
+  });
+});
+</script>
