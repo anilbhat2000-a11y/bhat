@@ -17,14 +17,12 @@
   const savedTheme = (() => { try { return localStorage.getItem("npu-theme"); } catch { return null; } })();
   if (savedTheme) document.documentElement.dataset.theme = savedTheme;
   $("theme").onclick = () => {
-    const dark = document.documentElement.dataset.theme
-      ? document.documentElement.dataset.theme === "dark"
-      : matchMedia("(prefers-color-scheme: dark)").matches;
-    const next = dark ? "light" : "dark";
+    const next = document.documentElement.dataset.theme === "light" ? "dark" : "light";
     document.documentElement.dataset.theme = next;
     try { localStorage.setItem("npu-theme", next); } catch { /* private mode */ }
-    draw();
+    draw(); drawPower();
   };
+
 
   // ---------- API ----------
   async function api(path, opts = {}) {

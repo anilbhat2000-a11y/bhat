@@ -54,21 +54,24 @@ def render(r: dict) -> str:
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>AI PC Health &amp; NPU Report</title>
 <style>
-:root{{--ink:#0b0b0b;--muted:#52514e;--line:#e0dfda;--accent:#2a78d6;--good:#0a7d32;--bad:#c03030;--bg:#fcfcfb}}
-body{{font:14px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:var(--ink);background:var(--bg);max-width:960px;margin:0 auto;padding:24px 16px}}
-h1{{font-size:22px;margin:0}} h2{{font-size:16px;margin:26px 0 8px}} .muted{{color:var(--muted)}}
-.hero{{display:flex;gap:24px;align-items:center;flex-wrap:wrap;border:1px solid var(--line);border-radius:12px;padding:16px;margin-top:14px}}
-.score{{font-size:56px;font-weight:700;line-height:1}} .score small{{font-size:18px;color:var(--muted)}}
+:root{{--ink:#0a2a22;--muted:#3f5f56;--line:#cfe1da;--accent:#04735f;--teal:#008a6c;--good:#0a7d32;--bad:#c03030;--bg:#ffffff}}
+body{{font:14px/1.5 "Segoe UI Variable Text","Segoe UI",system-ui,-apple-system,Roboto,sans-serif;color:var(--ink);background:var(--bg);max-width:960px;margin:0 auto;padding:0 16px 24px}}
+h1,h2,.score,.verdict{{font-family:"Bahnschrift","DIN Alternate","Segoe UI",system-ui,sans-serif}}
+h1{{font-size:24px;margin:0;color:var(--accent)}} h2{{font-size:16px;margin:26px 0 8px;color:var(--accent);border-left:4px solid var(--teal);padding-left:8px}} .muted{{color:var(--muted)}}
+.band{{height:8px;margin:0 -16px 18px;background:repeating-linear-gradient(-18deg,rgba(255,255,255,.18) 0 2px,transparent 2px 12px),linear-gradient(100deg,#04735f,#0a3d32);-webkit-print-color-adjust:exact;print-color-adjust:exact}}
+.hero{{display:flex;gap:24px;align-items:center;flex-wrap:wrap;border:1px solid var(--line);border-radius:12px;padding:16px;margin-top:14px;background:#f3f8f6}}
+.score{{font-size:56px;font-weight:700;line-height:1;color:var(--accent)}} .score small{{font-size:18px;color:var(--muted)}}
 .verdict{{font-size:18px;font-weight:600}}
 table{{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums}} td,th{{text-align:left;padding:6px 8px;border-bottom:1px solid var(--line);vertical-align:top}}
 th{{color:var(--muted);font-weight:500;font-size:12px}} .n{{text-align:right;white-space:nowrap}}
-.bar{{width:35%}} .bar i{{display:block;height:8px;background:var(--accent);border-radius:0 4px 4px 0}}
+.bar{{width:35%}} .bar i{{display:block;height:8px;background:var(--teal);border-radius:0 4px 4px 0;-webkit-print-color-adjust:exact;print-color-adjust:exact}}
 .pros li::marker{{content:"✔  ";color:var(--good)}} .cons li::marker{{content:"✖  ";color:var(--bad)}}
 .grid{{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:4px 24px}}
 .scroll{{overflow-x:auto}}
 .brand{{display:flex;align-items:center;gap:16px;padding-bottom:12px;border-bottom:1px solid var(--line);margin-bottom:12px}}
 .brand img{{height:52px;width:auto}} .brand .app{{font-size:13px;color:var(--muted)}} @media print{{body{{padding:0}} .noprint{{display:none}}}}
 </style></head><body>
+<div class="band"></div>
 <div class="brand"><img src="{_logo_data_uri()}" alt="3C ITS – Make IT Simple"><div class="app">{escape(APP_NAME)}</div></div>
 <h1>NPU Suitability Report</h1>
 <div class="muted">{escape(hw.get('host') or '')} · {escape(time.strftime('%Y-%m-%d %H:%M', time.localtime(r['created'])))} · model: {escape(r['model'])}</div>
