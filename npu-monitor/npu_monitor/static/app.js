@@ -554,33 +554,133 @@
 
   // ---------- fleet ----------
   const aiPill = (c) => !c ? "—" : `<span class="pill ${c.class === "Copilot+ AI PC" ? "ok" : c.is_ai_pc ? "mid" : "no"}" title="${esc(c.reason)}">${esc(c.class)}</span>`;
+  const T = (x) => I18N.t(x);
+  const mfgCell = (m) => {
+    const est = (m.identity || {}).manufacture || {};
+    if (m.manufacture_date) return `${esc(m.manufacture_date)}<div class="muted small">${esc(T("set by admin"))}</div>`;
+    if (!est.date) return "—";
+    return `${esc(est.date)}<div class="muted small" title="${esc(est.source || "")}">${esc(T("est."))} · ${esc(est.source || "")}</div>`;
+  };
+  let machines = [];
   async function refreshFleet() {
     let list;
     try { list = await api("/api/fleet"); } catch { return; }
+    machines = list;
     $("fleetTbl").tBodies[0].innerHTML = list.map((m) => {
-      const n = m.node || {}, x = n.metrics || {}, b = n.battery || null;
+      const n = m.node || {}, x = n.metrics || {}, b = n.battery || null, idn = m.identity || {};
       const al = (n.alerts || []).filter((a) => a.level !== "info");
-      return `<tr><td><span class="dot ${m.online ? "on" : "off"}"></span><strong>${esc(m.self ? `${n.host} (this machine)` : m.name)}</strong>
-          <div class="muted small">${esc(n.cpu || m.error || m.url)}${n.machine_type ? ` · ${esc(n.machine_type)}` : ""}</div></td>
-        <td>${aiPill(n.ai_pc)}</td><td>${pct(x.npu)}</td><td>${pct(x.cpu)}</td><td>${x.gpu == null ? "—" : pct(x.gpu)}</td><td>${num(x.ips)}</td>
-        <td>${b ? `${pct(b.percent)}${b.plugged ? " ⚡" : ""}` : "—"}</td><td>${b && b.health_pct != null ? `${b.health_pct}%` : "—"}</td>
+      const manual = m.online === null;
+      const dot = manual ? `<span class="pill manual" title="registered manually">${esc(T("manual"))}</span> ` : `<span class="dot ${m.online ? "on" : "off"}"></span>`;
+      const make = [idn.manufacturer, idn.model].filter(Boolean).join(" ") || "—";
+      return `<tr><td>${dot}<strong>${esc(m.name)}${m.self ? ` <span class="muted small">(${esc(T("this machine"))})</span>` : ""}</strong>
+          <div class="muted small">${esc([m.machine_type, m.owner, m.location].filter(Boolean).join(" · ") || (m.error || m.cpu || ""))}</div></td>
+        <td>${esc(make)}${idn.model_version ? `<div class="muted small">${esc(idn.model_version)}</div>` : ""}</td>
+        <td>${esc(idn.serial_number || "—")}${idn.asset_tag ? `<div class="muted small">${esc(T("Asset tag"))}: ${esc(idn.asset_tag)}</div>` : ""}</td>
+        <td>${mfgCell(m)}</td>
+        <td>${aiPill(n.ai_pc || m.ai_pc)}</td><td>${manual ? "—" : pct(x.npu)}</td><td>${manual ? "—" : pct(x.cpu)}</td><td>${x.gpu == null ? "—" : pct(x.gpu)}</td>
+        <td>${b ? `${pct(b.percent)}${b.plugged ? " ⚡" : ""}${b.health_pct != null ? `<div class="muted small">${esc(T("Health"))} ${b.health_pct}%</div>` : ""}` : "—"}</td>
         <td>${n.report ? n.report.score : "—"}</td>
         <td class="small" style="white-space:normal">${al.length ? al.map((a) => `<span class="pill ${a.level === "critical" ? "no" : "mid"}">${esc(a.title)}</span>`).join(" ") : "—"}</td>
-        <td>${m.self ? "" : `<button class="iconbtn" data-rm="${esc(m.id)}" title="Remove" aria-label="Remove ${esc(m.name)}">✕</button>`}</td></tr>`;
+        <td class="admin-only" style="white-space:nowrap"><button class="iconbtn" data-edit="${esc(m.id)}" title="${esc(T("Edit"))}" aria-label="${esc(T("Edit"))} ${esc(m.name)}">✎</button>
+          ${m.self ? "" : `<button class="iconbtn" data-rm="${esc(m.id)}" title="${esc(T("Delete"))}" aria-label="${esc(T("Delete"))} ${esc(m.name)}">✕</button>`}</td></tr>`;
     }).join("");
+    const me = list.find((m) => m.self);
+    if (me) renderIdentity(me);
   }
-  $("fleetTbl").addEventListener("click", async (e) => {
-    const id = e.target.dataset?.rm;
-    if (id && confirm("Remove this machine from the fleet?")) { await api(`/api/fleet/peers/${id}`, { method: "DELETE" }); refreshFleet(); }
+
+  function renderIdentity(m) {
+    const idn = m.identity || {}, est = idn.manufacture || {};
+    const cell = (k, v, sub) => `<div><span class="k">${esc(T(k))}</span><span class="v">${esc(v || "—")}</span>${sub ? `<span class="s">${esc(sub)}</span>` : ""}</div>`;
+    const mfg = m.manufacture_date ? cell("Manufactured", m.manufacture_date, T("set by admin"))
+      : cell("Manufactured (estimated)", est.date, est.source ? `${T("from")} ${est.source} · ${T("confidence")}: ${est.confidence}` : T("not reported by this machine"));
+    $("idGrid").innerHTML = [
+      cell("Manufacturer", idn.manufacturer, idn.family),
+      cell("Model", idn.model, [idn.model_version, idn.sku].filter(Boolean).join(" · ")),
+      cell("Serial number", idn.serial_number, idn.needs_admin_for && idn.needs_admin_for.includes("serial_number") ? T("needs administrator rights to read") : ""),
+      mfg,
+      cell("Type", m.machine_type, idn.chassis && idn.chassis !== m.machine_type ? idn.chassis : ""),
+      cell("BIOS / UEFI", [idn.bios_vendor, idn.bios_version].filter(Boolean).join(" "), idn.bios_release_date ? `${T("released")} ${idn.bios_release_date}` : ""),
+      cell("Motherboard", [idn.board_manufacturer, idn.board_model].filter(Boolean).join(" "), idn.board_serial ? `S/N ${idn.board_serial}` : ""),
+      cell("Asset tag", idn.asset_tag),
+      cell("Processor", m.cpu),
+      cell("Operating system", m.os, idn.os_install_date ? `${T("installed")} ${idn.os_install_date}` : ""),
+      cell("Owner", [m.owner, m.department].filter(Boolean).join(" · ")),
+      cell("Location", m.location, m.notes),
+    ].join("");
+    $("idNote").textContent = idn.error || (idn.needs_admin_for ? T("Some serial numbers can only be read with administrator rights. Start the app as administrator (Windows) or with sudo (Linux) to see them.") : (idn.source ? `${T("Source")}: ${idn.source}` : ""));
+  }
+
+  // --- add machine dialog ---
+  const addDlg = $("addDlg");
+  document.querySelectorAll("dialog [data-close]").forEach((b) => { b.onclick = () => b.closest("dialog").close(); });
+  addDlg.querySelectorAll("[data-tab]").forEach((tab) => {
+    tab.onclick = () => {
+      addDlg.querySelectorAll("[data-tab]").forEach((t) => { t.setAttribute("aria-selected", String(t === tab)); $(t.dataset.tab).hidden = t !== tab; });
+    };
   });
-  $("peerForm").onsubmit = async (e) => {
+  $("addMachineBtn").onclick = () => { $("peerMsg").textContent = ""; $("mMsg").textContent = ""; addDlg.showModal(); };
+  $("tConnect").onsubmit = async (e) => {
     e.preventDefault();
-    $("peerMsg").textContent = "Connecting…";
+    $("peerMsg").textContent = T("Connecting…");
     try {
-      const p = await postJSON("/api/fleet/peers", { url: $("peerUrl").value, token: $("peerToken").value, name: $("peerName").value });
-      $("peerMsg").textContent = `Added ${p.name}.`; $("peerForm").reset(); refreshFleet();
-    } catch (err) { $("peerMsg").innerHTML = `<span class="err">${esc(err.message)}</span>`; }
+      await postJSON("/api/fleet/peers", { url: $("peerUrl").value, token: $("peerToken").value, name: $("peerName").value,
+        owner: $("peerOwner").value, department: $("peerDept").value, location: $("peerLoc").value });
+      $("tConnect").reset(); addDlg.close(); refreshFleet();
+    } catch (err) { $("peerMsg").textContent = err.message; }
   };
+  $("tManual").onsubmit = async (e) => {
+    e.preventDefault();
+    try {
+      await postJSON("/api/machines/manual", { name: $("mName").value, machine_type: $("mType").value, manufacturer: $("mMake").value,
+        model: $("mModel").value, serial_number: $("mSerial").value, asset_tag: $("mAsset").value, manufacture_date: $("mDate").value,
+        cpu: $("mCpu").value, owner: $("mOwner").value, location: $("mLoc").value, notes: $("mNotes").value });
+      $("tManual").reset(); addDlg.close(); refreshFleet();
+    } catch (err) { $("mMsg").textContent = err.message; }
+  };
+  $("codeBtn").onclick = async () => {
+    try {
+      const c = await postJSON("/api/machines/codes", {});
+      let portal = location.origin;
+      if (/localhost|127\.0\.0\.1|\[::1\]/.test(portal)) {
+        const sys = await api("/api/system").catch(() => ({}));
+        portal = `http://${(sys.lan_ips || [])[0] || "PORTAL-IP"}:${location.port || 8765}`;
+      }
+      $("codeVal").textContent = c.code;
+      $("codeCmd").textContent = `python run.py --enrol ${portal} --code ${c.code}`;
+      $("codeExp").textContent = `${T("Valid until")} ${new Date(c.expires * 1000).toLocaleString()} · ${T("single use")}`;
+      $("codeOut").hidden = false;
+    } catch (err) { alert(err.message); }
+  };
+  $("copyCmd").onclick = () => { navigator.clipboard?.writeText($("codeCmd").textContent); $("copyCmd").textContent = T("Copied"); setTimeout(() => { $("copyCmd").textContent = T("Copy command"); }, 1500); };
+
+  // --- edit / remove ---
+  let editing = null;
+  function openEdit(m) {
+    editing = m;
+    const idn = m.identity || {};
+    $("eName").value = m.name || ""; $("eOwner").value = m.owner || ""; $("eDept").value = m.department || "";
+    $("eLoc").value = m.location || ""; $("eNotes").value = m.notes || "";
+    $("eDate").value = /^\d{4}-\d{2}-\d{2}$/.test(m.manufacture_date || "") ? m.manufacture_date : "";
+    const manual = m.online === null;
+    $("eManual").hidden = !manual;
+    if (manual) { $("eMake").value = idn.manufacturer || ""; $("eModel").value = idn.model || ""; $("eSerial").value = idn.serial_number || ""; $("eAsset").value = idn.asset_tag || ""; }
+    $("eMsg").textContent = "";
+    $("editDlg").showModal();
+  }
+  $("editForm").onsubmit = async (e) => {
+    e.preventDefault();
+    const body = { name: $("eName").value, owner: $("eOwner").value, department: $("eDept").value, location: $("eLoc").value,
+      notes: $("eNotes").value, manufacture_date: $("eDate").value };
+    if (!$("eManual").hidden) Object.assign(body, { manufacturer: $("eMake").value, model: $("eModel").value, serial_number: $("eSerial").value, asset_tag: $("eAsset").value });
+    try { await api(`/api/machines/${encodeURIComponent(editing.id)}`, { method: "PATCH", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) }); $("editDlg").close(); refreshFleet(); }
+    catch (err) { $("eMsg").textContent = err.message; }
+  };
+  $("editSelfBtn").onclick = () => { const me = machines.find((m) => m.self); if (me) openEdit(me); };
+  $("fleetTbl").addEventListener("click", async (e) => {
+    const ed = e.target.closest("[data-edit]"), rm = e.target.closest("[data-rm]");
+    if (ed) { const m = machines.find((x) => x.id === ed.dataset.edit); if (m) openEdit(m); }
+    if (rm && confirm(T("Remove this machine from the portal?"))) { await api(`/api/machines/${rm.dataset.rm}`, { method: "DELETE" }); refreshFleet(); }
+  });
   $("fleetRunBtn").onclick = async () => {
     $("fleetRunBtn").disabled = true; $("fleetRun").hidden = false; $("fleetCompare").hidden = true;
     try {

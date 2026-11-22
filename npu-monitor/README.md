@@ -22,6 +22,7 @@ A local, fully offline tool for AI laptops with a built-in NPU (Intel Core Ultra
 * **Fleet mode**: connect laptops, desktops, workstations and servers, watch them live, run the assessment on all of them at once and get a ranking that explains why the winner is best
 * **Alerts**: not an AI PC, NPU present but unusable, battery worn or low, AI running on the CPU while an NPU sits idle. Optional webhook.
 * **Landing page** at `/` with the 3C ITS tagline and original vector illustrations of AI laptops, desktops, servers and the AI transformation (animated, theme-aware and translated)
+* **Machine identity and inventory**: make, model, serial numbers, estimated manufacturing date, BIOS/UEFI, motherboard and asset tag for every machine. Add machines by connecting, by one-time enrolment code, or by manual registration, and export the inventory as CSV
 * **Sign-in and user management**: login page, Admin / Operator / Viewer roles, admin panel for users, audit log and security settings
 * **Display settings** per browser: theme (dark green, light green, high contrast, classic light), language (English, हिन्दी, ಕನ್ನಡ, தமிழ், తెలుగు), font, text size, background and font colour, bold, italic
 * exports telemetry as CSV
@@ -93,6 +94,30 @@ On first start, open **http://localhost:8765** on the machine itself and create 
 Click **⚙ Settings** (also on the sign-in page) to choose the theme, language, font, text size (80–160 %), background colour, font colour, bold and italic. A preview shows the contrast ratio and warns below 4.5:1. Settings are saved per browser on that computer.
 
 Languages: English, Hindi, Kannada, Tamil and Telugu cover all buttons, labels and help text. Analysis sentences generated from measurements (reasons, alerts, findings) stay in English. To add a language, add its code to `LANGS` and one more column to each row in `npu_monitor/static/i18n.js`. Please have translations reviewed by a native speaker before rolling them out.
+
+## Machine identity and adding machines
+
+**This machine** shows what the firmware reports:
+
+| Field | Windows | Linux | macOS |
+|---|---|---|---|
+| Manufacturer, model, family/SKU | WMI `Win32_ComputerSystem` / `Win32_ComputerSystemProduct` | `/sys/class/dmi/id` | `system_profiler` |
+| Serial number, UUID | WMI (no admin rights needed) | DMI (**needs sudo**; shown as such otherwise) | `system_profiler` |
+| BIOS/UEFI version and date, motherboard, asset tag | WMI | DMI | boot ROM |
+
+**Manufacturing date.** PCs don't store a standard "manufactured on" field, so the app shows an **estimate** and names its source and confidence. It uses the earliest of: the battery's factory date (laptops, *good*), the BIOS/UEFI release date (*approximate*, because a later BIOS update moves it forward), or the OS install date (*low*). Administrators can override it per machine with **Edit**. Placeholder values such as "To be filled by O.E.M." or "Default string" are ignored.
+
+**Adding machines** (Machines → **+ Add machine**, administrators):
+
+1. **Connect:** the machine already runs `python run.py --host 0.0.0.0 --token SECRET`. Enter its address and token.
+2. **Enrolment code (best for many machines):** create a one-time code (valid 24 h). On the new machine run the command shown, for example
+   ```bash
+   python run.py --enrol http://192.168.1.10:8765 --code ABCD-EFGH
+   ```
+   The machine starts listening on the network with its own generated token, finds its LAN address and registers itself. Codes are single-use, stored only as hashes, and repeated wrong codes from one address are blocked.
+3. **Register manually:** for machines that can't run the app. Enter name, type, make, model, serial number, asset tag, manufacturing date, owner and location.
+
+Every machine can carry an owner, department, location and notes. **Export inventory (CSV)** downloads the full list. Machines running the app refresh their identity automatically.
 
 ## Fleet: several machines together
 

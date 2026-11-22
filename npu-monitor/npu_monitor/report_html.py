@@ -25,6 +25,22 @@ def _v(x, unit: str = "") -> str:
     return "—" if x is None else f"{escape(str(x))}{unit}"
 
 
+def _identity_line(hw: dict) -> str:
+    idn = hw.get("identity") or {}
+    est = idn.get("manufacture") or {}
+    parts = []
+    make = " ".join(x for x in (idn.get("manufacturer"), idn.get("model")) if x)
+    if make:
+        parts.append(escape(make))
+    if idn.get("serial_number"):
+        parts.append(f"S/N {escape(idn['serial_number'])}")
+    if idn.get("asset_tag"):
+        parts.append(f"asset {escape(idn['asset_tag'])}")
+    if est.get("date"):
+        parts.append(f"manufactured ≈ {escape(est['date'])} ({escape(est.get('source') or '')})")
+    return f'<div class="muted">{" · ".join(parts)}</div>' if parts else ""
+
+
 def render(r: dict) -> str:
     hw, m = r["hardware"], r["metrics"]
     crit_rows = []
@@ -78,7 +94,7 @@ th{{color:var(--muted);font-weight:500;font-size:12px}} .n{{text-align:right;whi
 <div class="hero"><div class="score">{r['score']}<small>/100</small></div>
 <div><div class="verdict">{escape(r['verdict'])}</div>
 <div class="muted">{escape(hw.get('cpu') or '')} · {escape(hw.get('machine_type') or '')} · {hw.get('cores_logical')} threads · {hw.get('ram_gb')} GB RAM</div>
-<div class="muted">NPU: {escape(', '.join(hw.get('npu_names') or []) or (rated.get('family') or 'none detected'))}{f" · {rated['tops']} TOPS (vendor rating)" if rated.get('tops') else ''}</div></div></div>
+<div class="muted">NPU: {escape(', '.join(hw.get('npu_names') or []) or (rated.get('family') or 'none detected'))}{f" · {rated['tops']} TOPS (vendor rating)" if rated.get('tops') else ''}</div>{_identity_line(hw)}</div></div>
 <h2>Why: strengths and weaknesses</h2>
 <div class="grid"><ul class="pros">{li(r['pros'])}</ul><ul class="cons">{li(r['cons'])}</ul></div>
 <h2>Score breakdown</h2><table>{crit}</table>

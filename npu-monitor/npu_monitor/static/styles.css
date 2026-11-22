@@ -318,3 +318,31 @@ body[data-role="viewer"] .op-only, body:not([data-role="admin"]) .admin-only { d
 #settings label.inline { flex-direction: row; align-items: center; gap: 4px; }
 #settings label.inline input { width: auto; }
 #pwDialog .foot, #settings .foot { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; }
+
+/* identity grid + machine dialogs */
+.idgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 10px 18px; }
+.idgrid > div { display: flex; flex-direction: column; min-width: 0; padding: 8px 10px; border-radius: 10px; background: var(--surface-2); border: 1px solid var(--border); }
+.idgrid .k { font-size: calc(11.5px * var(--fs-scale)); color: var(--text-muted); text-transform: uppercase; letter-spacing: .05em; }
+.idgrid .v { font-family: var(--font-display); font-size: calc(15px * var(--fs-scale)); overflow-wrap: anywhere; }
+.idgrid .s { font-size: calc(11.5px * var(--fs-scale)); color: var(--text-secondary); }
+dialog.ed { border: 1px solid var(--border); border-radius: 14px; padding: 0; width: min(560px, calc(100vw - 32px));
+  background: var(--surface-1); color: var(--text-primary); box-shadow: 0 20px 60px rgba(0,0,0,.45); }
+dialog.ed::backdrop { background: rgba(0,0,0,.55); }
+dialog.ed .dlg { padding: 18px; display: grid; gap: 12px; }
+dialog.ed .tabpane { display: grid; gap: 10px; }
+dialog.ed input:not([type=checkbox]), dialog.ed select { width: 100%; font: inherit; padding: 6px 9px; border-radius: 7px;
+  border: 1px solid var(--border); background: var(--surface-0); color: var(--text-primary); }
+dialog.ed .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+@media (max-width: 520px) { dialog.ed .row2 { grid-template-columns: 1fr; } }
+dialog.ed .foot { display: flex; justify-content: flex-end; gap: 8px; margin-top: 4px; }
+.small-tabs { display: flex; gap: 4px; border-bottom: 1px solid var(--border); flex-wrap: wrap; }
+.small-tabs button { all: unset; cursor: pointer; padding: 7px 12px; color: var(--text-secondary); border-bottom: 3px solid transparent;
+  font-weight: 600; font-size: calc(13px * var(--fs-scale)); }
+.small-tabs button[aria-selected="true"] { color: var(--text-primary); border-bottom-color: var(--accent); }
+.small-tabs button:focus-visible { outline: 2px solid var(--accent); }
+.code { font-family: Consolas, "Cascadia Mono", monospace; font-size: calc(26px * var(--fs-scale)); letter-spacing: .12em; color: var(--accent); margin: 6px 0; }
+pre.cmd { white-space: pre-wrap; word-break: break-all; background: var(--surface-0); border: 1px solid var(--border); border-radius: 8px;
+  padding: 10px; font-size: calc(12.5px * var(--fs-scale)); margin: 0 0 8px; }
+#fleetTbl td:nth-child(-n+4) { white-space: normal; text-align: left; }
+#fleetTbl th:nth-child(-n+4) { text-align: left; }
+.pill.manual { color: var(--text-secondary); }

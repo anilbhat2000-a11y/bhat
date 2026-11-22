@@ -148,4 +148,14 @@ def collect() -> dict:
         "rated_npu": rated_npu(cpu),
     }
     info["ai_pc"] = ai_pc_class(info)
+    from .identity import collect as identity
+
+    info["identity"] = identity()
+    chassis = info["identity"].get("chassis") or ""
+    if "laptop" in chassis or chassis in ("tablet", "handheld"):
+        info["machine_type"] = "laptop"
+    elif chassis == "server":
+        info["machine_type"] = "server"
+    elif chassis and info["machine_type"] != "laptop":
+        info["machine_type"] = "workstation" if (psutil.cpu_count() or 0) >= 16 else "desktop"
     return info

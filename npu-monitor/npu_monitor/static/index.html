@@ -84,25 +84,29 @@
   </section>
 
 
+  <section class="card wide" id="thisMachine">
+    <div class="card-head"><h2>This machine</h2>
+      <button class="btn ghost admin-only" id="editSelfBtn" type="button">Edit details</button></div>
+    <div class="idgrid" id="idGrid"><div class="muted small">Reading hardware identity…</div></div>
+    <p class="small muted" id="idNote"></p>
+  </section>
+
   <section class="card wide" id="fleet">
-    <div class="card-head"><h2>Fleet: run multiple machines together</h2>
-      <div class="controls tight admin-only">
-        <label>Seconds per device <input id="fleetSecs" type="number" min="3" max="60" value="8"></label>
-        <button class="btn" id="fleetRunBtn" type="button">Run assessment on all machines</button>
+    <div class="card-head"><h2>Machines</h2>
+      <div class="controls tight">
+        <button class="btn admin-only" id="addMachineBtn" type="button">+ Add machine</button>
+        <a class="btn ghost" href="/api/machines.csv">Export inventory (CSV)</a>
       </div></div>
-    <p class="muted small">On each laptop, desktop, workstation or server, start the monitor with
-      <code>python run.py --host 0.0.0.0 --token YOUR_SECRET</code>, then add it here. All machines are benchmarked
-      at the same time and ranked, and any machine that is not an AI PC is flagged.</p>
-    <form class="controls admin-only" id="peerForm">
-      <label>Address <input id="peerUrl" placeholder="192.168.1.20:8765" required></label>
-      <label>Token <input id="peerToken" type="password" autocomplete="off"></label>
-      <label>Name (optional) <input id="peerName" placeholder="Finance laptop"></label>
-      <button class="btn ghost" type="submit">Add machine</button>
-      <span class="small" id="peerMsg"></span>
-    </form>
+    <p class="muted small">Every laptop, desktop, workstation and server in this portal, with make, model, serial number and
+      manufacturing date. Machines running the app report live NPU, CPU, GPU and battery data. All of them can be benchmarked
+      together and ranked, and any machine that is not an AI PC is flagged.</p>
     <div class="scroll"><table class="tbl" id="fleetTbl">
-      <thead><tr><th>Machine</th><th>AI PC</th><th>NPU</th><th>CPU</th><th>GPU</th><th>Inf/s</th><th>Battery</th><th>Health</th><th>Score</th><th>Alerts</th><th></th></tr></thead>
+      <thead><tr><th>Machine</th><th>Make &amp; model</th><th>Serial number</th><th>Manufactured</th><th>AI PC</th><th>NPU</th><th>CPU</th><th>GPU</th><th>Battery</th><th>Score</th><th>Alerts</th><th></th></tr></thead>
       <tbody></tbody></table></div>
+    <div class="controls admin-only">
+      <label>Seconds per device <input id="fleetSecs" type="number" min="3" max="60" value="8"></label>
+      <button class="btn" id="fleetRunBtn" type="button">Run assessment on all machines</button>
+    </div>
     <div id="fleetRun" hidden>
       <h3>Assessment run</h3><div id="fleetProgress" class="small"></div>
       <div id="fleetCompare" hidden>
@@ -229,6 +233,69 @@
       <tbody></tbody></table></div>
   </section>
 </main>
+
+<dialog class="ed" id="addDlg" aria-labelledby="addDlgT">
+  <div class="dlg">
+    <h2 id="addDlgT">Add machine</h2>
+    <div class="tabs small-tabs" role="tablist">
+      <button type="button" role="tab" aria-selected="true" data-tab="tConnect">Connect</button>
+      <button type="button" role="tab" aria-selected="false" data-tab="tCode">Enrolment code</button>
+      <button type="button" role="tab" aria-selected="false" data-tab="tManual">Register manually</button>
+    </div>
+    <form id="tConnect" class="tabpane">
+      <p class="muted small">For a machine already running the app on the network. On that machine run
+        <code>python run.py --host 0.0.0.0 --token YOUR_SECRET</code>, then enter its address and token.</p>
+      <label>Address <input id="peerUrl" placeholder="192.168.1.20:8765" required></label>
+      <label>Token <input id="peerToken" type="password" autocomplete="off" required></label>
+      <div class="row2"><label>Name (optional) <input id="peerName" placeholder="Finance laptop"></label>
+        <label>Owner <input id="peerOwner"></label></div>
+      <div class="row2"><label>Department <input id="peerDept"></label><label>Location <input id="peerLoc"></label></div>
+      <div class="err small" id="peerMsg" role="alert"></div>
+      <div class="foot"><button type="button" class="btn ghost" data-close>Cancel</button><button class="btn">Connect machine</button></div>
+    </form>
+    <div id="tCode" class="tabpane" hidden>
+      <p class="muted small">Best for many machines: create a one-time code (valid 24 hours), then run one command on the new machine.
+        It installs nothing else and registers itself here.</p>
+      <button class="btn" type="button" id="codeBtn">Create enrolment code</button>
+      <div id="codeOut" hidden>
+        <div class="code" id="codeVal"></div>
+        <p class="small">On the new machine, inside the app folder, run:</p>
+        <pre class="cmd" id="codeCmd"></pre>
+        <button class="btn ghost" type="button" id="copyCmd">Copy command</button>
+        <p class="small muted" id="codeExp"></p>
+      </div>
+      <div class="foot"><button type="button" class="btn ghost" data-close>Done</button></div>
+    </div>
+    <form id="tManual" class="tabpane" hidden>
+      <p class="muted small">For machines that can't run the app, so they still appear in the inventory and comparisons.</p>
+      <div class="row2"><label>Name <input id="mName" required placeholder="Reception desktop"></label>
+        <label>Type <select id="mType"><option value="laptop">Laptop</option><option value="desktop">Desktop</option><option value="workstation">Workstation</option><option value="server">Server</option></select></label></div>
+      <div class="row2"><label>Manufacturer <input id="mMake" placeholder="Dell, HP, Lenovo…"></label><label>Model <input id="mModel"></label></div>
+      <div class="row2"><label>Serial number <input id="mSerial"></label><label>Asset tag <input id="mAsset"></label></div>
+      <div class="row2"><label>Manufacturing date <input id="mDate" type="date"></label><label>Processor <input id="mCpu"></label></div>
+      <div class="row2"><label>Owner <input id="mOwner"></label><label>Location <input id="mLoc"></label></div>
+      <label>Notes <input id="mNotes"></label>
+      <div class="err small" id="mMsg" role="alert"></div>
+      <div class="foot"><button type="button" class="btn ghost" data-close>Cancel</button><button class="btn">Register machine</button></div>
+    </form>
+  </div>
+</dialog>
+
+<dialog class="ed" id="editDlg" aria-labelledby="editDlgT">
+  <form class="dlg" id="editForm">
+    <h2 id="editDlgT">Edit machine</h2>
+    <div class="row2"><label>Name <input id="eName"></label><label>Owner <input id="eOwner"></label></div>
+    <div class="row2"><label>Department <input id="eDept"></label><label>Location <input id="eLoc"></label></div>
+    <label>Manufacturing date (overrides the detected estimate) <input id="eDate" type="date"></label>
+    <div id="eManual" hidden>
+      <div class="row2"><label>Manufacturer <input id="eMake"></label><label>Model <input id="eModel"></label></div>
+      <div class="row2"><label>Serial number <input id="eSerial"></label><label>Asset tag <input id="eAsset"></label></div>
+    </div>
+    <label>Notes <input id="eNotes"></label>
+    <div class="err small" id="eMsg" role="alert"></div>
+    <div class="foot"><button type="button" class="btn ghost" data-close>Cancel</button><button class="btn">Save</button></div>
+  </form>
+</dialog>
 <footer class="muted small"><div id="foot"></div><div>3C ITS AI PC Health Checker &amp; NPU Performance · Make IT Simple</div></footer>
 <script src="/static/i18n.js"></script>
 <script src="/static/settings.js"></script>

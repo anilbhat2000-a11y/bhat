@@ -34,7 +34,7 @@ MAX_UPLOAD = int(os.environ.get("NPU_MONITOR_MAX_UPLOAD_MB", "200")) * 1024 * 10
 LOOPBACK = {"127.0.0.1", "::1", "localhost", "testclient"}
 
 
-PUBLIC_PATHS = {"/", "/login", "/api/auth/login", "/api/auth/setup", "/api/auth/status", "/favicon.ico"}
+PUBLIC_PATHS = {"/", "/login", "/api/machines/enrol", "/api/auth/login", "/api/auth/setup", "/api/auth/status", "/favicon.ico"}
 # What a fleet hub may call on this machine with the machine token (no user login).
 FLEET_TOKEN_ROUTES = (("GET", "/api/node"), ("POST", "/api/assessment"), ("GET", "/api/jobs/"))
 
@@ -44,6 +44,24 @@ def _authorised(client_host: str | None, header: str | None, query: str | None) 
     token = os.environ.get("NPU_MONITOR_TOKEN", "")
     given = header or query or ""
     return bool(token) and bool(given) and hmac.compare_digest(given.encode(), token.encode())
+
+
+def _lan_ips() -> list[str]:
+    """This machine's LAN addresses, for the enrolment command shown to admins."""
+    import socket
+
+    ips = []
+    try:
+        with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as s:
+            s.connect(("10.255.255.255", 1))  # no packet is sent; picks the default-route interface
+            ips.append(s.getsockname()[0])
+    except OSError:
+        pass
+    try:
+        ips += socket.gethostbyname_ex(socket.gethostname())[2]
+    except OSError:
+        pass
+    return [ip for i, ip in enumerate(ips) if ip not in ips[:i] and not ip.startswith("127.")]
 
 
 def _client_ip(request) -> str:
@@ -82,6 +100,50 @@ class UserUpdate(BaseModel):
 
 class PeerReq(BaseModel):
     url: str
+    token: str = ""
+    name: str = ""
+    owner: str = ""
+    department: str = ""
+    location: str = ""
+    notes: str = ""
+
+
+class ManualMachine(BaseModel):
+    name: str
+    manufacturer: str = ""
+    model: str = ""
+    serial_number: str = ""
+    asset_tag: str = ""
+    manufacture_date: str = ""
+    machine_type: str = "laptop"
+    cpu: str = ""
+    os: str = ""
+    owner: str = ""
+    department: str = ""
+    location: str = ""
+    notes: str = ""
+
+
+class MachineUpdate(BaseModel):
+    name: str | None = None
+    owner: str | None = None
+    department: str | None = None
+    location: str | None = None
+    notes: str | None = None
+    manufacture_date: str | None = None
+    manufacturer: str | None = None
+    model: str | None = None
+    serial_number: str | None = None
+    asset_tag: str | None = None
+    machine_type: str | None = None
+    cpu: str | None = None
+    os: str | None = None
+    token: str | None = None
+
+
+class EnrolReq(BaseModel):
+    code: str
+    url: str = ""
     token: str = ""
     name: str = ""
 
@@ -181,6 +243,7 @@ def create_app(sampler: Sampler | None = None, engines: EngineManager | None = N
         return {
             "host": state["hw"].get("host"), "cpu": state["hw"].get("cpu"), "os": state["hw"].get("os"),
             "machine_type": state["hw"].get("machine_type"), "ai_pc": state["hw"].get("ai_pc"),
+            "identity": state["hw"].get("identity"),
             "rated_npu": state["hw"].get("rated_npu"), "npu_names": state["hw"].get("npu_names"),
             "devices": [d.as_dict() for d in state["engines"].devices],
             "metrics": s and {"npu": s["npu"]["util"], "npu_source": s["npu"]["source"], "cpu": s["cpu"]["util"],
@@ -374,6 +437,7 @@ def create_app(sampler: Sampler | None = None, engines: EngineManager | None = N
             "telemetry": state["sampler"].describe(),
             "inference": state["engines"].describe(),
             "supported_files": sorted(SUPPORTED),
+            "lan_ips": _lan_ips(),
         }
 
     @app.get("/api/metrics")
@@ -551,7 +615,7 @@ def create_app(sampler: Sampler | None = None, engines: EngineManager | None = N
     @app.post("/api/fleet/peers")
     def fleet_add(req: PeerReq, request: Request):
         try:
-            peer = state["fleet"].add(req.url, req.token, req.name)
+            peer = state["fleet"].add(req.url, req.token, req.name, meta=req.model_dump(), added_by=actor(request))
             audit(request, "fleet_machine_added", f"{peer['name']} {peer['url']}")
             return peer
         except Exception as exc:
@@ -574,6 +638,85 @@ def create_app(sampler: Sampler | None = None, engines: EngineManager | None = N
         if r is None:
             raise HTTPException(404, "run not found")
         return r
+
+    # --- machine inventory ------------------------------------------------------------
+    @app.get("/api/identity")
+    def identity_view():
+        return state["hw"].get("identity") or {}
+
+    @app.post("/api/machines/manual")
+    def machine_manual(req: ManualMachine, request: Request):
+        try:
+            m = state["fleet"].add_manual(req.model_dump(), added_by=actor(request))
+        except ValueError as e:
+            raise HTTPException(400, str(e))
+        audit(request, "machine_registered", f"{m['name']} (manual, serial {req.serial_number or '-'})")
+        return m
+
+    @app.patch("/api/machines/{machine_id}")
+    def machine_update(machine_id: str, req: MachineUpdate, request: Request):
+        fields = {k: v for k, v in req.model_dump().items() if v is not None}
+        try:
+            m = state["fleet"].update(machine_id, fields)
+        except KeyError:
+            raise HTTPException(404, "machine not found")
+        except ValueError as e:
+            raise HTTPException(400, str(e))
+        audit(request, "machine_updated", f"{machine_id}: {', '.join(k for k in fields if k != 'token')}")
+        return m
+
+    @app.delete("/api/machines/{machine_id}")
+    def machine_delete(machine_id: str, request: Request):
+        state["fleet"].remove(machine_id)
+        audit(request, "machine_removed", machine_id)
+        return {"ok": True}
+
+    @app.post("/api/machines/codes")
+    def machine_code(request: Request):
+        c = state["fleet"].new_code(actor(request))
+        audit(request, "enrolment_code_created", f"expires {time.strftime('%Y-%m-%d %H:%M', time.localtime(c['expires']))}")
+        return c
+
+    _enrol_fail: dict = {}
+
+    @app.post("/api/machines/enrol")
+    def machine_enrol(req: EnrolReq, request: Request):
+        ip = _client_ip(request)
+        recent = [t for t in _enrol_fail.get(ip, []) if time.time() - t < 900]
+        if len(recent) >= 10:
+            raise HTTPException(429, "too many failed enrolment attempts; try again later")
+        try:
+            peer = state["fleet"].enrol(req.code, req.url, req.token, req.name, ip)
+        except PermissionError as e:
+            _enrol_fail[ip] = recent + [time.time()]
+            state["auth"].audit("enrolment", "enrolment_failed", str(e), ip)
+            raise HTTPException(403, str(e))
+        except Exception as e:
+            raise HTTPException(400, f"code accepted, but the portal could not reach the machine: {e}")
+        state["auth"].audit("enrolment", "machine_enrolled", f"{peer['name']} {peer['url']}", ip)
+        return {"id": peer["id"], "name": peer["name"]}
+
+    @app.get("/api/machines.csv")
+    def machines_csv():
+        buf = io.StringIO()
+        w = csv.writer(buf)
+        w.writerow(["name", "type", "status", "manufacturer", "model", "serial_number", "asset_tag",
+                    "manufacture_date", "manufacture_date_source", "bios_version", "machine_type", "cpu", "os",
+                    "ai_pc", "owner", "department", "location", "notes", "added_by", "added_at", "url"])
+        for m in state["fleet"].status():
+            idn = m.get("identity") or {}
+            est = idn.get("manufacture") or {}
+            mdate = m.get("manufacture_date") or est.get("date") or ""
+            src = "set by admin" if m.get("manufacture_date") else (est.get("source") or "")
+            status = "manual entry" if m.get("online") is None else ("online" if m.get("online") else "offline")
+            w.writerow([m.get("name"), m.get("kind"), status, idn.get("manufacturer"), idn.get("model"),
+                        idn.get("serial_number"), idn.get("asset_tag"), mdate, src, idn.get("bios_version"),
+                        m.get("machine_type"), m.get("cpu"), m.get("os"), (m.get("ai_pc") or {}).get("class"),
+                        m.get("owner"), m.get("department"), m.get("location"), m.get("notes"), m.get("added_by"),
+                        time.strftime("%Y-%m-%d", time.localtime(m["added_at"])) if m.get("added_at") else "",
+                        "" if m.get("self") else m.get("url")])
+        return Response(buf.getvalue(), media_type="text/csv",
+                        headers={"Content-Disposition": "attachment; filename=3c-its-machines.csv"})
 
     @app.get("/api/jobs")
     def jobs():
