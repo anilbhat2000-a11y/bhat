@@ -32,6 +32,13 @@ STATIC = Path(__file__).parent / "static"
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(name)s: %(message)s")
+    if settings.log_file:
+        from logging.handlers import RotatingFileHandler
+        Path(settings.log_file).parent.mkdir(parents=True, exist_ok=True)
+        fh = RotatingFileHandler(settings.log_file, maxBytes=5_000_000, backupCount=5, encoding="utf-8")
+        fh.setFormatter(logging.Formatter("%(asctime)s %(levelname)s %(name)s: %(message)s"))
+        logging.getLogger().addHandler(fh)
+        logging.getLogger().setLevel(logging.INFO)
     Base.metadata.create_all(engine)
     added = ensure_columns(engine)
     if added:

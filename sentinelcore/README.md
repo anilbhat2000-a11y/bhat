@@ -44,6 +44,18 @@ Demo users all have the password `Demo@12345`:
 
 Demo devices use the `simulator` driver, and the UI shows a **SIMULATED DATA** badge whenever simulated readings are on screen.
 
+## Windows: one-click start
+
+Double-click **`start-visionops.bat`** in this folder to start, and **`stop-visionops.bat`** to stop.
+
+The launcher (`python -m sentinel.launcher`):
+- runs the server in the background, so it can't be paused by clicking in a console window
+- restarts it if it stops or stops answering
+- checks Python, the packages and the port first, and repairs what it can
+- keeps settings in `visionops.env` and logs in `logs/`
+
+For automatic start at sign-in, run `python -m sentinel.launcher --install-autostart`.
+
 ## Production (Docker Compose + PostgreSQL)
 
 ```bash

@@ -114,7 +114,7 @@ footer { margin-top: 48px; padding-top: 16px; border-top: 1px solid var(--line);
 
   <main>
     <header class="top">
-      <div class="eyebrow">3C ITS VisionOps v0.4.0 · On-premise · Guide updated 23 Nov 2026</div>
+      <div class="eyebrow">3C ITS VisionOps v0.4.1 · On-premise · Guide updated 23 Nov 2026</div>
       <h1>3C ITS VisionOps Installation Guide</h1>
       <p class="lede">This guide takes you from a bare Linux server to a running multi-organization system. By the end you will have organizations, branches and offices set up, cameras and NVRs onboarded, alert contacts receiving notifications, and health dashboards live. Every screenshot was captured from a fresh install of this version.</p>
       <div class="meta"><span><b>Time needed:</b> about 45 minutes</span><span><b>Skill level:</b> basic Linux command line</span><span><b>Internet:</b> needed only to download packages</span></div>
@@ -158,18 +158,35 @@ cd bhat/sentinelcore</code></pre><button type="button">Copy</button></div></li>
 pip install -r requirements-dev.txt</code></pre><button type="button">Copy</button></div></li>
         <li>Run the test suite to confirm the install works on this machine:
           <div class="cmd"><pre><code>pytest -q</code></pre><button type="button">Copy</button></div>
-          <pre><code><span class="out">......................................................................   [100%]
-70 passed</span></code></pre></li>
+          <pre><code><span class="out">.........................................................................[100%]
+73 passed</span></code></pre></li>
       </ol>
       <div class="note"><strong>Folder and command names</strong>The product is called 3C ITS VisionOps. Its code folder is still <code>sentinelcore</code>, the Python package is <code>sentinel</code> (as in <code>sentinel.main:app</code>), and settings start with <code>SC_</code>. Keep using these names in commands.</div>
-      <h3>Windows notes</h3>
-      <p>The steps above work in Windows PowerShell with these changes, all tested on a Windows 11 PC:</p>
+      <h3>Windows: start and stop with a double-click</h3>
+      <p>On Windows, don't start VisionOps by typing the command into PowerShell. Use the launcher in the <code>sentinelcore</code> folder instead:</p>
+      <div class="table"><table><thead><tr><th>File</th><th>What it does</th></tr></thead><tbody>
+        <tr><td><b>start-visionops.bat</b></td><td>Starts VisionOps and opens it in your browser. If it is already running, it just opens the browser.</td></tr>
+        <tr><td><b>stop-visionops.bat</b></td><td>Stops VisionOps.</td></tr>
+      </tbody></table></div>
+      <p>Why: a server typed into a PowerShell window pauses as soon as someone clicks inside that window (Windows' QuickEdit mode). It also stops when the window closes. The launcher avoids both:</p>
+      <ul>
+        <li>It runs VisionOps in the background, separate from the window, with its messages written to log files in the <code>logs</code> folder (rotated automatically, so they never fill the disk).</li>
+        <li>It checks VisionOps every 5 seconds and restarts it if it stops or stops answering.</li>
+        <li>Before starting, it checks Python, the packages, the port and the folder, and says in plain words what to fix. It installs missing packages by itself, and repairs the SQLAlchemy block described below.</li>
+        <li>On first start it creates <code>visionops.env</code> with your settings: secret key, admin password, demo data, address and port. Edit that file instead of typing settings each time.</li>
+      </ul>
+      <p>To start VisionOps automatically when you sign in to Windows, run this once in the <code>sentinelcore</code> folder (undo with <code>--remove-autostart</code>):</p>
+      <div class="cmd"><pre><code>python -m sentinel.launcher --install-autostart</code></pre><button type="button">Copy</button></div>
+      <p>Other launcher commands: <code>--status</code> (is it running?), <code>--check</code> (run the checks only), <code>--stop</code>.</p>
+      <div class="note warn"><strong>Tested on Linux, not yet on Windows</strong>The launcher's start, watch, restart and stop logic is covered by automated tests. The two .bat files and the Windows-specific parts (background start, sign-in start) have not yet been run on a Windows PC. If one misbehaves, send <code>logs\server-output.log</code> to support.</div>
+      <h3>Windows notes for a manual start</h3>
+      <p>Only needed if you don't use the launcher:</p>
       <ul>
         <li>Open PowerShell as a normal window, not “Run as administrator”, and work in your own folder (<code>cd $env:USERPROFILE</code>). <code>C:\Windows\system32</code> is protected.</li>
-        <li>Activate the environment with <code>.venv\Scripts\activate</code>. If scripts are disabled, run <code>Set-ExecutionPolicy -Scope CurrentUser RemoteSigned</code> once.</li>
-        <li>Set settings with <code>$env:NAME="value";</code> before the command, and start with <code>python -m uvicorn</code> rather than <code>uvicorn</code>.</li>
+        <li>Start with <code>python -m uvicorn</code> rather than <code>uvicorn</code>. Settings are read from <code>visionops.env</code> if it exists.</li>
+        <li>Don't click inside the PowerShell window while the portal runs. If the portal seems frozen, press Enter in that window.</li>
       </ul>
-      <div class="cmd"><pre><code>$env:SC_SECRET_KEY="paste-your-key-here"; $env:SC_ADMIN_PASSWORD="Admin@123456"; python -m uvicorn sentinel.main:app --port 8080</code></pre><button type="button">Copy</button></div>
+      <div class="cmd"><pre><code>python -m uvicorn sentinel.main:app --port 8080</code></pre><button type="button">Copy</button></div>
       <p><b>If Windows says “An Application Control policy has blocked this file”</b> (Smart App Control or a company policy):</p>
       <ol>
         <li>Use <code>python -m pip</code> instead of <code>pip</code>, and install into Python's own folder (skip <code>.venv</code>): <code>python -m pip install -r requirements.txt</code>.</li>
@@ -496,6 +513,7 @@ SC_SMS_HEADERS={"Authorization": "Bearer your-api-key"}</code></pre><button type
 
     <section id="service">
       <h2><span class="n">20</span>Run it as a service</h2>
+      <p>On a Windows PC, use the launcher and its <code>--install-autostart</code> option (step 2). On a Linux server, follow the steps below.</p>
       <p>Create <code>/etc/sentinelcore.env</code>, readable only by root:</p>
       <div class="cmd"><pre><code>SC_SECRET_KEY=paste-your-key-here
 SC_DATABASE_URL=postgresql+psycopg://sentinel:DB_PASSWORD@localhost:5432/sentinel
@@ -566,6 +584,8 @@ sudo journalctl -u sentinelcore -f</code></pre><button type="button">Copy</butto
         <tr><td>Notifications “failed”</td><td>Read the error in the Notification log: wrong mail login, blocked port, or wrong SMS gateway format</td></tr>
         <tr><td>A branch admin's change did not appear</td><td>The organization requires approval; look on <b>Approvals</b></td></tr>
         <tr><td>CSV row: “matches 2 locations”</td><td>Two locations share that name; use the location code or full path</td></tr>
+        <tr><td>VisionOps stopped or froze while running in a PowerShell window</td><td>Someone clicked inside the window (Windows pauses it), or the window was closed. Start with <b>start-visionops.bat</b> instead (step 2); it runs in the background and restarts itself</td></tr>
+        <tr><td>The launcher says “stopped several times in a row”</td><td>Something stops it at start-up. The launcher shows the last lines of <code>logs\server-output.log</code>; send that file to support</td></tr>
         <tr><td>Browser shows “This site can’t be reached” at localhost:8080</td><td>The portal is not running. Start it again in PowerShell and keep that window open until you see <code>Uvicorn running on http://127.0.0.1:8080</code>. Use <code>http://</code>, not <code>https://</code></td></tr>
         <tr><td>Page looks like the old version after an update</td><td>Press <b>Ctrl+F5</b> once. From v0.3.2 the portal tells browsers to check for new files, so this should not happen again</td></tr>
         <tr><td>All stored device passwords stopped working</td><td><code>SC_SECRET_KEY</code> changed. Restore the original key, or enter the passwords again</td></tr>
@@ -574,6 +594,14 @@ sudo journalctl -u sentinelcore -f</code></pre><button type="button">Copy</butto
 
     <section id="changes">
       <h2><span class="n">23</span>What's new</h2>
+      <h3>v0.4.1 — 23 Nov 2026</h3>
+      <ul>
+        <li>One-click Windows launcher: start-visionops.bat and stop-visionops.bat</li>
+        <li>VisionOps now runs in the background and can no longer be paused by clicking in a window</li>
+        <li>Automatic restart if it stops or stops answering; checks before starting, with automatic repair of missing packages</li>
+        <li>Settings saved once in visionops.env; rotating log files in the logs folder</li>
+        <li>Optional automatic start when you sign in to Windows</li>
+      </ul>
       <h3>v0.4.0 — 23 Nov 2026</h3>
       <ul>
         <li>Every overview tile, bar and row opens the details behind it (for example, Cameras online lists each online camera)</li>
@@ -621,7 +649,7 @@ sudo journalctl -u sentinelcore -f</code></pre><button type="button">Copy</butto
       <ul><li>First release: camera, battery and NVR health, alerts, AI rule engine, single-organization sites</li></ul>
     </section>
 
-    <footer>3C ITS VisionOps v0.4.0. Screenshots re-captured from a fresh install with <code>docs/install-guide/capture.sh</code>. The README and docs/VERIFICATION.md in the repository say exactly what has been tested and what is still planned.</footer>
+    <footer>3C ITS VisionOps v0.4.1. Screenshots re-captured from a fresh install with <code>docs/install-guide/capture.sh</code>. The README and docs/VERIFICATION.md in the repository say exactly what has been tested and what is still planned.</footer>
   </main>
 </div>
 

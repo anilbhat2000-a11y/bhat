@@ -14,6 +14,24 @@ def _bool(name: str, default: bool) -> bool:
     return v.strip().lower() in {"1", "true", "yes", "on"}
 
 
+def _load_env_file() -> None:
+    """Read visionops.env (created by the launcher) so a manual start uses the same
+    settings. Values already set in the environment win."""
+    from pathlib import Path
+    for path in (Path.cwd() / "visionops.env", Path(__file__).resolve().parents[1] / "visionops.env"):
+        if path.exists():
+            for line in path.read_text(encoding="utf-8").splitlines():
+                line = line.strip()
+                if line and not line.startswith("#") and "=" in line:
+                    k, v = line.split("=", 1)
+                    os.environ.setdefault(k.strip(), v.strip().strip('"').strip("'"))
+            break
+
+
+if os.getenv("SC_IGNORE_ENV_FILE") != "1":
+    _load_env_file()
+
+
 @dataclass
 class Settings:
     database_url: str = field(default_factory=lambda: os.getenv("SC_DATABASE_URL", "sqlite:///./sentinel.db"))
@@ -40,6 +58,8 @@ class Settings:
     sms_body: str = field(default_factory=lambda: os.getenv("SC_SMS_BODY") or '{"to": "{phone}", "text": "{message}"}')
     sms_headers: str = field(default_factory=lambda: os.getenv("SC_SMS_HEADERS") or "{}")
     public_url: str = field(default_factory=lambda: os.getenv("SC_PUBLIC_URL", ""))
+    # Log file with automatic rotation (5 files x 5 MB). Empty = log to the console only.
+    log_file: str = field(default_factory=lambda: os.getenv("SC_LOG_FILE", ""))
     # Live view: how many browser streams the server converts at once, and for how long each.
     max_live_streams: int = field(default_factory=lambda: int(os.getenv("SC_MAX_LIVE_STREAMS") or "8"))
     live_max_minutes: int = field(default_factory=lambda: int(os.getenv("SC_LIVE_MAX_MINUTES") or "30"))
