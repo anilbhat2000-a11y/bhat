@@ -55,6 +55,10 @@ async def security_headers(request: Request, call_next):
     resp.headers.setdefault("X-Content-Type-Options", "nosniff")
     resp.headers.setdefault("X-Frame-Options", "DENY")
     resp.headers.setdefault("Referrer-Policy", "no-referrer")
+    if request.url.path == "/" or request.url.path.startswith("/static/"):
+        # Browsers must check for a newer copy each time, so portal updates show
+        # immediately after a restart (unchanged files still come from cache via 304).
+        resp.headers.setdefault("Cache-Control", "no-cache")
     if not request.url.path.startswith(("/docs", "/redoc", "/openapi.json")):
         # Everything is served locally: no CDN, works air-gapped.
         resp.headers.setdefault("Content-Security-Policy",

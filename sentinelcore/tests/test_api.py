@@ -373,3 +373,8 @@ def test_ui_served_with_csp(client):
     assert r.status_code == 200 and "3C ITS" in r.text and "VisionOps" in r.text
     assert "default-src 'self'" in r.headers["content-security-policy"]
     assert client.get("/static/app.js").status_code == 200
+
+
+def test_ui_files_are_revalidated_so_updates_show(client):
+    assert client.get("/").headers["cache-control"] == "no-cache"
+    assert client.get("/static/app.js").headers["cache-control"] == "no-cache"

@@ -507,6 +507,8 @@ sudo journalctl -u sentinelcore -f</code></pre><button type="button">Copy</butto
         <tr><td>Notifications “failed”</td><td>Read the error in the Notification log: wrong mail login, blocked port, or wrong SMS gateway format</td></tr>
         <tr><td>A branch admin's change did not appear</td><td>The organization requires approval; look on <b>Approvals</b></td></tr>
         <tr><td>CSV row: “matches 2 locations”</td><td>Two locations share that name; use the location code or full path</td></tr>
+        <tr><td>Browser shows “This site can’t be reached” at localhost:8080</td><td>The portal is not running. Start it again in PowerShell and keep that window open until you see <code>Uvicorn running on http://127.0.0.1:8080</code>. Use <code>http://</code>, not <code>https://</code></td></tr>
+        <tr><td>Page looks like the old version after an update</td><td>Press <b>Ctrl+F5</b> once. From v0.3.2 the portal tells browsers to check for new files, so this should not happen again</td></tr>
         <tr><td>All stored device passwords stopped working</td><td><code>SC_SECRET_KEY</code> changed. Restore the original key, or enter the passwords again</td></tr>
       </tbody></table></div>
     </section>
@@ -518,6 +520,7 @@ sudo journalctl -u sentinelcore -f</code></pre><button type="button">Copy</butto
         <li>Landing page: “See everything. Miss nothing.”, with a live command-centre video wall illustration, features and industries, before sign-in</li>
         <li>Optional photo: add <code>landing.jpg</code> to replace the illustration</li>
         <li>Signing out returns to the landing page</li>
+        <li>Browsers now always pick up portal updates after a restart (no stale pages)</li>
       </ul>
       <h3>v0.3.1 — 23 Nov 2026</h3>
       <ul>
