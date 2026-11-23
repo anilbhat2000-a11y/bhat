@@ -40,8 +40,21 @@ WINDOWS = platform.system() == "Windows"
 LEGACY_KEY = "change-me-to-a-long-random-text"
 
 
+LAUNCH_LOG = LOG_DIR / "launcher.log"
+
+
 def say(msg: str) -> None:
-    print(f"[VisionOps] {msg}", flush=True)
+    line = f"[VisionOps] {msg}"
+    try:
+        print(line, flush=True)
+    except (OSError, ValueError):  # no console (pythonw / autostart)
+        pass
+    try:
+        LOG_DIR.mkdir(exist_ok=True)
+        with open(LAUNCH_LOG, "a", encoding="utf-8") as f:
+            f.write(time.strftime("%Y-%m-%d %H:%M:%S ") + line + "\n")
+    except OSError:
+        pass
 
 
 # ---------------------------------------------------------------- settings --
@@ -95,12 +108,60 @@ def port_in_use(host: str, port: int) -> bool:
         return s.connect_ex(("127.0.0.1" if host in ("0.0.0.0", "") else host, port)) == 0
 
 
+# Talk to our own server directly. Company PCs often have a proxy set in Windows; urllib
+# would send even 127.0.0.1 through it, the check would never succeed, and the launcher
+# would wrongly decide VisionOps had not started.
+_DIRECT = urllib.request.build_opener(urllib.request.ProxyHandler({}))
+last_health_error = ""
+
+
 def healthy(port: int, timeout: float = 4) -> bool:
+    global last_health_error
     try:
-        with urllib.request.urlopen(f"http://127.0.0.1:{port}/healthz", timeout=timeout) as r:
-            return r.status == 200 and b"ok" in r.read()
-    except OSError:
+        with _DIRECT.open(f"http://127.0.0.1:{port}/healthz", timeout=timeout) as r:
+            ok = r.status == 200 and b"ok" in r.read()
+            last_health_error = "" if ok else f"unexpected reply (HTTP {r.status})"
+            return ok
+    except Exception as e:  # noqa: BLE001 - any failure just means "not healthy"
+        last_health_error = f"{type(e).__name__}: {e}"
         return False
+
+
+def port_owner_pids(port: int) -> list[int]:
+    """PIDs listening on the port (Windows only; empty elsewhere)."""
+    if not WINDOWS:
+        return []
+    r = subprocess.run(["netstat", "-ano", "-p", "TCP"], capture_output=True, text=True, errors="replace")
+    pids = set()
+    for line in r.stdout.splitlines():
+        parts = line.split()
+        if len(parts) >= 5 and parts[0].upper() == "TCP" and parts[1].endswith(f":{port}") and parts[3].upper() == "LISTENING":
+            if parts[4].isdigit() and int(parts[4]) != 0:
+                pids.add(int(parts[4]))
+    return sorted(pids)
+
+
+def process_name(pid: int) -> str:
+    if not WINDOWS:
+        return ""
+    r = subprocess.run(["tasklist", "/FI", f"PID eq {pid}", "/FO", "CSV", "/NH"], capture_output=True, text=True, errors="replace")
+    first = r.stdout.strip().splitlines()[:1]
+    return first[0].split(",")[0].strip('"').lower() if first else ""
+
+
+def free_stale_port(port: int) -> bool:
+    """An old VisionOps left running in a (paused or hidden) PowerShell window holds the port
+    but does not answer. Stop it if it is a Python process. Returns True if the port is free."""
+    for pid in port_owner_pids(port):
+        name = process_name(pid)
+        if name.startswith("python"):
+            say(f"An old VisionOps (process {pid}) is holding port {port} but not answering. Stopping it...")
+            kill_tree(pid)
+    for _ in range(20):
+        if not port_in_use("127.0.0.1", port):
+            return True
+        time.sleep(0.25)
+    return False
 
 
 def check(fix: bool = True) -> list[str]:
@@ -131,7 +192,7 @@ def check(fix: bool = True) -> list[str]:
             problems.append(f"A Python package is missing or broken: {err[0]}. Run: python -m pip install -r requirements.txt")
     env = read_env()
     port = int(env.get("SC_PORT", "8080"))
-    if port_in_use(env.get("SC_HOST", "127.0.0.1"), port) and not healthy(port):
+    if port_in_use(env.get("SC_HOST", "127.0.0.1"), port) and not healthy(port) and not (fix and free_stale_port(port)):
         problems.append(f"Port {port} is used by another program. Close it, or set SC_PORT to another number in visionops.env.")
     try:
         LOG_DIR.mkdir(exist_ok=True)
@@ -218,7 +279,8 @@ def run(open_browser: bool = True, max_restarts: int = 5, check_every: float = 5
         say(f"Created your settings file: {ENV_FILE.name}")
     env = read_env()
     host, port = env.get("SC_HOST", "127.0.0.1"), int(env.get("SC_PORT", "8080"))
-    url = f"http://localhost:{port}"
+    url = f"http://127.0.0.1:{port}"
+    say(f"Python: {sys.executable}  Folder: {ROOT}")
     if healthy(port):
         say(f"VisionOps is already running. Opening {url}")
         if open_browser:
@@ -234,7 +296,7 @@ def run(open_browser: bool = True, max_restarts: int = 5, check_every: float = 5
     recent_crashes: list[float] = []
     proc = start_server(host, port)
     save_state(launcher_pid=os.getpid(), server_pid=proc.pid, port=port)
-    opened, misses = False, 0
+    opened, misses, started_at = False, 0, time.time()
     try:
         while not (stop_event and stop_event.is_set()):
             time.sleep(check_every)
@@ -254,9 +316,15 @@ def run(open_browser: bool = True, max_restarts: int = 5, check_every: float = 5
                 time.sleep(5)
                 proc = start_server(host, port)
                 save_state(launcher_pid=os.getpid(), server_pid=proc.pid, port=port)
-                misses = 0
+                misses, started_at = 0, time.time()
                 continue
-            if healthy(port):
+            ok = healthy(port)
+            listening = ok or port_in_use(host, port)
+            if not ok and listening and not opened and time.time() - started_at > 20:
+                say(f"VisionOps is listening on port {port}, but the launcher's check got: {last_health_error}."
+                    " Opening the browser anyway.")
+                ok = True
+            if ok:
                 misses = 0
                 if not opened:
                     opened = True
@@ -267,15 +335,16 @@ def run(open_browser: bool = True, max_restarts: int = 5, check_every: float = 5
                         webbrowser.open(url)
             else:
                 misses += 1
-                if opened and misses >= 3:
-                    say("VisionOps stopped answering. Restarting it...")
+                # A server that still accepts connections gets a full minute before a restart.
+                if opened and misses >= (12 if listening else 3):
+                    say(f"VisionOps stopped answering ({last_health_error}). Restarting it...")
                     kill_tree(proc.pid)
                     proc.wait(timeout=30)
                     proc = start_server(host, port)
                     save_state(launcher_pid=os.getpid(), server_pid=proc.pid, port=port)
                     misses = 0
-                elif not opened and misses * check_every > 90:
-                    say("VisionOps did not start within 90 seconds. Last lines of the log:")
+                elif not opened and not listening and time.time() - started_at > 90:
+                    say(f"VisionOps did not start within 90 seconds ({last_health_error}). Last lines of the log:")
                     print(last_lines(OUT_LOG), flush=True)
                     kill_tree(proc.pid)
                     return 4

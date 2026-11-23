@@ -13,7 +13,7 @@ This report follows Section 11 of the build prompt: every claim is backed by a t
 | Privacy law | India, DPDP Act 2023 (see the gaps below) | — |
 | Database | SQLite (dev) and PostgreSQL 16 (prod). **Both tested** | — |
 
-## Tested here (`pytest -q`: 70 passed on SQLite; the earlier 63-test suite also passed on PostgreSQL 16)
+## Tested here (`pytest -q`: 74 passed on SQLite; the earlier 63-test suite also passed on PostgreSQL 16)
 
 ### Dashboards, map and live view (v0.4)
 
@@ -103,12 +103,15 @@ This report follows Section 11 of the build prompt: every claim is backed by a t
 | Audit log of logins, changes, acknowledgements, reviews | Done | `test_admin_cannot_demote_self_and_audit_logged` |
 | UI served with strict CSP (no external origins) | Done | `test_ui_served_with_csp` |
 | UI renders with no JS errors (desktop 1440 px and phone 390 px, no horizontal scroll) | Done | Manual Playwright run against the demo server |
+| Launcher: settings file, port check, start, restart after crash, stop | Done (Linux) | `test_launcher.py` |
+| Launcher health check ignores proxy settings (company PCs) | Done | `test_health_check_ignores_proxy_settings` |
 
 ## Written but NOT verified against real hardware (additions)
 
 - **Reboot:** ONVIF `SystemReboot` and Hikvision ISAPI `PUT /ISAPI/System/reboot`. Try it on one device during a maintenance window first.
 - **`onvif` NVR driver** and reading the serial number and MAC address from real devices.
 - **Email delivery** through your SMTP server (only the logic was tested, with sending mocked).
+- **Windows launcher parts:** the .bat files, background (detached) start, stopping an old frozen VisionOps that holds the port (netstat/tasklist), and start at sign-in. Logic is shared with the tested Linux path, but these have not been run on a Windows PC.
 - **SMS delivery** through your gateway. Tested against a mock HTTP server only; set `SC_SMS_BODY`/`SC_SMS_HEADERS` to your provider's format.
 
 ## Written but NOT verified against real hardware

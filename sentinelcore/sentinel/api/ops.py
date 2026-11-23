@@ -23,7 +23,7 @@ from ..config import settings
 from .serializers import alert_dict, event_dict, iso
 
 router = APIRouter(prefix="/api", tags=["ops"])
-VERSION = "0.4.1"
+VERSION = "0.4.2"
 
 
 def _subtree(db: Session, user: User, location_id: int) -> set[int]:
