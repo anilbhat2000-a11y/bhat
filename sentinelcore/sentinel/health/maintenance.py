@@ -164,7 +164,7 @@ def diagnose_camera(cam) -> list[dict]:
                                   "ONVIF may be turned off on the device."))
             else:
                 steps.append(Step("ONVIF clock", "pass" if abs(drift) <= 30 else "warn", f"Clock differs by {drift} s",
-                                  "" if abs(drift) <= 30 else "Point the camera at the same NTP server as SentinelCore."))
+                                  "" if abs(drift) <= 30 else "Point the camera at the same NTP server as the 3C ITS VisionOps server."))
             if info.get("serial") or info.get("model"):
                 steps.append(Step("ONVIF login & identity", "pass",
                                   f"{info.get('manufacturer', '')} {info.get('model', '')}, serial {info.get('serial', '—')}, "

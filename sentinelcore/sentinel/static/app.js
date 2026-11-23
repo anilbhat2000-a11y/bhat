@@ -1,4 +1,4 @@
-// SentinelCore web UI — dependency-free ES module (works fully offline).
+// 3C ITS VisionOps web UI — dependency-free ES module (works fully offline).
 const $ = (s, el = document) => el.querySelector(s);
 const $$ = (s, el = document) => [...el.querySelectorAll(s)];
 const view = $("#view");
@@ -170,7 +170,8 @@ function renderLogin(msg = "") {
   $("#topbar").hidden = true;
   view.className = "";
   view.innerHTML = `<div class="login-wrap"><div class="card login">
-    <h1>SentinelCore</h1><div class="muted">On-premise AI video analytics &amp; device health</div>
+    <div class="logo-box login-logo" data-logo-wrap hidden><img class="brand-logo" src="/static/logo.png" alt="3C ITS — Make IT Simple"></div>
+    <h1><span class="brand-co" data-logo-fallback>3C ITS</span> VisionOps</h1><div class="muted">On-premise AI video analytics &amp; device health</div>
     <form id="loginForm">
       <label class="field">Username<input name="username" autocomplete="username" required></label>
       <label class="field">Password<input name="password" type="password" autocomplete="current-password" required></label>
@@ -1253,6 +1254,23 @@ async function renderCapabilities() {
     catch (e) { toast(e.message); }
   }));
 }
+
+// ------------------------------------------------------------------ logo ---
+// The company logo lives at /static/logo.png. Until that file exists the text name is shown.
+const logoState = { ok: null };
+function applyLogo() {
+  if (logoState.ok === null) return;
+  $$("[data-logo-wrap]").forEach((el) => (el.hidden = !logoState.ok));
+  $$("[data-logo-only]").forEach((el) => (el.hidden = !logoState.ok));
+  $$("[data-logo-fallback]").forEach((el) => (el.hidden = logoState.ok));
+}
+(() => {
+  const probe = new Image();
+  probe.onload = () => { logoState.ok = probe.naturalWidth > 0; applyLogo(); };
+  probe.onerror = () => { logoState.ok = false; applyLogo(); };
+  probe.src = "/static/logo.png";
+})();
+new MutationObserver(() => applyLogo()).observe(document.getElementById("view"), { childList: true });
 
 // ------------------------------------------------------------------ init ---
 function initTheme() {

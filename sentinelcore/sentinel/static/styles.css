@@ -168,3 +168,21 @@ td.act-cell, .act-cell { min-width: 190px; max-width: 240px; white-space: normal
 .zone-line { fill: none; stroke: var(--bad); stroke-width: 1; }
 .zone-dot circle { fill: var(--chart-1); stroke: var(--panel); stroke-width: 0.4; }
 .card h2 .btn.right { margin-left: auto; }
+.brand-co { color: var(--accent); font-weight: 800; }
+.login h1 .brand-co { margin-right: 2px; }
+/* company logo (white plate so it reads in light and dark themes) */
+.logo-box { display: inline-flex; align-items: center; background: #ffffff; border-radius: 8px; padding: 4px 8px; }
+.logo-box[hidden] { display: none; }
+.brand { flex-direction: column; align-items: flex-start; gap: 4px; }
+.brand-text { display: flex; gap: 8px; align-items: center; }
+.brand-text[hidden], .product-name[hidden] { display: none; }
+.brand .brand-logo { display: block; width: 180px; height: auto; }
+.product-name { font-weight: 700; font-size: 15px; color: var(--text); padding-left: 2px; letter-spacing: .02em; }
+.login-logo { margin: 0 auto 8px; display: flex; justify-content: center; }
+.login-logo[hidden] { display: none; }
+.login-logo .brand-logo { width: 240px; max-width: 100%; height: auto; }
+.top-logo { display: none; padding: 2px 6px; }
+.top-logo .brand-logo { height: 28px; width: auto; display: block; }
+@media (max-width: 760px) { .top-logo:not([hidden]) { display: inline-flex; } }
+/* hidden always wins over display rules (sidebar, header, badges on the sign-in screen) */
+[hidden] { display: none !important; }

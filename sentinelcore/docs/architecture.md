@@ -10,7 +10,7 @@ flowchart LR
   subgraph Edge["3a · Edge AI (Jetson / NUC / AI camera)"]
     RUN[sentinel.analytics.runner<br/>FFmpeg → ONNX detector → tracker → rules]
   end
-  subgraph Server["SentinelCore server (on-premise)"]
+  subgraph Server["3C ITS VisionOps server (on-premise)"]
     COL[2 · Health collector<br/>RTSP OPTIONS · ffprobe · frame stats · ONVIF · ISAPI]
     ALR[Alert rule engine]
     ENG[4 · Analytics engine<br/>tracker + zone/line/loiter/count rules]

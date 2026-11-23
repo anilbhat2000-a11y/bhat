@@ -1,4 +1,4 @@
-<title>SentinelCore Installation Guide</title>
+<title>3C ITS VisionOps Installation Guide</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
 <style>
@@ -113,8 +113,8 @@ footer { margin-top: 48px; padding-top: 16px; border-top: 1px solid var(--line);
 
   <main>
     <header class="top">
-      <div class="eyebrow">SentinelCore v0.3.0 · On-premise · Guide updated 22 Nov 2026</div>
-      <h1>SentinelCore Installation Guide</h1>
+      <div class="eyebrow">3C ITS VisionOps v0.3.1 · On-premise · Guide updated 23 Nov 2026</div>
+      <h1>3C ITS VisionOps Installation Guide</h1>
       <p class="lede">This guide takes you from a bare Linux server to a running multi-organization system. By the end you will have organizations, branches and offices set up, cameras and NVRs onboarded, alert contacts receiving notifications, and health dashboards live. Every screenshot was captured from a fresh install of this version.</p>
       <div class="meta"><span><b>Time needed:</b> about 45 minutes</span><span><b>Skill level:</b> basic Linux command line</span><span><b>Internet:</b> needed only to download packages</span></div>
     </header>
@@ -129,7 +129,7 @@ footer { margin-top: 48px; padding-top: 16px; border-top: 1px solid var(--line);
         <tbody>
           <tr><td>Server</td><td>A Linux machine or VM (Ubuntu 22.04/24.04 recommended) on a network that can reach the camera and NVR VLANs at every branch</td></tr>
           <tr><td>Python</td><td>3.11 or newer. Tested with 3.13</td></tr>
-          <tr><td>FFmpeg</td><td>Needed to measure real FPS, bitrate and picture problems. Without it, SentinelCore only checks whether each camera answers</td></tr>
+          <tr><td>FFmpeg</td><td>Needed to measure real FPS, bitrate and picture problems. Without it, 3C ITS VisionOps only checks whether each camera answers</td></tr>
           <tr><td>Database</td><td>SQLite is built in and fine for a trial. Use PostgreSQL 16 in production (tested)</td></tr>
           <tr><td>Mail server</td><td>Optional: an SMTP server for email alerts</td></tr>
           <tr><td>SMS gateway</td><td>Optional: any SMS provider with an HTTP API, for SMS alerts</td></tr>
@@ -160,6 +160,24 @@ pip install -r requirements-dev.txt</code></pre><button type="button">Copy</butt
           <pre><code><span class="out">...............................................................          [100%]
 63 passed</span></code></pre></li>
       </ol>
+      <div class="note"><strong>Folder and command names</strong>The product is called 3C ITS VisionOps. Its code folder is still <code>sentinelcore</code>, the Python package is <code>sentinel</code> (as in <code>sentinel.main:app</code>), and settings start with <code>SC_</code>. Keep using these names in commands.</div>
+      <h3>Windows notes</h3>
+      <p>The steps above work in Windows PowerShell with these changes, all tested on a Windows 11 PC:</p>
+      <ul>
+        <li>Open PowerShell as a normal window, not “Run as administrator”, and work in your own folder (<code>cd $env:USERPROFILE</code>). <code>C:\Windows\system32</code> is protected.</li>
+        <li>Activate the environment with <code>.venv\Scripts\activate</code>. If scripts are disabled, run <code>Set-ExecutionPolicy -Scope CurrentUser RemoteSigned</code> once.</li>
+        <li>Set settings with <code>$env:NAME="value";</code> before the command, and start with <code>python -m uvicorn</code> rather than <code>uvicorn</code>.</li>
+      </ul>
+      <div class="cmd"><pre><code>$env:SC_SECRET_KEY="paste-your-key-here"; $env:SC_ADMIN_PASSWORD="Admin@123456"; python -m uvicorn sentinel.main:app --port 8080</code></pre><button type="button">Copy</button></div>
+      <p><b>If Windows says “An Application Control policy has blocked this file”</b> (Smart App Control or a company policy):</p>
+      <ol>
+        <li>Use <code>python -m pip</code> instead of <code>pip</code>, and install into Python's own folder (skip <code>.venv</code>): <code>python -m pip install -r requirements.txt</code>.</li>
+        <li>If the block mentions SQLAlchemy (<code>_collections_cy</code>, <code>_result_cy</code>), install its pure-Python version, which contains no program files to block:
+          <div class="cmd"><pre><code>python -m pip uninstall -y sqlalchemy
+python -m pip install setuptools wheel
+$env:DISABLE_SQLALCHEMY_CEXT="1"; python -m pip install --no-binary sqlalchemy --no-build-isolation --no-cache-dir "SQLAlchemy==2.1.9"</code></pre><button type="button">Copy</button></div></li>
+        <li>If another component is blocked, ask IT to allow Python's packages, or run the portal on an Ubuntu server or VM.</li>
+      </ol>
       <h3>Option B: Docker Compose with PostgreSQL</h3>
       <div class="cmd"><pre><code>cd bhat/sentinelcore
 cp .env.example .env      # fill in SC_SECRET_KEY, SC_ADMIN_PASSWORD, POSTGRES_PASSWORD (and SMTP/SMS if wanted)
@@ -173,7 +191,7 @@ docker compose up -d</code></pre><button type="button">Copy</button></div>
       <p>Create a secret key once and keep it safe. It signs logins and encrypts the camera and NVR passwords stored in the database.</p>
       <div class="cmd"><pre><code>python3 -c "import secrets; print(secrets.token_urlsafe(48))"</code></pre><button type="button">Copy</button></div>
       <div class="cmd"><pre><code>SC_SECRET_KEY='paste-your-key-here' uvicorn sentinel.main:app --host 0.0.0.0 --port 8080</code></pre><button type="button">Copy</button></div>
-      <p>On the first start, SentinelCore creates the platform administrator <code>admin</code> and prints its password once:</p>
+      <p>On the first start, 3C ITS VisionOps creates the platform administrator <code>admin</code> and prints its password once:</p>
       <pre><code><span class="out">INFO:     Started server process [4739]
 INFO:     Waiting for application startup.
 </span>2026-11-22 20:56:58,882 WARNING sentinel: Created first user &#x27;admin&#x27; with password: ••••••••••••••••  (change it after first login)<span class="out">
@@ -181,8 +199,10 @@ INFO:     Application startup complete.
 INFO:     Uvicorn running on http://127.0.0.1:8099 (Press CTRL+C to quit)
 2026-11-22 20:56:58,981 INFO sentinel.collector: health cycle: {&#x27;cameras&#x27;: 0, &#x27;nvrs&#x27;: 0, &#x27;alerts_opened&#x27;: 0, &#x27;notifications&#x27;: 0}</span></code></pre>
       <p>To choose the password yourself, add <code>SC_ADMIN_PASSWORD='…'</code> before <code>uvicorn</code>. Then open <code>http://&lt;server-ip&gt;:8080</code> and sign in.</p>
-      <figure><img src="img/01-login.webp" alt="SentinelCore sign-in screen" width="2560" height="1600" loading="lazy"><figcaption>Five wrong passwords in a row lock that username for 5 minutes.</figcaption></figure>
+      <figure><img src="img/01-login.webp" alt="3C ITS VisionOps sign-in screen" width="2560" height="1600" loading="lazy"><figcaption>Five wrong passwords in a row lock that username for 5 minutes.</figcaption></figure>
       <figure><img src="img/02-first-login.webp" alt="Empty overview after first sign-in" width="2560" height="1600" loading="lazy"><figcaption>The first sign-in shows an empty overview. The menu changes with each user's role.</figcaption></figure>
+      <h3>Add your company logo</h3>
+      <p>Save your logo as a PNG file named <code>logo.png</code> in <code>sentinelcore/sentinel/static/</code>, then refresh the browser. It appears on the sign-in screen and at the top left of every page (in the header on phones), on a white panel so it reads in both light and dark themes. A wide logo works best, for example 2000 × 880 pixels. Until the file is there, the portal shows the name “3C ITS VisionOps” in text.</p>
       <p><b>Just evaluating?</b> Start with <code>SC_SEED_DEMO=1</code> to get two sample organizations with branches, 6 NVRs, 48 cameras, alert contacts, and demo users (password <code>Demo@12345</code>).</p>
     </section>
 
@@ -208,7 +228,7 @@ INFO:     Uvicorn running on http://127.0.0.1:8099 (Press CTRL+C to quit)
         <li>Optionally add a short code (useful in CSV imports) and the city.</li>
       </ol>
       <figure><img src="img/04-locations.webp" alt="Location hierarchy: Corporate Office, West Region, Mumbai Andheri Branch, 2nd Floor, Pune Warehouse" width="2560" height="1600" loading="lazy"><figcaption>Adding “Server Room” under 2nd Floor. Each row shows its type, code, city and how many cameras, NVRs and alert contacts it has.</figcaption></figure>
-      <div class="note"><strong>Branch is worked out for you</strong>A camera on “2nd Floor” is reported under “Mumbai Andheri Branch” on the dashboards. SentinelCore uses the nearest branch, office, warehouse, store or plant above the camera.</div>
+      <div class="note"><strong>Branch is worked out for you</strong>A camera on “2nd Floor” is reported under “Mumbai Andheri Branch” on the dashboards. 3C ITS VisionOps uses the nearest branch, office, warehouse, store or plant above the camera.</div>
     </section>
 
     <section id="users">
@@ -398,7 +418,7 @@ SC_SMS_HEADERS={"Authorization": "Bearer your-api-key"}</code></pre><button type
 
     <section id="alerts">
       <h2><span class="n">16</span>Alerts, rules and notifications</h2>
-      <p>SentinelCore ships with 14 health rules. Examples: camera offline for more than 5 minutes, battery below 20%, NVR disk error, storage above 95%, recording kept for less than 7 days. A rule opens an alert when its condition has held for the set time, and closes it when the condition clears. Alert contacts are then notified as set up in step 7.</p>
+      <p>3C ITS VisionOps ships with 14 health rules. Examples: camera offline for more than 5 minutes, battery below 20%, NVR disk error, storage above 95%, recording kept for less than 7 days. A rule opens an alert when its condition has held for the set time, and closes it when the condition clears. Alert contacts are then notified as set up in step 7.</p>
       <figure><img src="img/27-alert-rules.webp" alt="Alert rules table" width="2560" height="1600" loading="lazy"><figcaption>The platform admin can turn rules on or off, and add new ones.</figcaption></figure>
       <figure><img src="img/26-notification-log.webp" alt="Notification log with a skipped email because SMTP is not configured" width="2560" height="1600" loading="lazy"><figcaption>Every email and SMS attempt is listed with its result. Here email is not configured yet, so the test message is marked skipped.</figcaption></figure>
     </section>
@@ -435,7 +455,7 @@ SC_SMS_URL=https://your-sms-provider.example/api/send
 SC_SMS_HEADERS={"Authorization": "Bearer your-api-key"}</code></pre><button type="button">Copy</button></div>
       <p>Then create <code>/etc/systemd/system/sentinelcore.service</code>, changing <code>/opt/bhat</code> to where you cloned the code:</p>
       <div class="cmd"><pre><code>[Unit]
-Description=SentinelCore
+Description=3C ITS VisionOps
 After=network-online.target postgresql.service
 
 [Service]
@@ -492,6 +512,13 @@ sudo journalctl -u sentinelcore -f</code></pre><button type="button">Copy</butto
 
     <section id="changes">
       <h2><span class="n">22</span>What's new</h2>
+      <h3>v0.3.1 — 23 Nov 2026</h3>
+      <ul>
+        <li>Renamed to <b>3C ITS VisionOps</b>: sign-in screen, browser tab, menu, alert emails and SMS, test notifications</li>
+        <li>Company logo on the sign-in screen and at the top left of every page (add <code>logo.png</code>, step 3)</li>
+        <li>Windows installation notes, including Smart App Control</li>
+        <li>Fixed: the empty menu and header no longer show behind the sign-in box</li>
+      </ul>
       <h3>v0.3.0 — 22 Nov 2026</h3>
       <ul>
         <li>AI use case catalog: 184 built-in use cases across 13 sectors and 12 categories, with CSV import for your own list</li>
@@ -516,7 +543,7 @@ sudo journalctl -u sentinelcore -f</code></pre><button type="button">Copy</butto
       <ul><li>First release: camera, battery and NVR health, alerts, AI rule engine, single-organization sites</li></ul>
     </section>
 
-    <footer>SentinelCore v0.3.0. Screenshots re-captured from a fresh install with <code>docs/install-guide/capture.sh</code>. The README and docs/VERIFICATION.md in the repository say exactly what has been tested and what is still planned.</footer>
+    <footer>3C ITS VisionOps v0.3.1. Screenshots re-captured from a fresh install with <code>docs/install-guide/capture.sh</code>. The README and docs/VERIFICATION.md in the repository say exactly what has been tested and what is still planned.</footer>
   </main>
 </div>
 

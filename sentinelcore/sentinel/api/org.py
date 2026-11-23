@@ -437,10 +437,10 @@ def test_contact(contact_id: int, request: Request, user: User = Depends(require
     check_location(db, user, c.location_id)
     tree = location_tree(db, c.location.org_id)
     path = location_path(tree, c.location_id)
-    results = notify.deliver(db, c, None, "SentinelCore test notification",
-                             f"This is a test from SentinelCore for {c.name} ({c.designation}) at {path}.\n"
+    results = notify.deliver(db, c, None, "3C ITS VisionOps test notification",
+                             f"This is a test from 3C ITS VisionOps for {c.name} ({c.designation}) at {path}.\n"
                              "If you received it, alerts for this location will reach you.",
-                             f"SentinelCore test: alerts for {path} will reach this number.")
+                             f"3C ITS VisionOps test: alerts for {path} will reach this number.")
     audit(db, user.username, "contact_tested", c.name, {"results": results}, request=request, org_id=c.location.org_id)
     return {"results": results}
 

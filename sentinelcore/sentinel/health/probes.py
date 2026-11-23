@@ -63,7 +63,7 @@ def rtsp_options(url: str, timeout: float = 4.0) -> RtspResult:
     if not host:
         return RtspResult(False, error="invalid RTSP URL")
     clean = urlunsplit((parts.scheme, f"{host}:{port}", parts.path or "/", parts.query, ""))
-    req = f"OPTIONS {clean} RTSP/1.0\r\nCSeq: 1\r\nUser-Agent: SentinelCore\r\n\r\n".encode()
+    req = f"OPTIONS {clean} RTSP/1.0\r\nCSeq: 1\r\nUser-Agent: 3CITS-VisionOps\r\n\r\n".encode()
     t0 = time.perf_counter()
     try:
         with socket.create_connection((host, port), timeout=timeout) as s:

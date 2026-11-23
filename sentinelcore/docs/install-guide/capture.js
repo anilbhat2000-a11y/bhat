@@ -1,4 +1,4 @@
-// Walks a fresh SentinelCore install through the setup described in the
+// Walks a fresh 3C ITS VisionOps install through the setup described in the
 // installation guide and saves one screenshot per step. Run via capture.sh.
 const { chromium } = require("playwright");
 const BASE = process.env.BASE;

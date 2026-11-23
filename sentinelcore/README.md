@@ -1,12 +1,14 @@
-# SentinelCore
+# 3C ITS VisionOps
 
-SentinelCore is on-premise software that brings many CCTV cameras and NVRs into one place. It:
+3C ITS VisionOps is on-premise software that brings many CCTV cameras and NVRs into one place. It:
 
 - monitors camera, battery and NVR health
 - runs AI analytics rules
 - gives User/Operator and Admin dashboards
 
 It works with **no internet connection**: there are no cloud calls or CDN assets, and the UI is served by the server itself.
+
+The code lives in the `sentinelcore/` folder and the Python package is called `sentinel`; settings keep the `SC_` prefix. These internal names are unchanged so existing installations keep working.
 
 It was built from `prompts/ai-cctv-onprem-build-prompt.md`. This repository covers **Phase 1 (foundation)**, **Phase 2 (health monitoring)** and the **Phase 3 AI rule engine**. See [docs/VERIFICATION.md](docs/VERIFICATION.md) for what is done, what has been tested, and what is not done yet.
 

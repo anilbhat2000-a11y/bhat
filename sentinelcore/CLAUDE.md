@@ -1,4 +1,4 @@
-# SentinelCore — working rules
+# 3C ITS VisionOps (code folder: sentinelcore) — working rules
 
 ## Always update the installation guide (standing instruction from the project owner)
 

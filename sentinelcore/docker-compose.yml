@@ -1,4 +1,4 @@
-# On-premise deployment: SentinelCore + PostgreSQL. No internet needed at runtime.
+# On-premise deployment: 3C ITS VisionOps + PostgreSQL. No internet needed at runtime.
 # 1. cp .env.example .env and set SC_SECRET_KEY, SC_ADMIN_PASSWORD, POSTGRES_PASSWORD
 # 2. docker compose up -d   ->  http://<server-ip>:8080
 # Use network_mode: host (Linux) if you want ONVIF WS-Discovery (multicast) to reach camera VLANs.

@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>SentinelCore</title>
+  <title>3C ITS VisionOps</title>
   <link rel="icon" href="/static/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="/static/styles.css">
 </head>
@@ -11,8 +11,12 @@
   <div id="app" class="app">
     <aside class="sidebar" id="sidebar" hidden>
       <div class="brand">
-        <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M12 2 3 6v6c0 5 3.8 9.3 9 10 5.2-.7 9-5 9-10V6l-9-4Z" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="11" r="3" fill="currentColor"/></svg>
-        <span>SentinelCore</span>
+        <a class="logo-box" href="#/overview" data-logo-wrap hidden><img class="brand-logo" src="/static/logo.png" alt="3C ITS — Make IT Simple"></a>
+        <div class="brand-text" data-logo-fallback>
+          <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M12 2 3 6v6c0 5 3.8 9.3 9 10 5.2-.7 9-5 9-10V6l-9-4Z" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="11" r="3" fill="currentColor"/></svg>
+          <span><span class="brand-co">3C ITS</span> VisionOps</span>
+        </div>
+        <div class="product-name" data-logo-only hidden>VisionOps</div>
       </div>
       <nav id="nav" aria-label="Main"></nav>
       <div class="sidebar-foot">
@@ -24,6 +28,7 @@
     <main class="main">
       <header class="topbar" id="topbar" hidden>
         <button class="btn ghost icon" id="menuBtn" type="button" aria-label="Menu">☰</button>
+        <span class="logo-box top-logo" data-logo-wrap hidden><img class="brand-logo" src="/static/logo.png" alt="3C ITS"></span>
         <h1 id="pageTitle">Overview</h1>
         <div class="topbar-right">
           <span id="simBadge" class="badge warn" hidden title="Some devices use the simulator driver">SIMULATED DATA</span>

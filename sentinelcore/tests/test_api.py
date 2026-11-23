@@ -370,6 +370,6 @@ def test_audit_scoped_to_org(client, admin, world):
 
 def test_ui_served_with_csp(client):
     r = client.get("/")
-    assert r.status_code == 200 and "SentinelCore" in r.text
+    assert r.status_code == 200 and "3C ITS" in r.text and "VisionOps" in r.text
     assert "default-src 'self'" in r.headers["content-security-policy"]
     assert client.get("/static/app.js").status_code == 200

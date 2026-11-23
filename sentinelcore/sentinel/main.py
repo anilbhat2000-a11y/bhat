@@ -1,4 +1,4 @@
-"""SentinelCore application entry point.
+"""3C ITS VisionOps application entry point (Python package: sentinel).
 
     uvicorn sentinel.main:app --host 0.0.0.0 --port 8080
 """
@@ -41,7 +41,7 @@ async def lifespan(app: FastAPI):
         await task
 
 
-app = FastAPI(title="SentinelCore", version=ops.VERSION, lifespan=lifespan)
+app = FastAPI(title="3C ITS VisionOps", version=ops.VERSION, lifespan=lifespan)
 app.include_router(auth.router)
 app.include_router(devices.router)
 app.include_router(ops.router)

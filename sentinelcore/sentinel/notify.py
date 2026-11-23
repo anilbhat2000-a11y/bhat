@@ -82,8 +82,8 @@ def alert_text(alert: Alert, path: str) -> tuple[str, str, str]:
     subject = f"[{sev}] {alert.message}"
     link = f"\nOpen: {settings.public_url.rstrip('/')}/#/alerts" if settings.public_url else ""
     body = (f"Severity: {sev}\nAlert: {alert.message}\nLocation: {path}\n"
-            f"Opened: {alert.opened_at:%Y-%m-%d %H:%M} UTC\nStatus: {alert.status}{link}\n\n— SentinelCore")
-    sms = f"SentinelCore {sev}: {alert.message} @ {path}"[:300]
+            f"Opened: {alert.opened_at:%Y-%m-%d %H:%M} UTC\nStatus: {alert.status}{link}\n\n— 3C ITS VisionOps")
+    sms = f"3C ITS VisionOps {sev}: {alert.message} @ {path}"[:300]
     return subject, body, sms
 
 
