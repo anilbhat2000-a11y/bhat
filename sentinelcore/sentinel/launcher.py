@@ -408,12 +408,57 @@ def remove_autostart() -> int:
     return 0
 
 
+DIAG_FILE = LOG_DIR / "diagnose.txt"
+
+
+def diagnose() -> int:
+    """Write a plain-text report to logs/diagnose.txt that support can read."""
+    env = read_env()
+    port = int(env.get("SC_PORT", "8080"))
+    lines = [f"3C ITS VisionOps diagnostics  {time.strftime('%Y-%m-%d %H:%M:%S')}",
+             f"Python: {sys.executable} ({platform.python_version()})",
+             f"System: {platform.platform()}",
+             f"Folder: {ROOT}",
+             f"Settings file: {'found' if ENV_FILE.exists() else 'missing'}"
+             f"  host={env.get('SC_HOST', '127.0.0.1')} port={port}",
+             f"Database file: {'found' if (ROOT / 'sentinel.db').exists() else 'not created yet'}"]
+    try:
+        px = {k: v for k, v in urllib.request.getproxies().items() if k in ("http", "https")}
+        lines.append("Proxy set for: " + (", ".join(sorted(px)) or "none") + " (the launcher bypasses it for its own check)")
+    except Exception as e:  # noqa: BLE001
+        lines.append(f"Proxy: unknown ({e})")
+    lines.append(f"Port {port} in use: {port_in_use('127.0.0.1', port)}")
+    owners = port_owner_pids(port)
+    if owners:
+        lines.append("Port owners: " + ", ".join(f"{p} ({process_name(p) or '?'})" for p in owners))
+    ok = healthy(port)
+    lines.append(f"VisionOps answering on 127.0.0.1:{port}: {ok}" + ("" if ok else f"  ({last_health_error})"))
+    st = load_state()
+    lines.append(f"Launcher state: {st or 'none'}"
+                 + (f"  server alive={pid_alive(st.get('server_pid'))}" if st else ""))
+    problems = check(fix=False)
+    lines.append("Checks: " + ("all passed" if not problems else ""))
+    lines += ["  - " + p for p in problems]
+    for name, path in (("launcher.log", LAUNCH_LOG), ("server-output.log", OUT_LOG), ("visionops.log", APP_LOG)):
+        lines += ["", f"----- last lines of {name} -----", last_lines(path, 25) or "(empty or missing)"]
+    text = "\n".join(lines)
+    print(text, flush=True)
+    try:
+        LOG_DIR.mkdir(exist_ok=True)
+        DIAG_FILE.write_text(text, encoding="utf-8")
+        print(f"\nSaved to {DIAG_FILE}", flush=True)
+    except OSError as e:
+        print(f"\nCould not save the report: {e}", flush=True)
+    return 0
+
+
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(prog="python -m sentinel.launcher", description="Start, stop and look after 3C ITS VisionOps.")
     g = ap.add_mutually_exclusive_group()
     g.add_argument("--stop", action="store_true")
     g.add_argument("--status", action="store_true")
     g.add_argument("--check", action="store_true")
+    g.add_argument("--diagnose", action="store_true")
     g.add_argument("--install-autostart", action="store_true")
     g.add_argument("--remove-autostart", action="store_true")
     ap.add_argument("--no-browser", action="store_true")
@@ -430,6 +475,8 @@ def main(argv: list[str] | None = None) -> int:
             print(" - " + p)
         say("All checks passed." if not problems else "Fix the items above, then start again.")
         return 1 if problems else 0
+    if a.diagnose:
+        return diagnose()
     if a.install_autostart:
         return install_autostart()
     if a.remove_autostart:
@@ -437,5 +484,17 @@ def main(argv: list[str] | None = None) -> int:
     return run(open_browser=not a.no_browser)
 
 
+def safe_main() -> int:
+    try:
+        return main()
+    except SystemExit:
+        raise
+    except BaseException:  # noqa: BLE001 - show and save any crash instead of closing silently
+        import traceback
+        tb = traceback.format_exc()
+        say("The launcher hit an unexpected error:\n" + tb)
+        return 1
+
+
 if __name__ == "__main__":
-    sys.exit(main())
+    sys.exit(safe_main())

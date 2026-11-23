@@ -22,6 +22,7 @@ def home(tmp_path, monkeypatch):
     monkeypatch.setattr(launcher, "OUT_LOG", logs / "server-output.log")
     monkeypatch.setattr(launcher, "APP_LOG", logs / "visionops.log")
     monkeypatch.setattr(launcher, "LAUNCH_LOG", logs / "launcher.log")
+    monkeypatch.setattr(launcher, "DIAG_FILE", logs / "diagnose.txt")
     monkeypatch.setenv("SC_DATABASE_URL", f"sqlite:///{tmp_path}/launch.db")
     monkeypatch.setenv("SC_COLLECTOR", "0")
     return tmp_path
@@ -107,3 +108,10 @@ def test_health_check_ignores_proxy_settings(home, monkeypatch):
     assert not launcher.healthy(free_port()) and launcher.last_health_error
     launcher.say("hello")
     assert "hello" in (home / "logs" / "launcher.log").read_text()
+
+
+def test_diagnose_writes_report(home, capsys):
+    launcher.ensure_env_file(db_exists=False)
+    assert launcher.main(["--diagnose"]) == 0
+    report = (home / "logs" / "diagnose.txt").read_text()
+    assert "VisionOps answering" in report and "Checks:" in report and "launcher.log" in report

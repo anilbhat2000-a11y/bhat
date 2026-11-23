@@ -13,7 +13,7 @@ This report follows Section 11 of the build prompt: every claim is backed by a t
 | Privacy law | India, DPDP Act 2023 (see the gaps below) | — |
 | Database | SQLite (dev) and PostgreSQL 16 (prod). **Both tested** | — |
 
-## Tested here (`pytest -q`: 74 passed on SQLite; the earlier 63-test suite also passed on PostgreSQL 16)
+## Tested here (`pytest -q`: 75 passed on SQLite; the earlier 63-test suite also passed on PostgreSQL 16)
 
 ### Dashboards, map and live view (v0.4)
 
@@ -105,6 +105,7 @@ This report follows Section 11 of the build prompt: every claim is backed by a t
 | UI renders with no JS errors (desktop 1440 px and phone 390 px, no horizontal scroll) | Done | Manual Playwright run against the demo server |
 | Launcher: settings file, port check, start, restart after crash, stop | Done (Linux) | `test_launcher.py` |
 | Launcher health check ignores proxy settings (company PCs) | Done | `test_health_check_ignores_proxy_settings` |
+| Diagnostics report (`--diagnose`, logs/diagnose.txt) | Done | `test_diagnose_writes_report` |
 
 ## Written but NOT verified against real hardware (additions)
 

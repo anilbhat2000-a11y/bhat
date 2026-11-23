@@ -114,7 +114,7 @@ footer { margin-top: 48px; padding-top: 16px; border-top: 1px solid var(--line);
 
   <main>
     <header class="top">
-      <div class="eyebrow">3C ITS VisionOps v0.4.2 · On-premise · Guide updated 23 Nov 2026</div>
+      <div class="eyebrow">3C ITS VisionOps v0.4.3 · On-premise · Guide updated 23 Nov 2026</div>
       <h1>3C ITS VisionOps Installation Guide</h1>
       <p class="lede">This guide takes you from a bare Linux server to a running multi-organization system. By the end you will have organizations, branches and offices set up, cameras and NVRs onboarded, alert contacts receiving notifications, and health dashboards live. Every screenshot was captured from a fresh install of this version.</p>
       <div class="meta"><span><b>Time needed:</b> about 45 minutes</span><span><b>Skill level:</b> basic Linux command line</span><span><b>Internet:</b> needed only to download packages</span></div>
@@ -158,8 +158,8 @@ cd bhat/sentinelcore</code></pre><button type="button">Copy</button></div></li>
 pip install -r requirements-dev.txt</code></pre><button type="button">Copy</button></div></li>
         <li>Run the test suite to confirm the install works on this machine:
           <div class="cmd"><pre><code>pytest -q</code></pre><button type="button">Copy</button></div>
-          <pre><code><span class="out">..........................................................................[100%]
-74 passed</span></code></pre></li>
+          <pre><code><span class="out">...........................................................................[100%]
+75 passed</span></code></pre></li>
       </ol>
       <div class="note"><strong>Folder and command names</strong>The product is called 3C ITS VisionOps. Its code folder is still <code>sentinelcore</code>, the Python package is <code>sentinel</code> (as in <code>sentinel.main:app</code>), and settings start with <code>SC_</code>. Keep using these names in commands.</div>
       <h3>Windows: start and stop with a double-click</h3>
@@ -167,6 +167,7 @@ pip install -r requirements-dev.txt</code></pre><button type="button">Copy</butt
       <div class="table"><table><thead><tr><th>File</th><th>What it does</th></tr></thead><tbody>
         <tr><td><b>start-visionops.bat</b></td><td>Starts VisionOps and opens it in your browser. If it is already running, it just opens the browser.</td></tr>
         <tr><td><b>stop-visionops.bat</b></td><td>Stops VisionOps.</td></tr>
+        <tr><td><b>diagnose-visionops.bat</b></td><td>Checks everything and writes a report to <code>logs\diagnose.txt</code>. Send that file to support if VisionOps does not open.</td></tr>
       </tbody></table></div>
       <p>Why: a server typed into a PowerShell window pauses as soon as someone clicks inside that window (Windows' QuickEdit mode). It also stops when the window closes. The launcher avoids both:</p>
       <ul>
@@ -177,7 +178,7 @@ pip install -r requirements-dev.txt</code></pre><button type="button">Copy</butt
       </ul>
       <p>To start VisionOps automatically when you sign in to Windows, run this once in the <code>sentinelcore</code> folder (undo with <code>--remove-autostart</code>):</p>
       <div class="cmd"><pre><code>python -m sentinel.launcher --install-autostart</code></pre><button type="button">Copy</button></div>
-      <p>Other launcher commands: <code>--status</code> (is it running?), <code>--check</code> (run the checks only), <code>--stop</code>.</p>
+      <p>The start window always stays open until you press a key, so you can read what happened. Other launcher commands: <code>--status</code> (is it running?), <code>--check</code> (run the checks only), <code>--diagnose</code> (write the support report), <code>--stop</code>.</p>
       <div class="note warn"><strong>Tested on Linux, not yet on Windows</strong>The launcher's start, watch, restart and stop logic is covered by automated tests. The two .bat files and the Windows-specific parts (background start, sign-in start) have not yet been run on a Windows PC. If one misbehaves, send the <code>logs</code> folder (<code>launcher.log</code> and <code>server-output.log</code>) to support.</div>
       <p>The launcher also handles these on its own:</p>
       <ul>
@@ -592,7 +593,8 @@ sudo journalctl -u sentinelcore -f</code></pre><button type="button">Copy</butto
         <tr><td>A branch admin's change did not appear</td><td>The organization requires approval; look on <b>Approvals</b></td></tr>
         <tr><td>CSV row: “matches 2 locations”</td><td>Two locations share that name; use the location code or full path</td></tr>
         <tr><td>VisionOps stopped or froze while running in a PowerShell window</td><td>Someone clicked inside the window (Windows pauses it), or the window was closed. Start with <b>start-visionops.bat</b> instead (step 2); it runs in the background and restarts itself</td></tr>
-        <tr><td>Double-clicking start-visionops.bat does nothing, or the browser does not open</td><td>Look at the launcher window: it says what is wrong. Everything it says is also saved in <code>logs\launcher.log</code>. Try <code>http://127.0.0.1:8080</code> in the browser. If it still does not open, send the <code>logs</code> folder to support</td></tr>
+        <tr><td>The start window flashes and closes</td><td>You have an older copy of the launcher. Run <code>git pull</code> in the <code>sentinelcore</code> folder; from v0.4.3 the window stays open and shows the reason</td></tr>
+        <tr><td>Double-clicking start-visionops.bat does nothing, or the browser does not open</td><td>Look at the launcher window: it says what is wrong. Everything it says is also saved in <code>logs\launcher.log</code>. Try <code>http://127.0.0.1:8080</code> in the browser. If it still does not open, double-click <b>diagnose-visionops.bat</b> and send <code>logs\diagnose.txt</code> to support</td></tr>
         <tr><td>The launcher says “stopped several times in a row”</td><td>Something stops it at start-up. The launcher shows the last lines of <code>logs\server-output.log</code>; send that file to support</td></tr>
         <tr><td>Browser shows “This site can’t be reached” at localhost:8080</td><td>The portal is not running. Start it again in PowerShell and keep that window open until you see <code>Uvicorn running on http://127.0.0.1:8080</code>. Use <code>http://</code>, not <code>https://</code></td></tr>
         <tr><td>Page looks like the old version after an update</td><td>Press <b>Ctrl+F5</b> once. From v0.3.2 the portal tells browsers to check for new files, so this should not happen again</td></tr>
@@ -602,6 +604,12 @@ sudo journalctl -u sentinelcore -f</code></pre><button type="button">Copy</butto
 
     <section id="changes">
       <h2><span class="n">23</span>What's new</h2>
+      <h3>v0.4.3 — 23 Nov 2026</h3>
+      <ul>
+        <li>The start window no longer closes by itself: it shows what happened and waits for a key</li>
+        <li>New diagnose-visionops.bat writes a support report (logs\diagnose.txt)</li>
+        <li>Unexpected launcher errors are shown and saved to logs\launcher.log instead of closing the window</li>
+      </ul>
       <h3>v0.4.2 — 23 Nov 2026</h3>
       <ul>
         <li>Launcher fix: VisionOps now opens on PCs with a company proxy (the launcher's start check used to go through the proxy and give up after 90 seconds)</li>
@@ -664,7 +672,7 @@ sudo journalctl -u sentinelcore -f</code></pre><button type="button">Copy</butto
       <ul><li>First release: camera, battery and NVR health, alerts, AI rule engine, single-organization sites</li></ul>
     </section>
 
-    <footer>3C ITS VisionOps v0.4.2. Screenshots re-captured from a fresh install with <code>docs/install-guide/capture.sh</code>. The README and docs/VERIFICATION.md in the repository say exactly what has been tested and what is still planned.</footer>
+    <footer>3C ITS VisionOps v0.4.3. Screenshots re-captured from a fresh install with <code>docs/install-guide/capture.sh</code>. The README and docs/VERIFICATION.md in the repository say exactly what has been tested and what is still planned.</footer>
   </main>
 </div>
 
