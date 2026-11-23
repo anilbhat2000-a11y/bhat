@@ -23,7 +23,7 @@ from ..config import settings
 from .serializers import alert_dict, event_dict, iso
 
 router = APIRouter(prefix="/api", tags=["ops"])
-VERSION = "0.3.2"
+VERSION = "0.4.0"
 
 
 def _subtree(db: Session, user: User, location_id: int) -> set[int]:
@@ -184,7 +184,8 @@ def _device_names(db: Session, alerts: list[Alert]) -> dict[tuple[str, int], str
 
 @router.get("/alerts")
 def list_alerts(user: User = Depends(require("view")), db: Session = Depends(get_db), status: str = "active",
-                severity: str | None = None, location_id: int | None = None, limit: int = Query(200, le=1000)):
+                severity: str | None = None, location_id: int | None = None, limit: int = Query(200, le=1000),
+                device_type: str | None = None, device_id: int | None = None):
     q = scope_filter(db, select(Alert).order_by(Alert.opened_at.desc()), Alert.location_id, user)
     if status == "active":
         q = q.where(Alert.status != "resolved")
@@ -192,6 +193,8 @@ def list_alerts(user: User = Depends(require("view")), db: Session = Depends(get
         q = q.where(Alert.status == status)
     if severity:
         q = q.where(Alert.severity == severity)
+    if device_type and device_id:
+        q = q.where(Alert.device_type == device_type, Alert.device_id == device_id)
     if location_id:
         q = q.where(Alert.location_id.in_(_subtree(db, user, location_id)))
     alerts = db.scalars(q.limit(limit)).all()

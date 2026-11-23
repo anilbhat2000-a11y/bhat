@@ -378,3 +378,12 @@ def test_ui_served_with_csp(client):
 def test_ui_files_are_revalidated_so_updates_show(client):
     assert client.get("/").headers["cache-control"] == "no-cache"
     assert client.get("/static/app.js").headers["cache-control"] == "no-cache"
+
+
+def test_alerts_filter_by_device(client, world):
+    org_h = login(client, "acme_org")
+    with SessionLocal() as db:
+        db.add(Alert(device_type="camera", device_id=world["pune_cam"]["id"], location_id=world["pune"], severity="info", message="only-this"))
+        db.commit()
+    rows = client.get(f"/api/alerts?status=all&device_type=camera&device_id={world['pune_cam']['id']}", headers=org_h).json()
+    assert rows and all(r["device_id"] == world["pune_cam"]["id"] and r["device_type"] == "camera" for r in rows)

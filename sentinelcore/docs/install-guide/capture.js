@@ -44,17 +44,18 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
   // Locations
   await go(a, "locations", "#locForm");
-  const addLoc = async (name, kind, parentLabel, code, city) => {
+  const addLoc = async (name, kind, parentLabel, code, city, lat = "", lng = "") => {
     await a.fill("#locForm input[name=name]", name);
     await a.selectOption("#locForm select[name=kind]", kind);
     const opt = await a.$$eval("#locForm select[name=parent_id] option", (os, lbl) => (os.find((o) => o.textContent.trim().replace(/^└\s*/, "").endsWith(lbl)) || {}).value, parentLabel);
     await a.selectOption("#locForm select[name=parent_id]", opt);
     await a.fill("#locForm input[name=code]", code); await a.fill("#locForm input[name=city]", city);
+    await a.fill("#locForm input[name=latitude]", String(lat)); await a.fill("#locForm input[name=longitude]", String(lng));
     await a.click("#locForm button.primary"); await sleep(900);
   };
   await addLoc("West Region", "region", "Corporate Office", "ACME-W", "Mumbai");
-  await addLoc("Mumbai Andheri Branch", "branch", "West Region", "MUM-AND", "Mumbai");
-  await addLoc("Pune Warehouse", "warehouse", "West Region", "PUN-WH", "Pune");
+  await addLoc("Mumbai Andheri Branch", "branch", "West Region", "MUM-AND", "Mumbai", 19.1197, 72.8468);
+  await addLoc("Pune Warehouse", "warehouse", "West Region", "PUN-WH", "Pune", 18.5204, 73.8567);
   await addLoc("2nd Floor", "floor", "Mumbai Andheri Branch", "MUM-AND-F2", "Mumbai");
   const floorBtn = await a.$$eval(".tree-row", (rows) => { const r = rows.find((x) => x.textContent.includes("2nd Floor")); return r ? r.querySelector("[data-child]").dataset.child : null; });
   if (floorBtn) await a.click(`[data-child="${floorBtn}"]`);
@@ -184,8 +185,16 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
   await go(a, "cameras", "tr.clickable"); await shot(a, "19-camera-health");
   await go(a, "batteries", "tr.clickable"); await shot(a, "20-battery-health");
   await go(a, "nvrs", "tr.clickable"); await shot(a, "21-nvr-status");
-  await a.click("tr.clickable"); await a.waitForSelector("#drawerBody h2"); await shot(a, "22-nvr-details");
+  await a.click("tr.clickable"); await a.waitForSelector(".page-head"); await shot(a, "22-nvr-details");
+
+  // Drill-down, camera dashboard, live view, map
+  await go(a, "overview", ".kpi");
+  await a.click('a.card.kpi[href*="status=online"]'); await a.waitForSelector(".filter-bar"); await shot(a, "36-drilldown-online");
+  await a.click('tr.clickable[data-href^="#/camera/"]'); await a.waitForSelector("#liveBtn"); await shot(a, "37-camera-dashboard", { fullPage: true });
+  await a.click("#liveBtn"); await a.waitForSelector("img.live-img"); await sleep(2500); await shot(a, "38-live-view");
   await a.keyboard.press("Escape");
+  await go(a, "map", ".leaflet-interactive"); await sleep(600); await shot(a, "39-map");
+  await a.locator("path.leaflet-interactive").first().click(); await a.waitForSelector("[data-live]"); await shot(a, "40-map-popup");
 
   // Approval flow
   const br = await newPage();

@@ -78,6 +78,9 @@ class CameraIn(BaseModel):
     tags: list[str] = []
     target_fps: float = 25
     department: str = Field("", max_length=80)
+    latitude: float | None = Field(None, ge=-90, le=90)
+    longitude: float | None = Field(None, ge=-180, le=180)
+    live_quality: str = ""
     enabled: bool = True
 
     def payload(self) -> dict:
@@ -91,6 +94,8 @@ def _validate_camera(body: CameraIn, db: Session, user: User) -> None:
     check_location(db, user, body.location_id)
     if body.power_type not in POWER_TYPES:
         raise HTTPException(422, f"power_type must be one of {POWER_TYPES}")
+    if body.live_quality not in ("", "low", "moderate", "high"):
+        raise HTTPException(422, "live_quality must be low, moderate, high, or empty for the organization default")
     if body.driver not in drivers.CAMERA_DRIVERS:
         raise HTTPException(422, f"driver must be one of {sorted(drivers.CAMERA_DRIVERS)}")
     for u in (body.rtsp_url, body.sub_stream_url):

@@ -30,7 +30,8 @@ def camera_dict(c: Camera, st: DeviceState | None = None, path: str = "") -> dic
             "sub_stream_url": c.sub_stream_url, "username": c.username, "has_password": bool(c.password_enc),
             "power_type": c.power_type, "driver": c.driver, "building": c.building, "floor": c.floor,
             "zone": c.zone, "tags": c.tags or [], "target_fps": c.target_fps, "analytics": c.analytics or [],
-            **identity(c), "enabled": c.enabled, "health": state_dict(st)}
+            **identity(c), "latitude": c.latitude, "longitude": c.longitude, "live_quality": c.live_quality,
+            "enabled": c.enabled, "health": state_dict(st)}
 
 
 def nvr_dict(n: NVR, st: DeviceState | None = None, camera_count: int = 0, path: str = "") -> dict:

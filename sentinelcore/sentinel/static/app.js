@@ -107,9 +107,9 @@ function lineChart(series, { height = 160, yMax = null, yMin = 0, unit = "", ste
 function hbars(rows, { max = null, cls = "bar-acc" } = {}) {
   if (!rows.length) return '<div class="empty">Nothing to show.</div>';
   const m = max ?? Math.max(...rows.map((r) => r.value), 1);
-  return `<div class="list">${rows.map((r) => `<div class="list-item"><div class="main-col"><div class="small">${esc(r.label)}</div>
+  return `<div class="list">${rows.map((r) => `<${r.href ? `a class="list-item link" href="${r.href}"` : 'div class="list-item"'}><div class="main-col"><div class="small">${esc(r.label)}</div>
     <svg class="meter" viewBox="0 0 100 8" preserveAspectRatio="none"><rect class="bar-bg" width="100" height="8" rx="4"/><rect class="${r.cls || cls}" width="${(100 * r.value) / m}" height="8" rx="4"/></svg></div>
-    <div class="num small">${esc(r.text ?? r.value)}</div></div>`).join("")}</div>`;
+    <div class="num small">${esc(r.text ?? r.value)}</div></${r.href ? "a" : "div"}>`).join("")}</div>`;
 }
 
 // ------------------------------------------------------------- locations --
@@ -138,7 +138,12 @@ function openDrawer(html) {
   $("#drawerBody").innerHTML = html;
   $("#drawer").hidden = false;
 }
-const closeDrawer = () => { $("#drawer").hidden = true; };
+const closeDrawer = () => {
+  $$("#drawerBody img.live-img").forEach((img) => { img.removeAttribute("src"); });  // stops the stream on the server
+  clearTimeout(liveTimer);
+  $("#drawer").hidden = true;
+};
+let liveTimer = null;
 
 function download(name, text, type = "text/csv") {
   const a = document.createElement("a");
@@ -195,6 +200,9 @@ function renderLogin(msg = "") {
 // ------------------------------------------------------------------ shell --
 const ROUTES = [
   { id: "overview", title: "Overview", perm: "view", render: renderOverview, sep: "Monitor", live: true },
+  { id: "camera", title: "Camera dashboard", perm: "view", render: renderCameraPage, live: true, nav: false, parent: "cameras" },
+  { id: "nvr", title: "NVR dashboard", perm: "view", render: renderNvrPage, live: true, nav: false, parent: "nvrs" },
+  { id: "map", title: "Camera map", perm: "view", render: renderMap },
   { id: "cameras", title: "Camera health", perm: "view", render: renderCameras, live: true },
   { id: "batteries", title: "Battery health", perm: "view", render: renderBatteries, live: true },
   { id: "nvrs", title: "NVR status", perm: "view", render: renderNvrs, live: true },
@@ -215,7 +223,7 @@ const ROUTES = [
 ];
 
 function renderNav() {
-  $("#nav").innerHTML = ROUTES.filter((r) => can(r.perm)).map((r) =>
+  $("#nav").innerHTML = ROUTES.filter((r) => can(r.perm) && r.nav !== false).map((r) =>
     `${r.sep ? `<div class="sep">${r.sep}</div>` : ""}<a href="#/${r.id}" data-id="${r.id}">${r.title}${r.id === "approvals" ? ' <span class="badge warn nav-count" id="apprCount" hidden></span>' : ""}</a>`).join("");
   const me = state.me;
   const scope = me.role === "super_admin" ? "All organizations"
@@ -233,16 +241,48 @@ async function refreshApprovalCount() {
   } catch { /* ignore */ }
 }
 
+// Hash routes: #/page, #/page?filter=value, #/camera/12, #/nvr/3
+function parseHash() {
+  const raw = location.hash.replace(/^#\//, "") || "overview";
+  const [path, qs] = raw.split("?");
+  const [id, arg] = path.split("/");
+  return { id, arg, params: new URLSearchParams(qs || "") };
+}
+function go(hash) {
+  closeDrawer();
+  if (location.hash === hash) route();
+  else location.hash = hash;
+}
+// Keep the address in step with on-page filters, so refresh and Back keep them.
+function setQuery(obj) {
+  const q = new URLSearchParams(Object.entries(obj).filter(([, v]) => v !== "" && v != null)).toString();
+  const { id, arg } = parseHash();
+  history.replaceState(null, "", `#/${id}${arg ? `/${arg}` : ""}${q ? `?${q}` : ""}`);
+}
+// Filters arriving in the address (from a clicked tile or row) replace the page's filters.
+function applyParams(id, params) {
+  const pick = (defaults) => Object.fromEntries(Object.keys(defaults).map((k) => [k, params.get(k) ?? defaults[k]]));
+  if (id === "cameras") Object.assign(camFilters, pick(CAM_DEFAULTS));
+  if (id === "alerts") Object.assign(alertFilters, pick(ALERT_DEFAULTS));
+  if (id === "events") Object.assign(evFilters, pick(EV_DEFAULTS));
+  if (id === "batteries") Object.assign(batFilters, pick(BAT_DEFAULTS));
+  if (id === "nvrs") Object.assign(nvrFilters, pick(NVR_DEFAULTS));
+}
+
 async function route() {
-  const id = (location.hash.replace(/^#\//, "") || "overview").split("?")[0];
+  const { id, arg, params } = parseHash();
   const r = ROUTES.find((x) => x.id === id && can(x.perm)) || ROUTES[0];
   state.route = r.id;
-  $$("#nav a").forEach((a) => a.classList.toggle("active", a.dataset.id === r.id));
+  state.arg = arg;
+  state.params = params;
+  applyParams(r.id, params);
+  $$("#nav a").forEach((a) => a.classList.toggle("active", a.dataset.id === (r.parent || r.id)));
   $("#pageTitle").textContent = r.title;
   $("#sidebar").classList.remove("open");
   clearInterval(state.timer);
   view.className = "view";
   view.innerHTML = '<div class="muted">Loading…</div>';
+  window.scrollTo(0, 0);
   const run = async () => {
     try {
       await r.render();
@@ -253,9 +293,18 @@ async function route() {
   };
   await run();
   if (r.live) {
-    state.timer = setInterval(() => { if (state.route === r.id && $("#drawer").hidden && !document.activeElement?.matches("input,select,textarea")) run(); }, 30000);
+    state.timer = setInterval(() => { if (state.route === r.id && $("#drawer").hidden && !document.activeElement?.matches("input,select,textarea") && !$("#confirmBox")?.innerHTML) run(); }, 30000);
   }
 }
+
+// A row showing which filter a drilled-down list is using, with a way back to everything.
+function filterBar(parts, clearHash) {
+  const shown = parts.filter(Boolean);
+  if (!shown.length) return "";
+  return `<div class="filter-bar"><span class="muted small">Showing</span> ${shown.map((p) => `<span class="chip">${esc(p)}</span>`).join("")}
+    <a class="small" href="${clearHash}">Show all</a></div>`;
+}
+const locName = (id) => (id ? locById(+id)?.path || "" : "");
 
 function showPublic() {
   if (location.hash === "#/login") renderLogin();
@@ -281,43 +330,53 @@ async function boot() {
 const ovFilter = { location_id: "" };
 async function renderOverview() {
   const lq = ovFilter.location_id ? `location_id=${ovFilter.location_id}` : "";
+  const lp = ovFilter.location_id ? `&location_id=${ovFilter.location_id}` : "";
   const [s, trend, worst, evs, alerts] = await Promise.all([
     api(`/api/health/summary?${lq}`), api("/api/health/trend?hours=24"), api("/api/health/worst?hours=24&limit=8"),
     api("/api/events/stats?days=7"), api(`/api/alerts?status=active&limit=8&${lq}`),
   ]);
   $("#simBadge").hidden = !s.simulated;
   const c = s.cameras, n = s.nvrs, b = s.battery, st = s.storage;
-  const kpi = (label, value, sub = "", cls = "") => `<div class="card kpi ${cls}"><div class="label">${label}</div><div class="value">${value}</div><div class="sub">${sub}</div></div>`;
+  const kpi = (label, value, sub, cls, href) => `<a class="card kpi link ${cls || ""}" href="${href}"><div class="label">${label}</div><div class="value">${value}</div><div class="sub">${sub || "&nbsp;"}</div><span class="kpi-go" aria-hidden="true">View details →</span></a>`;
   const issues = Object.entries(c.image_issues || {});
   view.innerHTML = `
-  <div class="toolbar"><label class="small muted" for="ovLoc">Showing</label><select id="ovLoc">${locOptions(ovFilter.location_id)}</select></div>
+  <div class="toolbar"><label class="small muted" for="ovLoc">Showing</label><select id="ovLoc">${locOptions(ovFilter.location_id)}</select><span class="muted small">Click any tile, row or bar for the details behind it.</span></div>
   <div class="grid kpis">
-    ${kpi("Cameras online", `${c.online}/${c.total}`, c.online_pct == null ? "" : `${c.online_pct}% online`, c.offline ? "warn" : "ok")}
-    ${kpi("Cameras offline", c.offline, c.unknown ? `${c.unknown} not checked yet` : "&nbsp;", c.offline ? "bad" : "ok")}
-    ${kpi("NVRs healthy", `${n.healthy}/${n.total}`, n.fault ? `${n.fault} with faults` : "All healthy", n.fault ? "bad" : "ok")}
-    ${kpi("Low batteries", b.low, b.devices ? `${b.reporting}/${b.devices} battery devices reporting` : "No battery devices", b.critical ? "bad" : b.low ? "warn" : "ok")}
-    ${kpi("Disk errors", st.disk_errors, st.min_retention_days != null ? `Min retention ${st.min_retention_days} days` : "Retention not reported", st.disk_errors ? "bad" : "ok")}
-    ${kpi("Open alerts", s.alerts.open, Object.entries(s.alerts.by_severity).map(([k, v]) => `${v} ${k}`).join(" · ") || "None", s.alerts.by_severity.critical ? "bad" : s.alerts.open ? "warn" : "ok")}
-    ${kpi("New AI events", s.events_new, evs.false_alarm_pct != null ? `${evs.false_alarm_pct}% false alarms (7d)` : "No reviewed events yet")}
+    ${kpi("Cameras online", `${c.online}/${c.total}`, c.online_pct == null ? "" : `${c.online_pct}% online`, c.offline ? "warn" : "ok", `#/cameras?status=online${lp}`)}
+    ${kpi("Cameras offline", c.offline, c.unknown ? `${c.unknown} not checked yet` : "", c.offline ? "bad" : "ok", `#/cameras?status=offline${lp}`)}
+    ${kpi("NVRs healthy", `${n.healthy}/${n.total}`, n.fault ? `${n.fault} with faults` : "All healthy", n.fault ? "bad" : "ok", `#/nvrs?x=1${lp}`)}
+    ${kpi("Low batteries", b.low, b.devices ? `${b.reporting}/${b.devices} battery devices reporting` : "No battery devices", b.critical ? "bad" : b.low ? "warn" : "ok", `#/batteries?low=1${lp}`)}
+    ${kpi("Disk errors", st.disk_errors, st.min_retention_days != null ? `Min retention ${st.min_retention_days} days` : "Retention not reported", st.disk_errors ? "bad" : "ok", `#/nvrs?fault=1${lp}`)}
+    ${kpi("Open alerts", s.alerts.open, Object.entries(s.alerts.by_severity).map(([k, v]) => `${v} ${k}`).join(" · ") || "None", s.alerts.by_severity.critical ? "bad" : s.alerts.open ? "warn" : "ok", `#/alerts?status=active${lp}`)}
+    ${kpi("New AI events", s.events_new, evs.false_alarm_pct != null ? `${evs.false_alarm_pct}% false alarms (7d)` : "No reviewed events yet", "", `#/events?status=new${lp}`)}
   </div>
   <div class="grid cols-2">
-    <div class="card"><h2>Camera uptime, last 24 h <span class="right muted small">% of checks online</span></h2>${lineChart([{ points: trend.map((t) => [t.hour, t.online_pct]) }], { yMax: 100, unit: "%" })}</div>
-    <div class="card"><h2>Active alerts <a class="right small" href="#/alerts">View all</a></h2>${alertList(alerts)}</div>
+    <a class="card link" href="#/cameras?x=1${lp}"><h2>Camera uptime, last 24 h <span class="right muted small">% of checks online</span></h2>${lineChart([{ points: trend.map((t) => [t.hour, t.online_pct]) }], { yMax: 100, unit: "%" })}</a>
+    <div class="card"><h2>Active alerts <a class="right small" href="#/alerts?status=active${lp}">View all</a></h2>${alertList(alerts)}</div>
   </div>
-  <div class="card"><h2>By branch / office</h2>${s.locations.length ? `<div class="table-wrap"><table><thead><tr><th>Branch / office</th><th class="num">Cameras</th><th class="num">Online</th><th class="num">NVRs</th><th class="num">NVR faults</th></tr></thead><tbody>
-      ${s.locations.map((x) => `<tr><td>${esc(x.name)}</td><td class="num">${x.cameras}</td><td class="num">${x.online_pct ?? "—"}${x.online_pct != null ? "%" : ""}</td><td class="num">${x.nvrs}</td><td class="num">${x.nvr_faults ? `<span class="badge bad">${x.nvr_faults}</span>` : "0"}</td></tr>`).join("")}</tbody></table></div>` : '<div class="empty">No devices yet.</div>'}</div>
+  <div class="card"><h2>By branch / office <span class="right muted small">click a branch to see its cameras</span></h2>${s.locations.length ? `<div class="table-wrap"><table><thead><tr><th>Branch / office</th><th class="num">Cameras</th><th class="num">Online</th><th class="num">NVRs</th><th class="num">NVR faults</th></tr></thead><tbody>
+      ${s.locations.map((x) => `<tr class="clickable" data-href="#/cameras?location_id=${x.location_id}"><td><a href="#/cameras?location_id=${x.location_id}">${esc(x.name)}</a></td><td class="num">${x.cameras}</td><td class="num">${x.online_pct ?? "—"}${x.online_pct != null ? "%" : ""}</td><td class="num"><a href="#/nvrs?location_id=${x.location_id}">${x.nvrs}</a></td><td class="num">${x.nvr_faults ? `<a class="badge bad" href="#/nvrs?fault=1&location_id=${x.location_id}">${x.nvr_faults}</a>` : "0"}</td></tr>`).join("")}</tbody></table></div>` : '<div class="empty">No devices yet.</div>'}</div>
   <div class="grid cols-3">
-    <div class="card"><h2>Least reliable cameras (24 h)</h2>${hbars(worst.map((w) => ({ label: `${w.name} · ${w.location}`, value: w.uptime_pct, text: `${w.uptime_pct}%`, cls: w.uptime_pct < 80 ? "bar-bad" : "bar-warn" })), { max: 100 })}</div>
-    <div class="card"><h2>Image &amp; stream issues now</h2>${hbars(issues.map(([k, v]) => ({ label: k.replace("_", " "), value: v, cls: "bar-warn" })))}</div>
-    <div class="card"><h2>AI events by category (7 days) <a class="right small" href="#/usecases">Use cases</a></h2>${hbars(Object.entries(evs.by_category || {}).sort((a, b2) => b2[1] - a[1]).slice(0, 8).map(([k, v]) => ({ label: k, value: v })))}</div>
+    <div class="card"><h2>Least reliable cameras (24 h)</h2>${hbars(worst.map((w) => ({ label: `${w.name} · ${w.location}`, value: w.uptime_pct, text: `${w.uptime_pct}%`, cls: w.uptime_pct < 80 ? "bar-bad" : "bar-warn", href: `#/camera/${w.camera_id}` })), { max: 100 })}</div>
+    <div class="card"><h2>Image &amp; stream issues now</h2>${hbars(issues.map(([k, v]) => ({ label: k.replace("_", " "), value: v, cls: "bar-warn", href: `#/cameras?issue=${k}${lp}` })))}</div>
+    <div class="card"><h2>AI events by category (7 days) <a class="right small" href="#/usecases">Use cases</a></h2>${hbars(Object.entries(evs.by_category || {}).sort((a, b2) => b2[1] - a[1]).slice(0, 8).map(([k, v]) => ({ label: k, value: v, href: `#/events?category=${encodeURIComponent(k)}&status=` })))}</div>
   </div>`;
   $("#ovLoc").onchange = (e) => { ovFilter.location_id = e.target.value; renderOverview(); };
+  bindRowLinks(view);
   bindAlertAcks(view);
+}
+
+// Rows with data-href open their link; inner links and buttons keep working.
+function bindRowLinks(root) {
+  $$("[data-href]", root).forEach((el) => (el.onclick = (e) => {
+    if (e.target.closest("a, button, input, select")) return;
+    go(el.dataset.href);
+  }));
 }
 
 function alertList(alerts) {
   if (!alerts.length) return '<div class="empty">No active alerts.</div>';
-  return `<div class="list">${alerts.map((a) => `<div class="list-item">${sevBadge(a.severity)}
+  return `<div class="list">${alerts.map((a) => `<div class="list-item clickable" data-href="#/${a.device_type}/${a.device_id}" title="Open this ${a.device_type === "nvr" ? "NVR" : "camera"}">${sevBadge(a.severity)}
     <div class="main-col"><div class="title">${esc(a.message)}</div><div class="muted small">${esc(a.device_type)} · opened ${ago(a.opened_at)}${a.acknowledged_by ? ` · ack by ${esc(a.acknowledged_by)}` : ""}</div></div>
     ${a.status === "open" && can("ack") ? `<button class="btn small" data-ack="${a.id}">Acknowledge</button>` : `<span class="badge neutral">${esc(a.status)}</span>`}</div>`).join("")}</div>`;
 }
@@ -329,13 +388,19 @@ function bindAlertAcks(root) {
 }
 
 // ---------------------------------------------------------------- cameras --
-const camFilters = { location_id: "", status: "", power_type: "", q: "" };
-const IMG_FLAGS = ["blurred", "blank", "frozen", "too_dark", "too_bright", "view_changed"];
+const CAM_DEFAULTS = { location_id: "", status: "", power_type: "", q: "", issue: "" };
+const camFilters = { ...CAM_DEFAULTS };
+const IMG_FLAGS = ["blurred", "blank", "frozen", "too_dark", "too_bright", "view_changed", "low_fps"];
 async function renderCameras() {
-  const qs = new URLSearchParams(Object.entries(camFilters).filter(([, v]) => v)).toString();
-  const cams = await api(`/api/cameras?${qs}`);
+  const { issue, ...apiFilters } = camFilters;
+  const qs = new URLSearchParams(Object.entries(apiFilters).filter(([, v]) => v)).toString();
+  let cams = await api(`/api/cameras?${qs}`);
+  const hasIssue = (c, f) => f === "low_fps" ? c.health.data.fps != null && c.health.data.fps < 0.6 * c.target_fps : !!c.health.data[f];
+  if (issue) cams = cams.filter((c) => c.health.status === "online" && hasIssue(c, issue));
   $("#simBadge").hidden = !cams.some((c) => c.health.data.source === "simulator");
+  const online = cams.filter((c) => c.health.status === "online").length;
   view.innerHTML = `
+  ${filterBar([camFilters.status && `${camFilters.status} cameras`, issue && `image issue: ${issue.replace("_", " ")}`, locName(camFilters.location_id), camFilters.power_type && `power: ${camFilters.power_type}`, camFilters.q && `“${camFilters.q}”`], "#/cameras")}
   <div class="toolbar">
     <input class="grow" id="fq" placeholder="Search name, zone or IP" value="${esc(camFilters.q)}">
     <select id="floc">${locOptions(camFilters.location_id)}</select>
@@ -343,10 +408,10 @@ async function renderCameras() {
     <select id="fpower"><option value="">Any power</option>${["poe", "mains", "battery", "solar"].map((s) => `<option ${camFilters.power_type === s ? "selected" : ""}>${s}</option>`).join("")}</select>
     <button class="btn" id="exportCsv">Export CSV</button>
   </div>
-  <div class="card"><div class="muted small">${cams.length} cameras · click a row for details, troubleshooting and history</div>
+  <div class="card"><div class="muted small">${cams.length} cameras · ${online} online · click a camera for its full dashboard</div>
   <div class="table-wrap"><table><thead><tr><th>Camera</th><th>Location</th><th>Make / model</th><th>Serial no.</th><th>Status</th><th class="num">FPS</th><th class="num">Bitrate</th><th>Image</th><th>Power</th></tr></thead><tbody>
-  ${cams.map((c) => { const d = c.health.data; const fl = IMG_FLAGS.filter((f) => d[f]); const lowFps = d.fps != null && d.fps < 0.6 * c.target_fps; return `<tr class="clickable" data-cam="${c.id}">
-    <td><strong>${esc(c.name)}</strong><div class="muted small">${esc(c.nvr ? `${c.nvr} · CH${c.channel}` : c.host)}${c.department ? ` · ${esc(c.department)}` : ""}</div></td>
+  ${cams.map((c) => { const d = c.health.data; const fl = IMG_FLAGS.filter((f) => f !== "low_fps" && d[f]); const lowFps = d.fps != null && d.fps < 0.6 * c.target_fps; return `<tr class="clickable" data-href="#/camera/${c.id}">
+    <td><a href="#/camera/${c.id}"><strong>${esc(c.name)}</strong></a><div class="muted small">${esc(c.nvr ? `${c.nvr} · CH${c.channel}` : c.host)}${c.department ? ` · ${esc(c.department)}` : ""}</div></td>
     <td class="wrap">${locCell(c, c.zone ? ` · ${esc(c.zone)}` : "")}</td>
     <td>${makeModel(c)}</td><td class="small">${c.serial_number ? esc(c.serial_number) : '<span class="na">—</span>'}</td>
     <td>${c.enabled ? statusBadge(c.health.status) : activeBadge(false)}<div class="muted small">${c.health.status === "offline" && c.health.error ? `<span class="errline">${esc(c.health.error.slice(0, 60))}</span>` : `seen ${ago(c.health.last_seen)}`}</div></td>
@@ -355,13 +420,13 @@ async function renderCameras() {
     <td>${c.health.status !== "online" ? "—" : fl.length ? fl.map((f) => `<span class="badge warn">${f.replace("_", " ")}</span>`).join(" ") : d.sharpness != null ? '<span class="badge ok">OK</span>' : NA}</td>
     <td>${c.power_type === "battery" || c.power_type === "solar" ? (d.battery_pct != null ? `${d.battery_pct}%` : NA) : esc(c.power_type.toUpperCase())}</td></tr>`; }).join("") || '<tr><td colspan="9" class="empty">No cameras match.</td></tr>'}
   </tbody></table></div></div>`;
-  const reload = () => renderCameras();
+  const reload = () => { setQuery(camFilters); renderCameras(); };
   $("#fq").onchange = (e) => { camFilters.q = e.target.value; reload(); };
   $("#floc").onchange = (e) => { camFilters.location_id = e.target.value; reload(); };
   $("#fstatus").onchange = (e) => { camFilters.status = e.target.value; reload(); };
   $("#fpower").onchange = (e) => { camFilters.power_type = e.target.value; reload(); };
   $("#exportCsv").onclick = async () => download("cameras.csv", await api("/api/cameras/export.csv"));
-  $$("[data-cam]").forEach((tr) => (tr.onclick = () => deviceDetail("camera", tr.dataset.cam)));
+  bindRowLinks(view);
 }
 
 // ---------------------------------------------------- device detail drawer --
@@ -466,136 +531,234 @@ function statusCard(d) {
     ${!d.enabled ? '<div class="muted small">Deactivated devices are not checked and raise no alerts.</div>' : ""}</div>`;
 }
 
-async function deviceDetail(kind, id, hours = 24) {
-  if (kind === "nvr") return nvrDetail(id);
+// Opens the full dashboard page of a camera or NVR.
+function deviceDetail(kind, id) { go(`#/${kind}/${id}`); }
+function nvrDetail(id) { go(`#/nvr/${id}`); }
+
+const PERIODS = [[1, "1 hour"], [6, "6 hours"], [24, "24 hours"], [168, "7 days"], [720, "30 days"]];
+const avgOf = (pts) => (pts && pts.length ? pts.reduce((s, p) => s + p[1], 0) / pts.length : null);
+function periodSelect(hours) {
+  return `<select id="dHours" aria-label="Period">${PERIODS.map(([h, l]) => `<option value="${h}" ${h === hours ? "selected" : ""}>Last ${l}</option>`).join("")}</select>`;
+}
+function tile(label, value, sub, cls = "") {
+  return `<div class="card kpi ${cls}"><div class="label">${label}</div><div class="value">${value}</div><div class="sub">${sub || "&nbsp;"}</div></div>`;
+}
+function alertsTable(alerts) {
+  return alerts.length ? `<div class="table-wrap"><table><thead><tr><th>Severity</th><th>Alert</th><th>Opened</th><th>Status</th></tr></thead><tbody>
+    ${alerts.map((a) => `<tr><td>${sevBadge(a.severity)}</td><td class="wrap">${esc(a.message)}</td><td class="small">${localTime(a.opened_at)}</td><td class="small">${esc(a.status)}${a.acknowledged_by ? ` · ${esc(a.acknowledged_by)}` : ""}${a.resolved_at ? `<div class="muted">resolved ${ago(a.resolved_at)}</div>` : ""}</td></tr>`).join("")}</tbody></table></div>`
+    : '<div class="empty">No alerts in this period.</div>';
+}
+
+async function renderCameraPage() {
+  const id = state.arg;
+  const hours = +(state.params.get("hours") || 24);
   const c = await api(`/api/cameras/${id}`);
   const battery = c.power_type === "battery" || c.power_type === "solar";
-  const keys = ["online", "fps", "latency_ms"].concat(battery ? ["battery_pct"] : []);
-  const m = await api(`/api/metrics/camera/${id}?hours=${hours}&keys=${keys.join(",")}`);
+  const keys = ["online", "fps", "latency_ms", "bitrate_kbps"].concat(battery ? ["battery_pct"] : []);
+  const [m, alerts, events, stats] = await Promise.all([
+    api(`/api/metrics/camera/${id}?hours=${hours}&keys=${keys.join(",")}`),
+    api(`/api/alerts?status=all&device_type=camera&device_id=${id}&limit=20`),
+    api(`/api/events?camera_id=${id}&hours=${Math.max(hours, 168)}&limit=20`),
+    api("/api/events/stats?days=30"),
+  ]);
+  $("#pageTitle").textContent = c.name;
+  $("#simBadge").hidden = c.health.data.source !== "simulator";
   const d = c.health.data;
+  const up = avgOf(m.online), fpsAvg = avgOf(m.fps), latAvg = avgOf(m.latency_ms), brAvg = avgOf(m.bitrate_kbps);
+  const openAlerts = alerts.filter((a) => a.status !== "resolved").length;
   const row = (k, v) => `<dt>${k}</dt><dd>${v}</dd>`;
-  openDrawer(`<h2>${esc(c.name)}</h2>
-    <div class="toolbar">${deviceActions("camera", c)}</div><div id="confirmBox"></div>
-    ${statusCard(c)}
-    <div id="tsResult"></div>
+  view.innerHTML = `
+  <div class="page-head"><a class="btn small" href="#/cameras">← All cameras</a>
+    <div class="main-col"><h2>${esc(c.name)}</h2><div class="muted small">${esc(c.location_path)}${c.zone ? ` · ${esc(c.zone)}` : ""}${c.nvr ? ` · <a href="#/nvr/${c.nvr_id}">${esc(c.nvr)}</a> CH${c.channel}` : ""}</div></div>
+    <button class="btn primary" id="liveBtn" ${c.enabled ? "" : "disabled"}>▶ Live view</button>${periodSelect(hours)}</div>
+  <div class="toolbar">${deviceActions("camera", c)}</div><div id="confirmBox"></div>
+  ${statusCard(c)}
+  <div class="grid kpis">
+    ${tile("Status", c.enabled ? (c.health.status === "online" ? "Online" : c.health.status === "offline" ? "Offline" : "Unknown") : "Deactivated", `last seen ${ago(c.health.last_seen)}`, !c.enabled ? "" : c.health.status === "online" ? "ok" : "bad")}
+    ${tile("Uptime", up == null ? "—" : `${(up * 100).toFixed(1)}%`, `${(m.online || []).length} checks, last ${PERIODS.find((p) => p[0] === hours)?.[1] || `${hours} h`}`, up == null ? "" : up >= 0.99 ? "ok" : up >= 0.9 ? "warn" : "bad")}
+    ${tile("Average FPS", fpsAvg == null ? NA : fpsAvg.toFixed(1), `target ${c.target_fps}${d.fps != null ? ` · now ${d.fps}` : ""}`, fpsAvg != null && fpsAvg < 0.6 * c.target_fps ? "warn" : "")}
+    ${tile("Average latency", latAvg == null ? NA : `${latAvg.toFixed(0)} ms`, d.latency_ms != null ? `now ${d.latency_ms} ms` : "")}
+    ${tile("Average bitrate", brAvg == null ? NA : `${Math.round(brAvg)} kbps`, d.width ? `${d.width}×${d.height} ${String(d.codec || "").toUpperCase()}` : "")}
+    ${battery ? tile("Battery", d.battery_pct != null ? `${d.battery_pct}%` : NA, d.charging ? "charging" : d.est_hours_left != null ? `about ${Math.round(d.est_hours_left)} h left` : "", d.battery_pct != null && d.battery_pct < 20 ? "warn" : "") : ""}
+    ${tile("Open alerts", openAlerts, `${alerts.length} in recent history`, openAlerts ? "bad" : "ok")}
+    ${tile("AI events", events.length, "recent, on this camera")}
+  </div>
+  <div id="tsResult"></div>
+  <div class="grid cols-2">
+    <div class="card"><h2>Online / offline</h2>${lineChart([{ points: m.online }], { yMax: 1, height: 110, step: true })}</div>
+    <div class="card"><h2>Frames per second <span class="right muted small">target ${c.target_fps}</span></h2>${lineChart([{ points: m.fps }], { yMax: Math.max(c.target_fps, 1), height: 140 })}</div>
+    <div class="card"><h2>Latency (ms)</h2>${lineChart([{ points: m.latency_ms }], { yMin: 0, height: 140 })}</div>
+    <div class="card"><h2>Bitrate (kbps)</h2>${lineChart([{ points: m.bitrate_kbps }], { yMin: 0, height: 140 })}</div>
+    ${battery ? `<div class="card"><h2>Battery %</h2>${lineChart([{ points: m.battery_pct }], { yMax: 100, unit: "%", height: 140 })}</div>` : ""}
+  </div>
+  <div class="grid cols-2">
     ${identityCard("camera", c)}
-    ${cameraUseCasesCard(c)}
-    <div class="card"><h2>Stream</h2><dl class="kv">
+    <div class="card"><h2>Stream &amp; picture now</h2><dl class="kv">
       ${row("Measured FPS", d.fps != null ? `${d.fps} of ${c.target_fps} target` : NA)}${row("Bitrate", fmt(d.bitrate_kbps, " kbps", 0))}
       ${row("Resolution", d.width ? `${d.width}×${d.height}` : NA)}${row("Codec", d.codec ? esc(d.codec.toUpperCase()) : NA)}
-      ${row("RTSP latency", fmt(d.latency_ms, " ms"))}${row("Packet loss", fmt(d.packet_loss_pct, "%", 2))}
-      ${row("Clock drift", fmt(d.time_drift_s, " s"))}</dl></div>
-    <div class="card"><h2>Picture health</h2><dl class="kv">
-      ${row("Brightness (0–255)", fmt(d.brightness))}${row("Contrast", fmt(d.contrast))}${row("Sharpness", fmt(d.sharpness))}
-      ${row("Flags", IMG_FLAGS.filter((f) => f in d).map((f) => `<span class="badge ${d[f] ? "warn" : "ok"}">${f.replace("_", " ")}: ${d[f] ? "yes" : "no"}</span>`).join(" ") || NA)}</dl></div>
-    ${battery ? `<div class="card"><h2>Battery &amp; power</h2><dl class="kv">
-      ${row("Charge", d.battery_pct != null ? `${d.battery_pct}% ${meter(d.battery_pct)}` : NA)}${row("Voltage", fmt(d.battery_voltage, " V", 2))}
-      ${row("Charging", d.charging == null ? NA : d.charging ? "Yes" : "No")}${row("Temperature", fmt(d.battery_temp_c, " °C"))}
-      ${row("Est. time left", fmt(d.est_hours_left, " h"))}${row("Solar input", c.power_type === "solar" ? fmt(d.solar_w, " W") : "—")}
-      ${row("Signal", fmt(d.signal_dbm, " dBm", 0))}</dl></div>` : ""}
-    <div class="card"><h2>History <select id="dHours" class="right">${[1, 6, 24, 168, 720].map((h) => `<option value="${h}" ${h === hours ? "selected" : ""}>${h < 48 ? `${h} h` : `${h / 24} days`}</option>`).join("")}</select></h2>
-      <div class="small muted">Online</div>${lineChart([{ points: m.online }], { yMax: 1, height: 80, step: true })}
-      <div class="small muted">FPS</div>${lineChart([{ points: m.fps }], { yMax: Math.max(c.target_fps, 1), height: 120 })}
-      ${battery ? `<div class="small muted">Battery %</div>${lineChart([{ points: m.battery_pct }], { yMax: 100, unit: "%", height: 120 })}` : ""}</div>`);
-  $("#dHours").onchange = (e) => deviceDetail("camera", id, +e.target.value);
-  bindDeviceActions("camera", c, $("#drawerBody"), () => deviceDetail("camera", id, hours));
+      ${row("RTSP latency", fmt(d.latency_ms, " ms"))}${row("Packet loss", fmt(d.packet_loss_pct, "%", 2))}${row("Clock drift", fmt(d.time_drift_s, " s"))}
+      ${row("Brightness", fmt(d.brightness))}${row("Sharpness", fmt(d.sharpness))}
+      ${row("Picture flags", IMG_FLAGS.filter((f) => f in d).map((f) => `<span class="badge ${d[f] ? "warn" : "ok"}">${f.replace("_", " ")}: ${d[f] ? "yes" : "no"}</span>`).join(" ") || NA)}
+      ${battery ? row("Battery", `${fmt(d.battery_pct, "%")} · ${fmt(d.battery_voltage, " V", 2)} · ${fmt(d.battery_temp_c, " °C")} · signal ${fmt(d.signal_dbm, " dBm", 0)}`) : ""}</dl></div>
+  </div>
+  ${cameraUseCasesCard(c)}
+  <div class="grid cols-2">
+    <div class="card"><h2>Alert history <a class="right small" href="#/alerts?status=all">All alerts</a></h2>${alertsTable(alerts)}</div>
+    <div class="card"><h2>Recent AI events <a class="right small" href="#/events?camera_id=${c.id}&status=">All for this camera</a></h2>${events.length ? `<div class="table-wrap"><table><thead><tr><th>Time</th><th>Event</th><th class="num">Conf.</th><th>Status</th></tr></thead><tbody>
+      ${events.map((e) => `<tr><td class="small">${localTime(e.ts)}</td><td class="wrap">${esc(stats.by_type[e.type]?.name || e.type.replaceAll("_", " "))}</td><td class="num">${(e.confidence * 100).toFixed(0)}%</td><td>${evStatusBadge(e.status)}</td></tr>`).join("")}</tbody></table></div>` : '<div class="empty">No AI events on this camera yet.</div>'}</div>
+  </div>`;
+  $("#dHours").onchange = (e) => { setQuery({ hours: e.target.value }); state.params = new URLSearchParams({ hours: e.target.value }); renderCameraPage(); };
+  bindDeviceActions("camera", c, view, () => renderCameraPage());
+  $("#liveBtn").onclick = () => openLive(c.id);
   bindCameraUseCases(c);
 }
 
 // -------------------------------------------------------------- batteries --
+const BAT_DEFAULTS = { low: "", location_id: "" };
+const batFilters = { ...BAT_DEFAULTS };
 async function renderBatteries() {
-  const cams = (await api("/api/cameras")).filter((c) => c.power_type === "battery" || c.power_type === "solar");
-  cams.sort((a, b) => (a.health.data.battery_pct ?? 999) - (b.health.data.battery_pct ?? 999));
-  const rep = cams.filter((c) => c.health.data.battery_pct != null);
+  const lq = batFilters.location_id ? `?location_id=${batFilters.location_id}` : "";
+  const all = (await api(`/api/cameras${lq}`)).filter((c) => c.power_type === "battery" || c.power_type === "solar");
+  all.sort((a, b) => (a.health.data.battery_pct ?? 999) - (b.health.data.battery_pct ?? 999));
+  const rep = all.filter((c) => c.health.data.battery_pct != null);
   const low = rep.filter((c) => c.health.data.battery_pct < 20).length;
   const avg = rep.length ? rep.reduce((s, c) => s + c.health.data.battery_pct, 0) / rep.length : null;
-  view.innerHTML = `<div class="grid kpis">
-    <div class="card kpi"><div class="label">Battery / solar devices</div><div class="value">${cams.length}</div><div class="sub">${rep.length} reporting battery data</div></div>
-    <div class="card kpi ${low ? "warn" : "ok"}"><div class="label">Below 20%</div><div class="value">${low}</div><div class="sub">&nbsp;</div></div>
+  const cams = batFilters.low ? all.filter((c) => c.health.data.battery_pct != null && c.health.data.battery_pct < 20) : all;
+  const lp = batFilters.location_id ? `&location_id=${batFilters.location_id}` : "";
+  view.innerHTML = `${filterBar([batFilters.low && "below 20%", locName(batFilters.location_id)], "#/batteries")}<div class="grid kpis">
+    <a class="card kpi link" href="#/batteries?x=1${lp}"><div class="label">Battery / solar devices</div><div class="value">${all.length}</div><div class="sub">${rep.length} reporting battery data</div><span class="kpi-go">View all →</span></a>
+    <a class="card kpi link ${low ? "warn" : "ok"}" href="#/batteries?low=1${lp}"><div class="label">Below 20%</div><div class="value">${low}</div><div class="sub">&nbsp;</div><span class="kpi-go">View these →</span></a>
     <div class="card kpi"><div class="label">Average charge</div><div class="value">${avg == null ? "—" : `${avg.toFixed(0)}%`}</div><div class="sub">&nbsp;</div></div>
     <div class="card kpi"><div class="label">Charging now</div><div class="value">${rep.filter((c) => c.health.data.charging).length}</div><div class="sub">&nbsp;</div></div></div>
-  <div class="card"><h2>Battery health <span class="right muted small">lowest first · "Not supported" = the device does not report it</span></h2>
+  <div class="card"><h2>Battery health <span class="right muted small">lowest first · click a camera for its dashboard</span></h2>
   <div class="table-wrap"><table><thead><tr><th>Camera</th><th>Location</th><th>Status</th><th>Charge</th><th></th><th class="num">Voltage</th><th>Charging</th><th class="num">Temp</th><th class="num">Time left</th><th class="num">Solar</th><th class="num">Signal</th></tr></thead><tbody>
-  ${cams.map((c) => { const d = c.health.data; return `<tr class="clickable" data-cam="${c.id}"><td><strong>${esc(c.name)}</strong><div class="muted small">${esc(c.power_type)}</div></td><td class="wrap">${locCell(c)}</td><td>${statusBadge(c.health.status)}</td>
+  ${cams.map((c) => { const d = c.health.data; return `<tr class="clickable" data-href="#/camera/${c.id}"><td><a href="#/camera/${c.id}"><strong>${esc(c.name)}</strong></a><div class="muted small">${esc(c.power_type)}</div></td><td class="wrap">${locCell(c)}</td><td>${statusBadge(c.health.status)}</td>
     <td class="num">${d.battery_pct != null ? `${d.battery_pct}%` : NA}</td><td>${d.battery_pct != null ? meter(d.battery_pct) : ""}</td>
     <td class="num">${fmt(d.battery_voltage, " V", 2)}</td><td>${d.charging == null ? NA : d.charging ? '<span class="badge ok">yes</span>' : "no"}</td>
     <td class="num">${fmt(d.battery_temp_c, " °C")}</td><td class="num">${fmt(d.est_hours_left, " h", 0)}</td>
-    <td class="num">${c.power_type === "solar" ? fmt(d.solar_w, " W") : "—"}</td><td class="num">${fmt(d.signal_dbm, " dBm", 0)}</td></tr>`; }).join("") || '<tr><td colspan="11" class="empty">No battery or solar cameras.</td></tr>'}
+    <td class="num">${c.power_type === "solar" ? fmt(d.solar_w, " W") : "—"}</td><td class="num">${fmt(d.signal_dbm, " dBm", 0)}</td></tr>`; }).join("") || '<tr><td colspan="11" class="empty">No cameras match.</td></tr>'}
   </tbody></table></div></div>`;
-  $$("[data-cam]").forEach((tr) => (tr.onclick = () => deviceDetail("camera", tr.dataset.cam)));
+  bindRowLinks(view);
 }
 
 // ------------------------------------------------------------------ NVRs ---
+const NVR_DEFAULTS = { fault: "", location_id: "" };
+const nvrFilters = { ...NVR_DEFAULTS };
+const nvrFaulty = (n) => n.health.status !== "online" || (n.health.data.disk_errors || 0) > 0;
 async function renderNvrs() {
-  const nvrs = await api("/api/nvrs");
-  view.innerHTML = `<div class="card"><h2>NVR / DVR status</h2><div class="table-wrap"><table><thead><tr>
+  let nvrs = await api(`/api/nvrs${nvrFilters.location_id ? `?location_id=${nvrFilters.location_id}` : ""}`);
+  if (nvrFilters.fault) nvrs = nvrs.filter(nvrFaulty);
+  nvrs.sort((a, b) => nvrFaulty(b) - nvrFaulty(a));
+  view.innerHTML = `${filterBar([nvrFilters.fault && "NVRs with faults", locName(nvrFilters.location_id)], "#/nvrs")}<div class="card"><h2>NVR / DVR status <span class="right muted small">faults first · click an NVR for its dashboard</span></h2><div class="table-wrap"><table><thead><tr>
     <th>NVR</th><th>Location</th><th>Make / model</th><th>Serial no.</th><th>Status</th><th class="num">Cameras</th><th>Recording</th><th>Disks</th><th>Storage</th><th class="num">Retention</th><th class="num">Temp</th></tr></thead><tbody>
-  ${nvrs.map((n) => { const d = n.health.data; const used = d.storage_used_pct; return `<tr class="clickable" data-nvr="${n.id}">
-    <td><strong>${esc(n.name)}</strong><div class="muted small">${esc(n.host)}${n.department ? ` · ${esc(n.department)}` : ""}</div></td><td class="wrap">${locCell(n)}</td>
+  ${nvrs.map((n) => { const d = n.health.data; const used = d.storage_used_pct; return `<tr class="clickable" data-href="#/nvr/${n.id}">
+    <td><a href="#/nvr/${n.id}"><strong>${esc(n.name)}</strong></a><div class="muted small">${esc(n.host)}${n.department ? ` · ${esc(n.department)}` : ""}</div></td><td class="wrap">${locCell(n)}</td>
     <td>${makeModel(n)}</td><td class="small">${n.serial_number ? esc(n.serial_number) : '<span class="na">—</span>'}</td>
     <td>${n.enabled ? statusBadge(n.health.status) : activeBadge(false)}<div class="muted small">${n.health.status === "offline" && n.health.error ? `<span class="errline">${esc(n.health.error.slice(0, 60))}</span>` : `seen ${ago(n.health.last_seen)}`}</div></td>
-    <td class="num">${n.camera_count}/${n.channels}</td>
+    <td class="num"><a href="#/cameras?q=&location_id=${n.location_id}">${n.camera_count}</a>/${n.channels}</td>
     <td>${d.recording_channels != null ? `<span class="badge ${d.recording_channels < d.total_channels ? "warn" : "ok"}">${d.recording_channels}/${d.total_channels} ch</span>` : NA}</td>
     <td>${d.disk_count != null ? (d.disk_errors ? `<span class="badge bad">${d.disk_errors} error / ${d.disk_count}</span>` : `<span class="badge ok">${d.disk_count} OK</span>`) : NA}</td>
     <td class="num">${used != null ? `${used}% ${meter(used, used > 95 ? "bar-bad" : used > 85 ? "bar-warn" : "bar-ok")}` : NA}</td>
     <td class="num">${d.retention_days != null ? `<span class="${d.retention_days < 7 ? "badge warn" : ""}">${d.retention_days} d</span>` : NA}</td>
-    <td class="num">${fmt(d.temp_c, " °C")}</td></tr>`; }).join("") || '<tr><td colspan="11" class="empty">No NVRs added.</td></tr>'}
+    <td class="num">${fmt(d.temp_c, " °C")}</td></tr>`; }).join("") || '<tr><td colspan="11" class="empty">No NVRs match.</td></tr>'}
   </tbody></table></div></div>`;
-  $$("[data-nvr]").forEach((tr) => (tr.onclick = () => nvrDetail(tr.dataset.nvr)));
+  bindRowLinks(view);
 }
 
-async function nvrDetail(id) {
-  const [n, m, cams] = await Promise.all([api(`/api/nvrs/${id}`), api(`/api/metrics/nvr/${id}?hours=168&keys=storage_used_pct,temp_c`), api(`/api/cameras?nvr_id=${id}`)]);
+async function renderNvrPage() {
+  const id = state.arg;
+  const hours = +(state.params.get("hours") || 168);
+  const [n, m, cams, alerts] = await Promise.all([api(`/api/nvrs/${id}`), api(`/api/metrics/nvr/${id}?hours=${hours}&keys=online,storage_used_pct,temp_c`),
+    api(`/api/cameras?nvr_id=${id}`), api(`/api/alerts?status=all&device_type=nvr&device_id=${id}&limit=20`)]);
+  $("#pageTitle").textContent = n.name;
+  $("#simBadge").hidden = n.health.data.source !== "simulator";
   const d = n.health.data;
-  openDrawer(`<h2>${esc(n.name)}</h2><div class="toolbar">${deviceActions("nvr", n)}</div><div id="confirmBox"></div>
-    ${statusCard(n)}<div id="tsResult"></div>${identityCard("nvr", n)}
+  const up = avgOf(m.online);
+  const camsOnline = cams.filter((c) => c.health.status === "online").length;
+  const openAlerts = alerts.filter((a) => a.status !== "resolved").length;
+  view.innerHTML = `
+  <div class="page-head"><a class="btn small" href="#/nvrs">← All NVRs</a>
+    <div class="main-col"><h2>${esc(n.name)}</h2><div class="muted small">${esc(n.location_path)} · ${esc(n.host)}</div></div>${periodSelect(hours)}</div>
+  <div class="toolbar">${deviceActions("nvr", n)}</div><div id="confirmBox"></div>
+  ${statusCard(n)}
+  <div class="grid kpis">
+    ${tile("Status", n.enabled ? (n.health.status === "online" ? "Online" : "Offline") : "Deactivated", `last seen ${ago(n.health.last_seen)}`, n.health.status === "online" ? "ok" : "bad")}
+    ${tile("Uptime", up == null ? "—" : `${(up * 100).toFixed(1)}%`, `last ${PERIODS.find((p) => p[0] === hours)?.[1] || `${hours} h`}`, up == null ? "" : up >= 0.99 ? "ok" : "warn")}
+    ${tile("Cameras online", `${camsOnline}/${cams.length}`, `${n.channels} channels`, camsOnline < cams.length ? "warn" : "ok")}
+    ${tile("Recording", d.recording_channels != null ? `${d.recording_channels}/${d.total_channels}` : NA, "channels recording", d.recording_channels != null && d.recording_channels < d.total_channels ? "warn" : "")}
+    ${tile("Disks", d.disk_count != null ? (d.disk_errors ? `${d.disk_errors} faulty` : `${d.disk_count} OK`) : NA, d.disk_count != null ? `${d.disk_count} installed` : "", d.disk_errors ? "bad" : "")}
+    ${tile("Storage used", d.storage_used_pct != null ? `${d.storage_used_pct}%` : NA, d.storage_total_gb ? `of ${(d.storage_total_gb / 1024).toFixed(1)} TB` : "", d.storage_used_pct > 95 ? "bad" : d.storage_used_pct > 85 ? "warn" : "")}
+    ${tile("Retention", d.retention_days != null ? `${d.retention_days} days` : NA, "of recordings kept", d.retention_days != null && d.retention_days < 7 ? "warn" : "")}
+    ${tile("Open alerts", openAlerts, `${alerts.length} in recent history`, openAlerts ? "bad" : "ok")}
+  </div>
+  <div id="tsResult"></div>
+  <div class="grid cols-3">
+    <div class="card"><h2>Online / offline</h2>${lineChart([{ points: m.online }], { yMax: 1, height: 110, step: true })}</div>
+    <div class="card"><h2>Storage used</h2>${lineChart([{ points: m.storage_used_pct }], { yMax: 100, unit: "%", height: 140 })}</div>
+    <div class="card"><h2>Temperature (°C)</h2>${lineChart([{ points: m.temp_c }], { yMin: null, height: 140 })}</div>
+  </div>
+  <div class="card"><h2>Cameras on this NVR (${cams.length}) <span class="right muted small">click a camera for its dashboard</span></h2><div class="table-wrap"><table><thead><tr><th>Channel</th><th>Camera</th><th>Make / model</th><th>Serial no.</th><th>Status</th><th class="num">FPS</th><th>Department</th></tr></thead><tbody>
+    ${cams.map((c) => `<tr class="clickable" data-href="#/camera/${c.id}"><td>CH${c.channel ?? "—"}</td><td><a href="#/camera/${c.id}"><strong>${esc(c.name)}</strong></a></td><td>${makeModel(c)}</td><td class="small">${esc(c.serial_number || "—")}</td>
+      <td>${c.enabled ? statusBadge(c.health.status) : activeBadge(false)}${c.health.status === "offline" && c.health.error ? `<div class="errline small">${esc(c.health.error.slice(0, 50))}</div>` : ""}</td>
+      <td class="num">${c.health.data.fps ?? "—"}</td><td>${esc(c.department || "—")}</td></tr>`).join("") || '<tr><td colspan="7" class="empty">No channels imported.</td></tr>'}</tbody></table></div></div>
+  <div class="grid cols-2">
+    ${identityCard("nvr", n)}
     <div class="card"><h2>Disks</h2>${d.disks ? `<table><thead><tr><th>Disk</th><th>Status</th><th class="num">Capacity</th><th class="num">Free</th></tr></thead><tbody>${d.disks.map((k) => `<tr><td>HDD ${esc(k.id)}</td><td><span class="badge ${k.status === "ok" ? "ok" : "bad"}">${esc(k.status)}</span></td><td class="num">${fmt(k.capacity_gb, " GB", 0)}</td><td class="num">${fmt(k.free_gb, " GB", 0)}</td></tr>`).join("")}</tbody></table>` : `<div class="muted">${NA}. The hikvision_isapi driver reads disk status.</div>`}</div>
-    <div class="card"><h2>Storage used, 7 days</h2>${lineChart([{ points: m.storage_used_pct }], { yMax: 100, unit: "%", height: 120 })}</div>
-    <div class="card"><h2>Channels (${cams.length})</h2><div class="list">${cams.map((c) => `<div class="list-item clickable" data-cam="${c.id}">${c.enabled ? statusBadge(c.health.status) : activeBadge(false)}<div class="main-col"><div class="title">CH${c.channel} · ${esc(c.name)}</div><div class="muted small">${makeModel(c)}${c.serial_number ? ` · SN ${esc(c.serial_number)}` : ""}</div></div></div>`).join("") || '<div class="empty">No channels imported.</div>'}</div></div>`);
-  $$("#drawerBody [data-cam]").forEach((el) => (el.onclick = () => deviceDetail("camera", el.dataset.cam)));
-  bindDeviceActions("nvr", n, $("#drawerBody"), () => nvrDetail(id));
+  </div>
+  <div class="card"><h2>Alert history</h2>${alertsTable(alerts)}</div>`;
+  $("#dHours").onchange = (e) => { setQuery({ hours: e.target.value }); state.params = new URLSearchParams({ hours: e.target.value }); renderNvrPage(); };
+  bindRowLinks(view);
+  bindDeviceActions("nvr", n, view, () => renderNvrPage());
 }
 
 // ---------------------------------------------------------------- alerts ---
-const alertFilters = { status: "active", severity: "", location_id: "" };
+const ALERT_DEFAULTS = { status: "active", severity: "", location_id: "" };
+const alertFilters = { ...ALERT_DEFAULTS };
 async function renderAlerts() {
   const qs = new URLSearchParams(Object.entries(alertFilters).filter(([, v]) => v)).toString();
   const alerts = await api(`/api/alerts?${qs}`);
-  view.innerHTML = `<div class="toolbar">
+  view.innerHTML = `${filterBar([alertFilters.status !== "active" && alertFilters.status, alertFilters.severity, locName(alertFilters.location_id)], "#/alerts")}<div class="toolbar">
     <select id="aStatus">${["active", "open", "acknowledged", "resolved", "all"].map((s) => `<option ${alertFilters.status === s ? "selected" : ""}>${s}</option>`).join("")}</select>
     <select id="aSev"><option value="">Any severity</option>${["critical", "warning", "info"].map((s) => `<option ${alertFilters.severity === s ? "selected" : ""}>${s}</option>`).join("")}</select>
-    <select id="aLoc">${locOptions(alertFilters.location_id)}</select></div>
+    <select id="aLoc">${locOptions(alertFilters.location_id)}</select><span class="muted small">Click an alert to open the camera or NVR it is about.</span></div>
   <div class="card"><div class="table-wrap"><table><thead><tr><th>Severity</th><th>Alert</th><th>Device</th><th>Opened</th><th>Status</th><th></th></tr></thead><tbody>
-  ${alerts.map((a) => `<tr><td>${sevBadge(a.severity)}</td><td class="wrap">${esc(a.message)}<div class="muted small">${esc(locById(a.location_id)?.path || "")}</div></td><td>${esc(a.device_type)}</td><td class="small">${localTime(a.opened_at)}</td>
+  ${alerts.map((a) => `<tr class="clickable" data-href="#/${a.device_type}/${a.device_id}"><td>${sevBadge(a.severity)}</td><td class="wrap">${esc(a.message)}<div class="muted small">${esc(locById(a.location_id)?.path || "")}</div></td>
+    <td><a href="#/${a.device_type}/${a.device_id}">${esc(a.device_name || a.device_type)}</a><div class="muted small">${a.device_type === "nvr" ? "NVR" : "camera"}</div></td><td class="small">${localTime(a.opened_at)}</td>
     <td>${esc(a.status)}${a.acknowledged_by ? `<div class="muted small">by ${esc(a.acknowledged_by)}</div>` : ""}${a.resolved_at ? `<div class="muted small">resolved ${ago(a.resolved_at)}</div>` : ""}</td>
     <td>${a.status === "open" && can("ack") ? `<button class="btn small" data-ack="${a.id}">Acknowledge</button>` : ""}</td></tr>`).join("") || '<tr><td colspan="6" class="empty">No alerts.</td></tr>'}
   </tbody></table></div><div class="muted small">Alert contacts for each location are notified automatically. See <a href="#/contacts">Alert contacts</a> and the <a href="#/notifications">Notification log</a>.</div></div>`;
-  $("#aStatus").onchange = (e) => { alertFilters.status = e.target.value; renderAlerts(); };
-  $("#aSev").onchange = (e) => { alertFilters.severity = e.target.value; renderAlerts(); };
-  $("#aLoc").onchange = (e) => { alertFilters.location_id = e.target.value; renderAlerts(); };
+  const reload = () => { setQuery(alertFilters); renderAlerts(); };
+  $("#aStatus").onchange = (e) => { alertFilters.status = e.target.value; reload(); };
+  $("#aSev").onchange = (e) => { alertFilters.severity = e.target.value; reload(); };
+  $("#aLoc").onchange = (e) => { alertFilters.location_id = e.target.value; reload(); };
+  bindRowLinks(view);
   bindAlertAcks(view);
 }
 
 // ---------------------------------------------------------------- events ---
-const evFilters = { status: "new", type: "", location_id: "" };
+const EV_DEFAULTS = { status: "new", type: "", location_id: "", category: "", camera_id: "" };
+const evFilters = { ...EV_DEFAULTS };
 async function renderEvents() {
-  const qs = new URLSearchParams(Object.entries(evFilters).filter(([, v]) => v)).toString();
-  const [events, stats] = await Promise.all([api(`/api/events?${qs}`), api("/api/events/stats?days=7")]);
+  const { category, ...apiF } = evFilters;
+  const qs = new URLSearchParams(Object.entries(apiF).filter(([, v]) => v)).toString();
+  const [allEvents, stats] = await Promise.all([api(`/api/events?${qs}`), api("/api/events/stats?days=30")]);
+  const events = category ? allEvents.filter((e) => stats.by_type[e.type]?.category === category) : allEvents;
   const types = Object.keys(stats.by_type).sort();
-  view.innerHTML = `<div class="toolbar">
+  view.innerHTML = `${filterBar([evFilters.status && evFilters.status.replace("_", " "), category, evFilters.type && (stats.by_type[evFilters.type]?.name || evFilters.type), locName(evFilters.location_id), evFilters.camera_id && "one camera"], "#/events")}<div class="toolbar">
     <select id="eStatus"><option value="">Any status</option>${["new", "acknowledged", "true_alarm", "false_alarm"].map((s) => `<option value="${s}" ${evFilters.status === s ? "selected" : ""}>${s.replace("_", " ")}</option>`).join("")}</select>
     <select id="eType"><option value="">Any type</option>${types.map((t) => `<option value="${esc(t)}" ${evFilters.type === t ? "selected" : ""}>${esc(stats.by_type[t]?.name || t)}</option>`).join("")}</select>
     <select id="eLoc">${locOptions(evFilters.location_id)}</select>
-    <span class="grow"></span><span class="muted small">False-alarm rate (7 d): <strong>${stats.false_alarm_pct ?? "—"}${stats.false_alarm_pct != null ? "%" : ""}</strong> of ${stats.reviewed} reviewed</span></div>
+    <span class="grow"></span><span class="muted small">False-alarm rate (30 d): <strong>${stats.false_alarm_pct ?? "—"}${stats.false_alarm_pct != null ? "%" : ""}</strong> of ${stats.reviewed} reviewed</span></div>
   <div class="card"><div class="table-wrap"><table><thead><tr><th>Time</th><th>Event</th><th>Camera</th><th>Zone</th><th class="num">Confidence</th><th>Source</th><th>Status</th><th></th></tr></thead><tbody>
   ${events.map((e) => `<tr><td class="small">${localTime(e.ts)}</td><td class="wrap"><strong>${esc(stats.by_type[e.type]?.name || e.type.replaceAll("_", " "))}</strong><div class="muted small">${esc(stats.by_type[e.type]?.category || "")}${e.object_class ? ` · ${esc(e.object_class)}` : ""}</div></td>
-    <td>${esc(e.camera)}<div class="muted small">${esc(locById(e.location_id)?.path || e.location)}</div></td><td>${esc(e.zone)}</td><td class="num">${(e.confidence * 100).toFixed(0)}%</td>
+    <td><a href="#/camera/${e.camera_id}">${esc(e.camera)}</a><div class="muted small">${esc(locById(e.location_id)?.path || e.location)}</div></td><td>${esc(e.zone)}</td><td class="num">${(e.confidence * 100).toFixed(0)}%</td>
     <td><span class="badge neutral">${esc(e.source)}</span></td><td>${evStatusBadge(e.status)}</td>
     <td>${can("ack") ? `<button class="btn small" data-ev="${e.id}" data-st="true_alarm">True</button> <button class="btn small" data-ev="${e.id}" data-st="false_alarm">False</button>` : ""}</td></tr>`).join("") || '<tr><td colspan="8" class="empty">No events.</td></tr>'}
   </tbody></table></div></div>`;
-  $("#eStatus").onchange = (e) => { evFilters.status = e.target.value; renderEvents(); };
-  $("#eType").onchange = (e) => { evFilters.type = e.target.value; renderEvents(); };
-  $("#eLoc").onchange = (e) => { evFilters.location_id = e.target.value; renderEvents(); };
+  const reload = () => { setQuery(evFilters); renderEvents(); };
+  $("#eStatus").onchange = (e) => { evFilters.status = e.target.value; reload(); };
+  $("#eType").onchange = (e) => { evFilters.type = e.target.value; reload(); };
+  $("#eLoc").onchange = (e) => { evFilters.location_id = e.target.value; reload(); };
   $$("[data-ev]").forEach((b) => (b.onclick = async () => {
     b.disabled = true;
     try { await api(`/api/events/${b.dataset.ev}/handle`, { method: "POST", json: { status: b.dataset.st } }); renderEvents(); } catch (e) { toast(e.message); b.disabled = false; }
@@ -718,7 +881,7 @@ async function deviceTable(tab, body) {
       <td class="small">${isCam ? (d.nvr ? `${esc(d.nvr)}<div class="muted">channel ${d.channel}</div>` : "Standalone") : `${d.camera_count} of ${d.channels} used`}</td>
       <td>${activeBadge(d.enabled)} ${d.enabled ? statusBadge(d.health.status) : ""}${d.health.error && d.enabled ? `<div class="errline small wrap">${esc(d.health.error.slice(0, 60))}</div>` : ""}</td>
       <td class="act-cell"><div class="actions">
-        <button class="btn small" data-open="${d.id}">Open</button>
+        <button class="btn small" data-open="${d.id}">Open</button>${isCam && d.enabled ? `<button class="btn small" data-live="${d.id}">Live</button>` : ""}
         <button class="btn small" data-edit="${d.id}">Edit</button>
         <button class="btn small" data-toggle="${d.id}">${d.enabled ? "Deactivate" : "Activate"}</button>
         ${can("reboot") ? `<button class="btn small" data-reboot="${d.id}">Reboot</button>` : ""}
@@ -730,6 +893,7 @@ async function deviceTable(tab, body) {
   $("#dvloc").onchange = (e) => { devListFilter.location_id = e.target.value; deviceTable(tab, body); };
   $("#addDev").onclick = () => (isCam ? cameraForm() : nvrForm());
   $$("[data-open]", body).forEach((b) => (b.onclick = () => deviceDetail(kind, b.dataset.open)));
+  $$("[data-live]", body).forEach((b) => (b.onclick = () => openLive(b.dataset.live)));
   $$("[data-edit]", body).forEach((b) => (b.onclick = () => (isCam ? cameraForm(byId(b.dataset.edit)) : nvrForm(byId(b.dataset.edit)))));
   $$("[data-toggle]", body).forEach((b) => (b.onclick = async () => {
     const d = byId(b.dataset.toggle);
@@ -774,21 +938,25 @@ async function cameraForm(c = {}) {
     <label class="field">Building<input name="building" value="${esc(c.building || "")}"></label>
     <label class="field">Floor<input name="floor" value="${esc(c.floor || "")}"></label>
     <label class="field">Zone / spot<input name="zone" value="${esc(c.zone || "")}"></label>
-    <label class="field">Target FPS<input name="target_fps" type="number" step="0.1" value="${c.target_fps || 25}"></label></div>
+    <label class="field">Target FPS<input name="target_fps" type="number" step="0.1" value="${c.target_fps || 25}"></label>
+    <label class="field">Latitude (optional)<input name="latitude" type="number" step="any" min="-90" max="90" value="${c.latitude ?? ""}" placeholder="uses the location's"></label>
+    <label class="field">Longitude (optional)<input name="longitude" type="number" step="any" min="-180" max="180" value="${c.longitude ?? ""}"></label>
+    <label class="field">Highest live quality<select name="live_quality"><option value="">Organization default</option>${["low", "moderate", "high"].map((k) => `<option value="${k}" ${c.live_quality === k ? "selected" : ""}>${k}</option>`).join("")}</select></label></div>
     <div class="toolbar"><button class="btn primary" type="submit">${edit ? "Save changes" : "Add camera"}</button>${edit ? `<button class="btn" type="button" id="cancelEdit">Cancel</button>` : ""}
     <span class="muted small">${info.ffmpeg_available ? "FFmpeg found: FPS, bitrate and picture checks will run." : "FFmpeg not found: only reachability is checked."} Make, model and serial number are read from the device automatically.</span></div></form>`);
-  if (edit) $("#cancelEdit").onclick = () => deviceDetail("camera", c.id);
+  if (edit) $("#cancelEdit").onclick = closeDrawer;
   $("#camForm").onsubmit = async (e) => {
     e.preventDefault();
     const o = Object.fromEntries(new FormData(e.target));
     ["location_id", "onvif_port", "target_fps"].forEach((k) => (o[k] = Number(o[k])));
+    ["latitude", "longitude"].forEach((k) => (o[k] = o[k] === "" ? null : Number(o[k])));
     o.nvr_id = o.nvr_id ? Number(o.nvr_id) : null;
     o.channel = o.channel ? Number(o.channel) : null;
     if (edit && !o.password) delete o.password;
     if (edit) { o.tags = c.tags || []; o.enabled = c.enabled; }
     try {
       const r = await api(edit ? `/api/cameras/${c.id}` : "/api/cameras", { method: edit ? "PATCH" : "POST", json: o });
-      if (changed(r, edit ? "Saved" : `Added ${o.name}`)) { closeDrawer(); if (state.route === "devices") renderDevices(); }
+      if (changed(r, edit ? "Saved" : `Added ${o.name}`)) { closeDrawer(); if (state.route === "devices") renderDevices(); else if (state.route === "camera") route(); }
       else closeDrawer();
     } catch (er) { toast(er.message); }
   };
@@ -813,7 +981,7 @@ async function nvrForm(n = {}) {
     <label class="field">Health driver<select name="driver">${opt(info.nvr_drivers, n.driver || "tcp")}</select></label></div>
     <p class="muted small">Health drivers: <b>tcp</b> checks it answers · <b>onvif</b> also reads make, model, serial and firmware · <b>hikvision_isapi</b> also reads disks and storage.</p>
     <div class="toolbar"><button class="btn primary" type="submit">${edit ? "Save changes" : "Add NVR"}</button>${edit ? `<button class="btn" type="button" id="cancelEdit">Cancel</button>` : ""}</div></form>`);
-  if (edit) $("#cancelEdit").onclick = () => nvrDetail(n.id);
+  if (edit) $("#cancelEdit").onclick = closeDrawer;
   $("#nvrForm").onsubmit = async (e) => {
     e.preventDefault();
     const o = Object.fromEntries(new FormData(e.target));
@@ -822,7 +990,7 @@ async function nvrForm(n = {}) {
     if (edit) o.enabled = n.enabled;
     try {
       const r = await api(edit ? `/api/nvrs/${n.id}` : "/api/nvrs", { method: edit ? "PATCH" : "POST", json: o });
-      if (changed(r, edit ? "Saved" : `Added ${o.name}. Next: import its channels.`)) { closeDrawer(); if (state.route === "devices") renderDevices(edit ? "nvrs" : "channels"); }
+      if (changed(r, edit ? "Saved" : `Added ${o.name}. Next: import its channels.`)) { closeDrawer(); if (state.route === "devices") renderDevices(edit ? "nvrs" : "channels"); else if (state.route === "nvr") route(); }
       else closeDrawer();
     } catch (er) { toast(er.message); }
   };
@@ -833,7 +1001,11 @@ async function renderLocations() {
   await refreshLocations();
   const orgs = await api("/api/orgs");
   const canAddTop = state.me.role === "super_admin" || state.me.role === "org_admin";
-  view.innerHTML = `<div class="grid cols-2"><div class="card"><h2>Location hierarchy <span class="right muted small">access to a location covers everything under it</span></h2>
+  const myOrg = state.me.role === "org_admin" ? orgs[0] : null;
+  view.innerHTML = `${myOrg ? `<div class="card"><h2>${esc(myOrg.name)} settings</h2><div class="form-grid">
+      <label class="field">Device changes by location admins need approval<select id="osAppr"><option value="false" ${myOrg.require_approval ? "" : "selected"}>No</option><option value="true" ${myOrg.require_approval ? "selected" : ""}>Yes</option></select></label>
+      <label class="field">Highest live-view quality for your users<select id="osQ">${["low", "moderate", "high"].map((k) => `<option ${myOrg.live_quality === k ? "selected" : ""}>${k}</option>`).join("")}</select></label></div>
+      <p class="small muted">Lower live quality uses less network data and memory. You can allow a different level on individual cameras.</p></div>` : ""}<div class="grid cols-2"><div class="card"><h2>Location hierarchy <span class="right muted small">access to a location covers everything under it</span></h2>
     <div class="tree">${state.locations.map((l) => `<div class="tree-row indent-${Math.min(l.depth, 7)}">
       <div class="main-col"><div class="title">${l.depth === 0 && multiOrg() ? `<span class="muted">${esc(l.org)} ›</span> ` : ""}${esc(l.name)} <span class="badge neutral">${esc(l.kind)}</span>${l.code ? ` <span class="muted small">${esc(l.code)}</span>` : ""}</div>
       <div class="muted small">${[l.city, `${l.cameras} cameras`, `${l.nvrs} NVRs`, l.contacts ? `${l.contacts} alert contacts` : ""].filter(Boolean).map(esc).join(" · ")}</div></div>
@@ -845,14 +1017,21 @@ async function renderLocations() {
       ${state.me.role === "super_admin" ? `<label class="field">Organization (top level only)<select name="org_id">${orgs.map((o) => `<option value="${o.id}">${esc(o.name)}</option>`).join("")}</select></label>` : ""}
       <label class="field">Code (optional)<input name="code" placeholder="e.g. MUM-AND"></label>
       <label class="field">City<input name="city"></label>
-      <label class="field">Address<input name="address"></label></div>
+      <label class="field">Address<input name="address"></label>
+      <label class="field">Latitude (for the map)<input name="latitude" type="number" step="any" min="-90" max="90" placeholder="e.g. 19.1197"></label>
+      <label class="field">Longitude<input name="longitude" type="number" step="any" min="-180" max="180" placeholder="e.g. 72.8468"></label></div>
       <div class="toolbar"><button class="btn primary">Save location</button><button class="btn" type="reset" id="locReset">Clear</button></div>
       <p class="muted small">Examples: Corporate Office › West Region › Mumbai Andheri Branch › 2nd Floor › Server Room. Cameras and NVRs can be placed at any level.</p></form></div>`;
   const f = $("#locForm");
   if (!can("manage_locations")) f.hidden = true;
+  if (myOrg) {
+    $("#osAppr").onchange = async (e) => { try { await api(`/api/orgs/${myOrg.id}`, { method: "PATCH", json: { require_approval: e.target.value === "true" } }); toast("Saved"); } catch (er) { toast(er.message); } };
+    $("#osQ").onchange = async (e) => { try { await api(`/api/orgs/${myOrg.id}`, { method: "PATCH", json: { live_quality: e.target.value } }); toast("Live quality saved"); } catch (er) { toast(er.message); } };
+  }
   const setForm = (l, parentId) => {
     f.id.value = l?.id || ""; f.name.value = l?.name || ""; f.kind.value = l?.kind || "branch";
     f.parent_id.value = parentId ?? (l?.parent_id ?? ""); f.code.value = l?.code || ""; f.city.value = l?.city || ""; f.address.value = l?.address || "";
+    f.latitude.value = l?.latitude ?? ""; f.longitude.value = l?.longitude ?? "";
     $("#locTitle").textContent = l ? `Edit ${l.name}` : parentId ? `Add under ${locById(+parentId).name}` : "Add location";
     f.scrollIntoView({ behavior: "smooth" }); f.name.focus();
   };
@@ -869,6 +1048,7 @@ async function renderLocations() {
     const id = o.id; delete o.id;
     o.parent_id = o.parent_id ? Number(o.parent_id) : null;
     if (o.org_id) o.org_id = Number(o.org_id);
+    ["latitude", "longitude"].forEach((k) => (o[k] = o[k] === "" ? null : Number(o[k])));
     try {
       await api(id ? `/api/locations/${id}` : "/api/locations", { method: id ? "PATCH" : "POST", json: o });
       toast("Location saved"); renderLocations();
@@ -1023,9 +1203,10 @@ async function renderUsers() {
 // --------------------------------------------------------- organizations ---
 async function renderOrgs() {
   const orgs = await api("/api/orgs");
-  view.innerHTML = `<div class="card"><h2>Organizations</h2><div class="table-wrap"><table><thead><tr><th>Organization</th><th>Code</th><th class="num">Locations</th><th class="num">NVRs</th><th class="num">Cameras</th><th class="num">Users</th><th>Approval for changes</th><th>Status</th></tr></thead><tbody>
+  view.innerHTML = `<div class="card"><h2>Organizations</h2><div class="table-wrap"><table><thead><tr><th>Organization</th><th>Code</th><th class="num">Locations</th><th class="num">NVRs</th><th class="num">Cameras</th><th class="num">Users</th><th>Approval for changes</th><th>Highest live quality</th><th>Status</th></tr></thead><tbody>
     ${orgs.map((o) => `<tr><td><strong>${esc(o.name)}</strong></td><td><code>${esc(o.code)}</code></td><td class="num">${o.locations}</td><td class="num">${o.nvrs}</td><td class="num">${o.cameras}</td><td class="num">${o.users}</td>
       <td><label class="small"><input type="checkbox" data-appr="${o.id}" ${o.require_approval ? "checked" : ""}> Required</label></td>
+      <td><select data-oq="${o.id}" aria-label="Highest live quality">${["low", "moderate", "high"].map((k) => `<option ${o.live_quality === k ? "selected" : ""}>${k}</option>`).join("")}</select></td>
       <td><button class="btn small" data-act="${o.id}">${o.active ? "Active · Deactivate" : "Inactive · Activate"}</button></td></tr>`).join("") || '<tr><td colspan="8" class="empty">No organizations yet.</td></tr>'}
     </tbody></table></div></div>
     <form class="card" id="orgForm"><h2>Add organization</h2><div class="form-grid">
@@ -1036,6 +1217,7 @@ async function renderOrgs() {
       <div class="toolbar"><button class="btn primary">Create organization</button></div>
       <p class="muted small">Next: add its regions, branches and offices under <a href="#/locations">Locations</a>, then create its org admin under <a href="#/users">Users &amp; access</a>.</p></form>`;
   $$("[data-appr]").forEach((cb) => (cb.onchange = async () => { try { await api(`/api/orgs/${cb.dataset.appr}`, { method: "PATCH", json: { require_approval: cb.checked } }); toast("Saved"); } catch (e) { toast(e.message); } }));
+  $$("[data-oq]").forEach((sel) => (sel.onchange = async () => { try { await api(`/api/orgs/${sel.dataset.oq}`, { method: "PATCH", json: { live_quality: sel.value } }); toast("Live quality saved"); } catch (e) { toast(e.message); } }));
   $$("[data-act]").forEach((b) => (b.onclick = async () => {
     const o = orgs.find((x) => x.id === +b.dataset.act);
     try { await api(`/api/orgs/${o.id}`, { method: "PATCH", json: { active: !o.active } }); renderOrgs(); } catch (e) { toast(e.message); }
@@ -1399,6 +1581,117 @@ function renderLanding() {
   clearInterval(lpClockTimer);
   lpClockTimer = setInterval(() => { if ($("[data-lp-clock]")) tick(); else clearInterval(lpClockTimer); }, 1000);
   applyLogo();
+}
+
+
+// --------------------------------------------------------------- live view --
+const Q_ORDER = ["low", "moderate", "high"];
+function cameraBody(c, changes = {}) {
+  const keys = ["name", "location_id", "nvr_id", "channel", "vendor", "model", "host", "onvif_port", "rtsp_url", "sub_stream_url",
+    "username", "power_type", "driver", "building", "floor", "zone", "tags", "target_fps", "department", "latitude", "longitude",
+    "live_quality", "enabled"];
+  return { ...Object.fromEntries(keys.map((k) => [k, c[k]])), ...changes };
+}
+async function openLive(camId, quality) {
+  const info = await api(`/api/cameras/${camId}/live-info`);
+  const q = quality && info.qualities.find((x) => x.key === quality && x.allowed) ? quality : info.max_quality;
+  const cur = info.qualities.find((x) => x.key === q);
+  openDrawer(`<h2>Live: ${esc(info.name)}</h2>
+    <div class="toolbar"><span class="muted small">Quality</span>
+      ${info.qualities.map((x) => `<button class="btn small ${x.key === q ? "primary" : ""}" data-q="${x.key}" ${x.allowed ? "" : 'disabled title="Above the level your administrator allows"'}>${x.label}</button>`).join("")}
+      <span class="grow"></span><a class="btn small" href="#/camera/${camId}">Dashboard</a></div>
+    ${!info.enabled ? '<div class="errbox">This camera is deactivated, so it cannot be viewed live.</div>'
+      : !info.available ? '<div class="errbox">Live view needs FFmpeg on the server. Ask your administrator to install it.</div>'
+      : `<div class="live-wrap"><img class="live-img" alt="Live video from ${esc(info.name)}" src="/api/cameras/${camId}/live.mjpg?quality=${q}&t=${Date.now()}"><span class="live-badge">● LIVE</span></div>
+         <div class="small muted" id="liveMsg">${esc(cur.label)}: up to ${cur.width} px wide, ${cur.fps} frames per second, ${esc(cur.approx)}. ${info.simulated ? "Simulated camera: showing a test pattern." : ""} Stops automatically after ${info.max_minutes} minutes or when you close this panel.</div>`}
+    <div class="card"><h2>Data use</h2><p class="small muted">Lower quality uses less network data and less memory on viewing PCs. Your administrator sets the highest level allowed${info.camera_setting ? " for this camera" : " for your organization"}: <b>${esc(info.max_quality)}</b>.</p>
+      ${can("manage_devices") ? `<label class="field">Highest quality allowed for this camera<select id="camQ">
+        <option value="" ${info.camera_setting ? "" : "selected"}>Organization default (${esc(info.org_default)})</option>
+        ${Q_ORDER.map((k) => `<option value="${k}" ${info.camera_setting === k ? "selected" : ""}>${k[0].toUpperCase() + k.slice(1)}</option>`).join("")}</select></label>` : ""}
+      <table><thead><tr><th>Quality</th><th>Picture</th><th>Data</th></tr></thead><tbody>
+        ${info.qualities.map((x) => `<tr><td>${x.label}${x.allowed ? "" : ' <span class="badge neutral">not allowed</span>'}</td><td class="small">${x.width} px, ${x.fps} fps, ${x.stream === "main" ? "main" : "sub"} stream</td><td class="small">${esc(x.approx)}</td></tr>`).join("")}</tbody></table></div>`);
+  const img = $("#drawerBody img.live-img");
+  if (img) {
+    img.onerror = () => { $("#liveMsg").innerHTML = '<span class="errline">The live stream could not start or stopped. The camera may be unreachable, or the server is already showing its maximum number of streams. Try again in a moment.</span>'; };
+    clearTimeout(liveTimer);
+    liveTimer = setTimeout(() => { img.removeAttribute("src"); $("#liveMsg").textContent = "Live view paused to save data. Choose a quality to start again."; }, info.max_minutes * 60000);
+  }
+  $$("[data-q]").forEach((b) => (b.onclick = () => { if (img) img.removeAttribute("src"); openLive(camId, b.dataset.q); }));
+  const sel = $("#camQ");
+  if (sel) sel.onchange = async () => {
+    try {
+      const c = await api(`/api/cameras/${camId}`);
+      const r = await api(`/api/cameras/${camId}`, { method: "PATCH", json: cameraBody(c, { live_quality: sel.value }) });
+      if (changed(r, "Live quality saved")) { if (img) img.removeAttribute("src"); openLive(camId); }
+    } catch (e) { toast(e.message); }
+  };
+}
+
+// --------------------------------------------------------------------- map --
+let leafletReady = null;
+function loadLeaflet() {
+  if (window.L) return Promise.resolve();
+  if (leafletReady) return leafletReady;
+  leafletReady = new Promise((resolve, reject) => {
+    const css = document.createElement("link");
+    css.rel = "stylesheet"; css.href = "/static/vendor/leaflet/leaflet.css";
+    document.head.appendChild(css);
+    const js = document.createElement("script");
+    js.src = "/static/vendor/leaflet/leaflet.js";
+    js.onload = resolve; js.onerror = () => reject(new Error("Could not load the map library"));
+    document.head.appendChild(js);
+  });
+  return leafletReady;
+}
+const mapFilter = { location_id: "" };
+let mapObj = null;
+async function renderMap() {
+  await loadLeaflet();
+  const qs = mapFilter.location_id ? `?location_id=${mapFilter.location_id}` : "";
+  const m = await api(`/api/map${qs}`);
+  const groups = new Map();
+  m.cameras.forEach((c) => {
+    const k = `${c.lat.toFixed(5)},${c.lng.toFixed(5)}`;
+    if (!groups.has(k)) groups.set(k, []);
+    groups.get(k).push(c);
+  });
+  const counts = { online: 0, offline: 0, other: 0 };
+  m.cameras.forEach((c) => (c.status === "online" ? counts.online++ : c.status === "offline" ? counts.offline++ : counts.other++));
+  view.innerHTML = `<div class="toolbar"><label class="small muted" for="mapLoc">Showing</label><select id="mapLoc">${locOptions(mapFilter.location_id)}</select>
+      <span class="map-legend"><span class="dot ok"></span>All online <span class="dot warn-dot"></span>Some offline <span class="dot bad"></span>All offline <span class="dot neutral"></span>Unknown / deactivated</span></div>
+    <div class="grid kpis">
+      <a class="card kpi link" href="#/cameras?x=1"><div class="label">Cameras on the map</div><div class="value">${m.cameras.length}</div><div class="sub">at ${groups.size} places</div></a>
+      <a class="card kpi link ok" href="#/cameras?status=online"><div class="label">Online</div><div class="value">${counts.online}</div><div class="sub">&nbsp;</div></a>
+      <a class="card kpi link ${counts.offline ? "bad" : "ok"}" href="#/cameras?status=offline"><div class="label">Offline</div><div class="value">${counts.offline}</div><div class="sub">&nbsp;</div></a>
+      <a class="card kpi link ${m.unplaced ? "warn" : ""}" href="#/locations"><div class="label">Not on the map</div><div class="value">${m.unplaced}</div><div class="sub">${m.unplaced ? "add coordinates to their location" : "all placed"}</div></a>
+    </div>
+    <div class="card map-card"><div id="camMap" class="cam-map ${m.tile_url ? "" : "no-tiles"}" role="region" aria-label="Map of cameras"></div>
+      <div class="small muted">${m.tile_url ? "" : "No map background is configured, so cameras are shown on a plain grid by position. Your administrator can connect a map server (SC_MAP_TILE_URL). "}Click a marker to see its cameras and open a live view.</div></div>`;
+  $("#mapLoc").onchange = (e) => { mapFilter.location_id = e.target.value; renderMap(); };
+  if (mapObj) { mapObj.remove(); mapObj = null; }
+  mapObj = L.map("camMap", { zoomControl: true, attributionControl: !!m.tile_url });
+  if (m.tile_url) L.tileLayer(m.tile_url, { maxZoom: 19, attribution: m.attribution || "" }).addTo(mapObj);
+  const markers = [];
+  groups.forEach((cams) => {
+    const on = cams.filter((c) => c.status === "online").length, off = cams.filter((c) => c.status === "offline").length;
+    const color = off === 0 && on > 0 ? "#1a7f37" : on === 0 && off > 0 ? "#c62828" : off > 0 ? "#d48806" : "#6b7785";
+    const c0 = cams[0];
+    const place = c0.source === "camera" && cams.length === 1 ? c0.name : c0.location_path.split(" / ").slice(-1)[0];
+    const mk = L.circleMarker([c0.lat, c0.lng], { radius: Math.min(9 + cams.length * 1.2, 22), color: "#ffffff", weight: 2, fillColor: color, fillOpacity: 0.9 })
+      .bindTooltip(`${esc(place)}: ${cams.length} camera${cams.length > 1 ? "s" : ""}${off ? `, ${off} offline` : ""}`)
+      .bindPopup(`<div class="map-pop"><strong>${esc(place)}</strong><div class="muted small">${esc(c0.org)} · ${esc(c0.location_path)}</div>
+        <div class="map-pop-list">${cams.map((c) => `<div class="map-pop-row"><span class="dot ${c.status === "online" ? "ok" : c.status === "offline" ? "bad" : "neutral"}"></span>
+          <span class="grow">${esc(c.name)}${c.status === "offline" && c.error ? `<br><span class="errline small">${esc(c.error.slice(0, 50))}</span>` : ""}</span>
+          <button class="btn small primary" data-live="${c.id}" ${c.status === "deactivated" ? "disabled" : ""}>Live</button><a class="btn small" href="#/camera/${c.id}">Dashboard</a></div>`).join("")}</div></div>`, { maxWidth: 360 });
+    mk.addTo(mapObj);
+    markers.push(mk);
+  });
+  mapObj.on("popupopen", (e) => {
+    $$("[data-live]", e.popup.getElement()).forEach((b) => (b.onclick = () => { mapObj.closePopup(); openLive(b.dataset.live); }));
+    $$("a[href^='#/camera/']", e.popup.getElement()).forEach((a) => (a.onclick = () => mapObj.closePopup()));
+  });
+  if (markers.length) mapObj.fitBounds(L.featureGroup(markers).getBounds().pad(0.3), { maxZoom: 13 });
+  else mapObj.setView([20.6, 78.9], 4);
 }
 
 // ------------------------------------------------------------------ logo ---

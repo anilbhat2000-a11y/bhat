@@ -13,7 +13,29 @@ This report follows Section 11 of the build prompt: every claim is backed by a t
 | Privacy law | India, DPDP Act 2023 (see the gaps below) | — |
 | Database | SQLite (dev) and PostgreSQL 16 (prod). **Both tested** | — |
 
-## Tested here (`pytest -q`: 63 passed on SQLite and on PostgreSQL 16)
+## Tested here (`pytest -q`: 70 passed on SQLite; the earlier 63-test suite also passed on PostgreSQL 16)
+
+### Dashboards, map and live view (v0.4)
+
+| Feature | Evidence |
+|---|---|
+| Map coordinates: camera's own, else its location's, else the nearest location above; scoped to the user; cameras without coordinates counted | `test_map_coordinates_inherit_and_scope` |
+| Live quality is limited by the organization default and the per-camera override; invalid values rejected; viewers cannot change settings | `test_quality_cap_follows_org_and_camera` |
+| Live MJPEG stream through FFmpeg (simulated camera): multipart boundary, a JPEG frame, requested quality limited to the allowed level, live view audited | `test_live_stream_mjpeg_and_cap` |
+| Stream limit (429), deactivated camera (409), other organization's camera (404) | `test_live_stream_limits` |
+| FFmpeg process stops when the viewer disconnects | Checked after the test run and the browser tour: no FFmpeg processes left |
+| Existing database upgraded in place (columns added, data kept, second run does nothing) | `test_existing_database_is_upgraded_in_place` |
+| Alerts filtered to one device | `test_alerts_filter_by_device` |
+| Drill-down from every overview tile, camera and NVR dashboard pages, map pop-ups, live panel, no JS errors | Browser tour and the guide capture script |
+
+### Not verified (v0.4)
+
+- **Live view from real cameras.** Only simulated cameras (FFmpeg test pattern) were streamed. The RTSP path, login and sub-stream must be checked per camera.
+- **Data rates per quality** are rough guides; MJPEG size depends on the scene.
+- **Map tiles** from a real tile server have not been tested (no network here). The offline grid mode is tested.
+- **Scale:** MJPEG conversion uses server CPU for each viewer. For many viewers, use a media server such as MediaMTX.
+
+### Earlier
 
 ### AI use cases (v0.3)
 

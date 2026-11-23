@@ -51,6 +51,8 @@ class Organization(Base):
     active: Mapped[bool] = mapped_column(Boolean, default=True)
     # When on, device changes by location admins wait for approval from higher up the hierarchy.
     require_approval: Mapped[bool] = mapped_column(Boolean, default=False)
+    # Highest live-view quality its users may watch: low | moderate | high.
+    live_quality: Mapped[str] = mapped_column(String(10), default="moderate")
     created_at: Mapped[datetime] = mapped_column(DateTime, default=utcnow)
 
 
@@ -68,6 +70,8 @@ class Location(Base):
     code: Mapped[str] = mapped_column(String(40), default="")
     city: Mapped[str] = mapped_column(String(120), default="")
     address: Mapped[str] = mapped_column(String(255), default="")
+    latitude: Mapped[float | None] = mapped_column(Float, nullable=True)
+    longitude: Mapped[float | None] = mapped_column(Float, nullable=True)
     org: Mapped[Organization] = relationship(lazy="joined")
 
 
@@ -197,6 +201,9 @@ class Camera(Base):
     tags: Mapped[list] = mapped_column(JSON, default=list)
     target_fps: Mapped[float] = mapped_column(Float, default=25.0)
     analytics: Mapped[list] = mapped_column(JSON, default=list)  # list of analytic configs
+    latitude: Mapped[float | None] = mapped_column(Float, nullable=True)   # optional; else the location's
+    longitude: Mapped[float | None] = mapped_column(Float, nullable=True)
+    live_quality: Mapped[str] = mapped_column(String(10), default="")    # "" = organization default
     # Identity as reported by the device itself (ONVIF / ISAPI); filled in automatically.
     manufacturer: Mapped[str] = mapped_column(String(80), default="")
     serial_number: Mapped[str] = mapped_column(String(80), default="")

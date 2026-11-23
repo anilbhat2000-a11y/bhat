@@ -89,6 +89,17 @@ The **Manage devices** page lists cameras and NVRs with Open, Edit, Activate/Dea
   - the video stream (FPS, bitrate)
   - a picture check
 
+## Dashboards, camera map and live view
+
+- **Drill-down.** Every overview tile, bar and row opens the list behind it. For example, "Cameras online" lists every online camera, and a branch row lists that branch's cameras. Filters are kept in the address, so they survive a refresh and the Back button.
+- **Device dashboards.** Each camera has its own dashboard page (`#/camera/<id>`), and so does each NVR (`#/nvr/<id>`). They show uptime, averages and history charts for 1 hour to 30 days, plus device details, alert history and AI events.
+- **Camera map.** Cameras are placed using their own coordinates, or else their location's (or the nearest location above it). Markers are coloured by health. No street background is shown by default, so the map works offline; set `SC_MAP_TILE_URL` and `SC_MAP_ATTRIBUTION` to use your own tile server.
+- **Live view.** FFmpeg converts each camera's RTSP stream to MJPEG for the browser.
+  - Quality presets: Low (640 px, 5 fps, sub-stream), Moderate (960 px, 10 fps, sub-stream), High (1920 px, 15 fps, main stream).
+  - Admins set the highest level allowed per organization, with an optional per-camera override. Viewers can only choose lower.
+  - Limits: `SC_MAX_LIVE_STREAMS` (default 8) and `SC_LIVE_MAX_MINUTES` (default 30). Every live view is written to the audit log.
+- **Upgrades.** On start-up, columns added by newer versions are added to an existing database automatically.
+
 ## AI use cases
 
 - **Catalog.** The **Use cases** page lists 184 built-in AI use cases across 13 sectors and 12 categories: cross-industry, logistics, IT/ITES, BPO, banking, branch operations, retail, pharma, hospitals, malls, railways, bus fleets and airports. It shows coverage against the requirement list (500 use cases in total).
@@ -161,9 +172,12 @@ SC_TEST_DATABASE_URL=postgresql+psycopg://user@host/db pytest -q   # PostgreSQL
 | `SC_SEED_DEMO` | 0 | Create the simulated demo fleet on first start |
 | `SC_COOKIE_SECURE` | 0 | Set to 1 when served over HTTPS |
 | `SC_PUBLIC_URL` | — | Address included as a link in alert emails |
+| `SC_MAP_TILE_URL`, `SC_MAP_ATTRIBUTION` | — | Street background for the camera map (your tile server). Empty = offline grid |
+| `SC_MAX_LIVE_STREAMS` | 8 | Live streams the server converts at once |
+| `SC_LIVE_MAX_MINUTES` | 30 | Each live view stops after this long |
 | `SC_SMTP_HOST`, `_PORT`, `_USER`, `_PASSWORD`, `_FROM`, `_STARTTLS` | — | Email alerts. Empty host = email off, logged as "skipped" |
 | `SC_SMS_URL`, `_METHOD`, `_BODY`, `_HEADERS` | — | SMS alerts through an HTTP gateway. `{phone}` and `{message}` are filled in. Empty URL = SMS off |
 
-**Upgrading from v0.1:** the database layout changed (organizations and location tree). There is no migration tool yet, so start with a fresh database.
+**Upgrading:** from v0.4, columns added by newer versions are added automatically on start-up. This is additive only: data is never dropped. Databases from v0.1 (before organizations) must still be recreated.
 
 API documentation (OpenAPI) is at `/docs`. Note: the Swagger page itself loads its assets from a CDN, so on an air-gapped network use `/openapi.json` instead.

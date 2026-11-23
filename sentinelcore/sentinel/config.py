@@ -40,6 +40,13 @@ class Settings:
     sms_body: str = field(default_factory=lambda: os.getenv("SC_SMS_BODY") or '{"to": "{phone}", "text": "{message}"}')
     sms_headers: str = field(default_factory=lambda: os.getenv("SC_SMS_HEADERS") or "{}")
     public_url: str = field(default_factory=lambda: os.getenv("SC_PUBLIC_URL", ""))
+    # Live view: how many browser streams the server converts at once, and for how long each.
+    max_live_streams: int = field(default_factory=lambda: int(os.getenv("SC_MAX_LIVE_STREAMS") or "8"))
+    live_max_minutes: int = field(default_factory=lambda: int(os.getenv("SC_LIVE_MAX_MINUTES") or "30"))
+    # Map background tiles. Empty = no background (works fully offline). Use your own tile
+    # server, or a provider whose maps meet your country's rules, e.g. https://tiles.example/{z}/{x}/{y}.png
+    map_tile_url: str = field(default_factory=lambda: os.getenv("SC_MAP_TILE_URL", ""))
+    map_attribution: str = field(default_factory=lambda: os.getenv("SC_MAP_ATTRIBUTION", ""))
 
     def __post_init__(self) -> None:
         if not self.secret_key:

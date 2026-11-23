@@ -119,6 +119,12 @@ def seed_demo(db: Session) -> bool:
         build(org, tree, None)
     db.add_all(cams)
     db.flush()
+    # Approximate city-centre coordinates so the demo map has something to show.
+    for name, (lat, lng) in {"Corporate Office": (12.9716, 77.5946), "Mumbai Andheri Branch": (19.1197, 72.8468),
+                             "Pune Warehouse": (18.5204, 73.8567), "Chennai T Nagar Store": (13.0418, 80.2341),
+                             "Head Office": (28.6139, 77.2090), "Gurugram Hub": (28.4595, 77.0266)}.items():
+        if name in named:
+            named[name].latitude, named[name].longitude = lat, lng
     now = utcnow()
     for _ in range(160):
         cam = r.choice(cams)

@@ -39,6 +39,7 @@ class OrgIn(BaseModel):
 
 def org_dict(o: Organization, counts: dict | None = None) -> dict:
     return {"id": o.id, "name": o.name, "code": o.code, "active": o.active, "require_approval": o.require_approval,
+            "live_quality": o.live_quality,
             "created_at": iso(o.created_at), **(counts or {})}
 
 
@@ -76,6 +77,7 @@ class OrgPatch(BaseModel):
     name: str | None = Field(None, min_length=2, max_length=160)
     require_approval: bool | None = None
     active: bool | None = None
+    live_quality: str | None = Field(None, pattern="^(low|moderate|high)$")
 
 
 @router.patch("/orgs/{org_id}")
@@ -106,6 +108,8 @@ class LocationIn(BaseModel):
     code: str = Field("", max_length=40)
     city: str = Field("", max_length=120)
     address: str = Field("", max_length=255)
+    latitude: float | None = Field(None, ge=-90, le=90)
+    longitude: float | None = Field(None, ge=-180, le=180)
 
 
 @router.get("/locations")
@@ -129,6 +133,7 @@ def list_locations(user: User = Depends(require("view")), db: Session = Depends(
         path = location_path(tree, loc.id)
         out.append({"id": loc.id, "org_id": loc.org_id, "org": loc.org.name, "parent_id": loc.parent_id,
                     "kind": loc.kind, "name": loc.name, "code": loc.code, "city": loc.city, "address": loc.address,
+                    "latitude": loc.latitude, "longitude": loc.longitude,
                     "path": path, "depth": path.count(" / "), "cameras": cams.get(loc.id, 0),
                     "nvrs": nvrs.get(loc.id, 0), "contacts": contacts.get(loc.id, 0),
                     "can_manage": _can_manage_location(db, user, loc)})
@@ -170,7 +175,7 @@ def create_location(body: LocationIn, request: Request, user: User = Depends(req
         else:
             raise HTTPException(403, "Choose a parent location you manage")
     loc = Location(org_id=org_id, parent_id=body.parent_id, kind=body.kind, name=body.name.strip(), code=body.code.strip(),
-                   city=body.city, address=body.address)
+                   city=body.city, address=body.address, latitude=body.latitude, longitude=body.longitude)
     db.add(loc)
     try:
         db.flush()
@@ -203,6 +208,7 @@ def update_location(loc_id: int, body: LocationIn, request: Request, user: User 
             raise HTTPException(403, "You cannot move the location you are assigned to")
     loc.name, loc.kind, loc.parent_id = body.name.strip(), body.kind, body.parent_id
     loc.code, loc.city, loc.address = body.code.strip(), body.city, body.address
+    loc.latitude, loc.longitude = body.latitude, body.longitude
     try:
         db.flush()
     except IntegrityError:

@@ -23,7 +23,8 @@ from .security import allowed_location_ids, ancestors, can, decrypt_secret, loca
 DIRECT_ROLES = {"super_admin", "org_admin"}
 CAMERA_FIELDS = {"name", "location_id", "nvr_id", "channel", "vendor", "model", "host", "onvif_port", "rtsp_url",
                  "sub_stream_url", "username", "power_type", "driver", "building", "floor", "zone", "tags",
-                 "target_fps", "enabled", "password_enc", "department"}
+                 "target_fps", "enabled", "password_enc", "department",
+                 "latitude", "longitude", "live_quality"}
 NVR_FIELDS = {"name", "location_id", "vendor", "model", "host", "http_port", "rtsp_port", "username", "channels",
               "driver", "enabled", "password_enc", "department"}
 

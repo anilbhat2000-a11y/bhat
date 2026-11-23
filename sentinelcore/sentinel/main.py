@@ -13,13 +13,19 @@ from fastapi import FastAPI, Request
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 
-from .api import auth, devices, ops, org, usecases
+from .api import auth, devices, live as live_api, ops, org, usecases
 from .config import settings
-from .db import Base, SessionLocal, engine
+from .db import Base, SessionLocal, engine, ensure_columns
 from .health import collector
 from .seed import bootstrap, seed_demo
 
 log = logging.getLogger("sentinel")
+# Map tiles may come from a configured tile server; allow only that origin for images.
+MAP_TILE_ORIGIN = ""
+if settings.map_tile_url.startswith(("http://", "https://")):
+    from urllib.parse import urlsplit as _us
+    _u = _us(settings.map_tile_url.replace("{s}", "a"))
+    MAP_TILE_ORIGIN = f"{_u.scheme}://{_u.netloc}".replace("://a.", "://*.") if "{s}" in settings.map_tile_url else f"{_u.scheme}://{_u.netloc}"
 STATIC = Path(__file__).parent / "static"
 
 
@@ -27,6 +33,9 @@ STATIC = Path(__file__).parent / "static"
 async def lifespan(app: FastAPI):
     logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(name)s: %(message)s")
     Base.metadata.create_all(engine)
+    added = ensure_columns(engine)
+    if added:
+        log.warning("Database upgraded: added %s", ", ".join(added))
     with SessionLocal() as db:
         pw = bootstrap(db)
         if pw:
@@ -47,6 +56,7 @@ app.include_router(devices.router)
 app.include_router(ops.router)
 app.include_router(org.router)
 app.include_router(usecases.router)
+app.include_router(live_api.router)
 
 
 @app.middleware("http")
@@ -62,7 +72,7 @@ async def security_headers(request: Request, call_next):
     if not request.url.path.startswith(("/docs", "/redoc", "/openapi.json")):
         # Everything is served locally: no CDN, works air-gapped.
         resp.headers.setdefault("Content-Security-Policy",
-                                "default-src 'self'; img-src 'self' data:; style-src 'self'; script-src 'self'; "
+                                f"default-src 'self'; img-src 'self' data: {MAP_TILE_ORIGIN}; style-src 'self'; script-src 'self'; "
                                 "connect-src 'self'; frame-ancestors 'none'")
     return resp
 

@@ -37,3 +37,33 @@ def get_db() -> Iterator[Session]:
         yield db
     finally:
         db.close()
+
+
+def ensure_columns(eng) -> list[str]:
+    """Add columns that newer versions define but an existing database lacks
+    (light, additive upgrade; never drops or changes data). Returns what was added."""
+    from sqlalchemy import inspect, text
+    added = []
+    insp = inspect(eng)
+    existing_tables = set(insp.get_table_names())
+    with eng.begin() as conn:
+        for table in Base.metadata.sorted_tables:
+            if table.name not in existing_tables:
+                continue
+            have = {c["name"] for c in insp.get_columns(table.name)}
+            for col in table.columns:
+                if col.name in have:
+                    continue
+                ddl_type = col.type.compile(dialect=eng.dialect)
+                default = ""
+                if col.default is not None and getattr(col.default, "is_scalar", False):
+                    v = col.default.arg
+                    if isinstance(v, bool):
+                        default = f" DEFAULT {'TRUE' if v else 'FALSE'}"
+                    elif isinstance(v, str):
+                        default = " DEFAULT '" + v.replace("'", "''") + "'"
+                    elif isinstance(v, (int, float)):
+                        default = f" DEFAULT {v}"
+                conn.execute(text(f'ALTER TABLE {table.name} ADD COLUMN {col.name} {ddl_type}{default}'))
+                added.append(f"{table.name}.{col.name}")
+    return added
