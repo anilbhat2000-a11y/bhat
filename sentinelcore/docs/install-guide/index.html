@@ -113,7 +113,7 @@ footer { margin-top: 48px; padding-top: 16px; border-top: 1px solid var(--line);
 
   <main>
     <header class="top">
-      <div class="eyebrow">3C ITS VisionOps v0.3.1 · On-premise · Guide updated 23 Nov 2026</div>
+      <div class="eyebrow">3C ITS VisionOps v0.3.2 · On-premise · Guide updated 23 Nov 2026</div>
       <h1>3C ITS VisionOps Installation Guide</h1>
       <p class="lede">This guide takes you from a bare Linux server to a running multi-organization system. By the end you will have organizations, branches and offices set up, cameras and NVRs onboarded, alert contacts receiving notifications, and health dashboards live. Every screenshot was captured from a fresh install of this version.</p>
       <div class="meta"><span><b>Time needed:</b> about 45 minutes</span><span><b>Skill level:</b> basic Linux command line</span><span><b>Internet:</b> needed only to download packages</span></div>
@@ -198,7 +198,8 @@ INFO:     Waiting for application startup.
 INFO:     Application startup complete.
 INFO:     Uvicorn running on http://127.0.0.1:8099 (Press CTRL+C to quit)
 2026-11-22 20:56:58,981 INFO sentinel.collector: health cycle: {&#x27;cameras&#x27;: 0, &#x27;nvrs&#x27;: 0, &#x27;alerts_opened&#x27;: 0, &#x27;notifications&#x27;: 0}</span></code></pre>
-      <p>To choose the password yourself, add <code>SC_ADMIN_PASSWORD='…'</code> before <code>uvicorn</code>. Then open <code>http://&lt;server-ip&gt;:8080</code> and sign in.</p>
+      <p>To choose the password yourself, add <code>SC_ADMIN_PASSWORD='…'</code> before <code>uvicorn</code>. Then open <code>http://&lt;server-ip&gt;:8080</code>. The landing page opens; choose <b>Sign in</b>.</p>
+      <figure><img src="img/00-landing.webp" alt="3C ITS VisionOps landing page: See everything. Miss nothing. with a command centre video wall" width="2560" height="1600" loading="lazy"><figcaption>The landing page everyone sees first, before signing in. To show a photo of your own command centre instead of the illustration, save it as <code>landing.jpg</code> in <code>sentinelcore/sentinel/static/</code>.</figcaption></figure>
       <figure><img src="img/01-login.webp" alt="3C ITS VisionOps sign-in screen" width="2560" height="1600" loading="lazy"><figcaption>Five wrong passwords in a row lock that username for 5 minutes.</figcaption></figure>
       <figure><img src="img/02-first-login.webp" alt="Empty overview after first sign-in" width="2560" height="1600" loading="lazy"><figcaption>The first sign-in shows an empty overview. The menu changes with each user's role.</figcaption></figure>
       <h3>Add your company logo</h3>
@@ -512,6 +513,12 @@ sudo journalctl -u sentinelcore -f</code></pre><button type="button">Copy</butto
 
     <section id="changes">
       <h2><span class="n">22</span>What's new</h2>
+      <h3>v0.3.2 — 23 Nov 2026</h3>
+      <ul>
+        <li>Landing page: “See everything. Miss nothing.”, with a live command-centre video wall illustration, features and industries, before sign-in</li>
+        <li>Optional photo: add <code>landing.jpg</code> to replace the illustration</li>
+        <li>Signing out returns to the landing page</li>
+      </ul>
       <h3>v0.3.1 — 23 Nov 2026</h3>
       <ul>
         <li>Renamed to <b>3C ITS VisionOps</b>: sign-in screen, browser tab, menu, alert emails and SMS, test notifications</li>
@@ -543,7 +550,7 @@ sudo journalctl -u sentinelcore -f</code></pre><button type="button">Copy</butto
       <ul><li>First release: camera, battery and NVR health, alerts, AI rule engine, single-organization sites</li></ul>
     </section>
 
-    <footer>3C ITS VisionOps v0.3.1. Screenshots re-captured from a fresh install with <code>docs/install-guide/capture.sh</code>. The README and docs/VERIFICATION.md in the repository say exactly what has been tested and what is still planned.</footer>
+    <footer>3C ITS VisionOps v0.3.2. Screenshots re-captured from a fresh install with <code>docs/install-guide/capture.sh</code>. The README and docs/VERIFICATION.md in the repository say exactly what has been tested and what is still planned.</footer>
   </main>
 </div>
 

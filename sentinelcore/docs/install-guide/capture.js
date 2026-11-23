@@ -17,7 +17,7 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
     return p;
   };
   const login = async (p, u, pw) => {
-    await p.goto(BASE); await p.waitForSelector("#loginForm");
+    await p.goto(BASE + "/#/login"); await p.waitForSelector("#loginForm");
     await p.fill("input[name=username]", u); await p.fill("input[name=password]", pw);
     await p.click("button[type=submit]"); await p.waitForSelector(".kpi");
   };
@@ -26,7 +26,9 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
   const toastGone = async (p) => { await p.evaluate(() => { const t = document.querySelector("#toast"); if (t) t.hidden = true; }); };
 
   const a = await newPage();
-  await a.goto(BASE); await a.waitForSelector("#loginForm");
+  await a.goto(BASE); await a.waitForSelector(".lp-hero");
+  await shot(a, "00-landing");
+  await a.click(".lp-links .btn.primary"); await a.waitForSelector("#loginForm");
   await a.fill("input[name=username]", "admin"); await a.fill("input[name=password]", PW);
   await shot(a, "01-login");
   await a.click("button[type=submit]"); await a.waitForSelector(".kpi");

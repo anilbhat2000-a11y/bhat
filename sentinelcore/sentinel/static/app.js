@@ -34,8 +34,9 @@ async function api(path, opts = {}) {
     delete o.json;
   }
   const r = await fetch(path, o);
-  if (r.status === 401 && !path.startsWith("/api/auth/login")) {
+  if (r.status === 401 && !path.startsWith("/api/auth/login") && !path.startsWith("/api/auth/me")) {
     state.me = null;
+    history.replaceState(null, "", "#/login");
     renderLogin();
     throw new Error("Session expired");
   }
@@ -177,7 +178,7 @@ function renderLogin(msg = "") {
       <label class="field">Password<input name="password" type="password" autocomplete="current-password" required></label>
       <div class="err" id="loginErr">${esc(msg)}</div>
       <button class="btn primary" type="submit">Sign in</button>
-    </form></div></div>`;
+    </form><a class="small login-back" href="#/">← Back to home</a></div></div>`;
   $("#loginForm").onsubmit = async (e) => {
     e.preventDefault();
     const f = new FormData(e.target);
@@ -256,12 +257,18 @@ async function route() {
   }
 }
 
+function showPublic() {
+  if (location.hash === "#/login") renderLogin();
+  else renderLanding();
+}
+
 async function boot() {
   try {
     state.me = await api("/api/auth/me");
   } catch {
-    return renderLogin();
+    return showPublic();
   }
+  if (location.hash === "#/login" || location.hash === "#/" || !location.hash) history.replaceState(null, "", "#/overview");
   await refreshLocations();
   $("#sidebar").hidden = false;
   $("#topbar").hidden = false;
@@ -1255,6 +1262,145 @@ async function renderCapabilities() {
   }));
 }
 
+
+// --------------------------------------------------------------- landing --
+// Public landing page shown before sign-in. The hero picture is drawn in SVG
+// (works offline); if /static/landing.jpg exists it is shown instead.
+const LP_TILES = [
+  ["CAM 01", "Main Gate", "gate"], ["CAM 02", "Parking B1", "parking"], ["CAM 03", "Lobby", "lobby"], ["CAM 04", "Loading Bay", "dock"],
+  ["CAM 05", "Perimeter East", "fence", true], ["CAM 06", "Server Room", "racks"], ["CAM 07", "Warehouse Aisle 4", "aisle"], ["CAM 08", "Cash Counter", "counter"],
+  ["CAM 09", "ATM Lobby", "atm"], ["CAM 10", "Platform 2", "platform"], ["CAM 11", "Corridor L3", "corridor"], ["CAM 12", "Yard", "yard"],
+];
+
+function lpScene(kind, x, y, w, h) {
+  // Simple, recognisable scenes drawn inside one video tile.
+  const r = (rx, ry, rw, rh, c, o = 1) => `<rect x="${x + rx * w}" y="${y + ry * h}" width="${rw * w}" height="${rh * h}" fill="${c}" opacity="${o}"/>`;
+  const person = (px, py, s = 1) => `<circle cx="${x + px * w}" cy="${y + (py - 0.16 * s) * h}" r="${0.035 * s * w}" fill="#cfe3ff"/><rect x="${x + (px - 0.03 * s) * w}" y="${y + (py - 0.12 * s) * h}" width="${0.06 * s * w}" height="${0.14 * s * h}" rx="2" fill="#9fc2f0"/>`;
+  const car = (cx, cy, c) => `<rect x="${x + cx * w}" y="${y + cy * h}" width="${0.2 * w}" height="${0.1 * h}" rx="3" fill="${c}"/><rect x="${x + (cx + 0.04) * w}" y="${y + (cy - 0.05) * h}" width="${0.12 * w}" height="${0.06 * h}" rx="2" fill="${c}" opacity=".8"/>`;
+  const floor = (c) => `<polygon points="${x},${y + h} ${x + w},${y + h} ${x + 0.7 * w},${y + 0.55 * h} ${x + 0.3 * w},${y + 0.55 * h}" fill="${c}"/>`;
+  switch (kind) {
+    case "gate": return r(0, 0, 1, 0.55, "#14324d") + floor("#1d3a2e") + r(0.1, 0.3, 0.06, 0.45, "#5b6f86") + r(0.84, 0.3, 0.06, 0.45, "#5b6f86") + r(0.16, 0.42, 0.68, 0.04, "#e8b341") + car(0.4, 0.7, "#c84a4a") + person(0.22, 0.86);
+    case "parking": return r(0, 0, 1, 1, "#1b2533") + [0.1, 0.36, 0.62].map((cx) => car(cx, 0.35, "#6c86a8") + car(cx, 0.68, cx === 0.36 ? "#d2d8e0" : "#4d6788")).join("") + r(0, 0.55, 1, 0.02, "#e8e3a0", 0.6);
+    case "lobby": return r(0, 0, 1, 0.55, "#2a2f3d") + floor("#3b3528") + r(0.38, 0.18, 0.24, 0.37, "#7fb4d6", 0.5) + person(0.3, 0.86) + person(0.55, 0.8, 0.85) + person(0.72, 0.9, 1.1);
+    case "dock": return r(0, 0, 1, 1, "#262a31") + r(0.08, 0.2, 0.36, 0.5, "#3c4552") + r(0.56, 0.2, 0.36, 0.5, "#3c4552") + r(0.12, 0.4, 0.28, 0.3, "#c9772b") + person(0.7, 0.88) + r(0, 0.82, 1, 0.18, "#30353d");
+    case "fence": return r(0, 0, 1, 1, "#0f2a22") + Array.from({ length: 9 }, (_, i) => r(0.05 + i * 0.11, 0.3, 0.012, 0.45, "#7c8b84")).join("") + r(0, 0.32, 1, 0.012, "#7c8b84") + r(0, 0.52, 1, 0.012, "#7c8b84") + person(0.62, 0.85, 1.1) + `<rect class="lp-box" x="${x + 0.55 * w}" y="${y + 0.52 * h}" width="${0.15 * w}" height="${0.38 * h}" fill="none" stroke="#ff4d4d" stroke-width="1.6"/>`;
+    case "racks": return r(0, 0, 1, 1, "#121a26") + [0.1, 0.4, 0.7].map((rx) => r(rx, 0.15, 0.2, 0.75, "#1f2c3d") + Array.from({ length: 6 }, (_, i) => r(rx + 0.03, 0.22 + i * 0.11, 0.14, 0.05, i % 2 ? "#37d67a" : "#2f81f7", 0.8)).join("")).join("");
+    case "aisle": return r(0, 0, 1, 1, "#22262c") + floor("#3a3f47") + r(0.02, 0.1, 0.2, 0.8, "#4a5566") + r(0.78, 0.1, 0.2, 0.8, "#4a5566") + r(0.05, 0.25, 0.14, 0.1, "#c99a4b") + r(0.81, 0.45, 0.14, 0.1, "#c99a4b") + r(0.42, 0.6, 0.16, 0.18, "#e0b13a") + person(0.6, 0.9, 0.9);
+    case "counter": return r(0, 0, 1, 0.6, "#2b2433") + r(0, 0.6, 1, 0.4, "#3d3446") + r(0.1, 0.5, 0.8, 0.12, "#6b5a7a") + person(0.3, 0.55, 0.9) + person(0.7, 0.92, 1.1) + person(0.5, 0.95, 1.05);
+    case "atm": return r(0, 0, 1, 1, "#1e2a3a") + r(0.35, 0.2, 0.3, 0.65, "#455a78") + r(0.4, 0.28, 0.2, 0.15, "#7fd1ff", 0.7) + person(0.5, 0.95, 1.2);
+    case "platform": return r(0, 0, 1, 0.5, "#1c2430") + r(0, 0.5, 1, 0.5, "#4b4f57") + r(0, 0.62, 1, 0.03, "#e8d34a") + r(0, 0.2, 1, 0.25, "#6b2f2f") + person(0.2, 0.92) + person(0.4, 0.88, 0.9) + person(0.75, 0.95, 1.1);
+    case "corridor": return r(0, 0, 1, 1, "#1f232b") + `<polygon points="${x + 0.25 * w},${y} ${x + 0.75 * w},${y} ${x + w},${y + h} ${x},${y + h}" fill="#2e333d"/>` + r(0.44, 0.15, 0.12, 0.2, "#7a8597", 0.6) + person(0.52, 0.8, 0.8);
+    default: return r(0, 0, 1, 1, "#1d2a22") + car(0.15, 0.55, "#e2e2e2") + car(0.55, 0.62, "#3e7cc2") + r(0, 0.8, 1, 0.2, "#2a352c");
+  }
+}
+
+function lpCommandCentre() {
+  const W = 1200, H = 730;
+  const cols = 4, rows = 3, gx = 150, gy = 40, gw = 900, gh = 360, gap = 8;
+  const tw = (gw - gap * (cols - 1)) / cols, th = (gh - gap * (rows - 1)) / rows;
+  const tiles = LP_TILES.map(([id, name, kind, alert], i) => {
+    const x = gx + (i % cols) * (tw + gap), y = gy + Math.floor(i / cols) * (th + gap);
+    return `<g class="lp-tile${alert ? " lp-alert" : ""}">
+      <clipPath id="lpc${i}"><rect x="${x}" y="${y}" width="${tw}" height="${th}" rx="3"/></clipPath>
+      <g clip-path="url(#lpc${i})">${lpScene(kind, x, y, tw, th)}<rect class="lp-scan" x="${x}" y="${y}" width="${tw}" height="${th * 0.12}" fill="#ffffff" opacity=".05"/></g>
+      <rect x="${x}" y="${y}" width="${tw}" height="${th}" rx="3" fill="none" stroke="${alert ? "#ff4d4d" : "#2b3a52"}" stroke-width="${alert ? 3 : 1}"/>
+      <rect x="${x + 6}" y="${y + 6}" width="${Math.min(tw - 12, 150)}" height="17" rx="3" fill="#000" opacity=".55"/>
+      <text x="${x + 12}" y="${y + 18}" class="lp-tile-label">${id} · ${name}</text>
+      <circle class="lp-rec" cx="${x + tw - 14}" cy="${y + 14}" r="4" fill="#ff3b3b"/>
+      <text x="${x + tw - 8}" y="${y + th - 8}" text-anchor="end" class="lp-tile-time" data-lp-clock>--:--:--</text>
+      ${alert ? `<rect x="${x + 6}" y="${y + th - 30}" width="150" height="20" rx="3" fill="#ff4d4d"/><text x="${x + 14}" y="${y + th - 16}" class="lp-alert-text">⚠ INTRUSION DETECTED</text>` : ""}
+    </g>`;
+  }).join("");
+  const operator = (cx, s, monitorGlow) => `<g transform="translate(${cx} 640) scale(${s})">
+      <rect x="-74" y="-66" width="66" height="42" rx="3" fill="#0d1726" stroke="#2a3f5c"/><rect x="-70" y="-62" width="58" height="34" fill="${monitorGlow}" opacity=".6"/>
+      <rect x="8" y="-66" width="66" height="42" rx="3" fill="#0d1726" stroke="#2a3f5c"/><rect x="12" y="-62" width="58" height="34" fill="#2f81f7" opacity=".5"/>
+      <rect x="-30" y="-6" width="60" height="70" rx="12" fill="#101a2a" stroke="#22344d"/>
+      <circle cx="0" cy="-22" r="19" fill="#0c1422" stroke="#5b8fd9" stroke-width="1.6" stroke-opacity=".75"/>
+      <path d="M-40 52 Q-40 6 0 2 Q40 6 40 52 Z" fill="#0c1422" stroke="#5b8fd9" stroke-width="1.6" stroke-opacity=".6"/>
+      <path d="M-19 -30 Q0 -46 19 -30" fill="none" stroke="#7fb0ff" stroke-width="2.4" opacity=".8"/>
+      <rect x="-21" y="-28" width="5" height="10" rx="2" fill="#7fb0ff" opacity=".8"/>
+    </g>`;
+  return `<svg class="lp-scene" viewBox="0 0 ${W} ${H}" role="img" aria-label="Command centre: operators at their desks monitoring a wall of live CCTV camera feeds, one camera raising an intrusion alert">
+    <defs>
+      <radialGradient id="lpGlow" cx="50%" cy="35%" r="65%"><stop offset="0" stop-color="#1b4b8f" stop-opacity=".55"/><stop offset="1" stop-color="#05080f" stop-opacity="0"/></radialGradient>
+      <linearGradient id="lpFloor" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0b1424"/><stop offset="1" stop-color="#04070d"/></linearGradient>
+      <linearGradient id="lpDesk" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1a2638"/><stop offset="1" stop-color="#0b111b"/></linearGradient>
+    </defs>
+    <rect width="${W}" height="${H}" fill="#05080f"/>
+    <rect width="${W}" height="${H}" fill="url(#lpGlow)"/>
+    <rect x="${gx - 18}" y="${gy - 18}" width="${gw + 36}" height="${gh + 36}" rx="10" fill="#0a111d" stroke="#1d2b40"/>
+    ${tiles}
+    <rect x="${gx - 18}" y="${gy + gh + 22}" width="${gw + 36}" height="26" rx="5" fill="#0a111d" stroke="#1d2b40"/>
+    <text x="${gx}" y="${gy + gh + 40}" class="lp-ticker">● LIVE  48 cameras online · 6 NVRs healthy · 1 alert: Perimeter East intrusion — escalated to Regional Security Manager</text>
+    <path d="M0 470 L${W} 470 L${W} ${H} L0 ${H} Z" fill="url(#lpFloor)"/>
+    <ellipse cx="600" cy="470" rx="560" ry="40" fill="#1b4b8f" opacity=".18"/>
+    <path d="M60 612 Q600 548 1140 612 L1140 650 Q600 590 60 650 Z" fill="url(#lpDesk)" stroke="#2a3f5c"/>
+    ${operator(290, 1.35, "#37d67a")}${operator(600, 1.45, "#ff4d4d")}${operator(910, 1.35, "#2f81f7")}
+  </svg>`;
+}
+
+const LP_FEATURES = [
+  ["Every camera, every site", "Bring IP cameras, NVRs and analog encoders from all branches into one live view, added in bulk from CSV, NVR channels or ONVIF discovery."],
+  ["Know before it fails", "Camera health, battery level, NVR disks and recording gaps checked every 30 seconds, with the exact error and a one-click troubleshooter."],
+  ["AI that fits your industry", "184 ready use cases across 13 sectors: tailgating, vault two-person rule, forklift safety, queues, falls, intrusions and more."],
+  ["The right person, right away", "Alerts go to the people named for each location by email or SMS, and escalate up the chain if nobody responds."],
+  ["Control that follows your hierarchy", "Corporate, regions and branches each see what is theirs. Device changes can wait for approval from the level above."],
+  ["Yours, on your premises", "Runs entirely on your own servers, with no cloud and no internet needed. Every action is recorded in the audit log."],
+];
+const LP_SECTORS = ["Banking & ATMs", "Retail", "Logistics & warehousing", "IT / ITES", "BPO & KPO", "Hospitals", "Healthcare & pharma", "Shopping malls", "Railway stations", "Bus fleets", "Airports", "Branch networks", "Corporate campuses"];
+
+let lpClockTimer = null;
+function renderLanding() {
+  clearInterval(state.timer);
+  $("#sidebar").hidden = true;
+  $("#topbar").hidden = true;
+  view.className = "";
+  view.innerHTML = `<div class="lp">
+    <header class="lp-nav">
+      <a class="lp-brand" href="#/"><span class="logo-box lp-logo" data-logo-wrap hidden><img class="brand-logo" src="/static/logo.png" alt="3C ITS — Make IT Simple"></span>
+        <span class="lp-brand-text"><span data-logo-fallback>3C ITS </span><b>VisionOps</b></span></a>
+      <nav class="lp-links" aria-label="Landing"><a href="#features">Features</a><a href="#industries">Industries</a><a class="btn primary" href="#/login">Sign in</a></nav>
+    </header>
+    <section class="lp-hero">
+      <div class="lp-hero-text">
+        <div class="lp-eyebrow">On-premise AI video intelligence</div>
+        <h1>See everything.<br><span>Miss nothing.</span></h1>
+        <p>Every camera, every NVR, every branch — watched, checked and understood from one command centre.</p>
+        <div class="lp-cta"><a class="btn primary lp-big" href="#/login">Sign in to VisionOps</a><a class="btn lp-ghost lp-big" href="#features">What it does</a></div>
+        <div class="lp-stats">
+          <div><b>184</b><span>AI use cases</span></div><div><b>13</b><span>industries</span></div><div><b>24 × 7</b><span>health checks</span></div><div><b>100%</b><span>on-premise</span></div>
+        </div>
+      </div>
+      <figure class="lp-visual">
+        <img class="lp-photo" src="/static/landing.jpg" alt="Operators monitoring a CCTV video wall in a command centre" hidden>
+        <div class="lp-illustration">${lpCommandCentre()}</div>
+      </figure>
+    </section>
+    <section class="lp-section" id="features"><h2>One platform for your whole surveillance estate</h2>
+      <div class="lp-grid">${LP_FEATURES.map(([t, d]) => `<div class="lp-card"><h3>${t}</h3><p>${d}</p></div>`).join("")}</div></section>
+    <section class="lp-section" id="industries"><h2>Built for the places that can't afford blind spots</h2>
+      <div class="lp-chips">${LP_SECTORS.map((s) => `<span>${s}</span>`).join("")}</div></section>
+    <section class="lp-band"><div><h2>Your command centre is one sign-in away.</h2><p>Use the account your administrator gave you.</p></div><a class="btn primary lp-big" href="#/login">Sign in</a></section>
+    <footer class="lp-foot"><span>3C ITS — Make IT Simple</span><span>3C ITS VisionOps · On-premise CCTV health &amp; AI analytics</span></footer>
+  </div>`;
+  // Real photo, if provided, replaces the illustration.
+  const photo = $(".lp-photo");
+  photo.onload = () => { photo.hidden = false; $(".lp-illustration").hidden = true; };
+  photo.onerror = () => { photo.hidden = true; };
+  $$(".lp-links a[href^='#features'], .lp-links a[href^='#industries'], .lp-cta a[href='#features']").forEach((a) => (a.onclick = (e) => {
+    e.preventDefault();
+    document.getElementById(a.getAttribute("href").slice(1)).scrollIntoView({ behavior: "smooth" });
+  }));
+  const tick = () => {
+    const t = new Date().toLocaleTimeString([], { hour12: false });
+    $$("[data-lp-clock]").forEach((el) => (el.textContent = t));
+  };
+  tick();
+  clearInterval(lpClockTimer);
+  lpClockTimer = setInterval(() => { if ($("[data-lp-clock]")) tick(); else clearInterval(lpClockTimer); }, 1000);
+  applyLogo();
+}
+
 // ------------------------------------------------------------------ logo ---
 // The company logo lives at /static/logo.png. Until that file exists the text name is shown.
 const logoState = { ok: null };
@@ -1284,11 +1430,11 @@ function initTheme() {
     try { localStorage.setItem("sc-theme", next); } catch { /* ignore */ }
   };
 }
-$("#logoutBtn").onclick = async () => { await api("/api/auth/logout", { method: "POST" }); state.me = null; renderLogin(); };
+$("#logoutBtn").onclick = async () => { await api("/api/auth/logout", { method: "POST" }); state.me = null; history.replaceState(null, "", "#/"); renderLanding(); };
 $("#menuBtn").onclick = () => $("#sidebar").classList.toggle("open");
 $("#drawerClose").onclick = closeDrawer;
 $("#drawer").onclick = (e) => { if (e.target.id === "drawer") closeDrawer(); };
 document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeDrawer(); });
-window.addEventListener("hashchange", () => state.me && route());
+window.addEventListener("hashchange", () => (state.me ? route() : showPublic()));
 initTheme();
 boot();
