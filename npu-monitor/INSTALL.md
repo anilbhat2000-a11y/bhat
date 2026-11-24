@@ -330,7 +330,7 @@ Python and drivers must already be installed from their offline installers.
 | Update | Replace the application files (keep `data`, `reports`, `models`), then re-run `install.ps1` with the same options | Same, with `install.sh`, then `sudo systemctl restart 3cits-ai-pc` |
 | Back up | Copy the `data` (users, inventory, battery history, settings) and `reports` folders | Same |
 | Restore | Put `data` and `reports` back, then start the app | Same |
-| Forgotten admin password | Stop the app, delete `data\users.json`, start it, and create the administrator again on the machine itself. Reports and inventory are kept. | Same |
+| Forgotten admin password | Stop the app, then `.venv\Scripts\python tools\reset_password.py --user admin`, then start it again. Other users and all data are kept. | `sudo systemctl stop 3cits-ai-pc`, then `sudo -u 3cits .venv/bin/python tools/reset_password.py --user admin`, then `sudo systemctl start 3cits-ai-pc` |
 | Uninstall | `install\windows\uninstall.ps1` (add `-RemoveData` to delete data too), then delete the folder | `sudo ./install/linux/uninstall.sh [--remove-data]`, then delete the folder |
 
 ---

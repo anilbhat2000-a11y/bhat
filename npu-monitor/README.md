@@ -90,7 +90,7 @@ On first start, open **http://localhost:8765** on the machine itself and create 
 * Passwords are stored as PBKDF2-SHA256 hashes (310 000 iterations) in `data/users.json`. Sessions use an HttpOnly, SameSite=Strict cookie and expire after the configured idle time. Restarting the app signs everyone out.
 * After 5 failed sign-ins (configurable) for a username or address, sign-in is locked for 5 minutes.
 * The **audit log** records sign-ins (including failures), user and security changes, assessments, fleet changes and camera starts.
-* If you forget the only admin password, stop the app, delete `data/users.json` and start again to re-run setup. The reports and battery log are kept.
+* Forgotten admin password: stop the app and run `python tools/reset_password.py --user admin` on the server (Linux service: `sudo -u 3cits .venv/bin/python tools/reset_password.py --user admin`). Other users and all data are kept.
 
 ## Display settings and languages
 
