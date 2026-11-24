@@ -19,7 +19,10 @@ services:
     restart: unless-stopped
 
   app:
-    build: .
+    build:
+      context: .
+      args:
+        ALPINE_MIRROR: ${ALPINE_MIRROR:-}
     image: lms-app
     # Node uses one CPU core per process, so several replicas share the load. Nginx spreads
     # requests across them. 3 replicas suit an 8 vCPU server (see docs/ARCHITECTURE.md).
