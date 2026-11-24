@@ -13,7 +13,7 @@ This report follows Section 11 of the build prompt: every claim is backed by a t
 | Privacy law | India, DPDP Act 2023 (see the gaps below) | — |
 | Database | SQLite (dev) and PostgreSQL 16 (prod). **Both tested** | — |
 
-## Tested here (`pytest -q`: 75 passed on SQLite; the earlier 63-test suite also passed on PostgreSQL 16)
+## Tested here (`pytest -q`: 77 passed on SQLite; the earlier 63-test suite also passed on PostgreSQL 16)
 
 ### Dashboards, map and live view (v0.4)
 
@@ -106,6 +106,7 @@ This report follows Section 11 of the build prompt: every claim is backed by a t
 | Launcher: settings file, port check, start, restart after crash, stop | Done (Linux) | `test_launcher.py` |
 | Launcher health check ignores proxy settings (company PCs) | Done | `test_health_check_ignores_proxy_settings` |
 | Diagnostics report (`--diagnose`, logs/diagnose.txt) | Done | `test_diagnose_writes_report` |
+| Admin username/password reset from the server (`python -m sentinel.reset_admin`) | Done | `test_reset_admin.py`; also run as root against a live service DB owned by `sentinel` |
 
 ## Written but NOT verified against real hardware (additions)
 

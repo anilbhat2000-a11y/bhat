@@ -598,6 +598,7 @@ sudo journalctl -u sentinelcore -f</code></pre><button type="button">Copy</butto
         <tr><td>A branch admin's change did not appear</td><td>The organization requires approval; look on <b>Approvals</b></td></tr>
         <tr><td>CSV row: “matches 2 locations”</td><td>Two locations share that name; use the location code or full path</td></tr>
         <tr><td>VisionOps stopped or froze while running in a PowerShell window</td><td>Someone clicked inside the window (Windows pauses it), or the window was closed. Start with <b>start-visionops.bat</b> instead (step 2); it runs in the background and restarts itself</td></tr>
+        <tr><td>Forgot the admin password, or want a different admin username</td><td>On the server, run the reset tool. It asks for the new username (Enter keeps the current one) and the new password. Ubuntu: <code>cd /opt/bhat/sentinelcore &amp;&amp; sudo .venv/bin/python -m sentinel.reset_admin</code>. Windows: in the <code>sentinelcore</code> folder, <code>python -m sentinel.reset_admin</code>. If sign-in was blocked after wrong attempts, restart VisionOps</td></tr>
         <tr><td>The start window flashes and closes</td><td>You have an older copy of the launcher. Run <code>git pull</code> in the <code>sentinelcore</code> folder; from v0.4.3 the window stays open and shows the reason</td></tr>
         <tr><td>Double-clicking start-visionops.bat does nothing, or the browser does not open</td><td>Look at the launcher window: it says what is wrong. Everything it says is also saved in <code>logs\launcher.log</code>. Try <code>http://127.0.0.1:8080</code> in the browser. If it still does not open, double-click <b>diagnose-visionops.bat</b> and send <code>logs\diagnose.txt</code> to support</td></tr>
         <tr><td>The launcher says “stopped several times in a row”</td><td>Something stops it at start-up. The launcher shows the last lines of <code>logs\server-output.log</code>; send that file to support</td></tr>
@@ -612,6 +613,7 @@ sudo journalctl -u sentinelcore -f</code></pre><button type="button">Copy</butto
       <h3>v0.4.4 — 24 Nov 2026</h3>
       <ul>
         <li>One-step Ubuntu server installer: install-ubuntu.sh (step 20)</li>
+        <li>Admin reset tool: python -m sentinel.reset_admin changes the administrator's username and password from the server (see Troubleshooting)</li>
         <li>3C ITS logo added at the top left of the dashboard and on the sign-in screen</li>
         <li>Company name “3C IT SOLUTIONS &amp; TELECOMS INDIA LIMITED” shown under the logo</li>
       </ul>
