@@ -255,7 +255,8 @@ journalctl -u 3cits-ai-pc -f
    * **Administrator:** can also manage users, machines and security.
 
    New users choose their own password at first sign-in.
-5. Optional: **⚙ Settings** for language (English, Hindi, Kannada, Tamil, Telugu), theme, font and text size.
+5. Optional: **Admin panel → Security → Email (SMTP)** with your office mail server, then **Send test**. Users who click **Forgot password?** then get a reset link by email. Without email, their request appears in **Admin panel → Users**, where you click **Set temporary password**.
+6. Optional: **⚙ Settings** for language (English, Hindi, Kannada, Tamil, Telugu), theme, font and text size.
 
 **Optional, better labels.** The built-in AI model needs no download. For real image labels (ImageNet), run once on a machine with internet:
 

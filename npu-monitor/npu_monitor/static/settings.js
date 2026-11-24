@@ -155,10 +155,10 @@
     } catch { return null; }
     const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
     const roleName = { admin: "Administrator", operator: "Operator", viewer: "Viewer" }[me.role] || me.role;
-    slot.innerHTML = `<details class="usermenu"><summary><span class="avatar" aria-hidden="true">${esc((me.display_name || me.username)[0].toUpperCase())}</span>
+    slot.innerHTML = `<details class="usermenu"><summary><span class="avatar" aria-hidden="true">${esc((me.display_name || me.username)[0].toUpperCase())}</span>${me.pending_resets ? `<span class="pill no" title="password reset requests waiting">${me.pending_resets}</span>` : ""}
         <span class="who"><b>${esc(me.display_name)}</b><span class="small">${esc(roleName)}</span></span></summary>
       <div class="menu">
-        ${me.role === "admin" ? `<a href="/admin">Admin panel</a>` : ""}
+        ${me.role === "admin" ? `<a href="/admin">Admin panel${me.pending_resets ? ` <span class="pill no" title="password reset requests">${me.pending_resets}</span>` : ""}</a>` : ""}
         <button type="button" data-act="pw">Change password</button>
         <button type="button" data-act="out">Sign out</button>
       </div></details>`;

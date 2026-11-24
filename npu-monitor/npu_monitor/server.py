@@ -34,7 +34,7 @@ MAX_UPLOAD = int(os.environ.get("NPU_MONITOR_MAX_UPLOAD_MB", "200")) * 1024 * 10
 LOOPBACK = {"127.0.0.1", "::1", "localhost", "testclient"}
 
 
-PUBLIC_PATHS = {"/", "/login", "/api/machines/enrol", "/api/auth/login", "/api/auth/setup", "/api/auth/status", "/favicon.ico"}
+PUBLIC_PATHS = {"/", "/login", "/forgot", "/reset", "/api/auth/forgot", "/api/auth/reset", "/api/auth/reset-check", "/api/machines/enrol", "/api/auth/login", "/api/auth/setup", "/api/auth/status", "/favicon.ico"}
 # What a fleet hub may call on this machine with the machine token (no user login).
 FLEET_TOKEN_ROUTES = (("GET", "/api/node"), ("POST", "/api/assessment"), ("GET", "/api/jobs/"))
 
@@ -89,10 +89,22 @@ class UserCreate(BaseModel):
     password: str
     role: str = "viewer"
     display_name: str = ""
+    email: str = ""
+
+
+class ForgotReq(BaseModel):
+    username: str
+    note: str = ""
+
+
+class ResetReq(BaseModel):
+    token: str
+    password: str
 
 
 class UserUpdate(BaseModel):
     display_name: str | None = None
+    email: str | None = None
     role: str | None = None
     active: bool | None = None
     password: str | None = None
@@ -306,6 +318,11 @@ def create_app(sampler: Sampler | None = None, engines: EngineManager | None = N
     def login_page():
         return FileResponse(os.path.join(STATIC, "login.html"))
 
+    @app.get("/forgot", include_in_schema=False)
+    @app.get("/reset", include_in_schema=False)
+    def forgot_page():
+        return FileResponse(os.path.join(STATIC, "forgot.html"))
+
     @app.get("/admin", include_in_schema=False)
     def admin_page():
         return FileResponse(os.path.join(STATIC, "admin.html"))
@@ -363,7 +380,133 @@ def create_app(sampler: Sampler | None = None, engines: EngineManager | None = N
 
     @app.get("/api/auth/me")
     def auth_me(request: Request):
-        return state["auth"].public(request.state.user)
+        u = state["auth"].public(request.state.user)
+        if u["role"] == "admin":
+            u["pending_resets"] = len(state["auth"].pending_requests())
+        return u
+
+    # --- forgot password ------------------------------------------------------------------
+    def portal_url(request: Request) -> str:
+        return state["auth"].security.get("portal_url") or str(request.base_url).rstrip("/")
+
+    def send_mail_bg(to: str, subject: str, text: str, html: str, what: str) -> None:
+        smtp = dict(state["auth"].security.get("smtp") or {})
+
+        def run():
+            from .mailer import send
+            try:
+                send(smtp, to, subject, text, html)
+            except Exception as exc:
+                state["auth"].audit("system", "email_failed", f"{what} to {to}: {exc}")
+        threading.Thread(target=run, daemon=True).start()
+
+    GENERIC = ("If this account exists, a password reset link has been emailed to its owner or the administrators "
+               "have been notified. Please check your email or contact your administrator.")
+
+    @app.post("/api/auth/forgot")
+    def auth_forgot(req: ForgotReq, request: Request):
+        st, ip = state["auth"], _client_ip(request)
+        if not st.forgot_allowed(ip):
+            raise HTTPException(429, "too many requests; please try again in a few minutes")
+        u = st.find_user(req.username)
+        if not u or not u.get("active", True):
+            st.audit(req.username[:64] or "?", "password_forgot_unknown", "", ip)
+            return {"message": GENERIC}
+        name = u["username"]
+        from html import escape as hx
+        dn, note = hx(u["display_name"]), hx(req.note or "-")
+        if st.email_configured() and u.get("email"):
+            token = st.create_reset_token(name)
+            link = f"{portal_url(request)}/reset?token={token}"
+            text = (f"Hello {u['display_name']},\n\nA password reset was requested for your account '{name}' on the "
+                    f"3C ITS AI PC Health Checker.\n\nSet a new password here (valid {30} minutes, single use):\n{link}\n\n"
+                    "If you did not ask for this, ignore this email; your password stays the same.\n\n3C ITS - Make IT Simple")
+            html = (f"<p>Hello {dn},</p><p>A password reset was requested for your account "
+                    f"<b>{name}</b> on the 3C ITS AI PC Health Checker.</p><p><a href=\"{link}\" style=\"background:#04735f;"
+                    "color:#fff;padding:10px 18px;border-radius:8px;text-decoration:none\">Set a new password</a></p>"
+                    "<p>The link is valid for 30 minutes and works once. If you did not ask for this, ignore this email.</p>"
+                    "<p style=\"color:#5f7d74\">3C ITS - Make IT Simple</p>")
+            send_mail_bg(u["email"], "Reset your 3C ITS AI PC Health Checker password", text, html, "reset link")
+            st.audit(name, "password_reset_link_sent", u["email"], ip)
+        else:
+            if st.add_request(name, ip, req.note):
+                st.audit(name, "password_reset_requested", req.note[:120], ip)
+                if st.email_configured():
+                    for adm in st.users.values():
+                        if adm["role"] == "admin" and adm.get("active", True) and adm.get("email") and adm["username"] != name:
+                            send_mail_bg(adm["email"], f"Password reset requested: {name}",
+                                         f"{u['display_name']} ({name}) asked for a password reset.\n"
+                                         f"Note: {req.note or '-'}\nOpen {portal_url(request)}/admin to set a temporary password.",
+                                         f"<p><b>{dn}</b> ({hx(name)}) asked for a password reset.</p>"
+                                         f"<p>Note: {note}</p><p><a href=\"{portal_url(request)}/admin\">Open the Admin panel</a></p>",
+                                         "admin notification")
+        return {"message": GENERIC}
+
+    @app.get("/api/auth/reset-check")
+    def auth_reset_check(token: str = ""):
+        name = state["auth"].token_user(token)
+        return {"valid": bool(name), "username": name,
+                "min_password_length": state["auth"].security["min_password_length"]}
+
+    @app.post("/api/auth/reset")
+    def auth_reset(req: ResetReq, request: Request):
+        try:
+            name = state["auth"].reset_with_token(req.token, req.password)
+        except AuthError as e:
+            raise HTTPException(e.status, str(e))
+        state["auth"].audit(name, "password_reset_by_link", "", _client_ip(request))
+        return {"ok": True, "username": name}
+
+    @app.get("/api/users/requests")
+    def reset_requests():
+        return state["auth"].pending_requests()
+
+    @app.post("/api/users/requests/{req_id}/dismiss")
+    def reset_request_dismiss(req_id: str, request: Request):
+        q = next((x for x in state["auth"].pending_requests() if x["id"] == req_id), None)
+        if not q:
+            raise HTTPException(404, "request not found")
+        state["auth"].resolve_requests(q["user"], actor(request), "dismissed", req_id)
+        audit(request, "password_reset_request_dismissed", q["user"])
+        return {"ok": True}
+
+    @app.post("/api/users/{username}/send-reset")
+    def send_reset_link(username: str, request: Request):
+        st = state["auth"]
+        u = st.users.get(username)
+        if not u:
+            raise HTTPException(404, "user not found")
+        if not st.email_configured():
+            raise HTTPException(400, "email is not configured (Admin panel > Security > Email)")
+        if not u.get("email"):
+            raise HTTPException(400, "this user has no email address; set a temporary password instead")
+        token = st.create_reset_token(username)
+        link = f"{portal_url(request)}/reset?token={token}"
+        from .mailer import send
+        try:
+            send(dict(st.security.get("smtp") or {}), u["email"], "Reset your 3C ITS AI PC Health Checker password",
+                 f"Hello {u['display_name']},\n\nYour administrator sent you a password reset link (valid 30 minutes, single use):\n{link}\n\n3C ITS - Make IT Simple",
+                 f"<p>Hello {__import__('html').escape(u['display_name'])},</p><p>Your administrator sent you a password reset link.</p>"
+                 f"<p><a href=\"{link}\">Set a new password</a> (valid 30 minutes, single use)</p>")
+        except Exception as exc:
+            raise HTTPException(502, f"could not send email: {exc}")
+        st.resolve_requests(username, actor(request), "reset link emailed")
+        audit(request, "password_reset_link_sent", f"{username} <{u['email']}>")
+        return {"ok": True, "sent_to": u["email"]}
+
+    @app.post("/api/security/test-email")
+    def test_email(body: dict, request: Request):
+        to = str(body.get("to") or "").strip()
+        if not to:
+            raise HTTPException(400, "enter an address to send the test to")
+        from .mailer import send
+        try:
+            send(dict(state["auth"].security.get("smtp") or {}), to, "3C ITS AI PC Health Checker: test email",
+                 "Email is working. Password reset links can now be sent from the portal.\n\n3C ITS - Make IT Simple")
+        except Exception as exc:
+            raise HTTPException(502, f"could not send email: {exc}")
+        audit(request, "test_email_sent", to)
+        return {"ok": True}
 
     @app.post("/api/auth/password")
     def auth_password(req: PasswordReq, request: Request):
@@ -381,7 +524,8 @@ def create_app(sampler: Sampler | None = None, engines: EngineManager | None = N
     @app.post("/api/users")
     def users_create(req: UserCreate, request: Request):
         try:
-            u = state["auth"].create_user(req.username, req.password, req.role, req.display_name, must_change=True)
+            u = state["auth"].create_user(req.username, req.password, req.role, req.display_name, must_change=True,
+                                          email=req.email)
         except AuthError as e:
             raise HTTPException(e.status, str(e))
         audit(request, "user_created", f"{u['username']} ({u['role']})")
@@ -391,7 +535,7 @@ def create_app(sampler: Sampler | None = None, engines: EngineManager | None = N
     def users_update(username: str, req: UserUpdate, request: Request):
         try:
             u = state["auth"].update_user(username, actor(request), display_name=req.display_name, role=req.role,
-                                          active=req.active, password=req.password)
+                                          active=req.active, password=req.password, email=req.email)
         except AuthError as e:
             raise HTTPException(e.status, str(e))
         changes = [f"{k}={v}" for k, v in req.model_dump().items() if v is not None and k != "password"]
@@ -415,7 +559,7 @@ def create_app(sampler: Sampler | None = None, engines: EngineManager | None = N
 
     @app.get("/api/security")
     def security_get():
-        return {**state["auth"].security, "fleet_token_set": bool(os.environ.get("NPU_MONITOR_TOKEN")),
+        return {**state["auth"].public_security(), "fleet_token_set": bool(os.environ.get("NPU_MONITOR_TOKEN")),
                 "active_sessions": len(state["auth"].sessions)}
 
     @app.put("/api/security")
@@ -424,7 +568,7 @@ def create_app(sampler: Sampler | None = None, engines: EngineManager | None = N
             sec = state["auth"].update_security(values)
         except (AuthError, ValueError, TypeError) as e:
             raise HTTPException(400, str(e))
-        audit(request, "security_updated", ", ".join(f"{k}={v}" for k, v in values.items()))
+        audit(request, "security_updated", ", ".join(k if k == "smtp" else f"{k}={v}" for k, v in values.items()))
         return sec
 
     # --- system & telemetry ----------------------------------------------------

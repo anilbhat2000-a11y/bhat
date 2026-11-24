@@ -27,6 +27,9 @@
   dialog.ed form { padding: 18px; display: grid; gap: 12px; }
   dialog.ed .foot { display: flex; justify-content: flex-end; gap: 8px; }
   .filter { margin-bottom: 10px; width: min(320px, 100%); }
+  .reqbox { border: 1px solid var(--warn); border-radius: 12px; padding: 4px 14px 10px; margin-bottom: 16px;
+    background: color-mix(in srgb, var(--warn) 8%, var(--surface-1)); }
+  .reqbox h3 { color: var(--warn); }
 </style>
 </head>
 <body data-role="admin">
@@ -47,12 +50,18 @@
 
 <main class="admin-main">
   <div class="tabs" role="tablist">
-    <button role="tab" aria-selected="true" aria-controls="tabUsers" id="tUsers">Users</button>
+    <button role="tab" aria-selected="true" aria-controls="tabUsers" id="tUsers">Users <span class="pill no" id="reqBadge" hidden></span></button>
     <button role="tab" aria-selected="false" aria-controls="tabAudit" id="tAudit">Audit log</button>
     <button role="tab" aria-selected="false" aria-controls="tabSec" id="tSec">Security</button>
   </div>
 
   <section class="card" id="tabUsers" role="tabpanel" aria-labelledby="tUsers">
+    <div class="reqbox" id="reqBox" hidden>
+      <h3>Password reset requests</h3>
+      <div class="scroll"><table class="tbl" id="reqTbl">
+        <thead><tr><th>User</th><th>Requested</th><th>From</th><th>Message</th><th>Actions</th></tr></thead>
+        <tbody></tbody></table></div>
+    </div>
     <div class="card-head"><h2>Users</h2></div>
     <div class="roles small muted">
       <div>Viewer: can see dashboards and reports.</div>
@@ -60,12 +69,13 @@
       <div>Administrator: can also manage users, fleet machines and security.</div>
     </div>
     <div class="scroll"><table class="tbl" id="usersTbl">
-      <thead><tr><th>Username</th><th>Display name</th><th>Role</th><th>Status</th><th>Last sign-in</th><th>Actions</th></tr></thead>
+      <thead><tr><th>Username</th><th>Display name / email</th><th>Role</th><th>Status</th><th>Last sign-in</th><th>Actions</th></tr></thead>
       <tbody></tbody></table></div>
     <h3>Add user</h3>
     <form class="controls" id="addForm">
       <label>Username <input id="aUser" required autocomplete="off"></label>
       <label>Display name <input id="aName" autocomplete="off"></label>
+      <label>Email (optional) <input id="aEmail" type="email" autocomplete="off"></label>
       <label>Role <select id="aRole"><option value="viewer">Viewer</option><option value="operator">Operator</option><option value="admin">Administrator</option></select></label>
       <label>Temporary password <input id="aPass" type="password" required autocomplete="new-password"></label>
       <button class="btn">Add user</button>
@@ -94,12 +104,31 @@
       <p class="small muted" id="secInfo"></p>
       <button class="btn">Save security settings</button> <span class="small" id="secMsg" role="status"></span>
     </form>
+    <h3 style="margin-top:22px">Email (SMTP) for password reset links</h3>
+    <p class="muted small">Optional. With email set up, users who forget their password receive a one-time reset link (valid 30 minutes). Without it, requests appear above in Users and an administrator sets a temporary password.</p>
+    <form id="mailForm">
+      <div class="sec-grid">
+        <label>SMTP server <input id="mHost" placeholder="smtp.office365.com"></label>
+        <label>Port <input id="mPort" type="number" min="1" max="65535" placeholder="587"></label>
+        <label>Security <select id="mSec"><option value="starttls">STARTTLS (587)</option><option value="ssl">SSL/TLS (465)</option><option value="none">None (25, internal relay)</option></select></label>
+        <label>Username <input id="mUser" autocomplete="off"></label>
+        <label>Password <input id="mPass" type="password" autocomplete="new-password" placeholder="unchanged"></label>
+        <label>From address <input id="mFrom" placeholder="it-portal@company.com"></label>
+        <label>Portal address used in links <input id="mUrl" placeholder="http://192.168.1.205:8765"></label>
+      </div>
+      <p><button class="btn">Save email settings</button> <span class="small" id="mailMsg" role="status"></span></p>
+    </form>
+    <form class="controls" id="testForm">
+      <label>Send a test email to <input id="mTo" type="email" required></label>
+      <button class="btn ghost">Send test</button> <span class="small" id="testMsg" role="status"></span>
+    </form>
   </section>
 </main>
 
 <dialog class="ed" id="editDlg"><form id="editForm">
   <h2 id="editTitle">Edit</h2>
   <label>Display name <input id="eName"></label>
+  <label>Email (for password reset links) <input id="eEmail" type="email"></label>
   <label>Role <select id="eRole"><option value="viewer">Viewer</option><option value="operator">Operator</option><option value="admin">Administrator</option></select></label>
   <div class="err small" id="eErr" role="alert"></div>
   <div class="foot"><button type="button" class="btn ghost" data-close>Cancel</button><button class="btn">Save</button></div>

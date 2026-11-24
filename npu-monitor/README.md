@@ -90,6 +90,7 @@ On first start, open **http://localhost:8765** on the machine itself and create 
 * Passwords are stored as PBKDF2-SHA256 hashes (310 000 iterations) in `data/users.json`. Sessions use an HttpOnly, SameSite=Strict cookie and expire after the configured idle time. Restarting the app signs everyone out.
 * After 5 failed sign-ins (configurable) for a username or address, sign-in is locked for 5 minutes.
 * The **audit log** records sign-ins (including failures), user and security changes, assessments, fleet changes and camera starts.
+* **Forgot password?** on the sign-in page: with email configured (Admin panel → Security → Email) users get a one-time reset link valid 30 minutes; otherwise the request appears in **Admin panel → Users → Password reset requests** for an administrator to set a temporary password. The page never reveals whether an account exists and is rate-limited.
 * Forgotten admin password: stop the app and run `python tools/reset_password.py --user admin` on the server (Linux service: `sudo -u 3cits .venv/bin/python tools/reset_password.py --user admin`). Other users and all data are kept.
 
 ## Display settings and languages

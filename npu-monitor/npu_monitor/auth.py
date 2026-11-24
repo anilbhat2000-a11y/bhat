@@ -27,6 +27,8 @@ RANK = {r: i for i, r in enumerate(ROLES)}
 ITERATIONS = 310_000
 COOKIE = "npu_session"
 USERNAME_RE = re.compile(r"^[A-Za-z0-9._@-]{3,64}$")
+EMAIL_RE = re.compile(r"^[^@\s]{1,64}@[^@\s]{1,255}\.[^@\s]{2,}$")
+RESET_TOKEN_MINUTES = 30
 
 DEFAULT_SECURITY = {"session_minutes": 480, "min_password_length": 10, "max_failed_logins": 5, "lockout_minutes": 5}
 
@@ -128,8 +130,15 @@ class AuthStore:
         return not self.users
 
     def public(self, u: dict) -> dict:
-        return {k: u.get(k) for k in ("username", "display_name", "role", "active", "created", "last_login",
-                                      "must_change_password")}
+        return {k: u.get(k) for k in ("username", "display_name", "email", "role", "active", "created",
+                                      "last_login", "must_change_password")}
+
+    @staticmethod
+    def _clean_email(email: str | None) -> str | None:
+        email = (email or "").strip()
+        if email and not EMAIL_RE.match(email):
+            raise AuthError("that does not look like an email address")
+        return email or None
 
     def _check_password(self, password: str) -> None:
         n = int(self.security["min_password_length"])
@@ -142,7 +151,7 @@ class AuthStore:
         return sum(1 for u in self.users.values() if u["role"] == "admin" and u.get("active", True))
 
     def create_user(self, username: str, password: str, role: str = "viewer", display_name: str = "",
-                    must_change: bool = False) -> dict:
+                    must_change: bool = False, email: str | None = None) -> dict:
         username = username.strip()
         if not USERNAME_RE.match(username):
             raise AuthError("username: 3-64 characters, letters, digits and . _ @ - only")
@@ -153,13 +162,14 @@ class AuthStore:
             if username.lower() in (k.lower() for k in self.users):
                 raise AuthError("that username already exists", 409)
             self.users[username] = {"username": username, "display_name": display_name.strip() or username,
+                                    "email": self._clean_email(email),
                                     "role": role, "active": True, "password": hash_password(password),
                                     "created": time.time(), "last_login": None, "must_change_password": must_change}
             self._write("users.json", self.users)
             return self.public(self.users[username])
 
     def update_user(self, username: str, actor: str, *, display_name: str | None = None, role: str | None = None,
-                    active: bool | None = None, password: str | None = None) -> dict:
+                    active: bool | None = None, password: str | None = None, email: str | None = None) -> dict:
         with self._lock:
             u = self.users.get(username)
             if not u:
@@ -171,6 +181,8 @@ class AuthStore:
                 raise AuthError("you cannot change your own role or disable your own account")
             if display_name is not None:
                 u["display_name"] = display_name.strip() or username
+            if email is not None:
+                u["email"] = self._clean_email(email)
             if role is not None:
                 if role not in ROLES:
                     raise AuthError("invalid role")
@@ -181,6 +193,7 @@ class AuthStore:
                 self._check_password(password)
                 u["password"] = hash_password(password)
                 u["must_change_password"] = username != actor  # admin reset -> user must choose a new one
+                self.resolve_requests(username, actor, "temporary password set")
             self._write("users.json", self.users)
             if username != actor and (active is False or role is not None or password):
                 self.end_sessions(username)  # force re-login with the new rights / password
@@ -221,8 +234,131 @@ class AuthStore:
                     if not lo <= v <= hi:
                         raise AuthError(f"{k} must be between {lo} and {hi}")
                     self.security[k] = v
+            if "smtp" in values and isinstance(values["smtp"], dict):
+                cur = dict(self.security.get("smtp") or {})
+                new = values["smtp"]
+                for k in ("host", "username", "from_addr", "security"):
+                    if k in new:
+                        cur[k] = str(new[k] or "").strip()[:255]
+                if "port" in new:
+                    port = int(new["port"] or 0)
+                    if port and not 1 <= port <= 65535:
+                        raise AuthError("SMTP port must be between 1 and 65535")
+                    cur["port"] = port or None
+                if new.get("password"):  # blank keeps the stored password
+                    cur["password"] = str(new["password"])
+                if new.get("clear_password"):
+                    cur.pop("password", None)
+                if cur.get("security") not in (None, "", "starttls", "ssl", "none"):
+                    raise AuthError("SMTP security must be starttls, ssl or none")
+                self.security["smtp"] = cur
+            if "portal_url" in values:
+                url = str(values["portal_url"] or "").strip().rstrip("/")
+                if url and not re.match(r"^https?://[^\s/]+(:\d+)?(/.*)?$", url):
+                    raise AuthError("portal address must look like http://192.168.1.205:8765")
+                self.security["portal_url"] = url
             self._write("security.json", self.security)
-            return self.security
+            return self.public_security()
+
+    def public_security(self) -> dict:
+        out = {k: v for k, v in self.security.items() if k != "smtp"}
+        smtp = dict(self.security.get("smtp") or {})
+        out["smtp"] = {**{k: v for k, v in smtp.items() if k != "password"}, "has_password": bool(smtp.get("password"))}
+        out["email_configured"] = self.email_configured()
+        return out
+
+    def email_configured(self) -> bool:
+        smtp = self.security.get("smtp") or {}
+        return bool(smtp.get("host") and smtp.get("from_addr"))
+
+    # --- forgot password: reset links and admin requests -----------------------------------------
+    def _resets(self) -> dict:
+        if not hasattr(self, "_reset_cache"):
+            self._reset_cache = self._read("password_resets.json", {"tokens": {}, "requests": []})
+        return self._reset_cache
+
+    def _save_resets(self) -> None:
+        self._write("password_resets.json", self._resets())
+
+    def find_user(self, name: str) -> dict | None:
+        name = (name or "").strip().lower()
+        return next((v for k, v in self.users.items() if k.lower() == name or (v.get("email") or "").lower() == name), None)
+
+    def create_reset_token(self, username: str) -> str:
+        token = secrets.token_urlsafe(32)
+        h = hashlib.sha256(token.encode()).hexdigest()
+        with self._lock:
+            r = self._resets()
+            now = time.time()
+            r["tokens"] = {k: v for k, v in r["tokens"].items() if v["expires"] > now and v["user"] != username}
+            r["tokens"][h] = {"user": username, "expires": now + RESET_TOKEN_MINUTES * 60}
+            self._save_resets()
+        return token
+
+    def token_user(self, token: str) -> str | None:
+        rec = self._resets()["tokens"].get(hashlib.sha256((token or "").encode()).hexdigest())
+        if not rec or rec["expires"] < time.time() or rec["user"] not in self.users:
+            return None
+        return rec["user"]
+
+    def reset_with_token(self, token: str, new_password: str) -> str:
+        h = hashlib.sha256((token or "").encode()).hexdigest()
+        with self._lock:
+            r = self._resets()
+            rec = r["tokens"].get(h)
+            if not rec or rec["expires"] < time.time() or rec["user"] not in self.users:
+                raise AuthError("this reset link is invalid or has expired; request a new one", 400)
+            self._check_password(new_password)
+            u = self.users[rec["user"]]
+            u["password"] = hash_password(new_password)
+            u["must_change_password"] = False
+            del r["tokens"][h]
+            self._save_resets()
+            self._write("users.json", self.users)
+            self.end_sessions(u["username"])
+            for k in list(self._failures):
+                if k == f"u:{u['username'].lower()}":
+                    self._failures.pop(k)
+            self.resolve_requests(u["username"], u["username"], "reset by email link")
+            return u["username"]
+
+    def add_request(self, username: str, ip: str, note: str = "") -> bool:
+        """Queue a reset request for administrators. Returns False if one is already pending."""
+        with self._lock:
+            r = self._resets()
+            if any(q["user"] == username and q["status"] == "pending" for q in r["requests"]):
+                return False
+            r["requests"].append({"id": secrets.token_hex(6), "user": username, "ts": time.time(), "ip": ip,
+                                  "note": (note or "").strip()[:300], "status": "pending"})
+            r["requests"] = r["requests"][-500:]
+            self._save_resets()
+            return True
+
+    def pending_requests(self) -> list[dict]:
+        out = []
+        for q in self._resets()["requests"]:
+            if q["status"] == "pending":
+                u = self.users.get(q["user"]) or {}
+                out.append({**q, "display_name": u.get("display_name"), "role": u.get("role"),
+                            "email": u.get("email"), "active": u.get("active", True)})
+        return sorted(out, key=lambda q: -q["ts"])
+
+    def resolve_requests(self, username: str, actor: str, outcome: str, req_id: str | None = None) -> int:
+        n = 0
+        for q in self._resets()["requests"]:
+            if q["status"] == "pending" and q["user"] == username and (req_id is None or q["id"] == req_id):
+                q.update(status="done", resolved_by=actor, resolved_at=time.time(), outcome=outcome)
+                n += 1
+        if n:
+            self._save_resets()
+        return n
+
+    def forgot_allowed(self, ip: str) -> bool:
+        key = f"forgot:{ip}"
+        now = time.time()
+        recent = [t for t in self._failures.get(key, []) if now - t < 15 * 60]
+        self._failures[key] = recent + [now]
+        return len(recent) < 5
 
     # --- login / sessions ---------------------------------------------------------
     def _locked(self, key: str) -> bool:
