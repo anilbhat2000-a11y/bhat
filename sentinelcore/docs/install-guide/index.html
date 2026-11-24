@@ -114,7 +114,7 @@ footer { margin-top: 48px; padding-top: 16px; border-top: 1px solid var(--line);
 
   <main>
     <header class="top">
-      <div class="eyebrow">3C ITS VisionOps v0.4.3 · On-premise · Guide updated 23 Nov 2026</div>
+      <div class="eyebrow">3C ITS VisionOps v0.4.4 · On-premise · Guide updated 24 Nov 2026</div>
       <h1>3C ITS VisionOps Installation Guide</h1>
       <p class="lede">This guide takes you from a bare Linux server to a running multi-organization system. By the end you will have organizations, branches and offices set up, cameras and NVRs onboarded, alert contacts receiving notifications, and health dashboards live. Every screenshot was captured from a fresh install of this version.</p>
       <div class="meta"><span><b>Time needed:</b> about 45 minutes</span><span><b>Skill level:</b> basic Linux command line</span><span><b>Internet:</b> needed only to download packages</span></div>
@@ -228,8 +228,9 @@ INFO:     Uvicorn running on http://127.0.0.1:8099 (Press CTRL+C to quit)
       <figure><img src="img/00-landing.webp" alt="3C ITS VisionOps landing page: See everything. Miss nothing. with a command centre video wall" width="2560" height="1600" loading="lazy"><figcaption>The landing page everyone sees first, before signing in. To show a photo of your own command centre instead of the illustration, save it as <code>landing.jpg</code> in <code>sentinelcore/sentinel/static/</code>.</figcaption></figure>
       <figure><img src="img/01-login.webp" alt="3C ITS VisionOps sign-in screen" width="2560" height="1600" loading="lazy"><figcaption>Five wrong passwords in a row lock that username for 5 minutes.</figcaption></figure>
       <figure><img src="img/02-first-login.webp" alt="Empty overview after first sign-in" width="2560" height="1600" loading="lazy"><figcaption>The first sign-in shows an empty overview. The menu changes with each user's role.</figcaption></figure>
-      <h3>Add your company logo</h3>
-      <p>Save your logo as a PNG file named <code>logo.png</code> in <code>sentinelcore/sentinel/static/</code>, then refresh the browser. It appears on the sign-in screen and at the top left of every page (in the header on phones), on a white panel so it reads in both light and dark themes. A wide logo works best, for example 2000 × 880 pixels. Until the file is there, the portal shows the name “3C ITS VisionOps” in text.</p>
+      <h3>Company logo and name</h3>
+      <p>The 3C ITS logo is included and appears on the sign-in screen and at the top left of every page (in the header on phones), on a white panel so it reads in both light and dark themes. The company name, <b>3C IT SOLUTIONS &amp; TELECOMS INDIA LIMITED</b>, is shown under the logo on the dashboard and on the sign-in screen.</p>
+      <p>To use a different logo, replace <code>sentinelcore/sentinel/static/logo.png</code> with your own PNG (a wide logo with a transparent background works best), then refresh the browser.</p>
       <p><b>Just evaluating?</b> Start with <code>SC_SEED_DEMO=1</code> to get two sample organizations with branches, 6 NVRs, 48 cameras, alert contacts, and demo users (password <code>Demo@12345</code>).</p>
     </section>
 
@@ -604,6 +605,11 @@ sudo journalctl -u sentinelcore -f</code></pre><button type="button">Copy</butto
 
     <section id="changes">
       <h2><span class="n">23</span>What's new</h2>
+      <h3>v0.4.4 — 24 Nov 2026</h3>
+      <ul>
+        <li>3C ITS logo added at the top left of the dashboard and on the sign-in screen</li>
+        <li>Company name “3C IT SOLUTIONS &amp; TELECOMS INDIA LIMITED” shown under the logo</li>
+      </ul>
       <h3>v0.4.3 — 23 Nov 2026</h3>
       <ul>
         <li>The start window no longer closes by itself: it shows what happened and waits for a key</li>
@@ -672,7 +678,7 @@ sudo journalctl -u sentinelcore -f</code></pre><button type="button">Copy</butto
       <ul><li>First release: camera, battery and NVR health, alerts, AI rule engine, single-organization sites</li></ul>
     </section>
 
-    <footer>3C ITS VisionOps v0.4.3. Screenshots re-captured from a fresh install with <code>docs/install-guide/capture.sh</code>. The README and docs/VERIFICATION.md in the repository say exactly what has been tested and what is still planned.</footer>
+    <footer>3C ITS VisionOps v0.4.4. Screenshots re-captured from a fresh install with <code>docs/install-guide/capture.sh</code>. The README and docs/VERIFICATION.md in the repository say exactly what has been tested and what is still planned.</footer>
   </main>
 </div>
 

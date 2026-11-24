@@ -3,7 +3,7 @@ rem 3C ITS VisionOps - double-click to start. Opens the portal in your browser.
 rem This window always stays open, so you can read what happened.
 title 3C ITS VisionOps
 cd /d "%~dp0"
-echo 3C ITS VisionOps launcher (v0.4.3)
+echo 3C ITS VisionOps launcher (v0.4.4)
 echo Folder: %CD%
 echo.
 set "PY="

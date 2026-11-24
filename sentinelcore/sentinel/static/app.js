@@ -177,6 +177,7 @@ function renderLogin(msg = "") {
   view.className = "";
   view.innerHTML = `<div class="login-wrap"><div class="card login">
     <div class="logo-box login-logo" data-logo-wrap hidden><img class="brand-logo" src="/static/logo.png" alt="3C ITS — Make IT Simple"></div>
+    <div class="company-name login-company">3C IT SOLUTIONS &amp; TELECOMS INDIA LIMITED</div>
     <h1><span class="brand-co" data-logo-fallback>3C ITS</span> VisionOps</h1><div class="muted">On-premise AI video analytics &amp; device health</div>
     <form id="loginForm">
       <label class="field">Username<input name="username" autocomplete="username" required></label>
@@ -1563,7 +1564,7 @@ function renderLanding() {
     <section class="lp-section" id="industries"><h2>Built for the places that can't afford blind spots</h2>
       <div class="lp-chips">${LP_SECTORS.map((s) => `<span>${s}</span>`).join("")}</div></section>
     <section class="lp-band"><div><h2>Your command centre is one sign-in away.</h2><p>Use the account your administrator gave you.</p></div><a class="btn primary lp-big" href="#/login">Sign in</a></section>
-    <footer class="lp-foot"><span>3C ITS — Make IT Simple</span><span>3C ITS VisionOps · On-premise CCTV health &amp; AI analytics</span></footer>
+    <footer class="lp-foot"><span>© 3C IT Solutions &amp; Telecoms India Limited — Make IT Simple</span><span>3C ITS VisionOps · On-premise CCTV health &amp; AI analytics</span></footer>
   </div>`;
   // Real photo, if provided, replaces the illustration.
   const photo = $(".lp-photo");
