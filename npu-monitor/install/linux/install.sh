@@ -95,6 +95,8 @@ if [[ $SERVICE -eq 1 ]]; then
   UNIT=/etc/systemd/system/3cits-ai-pc.service
   ENVF=/etc/3cits-ai-pc.env
   say "Installing systemd service 3cits-ai-pc (runs as user '$RUN_USER')"
+  GROUPS_LINE=""
+  for g in video render; do getent group "$g" >/dev/null && GROUPS_LINE="$GROUPS_LINE $g"; done
   umask 077
   printf 'NPU_MONITOR_TOKEN=%s\n' "$TOKEN" > "$ENVF"
   chmod 600 "$ENVF"
@@ -114,7 +116,7 @@ ExecStartPre=+/bin/sh -c 'chmod 0444 /sys/class/dmi/id/product_serial /sys/class
 ExecStart=$PY $APP_DIR/run.py --no-browser --host $HOST --port $PORT
 Restart=on-failure
 RestartSec=5
-SupplementaryGroups=video render
+$( [[ -n "$GROUPS_LINE" ]] && echo "SupplementaryGroups=${GROUPS_LINE# }" )
 
 [Install]
 WantedBy=multi-user.target
