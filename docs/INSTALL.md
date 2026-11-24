@@ -2,6 +2,8 @@
 
 This guide installs the LMS on one company server. After installation, the LMS needs no internet access.
 
+> **Quick start on Ubuntu:** `INSTALL-UBUNTU.md` has the short step-by-step version, using `deploy/setup-server.sh` to create `.env` and the certificate.
+
 ## 1. Server requirements
 
 | Item | Minimum | Notes |
