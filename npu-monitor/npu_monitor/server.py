@@ -64,6 +64,26 @@ def _lan_ips() -> list[str]:
     return [ip for i, ip in enumerate(ips) if ip not in ips[:i] and not ip.startswith("127.")]
 
 
+def _connect_hint(url: str, exc: Exception) -> str:
+    """Turn low-level connection errors into an instruction the admin can act on."""
+    msg = str(exc)
+    low = msg.lower()
+    if "refused" in low:
+        return (f"Nothing is answering on {url} (connection refused). The 3C ITS app is not installed or not running "
+                "with network access on that machine. On it, run as Administrator: install\\windows\\install.ps1 "
+                "-Service -Network (Linux: sudo install/linux/install.sh --service --network), then use the token it "
+                "prints. To list the machine without installing anything, use 'Register manually'.")
+    if "timed out" in low or "timeout" in low:
+        return (f"{url} did not answer (timed out). The machine is off, on another network, or its firewall blocks "
+                "TCP 8765. On Windows set the network profile to Private (the installer's rule allows Domain/Private).")
+    if "token" in low:
+        return ("Wrong or missing token. Use the machine token printed by that machine's installer "
+                "(Windows: data\\machine_token.txt in the app folder; Linux: /etc/3cits-ai-pc.env).")
+    if "name or service not known" in low or "getaddrinfo" in low or "nodename" in low:
+        return f"The address {url} could not be found. Check the IP address or computer name."
+    return f"could not reach {url}: {msg}"
+
+
 def _client_ip(request) -> str:
     return (request.client.host if request.client else "") or ""
 
@@ -763,7 +783,7 @@ def create_app(sampler: Sampler | None = None, engines: EngineManager | None = N
             audit(request, "fleet_machine_added", f"{peer['name']} {peer['url']}")
             return peer
         except Exception as exc:
-            raise HTTPException(400, f"could not reach {req.url}: {exc}")
+            raise HTTPException(400, _connect_hint(req.url, exc))
 
     @app.delete("/api/fleet/peers/{peer_id}")
     def fleet_remove(peer_id: str, request: Request):
