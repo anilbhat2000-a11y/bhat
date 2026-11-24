@@ -522,7 +522,11 @@ SC_SMS_HEADERS={"Authorization": "Bearer your-api-key"}</code></pre><button type
 
     <section id="service">
       <h2><span class="n">20</span>Run it as a service</h2>
-      <p>On a Windows PC, use the launcher and its <code>--install-autostart</code> option (step 2). On a Linux server, follow the steps below.</p>
+      <p>On a Windows PC, use the launcher and its <code>--install-autostart</code> option (step 2).</p>
+      <h3>Ubuntu 24.04 server: one-step installer</h3>
+      <p>The script <code>sentinelcore/install-ubuntu.sh</code> does everything below for you: it installs the system packages, checks Python, creates the <code>sentinel</code> account, downloads the portal to <code>/opt/bhat</code>, installs the Python packages, asks for the admin password, writes <code>/etc/sentinelcore.env</code> with a generated secret key, installs and starts the service, opens port 8080 if the firewall is on, and prints the address to open. Running it again updates the portal and keeps your settings and data.</p>
+      <div class="cmd"><pre><code>bash install-ubuntu.sh</code></pre><button type="button">Copy</button></div>
+      <p>To set it up by hand instead, or to use PostgreSQL, HTTPS and alert settings, follow the steps below.</p>
       <p>Create <code>/etc/sentinelcore.env</code>, readable only by root:</p>
       <div class="cmd"><pre><code>SC_SECRET_KEY=paste-your-key-here
 SC_DATABASE_URL=postgresql+psycopg://sentinel:DB_PASSWORD@localhost:5432/sentinel
@@ -607,6 +611,7 @@ sudo journalctl -u sentinelcore -f</code></pre><button type="button">Copy</butto
       <h2><span class="n">23</span>What's new</h2>
       <h3>v0.4.4 — 24 Nov 2026</h3>
       <ul>
+        <li>One-step Ubuntu server installer: install-ubuntu.sh (step 20)</li>
         <li>3C ITS logo added at the top left of the dashboard and on the sign-in screen</li>
         <li>Company name “3C IT SOLUTIONS &amp; TELECOMS INDIA LIMITED” shown under the logo</li>
       </ul>
